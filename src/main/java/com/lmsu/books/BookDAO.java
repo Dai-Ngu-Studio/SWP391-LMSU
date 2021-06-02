@@ -295,13 +295,23 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "UPDATE Books "
-                        + "SET title = ? , "
-                        + "SET authorID = ?, "
-                        + "WHERE id = ?";
+                String sql = "UPDATE Books " +
+                        "SET title = ? , " +
+                        "SET authorID = ?, " +
+                        "SET subjectID = ?, " +
+                        "SET publisher = ?, " +
+                        "SET puplishDate = ?, " +
+                        "SET description = ?, " +
+                        "SET price = ?, " +
+                        "SET quantity = ?, " +
+                        "SET isbn_ten = ?, " +
+                        "SET isbn_thirteen = ?, " +
+                        "WHERE id = ?";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 stm.setString(1, book_id);
+                stm.setString(2, author_id);
+                stm.setString(3,subject_id);
                 //4. Execute Query and get rows affected
                 int rows = stm.executeUpdate();
                 //5. Process result
