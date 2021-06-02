@@ -67,5 +67,8 @@
                 <root id="test.src.dir" name="Test Packages"/>
             </test-roots>
         </data>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>LMSU</word>
+        </spellchecker-wordlist>
     </configuration>
 </project>
