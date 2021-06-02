@@ -22,30 +22,29 @@ import java.util.List;
 public class ShowBookServlet extends HttpServlet{
 
     static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
-    private final String BOOK_PAGE = "bookmanagement.jsp";
+    private final String BOOK_MANAGEMENT_PAGE = "BookManagement.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
 
-        String url = BOOK_PAGE;
+        String url = BOOK_MANAGEMENT_PAGE;
 
         try {
             BookDAO dao = new BookDAO();
             dao.viewBookList();
             List<BookDTO> result = dao.getBookList();
             request.setAttribute("BOOK_LIST", result);
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-            log("LoginServlet _ SQL: " + e.getMessage());
+            log("ShowBookServlet _ SQL: " + e.getMessage());
         } catch (NamingException e) {
             LOGGER.error(e.getMessage());
-            log("LoginServlet _ Naming: " + e.getMessage());
+            log("ShowBookServlet _ Naming: " + e.getMessage());
         } finally {
-
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
         }
     }
 

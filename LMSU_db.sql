@@ -39,7 +39,7 @@ CREATE TABLE Books(
 	authorID varchar(255) NOT NULL FOREIGN KEY REFERENCES Authors(id),
 	subjectID varchar(255) NOT NULL FOREIGN KEY REFERENCES Subjects(id),
 	publisher varchar(255) NOT NULL,
-	puplishDate varchar(255) NOT NULL,
+	puplishDate date,
 	description varchar(MAX) NOT NULL,
 	price decimal NOT NULL,
 	quantity int NOT NULL,

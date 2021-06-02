@@ -42,4 +42,5 @@ class BookDTO implements Serializable {
         this.isbn_ten = isbn_ten;
         this.isbn_thirteen = isbn_thirteen;
     };
+
 }

@@ -26,20 +26,20 @@ public class SearchTitleServlet extends HttpServlet {
         String search = request.getParameter("txtSearchValue");
         String url = ERROR_PAGE;
         try{
-            if(search.trim().length() > 0){
-                BookDAO dao = new BookDAO();
-                List<BookDTO> list = dao.searchBookByTitle(search);
-                if(!list.isEmpty()){
-                    request.setAttribute("SEARCH_RESULT", list);
-                    url = RESULT_PAGE;
-                }
-            }
-        } catch (SQLException ex){
-            LOGGER.error(ex.getMessage());
-            log("SearchTitleServlet _ SQL: " + ex.getMessage());
-        } catch (NamingException ex){
-            LOGGER.error(ex.getMessage());
-            log("SearchTitleServlet _ Naming: " + ex.getMessage());
+//            if(search.trim().length() > 0){
+//                BookDAO dao = new BookDAO();
+//                List<BookDTO> list = dao.searchBookByTitle(search);
+//                if(!list.isEmpty()){
+//                    request.setAttribute("SEARCH_RESULT", list);
+//                    url = RESULT_PAGE;
+//                }
+//            }
+//        } catch (SQLException ex){
+//            LOGGER.error(ex.getMessage());
+//            log("SearchTitleServlet _ SQL: " + ex.getMessage());
+//        } catch (NamingException ex){
+//            LOGGER.error(ex.getMessage());
+//            log("SearchTitleServlet _ Naming: " + ex.getMessage());
         } finally {
             request.getRequestDispatcher(url).forward(request,response);
         }

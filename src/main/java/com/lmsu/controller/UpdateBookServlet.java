@@ -8,6 +8,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 
 @WebServlet(name = "UpdateBookServlet", value = "/UpdateBookServlet")
@@ -29,28 +30,28 @@ public class UpdateBookServlet extends HttpServlet {
         boolean check = false;
 
         try{
-
-            if(check){
-
-            }
-            else {
-                BookDAO dao = new BookDAO();
-                boolean result = dao.updateBook("",title,authorID,"","","",""
-                        ,0,0,"", "");
-
-                if(result){
-                    url = "DispatchServlet" +
-                            "?btAction=Search" +
-                            "&txtSearchValue=" + SearchValue;
-                }
-            }
-
-        } catch (SQLException ex){
-            LOGGER.error(ex.getMessage());
-            log("UpdateBookServlet _ SQL: " + ex.getMessage());
-        } catch (NamingException ex){
-            LOGGER.error(ex.getMessage());
-            log("UpdateBookServlet _ Naming: " + ex.getMessage());
+//
+//            if(check){
+//
+//            }
+//            else {
+//                BookDAO dao = new BookDAO();
+//                boolean result = dao.updateBook("",title,authorID,"","","",""
+//                        ,BigDecimal.p 0,0,"", "");
+//
+//                if(result){
+//                    url = "DispatchServlet" +
+//                            "?btAction=Search" +
+//                            "&txtSearchValue=" + SearchValue;
+//                }
+//            }
+//
+//        } catch (SQLException ex){
+//            LOGGER.error(ex.getMessage());
+//            log("UpdateBookServlet _ SQL: " + ex.getMessage());
+//        } catch (NamingException ex){
+//            LOGGER.error(ex.getMessage());
+//            log("UpdateBookServlet _ Naming: " + ex.getMessage());
         } finally {
             request.getRequestDispatcher(url).forward(request,response);
         }

@@ -249,117 +249,126 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
+
                                                     <c:set var="bookList" value="${requestScope.BOOK_LIST}"/>
                                                     <c:forEach var="book" items="${bookList}"
                                                                varStatus="counter">
                                                         <tr class="odd">
-                                                            <td class="sorting_1">${counter.count}</td>
-                                                            <td>${bookList.title}</td>
-                                                            <td>${bookList.quantity}</td>
-                                                            <td>
-                                                                <c:if test="${bookList.quantity > 0}">
-                                                                    <label class="badge badge-success">Available</label>
-                                                                </c:if>
-                                                                <c:if test="${bookList.quantity == 0}">
-                                                                    <label class="badge badge-danger">Unavailable</label>
-                                                                </c:if>
-                                                            </td>
-                                                            <td>
-                                                                <div class="btn-group">
-                                                                    <a href="bookDetails.html" class="btn btn-light"
-                                                                       role="button"><i
-                                                                            class="fa fa-eye text-primary"></i></a>
-                                                                    <button type="button" class="btn btn-light"
-                                                                            data-toggle="modal" data-target="#logModal1"
-                                                                            title="Update" data-original-title="Edit">
-                                                                        <i class="fa fa-pencil text-primary"></i>
-                                                                    </button>
-                                                                    <div class="modal fade" id="logModal1" tabindex="-1"
-                                                                         role="dialog"
-                                                                         aria-labelledby="exampleModalLongTitle"
-                                                                         aria-hidden="true">
-                                                                        <div class="modal-dialog" role="document">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title"
-                                                                                        id="exampleModalLongTitle">
-                                                                                        Edit Book Details
-                                                                                    </h5>
-                                                                                    <button type="button" class="close"
-                                                                                            data-dismiss="modal"
-                                                                                            aria-label="Close">
-                                                                                        <span aria-hidden="true">&times;</span>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    <form>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">Book
-                                                                                                Cover
-                                                                                            </label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <img class="rounded float-right"
-                                                                                                     style="height: 400px; width: auto;"
-                                                                                                     src="images/software-engineering.jpg">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="form-group row">
-                                                                                            <div class="col-sm-3">
-                                                                                            </div>
-                                                                                            <div class="col-sm-9">
-                                                                                                <div class="custom-file">
-                                                                                                    <input type="file"
-                                                                                                           class="custom-file-input"
-                                                                                                           id="customFile">
-                                                                                                    <label class="custom-file-label"
-                                                                                                           for="customFile">Choose
-                                                                                                        Image
-                                                                                                        ..</label>
+                                                            <form target="DispatchServlet">
+                                                                <td class="sorting_1">${counter.count}</td>
+                                                                <td>
+                                                                        ${book.title}
+                                                                    <input type="hidden" value="${book.book_id}">
+                                                                </td>
+                                                                <td>${book.quantity}</td>
+                                                                <td>
+                                                                    <c:if test="${book.quantity > 0}">
+                                                                        <label class="badge badge-success">Available</label>
+                                                                    </c:if>
+                                                                    <c:if test="${book.quantity == 0}">
+                                                                        <label class="badge badge-danger">Unavailable</label>
+                                                                    </c:if>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a href="bookDetails.html" class="btn btn-light"
+                                                                           role="button"><i
+                                                                                class="fa fa-eye text-primary"></i></a>
+                                                                        <button type="button" class="btn btn-light"
+                                                                                data-toggle="modal"
+                                                                                data-target="#logModal1"
+                                                                                title="Update"
+                                                                                data-original-title="Edit">
+                                                                            <i class="fa fa-pencil text-primary"></i>
+                                                                        </button>
+                                                                        <div class="modal fade" id="logModal1"
+                                                                             tabindex="-1"
+                                                                             role="dialog"
+                                                                             aria-labelledby="exampleModalLongTitle"
+                                                                             aria-hidden="true">
+                                                                            <div class="modal-dialog" role="document">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title"
+                                                                                            id="exampleModalLongTitle">
+                                                                                            Edit Book Details
+                                                                                        </h5>
+                                                                                        <button type="button"
+                                                                                                class="close"
+                                                                                                data-dismiss="modal"
+                                                                                                aria-label="Close">
+                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <form>
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-3 col-form-label">Book
+                                                                                                    Cover
+                                                                                                </label>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <img class="rounded float-right"
+                                                                                                         style="height: 400px; width: auto;"
+                                                                                                         src="images/software-engineering.jpg">
                                                                                                 </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">Title</label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <input type="text"
-                                                                                                       class="form-control"
-                                                                                                       value="Watership Down">
+                                                                                            <div class="form-group row">
+                                                                                                <div class="col-sm-3">
+                                                                                                </div>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <div class="custom-file">
+                                                                                                        <input type="file"
+                                                                                                               class="custom-file-input"
+                                                                                                               id="customFile">
+                                                                                                        <label class="custom-file-label"
+                                                                                                               for="customFile">Choose
+                                                                                                            Image
+                                                                                                            ..</label>
+                                                                                                    </div>
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">
-                                                                                                Author
-                                                                                            </label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <input type="text"
-                                                                                                       class="form-control"
-                                                                                                       value="Richard Adams">
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-3 col-form-label">Title</label>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="Watership Down">
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">
-                                                                                                Publication date
-                                                                                            </label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <input type="text"
-                                                                                                       class="form-control"
-                                                                                                       value="01/01/1995">
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-3 col-form-label">
+                                                                                                    Author
+                                                                                                </label>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="Richard Adams">
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">
-                                                                                                Quantity
-                                                                                            </label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <input type="text"
-                                                                                                       class="form-control"
-                                                                                                       value="100">
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-3 col-form-label">
+                                                                                                    Publication date
+                                                                                                </label>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="01/01/1995">
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">Description
-                                                                                            </label>
-                                                                                            <div class="col-sm-9">
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-3 col-form-label">
+                                                                                                    Quantity
+                                                                                                </label>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="100">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-3 col-form-label">Description
+                                                                                                </label>
+                                                                                                <div class="col-sm-9">
                                                                                                     <textarea
                                                                                                             class="form-control"
                                                                                                             id="Textarea1"
@@ -379,30 +388,31 @@
                                                                                                         with the pets, but she still was nowhere
                                                                                                         to be seen.
                                                                                                     </textarea>
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                    </form>
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button"
-                                                                                            class="btn btn-primary"
-                                                                                            data-dismiss="modal">Save
-                                                                                    </button>
-                                                                                    <button type="button"
-                                                                                            class="btn btn-outline-primary"
-                                                                                            data-dismiss="modal">Close
-                                                                                    </button>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button"
+                                                                                                class="btn btn-primary"
+                                                                                                data-dismiss="modal">
+                                                                                            Save
+                                                                                        </button>
+                                                                                        <button type="button"
+                                                                                                class="btn btn-outline-primary"
+                                                                                                data-dismiss="modal">
+                                                                                            Close
+                                                                                        </button>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
+                                                                        <input type="submit" class="btn btn-light" name="btAction" value="Delete Book">
+                                                                            <i class="fa fa-times text-primary"></i>
+                                                                        </input>
                                                                     </div>
-                                                                    <button type="button" class="btn btn-light"
-                                                                            data-toggle="tooltip" title="Delete"
-                                                                            data-original-title="Delete">
-                                                                        <i class="fa fa-times text-primary"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </td>
+                                                                </td>
+                                                            </form>
                                                         </tr>
                                                     </c:forEach>
                                                     </tbody>
