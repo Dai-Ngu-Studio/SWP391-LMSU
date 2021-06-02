@@ -53,6 +53,7 @@ cmake-build-*/
 
 # IntelliJ
 out/
+target/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -82,6 +83,7 @@ fabric.properties
 # modules.xml
 # .idea/misc.xml
 # *.ipr
+
 
 # Sonarlint plugin
 # https://plugins.jetbrains.com/plugin/7973-sonarlint
