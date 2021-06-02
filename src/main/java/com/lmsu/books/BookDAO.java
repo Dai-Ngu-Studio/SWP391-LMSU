@@ -329,4 +329,39 @@ public class BookDAO implements Serializable {
         }
         return false;
     }
+
+    public boolean updateQuantity(String book_id, int quantity)
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "UPDATE Books " +
+                        "SET quantity = ? " +
+                        "WHERE id = ?";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, book_id);
+                stm.setInt(2, quantity);
+                //4. Execute Query and get rows affected
+                int rows = stm.executeUpdate();
+                //5. Process result
+                if (rows > 0) {
+                    return true;
+                }
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }
 }
