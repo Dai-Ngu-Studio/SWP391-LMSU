@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="SWP391-LMSU:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>SWP391-LMSU</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="SWP391-LMSU-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="SWP391-LMSU:war exploded" />
+    </root>
+  </artifact>
+</component>

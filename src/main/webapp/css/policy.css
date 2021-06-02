@@ -1,0 +1,41 @@
+.box {
+    padding: 2rem 7vw;
+    display: flex;
+    flex-direction: column;
+    background-color: #FAFAFA;
+}
+
+.box p {
+    font-size: 20px !important;
+    line-height: 25px !important;
+}
+
+.top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.policy {
+    padding: 3rem 3rem 1rem 3rem;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0px 0px 18px rgba(0, 0, 0, 0.2);
+    margin-bottom: 2rem;
+}
+
+.introduction {
+    padding-bottom: 1.7%;
+    font-size: 18px;
+}
+
+.descriptionTitle p {
+    font-size: 26px !important;
+    padding-bottom: .5rem !important;
+}
+
+.descriptionTxt {
+    font-size: 18px;
+    padding-bottom: 1.2%;
+    line-height: 1.7;
+}
