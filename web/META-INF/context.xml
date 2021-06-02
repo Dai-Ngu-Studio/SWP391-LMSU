@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Context path="/SW391-LMSU">
-    <Resource name="DS" auth="Container" type="javax.sql.DataSource"
-              driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-              url="jdbc:sqlserver://localhost:1433;databaseName=LMSU"
-              username="sa" password="123456789"/>
-</Context>
