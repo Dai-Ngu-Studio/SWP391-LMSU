@@ -18,7 +18,7 @@ GO
 CREATE TABLE Users(
 	id varchar(255) NOT NULL PRIMARY KEY,
 	roleID varchar(255) NOT NULL FOREIGN KEY REFERENCES Roles(id),
-	/*semester_no int NOT NULL FOREIGN KEY REFERENCES Subjects(semester_no),*/
+	semester_no int NOT NULL,
 	password varchar(255),
 	passwordGoogle varchar(255),
 	email varchar(255),
@@ -35,10 +35,11 @@ GO
 CREATE TABLE Books(
 	id varchar(255) NOT NULL PRIMARY KEY,
 	title varchar(255) NOT NULL,
+	name varchar(255) NOT NULL,
 	authorID varchar(255) NOT NULL FOREIGN KEY REFERENCES Authors(id),
 	subjectID varchar(255) NOT NULL FOREIGN KEY REFERENCES Subjects(id),
-	pulisher varchar(255) NOT NULL,
-	pulishDate varchar(255) NOT NULL,
+	publisher varchar(255) NOT NULL,
+	puplishDate varchar(255) NOT NULL,
 	description varchar(MAX) NOT NULL,
 	price decimal NOT NULL,
 	quantity int NOT NULL,
