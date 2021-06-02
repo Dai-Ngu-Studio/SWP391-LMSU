@@ -1,0 +1,77 @@
+/* body {
+    font-size: 15px;
+}
+
+.columns {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.leftCol {
+    flex-direction: row;
+    max-width: 30rem;
+}
+
+.bookImage {
+    background-color: rebeccapurple;
+    width: 30rem;
+    height: 40rem;
+    border-radius: 0.3rem;
+}
+
+.rightCol {
+    padding: 1rem 1rem 1rem 1rem;
+    border-radius: 0.5rem;
+    max-width: 60rem;
+    max-height: 30rem;
+    background-color: #FFF;
+    box-shadow: 0px 0px 18px -2px rgba(0, 0, 0, 0.3);
+}
+
+.bookTitle {
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.bookAuthor {
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 2em;
+}
+
+.addButton {
+    margin: 0.2em 0.2em 0.2em 0.2em;
+    background-color: #fff;
+    border-radius: 0.3em;
+    border-color: rgb(116, 141, 219);
+    border-style: solid;
+    color: rgb(33, 51, 102);
+}
+
+.addButton:hover {
+    background-color: rgb(116, 141, 219);
+    color: #fff;
+}
+
+.addButton:hover i {
+    color: #fff;
+}
+
+.relatedBooks {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    font-size: 1.4em;
+    font-weight: 600;
+} */
+
+.comment-options {
+    list-style-type: none;
+}

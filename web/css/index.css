@@ -1,0 +1,280 @@
+body {
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.box {
+    margin: 3rem 0rem 0rem 0rem;
+}
+
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.quotation p:nth-child(1) {
+    font-size: 2.5vw;
+    line-height: 3vw;
+    margin-bottom: 1vw !important;
+}
+
+.quotation p:nth-child(2) {
+    font-size: 1vw;
+}
+
+.illustration {
+    width: 30%;
+}
+
+.illustration img {
+    width: 100%;
+}
+
+.section {
+    background-color: #748DDB;
+    margin-top: 6vw;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px 20px 0px 0px;
+    padding-bottom: 7rem;
+}
+
+.sectionTitle {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 1.5vw 3vw;
+    box-shadow: 0px 0px 18px rgba(0, 0, 0, 0.2);
+    margin-top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+}
+
+.sectionTitle p {
+    margin: 0;
+    font-size: 1.5vw;
+}
+
+.section-child {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    text-align: center;
+    padding-top: 5rem;
+}
+
+.section-child a {
+    background-color: #fff;
+    border-radius: 20px;
+    width: 15%;
+    text-decoration: none !important;
+    transition: 0.5s;
+    color: #748DDB;
+}
+
+.section-child a:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 0px 18px rgba(0, 0, 0, 0.3);
+}
+
+.section-child p {
+    font-size: 1.5vw;
+    margin-bottom: .5rem;
+    line-height: unset;
+}
+
+.section-child div img {
+    width: 50%;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.seeMoreBtn {
+    margin-top: 3rem;
+    background-color: #fff !important;
+    color: #748DDB !important;
+    border-radius: 20px !important;
+    width: 160px !important;
+    font-size: 1.1vw !important;
+    width: 12vw !important;
+}
+
+.seeMoreBtn a {
+    text-decoration: none !important;
+    color: #748DDB;
+    transition: 0.2s;
+}
+
+.seeMoreBtn:hover {
+    color: #0055B3;
+}
+
+.btn {
+    padding: 1vw;
+}
+
+.anotherSection {
+    background-color: #F2F2F2;
+    border-radius: 40px 40px 0px 0px;
+    position: relative;
+    width: 100%;
+    margin-top: -60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    width: 11vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.title img {
+    width: 60%;
+}
+
+.title p {
+    font-size: 2vw;
+    margin-top: 1rem;
+}
+
+.anotherSection .section-child {
+    padding-top: 2rem;
+    width: 100%;
+}
+
+.anotherSection .section-child a {
+    width: 17%;
+    border-radius: 10px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.smallSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.anotherSection .section-child a:hover .book-cover {
+    background-size: 80%;
+}
+
+.book-cover {
+    padding-bottom: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    transition: background-size .3s ease-in;
+    -moz-transition: background-size .3s ease-in;
+    -ms-transition: background-size .3s ease-in;
+    -o-transition: background-size .3s ease-in;
+    -webkit-transition: background-size .3s ease-in;
+}
+
+a:nth-child(1) .book-cover {
+    background-image: url(../images/software-engineering.jpg);
+}
+
+a:nth-child(2) .book-cover {
+    background-image: url(../images/software-requirement.jpg);
+}
+
+a:nth-child(3) .book-cover {
+    background-image: url(../images/software-testing.jpg);
+}
+
+a:nth-child(4) .book-cover {
+    background-image: url(../images/adaptive-code-via-csharp.jpg);
+}
+
+.book-info {
+    padding: 0px .5rem;
+}
+
+.book-info p:nth-child(1) {
+    margin-bottom: 0.5rem;
+    font-size: 1.3vw;
+}
+
+.book-info p:nth-child(2) {
+    margin-top: 1rem;
+    font-size: 1vw;
+    line-height: unset;
+}
+
+.more-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #0055B3;
+    border-radius: 0px 0px 10px 10px;
+    transition: .5s;
+}
+
+.more-info:hover {
+    background-color: #0055B3;
+    color: #fff;
+}
+
+.more-info p {
+    margin: 0;
+    font-size: 1.5vw;
+    padding-top: .2rem;
+    padding-bottom: .2rem;
+}
+
+.more-info .fa {
+    font-size: 1.5vw;
+}
+
+.anotherSection .seeMoreBtn {
+    background-color: #748DDB !important;
+    color: #fff !important;
+    margin-bottom: 2rem;
+}
+
+.smallSection:nth-child(2) .seeMoreBtn {
+    margin-bottom: 7rem;
+}
+
+.author-image {
+    padding-bottom: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    transition: background-size .3s ease-in;
+    -moz-transition: background-size .3s ease-in;
+    -ms-transition: background-size .3s ease-in;
+    -o-transition: background-size .3s ease-in;
+    -webkit-transition: background-size .3s ease-in;
+    border-radius: 20px 20px 0px 0px;
+}
+
+a:nth-child(1) .author-image {
+    background-image: url(../images/ian-sommerville.jpg);
+}
+
+a:nth-child(2) .author-image {
+    background-image: url(../images/karl-wiegers.jpg);
+}
+
+a:nth-child(3) .author-image {
+    background-image: url(../images/joy-beattyjpeg.jpeg);
+}
+
+a:nth-child(4) .author-image {
+    background-image: url(../images/rex-black.jpg);
+}
+
+.author-name {
+    margin: 1rem 0rem;
+}

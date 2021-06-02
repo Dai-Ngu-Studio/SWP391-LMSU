@@ -1,0 +1,136 @@
+.box {
+    background-color: #FAFAFA !important;
+    padding: 2rem 9vw;
+}
+
+.pageTitle {
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.bookList {
+    display: flex;
+    flex-direction: column;
+}
+
+.bookItem {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    margin: 0 auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    background-color: rgb(116, 141, 219);
+    width: 80vw;
+    height: 15rem;
+    border-radius: 0.3rem;
+    box-shadow: 0px 0px 18px -2px rgba(0, 0, 0, 0.3);
+}
+
+.bookImage {
+    margin-top: 2em;
+    background-color: #fff;
+    width: 15%;
+    height: 70%;
+    border-radius: 0.3rem;
+    box-shadow: 0px 0px 18px -2px rgba(0, 0, 0, 0.2);
+}
+
+.bookInfo {
+    margin-top: 2em;
+    background-color: #fff;
+    width: 75%;
+    height: 70%;
+    border-radius: 0.3rem;
+    box-shadow: 0px 0px 18px -2px rgba(0, 0, 0, 0.2);
+}
+
+.bookTitle {
+    margin-top: 0.4em;
+    margin-left: 0.8em;
+    font-weight: 600;
+}
+
+.bookAuthor {
+    margin-top: 0.1em;
+    margin-left: 0.8em;
+    font-weight: 300;
+}
+
+.bookPublishDate {
+    margin-top: 0.1em;
+    margin-left: 0.8em;
+    font-weight: 100;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2em;
+    margin-left: 0.8em;
+}
+
+.addButton,
+.moreInfoButton {
+    margin: 0.2em 0.2em 0.2em 0.2em;
+    background-color: #fff;
+    border-radius: 0.3em;
+    border-color: rgb(116, 141, 219);
+    border-style: solid;
+}
+
+.addButton a,
+.moreInfoButton a,
+.addButton i,
+.moreInfoButton i {
+    color: rgb(33, 51, 102);
+    font-weight: 600;
+}
+
+.addButton:hover,
+.moreInfoButton:hover {
+    background-color: rgb(116, 141, 219);
+}
+
+.addButton:hover a,
+.moreInfoButton:hover a,
+.moreInfoButton:hover i,
+.addButton:hover i {
+    color: #fff;
+}
+
+.bookImage {
+    /* padding-bottom: 100%; */
+    width: 132px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    transition: background-size .3s ease-in;
+    -moz-transition: background-size .3s ease-in;
+    -ms-transition: background-size .3s ease-in;
+    -o-transition: background-size .3s ease-in;
+    -webkit-transition: background-size .3s ease-in;
+}
+
+.bookItem:nth-child(1) .bookImage {
+    background-image: url(../images/software-engineering.jpg);
+}
+
+.bookItem:nth-child(2) .bookImage {
+    background-image: url(../images/software-requirement.jpg);
+}
+
+.bookItem:nth-child(3) .bookImage {
+    background-image: url(../images/software-testing.jpg);
+}
+
+.bookItem:nth-child(4) .bookImage {
+    background-image: url(../images/adaptive-code-via-csharp.jpg);
+}
+
+.pagination .active {
+    padding: 0 !important;
+    border-radius: unset !important;
+}
