@@ -243,16 +243,6 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">ID</label>
-                                                                            <div class="col-sm-9">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value=""
-                                                                                       name="txtID"
-                                                                                >
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
                                                                             <label class="col-sm-3 col-form-label">
                                                                                 Title
                                                                             </label>
@@ -305,8 +295,11 @@
                                                                                 Publish Date
                                                                             </label>
                                                                             <div class="col-sm-9">
-                                                                                <input class="form-control" type="date"
-                                                                                       value="2021-06-03">
+                                                                                <input class="form-control"
+                                                                                       type="date"
+                                                                                       value="2021-06-03"
+                                                                                       name="txtPublishDate"
+                                                                                >
                                                                             </div>
 
                                                                         </div>
@@ -315,7 +308,7 @@
                                                                             </label>
                                                                             <div class="col-sm-9">
                                                                                 <textarea class="form-control"
-                                                                                          rows="5"> </textarea>
+                                                                                          rows="5" name="txtDescription"> </textarea>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group row">
