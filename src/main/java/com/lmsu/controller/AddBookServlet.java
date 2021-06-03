@@ -57,7 +57,7 @@ public class AddBookServlet extends HttpServlet {
 
             boolean result = dao.addBook(bookIDTxt, title,authorID,subjectID,publisher,publishDate,description, priceDecimal, quantityNum, deleteStatus, lastLentDate, avgRating, isbnTen, isbnThirteen);
 
-            if (result) {
+            if (!result) {
                 url = "DispatchServlet" +
                         "?btAction=SearchBook" +
                         "&txtSearchValue=" + searchVal;
@@ -79,11 +79,11 @@ public class AddBookServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 }
