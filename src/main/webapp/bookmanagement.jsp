@@ -365,7 +365,7 @@
                                                                                 class="btn btn-primary"
                                                                                 name="btAction"
                                                                                 value="AddBook"
-                                                                                data-dismiss="modal">
+                                                                                >
                                                                             Save
                                                                         </button>
                                                                         <button type="button"
