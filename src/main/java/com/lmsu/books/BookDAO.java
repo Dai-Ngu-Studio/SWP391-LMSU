@@ -29,7 +29,7 @@ public class BookDAO implements Serializable {
         try {
             con = DBHelpers.makeConnection();
             if (con != null) {
-                String sql = "SELECT id, title, authorID, subjectID, publisher, puplishDate, description, " +
+                String sql = "SELECT id, title, authorID, subjectID, publisher, publishDate, description, " +
                         "price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits " +
                         "FROM Books ";
                 stm = con.prepareStatement(sql);
@@ -40,7 +40,7 @@ public class BookDAO implements Serializable {
                     String author_id = rs.getString("authorID");
                     String subject_id = rs.getString("subjectID");
                     String publisher = rs.getString("publisher");
-                    String publication_date = rs.getString("puplishDate");
+                    String publication_date = rs.getString("publishDate");
                     String description = rs.getString("description");
                     BigDecimal price = rs.getBigDecimal("price");
                     int quantity = rs.getInt("quantity");
@@ -82,7 +82,7 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id], [title], [authorID], [subjectID], [publisher], [puplishDate], [description], " +
+                String sql = "SELECT [id], [title], [authorID], [subjectID], [publisher], [publishDate], [description], " +
                         "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits] " +
                         "FROM [Books] " +
                         "WHERE [title] LIKE ?";
@@ -98,7 +98,7 @@ public class BookDAO implements Serializable {
                     String author_id = rs.getString("authorID");
                     String subject_id = rs.getString("subjectID");
                     String publisher = rs.getString("publisher");
-                    String publication_date = rs.getString("puplishDate"); //db sai tên
+                    String publication_date = rs.getString("publishDate"); //db sai tên
                     String description = rs.getString("description");
                     BigDecimal price = rs.getBigDecimal("price");
                     int quantity = rs.getInt("quantity");
@@ -214,7 +214,7 @@ public class BookDAO implements Serializable {
             if (con != null) {
                 //2. Create SQL String
                 String sql = "INSERT INTO " +
-                        "Books(id, title, authorID, subjectID, publisher, puplishDate, description, " +
+                        "Books(id, title, authorID, subjectID, publisher, publishDate, description, " +
                         "price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits) " +
                         "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 //3. Create Statement
@@ -300,7 +300,7 @@ public class BookDAO implements Serializable {
                         "SET authorID = ?, " +
                         "SET subjectID = ?, " +
                         "SET publisher = ?, " +
-                        "SET puplishDate = ?, " +
+                        "SET publishDate = ?, " +
                         "SET description = ?, " +
                         "SET price = ?, " +
                         "SET quantity = ?, " +
