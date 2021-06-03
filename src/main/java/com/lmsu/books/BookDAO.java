@@ -39,8 +39,8 @@ public class BookDAO implements Serializable {
                     String title = rs.getString("title");
                     String author_id = rs.getString("authorID");
                     String subject_id = rs.getString("subjectID");
-                    String publisher = rs.getString("pulisher");
-                    String publication_date = rs.getString("pulishDate");
+                    String publisher = rs.getString("publisher");
+                    String publication_date = rs.getString("puplishDate");
                     String description = rs.getString("description");
                     BigDecimal price = rs.getBigDecimal("price");
                     int quantity = rs.getInt("quantity");
@@ -82,10 +82,10 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT id, title, authorID, subjectID, publisher, puplishDate, description, " +
-                        "price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits " +
-                        "FROM Books " +
-                        "WHERE title LIKE ?";
+                String sql = "SELECT [id], [title], [authorID], [subjectID], [publisher], [puplishDate], [description], " +
+                        "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits] " +
+                        "FROM [Books] " +
+                        "WHERE [title] LIKE ?";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 stm.setString(1, "%" + searchValue + "%");
@@ -97,8 +97,8 @@ public class BookDAO implements Serializable {
                     String title = rs.getString("title");
                     String author_id = rs.getString("authorID");
                     String subject_id = rs.getString("subjectID");
-                    String publisher = rs.getString("pulisher");
-                    String publication_date = rs.getString("pulishDate");
+                    String publisher = rs.getString("publisher");
+                    String publication_date = rs.getString("puplishDate"); //db sai tên
                     String description = rs.getString("description");
                     BigDecimal price = rs.getBigDecimal("price");
                     int quantity = rs.getInt("quantity");
