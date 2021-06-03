@@ -361,8 +361,10 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <button type="button"
+                                                                        <button type="submit"
                                                                                 class="btn btn-primary"
+                                                                                name="btAction"
+                                                                                value="AddBook"
                                                                                 data-dismiss="modal">
                                                                             Save
                                                                         </button>
