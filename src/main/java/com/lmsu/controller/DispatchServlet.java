@@ -36,7 +36,7 @@ public class DispatchServlet extends HttpServlet {
                 url = LOGOUT_CONTROLLER;
             } else if(button.equals("Update")){
                 url = UPDATE_CONTROLLER;
-            } else if(button.equals("Delete")){
+            } else if(button.equals("Delete Book")){
                 url = DELETE_CONTROLLER;
             } else if(button.equals("SearchBook")){
                 url = SEARCH_CONTROLLER;

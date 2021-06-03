@@ -31,7 +31,7 @@ public class DeleteBookServlet extends HttpServlet {
 
             if(result) {
                 url = "DispatchServlet" +
-                        "?btAction=Search" +
+                        "?btAction=SearchBook" +
                         "&txtSearchValue=" + searchVal;
             }
         } catch (SQLException ex){
