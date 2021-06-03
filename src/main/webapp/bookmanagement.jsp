@@ -200,16 +200,22 @@
                                                     </select> entries</label></div>
                                             </div>
                                             <div class="col-sm-12 col-md-6">
+
                                                 <div id="order-listing_filter" class="dataTables_filter">
-                                                    <form action="SearchTitleServlet">
+                                                    <form action="DispatchServlet">
+
                                                         <input type="search" class="form-control"
                                                                placeholder="Search"
                                                                name="txtSearchValue" value="${param.txtSearchValue}"
                                                                aria-controls="order-listing">
                                                         <button class="btn btn-primary" type="submit"
                                                                 name="btAction" value="SearchBook"
-                                                                style="border-radius: 5px"/>
-                                                        <i class="fa fa-search"></i>
+                                                                style="border-radius: 5px"><i class="fa fa-search"></i>
+                                                        </button>
+                                                        <button class="btn btn-primary" type="submit"
+                                                                name="btAction" value="AddBook"
+                                                                style="border-radius: 5px">
+                                                            <i class="fa fa-plus"></i></button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -259,7 +265,8 @@
                                                                 <td class="sorting_1">${counter.count}</td>
                                                                 <td>
                                                                         ${book.title}
-                                                                    <input type="hidden" value="${book.book_id}" name="pk">
+                                                                    <input type="hidden" value="${book.book_id}"
+                                                                           name="pk">
                                                                     <input type="hidden" name="lastSearchValue"
                                                                            value="${param.txtSearchValue}"/>
                                                                 </td>
