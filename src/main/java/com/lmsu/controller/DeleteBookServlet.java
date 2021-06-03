@@ -23,7 +23,7 @@ public class DeleteBookServlet extends HttpServlet {
         String url = SEARCH_PAGE;
 
         String id = request.getParameter("pk");
-        String searchVal = request.getParameter("LastSearchValue");
+        String searchVal = request.getParameter("lastSearchValue");
 
         try{
             BookDAO dao = new BookDAO();
