@@ -22,7 +22,7 @@ import java.util.List;
 public class ShowBookServlet extends HttpServlet{
 
     static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
-    private final String BOOK_MANAGEMENT_PAGE = "BookManagement.jsp";
+    private final String BOOK_MANAGEMENT_PAGE = "bookmanagement.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

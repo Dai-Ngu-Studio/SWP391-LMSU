@@ -19,29 +19,30 @@ public class SearchTitleServlet extends HttpServlet {
 
     private final String ERROR_PAGE = "bookmanagement.jsp";
     private final String RESULT_PAGE = "bookmanagement.jsp";
-    static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
+    static final Logger LOGGER = Logger.getLogger(SearchTitleServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-              throws ServletException, IOException {
+            throws ServletException, IOException {
         String search = request.getParameter("txtSearchValue");
         String url = ERROR_PAGE;
-        try{
-//            if(search.trim().length() > 0){
-//                BookDAO dao = new BookDAO();
-//                List<BookDTO> list = dao.searchBookByTitle(search);
-//                if(!list.isEmpty()){
-//                    request.setAttribute("SEARCH_RESULT", list);
-//                    url = RESULT_PAGE;
-//                }
-//            }
-//        } catch (SQLException ex){
-//            LOGGER.error(ex.getMessage());
-//            log("SearchTitleServlet _ SQL: " + ex.getMessage());
-//        } catch (NamingException ex){
-//            LOGGER.error(ex.getMessage());
-//            log("SearchTitleServlet _ Naming: " + ex.getMessage());
+        try {
+            if (search.trim().length() > 0) {
+                BookDAO dao = new BookDAO();
+                dao.searchBookByTitle(search);
+                List<BookDTO> list = dao.getBookList();
+                if (!list.isEmpty()) {
+                    request.setAttribute("SEARCH_RESULT", list);
+                    url = RESULT_PAGE;
+                }
+            }
+        } catch (SQLException ex) {
+            LOGGER.error(ex.getMessage());
+            log("SearchTitleServlet _ SQL: " + ex.getMessage());
+        } catch (NamingException ex) {
+            LOGGER.error(ex.getMessage());
+            log("SearchTitleServlet _ Naming: " + ex.getMessage());
         } finally {
-            request.getRequestDispatcher(url).forward(request,response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

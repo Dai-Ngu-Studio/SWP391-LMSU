@@ -158,7 +158,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="BookManagement.html">
+                    <a class="nav-link" href="bookmanagement.jsp">
                         <i class="icon-book menu-icon"></i>
                         <span class="menu-title">Books</span>
                     </a>
@@ -201,7 +201,7 @@
                                             </div>
                                             <div class="col-sm-12 col-md-6">
                                                 <div id="order-listing_filter" class="dataTables_filter">
-                                                    <form action="SearchBookServlet">
+                                                    <form action="SearchTitleServlet">
                                                         <input type="search" class="form-control"
                                                                placeholder="Search"
                                                                name="txtSearchValue" value="${param.txtSearchValue}"
@@ -216,7 +216,8 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <table id="order-listing" class="table dataTable no-footer" role="grid"
+                                                <table id="order-listing" class="table dataTable no-footer my-2"
+                                                       role="grid"
                                                        aria-describedby="order-listing_info">
                                                     <thead>
                                                     <tr role="row">
@@ -249,8 +250,8 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
+                                                    <c:set var="bookList" value="${requestScope.SEARCH_RESULT}"/>
 
-                                                    <c:set var="bookList" value="${requestScope.BOOK_LIST}"/>
                                                     <c:forEach var="book" items="${bookList}"
                                                                varStatus="counter">
                                                         <tr class="odd">
@@ -323,7 +324,7 @@
                                                                                                         <label class="custom-file-label"
                                                                                                                for="customFile">Choose
                                                                                                             Image
-                                                                                                            ..</label>
+                                                                                                            ...</label>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
@@ -332,7 +333,7 @@
                                                                                                 <div class="col-sm-9">
                                                                                                     <input type="text"
                                                                                                            class="form-control"
-                                                                                                           value="Watership Down">
+                                                                                                           value="${book.title}">
                                                                                                 </div>
                                                                                             </div>
                                                                                             <div class="form-group row">
@@ -342,7 +343,7 @@
                                                                                                 <div class="col-sm-9">
                                                                                                     <input type="text"
                                                                                                            class="form-control"
-                                                                                                           value="Richard Adams">
+                                                                                                           value="${book.author_id}">
                                                                                                 </div>
                                                                                             </div>
                                                                                             <div class="form-group row">
@@ -352,7 +353,7 @@
                                                                                                 <div class="col-sm-9">
                                                                                                     <input type="text"
                                                                                                            class="form-control"
-                                                                                                           value="01/01/1995">
+                                                                                                           value="${book.publication_date}">
                                                                                                 </div>
                                                                                             </div>
                                                                                             <div class="form-group row">
@@ -372,21 +373,7 @@
                                                                                                     <textarea
                                                                                                             class="form-control"
                                                                                                             id="Textarea1"
-                                                                                                            rows="5">Dave watched as
-                                                                                                        the forest burned up on the hill,
-                                                                                                        only a few miles from her house.
-                                                                                                        The car had been hastily packed
-                                                                                                        and Marta was inside trying to round
-                                                                                                        up the last of the pets. Dave went
-                                                                                                        through his mental list of the most
-                                                                                                        important papers and documents that
-                                                                                                        they couldn't leave behind. He scolded
-                                                                                                        himself for not having prepared these
-                                                                                                        better in advance and hoped that he had
-                                                                                                        remembered everything that was needed.
-                                                                                                        He continued to wait for Marta to appear
-                                                                                                        with the pets, but she still was nowhere
-                                                                                                        to be seen.
+                                                                                                            rows="5">${book.description}
                                                                                                     </textarea>
                                                                                                 </div>
                                                                                             </div>
@@ -407,8 +394,9 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <input type="submit" class="btn btn-light" name="btAction" value="Delete Book">
-                                                                            <i class="fa fa-times text-primary"></i>
+                                                                        <input type="submit" class="btn btn-light"
+                                                                               name="btAction" value="Delete Book">
+                                                                        <i class="fa fa-times text-primary"></i>
                                                                         </input>
                                                                     </div>
                                                                 </td>

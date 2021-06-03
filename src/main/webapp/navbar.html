@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        .nav {
+            margin-top: 30px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            background-color: #748DDB;
+            align-items: center;
+            font-size: 15px;
+        }
+
+        .nav .nav .nav-item {
+            margin-top: 10px !important;
+            margin-bottom: 10px;
+        }
+
+        .nav a {
+            text-decoration: none !important;
+            color: #fff;
+        }
+
+        .active {
+            background-color: white;
+            color: #748DDB !important;
+            padding: .3rem 2.5rem !important;
+            border-radius: 20px;
+        }
+
+        .navbar-dark .nav-item > .nav-link.active {
+            background-color: white;
+            color: #748DDB;
+            padding: .3rem 2.5rem;
+            border-radius: 20px;
+        }
+
+        .w-90 {
+            width: 90%;
+        }
+
+        .nav-link:hover {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="nav">
+    <ul class="nav justify-content-center w-90 justify-content-around">
+        <li class="nav-item">
+            <a class="nav-link" href="index.html"><b>Home</b></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="book.html"><b>Book</b></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="author.html"><b>Author</b></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="announcement.html"><b>Announcement</b></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="contact.html"><b>Contact</b></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="policy.html"><b>Policy</b></a>
+        </li>
+    </ul>
+</div>
+<script>
+    $('.nav li a').filter(function () {
+        return this.href === location.href;
+    }).addClass('active');
+</script>
+</body>
+</html>
