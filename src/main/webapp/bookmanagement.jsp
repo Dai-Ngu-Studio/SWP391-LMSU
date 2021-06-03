@@ -255,11 +255,13 @@
                                                     <c:forEach var="book" items="${bookList}"
                                                                varStatus="counter">
                                                         <tr class="odd">
-                                                            <form target="DispatchServlet">
+                                                            <form action="DispatchServlet">
                                                                 <td class="sorting_1">${counter.count}</td>
                                                                 <td>
                                                                         ${book.title}
                                                                     <input type="hidden" value="${book.book_id}">
+                                                                    <input type="hidden" name="lastSearchValue"
+                                                                           value="${param.txtSearchValue}"/>
                                                                 </td>
                                                                 <td>${book.quantity}</td>
                                                                 <td>
