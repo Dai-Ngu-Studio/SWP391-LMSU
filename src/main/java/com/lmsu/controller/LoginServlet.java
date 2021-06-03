@@ -43,10 +43,10 @@ public class LoginServlet extends HttpServlet {
 
             if (dto != null) {
                 session.setAttribute("LOGIN_USER", dto);
-                if (dto.getRoleID().equals("STU") || dto.getRoleID().equals("LEC")) {
+                if (dto.getRoleID().equals("4")) {
                     url = INDEX_PAGE;
                 }
-                if (dto.getRoleID().equals("ADM") || dto.getRoleID().equals("MAG") || dto.getRoleID().equals("LIB")) {
+                if (dto.getRoleID().equals("1") || dto.getRoleID().equals("2") || dto.getRoleID().equals("3")) {
                     url = DASHBOARD_PAGE;
                 }
             }

@@ -26,10 +26,11 @@
                     <div class="left-login">
                         <p style="font-size: 1.8rem"><b>Sign In</b></p>
                         <div class="btn-google">
-                            <a class="button"
+                            <a class="button btn d-flex"
                                href="https://accounts.google.com/o/oauth2/auth?scope=profile email&redirect_uri=http://localhost:8084/SWP391-LMSU/login-google&response_type=code&client_id=***REMOVED***&approval_prompt=force"
-                               class="fb-btn" style="text-decoration: none"><i class="fab fa-google mr-2"></i> Sign in
-                                with Google</a>
+                               class="fb-btn" style="text-decoration: none">
+                                <img src="images/google-icon.svg" class="mx-2"/> <b>Sign in with Google</b>
+                            </a>
                         </div>
 
                         <small class="signin-with-email">
@@ -42,11 +43,11 @@
                             <div class="form-group">
                                 <label for="inputEmail"><b>Email <span class="required-field">*</span></b></label>
                                 <input type="email" class="form-control" id="inputEmail" placeholder="Enter email"
-                                       name="txtEmail">
+                                       name="txtEmail" required>
                             </div>
                             <div class="form-group">
                                 <label for="inputPassword"><b>Password <span class="required-field">*</span></b></label>
-                                <input type="password" class="form-control" id="inputPassword"
+                                <input type="password" class="form-control" id="inputPassword" required
                                        placeholder="Enter password" name="txtPassword">
                             </div>
                             <div class="rem-and-for">
@@ -59,7 +60,8 @@
                                 </div>
                                 <a href="#" style="text-decoration: none;">Forget password?</a>
                             </div>
-                            <button class="btn btn-login" type="submit" value="Login" name="btAction">Log in</button>
+                            <button class="btn btn-login" type="submit" style="font-size: 1rem !important;"
+                                    value="Login" name="btAction">Log in</button>
                         </form>
                         <div class="copyright">
                             <small>© 2021 LMSU All rights reserved</small>

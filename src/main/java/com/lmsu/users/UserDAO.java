@@ -28,9 +28,9 @@ public class UserDAO implements Serializable {
         try {
             con = DBHelpers.makeConnection();
             if (con != null) {
-                String sql = "select [id], [name], [roleID], [email], [phoneNumer], [email], [address] "
-                        + "from [User] "
-                        + "where userID = ? and password = ?";
+                String sql = "select [id], [name], [roleID],[semester_no], [email], [phoneNumber], [profilePicturePath] "
+                        + "from [Users] "
+                        + "where [email] = ? and [password] = ?";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, email);
                 stm.setString(2, password);
@@ -39,11 +39,11 @@ public class UserDAO implements Serializable {
                     String id = rs.getString("id");
                     String name = rs.getString("name");
                     String roleID = rs.getString("roleID");
+                    String semester_no = rs.getString("semester_no");
                     String emailCol = rs.getString("email");
                     String phoneNumber = rs.getString("phoneNumber");
-                    String semester = rs.getString("semester");
                     String profilePicturePath = rs.getString("profilePicturePath");
-                    user = new UserDTO(id, name, roleID, "", "", emailCol, phoneNumber, semester, profilePicturePath);
+                    user = new UserDTO(id, name, roleID, semester_no, "", "", emailCol, phoneNumber, profilePicturePath);
                 }
             }
         } finally {
