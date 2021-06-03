@@ -212,10 +212,177 @@
                                                                 name="btAction" value="SearchBook"
                                                                 style="border-radius: 5px"><i class="fa fa-search"></i>
                                                         </button>
-                                                        <button class="btn btn-primary" type="submit"
-                                                                name="btAction" value="AddBook"
-                                                                style="border-radius: 5px">
+                                                        <button class="btn btn-primary" type="button"
+                                                                style="border-radius: 5px"
+                                                                data-toggle="modal"
+                                                                data-target="#AddBookModal"
+                                                                title="Add a book">
                                                             <i class="fa fa-plus"></i></button>
+                                                        <div class="modal fade" id="AddBookModal"
+                                                             tabindex="-1"
+                                                             role="dialog"
+                                                             aria-labelledby="AddBookModalLongTitle"
+                                                             aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title"
+                                                                            id="AddBookModalLongTitle">
+                                                                            Add book
+                                                                        </h5>
+                                                                        <button type="button"
+                                                                                class="close"
+                                                                                data-dismiss="modal"
+                                                                                aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="form-group row">
+                                                                            <div class="col-sm-3">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 col-form-label">ID</label>
+                                                                            <div class="col-sm-9">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value=""
+                                                                                       name="txtID"
+                                                                                >
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 col-form-label">
+                                                                                Title
+                                                                            </label>
+                                                                            <div class="col-sm-9">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value=""
+                                                                                       name="txtTitle"
+                                                                                >
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 col-form-label">
+                                                                                Author ID
+                                                                            </label>
+                                                                            <div class="col-sm-9">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value=""
+                                                                                       name="txtAuthorID"
+                                                                                >
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 col-form-label">
+                                                                                Subject ID
+                                                                            </label>
+                                                                            <div class="col-sm-9">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value=""
+                                                                                       name="txtSubjectID"
+                                                                                >
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 col-form-label">
+                                                                                Publisher
+                                                                            </label>
+                                                                            <div class="col-sm-9">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value=""
+                                                                                       name="txtPublisher"
+                                                                                >
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 col-form-label">
+                                                                                Publish Date
+                                                                            </label>
+                                                                            <div class="col-sm-9">
+                                                                                <input class="form-control" type="date"
+                                                                                       value="2021-06-03">
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 col-form-label">Description
+                                                                            </label>
+                                                                            <div class="col-sm-9">
+                                                                                <textarea class="form-control"
+                                                                                          rows="5"> </textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 col-form-label">
+                                                                                Price
+                                                                            </label>
+                                                                            <div class="col-sm-9">
+                                                                                <input type="number"
+                                                                                       class="form-control"
+                                                                                       value=""
+                                                                                       name="txtPrice"
+                                                                                >
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 col-form-label">
+                                                                                Quantity
+                                                                            </label>
+                                                                            <div class="col-sm-9">
+                                                                                <input type="number"
+                                                                                       class="form-control"
+                                                                                       value=""
+                                                                                       name="txtQuantity"
+                                                                                >
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 col-form-label">
+                                                                                ISBN 10 Digits
+                                                                            </label>
+                                                                            <div class="col-sm-9">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value=""
+                                                                                       name="txtISBNTen"
+                                                                                >
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 col-form-label">
+                                                                                ISBN 13 Digits
+                                                                            </label>
+                                                                            <div class="col-sm-9">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value=""
+                                                                                       name="txtISBNThirteen"
+                                                                                >
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button"
+                                                                                class="btn btn-primary"
+                                                                                data-dismiss="modal">
+                                                                            Save
+                                                                        </button>
+                                                                        <button type="button"
+                                                                                class="btn btn-outline-primary"
+                                                                                data-dismiss="modal">
+                                                                            Close
+                                                                        </button>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </form>
                                                 </div>
                                             </div>
@@ -402,10 +569,10 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <input type="submit" class="btn btn-light"
-                                                                               name="btAction" value="Delete Book">
-                                                                        <i class="fa fa-times text-primary"></i>
-                                                                        </input>
+                                                                        <button type="submit" class="btn btn-light"
+                                                                                name="btAction" value="Delete Book">
+                                                                            <i class="fa fa-times text-primary"></i>
+                                                                        </button>
                                                                     </div>
                                                                 </td>
                                                             </form>
