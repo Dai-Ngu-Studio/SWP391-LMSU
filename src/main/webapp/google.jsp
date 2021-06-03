@@ -6,8 +6,8 @@
     </head>
     <body>
         <h1>Welcome user</h1>
-        ID: ${requestScope.id}</br>
-        Name: ${requestScope.name}</br>
-        Email: ${requestScope.email}</br>
+        ID: ${requestScope.id}<br>
+        Name: ${requestScope.name}<br>
+        Email: ${requestScope.email}<br>
     </body>
 </html>
