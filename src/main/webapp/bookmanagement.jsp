@@ -259,7 +259,7 @@
                                                                 <td class="sorting_1">${counter.count}</td>
                                                                 <td>
                                                                         ${book.title}
-                                                                    <input type="hidden" value="${book.book_id}">
+                                                                    <input type="hidden" value="${book.book_id}" name="pk">
                                                                     <input type="hidden" name="lastSearchValue"
                                                                            value="${param.txtSearchValue}"/>
                                                                 </td>
@@ -304,82 +304,81 @@
                                                                                         </button>
                                                                                     </div>
                                                                                     <div class="modal-body">
-                                                                                        <form>
-                                                                                            <div class="form-group row">
-                                                                                                <label class="col-sm-3 col-form-label">Book
-                                                                                                    Cover
-                                                                                                </label>
-                                                                                                <div class="col-sm-9">
-                                                                                                    <img class="rounded float-right"
-                                                                                                         style="height: 400px; width: auto;"
-                                                                                                         src="images/software-engineering.jpg">
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-sm-3 col-form-label">Book
+                                                                                                Cover
+                                                                                            </label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <img class="rounded float-right"
+                                                                                                     style="height: 400px; width: auto;"
+                                                                                                     src="images/software-engineering.jpg">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group row">
+                                                                                            <div class="col-sm-3">
+                                                                                            </div>
+                                                                                            <div class="col-sm-9">
+                                                                                                <div class="custom-file">
+                                                                                                    <input type="file"
+                                                                                                           class="custom-file-input"
+                                                                                                           id="customFile">
+                                                                                                    <label class="custom-file-label"
+                                                                                                           for="customFile">Choose
+                                                                                                        Image
+                                                                                                        ...</label>
                                                                                                 </div>
                                                                                             </div>
-                                                                                            <div class="form-group row">
-                                                                                                <div class="col-sm-3">
-                                                                                                </div>
-                                                                                                <div class="col-sm-9">
-                                                                                                    <div class="custom-file">
-                                                                                                        <input type="file"
-                                                                                                               class="custom-file-input"
-                                                                                                               id="customFile">
-                                                                                                        <label class="custom-file-label"
-                                                                                                               for="customFile">Choose
-                                                                                                            Image
-                                                                                                            ...</label>
-                                                                                                    </div>
-                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-sm-3 col-form-label">Title</label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <input type="text"
+                                                                                                       class="form-control"
+                                                                                                       value="${book.title}">
                                                                                             </div>
-                                                                                            <div class="form-group row">
-                                                                                                <label class="col-sm-3 col-form-label">Title</label>
-                                                                                                <div class="col-sm-9">
-                                                                                                    <input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="${book.title}">
-                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-sm-3 col-form-label">
+                                                                                                Author
+                                                                                            </label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <input type="text"
+                                                                                                       class="form-control"
+                                                                                                       value="${book.author_id}">
                                                                                             </div>
-                                                                                            <div class="form-group row">
-                                                                                                <label class="col-sm-3 col-form-label">
-                                                                                                    Author
-                                                                                                </label>
-                                                                                                <div class="col-sm-9">
-                                                                                                    <input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="${book.author_id}">
-                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-sm-3 col-form-label">
+                                                                                                Publication date
+                                                                                            </label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <input type="text"
+                                                                                                       class="form-control"
+                                                                                                       value="${book.publication_date}">
                                                                                             </div>
-                                                                                            <div class="form-group row">
-                                                                                                <label class="col-sm-3 col-form-label">
-                                                                                                    Publication date
-                                                                                                </label>
-                                                                                                <div class="col-sm-9">
-                                                                                                    <input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="${book.publication_date}">
-                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-sm-3 col-form-label">
+                                                                                                Quantity
+                                                                                            </label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <input type="text"
+                                                                                                       class="form-control"
+                                                                                                       value="100">
                                                                                             </div>
-                                                                                            <div class="form-group row">
-                                                                                                <label class="col-sm-3 col-form-label">
-                                                                                                    Quantity
-                                                                                                </label>
-                                                                                                <div class="col-sm-9">
-                                                                                                    <input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="100">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="form-group row">
-                                                                                                <label class="col-sm-3 col-form-label">Description
-                                                                                                </label>
-                                                                                                <div class="col-sm-9">
+                                                                                        </div>
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-sm-3 col-form-label">Description
+                                                                                            </label>
+                                                                                            <div class="col-sm-9">
                                                                                                     <textarea
                                                                                                             class="form-control"
                                                                                                             id="Textarea1"
                                                                                                             rows="5">${book.description}
                                                                                                     </textarea>
-                                                                                                </div>
                                                                                             </div>
-                                                                                        </form>
+                                                                                        </div>
+
                                                                                     </div>
                                                                                     <div class="modal-footer">
                                                                                         <button type="button"
