@@ -35,8 +35,8 @@ public class AddBookServlet extends HttpServlet {
         String description = request.getParameter("txtDescription");
         String price = request.getParameter("txtPrice");
         String quantity = request.getParameter("txtQuantity");
-        String isbnTen = request.getParameter("txtISBNten");
-        String isbnThirteen = request.getParameter("txtISBNthirteen");
+        String isbnTen = request.getParameter("txtISBNTen");
+        String isbnThirteen = request.getParameter("txtISBNThirteen");
 
         String url = SEARCH_PAGE;
 
