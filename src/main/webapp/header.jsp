@@ -180,15 +180,17 @@
                     <img src="images/images/faces/fn2.png" alt="profile" style="border-radius: 50%; cursor: pointer;"/>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="dashboard.html">
+                    <a class="dropdown-item" href="dashboard.jsp">
                         <i class="icon-grid text-primary"></i> Dashboard
                     </a>
                     <a class="dropdown-item" href="userAccountSetting.html">
                         <i class="ti-settings text-primary"></i> Profile
                     </a>
-                    <a class="dropdown-item" href="login.html">
-                        <i class="ti-power-off text-primary"></i> Logout
-                    </a>
+                    <form action="DispatchServlet" class="my-0">
+                        <button class="dropdown-item" name="btAction" value="Logout">
+                            <i class="ti-power-off text-primary"></i> Logout
+                        </button>
+                    </form>
                 </div>
             </li>
         </ul>
