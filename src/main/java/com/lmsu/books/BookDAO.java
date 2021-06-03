@@ -129,6 +129,7 @@ public class BookDAO implements Serializable {
         }
     }
 
+    // return true if ISBN10 is taken, false if ISBN10 is available
     public boolean checkISBNten(String isbn_ten) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -165,6 +166,7 @@ public class BookDAO implements Serializable {
         return false;
     }
 
+    // return true if ISBN13 is taken, false if ISBN13 is available
     public boolean checkISBNthirteen(String isbn_thirteen) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -180,6 +182,44 @@ public class BookDAO implements Serializable {
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 stm.setString(1, isbn_thirteen);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }
+
+    // return true if ID is taken, false if ID is available
+    public boolean checkBookId(String book_id) throws SQLException, NamingException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT id " +
+                        "FROM Books " +
+                        "WHERE id LIKE ? ";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, book_id);
                 //4. Execute Query and get ResultSet
                 rs = stm.executeQuery();
                 //5. Process ResultSet

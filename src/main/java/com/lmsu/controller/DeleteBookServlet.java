@@ -24,7 +24,6 @@ public class DeleteBookServlet extends HttpServlet {
 
         String id = request.getParameter("pk");
         String searchVal = request.getParameter("lastSearchValue");
-
         try{
             BookDAO dao = new BookDAO();
             boolean result = dao.deleteBook(id);

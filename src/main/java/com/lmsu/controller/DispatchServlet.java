@@ -17,7 +17,7 @@ public class DispatchServlet extends HttpServlet {
     public static final String STARTUP_CONTROLLER = "StartupServlet";
     public static final String UPDATE_CONTROLLER = "UpdateBookServlet";
     public static final String DELETE_CONTROLLER = "DeleteBookServlet";
-    public static final String SEARCH_CONTROLLER = "SearchTiltleServlet";
+    public static final String SEARCH_CONTROLLER = "SearchTitleServlet";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
