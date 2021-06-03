@@ -95,3 +95,13 @@ insert into Books (id, title, authorID, subjectID, publisher, publishDate, descr
 insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits) values (18, 'in purus eu magna vulputate', 6, 5, 'Zoomlounge', '2021/02/01', 18, 20.04, 6, 1, '2021/03/26', 0.2, '189775883', '472913602-0');
 insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits) values (19, 'blandit nam nulla', 5, 6, 'Skiba', '2021/04/20', 19, 48.62, 4, 1, '2021/04/19', 2.5, '237484306', '0773323141234');
 insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits) values (20, 'diam id ornare imperdiet sapien urna pretium', 2, 3, 'Kwideo', '2020/11/08', 20, 13.32, 6, 1, '2020/08/11', 0.3, '498193421', '2973443681234');
+
+insert into Roles (id, name) values ('1', 'ADM');
+insert into Roles (id, name) values ('2', 'MNG');
+insert into Roles (id, name) values ('3', 'LIB');
+insert into Roles (id, name) values ('4', 'MEM');
+
+insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath) values ('SE000001', 'Dat', '4', 1, '1234', '1234', 'dat@fpt.edu.vn', '123456789', 'C:\a.png');
+insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath) values ('LE000001', 'Nguyen', '4', 1, '1234', '1234', 'nguyen@fpt.edu.vn', '123456789', 'C:\a.png');
+insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath) values ('LIB00001', 'Dung', '3', 1, '1234', '1234', 'dung@fpt.edu.vn', '123456789', 'C:\a.png');
+insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath) values ('MNG00001', 'Phuc', '2', 1, '1234', '1234', 'phuc@fpt.edu.vn', '123456789', 'C:\a.png');
