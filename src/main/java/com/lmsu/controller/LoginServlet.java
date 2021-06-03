@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
 
         String email = request.getParameter("txtEmail");
         String password = request.getParameter("txtPassword");
-        String rememberMe = request.getParameter("cookie");
+        String cookie = request.getParameter("cookie");
         UserDAO dao = new UserDAO();
 
         String url = ERROR_PAGE;
