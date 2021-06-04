@@ -120,7 +120,6 @@ public class BookDAO implements Serializable {
                     if (!dto.isDelete_status()) {
                         this.bookList.add(dto);
                     } //end if book is not deleted
-                    this.bookList.add(dto);
                 } //end while traversing result
             } //end if connection existed
         } finally {
