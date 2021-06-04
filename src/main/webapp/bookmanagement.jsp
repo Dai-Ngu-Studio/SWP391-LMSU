@@ -202,8 +202,8 @@
                                             <div class="col-sm-12 col-md-6">
 
                                                 <div id="order-listing_filter" class="dataTables_filter">
+                                                    <!--Start: Add Book Form-->
                                                     <form action="DispatchServlet">
-
                                                         <input type="search" class="form-control"
                                                                placeholder="Search"
                                                                name="txtSearchValue" value="${param.txtSearchValue}"
@@ -308,7 +308,8 @@
                                                                             </label>
                                                                             <div class="col-sm-9">
                                                                                 <textarea class="form-control"
-                                                                                          rows="5" name="txtDescription"> </textarea>
+                                                                                          rows="5"
+                                                                                          name="txtDescription"> </textarea>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group row">
@@ -365,7 +366,7 @@
                                                                                 class="btn btn-primary"
                                                                                 name="btAction"
                                                                                 value="AddBook"
-                                                                                >
+                                                                        >
                                                                             Save
                                                                         </button>
                                                                         <button type="button"
@@ -379,6 +380,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
+                                                    <!--End: Add Book Form-->
                                                 </div>
                                             </div>
                                         </div>
@@ -424,13 +426,11 @@
                                                                varStatus="counter">
                                                         <tr class="odd">
                                                             <form action="DispatchServlet">
+                                                                <!--Start: Book Item Form-->
                                                                 <td class="sorting_1">${counter.count}</td>
                                                                 <td>
                                                                         ${book.title}
-                                                                    <input type="hidden" value="${book.book_id}"
-                                                                           name="pk">
-                                                                    <input type="hidden" name="lastSearchValue"
-                                                                           value="${param.txtSearchValue}"/>
+
                                                                 </td>
                                                                 <td>${book.quantity}</td>
                                                                 <td>
@@ -441,6 +441,14 @@
                                                                         <label class="badge badge-danger">Unavailable</label>
                                                                     </c:if>
                                                                 </td>
+                                                            </form>
+                                                            <!--End: Book Item Form-->
+                                                            <!--Start: Delete Book Form-->
+                                                            <form action="DispatchServlet">
+                                                                <input type="hidden" value="${book.book_id}"
+                                                                       name="pk">
+                                                                <input type="hidden" name="lastSearchValue"
+                                                                       value="${param.txtSearchValue}"/>
                                                                 <td>
                                                                     <div class="btn-group">
                                                                         <a href="bookDetails.html" class="btn btn-light"
@@ -448,122 +456,12 @@
                                                                                 class="fa fa-eye text-primary"></i></a>
                                                                         <button type="button" class="btn btn-light"
                                                                                 data-toggle="modal"
-                                                                                data-target="#logModal1"
+                                                                                data-target="#updateModal${book.book_id}"
                                                                                 title="Update"
                                                                                 data-original-title="Edit">
                                                                             <i class="fa fa-pencil text-primary"></i>
                                                                         </button>
-                                                                        <div class="modal fade" id="logModal1"
-                                                                             tabindex="-1"
-                                                                             role="dialog"
-                                                                             aria-labelledby="exampleModalLongTitle"
-                                                                             aria-hidden="true">
-                                                                            <div class="modal-dialog" role="document">
-                                                                                <div class="modal-content">
-                                                                                    <div class="modal-header">
-                                                                                        <h5 class="modal-title"
-                                                                                            id="exampleModalLongTitle">
-                                                                                            Edit Book Details
-                                                                                        </h5>
-                                                                                        <button type="button"
-                                                                                                class="close"
-                                                                                                data-dismiss="modal"
-                                                                                                aria-label="Close">
-                                                                                            <span aria-hidden="true">&times;</span>
-                                                                                        </button>
-                                                                                    </div>
-                                                                                    <div class="modal-body">
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">Book
-                                                                                                Cover
-                                                                                            </label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <img class="rounded float-right"
-                                                                                                     style="height: 400px; width: auto;"
-                                                                                                     src="images/software-engineering.jpg">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="form-group row">
-                                                                                            <div class="col-sm-3">
-                                                                                            </div>
-                                                                                            <div class="col-sm-9">
-                                                                                                <div class="custom-file">
-                                                                                                    <input type="file"
-                                                                                                           class="custom-file-input"
-                                                                                                           id="customFile">
-                                                                                                    <label class="custom-file-label"
-                                                                                                           for="customFile">Choose
-                                                                                                        Image
-                                                                                                        ...</label>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">Title</label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <input type="text"
-                                                                                                       class="form-control"
-                                                                                                       value="${book.title}">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">
-                                                                                                Author
-                                                                                            </label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <input type="text"
-                                                                                                       class="form-control"
-                                                                                                       value="${book.author_id}">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">
-                                                                                                Publication date
-                                                                                            </label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <input type="text"
-                                                                                                       class="form-control"
-                                                                                                       value="${book.publication_date}">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">
-                                                                                                Quantity
-                                                                                            </label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <input type="text"
-                                                                                                       class="form-control"
-                                                                                                       value="100">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">Description
-                                                                                            </label>
-                                                                                            <div class="col-sm-9">
-                                                                                                    <textarea
-                                                                                                            class="form-control"
-                                                                                                            id="Textarea1"
-                                                                                                            rows="5">${book.description}
-                                                                                                    </textarea>
-                                                                                            </div>
-                                                                                        </div>
 
-                                                                                    </div>
-                                                                                    <div class="modal-footer">
-                                                                                        <button type="button"
-                                                                                                class="btn btn-primary"
-                                                                                                data-dismiss="modal">
-                                                                                            Save
-                                                                                        </button>
-                                                                                        <button type="button"
-                                                                                                class="btn btn-outline-primary"
-                                                                                                data-dismiss="modal">
-                                                                                            Close
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
                                                                         <button type="submit" class="btn btn-light"
                                                                                 name="btAction" value="Delete Book">
                                                                             <i class="fa fa-times text-primary"></i>
@@ -571,6 +469,126 @@
                                                                     </div>
                                                                 </td>
                                                             </form>
+                                                            <!--End: Delete Book Form-->
+                                                            <!--Start: Update Book Form-->
+                                                            <form action="DispatchServlet">
+                                                                <input type="hidden" value="${book.book_id}"
+                                                                       name="pk">
+                                                                <input type="hidden" name="lastSearchValue"
+                                                                       value="${param.txtSearchValue}"/>
+                                                                <div class="modal fade" id="updateModal${book.book_id}"
+                                                                     tabindex="-1"
+                                                                     role="dialog"
+                                                                     aria-labelledby="ariaUpdateModal${book.book_id}"
+                                                                     aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLongTitle">
+                                                                                    Edit Book Details
+                                                                                </h5>
+                                                                                <button type="button"
+                                                                                        class="close"
+                                                                                        data-dismiss="modal"
+                                                                                        aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-3 col-form-label">Book
+                                                                                        Cover
+                                                                                    </label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <img class="rounded float-right"
+                                                                                             style="height: 400px; width: auto;"
+                                                                                             src="images/software-engineering.jpg">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group row">
+                                                                                    <div class="col-sm-3">
+                                                                                    </div>
+                                                                                    <div class="col-sm-9">
+                                                                                        <div class="custom-file">
+                                                                                            <input type="file"
+                                                                                                   class="custom-file-input"
+                                                                                                   id="customFile">
+                                                                                            <label class="custom-file-label"
+                                                                                                   for="customFile">Choose
+                                                                                                Image
+                                                                                                ...</label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-3 col-form-label">Title</label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input type="text"
+                                                                                               class="form-control"
+                                                                                               value="${book.title}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-3 col-form-label">
+                                                                                        Author
+                                                                                    </label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input type="text"
+                                                                                               class="form-control"
+                                                                                               value="${book.author_id}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-3 col-form-label">
+                                                                                        Publication date
+                                                                                    </label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input type="text"
+                                                                                               class="form-control"
+                                                                                               value="${book.publication_date}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-3 col-form-label">
+                                                                                        Quantity
+                                                                                    </label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input type="text"
+                                                                                               class="form-control"
+                                                                                               value="100">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-3 col-form-label">Description
+                                                                                    </label>
+                                                                                    <div class="col-sm-9">
+                                                                                                    <textarea
+                                                                                                            class="form-control"
+                                                                                                            id="Textarea1"
+                                                                                                            rows="5">${book.description}
+                                                                                                    </textarea>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                        class="btn btn-primary"
+                                                                                        data-dismiss="modal">
+                                                                                    Save
+                                                                                </button>
+                                                                                <button type="button"
+                                                                                        class="btn btn-outline-primary"
+                                                                                        data-dismiss="modal">
+                                                                                    Close
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                            <!--End: Update Book Form-->
                                                         </tr>
                                                     </c:forEach>
                                                     </tbody>
