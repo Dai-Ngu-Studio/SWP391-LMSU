@@ -1,2 +1,7 @@
-package com.lmsu.authors;public class AuthorDAO {
+package com.lmsu.authors;
+
+import java.io.Serializable;
+
+public class AuthorDAO implements Serializable {
+
 }
