@@ -33,15 +33,15 @@ public class DispatchServlet extends HttpServlet {
                 url = STARTUP_CONTROLLER;
             } else if (button.equals("Login")) {
                 url = LOGIN_CONTROLLER;
-            } else if (button.equals("Logout")){
+            } else if (button.equals("Logout")) {
                 url = LOGOUT_CONTROLLER;
-            } else if(button.equals("Update")){
+            } else if (button.equals("Update")) {
                 url = UPDATE_CONTROLLER;
-            } else if(button.equals("Delete Book")){
+            } else if (button.equals("Delete Book")) {
                 url = DELETE_CONTROLLER;
-            } else if(button.equals("SearchBook")){
+            } else if (button.equals("SearchBook")) {
                 url = SEARCH_CONTROLLER;
-            } else if(button.equals("AddBook")) {
+            } else if (button.equals("AddBook")) {
                 url = ADD_CONTROLLER;
             }
         } finally {

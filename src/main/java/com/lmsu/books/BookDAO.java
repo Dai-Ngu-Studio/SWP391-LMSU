@@ -27,13 +27,18 @@ public class BookDAO implements Serializable {
         ResultSet rs = null;
 
         try {
+            //1. Connect DB using method built
             con = DBHelpers.makeConnection();
             if (con != null) {
+                //2. Create SQL String
                 String sql = "SELECT id, title, authorID, subjectID, publisher, publishDate, description, " +
                         "price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits " +
                         "FROM Books ";
+                //3. Create Statement
                 stm = con.prepareStatement(sql);
+                //4. Execute Query and get ResultSet
                 rs = stm.executeQuery();
+                //5. Process ResultSet
                 while (rs.next()) {
                     String book_id = rs.getString("id");
                     String title = rs.getString("title");
@@ -49,25 +54,24 @@ public class BookDAO implements Serializable {
                     float avg_rating = rs.getFloat("avgRating");
                     String isbn_ten = rs.getString("ISBN_tenDigits");
                     String isbn_thirteen = rs.getString("ISBN_thirteenDigits");
+
                     BookDTO dto = new BookDTO(book_id, title, author_id, subject_id, publisher, publication_date,
                             description, price, quantity, deleteStatus, last_lent_date,
                             avg_rating, isbn_ten, isbn_thirteen);
+
                     if (this.bookList == null) {
                         this.bookList = new ArrayList<BookDTO>();
-                    }
-                    this.bookList.add(dto);
-                }
-            }
+                    } //end if book list not existed
+
+                    if (!dto.isDelete_status()) {
+                        this.bookList.add(dto);
+                    } //end if book is not deleted
+                } //end while traversing result set
+            } //end if connection existed
         } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
         }
     }
 
@@ -113,19 +117,16 @@ public class BookDAO implements Serializable {
                     if (this.bookList == null) {
                         this.bookList = new ArrayList<BookDTO>();
                     } //end if bookList not existed
+                    if (!dto.isDelete_status()) {
+                        this.bookList.add(dto);
+                    } //end if book is not deleted
                     this.bookList.add(dto);
                 } //end while traversing result
             } //end if connection existed
         } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
         }
     }
 
@@ -148,20 +149,12 @@ public class BookDAO implements Serializable {
                 //4. Execute Query and get ResultSet
                 rs = stm.executeQuery();
                 //5. Process ResultSet
-                if (rs.next()) {
-                    return true;
-                }
+                if (rs.next()) return true;
             }
         } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
         }
         return false;
     }
@@ -185,26 +178,18 @@ public class BookDAO implements Serializable {
                 //4. Execute Query and get ResultSet
                 rs = stm.executeQuery();
                 //5. Process ResultSet
-                if (rs.next()) {
-                    return true;
-                }
+                if (rs.next()) return true;
             }
         } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
         }
         return false;
     }
 
     // return true if ID is taken, false if ID is available
-    public boolean checkBookId(String book_id) throws SQLException, NamingException{
+    public boolean checkBookId(String book_id) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -223,20 +208,12 @@ public class BookDAO implements Serializable {
                 //4. Execute Query and get ResultSet
                 rs = stm.executeQuery();
                 //5. Process ResultSet
-                if (rs.next()) {
-                    return true;
-                }
+                if (rs.next()) return true;
             }
         } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
         }
         return false;
     }
@@ -268,25 +245,19 @@ public class BookDAO implements Serializable {
                 stm.setString(7, description);
                 stm.setBigDecimal(8, price);
                 stm.setInt(9, quantity);
-                stm.setBoolean(10,delete_status);
+                stm.setBoolean(10, delete_status);
                 stm.setDate(11, last_lent_date);
-                stm.setFloat(12,avg_rating);
-                stm.setString(13,isbn_ten);
-                stm.setString(14,isbn_thirteen);
+                stm.setFloat(12, avg_rating);
+                stm.setString(13, isbn_ten);
+                stm.setString(14, isbn_thirteen);
                 //4. Execute Query and get rows affected
                 int rows = stm.executeUpdate();
                 //5. Process result
-                if (rows > 0) {
-                    return true;
-                }
+                if (rows > 0) return true;
             }
         } finally {
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+            if (stm != null) stm.close();
+            if (con != null) con.close();
         }
         return false;
     }
@@ -300,32 +271,28 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "DELETE FROM Books "
-                        + "WHERE id = ?";
+                String sql = "UPDATE Books " +
+                        "SET deleteStatus = ? " +
+                        "WHERE id = ? ";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
-                stm.setString(1, book_id);
+                stm.setBoolean(1, true);
+                stm.setString(2, book_id);
                 //4. Execute Query and get rows affected
                 int rows = stm.executeUpdate();
                 //5. Process result
-                if (rows > 0) {
-                    return true;
-                }
+                if (rows > 0) return true;
             }
         } finally {
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+            if (stm != null) stm.close();
+            if (con != null) con.close();
         }
         return false;
     }
 
     public boolean updateBook(String book_id, String title, String author_id, String subject_id,
-                      String publisher, String publication_date, String description, BigDecimal price, int quantity,
-                      String isbn_ten, String isbn_thirteen)
+                              String publisher, String publication_date, String description, BigDecimal price, int quantity,
+                              String isbn_ten, String isbn_thirteen)
             throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -351,21 +318,15 @@ public class BookDAO implements Serializable {
                 stm = con.prepareStatement(sql);
                 stm.setString(1, book_id);
                 stm.setString(2, author_id);
-                stm.setString(3,subject_id);
+                stm.setString(3, subject_id);
                 //4. Execute Query and get rows affected
                 int rows = stm.executeUpdate();
                 //5. Process result
-                if (rows > 0) {
-                    return true;
-                }
+                if (rows > 0) return true;
             }
         } finally {
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+            if (stm != null) stm.close();
+            if (con != null) con.close();
         }
         return false;
     }
@@ -390,17 +351,11 @@ public class BookDAO implements Serializable {
                 //4. Execute Query and get rows affected
                 int rows = stm.executeUpdate();
                 //5. Process result
-                if (rows > 0) {
-                    return true;
-                }
+                if (rows > 0) return true;
             }
         } finally {
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+            if (stm != null) stm.close();
+            if (con != null) con.close();
         }
         return false;
     }
