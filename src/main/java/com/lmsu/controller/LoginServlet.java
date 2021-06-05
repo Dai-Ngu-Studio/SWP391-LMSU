@@ -16,7 +16,7 @@ import java.sql.SQLException;
 public class LoginServlet extends HttpServlet {
 
     private static final String ERROR_PAGE = "login.html";
-    private static final String INDEX_PAGE = "index.jsp";
+    private static final String INDEX_PAGE = "IndexServlet";
     private static final String DASHBOARD_PAGE = "dashboard.jsp";
     static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
 
