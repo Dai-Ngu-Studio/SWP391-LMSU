@@ -26,79 +26,79 @@ public class BookDAO implements Serializable {
     }
 
     // Start: Test Paged List
-    public void viewPagedBookList() throws SQLException, NamingException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-
-        try {
-            //1. Connect DB using method built
-            con = DBHelpers.makeConnection();
-            if (con != null) {
-                //2. Create SQL String
-                String sql = "SELECT id, title, authorID, subjectID, publisher, publishDate, description, " +
-                        "price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits " +
-                        "FROM Books ";
-                //3. Create Statement
-                stm = con.prepareStatement(sql);
-                //4. Execute Query and get ResultSet
-                rs = stm.executeQuery();
-                //5. Process ResultSet
-
-                if (this.pagedBookList == null) {
-                    this.pagedBookList = new ArrayList<List<BookDTO>>();
-                } //end if paged book list not existed
-
-                List<BookDTO> unpagedBookList = new ArrayList<BookDTO>();
-
-                while (rs.next()) {
-                    String book_id = rs.getString("id");
-                    String title = rs.getString("title");
-                    String author_id = rs.getString("authorID");
-                    String subject_id = rs.getString("subjectID");
-                    String publisher = rs.getString("publisher");
-                    String publication_date = rs.getString("publishDate");
-                    String description = rs.getString("description");
-                    BigDecimal price = rs.getBigDecimal("price");
-                    int quantity = rs.getInt("quantity");
-                    boolean deleteStatus = rs.getBoolean("deleteStatus");
-                    Date last_lent_date = rs.getDate("lastLentDate");
-                    float avg_rating = rs.getFloat("avgRating");
-                    String isbn_ten = rs.getString("ISBN_tenDigits");
-                    String isbn_thirteen = rs.getString("ISBN_thirteenDigits");
-
-                    BookDTO dto = new BookDTO(book_id, title, author_id, subject_id, publisher, publication_date,
-                            description, price, quantity, deleteStatus, last_lent_date,
-                            avg_rating, isbn_ten, isbn_thirteen);
-
-                    if (!dto.isDelete_status()) {
-                        unpagedBookList.add(dto);
-                    } //end if book is not deleted
-
-                } //end while traversing result set
-
-                int index = 0;
-
-
-
-                while (unpagedBookList.get(index) != null) {
-                    List<BookDTO> singlePageBookList = new ArrayList<BookDTO>();
-                    for (int bookCount = 0; bookCount < 10; bookCount++) {
-                        if (unpagedBookList.get(index) != null) {
-                            singlePageBookList.add(unpagedBookList.get(index));
-                        }
-                        index++;
-                    }
-                    pagedBookList.add(singlePageBookList);
-                }
-
-            } //end if connection existed
-        } finally {
-            if (rs != null) rs.close();
-            if (stm != null) stm.close();
-            if (con != null) con.close();
-        }
-    }
+//    public void viewPagedBookList() throws SQLException, NamingException {
+//        Connection con = null;
+//        PreparedStatement stm = null;
+//        ResultSet rs = null;
+//
+//        try {
+//            //1. Connect DB using method built
+//            con = DBHelpers.makeConnection();
+//            if (con != null) {
+//                //2. Create SQL String
+//                String sql = "SELECT id, title, authorID, subjectID, publisher, publishDate, description, " +
+//                        "price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits " +
+//                        "FROM Books ";
+//                //3. Create Statement
+//                stm = con.prepareStatement(sql);
+//                //4. Execute Query and get ResultSet
+//                rs = stm.executeQuery();
+//                //5. Process ResultSet
+//
+//                if (this.pagedBookList == null) {
+//                    this.pagedBookList = new ArrayList<List<BookDTO>>();
+//                } //end if paged book list not existed
+//
+//                List<BookDTO> unpagedBookList = new ArrayList<BookDTO>();
+//
+//                while (rs.next()) {
+//                    String book_id = rs.getString("id");
+//                    String title = rs.getString("title");
+//                    String author_id = rs.getString("authorID");
+//                    String subject_id = rs.getString("subjectID");
+//                    String publisher = rs.getString("publisher");
+//                    String publication_date = rs.getString("publishDate");
+//                    String description = rs.getString("description");
+//                    BigDecimal price = rs.getBigDecimal("price");
+//                    int quantity = rs.getInt("quantity");
+//                    boolean deleteStatus = rs.getBoolean("deleteStatus");
+//                    Date last_lent_date = rs.getDate("lastLentDate");
+//                    float avg_rating = rs.getFloat("avgRating");
+//                    String isbn_ten = rs.getString("ISBN_tenDigits");
+//                    String isbn_thirteen = rs.getString("ISBN_thirteenDigits");
+//
+//                    BookDTO dto = new BookDTO(book_id, title, author_id, subject_id, publisher, publication_date,
+//                            description, price, quantity, deleteStatus, last_lent_date,
+//                            avg_rating, isbn_ten, isbn_thirteen);
+//
+//                    if (!dto.isDelete_status()) {
+//                        unpagedBookList.add(dto);
+//                    } //end if book is not deleted
+//
+//                } //end while traversing result set
+//
+//                int index = 0;
+//
+//
+//
+//                while (unpagedBookList.get(index) != null) {
+//                    List<BookDTO> singlePageBookList = new ArrayList<BookDTO>();
+//                    for (int bookCount = 0; bookCount < 10; bookCount++) {
+//                        if (unpagedBookList.get(index) != null) {
+//                            singlePageBookList.add(unpagedBookList.get(index));
+//                        }
+//                        index++;
+//                    }
+//                    pagedBookList.add(singlePageBookList);
+//                }
+//
+//            } //end if connection existed
+//        } finally {
+//            if (rs != null) rs.close();
+//            if (stm != null) stm.close();
+//            if (con != null) con.close();
+//        }
+//    }
     // End: Test Paged List
 
     public void viewBookList() throws SQLException, NamingException {
@@ -112,9 +112,9 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT id, title, authorID, subjectID, publisher, publishDate, description, " +
-                        "price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits " +
-                        "FROM Books ";
+                String sql = "SELECT [id], [title], [authorID], [subjectID], [publisher], [publishDate], [description], " +
+                        "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] " +
+                        "FROM [Books]";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 //4. Execute Query and get ResultSet
@@ -135,10 +135,10 @@ public class BookDAO implements Serializable {
                     float avg_rating = rs.getFloat("avgRating");
                     String isbn_ten = rs.getString("ISBN_tenDigits");
                     String isbn_thirteen = rs.getString("ISBN_thirteenDigits");
-
+                    String coverPath = rs.getString("coverPicturePath");
                     BookDTO dto = new BookDTO(book_id, title, author_id, subject_id, publisher, publication_date,
                             description, price, quantity, deleteStatus, last_lent_date,
-                            avg_rating, isbn_ten, isbn_thirteen);
+                            avg_rating, isbn_ten, isbn_thirteen, coverPath);
 
                     if (this.bookList == null) {
                         this.bookList = new ArrayList<BookDTO>();
@@ -168,7 +168,7 @@ public class BookDAO implements Serializable {
             if (con != null) {
                 //2. Create SQL String
                 String sql = "SELECT [id], [title], [authorID], [subjectID], [publisher], [publishDate], [description], " +
-                        "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits] " +
+                        "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] " +
                         "FROM [Books] " +
                         "WHERE [title] LIKE ?";
                 //3. Create Statement
@@ -192,9 +192,10 @@ public class BookDAO implements Serializable {
                     float avg_rating = rs.getFloat("avgRating");
                     String isbn_ten = rs.getString("ISBN_tenDigits");
                     String isbn_thirteen = rs.getString("ISBN_thirteenDigits");
+                    String coverPath = rs.getString("coverPicturePath");
                     BookDTO dto = new BookDTO(book_id, title, author_id, subject_id, publisher, publication_date,
                             description, price, quantity, deleteStatus, last_lent_date,
-                            avg_rating, isbn_ten, isbn_thirteen);
+                            avg_rating, isbn_ten, isbn_thirteen, coverPath);
                     if (this.bookList == null) {
                         this.bookList = new ArrayList<BookDTO>();
                     } //end if bookList not existed
@@ -301,7 +302,7 @@ public class BookDAO implements Serializable {
     public boolean addBook(String book_id, String title, String author_id, String subject_id,
                            String publisher, String publication_date, String description, BigDecimal price, int quantity,
                            boolean delete_status, Date last_lent_date, float avg_rating, String isbn_ten,
-                           String isbn_thirteen) throws SQLException, NamingException {
+                           String isbn_thirteen, String coverPath) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
 
@@ -311,9 +312,9 @@ public class BookDAO implements Serializable {
             if (con != null) {
                 //2. Create SQL String
                 String sql = "INSERT INTO " +
-                        "Books(id, title, authorID, subjectID, publisher, publishDate, description, " +
-                        "price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits) " +
-                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        "Books([id], [title], [authorID], [subjectID], [publisher], [publishDate], [description], " +
+                        "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] ) " +
+                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 stm.setString(1, book_id);
@@ -330,6 +331,7 @@ public class BookDAO implements Serializable {
                 stm.setFloat(12, avg_rating);
                 stm.setString(13, isbn_ten);
                 stm.setString(14, isbn_thirteen);
+                stm.setString(15, coverPath);
                 //4. Execute Query and get rows affected
                 int rows = stm.executeUpdate();
                 //5. Process result

@@ -22,14 +22,15 @@ class BookDTO implements Serializable {
     private float avg_rating;
     private String isbn_ten;
     private String isbn_thirteen;
+    private String coverPath;
 
     public BookDTO() {
     }
 
-    public BookDTO (String book_id, String title, String author_id, String subject_id,
-                    String publisher, String publication_date, String description, BigDecimal price, int quantity,
-                    boolean delete_status, Date last_lent_date, float avg_rating, String isbn_ten,
-                    String isbn_thirteen){
+    public BookDTO(String book_id, String title, String author_id, String subject_id,
+                   String publisher, String publication_date, String description, BigDecimal price, int quantity,
+                   boolean delete_status, Date last_lent_date, float avg_rating, String isbn_ten,
+                   String isbn_thirteen, String coverPath) {
         this.book_id = book_id;
         this.title = title;
         this.author_id = author_id;
@@ -44,6 +45,7 @@ class BookDTO implements Serializable {
         this.avg_rating = avg_rating;
         this.isbn_ten = isbn_ten;
         this.isbn_thirteen = isbn_thirteen;
+        this.coverPath = coverPath;
     }
 
     public BookDTO(String book_id, String title, String author_id, boolean delete_status) {

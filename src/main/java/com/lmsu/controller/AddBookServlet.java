@@ -7,25 +7,30 @@ import javax.naming.NamingException;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.SQLException;
 
 @WebServlet(name = "AddBookServlet", value = "/AddBookServlet")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 5,
+        maxRequestSize = 1024 * 1024 * 5 * 5)
 public class AddBookServlet extends HttpServlet {
-    private final String SEARCH_PAGE = "bookmanagement.jsp";
-//    private final String SEARCH_CONTROLLER = "SearchTitleServlet";
-    static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
+    private final String SEARCH_CONTROLLER = "SearchTitleServlet";
+    private final String SHOW_BOOK_CONTROLLER="ShowBookServlet";
+    //    private final String SEARCH_CONTROLLER = "SearchTitleServlet";
+    static final Logger LOGGER = Logger.getLogger(AddBookServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         //String book_id, String title, String author_id, String subject_id,
         //                           String publisher, String publication_date, String description, BigDecimal price, int quantity,
         //                           boolean delete_status, Date last_lent_date, float avg_rating, String isbn_ten,
         //                           String isbn_thirteen
 
-        String searchVal = request.getParameter("lastSearchValue");
+        String searchVal = request.getParameter("txtSearchValue");
 
         String title = request.getParameter("txtTitle");
         String authorID = request.getParameter("txtAuthorID");
@@ -38,7 +43,7 @@ public class AddBookServlet extends HttpServlet {
         String isbnTen = request.getParameter("txtISBNTen");
         String isbnThirteen = request.getParameter("txtISBNThirteen");
 
-        String url = SEARCH_PAGE;
+        String url = SHOW_BOOK_CONTROLLER;
 
         try {
             BookDAO dao = new BookDAO();
@@ -55,13 +60,42 @@ public class AddBookServlet extends HttpServlet {
             Date lastLentDate = Date.valueOf("1960-01-01");
             float avgRating = 0.0f;
 
-            boolean result = dao.addBook(bookIDTxt, title,authorID,subjectID,publisher,publishDate,description, priceDecimal, quantityNum, deleteStatus, lastLentDate, avgRating, isbnTen, isbnThirteen);
-
-            if (!result) {
-                url = "DispatchServlet" +
-                        "?btAction=SearchBook" +
-                        "&txtSearchValue=" + searchVal;
+            //Start to add img to server process
+            String MeoMeoPath = getServletContext().getRealPath("");
+            String partOfPath[] = MeoMeoPath.split("\\\\");
+            String uploadPath = "";
+            //Simple String process
+            //Only get the part before the last two backslash because we don't want
+            //to save it into webapp which will be get deleted every time we redeploy
+            for (int i = 0; i < partOfPath.length - 2; i++) {
+                uploadPath += (partOfPath[i] + File.separator);
             }
+            uploadPath += ("images" + File.separator);
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+            String fullPathToFile="";
+            for (Part part : request.getParts()) {
+                String fileName = part.getSubmittedFileName();
+                if (fileName!=null) {
+                    fullPathToFile = uploadPath + fileName;
+                    part.write(fullPathToFile);
+                }
+            }
+            boolean result = dao.addBook(bookIDTxt, title, authorID, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, deleteStatus, lastLentDate, avgRating, isbnTen, isbnThirteen, fullPathToFile);
+            if (result){
+                if (searchVal==null || searchVal.trim().isEmpty()){
+                    url=SHOW_BOOK_CONTROLLER;
+                } else{
+                    url=SEARCH_CONTROLLER;
+                }
+            }
+//            if (!result) {
+//                url = "DispatchServlet" +
+//                        "?btAction=SearchBook" +
+//                        "&txtSearchValue=" + searchVal;
+//            }
 
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
@@ -73,7 +107,7 @@ public class AddBookServlet extends HttpServlet {
             LOGGER.error(ex.getMessage());
             log("AddBookServlet _ Exception: " + ex.getMessage());
         } finally {
-            request.getRequestDispatcher(url).forward(request,response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
-  User: NDungx
   Date: 6/2/2021
   Time: 8:29 PM
 --%>
@@ -25,6 +24,9 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="images/images/favicon.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+    <script src="js/bookmanagement.js"></script>
 </head>
 <body>
 <div class="container-scroller">
@@ -203,11 +205,12 @@
 
                                                 <div id="order-listing_filter" class="dataTables_filter">
                                                     <!--Start: Add Book Form-->
-                                                    <form action="DispatchServlet">
+                                                    <form action="DispatchServlet" enctype="multipart/form-data" method="POST">
                                                         <input type="search" class="form-control"
                                                                placeholder="Search"
                                                                name="txtSearchValue" value="${param.txtSearchValue}"
-                                                               aria-controls="order-listing">
+                                                               aria-controls="order-listing"
+                                                               id="searchBox">
                                                         <button class="btn btn-primary" type="submit"
                                                                 name="btAction" value="SearchBook"
                                                                 style="border-radius: 5px"><i class="fa fa-search"></i>
@@ -238,6 +241,37 @@
                                                                         </button>
                                                                     </div>
                                                                     <div class="modal-body">
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 col-form-label">Book
+                                                                                Cover
+                                                                            </label>
+                                                                            <div class="col-sm-9">
+                                                                                <img class="rounded float-right"
+                                                                                     style="height: 400px;
+                                                                                     width: auto;"
+                                                                                     src="images/cover-not-available.jpg"
+                                                                                     id="coverPicture"
+                                                                                     alt="Book cover"
+                                                                                >
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <div class="col-sm-3">
+                                                                            </div>
+                                                                            <div class="col-sm-9">
+                                                                                <div class="custom-file">
+                                                                                    <input type="file"
+                                                                                           class="custom-file-input"
+                                                                                           id="customFileAdd"
+                                                                                           name="coverPicture"
+                                                                                           onchange="readURL(this);"
+                                                                                    >
+                                                                                    <label class="custom-file-label"
+                                                                                           for="customFileAdd">Choose
+                                                                                        Image </label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                         <div class="form-group row">
                                                                             <div class="col-sm-3">
                                                                             </div>
@@ -513,9 +547,9 @@
                                                                                         <div class="custom-file">
                                                                                             <input type="file"
                                                                                                    class="custom-file-input"
-                                                                                                   id="customFile">
+                                                                                                   id="customFileUpdate">
                                                                                             <label class="custom-file-label"
-                                                                                                   for="customFile">Choose
+                                                                                                   for="customFileUpdate">Choose
                                                                                                 Image
                                                                                                 ...</label>
                                                                                         </div>

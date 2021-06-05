@@ -1,5 +1,8 @@
 package com.lmsu.controller;
 
+import com.google.gson.internal.bind.util.ISO8601Utils;
+
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +12,9 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 
 @WebServlet(name = "DispatchServlet", value = "/DispatchServlet")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 5,
+        maxRequestSize = 1024 * 1024 * 5 * 5)
 public class DispatchServlet extends HttpServlet {
 
     private static final String LOGIN_PAGE = "login.html";
