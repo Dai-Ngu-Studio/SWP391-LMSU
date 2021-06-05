@@ -5,22 +5,19 @@ import com.lmsu.users.UserDTO;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
 
-    public static final String ERROR_PAGE = "login.html";
-    public static final String INDEX_PAGE = "index.jsp";
-    public static final String DASHBOARD_PAGE = "dashboard.jsp";
+    private static final String ERROR_PAGE = "login.html";
+    private static final String INDEX_PAGE = "index.jsp";
+    private static final String DASHBOARD_PAGE = "dashboard.jsp";
     static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -30,24 +27,32 @@ public class LoginServlet extends HttpServlet {
 
         String email = request.getParameter("txtEmail");
         String password = request.getParameter("txtPassword");
-        String cookie = request.getParameter("cookie");
+        String isRemember = request.getParameter("cookie");
         UserDAO dao = new UserDAO();
 
         String url = ERROR_PAGE;
 
         try {
-            UserDTO dto = dao.checkLogin(email, password);
-            HttpSession session = request.getSession();
+            String[] mail = email.split("@");
 
-            //get param của checkbox, nếu check thì addCookie
+            if (mail[1].equalsIgnoreCase("fpt.edu.vn")) {
+                UserDTO dto = dao.checkLogin(email, password);
+                HttpSession session = request.getSession();
 
-            if (dto != null) {
-                session.setAttribute("LOGIN_USER", dto);
-                if (dto.getRoleID().equals("4")) {
-                    url = INDEX_PAGE;
+                if (isRemember != null) {
+                    Cookie cookie = new Cookie(mail[0], password);
+                    cookie.setMaxAge(60 * 60 * 24 * 15);
+                    response.addCookie(cookie);
                 }
-                if (dto.getRoleID().equals("1") || dto.getRoleID().equals("2") || dto.getRoleID().equals("3")) {
-                    url = DASHBOARD_PAGE;
+
+                if (dto != null) {
+                    session.setAttribute("LOGIN_USER", dto);
+                    if (dto.getRoleID().equals("4")) {
+                        url = INDEX_PAGE;
+                    }
+                    if (dto.getRoleID().equals("1") || dto.getRoleID().equals("2") || dto.getRoleID().equals("3")) {
+                        url = DASHBOARD_PAGE;
+                    }
                 }
             }
         } catch (SQLException e) {
