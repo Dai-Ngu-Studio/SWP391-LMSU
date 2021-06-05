@@ -158,7 +158,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="bookmanagement.jsp">
+                    <a class="nav-link" href="ShowBookServlet">
                         <i class="icon-book menu-icon"></i>
                         <span class="menu-title">Books</span>
                     </a>
