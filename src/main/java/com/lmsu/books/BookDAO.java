@@ -25,6 +25,10 @@ public class BookDAO implements Serializable {
         return this.pagedBookList;
     }
 
+    public void clearList() {
+        bookList.clear();
+    }
+
     // Start: Test Paged List
     public void viewPagedBookList() throws SQLException, NamingException {
         Connection con = null;
@@ -78,7 +82,6 @@ public class BookDAO implements Serializable {
                 } //end while traversing result set
 
                 int index = 0;
-
 
 
                 while (unpagedBookList.get(index) != null) {
@@ -461,6 +464,7 @@ public class BookDAO implements Serializable {
                 //2. Create SQL String
                 String sql = "SELECT TOP 4 [id], [title], [authorID], [deleteStatus] " +
                         "FROM [Books] " +
+                        "WHERE deleteStatus = 0" +
                         "ORDER BY avgRating desc";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
@@ -477,9 +481,7 @@ public class BookDAO implements Serializable {
                     if (this.bookList == null) {
                         this.bookList = new ArrayList<BookDTO>();
                     } //end if bookList not existed
-                    if (!dto.isDelete_status()) {
-                        this.bookList.add(dto);
-                    } //end if book is not deleted
+                    this.bookList.add(dto);
                 } //end while traversing result
             } //end if connection existed
         } finally {
@@ -494,14 +496,15 @@ public class BookDAO implements Serializable {
         PreparedStatement stm = null;
         ResultSet rs = null;
 
-        try {
+        try {                                                   //chưa có data import log nên để tạm data như dưới
             //1. Connect DB using method built
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
                 String sql = "SELECT TOP 4 [id], [title], [authorID], [deleteStatus] " +
                         "FROM [Books] " +
-                        "ORDER BY avgRating desc";
+                        "WHERE deleteStatus = 0" +
+                        "ORDER BY avgRating asc";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 //4. Execute Query and get ResultSet
@@ -518,9 +521,7 @@ public class BookDAO implements Serializable {
                     if (this.bookList == null) {
                         this.bookList = new ArrayList<BookDTO>();
                     } //end if bookList not existed
-                    if (!dto.isDelete_status()) {
-                        this.bookList.add(dto);
-                    } //end if book is not deleted
+                    this.bookList.add(dto);
                 } //end while traversing result
             } //end if connection existed
         } finally {
