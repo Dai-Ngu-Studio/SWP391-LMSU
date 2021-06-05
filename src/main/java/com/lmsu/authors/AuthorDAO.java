@@ -19,6 +19,71 @@ public class AuthorDAO implements Serializable {
         return this.authorList;
     }
 
+    public void viewAuthorList() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [id], [name], [bio] " +
+                        "FROM Authors";
+                stm = con.prepareStatement(sql);
+
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String id = rs.getString("id");
+                    String name = rs.getString("name");
+                    String bio = rs.getString("bio");
+
+                    AuthorDTO dto = new AuthorDTO(id, name, bio);
+                    if (this.authorList == null) {
+                        this.authorList = new ArrayList<AuthorDTO>();
+                    }
+                    this.authorList.add(dto);
+                }
+            }
+
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
+
+    public void SearchAuthorByName(String searchVal) throws SQLException, NamingException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBHelpers.makeConnection();
+            if(con != null){
+                String sql = "SELECT id, name, bio " +
+                        "FROM Authors " +
+                        "WHERE name like ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, "%" + searchVal + "%");
+
+                rs = stm.executeQuery();
+                while (rs.next()){
+                    String id = rs.getString("id");
+                    String name = rs.getString("name");
+                    String bio = rs.getString("bio");
+
+                    AuthorDTO dto = new AuthorDTO(id, name, bio);
+                    if (this.authorList == null) {
+                        this.authorList = new ArrayList<AuthorDTO>();
+                    }
+                    this.authorList.add(dto);
+                }
+            }
+        } finally {
+            if(rs != null) rs.close();
+            if(stm != null) stm.close();
+            if(con != null) con.close();
+        }
+    }
+
     public String getAuthorName(String authorID) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;

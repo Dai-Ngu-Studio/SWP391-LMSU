@@ -154,23 +154,33 @@
     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end"
          style="justify-content: inherit !important">
         <ul class="navbar-nav mr-lg-2">
-            <div class="search">
-                <div class="dropdown">
-                    <button type="button" class="btn btn-filter dropdown-toggle" id="dropdownMenuIconButton3"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="ti-filter"></i>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuIconButton3">
-                        <h6 class="dropdown-header"><b>SEARCH ITEMS</b></h6>
-                        <a class="dropdown-item">Books</a>
-                        <a class="dropdown-item">Authors</a>
+            <!--Start: Search Form-->
+            <form action="DispatchServlet">
+                <div class="search">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-filter dropdown-toggle" id="dropdownMenuIconButton3"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="ti-filter"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuIconButton3">
+                            <h6 class="dropdown-header"><b>SEARCH FOR</b></h6>
+                            <label class="dropdown-item">
+                                <input type="radio" name="itemFilterOptions" id="itemFilterOption1" value="Books"
+                                       checked> Books
+                            </label>
+                            <label class="dropdown-item">
+                                <input type="radio" name="itemFilterOptions" id="itemFilterOption2" value="Authors">
+                                Authors
+                            </label>
+                        </div>
                     </div>
+                    <input type="text" placeholder="Search..." class="searchInput" name="txtBookCatalogSearchValue">
+                    <button class="btn btn-primary" type="submit" name="btAction" value="SearchBookCatalog">
+                        <i class="fa fa-search"></i>
+                    </button>
                 </div>
-                <input type="text" placeholder="Search..." class="searchInput">
-                <button class="btn btn-primary">
-                    <i class="fa fa-search"></i>
-                </button>
-            </div>
+            </form>
+            <!--End: Search Form-->
         </ul>
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item dropdown">
