@@ -1,4 +1,7 @@
 package com.lmsu.pojo.member;
 
-public class Cart {
+import java.io.Serializable;
+
+public class CartObj implements Serializable {
+
 }
