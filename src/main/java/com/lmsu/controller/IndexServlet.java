@@ -34,14 +34,19 @@ public class IndexServlet extends HttpServlet {
         try {
             BookDAO bookDAO = new BookDAO();
             AuthorDAO authorDAO = new AuthorDAO();
+
             //get Popular Books
             bookDAO.getPopularBooks();
             List<BookDTO> popularBookList = bookDAO.getBookList();
             request.setAttribute("POPULAR_BOOKS", popularBookList);
+
+            bookDAO.clearList();
+
             //get New Arrival Books
             bookDAO.getNewArrival();
             List<BookDTO> newArrivalBookList = bookDAO.getBookList();
             request.setAttribute("NEW_ARRIVAL_BOOKS", newArrivalBookList);
+
 //            //get Popular Authors
 //            authorDAO.getPopularAuthor();
 //            List<AuthorDTO> popularAuthorList = authorDAO.getAuthorList();
