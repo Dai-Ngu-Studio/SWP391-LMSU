@@ -447,7 +447,7 @@
                                                             <form action="DispatchServlet">
                                                                 <input type="hidden" value="${book.book_id}"
                                                                        name="pk">
-                                                                <input type="hidden" name="lastSearchValue"
+                                                                <input type="hidden" name="txtSearchValue"
                                                                        value="${param.txtSearchValue}"/>
                                                                 <td>
                                                                     <div class="btn-group">
@@ -474,7 +474,7 @@
                                                             <form action="DispatchServlet">
                                                                 <input type="hidden" value="${book.book_id}"
                                                                        name="pk">
-                                                                <input type="hidden" name="lastSearchValue"
+                                                                <input type="hidden" name="txtSearchValue"
                                                                        value="${param.txtSearchValue}"/>
                                                                 <div class="modal fade" id="updateModal${book.book_id}"
                                                                      tabindex="-1"

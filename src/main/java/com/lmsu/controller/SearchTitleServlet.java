@@ -24,6 +24,7 @@ public class SearchTitleServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String search = request.getParameter("txtSearchValue");
+        System.out.println(search);
         String url = ERROR_PAGE;
         try {
             if (search.trim().length() > 0) {
