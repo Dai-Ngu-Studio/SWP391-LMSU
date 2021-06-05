@@ -158,7 +158,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="bookmanagement.jsp">
+                    <a class="nav-link" href="ShowBookServlet">
                         <i class="icon-book menu-icon"></i>
                         <span class="menu-title">Books</span>
                     </a>
@@ -420,7 +420,7 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <c:set var="bookList" value="${requestScope.SEARCH_RESULT}"/>
+                                                    <c:set var="bookList" value="${requestScope.BOOK_LIST}"/>
 
                                                     <c:forEach var="book" items="${bookList}"
                                                                varStatus="counter">
