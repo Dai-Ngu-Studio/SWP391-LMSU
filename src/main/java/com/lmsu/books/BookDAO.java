@@ -79,9 +79,10 @@ public class BookDAO implements Serializable {
 
                 int index = 0;
 
-                List<BookDTO> singlePageBookList = new ArrayList<BookDTO>();
+
 
                 while (unpagedBookList.get(index) != null) {
+                    List<BookDTO> singlePageBookList = new ArrayList<BookDTO>();
                     for (int bookCount = 0; bookCount < 10; bookCount++) {
                         if (unpagedBookList.get(index) != null) {
                             singlePageBookList.add(unpagedBookList.get(index));
