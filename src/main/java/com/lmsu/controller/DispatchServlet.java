@@ -19,6 +19,7 @@ public class DispatchServlet extends HttpServlet {
     private static final String DELETE_CONTROLLER = "DeleteBookServlet";
     private static final String SEARCH_CONTROLLER = "SearchTitleServlet";
     private static final String ADD_CONTROLLER = "AddBookServlet";
+    private static final String SEARCH_CATALOG_CONTROLLER = "SearchBookCatalogServlet";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -43,6 +44,8 @@ public class DispatchServlet extends HttpServlet {
                 url = SEARCH_CONTROLLER;
             } else if (button.equals("AddBook")) {
                 url = ADD_CONTROLLER;
+            } else if (button.equals("SearchBookCatalog")) {
+                url = SEARCH_CATALOG_CONTROLLER;
             }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
