@@ -74,11 +74,11 @@
     <!--Start: Book Item-->
     <div class="col-lg-4 text-center">
         <div class="card mb-3" style="max-width: 540px">
-            <div class="row no-gutters">
-                <div class="col-md-4">
-                    <img src="../images/software-engineering.jpg" alt="..." class="img-fluid"/>
+            <div class="row">
+                <div class="col-lg-4">
+                    <img src="images/software-engineering.jpg" alt="..." class="img-fluid"/>
                 </div>
-                <div class="col-md-8">
+                <div class="col-lg-8">
                     <div class="card-body">
                         <h5 class="card-title">${book.title}</h5>
                         <p class="card-text">
