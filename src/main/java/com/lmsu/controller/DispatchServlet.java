@@ -11,14 +11,14 @@ import java.io.IOException;
 @WebServlet(name = "DispatchServlet", value = "/DispatchServlet")
 public class DispatchServlet extends HttpServlet {
 
-    public static final String LOGIN_PAGE = "login.html";
-    public static final String LOGIN_CONTROLLER = "LoginServlet";
-    public static final String LOGOUT_CONTROLLER = "LogoutServlet";
-    public static final String STARTUP_CONTROLLER = "StartupServlet";
-    public static final String UPDATE_CONTROLLER = "UpdateBookServlet";
-    public static final String DELETE_CONTROLLER = "DeleteBookServlet";
-    public static final String SEARCH_CONTROLLER = "SearchTitleServlet";
-    public static final String ADD_CONTROLLER = "AddBookServlet";
+    private static final String LOGIN_PAGE = "login.html";
+    private static final String LOGIN_CONTROLLER = "LoginServlet";
+    private static final String LOGOUT_CONTROLLER = "LogoutServlet";
+    private static final String STARTUP_CONTROLLER = "StartupServlet";
+    private static final String UPDATE_CONTROLLER = "UpdateBookServlet";
+    private static final String DELETE_CONTROLLER = "DeleteBookServlet";
+    private static final String SEARCH_CONTROLLER = "SearchTitleServlet";
+    private static final String ADD_CONTROLLER = "AddBookServlet";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -47,7 +47,6 @@ public class DispatchServlet extends HttpServlet {
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
-            //response.sendRedirect(url);
         }
     }
 
