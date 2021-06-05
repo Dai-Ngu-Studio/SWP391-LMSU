@@ -35,7 +35,7 @@ public class LoginGoogleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        String url = ERROR_PAGE;
-        String url = "index.jsp";
+        String url = "IndexServlet";
 
         String code = request.getParameter("code");
 
