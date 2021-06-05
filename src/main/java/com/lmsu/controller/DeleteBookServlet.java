@@ -16,6 +16,7 @@ import java.util.List;
 public class DeleteBookServlet extends HttpServlet {
     private final String SEARCH_PAGE = "bookmanagement.jsp";
     private final String SEARCH_CONTROLLER = "SearchTitleServlet";
+    private final String SHOW_BOOK_CONTROLLER="ShowBookServlet";
     static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -23,16 +24,22 @@ public class DeleteBookServlet extends HttpServlet {
         String url = SEARCH_PAGE;
 
         String id = request.getParameter("pk");
-        String searchVal = request.getParameter("lastSearchValue");
+        String searchVal = request.getParameter("txtSearchValue");
         try{
             BookDAO dao = new BookDAO();
             boolean result = dao.deleteBook(id);
-
-            if(result) {
-                url = "DispatchServlet" +
-                        "?btAction=SearchBook" +
-                        "&txtSearchValue=" + searchVal;
+            if (result){
+                if (searchVal==null || searchVal.trim().isEmpty()){
+                    url=SHOW_BOOK_CONTROLLER;
+                } else{
+                    url=SEARCH_CONTROLLER;
+                }
             }
+//            if(result) {
+//                url = "DispatchServlet" +
+//                        "?btAction=SearchBook" +
+//                        "&txtSearchValue=" + searchVal;
+//            }
         } catch (SQLException ex){
             LOGGER.error(ex.getMessage());
             log("DeleteBookServlet _ SQL: " + ex.getMessage());

@@ -447,7 +447,7 @@
                                                             <form action="DispatchServlet">
                                                                 <input type="hidden" value="${book.book_id}"
                                                                        name="pk">
-                                                                <input type="hidden" name="lastSearchValue"
+                                                                <input type="hidden" name="txtSearchValue"
                                                                        value="${param.txtSearchValue}"/>
                                                                 <td>
                                                                     <div class="btn-group">
@@ -474,7 +474,7 @@
                                                             <form action="DispatchServlet">
                                                                 <input type="hidden" value="${book.book_id}"
                                                                        name="pk">
-                                                                <input type="hidden" name="lastSearchValue"
+                                                                <input type="hidden" name="txtSearchValue"
                                                                        value="${param.txtSearchValue}"/>
                                                                 <div class="modal fade" id="updateModal${book.book_id}"
                                                                      tabindex="-1"
@@ -526,6 +526,7 @@
                                                                                     <div class="col-sm-9">
                                                                                         <input type="text"
                                                                                                class="form-control"
+                                                                                               name="txtUpdateTitle"
                                                                                                value="${book.title}">
                                                                                     </div>
                                                                                 </div>
@@ -536,6 +537,7 @@
                                                                                     <div class="col-sm-9">
                                                                                         <input type="text"
                                                                                                class="form-control"
+                                                                                               name="txtUpdateAuthorID"
                                                                                                value="${book.author_id}">
                                                                                     </div>
                                                                                 </div>
@@ -546,6 +548,7 @@
                                                                                     <div class="col-sm-9">
                                                                                         <input type="text"
                                                                                                class="form-control"
+                                                                                               name="txtUpdatePubliDate"
                                                                                                value="${book.publication_date}">
                                                                                     </div>
                                                                                 </div>
@@ -556,7 +559,63 @@
                                                                                     <div class="col-sm-9">
                                                                                         <input type="text"
                                                                                                class="form-control"
-                                                                                               value="100">
+                                                                                               name="txtUpdateQuantity"
+                                                                                               value="${book.quantity}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-3 col-form-label">
+                                                                                        Publisher
+                                                                                    </label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input type="text"
+                                                                                               class="form-control"
+                                                                                               name="txtUpdatePublisher"
+                                                                                               value="${book.publisher}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-3 col-form-label">
+                                                                                        Subject
+                                                                                    </label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input type="text"
+                                                                                               class="form-control"
+                                                                                               name="txtUpdateSubjectID"
+                                                                                               value="${book.subject_id}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-3 col-form-label">
+                                                                                        Price
+                                                                                    </label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input type="text"
+                                                                                               class="form-control"
+                                                                                               name="txtUpdatePrice"
+                                                                                               value="${book.price}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-3 col-form-label">
+                                                                                        ISBN Ten
+                                                                                    </label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input type="text"
+                                                                                               class="form-control"
+                                                                                               name="txtUpdateISBNTen"
+                                                                                               value="${book.isbn_ten}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-3 col-form-label">
+                                                                                        ISBN Thirteen
+                                                                                    </label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input type="text"
+                                                                                               class="form-control"
+                                                                                               name="txtUpdateISBNThirteen"
+                                                                                               value="${book.isbn_thirteen}">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">
@@ -566,6 +625,7 @@
                                                                                                     <textarea
                                                                                                             class="form-control"
                                                                                                             id="Textarea1"
+                                                                                                            name="txtUpdateDescription"
                                                                                                             rows="5">${book.description}
                                                                                                     </textarea>
                                                                                     </div>
@@ -573,9 +633,11 @@
 
                                                                             </div>
                                                                             <div class="modal-footer">
-                                                                                <button type="button"
+                                                                                <button type="submit"
+                                                                                        name="btAction"
+                                                                                        value="Update Book"
                                                                                         class="btn btn-primary"
-                                                                                        data-dismiss="modal">
+                                                                                >
                                                                                     Save
                                                                                 </button>
                                                                                 <button type="button"
