@@ -15,10 +15,91 @@ import java.util.List;
 
 public class BookDAO implements Serializable {
     private List<BookDTO> bookList;
+    private List<List<BookDTO>> pagedBookList;
 
     public List<BookDTO> getBookList() {
         return this.bookList;
     }
+
+    public List<List<BookDTO>> getPagedBookList() {
+        return this.pagedBookList;
+    }
+
+    // Start: Test Paged List
+    public void viewPagedBookList() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT id, title, authorID, subjectID, publisher, publishDate, description, " +
+                        "price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits " +
+                        "FROM Books ";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+
+                if (this.pagedBookList == null) {
+                    this.pagedBookList = new ArrayList<List<BookDTO>>();
+                } //end if paged book list not existed
+
+                List<BookDTO> unpagedBookList = new ArrayList<BookDTO>();
+
+                while (rs.next()) {
+                    String book_id = rs.getString("id");
+                    String title = rs.getString("title");
+                    String author_id = rs.getString("authorID");
+                    String subject_id = rs.getString("subjectID");
+                    String publisher = rs.getString("publisher");
+                    String publication_date = rs.getString("publishDate");
+                    String description = rs.getString("description");
+                    BigDecimal price = rs.getBigDecimal("price");
+                    int quantity = rs.getInt("quantity");
+                    boolean deleteStatus = rs.getBoolean("deleteStatus");
+                    Date last_lent_date = rs.getDate("lastLentDate");
+                    float avg_rating = rs.getFloat("avgRating");
+                    String isbn_ten = rs.getString("ISBN_tenDigits");
+                    String isbn_thirteen = rs.getString("ISBN_thirteenDigits");
+
+                    BookDTO dto = new BookDTO(book_id, title, author_id, subject_id, publisher, publication_date,
+                            description, price, quantity, deleteStatus, last_lent_date,
+                            avg_rating, isbn_ten, isbn_thirteen);
+
+                    if (!dto.isDelete_status()) {
+                        unpagedBookList.add(dto);
+                    } //end if book is not deleted
+
+                } //end while traversing result set
+
+                int index = 0;
+
+
+
+                while (unpagedBookList.get(index) != null) {
+                    List<BookDTO> singlePageBookList = new ArrayList<BookDTO>();
+                    for (int bookCount = 0; bookCount < 10; bookCount++) {
+                        if (unpagedBookList.get(index) != null) {
+                            singlePageBookList.add(unpagedBookList.get(index));
+                        }
+                        index++;
+                    }
+                    pagedBookList.add(singlePageBookList);
+                }
+
+            } //end if connection existed
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
+    // End: Test Paged List
 
     public void viewBookList() throws SQLException, NamingException {
 
@@ -302,20 +383,21 @@ public class BookDAO implements Serializable {
             if (con != null) {
                 //2. Create SQL String
                 String sql = "UPDATE Books " +
-                        "SET title = ? , " +
-                        "SET authorID = ?, " +
-                        "SET subjectID = ?, " +
-                        "SET publisher = ?, " +
-                        "SET publishDate = ?, " +
-                        "SET description = ?, " +
-                        "SET price = ?, " +
-                        "SET quantity = ?, " +
-                        "SET isbn_ten = ?, " +
-                        "SET isbn_thirteen = ?, " +
+                        "SET title = ?, " +
+                        "authorID = ?, " +
+                        "subjectID = ?, " +
+                        "publisher = ?, " +
+                        "publishDate = ?, " +
+                        "description = ?, " +
+                        "price = ?, " +
+                        "quantity = ?, " +
+                        "ISBN_tenDigits = ?, " +
+                        "ISBN_thirteenDigits = ? " +
                         "WHERE id = ?";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
-                stm.setString(1, book_id);
+
+                stm.setString(1, title);
                 stm.setString(2, author_id);
                 stm.setString(3, subject_id);
                 stm.setString(4, publisher);
@@ -325,6 +407,7 @@ public class BookDAO implements Serializable {
                 stm.setInt(8, quantity);
                 stm.setString(9, isbn_ten);
                 stm.setString(10, isbn_thirteen);
+                stm.setString(11, book_id);
                 //4. Execute Query and get rows affected
                 int rows = stm.executeUpdate();
                 //5. Process result
