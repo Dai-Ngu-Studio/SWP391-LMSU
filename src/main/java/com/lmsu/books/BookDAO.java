@@ -365,4 +365,85 @@ public class BookDAO implements Serializable {
         }
         return false;
     }
+
+    public void getPopularBooks() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT TOP 4 [id], [title], [authorID], [deleteStatus] " +
+                        "FROM [Books] " +
+                        "ORDER BY avgRating desc";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                while (rs.next()) {
+                    String book_id = rs.getString("id");
+                    String title = rs.getString("title");
+                    String author_id = rs.getString("authorID");
+                    boolean deleteStatus = rs.getBoolean("deleteStatus");
+
+                    BookDTO dto = new BookDTO(book_id, title, author_id, deleteStatus);
+                    if (this.bookList == null) {
+                        this.bookList = new ArrayList<BookDTO>();
+                    } //end if bookList not existed
+                    if (!dto.isDelete_status()) {
+                        this.bookList.add(dto);
+                    } //end if book is not deleted
+                } //end while traversing result
+            } //end if connection existed
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
+
+    public void getNewArrival() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT TOP 4 [id], [title], [authorID], [deleteStatus] " +
+                        "FROM [Books] " +
+                        "ORDER BY avgRating desc";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                while (rs.next()) {
+                    String book_id = rs.getString("id");
+                    String title = rs.getString("title");
+                    String author_id = rs.getString("authorID");
+                    boolean deleteStatus = rs.getBoolean("deleteStatus");
+
+                    BookDTO dto = new BookDTO(book_id, title, author_id, deleteStatus);
+
+                    if (this.bookList == null) {
+                        this.bookList = new ArrayList<BookDTO>();
+                    } //end if bookList not existed
+                    if (!dto.isDelete_status()) {
+                        this.bookList.add(dto);
+                    } //end if book is not deleted
+                } //end while traversing result
+            } //end if connection existed
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
 }
