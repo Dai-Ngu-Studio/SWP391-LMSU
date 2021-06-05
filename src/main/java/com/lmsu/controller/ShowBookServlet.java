@@ -19,7 +19,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "ShowBookServlet", value = "/ShowBookServlet")
-public class ShowBookServlet extends HttpServlet{
+public class ShowBookServlet extends HttpServlet {
 
     static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
     private final String BOOK_MANAGEMENT_PAGE = "bookmanagement.jsp";
@@ -30,12 +30,17 @@ public class ShowBookServlet extends HttpServlet{
         request.setCharacterEncoding("UTF-8");
 
         String url = BOOK_MANAGEMENT_PAGE;
-
         try {
-            BookDAO dao = new BookDAO();
-            dao.viewBookList();
-            List<BookDTO> result = dao.getBookList();
-            request.setAttribute("BOOK_LIST", result);
+            List<BookDTO> searchResultReceived = (List<BookDTO>) request.getAttribute("SEARCH_RESULT");
+            if (searchResultReceived != null) {
+                request.setAttribute("BOOK_LIST", searchResultReceived);
+            } else {
+                BookDAO dao = new BookDAO();
+                dao.viewBookList();
+                List<BookDTO> result = dao.getBookList();
+
+                request.setAttribute("BOOK_LIST", result);
+            }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             log("ShowBookServlet _ SQL: " + e.getMessage());

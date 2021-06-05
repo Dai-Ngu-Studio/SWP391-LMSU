@@ -420,7 +420,7 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <c:set var="bookList" value="${requestScope.SEARCH_RESULT}"/>
+                                                    <c:set var="bookList" value="${requestScope.BOOK_LIST}"/>
 
                                                     <c:forEach var="book" items="${bookList}"
                                                                varStatus="counter">

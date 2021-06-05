@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SearchTitleServlet extends HttpServlet {
 
     private final String ERROR_PAGE = "bookmanagement.jsp";
-    private final String RESULT_PAGE = "bookmanagement.jsp";
+    private final String RESULT_PAGE = "ShowBookServlet";
     static final Logger LOGGER = Logger.getLogger(SearchTitleServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
