@@ -32,7 +32,7 @@ public class ShowAuthorCatalogServlet extends HttpServlet {
                 request.setAttribute("AUTHOR_LIST", searchResultReceived);
             } else {
                 AuthorDAO dao = new AuthorDAO();
-                dao.viewAthourList();
+                dao.viewAuthorList();
                 List<AuthorDTO> result = dao.getAuthorList();
 
                 request.setAttribute("AUTHOR_LIST", result);
