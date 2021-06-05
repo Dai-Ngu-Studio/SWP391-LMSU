@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: NDungx
@@ -118,66 +119,23 @@
             </p>
         </div>
         <div class="section-child">
-            <a href="#">
-                <div class="book-cover"></div>
-                <div class="book-info">
-                    <p>
-                        <b>
-                            Software Engineering 10th Edition
-                        </b>
-                    </p>
-                    <p>Ian Sommerville</p>
-                </div>
-                <div class="more-info">
-                    <p>More info&nbsp;</p>
-                    <i class="fa fa-arrow-circle-right"></i>
-                </div>
-            </a>
-            <a href="#">
-                <div class="book-cover"></div>
-                <div class="book-info">
-                    <p>
-                        <b>
-                            Software Requirements 3rd Edition
-                        </b>
-                    </p>
-                    <p>Karl Wiegers & Joy Beatty </p>
-                </div>
-                <div class="more-info">
-                    <p>More info&nbsp;</p>
-                    <i class="fa fa-arrow-circle-right"></i>
-                </div>
-            </a>
-            <a href="#">
-                <div class="book-cover"></div>
-                <div class="book-info">
-                    <p>
-                        <b>
-                            Foundation of Software Testing - 3rd Edition
-                        </b>
-                    </p>
-                    <p>Rex Black Erik Van Veenendaal & Dorothy Graham</p>
-                </div>
-                <div class="more-info">
-                    <p>More info&nbsp;</p>
-                    <i class="fa fa-arrow-circle-right"></i>
-                </div>
-            </a>
-            <a href="#">
-                <div class="book-cover"></div>
-                <div class="book-info">
-                    <p>
-                        <b>
-                            Adaptive Code via C#
-                        </b>
-                    </p>
-                    <p>Gary McLean Hall</p>
-                </div>
-                <div class="more-info">
-                    <p>More info&nbsp;</p>
-                    <i class="fa fa-arrow-circle-right"></i>
-                </div>
-            </a>
+            <c:forEach var="popularBook" items="${requestScope.POPULAR_BOOKS}" end="3">
+                <a href="#">
+                    <div class="book-cover"></div>
+                    <div class="book-info">
+                        <p>
+                            <b>
+                                    ${popularBook.title}
+                            </b>
+                        </p>
+                        <p>${popularBook.author_id}</p>
+                    </div>
+                    <div class="more-info">
+                        <p>More info&nbsp;</p>
+                        <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                </a>
+            </c:forEach>
         </div>
         <div>
             <button class="btn seeMoreBtn">
@@ -193,66 +151,20 @@
             <p><b>New Arrival</b></p>
         </div>
         <div class="section-child">
-            <a href="#">
-                <div class="book-cover"></div>
-                <div class="book-info">
-                    <p>
-                        <b>
-                            Software Engineering 10th Edition
-                        </b>
-                    </p>
-                    <p>Ian Sommerville</p>
-                </div>
-                <div class="more-info">
-                    <p>More info&nbsp;</p>
-                    <i class="fa fa-arrow-circle-right"></i>
-                </div>
-            </a>
-            <a href="#">
-                <div class="book-cover"></div>
-                <div class="book-info">
-                    <p>
-                        <b>
-                            Software Requirements 3rd Edition
-                        </b>
-                    </p>
-                    <p>Karl Wiegers & Joy Beatty </p>
-                </div>
-                <div class="more-info">
-                    <p>More info&nbsp;</p>
-                    <i class="fa fa-arrow-circle-right"></i>
-                </div>
-            </a>
-            <a href="#">
-                <div class="book-cover"></div>
-                <div class="book-info">
-                    <p>
-                        <b>
-                            Foundation of Software Testing - 3rd Edition
-                        </b>
-                    </p>
-                    <p>Rex Black Erik Van Veenendaal & Dorothy Graham</p>
-                </div>
-                <div class="more-info">
-                    <p>More info&nbsp;</p>
-                    <i class="fa fa-arrow-circle-right"></i>
-                </div>
-            </a>
-            <a href="#">
-                <div class="book-cover"></div>
-                <div class="book-info">
-                    <p>
-                        <b>
-                            Adaptive Code via C#
-                        </b>
-                    </p>
-                    <p>Gary McLean Hall</p>
-                </div>
-                <div class="more-info">
-                    <p>More info&nbsp;</p>
-                    <i class="fa fa-arrow-circle-right"></i>
-                </div>
-            </a>
+            <c:forEach var="newArrivalBook" items="${requestScope.NEW_ARRIVAL_BOOKS}" end="3">
+                <a href="#">
+                    <div class="book-cover"></div>
+                    <div class="book-info">
+                        <p><b>${newArrivalBook.title}</b></p>
+
+                        <p>${newArrivalBook.author_id}</p>
+                    </div>
+                    <div class="more-info">
+                        <p>More info&nbsp;</p>
+                        <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                </a>
+            </c:forEach>
         </div>
         <div>
             <button class="btn seeMoreBtn">
@@ -263,42 +175,26 @@
         </div>
     </div>
 </div>
-<div class="section" style="position: relative; margin-top: -20px;">
-    <div class="sectionTitle">
-        <p><b>Popular Author</b></p>
-    </div>
-    <div class="section-child">
-        <a href="#">
-            <div>
-                <div class="author-image"></div>
-                <p class="author-name"><b>Ian Sommerville</b></p>
-            </div>
-        </a>
-        <a href="#">
-            <div>
-                <div class="author-image"></div>
-                <p class="author-name"><b>Karl Wiegers</b></p>
-            </div>
-        </a>
-        <a href="#">
-            <div>
-                <div class="author-image"></div>
-                <p class="author-name"><b>Joy Beatty </b></p>
-            </div>
-        </a>
-        <a href="#">
-            <div>
-                <div class="author-image"></div>
-                <p class="author-name"><b>Rex Black</b></p>
-            </div>
-        </a>
-    </div>
-    <div style="display: flex; justify-content: center;">
-        <button class="btn seeMoreBtn">
-            <a href="#"><b>See more</b></a>
-        </button>
-    </div>
-</div>
+<%--<div class="section" style="position: relative; margin-top: -20px;">--%>
+<%--    <div class="sectionTitle">--%>
+<%--        <p><b>Popular Author</b></p>--%>
+<%--    </div>--%>
+<%--    <div class="section-child">--%>
+<%--        <c:forEach var="popularAuthor" items="${requestScope.POPULAR_AUTHORS}" end="3">--%>
+<%--            <a href="#">--%>
+<%--                <div>--%>
+<%--                    <div class="author-image"></div>--%>
+<%--                    <p class="author-name my-2"><b>Ian Sommerville</b></p>--%>
+<%--                </div>--%>
+<%--            </a>--%>
+<%--        </c:forEach>--%>
+<%--    </div>--%>
+<%--    <div style="display: flex; justify-content: center;">--%>
+<%--        <button class="btn seeMoreBtn">--%>
+<%--            <a href="#"><b>See more</b></a>--%>
+<%--        </button>--%>
+<%--    </div>--%>
+<%--</div>--%>
 <div class="anotherSection">
     <div class="smallSection">
         <div class="title">
