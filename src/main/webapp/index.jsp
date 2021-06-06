@@ -128,7 +128,7 @@
                                     ${popularBook.title}
                             </b>
                         </p>
-                        <p>${popularBook.author_id}</p>
+                        <p>${popularBook.authorID}</p>
                     </div>
                     <div class="more-info">
                         <p>More info&nbsp;</p>
@@ -157,7 +157,7 @@
                     <div class="book-info">
                         <p><b>${newArrivalBook.title}</b></p>
 
-                        <p>${newArrivalBook.author_id}</p>
+                        <p>${newArrivalBook.authorID}</p>
                     </div>
                     <div class="more-info">
                         <p>More info&nbsp;</p>

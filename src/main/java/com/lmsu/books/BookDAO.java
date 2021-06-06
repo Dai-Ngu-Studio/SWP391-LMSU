@@ -153,22 +153,22 @@ public class BookDAO implements Serializable {
                 if (rs.next()) {
                     String bookIdVal = rs.getString("id");
                     String title = rs.getString("title");
-                    String author_id = rs.getString("authorID");
-                    String subject_id = rs.getString("subjectID");
+                    String authorID = rs.getString("authorID");
+                    String subjectID = rs.getString("subjectID");
                     String publisher = rs.getString("publisher");
-                    String publication_date = rs.getString("publishDate");
+                    String publicationDate = rs.getString("publishDate");
                     String description = rs.getString("description");
                     BigDecimal price = rs.getBigDecimal("price");
                     int quantity = rs.getInt("quantity");
                     boolean deleteStatus = rs.getBoolean("deleteStatus");
-                    Date last_lent_date = rs.getDate("lastLentDate");
-                    float avg_rating = rs.getFloat("avgRating");
-                    String isbn_ten = rs.getString("ISBN_tenDigits");
-                    String isbn_thirteen = rs.getString("ISBN_thirteenDigits");
+                    Date lastLentDate = rs.getDate("lastLentDate");
+                    float avgRating = rs.getFloat("avgRating");
+                    String isbnTen = rs.getString("ISBN_tenDigits");
+                    String isbnThirteen = rs.getString("ISBN_thirteenDigits");
                     String coverPath = rs.getString("coverPicturePath");
-                    BookDTO dto = new BookDTO(bookIdVal, title, author_id, subject_id, publisher, publication_date,
-                            description, price, quantity, deleteStatus, last_lent_date,
-                            avg_rating, isbn_ten, isbn_thirteen, coverPath);
+                    BookDTO dto = new BookDTO(bookIdVal, title, authorID, subjectID, publisher, publicationDate,
+                            description, price, quantity, deleteStatus, lastLentDate,
+                            avgRating, isbnTen, isbnThirteen, coverPath);
                     return dto;
                 }
             }

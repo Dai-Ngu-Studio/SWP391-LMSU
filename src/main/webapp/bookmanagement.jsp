@@ -479,7 +479,7 @@
                                                             <!--End: Book Item Form-->
                                                             <!--Start: Delete Book Form-->
                                                             <form action="DispatchServlet">
-                                                                <input type="hidden" value="${book.book_id}"
+                                                                <input type="hidden" value="${book.bookID}"
                                                                        name="pk">
                                                                 <input type="hidden" name="txtSearchValue"
                                                                        value="${param.txtSearchValue}"/>
@@ -490,7 +490,7 @@
                                                                                 class="fa fa-eye text-primary"></i></a>
                                                                         <button type="button" class="btn btn-light"
                                                                                 data-toggle="modal"
-                                                                                data-target="#updateModal${book.book_id}"
+                                                                                data-target="#updateModal${book.bookID}"
                                                                                 title="Update"
                                                                                 data-original-title="Edit">
                                                                             <i class="fa fa-pencil text-primary"></i>
@@ -506,14 +506,14 @@
                                                             <!--End: Delete Book Form-->
                                                             <!--Start: Update Book Form-->
                                                             <form action="DispatchServlet">
-                                                                <input type="hidden" value="${book.book_id}"
+                                                                <input type="hidden" value="${book.bookID}"
                                                                        name="pk">
                                                                 <input type="hidden" name="txtSearchValue"
                                                                        value="${param.txtSearchValue}"/>
-                                                                <div class="modal fade" id="updateModal${book.book_id}"
+                                                                <div class="modal fade" id="updateModal${book.bookID}"
                                                                      tabindex="-1"
                                                                      role="dialog"
-                                                                     aria-labelledby="ariaUpdateModal${book.book_id}"
+                                                                     aria-labelledby="ariaUpdateModal${book.bookID}"
                                                                      aria-hidden="true">
                                                                     <div class="modal-dialog" role="document">
                                                                         <div class="modal-content">
@@ -572,7 +572,7 @@
                                                                                         <input type="text"
                                                                                                class="form-control"
                                                                                                name="txtUpdateAuthorID"
-                                                                                               value="${book.author_id}">
+                                                                                               value="${book.authorID}">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">
@@ -583,7 +583,7 @@
                                                                                         <input type="text"
                                                                                                class="form-control"
                                                                                                name="txtUpdatePubliDate"
-                                                                                               value="${book.publication_date}">
+                                                                                               value="${book.publicationDate}">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">
@@ -616,7 +616,7 @@
                                                                                         <input type="text"
                                                                                                class="form-control"
                                                                                                name="txtUpdateSubjectID"
-                                                                                               value="${book.subject_id}">
+                                                                                               value="${book.subjectID}">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">
@@ -638,7 +638,7 @@
                                                                                         <input type="text"
                                                                                                class="form-control"
                                                                                                name="txtUpdateISBNTen"
-                                                                                               value="${book.isbn_ten}">
+                                                                                               value="${book.isbnTen}">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">
@@ -649,7 +649,7 @@
                                                                                         <input type="text"
                                                                                                class="form-control"
                                                                                                name="txtUpdateISBNThirteen"
-                                                                                               value="${book.isbn_thirteen}">
+                                                                                               value="${book.isbnThirteen}">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">

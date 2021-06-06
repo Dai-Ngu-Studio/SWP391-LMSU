@@ -1,4 +1,4 @@
-package com.lmsu.pojo.member;
+package com.lmsu.bean.member;
 
 import java.io.Serializable;
 

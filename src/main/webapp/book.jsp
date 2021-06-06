@@ -72,33 +72,36 @@
     </c:if>
     <!--End: Empty Column-->
     <!--Start: Book Item-->
-    <div class="col-lg-4 text-center">
-        <div class="card mb-3" style="max-width: 540px">
-            <div class="row">
-                <div class="col-lg-4">
-                    <img src="images/software-engineering.jpg" alt="..." class="img-fluid"/>
-                </div>
-                <div class="col-lg-8">
-                    <div class="card-body">
-                        <h5 class="card-title">${book.title}</h5>
-                        <p class="card-text">
-                                ${book.description}
-                        </p>
-                        <p class="card-text">
-                        <div class="row">
-                            <div class="col-lg-2"></div>
-                            <div class="col-lg-8">
-                                <a href="bookDetails.html" class="btn btn-info"><i class="fa fa-info-circle"
-                                                                                   aria-hidden="true"></i> More Info</a>
+    <form action="ViewBookDetailsServlet">
+        <div class="col-lg-4 text-center">
+            <div class="card mb-3" style="max-width: 540px">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <img src="images/software-engineering.jpg" alt="..." class="img-fluid"/>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="card-body">
+                            <h5 class="card-title">${book.title}</h5>
+                            <p class="card-text">
+                                    ${book.description}
+                            </p>
+                            <p class="card-text">
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    <input type="hidden" name="${book.bookID}" value="bookPk">
+                                    <a type="submit" class="btn btn-info"><i class="fa fa-info-circle"
+                                                                                       aria-hidden="true"></i> More Info</a>
+                                </div>
+                                <div class="col-lg-2"></div>
                             </div>
-                            <div class="col-lg-2"></div>
+                            </p>
                         </div>
-                        </p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
     <!--End: Book Item-->
     <!--Start: Empty Column-->
     <c:if test="${indexCount eq 1}">
