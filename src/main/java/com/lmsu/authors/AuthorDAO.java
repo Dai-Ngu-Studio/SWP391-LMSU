@@ -51,13 +51,48 @@ public class AuthorDAO implements Serializable {
         }
     }
 
-    public void SearchAuthorByName(String searchVal) throws SQLException, NamingException{
+    public AuthorDTO getAuthorByID(String authorID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT [id], [name], [bio] " +
+                        "FROM [Authors] " +
+                        "WHERE [id] = ? ";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, authorID);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet then returns author name
+                if (rs.next()) {
+                    String authorIdVal = rs.getString("id");
+                    String authorName = rs.getString("name");
+                    String authorBio = rs.getString("bio");
+                    AuthorDTO dto = new AuthorDTO(authorIdVal, authorName, authorBio);
+                    return dto;
+                }
+            } //end if connection existed
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return null;
+    }
+
+    public void searchAuthorByName(String searchVal) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
             con = DBHelpers.makeConnection();
-            if(con != null){
+            if (con != null) {
                 String sql = "SELECT id, name, bio " +
                         "FROM Authors " +
                         "WHERE name like ?";
@@ -65,7 +100,7 @@ public class AuthorDAO implements Serializable {
                 stm.setString(1, "%" + searchVal + "%");
 
                 rs = stm.executeQuery();
-                while (rs.next()){
+                while (rs.next()) {
                     String id = rs.getString("id");
                     String name = rs.getString("name");
                     String bio = rs.getString("bio");
@@ -78,9 +113,9 @@ public class AuthorDAO implements Serializable {
                 }
             }
         } finally {
-            if(rs != null) rs.close();
-            if(stm != null) stm.close();
-            if(con != null) con.close();
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
         }
     }
 
