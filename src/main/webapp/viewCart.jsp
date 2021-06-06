@@ -1,6 +1,6 @@
-<!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
-
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -18,95 +18,94 @@
 <body>
 <jsp:include page="header.jsp"></jsp:include>
 <jsp:include page="navbar.html"></jsp:include>
-<!--Actual Body-->
+<%--Actual Body--%>
+
 <div class="bg-light">
-    <div class="row pt-5">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-5">
-            <h4>Your Cart<small class="text-muted"> (2 books)</small></h4>
-        </div>
-        <div class="col-lg-3"></div>
-        <div class="col-lg-2"></div>
-    </div>
-    <div class="row pb-5">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-5">
-            <div class="card mt-2">
-                <div class="card-body">
-                    <div class="card-title">
-                        <a href="../../../../LMSU-FE/LMSU-FE/bookDetails.html" class="link text-info">
-                            Software Engineering 10th Edition</a>
-                        <a href="../../../../LMSU-FE/LMSU-FE/bookDetails.html" class="link"><i
-                                class="fa fa-arrow-circle-right text-info"
-                                aria-hidden="true"></i></a>
+    <c:set var="session" value="${sessionScope}"/>
+    <c:if test="${not empty session}">
+        1
+        <%--CartObj--%>
+        <c:set var="cart" value="${sessionScope.MEMBER_CART}"/>
+        <c:if test="${not empty cart}">
+            2
+            <%--Map<String, BookObj>--%>
+            <c:set var="books" value="${cart.items}"/>
+            <c:if test="${not empty books}">
+                3
+                <div class="row pt-5">
+                    <div class="col-lg-2"></div>
+                        <%--Start: Cart Quantity--%>
+                    <div class="col-lg-5">
+                        <h4>Your Cart<small class="text-muted"> (${cart.cartQuantity} books)</small></h4>
                     </div>
-                    <div class="card-text">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <img src="../images/software-engineering.jpg" class="rounded img-fluid img-thumbnail"
-                                     alt="..."/>
+                        <%--End: Cart Quantity--%>
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-2"></div>
+                </div>
+                <div class="row pb-5">
+                        <%--Start: Empty Column--%>
+                    <div class="col-lg-2"></div>
+                        <%--End: Empty Column--%>
+                        <%--Start: Cart Items Column--%>
+                    <div class="col-lg-5">
+                        <c:forEach var="book" items="${books}" varStatus="bookCounter">
+                            <div class="card mt-2">
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        <a href="<c:url value='ViewBookDetailsServlet?bookPk=${book.key}'/>"
+                                           class="link text-info">
+                                            ${book.value.title}</a>
+                                        <a href="<c:url value='ViewBookDetailsServlet?bookPk=${book.key}'/>"
+                                           class="link"><i
+                                                class="fa fa-arrow-circle-right text-info"
+                                                aria-hidden="true"></i></a>
+                                    </div>
+                                    <div class="card-text">
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <img src="images/software-engineering.jpg"
+                                                     class="rounded img-fluid img-thumbnail"
+                                                     alt="..."/>
+                                            </div>
+                                            <div class="col-lg-5">
+                                                    ${book.value.description}
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <button type="button" class="btn btn-danger btn-block">
+                                                    <i class="fa fa-minus-circle" aria-hidden="true"></i> Remove
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-5">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget sapien et neque
-                                auctor facilisis ut id felis. Donec consequat rutrum elit, at mollis metus maximus
-                                vitae...
-                            </div>
-                            <div class="col-lg-4">
-                                <button type="button" class="btn btn-danger btn-block">
-                                    <i class="fa fa-minus-circle" aria-hidden="true"></i> Remove
-                                </button>
+                        </c:forEach>
+                    </div>
+                        <%--End: Cart Items Column--%>
+                        <%--Start: Checkout Column--%>
+                    <div class="col-lg-3">
+                        <div class="card mt-2">
+                            <div class="card-body text-center">
+                                <div class="card-text">
+                                    Logged in as <strong>SinhVNSE151413</strong>
+                                </div>
+                                <a href="../../../../LMSU-FE/LMSU-FE/orderForm.html" type="button"
+                                   class="btn btn-success link mt-2">
+                                    Proceed to borrow
+                                </a>
                             </div>
                         </div>
                     </div>
+                        <%--End: Checkout Column--%>
+                        <%--Start: Empty Column--%>
+                    <div class="col-lg-2"></div>
+                        <%--End: Empty Column--%>
                 </div>
-            </div>
-            <div class="card mt-2">
-                <div class="card-body">
-                    <div class="card-title">
-                        <a href="../../../../LMSU-FE/LMSU-FE/bookDetails.html" class="link text-info">
-                            Adaptive Code via C#</a>
-                        <a href="../../../../LMSU-FE/LMSU-FE/bookDetails.html" class="link"><i
-                                class="fa fa-arrow-circle-right text-info"
-                                aria-hidden="true"></i></a>
-                    </div>
-                    <div class="card-text">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <img src="../images/adaptive-code-via-csharp.jpg"
-                                     class="rounded img-fluid img-thumbnail" alt="..."/>
-                            </div>
-                            <div class="col-lg-5">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget sapien et neque
-                                auctor facilisis ut id felis. Donec consequat rutrum elit, at mollis metus maximus
-                                vitae...
-                            </div>
-                            <div class="col-lg-4">
-                                <button type="button" class="btn btn-danger btn-block">
-                                    <i class="fa fa-minus-circle" aria-hidden="true"></i> Remove
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="card mt-2">
-                <div class="card-body text-center">
-                    <div class="card-text">
-                        Logged in as <strong>SinhVNSE151413</strong>
-                    </div>
-                    <a href="../../../../LMSU-FE/LMSU-FE/orderForm.html" type="button"
-                       class="btn btn-success link mt-2">
-                        Proceed to borrow
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-2"></div>
-    </div>
+            </c:if>
+        </c:if>
+    </c:if>
 </div>
-<!--Actual Body-->
+<%--Actual Body--%>
 <jsp:include page="scrolltotop.html"></jsp:include>
 <jsp:include page="footer.html"></jsp:include>
 </body>

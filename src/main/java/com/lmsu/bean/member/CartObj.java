@@ -9,7 +9,11 @@ public class CartObj implements Serializable {
     private Map<String, BookObj> items;
 
     public Map<String, BookObj> getItems() {
-        return items;
+        return this.items;
+    }
+
+    public int getCartQuantity() {
+        return this.items.size();
     }
 
     public void addBookToCart(BookObj bookObj) {
