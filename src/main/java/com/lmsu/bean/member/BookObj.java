@@ -10,13 +10,14 @@ public class BookObj implements Serializable {
         private String publisher;
         private String publishDate;
         private String description;
+        private int quantity;
         private float avgRating;
         private String isbnTen;
         private String isbnThirteen;
         private String coverPath;
 
         public BookObj(String id, String title, String authorName, String subjectName, String publisher,
-                       String publishDate, String description, float avgRating, String isbnTen,
+                       String publishDate, String description, int quantity, float avgRating, String isbnTen,
                        String isbnThirteen, String coverPath) {
                 this.id = id;
                 this.title = title;
@@ -25,6 +26,7 @@ public class BookObj implements Serializable {
                 this.publisher = publisher;
                 this.publishDate = publishDate;
                 this.description = description;
+                this.quantity = quantity;
                 this.avgRating = avgRating;
                 this.isbnTen = isbnTen;
                 this.isbnThirteen = isbnThirteen;
@@ -58,6 +60,8 @@ public class BookObj implements Serializable {
         public String getDescription() {
                 return description;
         }
+
+        public int getQuantity() { return quantity; }
 
         public float getAvgRating() {
                 return avgRating;

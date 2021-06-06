@@ -45,7 +45,7 @@ public class ViewBookDetailsServlet extends HttpServlet {
                 // Subject name not yet implemented
                 BookObj bookObj = new BookObj(bookDTO.getBookID(), bookDTO.getTitle(), authorDTO.getAuthorName(),
                         "TEMP", bookDTO.getPublisher(), bookDTO.getPublicationDate(),
-                        bookDTO.getDescription(), bookDTO.getAvgRating(),
+                        bookDTO.getDescription(), bookDTO.getQuantity(), bookDTO.getAvgRating(),
                         bookDTO.getIsbnTen(), bookDTO.getIsbnThirteen(), bookDTO.getCoverPath());
                 request.setAttribute("BOOK_OBJECT", bookObj);
                 url = BOOK_DETAILS_PAGE;

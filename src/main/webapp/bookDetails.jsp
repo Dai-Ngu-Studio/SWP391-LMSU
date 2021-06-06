@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -88,13 +89,48 @@
             <div class="card">
                 <div class="card-body">
                     <span class="card-title mb-0 pr-2">${bookObj.title}</span>
+                    <!--Start: Book Rating-->
                     <span class="card-text text-primary">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-half-o" aria-hidden="true"></i> (52 ratings)
+                        <c:set var="bookAvgRating" value="${bookObj.avgRating}"/>
+                        <!--Get numbers before and after decimal plate-->
+                        <c:set var="integralRating" value="${fn:substringBefore(bookAvgRating,'.')}"/>
+                        <c:set var="fractionalRating" value="${bookAvgRating mod 1}"/>
+                        <!--If rating is not 0, print stars-->
+                        <c:if test="${bookAvgRating ne 0}">
+                            <!--Print stars until reach integral number of stars-->
+                            <c:forEach begin="${1}" end="${integralRating}">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                            </c:forEach>
+                            <!--If there are numbers after decimal plate and rating is not 5-->
+                            <c:if test="${(fractionalRating ne 0) and (integralRating ne 5)}">
+                                <!--ge: greater or equal-->
+                                <!--lt: less than-->
+                                <!--ne: not equal-->
+                                <!--Print half star if fraction greater than or equal to 0.5-->
+                                <c:if test="${(fractionalRating ge 0.5)}">
+                                    <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                                </c:if>
+                                <!--Print empty star if fraction less than 0.5-->
+                                <c:if test="${(fractionalRating lt 0.5)}">
+                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                </c:if>
+                            </c:if>
+                            <!--If there are no numbers after decimal plate and rating is not 5-->
+                            <c:if test="${(fractionalRating eq 0) and (integralRating ne 5)}">
+                                <!--Print remaining empty stars-->
+                                <c:forEach begin="${integralRating}" end="${4}">
+                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                </c:forEach>
+                            </c:if>
+                        </c:if>
+                        <!--If rating is 0, print five empty stars-->
+                        <c:if test="${bookAvgRating eq 0}">
+                            <c:forEach begin="${1}" end="${5}">
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                            </c:forEach>
+                        </c:if>
                         </span>
+                    <!--End: Book Rating-->
                     <div class="card-text mt-2">
                         By <a href="#" class="badge badge-secondary">${bookObj.authorName}</a>
                     </div>
@@ -104,15 +140,27 @@
                     </div>
                 </div>
             </div>
+            <!--Start: Book Options Section-->
             <div class="card mt-3">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <button type="button" class="btn btn-primary btn-block" data-toggle="modal"
-                                    data-target="#addToCartModal">
-                                <i class="fa fa-cart-plus" aria-hidden="true"></i> Add to Cart
-                            </button>
+                    <div class="row text-center">
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4">
+                            <!--gt: greater than-->
+                            <c:if test="${bookObj.quantity gt 0}">
+                                <button type="button" class="btn btn-primary btn-block" data-toggle="modal"
+                                        data-target="#addToCartModal">
+                                    <i class="fa fa-cart-plus" aria-hidden="true"></i> Add to Cart
+                                </button>
+                            </c:if>
+                            <!--eq: equal-->
+                            <c:if test="${bookObj.quantity eq 0}">
+                                <button type="button" class="btn btn-success btn-block">
+                                    <i class="fa fa-heart" aria-hidden="true"></i> Add to Wishlist
+                                </button>
+                            </c:if>
                         </div>
+                        <div class="col-lg-4"></div>
                     </div>
                 </div>
                 <!--Start: Add to Cart-->
@@ -143,6 +191,8 @@
                 </div>
                 <!--End: Add to Cart-->
             </div>
+            <!--End: Book Options Section-->
+            <!--Start: Book Comment Section-->
             <div class="card mt-3">
                 <div class="card-body">
                     <div class="card-title">Comments (2)</div>
@@ -257,6 +307,7 @@
                     </div>
                 </div>
             </div>
+            <!--End: Book Comment Section-->
         </div>
         <!--End: Right Column-->
         <!--Start: Empty Column-->
