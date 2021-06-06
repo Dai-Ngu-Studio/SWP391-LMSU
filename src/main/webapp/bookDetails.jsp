@@ -19,33 +19,33 @@
 <body>
 <jsp:include page="header.jsp"></jsp:include>
 <jsp:include page="navbar.html"></jsp:include>
-<!--Actual Body-->
+<%--Actual Body--%>
 
 <c:set var="bookObj" value="${requestScope.BOOK_OBJECT}"/>
 <div class="bg-light">
-    <!--Start: Book Section-->
+    <%--Start: Book Section--%>
     <div class="row pt-5">
-        <!--Start: Empty Column-->
+        <%--Start: Empty Column--%>
         <div class="col-lg-2"></div>
-        <!--End: Empty Column-->
-        <!--Start: Left Column-->
+        <%--End: Empty Column--%>
+        <%--Start: Left Column--%>
         <div class="col-lg-3">
-            <!--Start: Book Cover Image-->
+            <%--Start: Book Cover Image--%>
             <div class="text-center">
                 <img src="images/software-engineering.jpg" class="rounded img-fluid img-thumbnail" alt="..."/>
             </div>
-            <!--End: Book Cover Image-->
-            <!--Start: Book Metadata-->
+            <%--End: Book Cover Image--%>
+            <%--Start: Book Metadata--%>
             <div class="card mt-2">
                 <div class="card-body">
                     <div class="card-title">Book Information</div>
                     <ul class="list-group">
                         <li class="list-group-item mt-0 mb-0">
                             <div class="row">
-                                <!--Not yet implemented: Physical or E-Book-->
+                                <%--Not yet implemented: Physical or E-Book--%>
                                 <div class="col-lg-6"><strong>Format</strong></div>
                                 <div class="col-lg-6">Physical</div>
-                                <!--Not yet implemented: Physical or E-Book-->
+                                <%--Not yet implemented: Physical or E-Book--%>
                             </div>
                         </li>
                         <li class="list-group-item mt-0 mb-0">
@@ -81,56 +81,56 @@
                     </ul>
                 </div>
             </div>
-            <!--End: Book Metadata-->
+            <%--End: Book Metadata--%>
         </div>
-        <!--End: Left Column-->
-        <!--Start: Right Column-->
+        <%--End: Left Column--%>
+        <%--Start: Right Column--%>
         <div class="col-lg-5">
             <div class="card">
                 <div class="card-body">
                     <span class="card-title mb-0 pr-2">${bookObj.title}</span>
-                    <!--Start: Book Rating-->
+                    <%--Start: Book Rating--%>
                     <span class="card-text text-primary">
                         <c:set var="bookAvgRating" value="${bookObj.avgRating}"/>
-                        <!--Get numbers before and after decimal plate-->
+                        <%--Get numbers before and after decimal plate--%>
                         <c:set var="integralRating" value="${fn:substringBefore(bookAvgRating,'.')}"/>
                         <c:set var="fractionalRating" value="${bookAvgRating mod 1}"/>
-                        <!--If rating is not 0, print stars-->
+                        <%--If rating is not 0, print stars--%>
                         <c:if test="${bookAvgRating ne 0}">
-                            <!--Print stars until reach integral number of stars-->
+                            <%--Print stars until reach integral number of stars--%>
                             <c:forEach begin="${1}" end="${integralRating}">
                                 <i class="fa fa-star" aria-hidden="true"></i>
                             </c:forEach>
-                            <!--If there are numbers after decimal plate and rating is not 5-->
+                            <%--If there are numbers after decimal plate and rating is not 5--%>
                             <c:if test="${(fractionalRating ne 0) and (integralRating ne 5)}">
-                                <!--ge: greater or equal-->
-                                <!--lt: less than-->
-                                <!--ne: not equal-->
-                                <!--Print half star if fraction greater than or equal to 0.5-->
+                                <%--ge: greater or equal--%>
+                                <%--lt: less than--%>
+                                <%--ne: not equal--%>
+                                <%--Print half star if fraction greater than or equal to 0.5--%>
                                 <c:if test="${(fractionalRating ge 0.5)}">
                                     <i class="fa fa-star-half-o" aria-hidden="true"></i>
                                 </c:if>
-                                <!--Print empty star if fraction less than 0.5-->
+                                <%--Print empty star if fraction less than 0.5--%>
                                 <c:if test="${(fractionalRating lt 0.5)}">
                                     <i class="fa fa-star-o" aria-hidden="true"></i>
                                 </c:if>
                             </c:if>
-                            <!--If there are no numbers after decimal plate and rating is not 5-->
+                            <%--If there are no numbers after decimal plate and rating is not 5--%>
                             <c:if test="${(fractionalRating eq 0) and (integralRating ne 5)}">
-                                <!--Print remaining empty stars-->
+                                <%--Print remaining empty stars--%>
                                 <c:forEach begin="${integralRating}" end="${4}">
                                     <i class="fa fa-star-o" aria-hidden="true"></i>
                                 </c:forEach>
                             </c:if>
                         </c:if>
-                        <!--If rating is 0, print five empty stars-->
+                        <%--If rating is 0, print five empty stars--%>
                         <c:if test="${bookAvgRating eq 0}">
                             <c:forEach begin="${1}" end="${5}">
                                 <i class="fa fa-star-o" aria-hidden="true"></i>
                             </c:forEach>
                         </c:if>
                         </span>
-                    <!--End: Book Rating-->
+                    <%--End: Book Rating--%>
                     <div class="card-text mt-2">
                         By <a href="#" class="badge badge-secondary">${bookObj.authorName}</a>
                     </div>
@@ -140,59 +140,38 @@
                     </div>
                 </div>
             </div>
-            <!--Start: Book Options Section-->
+            <%--Start: Book Options Section--%>
             <div class="card mt-3">
                 <div class="card-body">
                     <div class="row text-center">
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4">
-                            <!--gt: greater than-->
+                            <%--gt: greater than--%>
                             <c:if test="${bookObj.quantity gt 0}">
-                                <button type="button" class="btn btn-primary btn-block" data-toggle="modal"
-                                        data-target="#addToCartModal">
-                                    <i class="fa fa-cart-plus" aria-hidden="true"></i> Add to Cart
-                                </button>
+                                <form action="AddBookToCartServlet" class="row my-lg-0">
+                                    <input type="hidden" name="bookPk" value="${bookObj.id}">
+                                    <button type="submit" class="btn btn-primary btn-block"
+                                            name="btAction" value="AddToCart">
+                                        <i class="fa fa-cart-plus" aria-hidden="true"></i> Add to Cart
+                                    </button>
+                                </form>
                             </c:if>
-                            <!--eq: equal-->
+                            <%--eq: equal--%>
                             <c:if test="${bookObj.quantity eq 0}">
-                                <button type="button" class="btn btn-success btn-block">
-                                    <i class="fa fa-heart" aria-hidden="true"></i> Add to Wishlist
-                                </button>
+                                <div class="row">This book is currently out of stock.</div>
+                                <div class="row">
+                                    <button type="button" class="btn btn-success btn-block">
+                                        <i class="fa fa-heart" aria-hidden="true"></i> Add to Wishlist
+                                    </button>
+                                </div>
                             </c:if>
                         </div>
                         <div class="col-lg-4"></div>
                     </div>
                 </div>
-                <!--Start: Add to Cart-->
-                <div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog"
-                     aria-labelledby="addToCartModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <div class="row h6 text-danger">This book is currently out of stock.</div>
-                                <div class="row h5 mt-2">
-                                    Would you like to add it to your wishlist instead?
-                                </div>
-                                <div class="row mt-4">
-                                    <div class="col-lg-6">
-                                        <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">
-                                            <i class="fa fa-ban" aria-hidden="true"></i> No
-                                        </button>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <button type="button" class="btn btn-success btn-block">
-                                            <i class="fa fa-heart" aria-hidden="true"></i> Yes
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--End: Add to Cart-->
             </div>
-            <!--End: Book Options Section-->
-            <!--Start: Book Comment Section-->
+            <%--End: Book Options Section--%>
+            <%--Start: Book Comment Section--%>
             <div class="card mt-3">
                 <div class="card-body">
                     <div class="card-title">Comments (2)</div>
@@ -307,16 +286,16 @@
                     </div>
                 </div>
             </div>
-            <!--End: Book Comment Section-->
+            <%--End: Book Comment Section--%>
         </div>
-        <!--End: Right Column-->
-        <!--Start: Empty Column-->
+        <%--End: Right Column--%>
+        <%--Start: Empty Column--%>
         <div class="col-lg-2"></div>
-        <!--End: Empty Column-->
+        <%--End: Empty Column--%>
     </div>
-    <!--End: Book Section-->
-    <!--Start: Related Books Section-->
-    <!--Section Title-->
+    <%--End: Book Section--%>
+    <%--Start: Related Books Section--%>
+    <%--Section Title--%>
     <div class="row mt-5">
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
@@ -324,7 +303,7 @@
         </div>
         <div class="col-lg-2"></div>
     </div>
-    <!--Related Books-->
+    <%--Related Books--%>
     <div class="row mt-5 pb-5">
         <div class="col-lg-2"></div>
         <div class="col-lg-2">
@@ -389,9 +368,9 @@
         </div>
         <div class="col-lg-2"></div>
     </div>
-    <!--End: Related Books Section-->
+    <%--End: Related Books Section--%>
 </div>
-<!--Actual Body-->
+<%--Actual Body--%>
 <jsp:include page="scrolltotop.html"></jsp:include>
 <jsp:include page="footer.html"></jsp:include>
 </body>
