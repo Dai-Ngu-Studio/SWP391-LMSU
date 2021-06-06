@@ -19,7 +19,7 @@
 <body>
 <script>
     $(function () {
-        $('#includedHeader').load('header.html');
+        $('#includedHeader').load('header.jsp');
     });
 </script>
 <script>
