@@ -17,29 +17,8 @@
 </head>
 
 <body>
-<script>
-    $(function () {
-        $('#includedHeader').load('header.jsp');
-    });
-</script>
-<script>
-    $(function () {
-        $('#includedNavbar').load('navbar.html');
-    });
-</script>
-<script>
-    $(function () {
-        $('#includedScrollToTop').load('scrolltotop.html');
-    });
-</script>
-<script>
-    $(function () {
-        $('#includedFooter').load('footer.html');
-    });
-</script>
-<div id="includedHeader"></div>
-<div id="includedNavbar"></div>
-<div id="includedScrollToTop"></div>
+<jsp:include page="header.jsp"></jsp:include>
+<jsp:include page="navbar.html"></jsp:include>
 <!--Actual Body-->
 <div class="row mt-5">
     <div class="col-lg-2"></div>
@@ -130,7 +109,8 @@
     </div> <!--End: div class="row mt-2" -->
 </c:if>
 <!--Actual Body-->
-<div id="includedFooter"></div>
+<jsp:include page="scrolltotop.html"></jsp:include>
+<jsp:include page="footer.html"></jsp:include>
 </body>
 
 </html>
