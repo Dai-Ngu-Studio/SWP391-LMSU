@@ -122,7 +122,7 @@
             box-shadow: 0px 0px 18px rgba(0, 0, 0, 0.2) !important;
         }
 
-        .nav-link {
+        .navbar-nav .nav-link {
             color: #738CD9 !important;
         }
 

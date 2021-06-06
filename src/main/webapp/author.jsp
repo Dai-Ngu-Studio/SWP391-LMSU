@@ -50,31 +50,32 @@
 
     <c:set var="authorList" value="${requestScope.AUTHOR_LIST}"/>
     <c:forEach var="author" items="${authorList}">
-        <div class="author">
+        <form action="DispatchServlet">
+            <input type="hidden" name="authorPK" value="${author.authorID}">
+            <div class="author">
+                <div class="authorItem d-flex">
+                    <div class="d-flex flex-column">
+                        <div class="authorIMG w-100"></div>
+                        <button class="btn btn-light w-100 mt-3" name="btAction" value="See More Books of This Author">See More Books of This Author</button>
+                    </div>
 
-
-            <div class="authorItem d-flex">
-                <div class="d-flex flex-column">
-                    <div class="authorIMG w-100"></div>
-                    <button class="btn btn-light w-100 mt-3">See More Books of This Author</button>
-                </div>
-
-                <div class="descriptionTxt px-4">
-                    <ul>
-                        <li>
-                            <p>
-                                    ${author.authorName}
-                            </p>
-                        </li>
-                        <li>
-                            <p>
-                                    ${author.authorBio}
-                            </p>
-                        </li>
-                    </ul>
+                    <div class="descriptionTxt px-4">
+                        <ul>
+                            <li>
+                                <p>
+                                        ${author.authorName}
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                        ${author.authorBio}
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </c:forEach>
 
     <div class="d-flex justify-content-center">
