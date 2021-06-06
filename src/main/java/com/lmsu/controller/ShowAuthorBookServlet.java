@@ -16,7 +16,7 @@ import java.util.List;
 public class ShowAuthorBookServlet extends HttpServlet {
 
     private final String ERROR_PAGE = "author.jsp";
-    private final String RESULT_PAGE = "bookforAuthor.jsp";
+    private final String RESULT_PAGE = "book.jsp";
     static final Logger LOGGER = Logger.getLogger(ShowAuthorBookServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -26,12 +26,12 @@ public class ShowAuthorBookServlet extends HttpServlet {
         try {
             List<BookDTO> searchResultReceived = (List<BookDTO>) request.getAttribute("SEARCH_RESULT");
             if (searchResultReceived != null) {
-                request.setAttribute("BOOK_AUTHOR_LIST", searchResultReceived);
+                request.setAttribute("BOOK_LIST", searchResultReceived);
             } else {
                 BookDAO dao = new BookDAO();
-                dao.viewBookByAuthor();
+                dao.viewBookByAuthor(pk);
                 List<BookDTO> result = dao.getBookList();
-                request.setAttribute("BOOK_AUTHOR_LIST", result);
+                request.setAttribute("BOOK_LIST", result);
             }
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());

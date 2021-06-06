@@ -131,43 +131,32 @@ public class BookDAO implements Serializable {
         }
     }
 
-    public void viewBookByAuthor() throws SQLException, NamingException {
+    public void viewBookByAuthor(String authorID) throws SQLException, NamingException {
 
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
 
         try {
-            //ông sửa dùm tui ở chỗ String sql
-            /*
-            * SELECT title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits
-            FROM Books, Authors
-            where Books.authorID = Authors.id
-            AND deleteStatus = 0 => câu lệnh này trong sql chạy được
-            * bookforAuthor.jsp cho việc test (ko dám dụng vào book.jsp của nguyên)
-            * bên ShowAuthorBookServlet có khai báo khóa chính (khóa chính lấy bên author.jsp)
-            * Note: làm function cho nút "See More Books of This Author" => khi bấm sẽ hiện ra những sách có trùng authorID với bảng author
-            * */
-
             //1. Connect DB using method built
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
                 String sql = "SELECT [title], [authorID], [subjectID], [publisher], [publishDate], [description], " +
                         "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] " +
-                        "FROM Books, Authors " +
-                        "WHERE [Books.authorID] = [Authors.id] " +
+                        "FROM [Books] " +
+                        "WHERE [authorID] = ? " +
                         "AND [deleteStatus] = 0 ";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
-                //stm.setString(1, authorID);
+                stm.setString(1, authorID);
                 //4. Execute Query and get ResultSet
                 rs = stm.executeQuery();
                 //5. Process ResultSet
                 while (rs.next()) {
-                    String bookID = rs.getString("id");
+                    //String bookID = rs.getString("id");
                     String title = rs.getString("title");
-                    String authorID = rs.getString("authorID");
+                    //String authorID = rs.getString("authorID");
                     String subjectID = rs.getString("subjectID");
                     String publisher = rs.getString("publisher");
                     String publication_date = rs.getString("publishDate");
@@ -180,7 +169,7 @@ public class BookDAO implements Serializable {
                     String isbnTen = rs.getString("ISBN_tenDigits");
                     String isbnThirteen = rs.getString("ISBN_thirteenDigits");
                     String coverPath = rs.getString("coverPicturePath");
-                    BookDTO dto = new BookDTO(bookID, title, authorID, subjectID, publisher, publication_date,
+                    BookDTO dto = new BookDTO("", title, authorID, subjectID, publisher, publication_date,
                             description, price, quantity, deleteStatus, lastLentDate,
                             avg_rating, isbnTen, isbnThirteen, coverPath);
                     if (this.bookList == null) {
