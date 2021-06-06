@@ -56,7 +56,9 @@
         <div class="card mb-3" style="max-width: 540px">
             <div class="row">
                 <div class="col-lg-4">
-                    <img src="images/software-engineering.jpg" alt="..." class="img-fluid"/>
+                    <img src="${pageContext.request.contextPath}/image/${book.coverPath}" alt="Book cover"
+                         class="img-fluid"
+                         onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"/>
                 </div>
                 <div class="col-lg-8">
                     <div class="card-body">
