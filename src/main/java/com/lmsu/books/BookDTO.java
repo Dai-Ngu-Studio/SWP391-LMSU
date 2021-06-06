@@ -8,50 +8,49 @@ import lombok.Data;
 
 public @Data
 class BookDTO implements Serializable {
-    private String book_id;
+    private String bookID;
     private String title;
-    private String author_id;
-    private String subject_id;
+    private String authorID;
+    private String subjectID;
     private String publisher;
     private String publication_date;
     private String description;
     private BigDecimal price;
     private int quantity;
-    private boolean delete_status;
-    private Date last_lent_date;
-    private float avg_rating;
-    private String isbn_ten;
-    private String isbn_thirteen;
+    private boolean deleteStatus;
+    private Date lastLentDate;
+    private float avgRating;
+    private String isbnTen;
+    private String isbnThirteen;
     private String coverPath;
 
     public BookDTO() {
     }
 
-    public BookDTO(String book_id, String title, String author_id, String subject_id,
-                   String publisher, String publication_date, String description, BigDecimal price, int quantity,
-                   boolean delete_status, Date last_lent_date, float avg_rating, String isbn_ten,
-                   String isbn_thirteen, String coverPath) {
-        this.book_id = book_id;
+    public BookDTO(String bookID, String title, String authorID, String subjectID, String publisher,
+                   String publication_date, String description, BigDecimal price, int quantity, boolean deleteStatus,
+                   Date lastLentDate, float avgRating, String isbnTen, String isbnThirteen, String coverPath) {
+        this.bookID = bookID;
         this.title = title;
-        this.author_id = author_id;
-        this.subject_id = subject_id;
+        this.authorID = authorID;
+        this.subjectID = subjectID;
         this.publisher = publisher;
         this.publication_date = publication_date;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
-        this.delete_status = delete_status;
-        this.last_lent_date = last_lent_date;
-        this.avg_rating = avg_rating;
-        this.isbn_ten = isbn_ten;
-        this.isbn_thirteen = isbn_thirteen;
+        this.deleteStatus = deleteStatus;
+        this.lastLentDate = lastLentDate;
+        this.avgRating = avgRating;
+        this.isbnTen = isbnTen;
+        this.isbnThirteen = isbnThirteen;
         this.coverPath = coverPath;
     }
 
-    public BookDTO(String book_id, String title, String author_id, boolean delete_status) {
-        this.book_id = book_id;
+    public BookDTO(String bookID, String title, String authorID, boolean deleteStatus) {
+        this.bookID = bookID;
         this.title = title;
-        this.author_id = author_id;
-        this.delete_status = delete_status;
+        this.authorID = authorID;
+        this.deleteStatus = deleteStatus;
     }
 }
