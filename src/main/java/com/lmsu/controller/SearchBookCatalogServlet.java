@@ -40,7 +40,7 @@ public class SearchBookCatalogServlet extends HttpServlet {
                     }
                 } else if (criterion.equals("Authors")) {
                     AuthorDAO author_dao = new AuthorDAO();
-                    author_dao.SearchAuthorByName(searchVal);
+                    author_dao.searchAuthorByName(searchVal);
                     List<AuthorDTO> author_result = author_dao.getAuthorList();
                     if(!author_result.isEmpty()) {
                         request.setAttribute("SEARCH_RESULT", author_result);
