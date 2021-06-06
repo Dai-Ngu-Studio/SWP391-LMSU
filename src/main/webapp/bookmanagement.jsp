@@ -537,7 +537,7 @@
                                                                                     <div class="col-sm-9">
                                                                                         <img class="rounded float-right"
                                                                                              style="height: 400px; width: auto;"
-                                                                                             src="images/software-engineering.jpg">
+                                                                                             src="${pageContext.request.contextPath}/image/${book.coverPath}" />
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">

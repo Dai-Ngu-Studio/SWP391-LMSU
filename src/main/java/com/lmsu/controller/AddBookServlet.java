@@ -1,7 +1,9 @@
 package com.lmsu.controller;
 
 import com.lmsu.books.BookDAO;
+import com.lmsu.utils.ImageHelpers;
 import org.apache.log4j.Logger;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.naming.NamingException;
 import javax.servlet.*;
@@ -11,7 +13,9 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
+
 import java.sql.SQLException;
+
 
 @WebServlet(name = "AddBookServlet", value = "/AddBookServlet")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
@@ -19,7 +23,7 @@ import java.sql.SQLException;
         maxRequestSize = 1024 * 1024 * 5 * 5)
 public class AddBookServlet extends HttpServlet {
     private final String SEARCH_CONTROLLER = "SearchTitleServlet";
-    private final String SHOW_BOOK_CONTROLLER="ShowBookServlet";
+    private final String SHOW_BOOK_CONTROLLER = "ShowBookServlet";
     //    private final String SEARCH_CONTROLLER = "SearchTitleServlet";
     static final Logger LOGGER = Logger.getLogger(AddBookServlet.class);
 
@@ -61,34 +65,22 @@ public class AddBookServlet extends HttpServlet {
             float avgRating = 0.0f;
 
             //Start to add img to server process
-            String MeoMeoPath = getServletContext().getRealPath("");
-            String partOfPath[] = MeoMeoPath.split("\\\\");
-            String uploadPath = "";
-            //Simple String process
-            //Only get the part before the last two backslash because we don't want
-            //to save it into webapp which will be get deleted every time we redeploy
-            for (int i = 0; i < partOfPath.length - 2; i++) {
-                uploadPath += (partOfPath[i] + File.separator);
-            }
-            uploadPath += ("images" + File.separator);
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
-            }
-            String fullPathToFile="";
+            String uploadPath= ImageHelpers.getPathImgFolder(getServletContext().getRealPath(""));
+            String fileName="";
             for (Part part : request.getParts()) {
-                String fileName = part.getSubmittedFileName();
-                if (fileName!=null) {
-                    fullPathToFile = uploadPath + fileName;
-                    part.write(fullPathToFile);
+                fileName = part.getSubmittedFileName();
+                if (fileName != null) {
+                    fileName="book-" + bookIDTxt + "." + FilenameUtils.getExtension(fileName);
+                    part.write(uploadPath + fileName);
+                    break;
                 }
             }
-            boolean result = dao.addBook(bookIDTxt, title, authorID, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, deleteStatus, lastLentDate, avgRating, isbnTen, isbnThirteen, fullPathToFile);
-            if (result){
-                if (searchVal==null || searchVal.trim().isEmpty()){
-                    url=SHOW_BOOK_CONTROLLER;
-                } else{
-                    url=SEARCH_CONTROLLER;
+            boolean result = dao.addBook(bookIDTxt, title, authorID, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, deleteStatus, lastLentDate, avgRating, isbnTen, isbnThirteen, fileName);
+            if (result) {
+                if (searchVal == null || searchVal.trim().isEmpty()) {
+                    url = SHOW_BOOK_CONTROLLER;
+                } else {
+                    url = SEARCH_CONTROLLER;
                 }
             }
 //            if (!result) {
