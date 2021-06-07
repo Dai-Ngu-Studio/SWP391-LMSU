@@ -1,4 +1,4 @@
-package com.lmsu.controller.member;
+package com.lmsu.controller.member.cart;
 
 import com.lmsu.authors.AuthorDAO;
 import com.lmsu.authors.AuthorDTO;
