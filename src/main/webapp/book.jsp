@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 
@@ -19,7 +20,7 @@
 <body>
 <jsp:include page="header.jsp"></jsp:include>
 <jsp:include page="navbar.html"></jsp:include>
-<!--Actual Body-->
+<%--Actual Body--%>
 <div class="row mt-5">
     <div class="col-lg-2"></div>
     <div class="col-lg-8 text-center">
@@ -41,19 +42,19 @@
 <c:set var="bookTotal" value="${0}"/>
 <c:forEach var="book" items="${bookList}"
            varStatus="counter">
-    <!--Book Row-->
+    <%--Book Row--%>
     <c:if test="${indexCount eq 0}">
-        <div class="row mt-2"> <!--Start: div class="row mt-2" -->
+        <div class="row mt-3"> <%--Start: div class="row mt-2" --%>
     </c:if>
-    <!--Start: Empty Column-->
+    <%--Start: Empty Column--%>
     <c:if test="${indexCount eq 0}">
         <div class="col-lg-2"></div>
     </c:if>
-    <!--End: Empty Column-->
-    <!--Start: Book Item-->
+    <%--End: Empty Column--%>
+    <%--Start: Book Item--%>
 
     <div class="col-lg-4 text-center">
-        <div class="card mb-3" style="max-width: 540px">
+        <div class="card h-100 mh-100" style="max-width: 540px">
             <div class="row">
                 <div class="col-lg-4">
                     <img src="${pageContext.request.contextPath}/image/${book.coverPath}" alt="Book cover"
@@ -62,38 +63,39 @@
                 </div>
                 <div class="col-lg-8">
                     <div class="card-body">
-                        <h5 class="card-title">${book.title}</h5>
-                        <p class="card-text">
-                                ${book.description}
-                        </p>
-                        <p class="card-text">
-                        <div class="row">
-                            <div class="col-lg-2"></div>
-                            <div class="col-lg-8">
-                                <form action="ViewBookDetailsServlet">
-                                    <input type="hidden" name="bookPk" value="${book.bookID}">
-                                    <button type="submit" class="btn btn-info"><i class="fa fa-info-circle"
-                                                                                  aria-hidden="true"></i> More Info
-                                    </button>
-                                </form>
+                        <h5 class="card-title text-center">${book.title}</h5>
+                        <div class="card-text">
+                            <div class="row mb-3 text-left">
+                                <c:set var="shortDesc" value="${fn:substring(book.description, 0, 170)}"/>
+                                    ${shortDesc}...
                             </div>
-                            <div class="col-lg-2"></div>
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    <form action="ViewBookDetailsServlet" class="mb-0">
+                                        <input type="hidden" name="bookPk" value="${book.bookID}">
+                                        <button type="submit" class="btn btn-info"><i class="fa fa-info-circle"
+                                                                                      aria-hidden="true"></i> More Info
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
                         </div>
-                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!--End: Book Item-->
-    <!--Start: Empty Column-->
+    <%--End: Book Item--%>
+    <%--Start: Empty Column--%>
     <c:if test="${indexCount eq 1}">
         <div class="col-lg-2"></div>
     </c:if>
-    <!--End: Empty Column-->
+    <%--End: Empty Column--%>
     <c:if test="${indexCount eq 1}">
-        </div> <!--End: div class="row mt-2" -->
+        </div> <%--End: div class="row mt-2" --%>
     </c:if>
     <c:choose>
         <c:when test="${indexCount eq 0}">
@@ -103,14 +105,14 @@
             <c:set var="indexCount" value="${0}"/>
         </c:otherwise>
     </c:choose>
-    <!--End of Book Row-->
+    <%--End of Book Row--%>
     <c:set var="bookTotal" value="${counter.count}"/>
 </c:forEach>
 <c:if test="${(bookTotal mod 2) ne 0}">
-    <!--Closing div in case odd number of books-->
-    </div> <!--End: div class="row mt-2" -->
+    <%--Closing div in case odd number of books--%>
+    </div> <%--End: div class="row mt-2" --%>
 </c:if>
-<!--Actual Body-->
+<%--Actual Body--%>
 <jsp:include page="scrolltotop.html"></jsp:include>
 <jsp:include page="footer.html"></jsp:include>
 </body>
