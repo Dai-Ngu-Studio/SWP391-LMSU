@@ -42,13 +42,12 @@
         }
 
         .searchInput {
-            padding-top: 4px;
-            padding-bottom: 4px;
-            width: 26vw;
-            border: #d0d0d0 solid 1px;
-            font-size: 15px;
-            padding-left: 10px;
-            border-color: #748DDB;
+            padding-top: 4px !important;
+            padding-bottom: 4px !important;
+            width: 26vw !important;
+            border: 1px solid #748DDB !important;
+            font-size: 15px !important;
+            padding-left: 10px !important;
         }
 
         .search button {
@@ -59,6 +58,10 @@
         .search .btn-primary {
             background-color: #748DDB;
             border-color: #748DDB;
+        }
+
+        .search .btn-primary i{
+            color: #fff !important;
         }
 
         @media (max-width: 991px) {
@@ -130,6 +133,9 @@
         #notificationDropdown i {
             color: #748DDB;
         }
+        .btn{
+            height: auto !important;
+        }
     </style>
     <!-- plugins:css -->
     <link rel="stylesheet" href="vendors/feather/feather.css">
@@ -155,7 +161,7 @@
          style="justify-content: inherit !important">
         <ul class="navbar-nav mr-lg-2">
             <!--Start: Search Form-->
-            <form action="DispatchServlet">
+            <form action="DispatchServlet" class="my-0">
                 <div class="search">
                     <div class="dropdown">
                         <button type="button" class="btn btn-filter dropdown-toggle" id="dropdownMenuIconButton3"
