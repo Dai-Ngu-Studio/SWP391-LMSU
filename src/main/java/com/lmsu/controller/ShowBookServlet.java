@@ -21,7 +21,7 @@ import java.util.List;
 @WebServlet(name = "ShowBookServlet", value = "/ShowBookServlet")
 public class ShowBookServlet extends HttpServlet {
 
-    static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
+    static final Logger LOGGER = Logger.getLogger(ShowBookServlet.class);
     private final String BOOK_MANAGEMENT_PAGE = "bookmanagement.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

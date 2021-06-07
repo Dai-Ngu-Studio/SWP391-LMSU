@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: NDungx
@@ -68,35 +70,52 @@
                 <div class="col-12">
                     <div class="tab-content" id="nav-tabContent" style="border:none">
                         <!--Account Information tab-->
+                        <c:set var="profile" value="${sessionScope.LOGIN_USER}"/>
+                        <c:set var="email_split" value="${fn:split(profile.email, '@')}"/>
                         <div class="tab-pane fade show active" id="list-information" role="tabpanel"
                              aria-labelledby="list-information-list">
                             <div class="card-body">
                                 <h4 class="card-title">Account Information</h4>
+
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">ID</span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="SinhVNSE151413"
+                                    <input type="text" class="form-control" value="${profile.id}"
                                            aria-label="User ID" aria-describedby="basic-addon1"/>
                                 </div>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="SinhVNSE151413"
-                                           aria-label="Email Address" aria-describedby="basic-addon2"/>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" id="basic-addon2">@fpt.edu.vn</span>
+                                <c:if test="${not empty email_split}">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" value="${email_split[0]}"
+                                               aria-label="Email Address" aria-describedby="basic-addon2" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon2">@fpt.edu.vn</span>
+                                        </div>
                                     </div>
-                                </div>
+                                </c:if>
+
+                                <form action="DispatchServlet">
+                                    <input type="hidden" value="${profile.id}" name="pk">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Phone Number</span>
+                                        </div>
+                                        <input type="text" class="form-control" aria-label="Phone Number"
+                                               value="${profile.phoneNumber}" pattern="^[0-9]{1,1000}$" name="txtPhone"/>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="submit" name="btAction" value="Change Phone Number">
+                                                Edit <i class="ti ti-pencil"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">Phone Number</span>
+                                        <span class="input-group-text">Semester No</span>
                                     </div>
                                     <input type="text" class="form-control" aria-label="Phone Number"
-                                           placeholder="09******11"/>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" type="button">
-                                            Edit <i class="ti ti-pencil"></i>
-                                        </button>
-                                    </div>
+                                           value="${profile.semester}"/>
                                 </div>
                             </div>
                         </div>
@@ -120,63 +139,66 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="modal fade" id="passwordChangeModal" tabindex="-1" role="dialog"
-                             aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="passwordChangeModalLabel">
-                                            Change Password
-                                        </h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row mb-1">
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
+                        <form action="DispatchServlet">
+                            <input type="hidden" value="${profile.id}" name="pk">
+                            <div class="modal fade" id="passwordChangeModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="passwordChangeModalLabel">
+                                                Change Password
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row mb-1">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
                                                     <span class="input-group-text"
                                                           id="label-current-password">Current Password</span>
+                                                    </div>
+                                                    <input type="password" class="form-control"
+                                                           placeholder="Current Password" aria-label="Current Password"
+                                                           aria-describedby="basic-addon1" name="txtCurrentPassword" value=""/>
                                                 </div>
-                                                <input type="password" class="form-control"
-                                                       placeholder="Current Password" aria-label="Current Password"
-                                                       aria-describedby="basic-addon1"/>
                                             </div>
-                                        </div>
-                                        <div class="row mb-1">
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
+                                            <div class="row mb-1">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
                                                         <span class="input-group-text" id="label-new-password">New
                                                         Password</span>
+                                                    </div>
+                                                    <input type="password" class="form-control" placeholder="New Password"
+                                                           aria-label="New Password" aria-describedby="basic-addon1" name="txtNewPassword" value=""/>
                                                 </div>
-                                                <input type="password" class="form-control" placeholder="New Password"
-                                                       aria-label="New Password" aria-describedby="basic-addon1"/>
                                             </div>
-                                        </div>
-                                        <div class="row mb-1">
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
+                                            <div class="row mb-1">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
                                                     <span class="input-group-text"
                                                           id="label-confirm-password">Confirm Password</span>
+                                                    </div>
+                                                    <input type="password" class="form-control"
+                                                           placeholder="Confirm Password" aria-label="Confirm Password"
+                                                           aria-describedby="basic-addon1" name="txtConfirmPassword" value=""/>
                                                 </div>
-                                                <input type="password" class="form-control"
-                                                       placeholder="Confirm Password" aria-label="Confirm Password"
-                                                       aria-describedby="basic-addon1"/>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                            Close
-                                        </button>
-                                        <button type="button" class="btn btn-primary">
-                                            Save changes
-                                        </button>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                Close
+                                            </button>
+                                            <button type="submit" class="btn btn-primary" name="btAction" value="Change Password">
+                                                Save changes
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                         <!--Notifications tab-->
                         <div class="tab-pane fade" id="list-notifications" role="tabpanel"
                              aria-labelledby="list-notifications-list" style="color: black !important;">

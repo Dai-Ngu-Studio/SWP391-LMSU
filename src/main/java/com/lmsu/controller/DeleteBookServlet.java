@@ -17,7 +17,7 @@ public class DeleteBookServlet extends HttpServlet {
     private final String SEARCH_PAGE = "bookmanagement.jsp";
     private final String SEARCH_CONTROLLER = "SearchTitleServlet";
     private final String SHOW_BOOK_CONTROLLER="ShowBookServlet";
-    static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
+    static final Logger LOGGER = Logger.getLogger(DeleteBookServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{

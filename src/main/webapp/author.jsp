@@ -19,29 +19,8 @@
 </head>
 
 <body>
-<script>
-    $(function () {
-        $("#includedHeader").load("header.html");
-    });
-</script>
-<script>
-    $(function () {
-        $("#includedNavbar").load("navbar.html");
-    });
-</script>
-<script>
-    $(function () {
-        $("#includedScrollToTop").load("scrolltotop.html");
-    });
-</script>
-<script>
-    $(function () {
-        $("#includedFooter").load("footer.html");
-    });
-</script>
-<div id="includedHeader"></div>
-<div id="includedNavbar"></div>
-<div id="includedScrollToTop"></div>
+<jsp:include page="header.jsp"></jsp:include>
+<jsp:include page="navbar.html"></jsp:include>
 
 <div class="box bg-light">
     <div class="top">
@@ -106,7 +85,8 @@
         </div>
     </div>
 </div>
-<div id="includedFooter"></div>
+<jsp:include page="scrolltotop.html"></jsp:include>
+<jsp:include page="footer.html"></jsp:include>
 </body>
 
 </html>

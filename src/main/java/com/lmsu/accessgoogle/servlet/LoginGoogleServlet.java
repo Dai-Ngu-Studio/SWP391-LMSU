@@ -53,11 +53,11 @@ public class LoginGoogleServlet extends HttpServlet {
             String password = googlePojo.getId();
 
             try {
-                HttpSession sesion = request.getSession();
-                sesion.setAttribute("USER_ID", email);
-                sesion.setAttribute("FULLNAME", fullname);
-                sesion.setAttribute("PASSWORD", password);
-                sesion.setAttribute("IS_LOGIN_GOOGLE", true);
+                HttpSession session = request.getSession();
+                session.setAttribute("USER_ID", email);
+                session.setAttribute("FULLNAME", fullname);
+                session.setAttribute("PASSWORD", password);
+                session.setAttribute("IS_LOGIN_GOOGLE", true);
 
 //                if (dao.checkDuplicate(email)) {
 //                    url = LOGIN_GOOGLE_CONTROLLER;
