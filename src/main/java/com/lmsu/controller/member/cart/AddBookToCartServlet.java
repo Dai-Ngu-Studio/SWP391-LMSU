@@ -60,8 +60,8 @@ public class AddBookToCartServlet extends HttpServlet {
                 session.setAttribute("MEMBER_CART", cartObj);
                 // 6. Member continues checking book
                 // (Temporary redirect to cart for testing)
-//                url = VIEW_BOOK_DETAILS_CONTROLLER + "?bookPk=" + bookID;
-                url = "viewCart.jsp";
+                url = VIEW_BOOK_DETAILS_CONTROLLER + "?bookPk=" + bookID;
+//                url = "viewCart.jsp";
             }
 
         } catch (SQLException ex) {

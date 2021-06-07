@@ -145,25 +145,49 @@
                     <div class="row text-center">
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4">
-                            <%--gt: greater than--%>
-                            <c:if test="${bookObj.quantity gt 0}">
-                                <form action="AddBookToCartServlet" class="row my-lg-0">
-                                    <input type="hidden" name="bookPk" value="${bookObj.id}">
-                                    <button type="submit" class="btn btn-primary btn-block"
-                                            name="btAction" value="AddToCart">
-                                        <i class="fa fa-cart-plus" aria-hidden="true"></i> Add to Cart
-                                    </button>
-                                </form>
+                            <c:set var="session" value="${sessionScope}"/>
+                            <c:if test="${not empty session}">
+                                <c:set var="cart" value="${sessionScope.MEMBER_CART}"/>
+                                <c:if test="${not empty cart}">
+                                    <c:set var="existedInCart" value="${cart.isExistedInCart(bookObj.id)}"/>
+                                </c:if>
                             </c:if>
-                            <%--eq: equal--%>
-                            <c:if test="${bookObj.quantity eq 0}">
-                                <div class="row">This book is currently out of stock.</div>
-                                <div class="row">
-                                    <button type="button" class="btn btn-success btn-block">
-                                        <i class="fa fa-heart" aria-hidden="true"></i> Add to Wishlist
-                                    </button>
-                                </div>
-                            </c:if>
+                            <c:choose>
+                                <%--Book existed in cart--%>
+                                <c:when test="${(not empty session) and (not empty cart) and (existedInCart)}">
+                                    <div class="row">This book is already in your cart.</div>
+                                    <form action="RemoveFromCartServlet" class="my-0 mx-0">
+                                        <input type="hidden" name="bookPk" value="${bookObj.id}">
+                                        <input type="hidden" name="isBrowsingBooks" value="true">
+                                        <button type="submit" class="btn btn-danger btn-block"
+                                                name="btAction" value="RemoveFromCart">
+                                            <i class="fa fa-minus-circle" aria-hidden="true"></i> Remove from Cart
+                                        </button>
+                                    </form>
+                                </c:when>
+                                <%--Book not existed in cart--%>
+                                <c:otherwise>
+                                    <%--gt: greater than--%>
+                                    <c:if test="${bookObj.quantity gt 0}">
+                                        <form action="AddBookToCartServlet" class="row my-lg-0">
+                                            <input type="hidden" name="bookPk" value="${bookObj.id}">
+                                            <button type="submit" class="btn btn-primary btn-block"
+                                                    name="btAction" value="AddToCart">
+                                                <i class="fa fa-cart-plus" aria-hidden="true"></i> Add to Cart
+                                            </button>
+                                        </form>
+                                    </c:if>
+                                    <%--eq: equal--%>
+                                    <c:if test="${bookObj.quantity eq 0}">
+                                        <div class="row">This book is currently out of stock.</div>
+                                        <div class="row">
+                                            <button type="button" class="btn btn-success btn-block">
+                                                <i class="fa fa-heart" aria-hidden="true"></i> Add to Wishlist
+                                            </button>
+                                        </div>
+                                    </c:if>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                         <div class="col-lg-4"></div>
                     </div>
