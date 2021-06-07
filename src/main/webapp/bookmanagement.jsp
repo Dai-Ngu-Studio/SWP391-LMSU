@@ -205,7 +205,8 @@
 
                                                 <div id="order-listing_filter" class="dataTables_filter">
                                                     <!--Start: Add Book Form-->
-                                                    <form action="DispatchServlet" enctype="multipart/form-data" method="POST">
+                                                    <form action="DispatchServlet" enctype="multipart/form-data"
+                                                          method="POST">
                                                         <input type="search" class="form-control"
                                                                placeholder="Search"
                                                                name="txtSearchValue" value="${param.txtSearchValue}"
@@ -249,7 +250,7 @@
                                                                                 <img class="rounded float-right"
                                                                                      style="height: 400px;
                                                                                      width: auto;"
-                                                                                     src="images/cover-not-available.jpg"
+                                                                                     src="images/NotAvailable.jpg"
                                                                                      id="coverPicture"
                                                                                      alt="Book cover"
                                                                                 >
@@ -264,7 +265,7 @@
                                                                                            class="custom-file-input"
                                                                                            id="customFileAdd"
                                                                                            name="coverPicture"
-                                                                                           onchange="readURL(this);"
+                                                                                           onchange="readURL(this, 'coverPicture');"
                                                                                     >
                                                                                     <label class="custom-file-label"
                                                                                            for="customFileAdd">Choose
@@ -337,15 +338,7 @@
                                                                             </div>
 
                                                                         </div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">Description
-                                                                            </label>
-                                                                            <div class="col-sm-9">
-                                                                                <textarea class="form-control"
-                                                                                          rows="5"
-                                                                                          name="txtDescription"> </textarea>
-                                                                            </div>
-                                                                        </div>
+
                                                                         <div class="form-group row">
                                                                             <label class="col-sm-3 col-form-label">
                                                                                 Price
@@ -392,6 +385,15 @@
                                                                                        value=""
                                                                                        name="txtISBNThirteen"
                                                                                 >
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 col-form-label">Description
+                                                                            </label>
+                                                                            <div class="col-sm-9">
+                                                                                <textarea class="form-control"
+                                                                                          rows="5"
+                                                                                          name="txtDescription"> </textarea>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -505,7 +507,8 @@
                                                             </form>
                                                             <!--End: Delete Book Form-->
                                                             <!--Start: Update Book Form-->
-                                                            <form action="DispatchServlet">
+                                                            <form action="DispatchServlet" enctype="multipart/form-data"
+                                                                  method="POST">
                                                                 <input type="hidden" value="${book.bookID}"
                                                                        name="pk">
                                                                 <input type="hidden" name="txtSearchValue"
@@ -537,7 +540,12 @@
                                                                                     <div class="col-sm-9">
                                                                                         <img class="rounded float-right"
                                                                                              style="height: 400px; width: auto;"
-                                                                                             src="${pageContext.request.contextPath}/image/${book.coverPath}" />
+                                                                                             src="${pageContext.request.contextPath}/image/${book.coverPath}"
+                                                                                             id="coverPictureUpdate${book.bookID}"
+                                                                                             alt="Book cover"
+                                                                                             onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"
+                                                                                        />
+                                                                                        <input type="hidden" name="txtCoverFile" value="${book.coverPath}">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">
@@ -545,13 +553,17 @@
                                                                                     </div>
                                                                                     <div class="col-sm-9">
                                                                                         <div class="custom-file">
+                                                                                            var abc="'coverPictureUpdate${book.bookID}'";
                                                                                             <input type="file"
                                                                                                    class="custom-file-input"
-                                                                                                   id="customFileUpdate">
+                                                                                                   id="customFileUpdate${book.bookID}"
+                                                                                                   name="coverPicture"
+                                                                                                   onchange="readURL(this, 'coverPictureUpdate${book.bookID}');"
+                                                                                            >
                                                                                             <label class="custom-file-label"
-                                                                                                   for="customFileUpdate">Choose
+                                                                                                   for="customFileUpdate${book.bookID}">Choose
                                                                                                 Image
-                                                                                                ...</label>
+                                                                                            </label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -566,7 +578,7 @@
                                                                                 </div>
                                                                                 <div class="form-group row">
                                                                                     <label class="col-sm-3 col-form-label">
-                                                                                        Author
+                                                                                        Author ID
                                                                                     </label>
                                                                                     <div class="col-sm-9">
                                                                                         <input type="text"
@@ -577,24 +589,13 @@
                                                                                 </div>
                                                                                 <div class="form-group row">
                                                                                     <label class="col-sm-3 col-form-label">
-                                                                                        Publication date
+                                                                                        Subject ID
                                                                                     </label>
                                                                                     <div class="col-sm-9">
                                                                                         <input type="text"
                                                                                                class="form-control"
-                                                                                               name="txtUpdatePubliDate"
-                                                                                               value="${book.publicationDate}">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group row">
-                                                                                    <label class="col-sm-3 col-form-label">
-                                                                                        Quantity
-                                                                                    </label>
-                                                                                    <div class="col-sm-9">
-                                                                                        <input type="text"
-                                                                                               class="form-control"
-                                                                                               name="txtUpdateQuantity"
-                                                                                               value="${book.quantity}">
+                                                                                               name="txtUpdateSubjectID"
+                                                                                               value="${book.subjectID}">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">
@@ -610,13 +611,13 @@
                                                                                 </div>
                                                                                 <div class="form-group row">
                                                                                     <label class="col-sm-3 col-form-label">
-                                                                                        Subject
+                                                                                        Publication date
                                                                                     </label>
                                                                                     <div class="col-sm-9">
                                                                                         <input type="text"
                                                                                                class="form-control"
-                                                                                               name="txtUpdateSubjectID"
-                                                                                               value="${book.subjectID}">
+                                                                                               name="txtUpdatePubliDate"
+                                                                                               value="${book.publicationDate}">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">
@@ -628,6 +629,17 @@
                                                                                                class="form-control"
                                                                                                name="txtUpdatePrice"
                                                                                                value="${book.price}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-3 col-form-label">
+                                                                                        Quantity
+                                                                                    </label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input type="text"
+                                                                                               class="form-control"
+                                                                                               name="txtUpdateQuantity"
+                                                                                               value="${book.quantity}">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">
@@ -658,7 +670,7 @@
                                                                                     <div class="col-sm-9">
                                                                                                     <textarea
                                                                                                             class="form-control"
-                                                                                                            id="Textarea1"
+                                                                                                            id="Textarea${book.bookID}"
                                                                                                             name="txtUpdateDescription"
                                                                                                             rows="5">${book.description}
                                                                                                     </textarea>

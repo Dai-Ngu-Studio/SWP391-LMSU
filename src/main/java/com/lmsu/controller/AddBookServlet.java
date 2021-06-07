@@ -63,18 +63,22 @@ public class AddBookServlet extends HttpServlet {
             int quantityNum = Integer.parseInt(quantity);
             Date lastLentDate = Date.valueOf("1960-01-01");
             float avgRating = 0.0f;
-
+            System.out.println(1);
             //Start to add img to server process
             String uploadPath= ImageHelpers.getPathImgFolder(getServletContext().getRealPath(""));
+            System.out.println(bookIDTxt);
             String fileName="";
             for (Part part : request.getParts()) {
                 fileName = part.getSubmittedFileName();
-                if (fileName != null) {
+                if (!(fileName == null || fileName.trim().isEmpty())) {
+                    System.out.println(fileName);
                     fileName="book-" + bookIDTxt + "." + FilenameUtils.getExtension(fileName);
                     part.write(uploadPath + fileName);
                     break;
                 }
             }
+            System.out.println(bookIDTxt+ " Book ID");
+
             boolean result = dao.addBook(bookIDTxt, title, authorID, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, deleteStatus, lastLentDate, avgRating, isbnTen, isbnThirteen, fileName);
             if (result) {
                 if (searchVal == null || searchVal.trim().isEmpty()) {

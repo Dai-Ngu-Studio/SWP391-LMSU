@@ -397,7 +397,7 @@ public class BookDAO implements Serializable {
 
     public boolean updateBook(String bookID, String title, String authorID, String subjectID,
                               String publisher, String publicationDate, String description, BigDecimal price, int quantity,
-                              String isbnTen, String isbnThirteen)
+                              String isbnTen, String isbnThirteen, String coverPath)
             throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -417,7 +417,8 @@ public class BookDAO implements Serializable {
                         "[price] = ?, " +
                         "[quantity] = ?, " +
                         "[ISBN_tenDigits] = ?, " +
-                        "[ISBN_thirteenDigits] = ? " +
+                        "[ISBN_thirteenDigits] = ?, " +
+                        "[coverPicturePath] = ? " +
                         "WHERE [id] = ?";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
@@ -432,7 +433,9 @@ public class BookDAO implements Serializable {
                 stm.setInt(8, quantity);
                 stm.setString(9, isbnTen);
                 stm.setString(10, isbnThirteen);
-                stm.setString(11, bookID);
+                stm.setString(11, coverPath);
+                stm.setString(12, bookID);
+
                 //4. Execute Query and get rows affected
                 int rows = stm.executeUpdate();
                 //5. Process result
@@ -444,7 +447,6 @@ public class BookDAO implements Serializable {
         }
         return false;
     }
-
     public boolean updateQuantity(String bookID, int quantity)
             throws SQLException, NamingException {
         Connection con = null;
