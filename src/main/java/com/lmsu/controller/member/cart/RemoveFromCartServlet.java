@@ -35,8 +35,10 @@ public class RemoveFromCartServlet extends HttpServlet {
                     // 4. Update cart on server
                     session.setAttribute("MEMBER_CART", cartObj);
                     // 5. Check what user was doing before removing
-                    if (isBrowsingBooks.equals("true")) {
-                        url = VIEW_BOOK_DETAILS_CONTROLLER + "?bookPk=" + bookID;
+                    if (isBrowsingBooks != null) {
+                        if (isBrowsingBooks.equals("true")) {
+                            url = VIEW_BOOK_DETAILS_CONTROLLER + "?bookPk=" + bookID;
+                        }
                     } else {
                         url = VIEW_CART_PAGE;
                     }
