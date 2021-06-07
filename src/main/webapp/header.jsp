@@ -203,7 +203,7 @@
                     <a class="dropdown-item" href="dashboard.jsp">
                         <i class="icon-grid text-primary"></i> Dashboard
                     </a>
-                    <a class="dropdown-item" href="userAccountSetting.html">
+                    <a class="dropdown-item" href="usersettings.jsp">
                         <i class="ti-settings text-primary"></i> Profile
                     </a>
                     <form action="DispatchServlet" class="my-0">
