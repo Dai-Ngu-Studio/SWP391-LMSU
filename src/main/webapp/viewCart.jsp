@@ -20,20 +20,17 @@
 <jsp:include page="navbar.html"></jsp:include>
 <%--Actual Body--%>
 
-<div class="bg-light">
+<div class="bg-light py-4">
     <c:set var="session" value="${sessionScope}"/>
 
     <c:if test="${not empty session}">
-        1
         <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
         <%--CartObj--%>
         <c:set var="cart" value="${sessionScope.MEMBER_CART}"/>
         <c:if test="${not empty cart}">
-            2
             <%--Map<String, BookObj>--%>
             <c:set var="books" value="${cart.items}"/>
             <c:if test="${not empty books}">
-                3
                 <div class="row pt-5">
                     <div class="col-lg-2"></div>
                         <%--Start: Cart Quantity--%>
@@ -93,12 +90,25 @@
                         <div class="card mt-2">
                             <div class="card-body text-center">
                                 <div class="card-text">
-                                    Logged in as <strong>${user.name}</strong>
+                                    <c:if test="${not empty user}">
+                                        Logged in as <strong>${user.name}</strong>
+                                    </c:if>
+                                    <c:if test="${empty user}">
+                                        Currently not logged in.
+                                    </c:if>
                                 </div>
-                                <a href="../../../../LMSU-FE/LMSU-FE/orderForm.html" type="button"
-                                   class="btn btn-success link mt-2">
-                                    Proceed to borrow
-                                </a>
+                                <c:if test="${not empty user}">
+                                    <a href="../../../../LMSU-FE/LMSU-FE/orderForm.html" type="button"
+                                       class="btn btn-success link mt-2">
+                                        Proceed to borrow
+                                    </a>
+                                </c:if>
+                                <c:if test="${empty user}">
+                                    <a href="StartupServlet" type="button"
+                                       class="btn btn-primary link mt-2">
+                                        Login now
+                                    </a>
+                                </c:if>
                             </div>
                         </div>
                     </div>
@@ -109,9 +119,68 @@
                 </div>
             </c:if>
             <c:if test="${empty books}">
-                No books have been added to cart yet.
+                <div class="row my-4">
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4">
+                        <div class="card mt-2">
+                            <div class="card-body text-center">
+                                <div class="card-text">
+                                    No books have been added to cart yet.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4"></div>
+                </div>
             </c:if>
         </c:if>
+        <c:if test="${empty cart}">
+            <div class="row my-4">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4">
+                    <div class="card mt-2">
+                        <div class="card-body text-center">
+                            <div class="card-text">
+                                No books have been added to cart yet.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4"></div>
+            </div>
+        </c:if>
+    </c:if>
+    <c:if test="${empty session}">
+        <div class="row my-4">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <div class="card mt-2">
+                    <div class="card-body text-center">
+                        <div class="card-text">
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    No books have been added to cart yet.<br>
+                                    Currently not logged in.
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    <a href="StartupServlet" type="button"
+                                       class="btn btn-primary link mt-2">
+                                        Login now
+                                    </a>
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
     </c:if>
 </div>
 <%--Actual Body--%>
