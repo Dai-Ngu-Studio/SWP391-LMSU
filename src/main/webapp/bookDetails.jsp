@@ -31,7 +31,10 @@
         <div class="col-lg-3">
             <%--Start: Book Cover Image--%>
             <div class="text-center">
-                <img src="images/software-engineering.jpg" class="rounded img-fluid img-thumbnail" alt="..."/>
+                <img src="${pageContext.request.contextPath}/image/${bookObj.coverPath}"
+                     class="rounded img-fluid img-thumbnail" alt="..."
+                     onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"
+                />
             </div>
             <%--End: Book Cover Image--%>
             <%--Start: Book Metadata--%>
@@ -208,7 +211,7 @@
                                     <div class="card-title mt-1 mb-1">
                                         Nguyễn Dũng (K15 HCM)
                                     </div>
-                                    <div class="card-text">khok.</div>
+                                    <div class="card-text">khok 🥲.</div>
                                 </div>
                             </div>
                         </div>

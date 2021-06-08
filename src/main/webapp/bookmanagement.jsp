@@ -483,13 +483,16 @@
                                                             <form action="DispatchServlet">
                                                                 <input type="hidden" value="${book.bookID}"
                                                                        name="pk">
+                                                                <input type="hidden" value="${book.bookID}"
+                                                                       name="bookPk">
                                                                 <input type="hidden" name="txtSearchValue"
                                                                        value="${param.txtSearchValue}"/>
                                                                 <td>
                                                                     <div class="btn-group">
-                                                                        <a href="bookDetails.html" class="btn btn-light"
-                                                                           role="button"><i
-                                                                                class="fa fa-eye text-primary"></i></a>
+                                                                        <button type="submit" class="btn btn-light"
+                                                                                name="btAction" value="View Details">
+                                                                            <i class="fa fa-eye text-primary"></i>
+                                                                        </button>
                                                                         <button type="button" class="btn btn-light"
                                                                                 data-toggle="modal"
                                                                                 data-target="#updateModal${book.bookID}"
@@ -545,7 +548,9 @@
                                                                                              alt="Book cover"
                                                                                              onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"
                                                                                         />
-                                                                                        <input type="hidden" name="txtCoverFile" value="${book.coverPath}">
+                                                                                        <input type="hidden"
+                                                                                               name="txtCoverFile"
+                                                                                               value="${book.coverPath}">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">
@@ -553,7 +558,8 @@
                                                                                     </div>
                                                                                     <div class="col-sm-9">
                                                                                         <div class="custom-file">
-                                                                                            var abc="'coverPictureUpdate${book.bookID}'";
+                                                                                            var
+                                                                                            abc="'coverPictureUpdate${book.bookID}'";
                                                                                             <input type="file"
                                                                                                    class="custom-file-input"
                                                                                                    id="customFileUpdate${book.bookID}"
