@@ -63,9 +63,11 @@
                                         <div class="card-text">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <img src="images/software-engineering.jpg"
+                                                    <img src="${pageContext.request.contextPath}/image/${book.value.coverPath}"
                                                          class="rounded img-fluid img-thumbnail"
-                                                         alt="..."/>
+                                                         alt="..."
+                                                         onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"
+                                                    />
                                                 </div>
                                                 <div class="col-lg-5">
                                                         ${book.value.description}
