@@ -2,6 +2,12 @@ USE [master]
 GO
 CREATE DATABASE LMSU_database
 
+DROP TABLE IF EXISTS DeliveryOrder
+DROP TABLE IF EXISTS DirectOrder
+DROP TABLE IF EXISTS RenewalRequests
+DROP TABLE IF EXISTS Penalties
+DROP TABLE IF EXISTS CartItems
+DROP TABLE IF EXISTS Carts
 DROP TABLE IF EXISTS Comments
 DROP TABLE IF EXISTS ImportLogs
 DROP TABLE IF EXISTS Books
@@ -111,12 +117,12 @@ CREATE TABLE RenewalRequests(
 	requestedExtendDate date,
 	approvalStatus bit
 );
-CREATE TABLE directOrder(
+CREATE TABLE DirectOrder(
 	cartID varchar(255) NOT NULL FOREIGN KEY REFERENCES Carts(id),
 	librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
 	scheduledTime datetime,
 );
-CREATE TABLE deliveryOrder(
+CREATE TABLE DeliveryOrder(
 	cartID varchar(255) NOT NULL FOREIGN KEY REFERENCES Carts(id),
 	managerID varchar(255) FOREIGN KEY REFERENCES Users(id),
 	deliverer varchar(255),
