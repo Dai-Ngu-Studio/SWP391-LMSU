@@ -96,4 +96,41 @@ public class CommentDAO implements Serializable {
         }
         return false;
     }
+
+    public boolean editBookComment(String memberID, String bookID, String textComment, String editorID)
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "UPDATE [Comments] " +
+                        "SET [textComment] = ?, " +
+                        "[editorID] = ?, " +
+                        "[isEdited] = ? " +
+                        "WHERE [memberID] = ? " +
+                        "AND [bookID] = ?";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, textComment);
+                stm.setString(2, editorID);
+                stm.setBoolean(3, true);
+                stm.setString(4, memberID);
+                stm.setString(5, bookID);
+                //4. Execute Update
+                int row = stm.executeUpdate();
+                //5. Process result
+                if (row > 0) {
+                    return true;
+                }
+            } //end if connection existed
+        } finally {
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
 }

@@ -245,15 +245,15 @@
                                         <a class="nav-link count-indicator" data-toggle="dropdown">
                                             <i class="ti-more"></i>
                                         </a>
-                                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                             aria-labelledby="commentOptionDropdown">
+                                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list">
                                             <a class="dropdown-item preview-item d-flex align-items-center">
                                                 <div class="preview-thumbnail">
                                                     <i class="fa fa-edit"></i>
                                                 </div>
                                                 <div class="preview-item-content">
-                                                    <h6 class="preview-subject font-weight-normal mb-0">Edit
-                                                        Comment</h6>
+                                                    <h6 class="preview-subject font-weight-normal mb-0">
+                                                        Edit Comment
+                                                    </h6>
                                                 </div>
                                             </a>
                                             <a class="dropdown-item preview-item d-flex align-items-center">
@@ -261,8 +261,9 @@
                                                     <i class="fa fa-trash-o"></i>
                                                 </div>
                                                 <div class="preview-item-content">
-                                                    <h6 class="preview-subject font-weight-normal mb-0">Delete
-                                                        Comment</h6>
+                                                    <h6 class="preview-subject font-weight-normal mb-0">
+                                                        Delete Comment
+                                                    </h6>
                                                 </div>
                                             </a>
                                         </div>
