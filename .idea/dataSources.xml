@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="LMSU_database@localhost" uuid="5918f14c-8c85-4989-86d9-2ba92d0f6859">
+    <data-source source="LOCAL" name="LMSU_database@localhost" uuid="5d067156-c3f3-4c0c-ace7-dd6f261c3029">
       <driver-ref>sqlserver.ms</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
-      <jdbc-url>jdbc:sqlserver://localhost\SQLEXPRESS:1433;database=LMSU_database</jdbc-url>
+      <jdbc-url>jdbc:sqlserver://localhost:1433;database=LMSU_database</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
