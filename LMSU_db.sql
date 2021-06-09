@@ -26,7 +26,8 @@ GO
 CREATE TABLE Subjects(
 	id varchar(255) NOT NULL PRIMARY KEY,
 	name varchar(255) NOT NULL,
-	semester_no int NOT NULL
+	semester_no int NOT NULL,
+	deleteStatus bit NOT NULL
 );
 GO
 CREATE TABLE Users(
@@ -38,14 +39,16 @@ CREATE TABLE Users(
 	passwordGoogle varchar(255),
 	email varchar(255),
 	phoneNumber varchar(10),
-	profilePicturePath varchar(MAX)
+	profilePicturePath varchar(MAX),
+	deleteStatus bit NOT NULL
 );
 GO
 CREATE TABLE Authors(
 	id varchar(255) NOT NULL PRIMARY KEY,
 	name varchar(255) NOT NULL,
 	bio varchar(MAX) NOT NULL,
-	profilePicturePath varchar(MAX)
+	profilePicturePath varchar(MAX),
+	deleteStatus bit NOT NULL
 );
 GO
 CREATE TABLE Books(
@@ -88,6 +91,7 @@ CREATE TABLE Comments(
 	rating decimal,
 	editorID varchar(255),
 	isEdited bit,
+	deleteStatus bit NOT NULL
 );
 CREATE TABLE Carts(
 	id varchar(255) NOT NULL PRIMARY KEY,
@@ -135,19 +139,19 @@ CREATE TABLE DeliveryOrder(
 	ward varchar(255)
 );
 
-insert into Subjects (id, name, semester_no) values (1, 'Art', 1);
-insert into Subjects (id, name, semester_no) values (2, 'History', 1);
-insert into Subjects (id, name, semester_no) values (3, 'Language', 1);
-insert into Subjects (id, name, semester_no) values (4, 'Music', 1);
-insert into Subjects (id, name, semester_no) values (5, 'Math', 2);
-insert into Subjects (id, name, semester_no) values (6, 'Writing', 2);
+insert into Subjects (id, name, semester_no, deleteStatus) values (1, 'Art', 1, 0);
+insert into Subjects (id, name, semester_no, deleteStatus) values (2, 'History', 1, 0);
+insert into Subjects (id, name, semester_no, deleteStatus) values (3, 'Language', 1, 0);
+insert into Subjects (id, name, semester_no, deleteStatus) values (4, 'Music', 1, 0);
+insert into Subjects (id, name, semester_no, deleteStatus) values (5, 'Math', 2, 0);
+insert into Subjects (id, name, semester_no, deleteStatus) values (6, 'Writing', 2, 0);
 
-insert into Authors (id, name, bio, profilePicturePath) values (1, 'Fitzgerald', 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh.', 'C:\a.png');
-insert into Authors (id, name, bio, profilePicturePath) values (2, 'Esta', 'Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.', 'C:\a.png');
-insert into Authors (id, name, bio, profilePicturePath) values (3, 'Kathie', 'Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue.', 'C:\a.png');
-insert into Authors (id, name, bio, profilePicturePath) values (4, 'Bert', 'Fusce consequat.', 'C:\a.png');
-insert into Authors (id, name, bio, profilePicturePath) values (5, 'Olympie', 'Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh. In quis justo.', 'C:\a.png');
-insert into Authors (id, name, bio, profilePicturePath) values (6, 'Carter', 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum.', 'C:\a.png');
+insert into Authors (id, name, bio, profilePicturePath, deleteStatus) values (1, 'Fitzgerald', 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh.', 'C:\a.png', 0);
+insert into Authors (id, name, bio, profilePicturePath, deleteStatus) values (2, 'Esta', 'Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.', 'C:\a.png', 0);
+insert into Authors (id, name, bio, profilePicturePath, deleteStatus) values (3, 'Kathie', 'Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue.', 'C:\a.png', 0);
+insert into Authors (id, name, bio, profilePicturePath, deleteStatus) values (4, 'Bert', 'Fusce consequat.', 'C:\a.png', 0);
+insert into Authors (id, name, bio, profilePicturePath, deleteStatus) values (5, 'Olympie', 'Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh. In quis justo.', 'C:\a.png', 0);
+insert into Authors (id, name, bio, profilePicturePath, deleteStatus) values (6, 'Carter', 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum.', 'C:\a.png', 0);
 
 insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (1, 'sem fusce consequat nulla nisl nunc nisl', '5', 3, 'Wordpedia', '2020/09/17', 1, 16.55, 20, 1, '2020/12/09', 4.1, '439024713', '7749623681234', 'C:\b.png');
 insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (2, 'at turpis a pede posuere nonummy', 6, 2, 'Divape', '2020/09/04', 2, 20.28, 13, 1, '2020/06/16', 1.0, '581621217', '5157100231234', 'C:\b.png');
@@ -175,14 +179,14 @@ insert into Roles (id, name) values ('2', 'MNG');
 insert into Roles (id, name) values ('3', 'LIB');
 insert into Roles (id, name) values ('4', 'MEM');
 
-insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath) values ('SE000001', 'Dat', '4', 1, '1234', '1234', 'dat@fpt.edu.vn', '123456789', 'C:\a.png');
-insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath) values ('LE000001', 'Nguyen', '4', 1, '1234', '1234', 'nguyen@fpt.edu.vn', '123456789', 'C:\a.png');
-insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath) values ('LIB00001', 'Dung', '3', 1, '1234', '1234', 'dung@fpt.edu.vn', '123456789', 'C:\a.png');
-insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath) values ('MNG00001', 'Phuc', '2', 1, '1234', '1234', 'phuc@fpt.edu.vn', '123456789', 'C:\a.png');
+insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, deleteStatus) values ('SE000001', 'Dat', '4', 1, '1234', '1234', 'dat@fpt.edu.vn', '123456789', 'C:\a.png', 0);
+insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, deleteStatus) values ('LE000001', 'Nguyen', '4', 1, '1234', '1234', 'nguyen@fpt.edu.vn', '123456789', 'C:\a.png', 0);
+insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, deleteStatus) values ('LIB00001', 'Dung', '3', 1, '1234', '1234', 'dung@fpt.edu.vn', '123456789', 'C:\a.png', 0);
+insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, deleteStatus) values ('MNG00001', 'Phuc', '2', 1, '1234', '1234', 'phuc@fpt.edu.vn', '123456789', 'C:\a.png', 0);
 
 insert into ImportLogs (id,	bookID,	managerID, dateTaken, supplier, quantity) values (1, 1, 'LIB00001', '2020/06/06', 'Xuong in Thien Phuc', 1);
 insert into ImportLogs (id,	bookID,	managerID, dateTaken, supplier, quantity) values (2, 2, 'LIB00001', '2021/06/07', 'Xuong in Nguyen Dung', 1);
 
-insert into Comments (memberID, bookID, textComment, rating, isEdited) values ('LIB00001', 1, 'wow nice pok', 0, 0);
-insert into Comments (memberID, bookID, textComment, rating, isEdited) values ('LIB00001', 2, 'wow worst pok', 5, 0);
-insert into Comments (memberID, bookID, textComment, rating, isEdited) values ('SE000001', 1, 'okay pok', 3.5, 0);
+insert into Comments (memberID, bookID, textComment, rating, isEdited, deleteStatus) values ('LIB00001', 1, 'wow nice pok', 0, 0, 0);
+insert into Comments (memberID, bookID, textComment, rating, isEdited, deleteStatus) values ('LIB00001', 2, 'wow worst pok', 5, 0, 0);
+insert into Comments (memberID, bookID, textComment, rating, isEdited, deleteStatus) values ('SE000001', 1, 'okay pok', 3.5, 0, 0);
