@@ -469,14 +469,12 @@
                                                                         ${book.title}
                                                                 </td>
                                                                 <td style="text-align: center">${book.quantity}</td>
-                                                                <td>
+                                                                <td style="text-align: center">
                                                                     <c:if test="${book.quantity > 0}">
-                                                                        <label class="badge badge-success"
-                                                                               style="text-align: center">Available</label>
+                                                                        <label class="badge badge-success">Available</label>
                                                                     </c:if>
                                                                     <c:if test="${book.quantity == 0}">
-                                                                        <label class="badge badge-danger"
-                                                                               style="text-align: center">Unavailable</label>
+                                                                        <label class="badge badge-danger">Unavailable</label>
                                                                     </c:if>
                                                                 </td>
                                                             </form>
