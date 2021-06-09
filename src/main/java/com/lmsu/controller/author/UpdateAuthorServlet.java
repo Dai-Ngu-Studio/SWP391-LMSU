@@ -34,7 +34,6 @@ public class UpdateAuthorServlet extends HttpServlet {
 
         String searchVal = request.getParameter("txtSearchValue");
         String coverFile = request.getParameter("txtCoverFile");
-        System.out.println(coverFile);
         boolean check = false;
 
         try {
@@ -43,7 +42,6 @@ public class UpdateAuthorServlet extends HttpServlet {
             String fileName = "";
             for (Part part : request.getParts()) {
                 fileName = part.getSubmittedFileName();
-                System.out.println("Filename get from FE "+ fileName);
                 if (!(fileName == null || fileName.trim().isEmpty())) {
                     fileName = "author-" + authorID + "." + FilenameUtils.getExtension(fileName);
                     part.write(uploadPath + fileName);
@@ -51,7 +49,6 @@ public class UpdateAuthorServlet extends HttpServlet {
                     break;
                 }
             }
-            System.out.println(coverFile);
             boolean result = dao.updateBook(authorID, authorName, authorBio, coverFile);
             if (result) {
                 if (searchVal == null || searchVal.trim().isEmpty()) {
@@ -60,18 +57,12 @@ public class UpdateAuthorServlet extends HttpServlet {
                     url = SEARCH_CONTROLLER;
                 }
             }
-//            if (result) {
-//                url = "DispatchServlet" +
-//                        "?btAction=SearchBook" +
-//                        "&txtSearchValue=" + SearchValue;
-//            }
         } catch (SQLException ex) {
-
             LOGGER.error(ex.getMessage());
-            log("UpdateBookServlet _ SQL: " + ex.getMessage());
+            log("UpdateAuthorServlet _ SQL: " + ex.getMessage());
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
-            log("UpdateBookServlet _ Naming: " + ex.getMessage());
+            log("UpdateAuthorServlet _ Naming: " + ex.getMessage());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

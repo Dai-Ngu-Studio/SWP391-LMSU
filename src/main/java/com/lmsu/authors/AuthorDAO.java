@@ -220,29 +220,29 @@ public class AuthorDAO implements Serializable {
         return false;
     }
 
-    public boolean addAuthor(String authorID, String authorName, String authorBio, String coverPath) throws SQLException, NamingException{
+    public boolean addAuthor(String authorID, String authorName, String authorBio, String coverPath, boolean deleteStatus) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
 
         try {
             con = DBHelpers.makeConnection();
-            if(con != null){
-                String sql = "INSERT INTO Authors([id], [name], [bio], [profilePicturePath]) " +
-                        "VALUES(?, ?, ?, ?)";
+            if (con != null) {
+                String sql = "INSERT INTO Authors([id], [name], [bio], [profilePicturePath], [deleteStatus]) " +
+                        "VALUES(?, ?, ?, ?, ?)";
                 stm = con.prepareStatement(sql);
-                stm.setString(1,authorID);
-                stm.setString(2,authorName);
-                stm.setString(3,authorBio);
-                stm.setString(4,coverPath);
-
+                stm.setString(1, authorID);
+                stm.setString(2, authorName);
+                stm.setString(3, authorBio);
+                stm.setString(4, coverPath);
+                stm.setBoolean(5, deleteStatus);
                 int row = stm.executeUpdate();
-                if(row > 0) return true;
+                if (row > 0) return true;
             }
         } finally {
-            if(rs != null) rs.close();
-            if(stm != null) stm.close();
-            if(con != null) con.close();
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
         }
 
         return false;
@@ -276,7 +276,7 @@ public class AuthorDAO implements Serializable {
         return false;
     }
 
-    public boolean updateBook(String authorID, String authorName, String authorBio ,String coverPath)
+    public boolean updateBook(String authorID, String authorName, String authorBio, String coverPath)
             throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -335,7 +335,7 @@ public class AuthorDAO implements Serializable {
                     String authorName = rs.getString("name");
                     String authorBio = rs.getString("bio");
                     String coverPath = rs.getString("coverPicturePath");
-                    AuthorDTO dto = new AuthorDTO(authorID,authorName, authorBio, coverPath);
+                    AuthorDTO dto = new AuthorDTO(authorID, authorName, authorBio, coverPath);
                     if (this.authorList == null) {
                         this.authorList = new ArrayList<AuthorDTO>();
                     } //end if bookList not existed
