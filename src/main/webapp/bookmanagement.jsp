@@ -190,7 +190,7 @@
                                 <div class="table-responsive">
                                     <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                         <div class="row">
-                                            <div class="col-sm-12 col-md-6">
+                                            <div class="col-sm-12 col-md-4">
                                                 <div class="dataTables_length" id="order-listing_length"><label>Show
                                                     <select name="order-listing_length"
                                                             aria-controls="order-listing"
@@ -201,7 +201,7 @@
                                                         <option value="-1">All</option>
                                                     </select> entries</label></div>
                                             </div>
-                                            <div class="col-sm-12 col-md-6">
+                                            <div class="col-sm-12 col-md-8">
 
                                                 <div id="order-listing_filter" class="dataTables_filter">
                                                     <!--Start: Add Book Form-->
@@ -431,27 +431,27 @@
                                                             aria-controls="order-listing" rowspan="1" colspan="1"
                                                             aria-sort="ascending"
                                                             aria-label="Order #: activate to sort column descending"
-                                                            style="width: 54px;">Order #
+                                                            style="width: 0px; text-align: center">#
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
                                                             aria-label="NAME: activate to sort column ascending"
-                                                            style="width: 96px;">NAME
+                                                            style="width: 96px; text-align: center">NAME
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
                                                             aria-label="QUANTITY: activate to sort column ascending"
-                                                            style="width: 96px;">QUANTITY
+                                                            style="width: 96px; text-align: center">QUANTITY
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
                                                             aria-label="STATUS: activate to sort column ascending"
-                                                            style="width: 67px;">STATUS
+                                                            style="width: 67px; text-align: center">STATUS
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
                                                             aria-label="Actions: activate to sort column ascending"
-                                                            style="width: 64px;">Actions
+                                                            style="width: 64px; text-align: center">Actions
                                                         </th>
                                                     </tr>
                                                     </thead>
@@ -463,18 +463,20 @@
                                                         <tr class="odd">
                                                             <form action="DispatchServlet">
                                                                 <!--Start: Book Item Form-->
-                                                                <td class="sorting_1">${counter.count}</td>
-                                                                <td>
+                                                                <td class="sorting_1"
+                                                                    style="text-align: center">${counter.count}</td>
+                                                                <td style="text-align: center">
                                                                         ${book.title}
-
                                                                 </td>
-                                                                <td>${book.quantity}</td>
+                                                                <td style="text-align: center">${book.quantity}</td>
                                                                 <td>
                                                                     <c:if test="${book.quantity > 0}">
-                                                                        <label class="badge badge-success">Available</label>
+                                                                        <label class="badge badge-success"
+                                                                               style="text-align: center">Available</label>
                                                                     </c:if>
                                                                     <c:if test="${book.quantity == 0}">
-                                                                        <label class="badge badge-danger">Unavailable</label>
+                                                                        <label class="badge badge-danger"
+                                                                               style="text-align: center">Unavailable</label>
                                                                     </c:if>
                                                                 </td>
                                                             </form>
@@ -487,7 +489,7 @@
                                                                        name="bookPk">
                                                                 <input type="hidden" name="txtSearchValue"
                                                                        value="${param.txtSearchValue}"/>
-                                                                <td>
+                                                                <td style="text-align: center">
                                                                     <div class="btn-group">
                                                                         <button type="submit" class="btn btn-light"
                                                                                 name="btAction" value="View Details">
