@@ -43,9 +43,7 @@ public class UpdateBookServlet extends HttpServlet {
 
         String searchVal = request.getParameter("txtSearchValue");
         String coverFile = request.getParameter("txtCoverFile");
-        System.out.println(coverFile);
         boolean check = false;
-
         try {
             BigDecimal priceDecimal = new BigDecimal(price);
             int quantityNum = Integer.parseInt(quantity);
@@ -54,7 +52,6 @@ public class UpdateBookServlet extends HttpServlet {
             String fileName = "";
             for (Part part : request.getParts()) {
                 fileName = part.getSubmittedFileName();
-                System.out.println("Filename get from FE "+ fileName);
                 if (!(fileName == null || fileName.trim().isEmpty())) {
                     fileName = "book-" + bookID + "." + FilenameUtils.getExtension(fileName);
                     part.write(uploadPath + fileName);
@@ -62,7 +59,6 @@ public class UpdateBookServlet extends HttpServlet {
                     break;
                 }
             }
-            System.out.println(coverFile);
             boolean result = dao.updateBook(bookID, title, authorID, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, ISBN_ten, ISBN_thirteen, coverFile);
             if (result) {
                 if (searchVal == null || searchVal.trim().isEmpty()) {
