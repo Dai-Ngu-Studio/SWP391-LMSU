@@ -254,9 +254,9 @@
                                                                             </label>
                                                                             <div class="col-sm-9">
                                                                                 <img class="rounded float-right"
-                                                                                     style="height: 400px;
+                                                                                     style="height: 280px;
                                                                                      width: auto;"
-                                                                                     src="images/NotAvailable.jpg"
+                                                                                     src="images/imagenotfound.jpg"
                                                                                      id="coverPicture"
                                                                                      alt="Author cover"
                                                                                 >
@@ -436,11 +436,11 @@
                                                                                     </label>
                                                                                     <div class="col-sm-9">
                                                                                         <img class="rounded float-right"
-                                                                                             style="height: 400px; width: auto;"
+                                                                                             style="height: 280px; width: auto;"
                                                                                              src="${pageContext.request.contextPath}/image/${author.coverPath}"
                                                                                              id="coverPictureUpdate${author.authorID}"
                                                                                              alt="Book cover"
-                                                                                             onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"
+                                                                                             onerror="this.onerror=null; this.src='images/imagenotfound.jpg';"
                                                                                         />
                                                                                         <input type="hidden"
                                                                                                name="txtCoverFile"
