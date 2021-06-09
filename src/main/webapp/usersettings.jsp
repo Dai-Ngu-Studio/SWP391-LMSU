@@ -15,8 +15,9 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/userAccountSetting.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <link rel="shortcut icon" href="images/images/favicon.png" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="images/images/favicon.png"/>
     <!-- plugins:css -->
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
@@ -79,17 +80,24 @@
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">ID</span>
+                                        <span class="input-group-text" style="padding: 0 1.7rem;"
+                                              id="basic-addon1">Member ID</span>
                                     </div>
                                     <input type="text" class="form-control" value="${profile.id}"
-                                           aria-label="User ID" aria-describedby="basic-addon1"/>
+                                           aria-label="User ID" aria-describedby="basic-addon1"
+                                           style="background-color: #fff" readonly/>
                                 </div>
                                 <c:if test="${not empty email_split}">
                                     <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text px-5">Email</span>
+                                        </div>
                                         <input type="text" class="form-control" value="${email_split[0]}"
-                                               aria-label="Email Address" aria-describedby="basic-addon2" />
+                                               aria-label="Email Address" aria-describedby="basic-addon2"
+                                               style="background-color: #fff" readonly/>
                                         <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">@fpt.edu.vn</span>
+                                            <span class="input-group-text" style="padding: 0 1.3rem;"
+                                                  id="basic-addon2">@fpt.edu.vn</span>
                                         </div>
                                     </div>
                                 </c:if>
@@ -101,9 +109,11 @@
                                             <span class="input-group-text">Phone Number</span>
                                         </div>
                                         <input type="text" class="form-control" aria-label="Phone Number"
-                                               value="${profile.phoneNumber}" pattern="^[0-9]{1,1000}$" name="txtPhone"/>
+                                               value="${profile.phoneNumber}" pattern="^[0-9]{10}$"
+                                               name="txtPhone"/>
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="submit" name="btAction" value="Change Phone Number">
+                                            <button class="btn btn-outline-secondary" type="submit" name="btAction"
+                                                    value="Change Phone Number">
                                                 Edit <i class="ti ti-pencil"></i>
                                             </button>
                                         </div>
@@ -112,10 +122,10 @@
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">Semester No</span>
+                                        <span class="input-group-text" style="padding: 0 1.3rem;">Semester No</span>
                                     </div>
                                     <input type="text" class="form-control" aria-label="Phone Number"
-                                           value="${profile.semester}"/>
+                                           value="${profile.semester}" readonly style="background-color: #fff"/>
                                 </div>
                             </div>
                         </div>
@@ -125,54 +135,33 @@
                             <div class="card-body">
                                 <h4 class="card-title">Security</h4>
                                 <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Password</span>
-                                    </div>
-                                    <input type="password" class="form-control" aria-label="Password"
-                                           placeholder="****************"/>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" type="button" data-toggle="modal"
-                                                data-target="#passwordChangeModal" style="padding: 0 1.5rem;">
-                                            Change <i class="ti ti-pencil"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <form action="DispatchServlet">
-                            <input type="hidden" value="${profile.id}" name="pk">
-                            <div class="modal fade" id="passwordChangeModal" tabindex="-1" role="dialog"
-                                 aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="passwordChangeModalLabel">
-                                                Change Password
-                                            </h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
+                                    <form action="DispatchServlet" class="w-100">
+                                        <input type="hidden" value="${profile.id}" name="pk">
+                                        <div class="px-3">
                                             <div class="row mb-1">
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-prepend">
-                                                    <span class="input-group-text"
+                                                    <span class="input-group-text" style="padding: 0 .8rem"
                                                           id="label-current-password">Current Password</span>
                                                     </div>
                                                     <input type="password" class="form-control"
-                                                           placeholder="Current Password" aria-label="Current Password"
-                                                           aria-describedby="basic-addon1" name="txtCurrentPassword" value=""/>
+                                                           placeholder="Current Password"
+                                                           aria-label="Current Password"
+                                                           aria-describedby="basic-addon1"
+                                                           name="txtCurrentPassword" value=""/>
                                                 </div>
                                             </div>
                                             <div class="row mb-1">
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="label-new-password">New
-                                                        Password</span>
+                                                        <span class="input-group-text px-4"
+                                                              id="label-new-password">New Password</span>
                                                     </div>
-                                                    <input type="password" class="form-control" placeholder="New Password"
-                                                           aria-label="New Password" aria-describedby="basic-addon1" name="txtNewPassword" value=""/>
+                                                    <input type="password" class="form-control"
+                                                           placeholder="New Password"
+                                                           aria-label="New Password"
+                                                           aria-describedby="basic-addon1"
+                                                           name="txtNewPassword" value=""/>
                                                 </div>
                                             </div>
                                             <div class="row mb-1">
@@ -182,23 +171,22 @@
                                                           id="label-confirm-password">Confirm Password</span>
                                                     </div>
                                                     <input type="password" class="form-control"
-                                                           placeholder="Confirm Password" aria-label="Confirm Password"
-                                                           aria-describedby="basic-addon1" name="txtConfirmPassword" value=""/>
+                                                           placeholder="Confirm Password"
+                                                           aria-label="Confirm Password"
+                                                           aria-describedby="basic-addon1"
+                                                           name="txtConfirmPassword" value=""/>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                                Close
-                                            </button>
-                                            <button type="submit" class="btn btn-primary" name="btAction" value="Change Password">
-                                                Save changes
-                                            </button>
-                                        </div>
-                                    </div>
+                                        <button type="submit" class="btn btn-primary" name="btAction"
+                                                value="Change Password">
+                                            Save changes
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
-                        </form>
+                        </div>
+
                         <!--Notifications tab-->
                         <div class="tab-pane fade" id="list-notifications" role="tabpanel"
                              aria-labelledby="list-notifications-list" style="color: black !important;">
@@ -229,13 +217,11 @@
                                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                         <label class="btn btn-secondary active">
                                             <input type="radio" name="options" id="offHighestRated"
-                                                   autocomplete="off" checked/>
-                                            Off
+                                                   autocomplete="off" checked/>Off
                                         </label>
                                         <label class="btn btn-secondary">
                                             <input type="radio" name="options" id="onHighestRated"
-                                                   autocomplete="off"/>
-                                            On
+                                                   autocomplete="off"/>On
                                         </label>
                                     </div>
                                 </div>
@@ -249,19 +235,9 @@
                                            aria-describedby="order-listing_info">
                                         <thead>
                                         <tr role="row">
-                                            <th class="sorting_asc" tabindex="0" aria-controls="order-listing"
-                                                rowspan="1" colspan="1" aria-sort="ascending"
-                                                aria-label="Order #: activate to sort column descending"
-                                                style="width: 54px;">Order #
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1"
-                                                colspan="1" aria-label="NAME: activate to sort column ascending"
-                                                style="width: 96px;">NAME
-                                            </th>
-                                            <th tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1"
-                                                aria-label="Actions: activate to sort column ascending"
-                                                style="width: 64px;">Actions
-                                            </th>
+                                            <th style="width: 100px;">#</th>
+                                            <th style="width: 73%;">NAME</th>
+                                            <th style="width: 64px;">Actions</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -316,66 +292,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <button type="button" class="btn btn-light" data-toggle="tooltip"
-                                                            title="Delete" data-original-title="Delete">
-                                                        <i class="fa fa-reply text-primary" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="even">
-                                            <td class="sorting_1">2</td>
-                                            <td>Titanic</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <a href="bookDetails.html" class="btn btn-light" role="button">
-                                                        <i class="fa fa-eye text-primary"></i>
-                                                    </a>
-                                                    <button type="button" class="btn btn-light" data-toggle="modal"
-                                                            data-target="#logModal1" title="Update"
-                                                            data-original-title="Edit">
-                                                        <i class="fa fa-refresh text-primary" aria-hidden="true"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-light" data-toggle="tooltip"
-                                                            title="Delete" data-original-title="Delete">
-                                                        <i class="fa fa-reply text-primary" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="odd">
-                                            <td class="sorting_1">3</td>
-                                            <td>Introduction to Software Engineering</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <a href="bookDetails.html" class="btn btn-light" role="button">
-                                                        <i class="fa fa-eye text-primary"></i>
-                                                    </a>
-                                                    <button type="button" class="btn btn-light" data-toggle="modal"
-                                                            data-target="#logModal1" title="Update"
-                                                            data-original-title="Edit">
-                                                        <i class="fa fa-refresh text-primary" aria-hidden="true"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-light" data-toggle="tooltip"
-                                                            title="Delete" data-original-title="Delete">
-                                                        <i class="fa fa-reply text-primary" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="even">
-                                            <td class="sorting_1">4</td>
-                                            <td>Clean code</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <a href="bookDetails.html" class="btn btn-light" role="button">
-                                                        <i class="fa fa-eye text-primary"></i>
-                                                    </a>
-                                                    <button type="button" class="btn btn-light" data-toggle="modal"
-                                                            data-target="#logModal1" title="Update"
-                                                            data-original-title="Edit">
-                                                        <i class="fa fa-refresh text-primary" aria-hidden="true"></i>
-                                                    </button>
                                                     <button type="button" class="btn btn-light" data-toggle="tooltip"
                                                             title="Delete" data-original-title="Delete">
                                                         <i class="fa fa-reply text-primary" aria-hidden="true"></i>
