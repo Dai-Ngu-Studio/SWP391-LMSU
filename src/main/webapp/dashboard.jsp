@@ -150,8 +150,8 @@
                     </a>
                     <div class="collapse" id="user-management">
                         <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"><a class="nav-link" href="MemberManagement.html">Member</a></li>
-                            <li class="nav-item"><a class="nav-link" href="StaffManagement.html">Staff</a></li>
+                            <li class="nav-item"><a class="nav-link" href="ShowMemberServlet">Member</a></li>
+                            <li class="nav-item"><a class="nav-link" href="ShowStaffServlet">Staff</a></li>
                         </ul>
                     </div>
                 </li>
