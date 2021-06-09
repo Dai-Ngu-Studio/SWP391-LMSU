@@ -33,10 +33,10 @@
     <!-- partial:../../partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo mr-5" href="dashboard.html"><img src="images/LMSU LOGO DASHBOARD.svg"
+            <a class="navbar-brand brand-logo mr-5" href="dashboard.jsp"><img src="images/LMSU LOGO DASHBOARD.svg"
                                                                                class="mr-2" alt="logo"
                                                                                style="margin-left: 36px;"/></a>
-            <a class="navbar-brand brand-logo-mini" href="dashboard.html"><img src="images/LMSU LOGO MINI DASHBOARD.svg"
+            <a class="navbar-brand brand-logo-mini" href="dashboard.jsp"><img src="images/LMSU LOGO MINI DASHBOARD.svg"
                                                                                alt="logo"/></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
@@ -134,13 +134,13 @@
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="dashboard.html">
+                    <a class="nav-link" href="dashboard.jsp">
                         <i class="icon-grid menu-icon"></i>
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="index.jsp">
                         <i class="icon-paper menu-icon"></i>
                         <span class="menu-title">Library</span>
                     </a>
@@ -154,8 +154,8 @@
                     </a>
                     <div class="collapse" id="user-management">
                         <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"><a class="nav-link" href="MemberManagement.html">Member</a></li>
-                            <li class="nav-item"><a class="nav-link" href="StaffManagement.html">Staff</a></li>
+                            <li class="nav-item"><a class="nav-link" href="MemberManagement.jsp">Member</a></li>
+                            <li class="nav-item"><a class="nav-link" href="StaffManagement.jsp">Staff</a></li>
                         </ul>
                     </div>
                 </li>
@@ -166,13 +166,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="BookRentalManagement.html">
+                    <a class="nav-link" href="BookRentalManagement.jsp">
                         <i class="icon-archive menu-icon"></i>
                         <span class="menu-title">Book Rental</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="ImportLog.html">
+                    <a class="nav-link" href="ImportLog.jsp">
                         <i class="icon-file-subtract menu-icon"></i>
                         <span class="menu-title">Import Log</span>
                     </a>
