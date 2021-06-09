@@ -40,7 +40,7 @@ CREATE TABLE Users(
 	email varchar(255),
 	phoneNumber varchar(10),
 	profilePicturePath varchar(MAX),
-	deleteStatus bit NOT NULL
+	activeStatus bit NOT NULL
 );
 GO
 CREATE TABLE Authors(
@@ -179,10 +179,10 @@ insert into Roles (id, name) values ('2', 'MNG');
 insert into Roles (id, name) values ('3', 'LIB');
 insert into Roles (id, name) values ('4', 'MEM');
 
-insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, deleteStatus) values ('SE000001', 'Dat', '4', 1, '1234', '1234', 'dat@fpt.edu.vn', '123456789', 'C:\a.png', 0);
-insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, deleteStatus) values ('LE000001', 'Nguyen', '4', 1, '1234', '1234', 'nguyen@fpt.edu.vn', '123456789', 'C:\a.png', 0);
-insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, deleteStatus) values ('LIB00001', 'Dung', '3', 1, '1234', '1234', 'dung@fpt.edu.vn', '123456789', 'C:\a.png', 0);
-insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, deleteStatus) values ('MNG00001', 'Phuc', '2', 1, '1234', '1234', 'phuc@fpt.edu.vn', '123456789', 'C:\a.png', 0);
+insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, activeStatus) values ('SE000001', 'Dat', '4', 1, '1234', '1234', 'dat@fpt.edu.vn', '123456789', 'C:\a.png', 0);
+insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, activeStatus) values ('LE000001', 'Nguyen', '4', 1, '1234', '1234', 'nguyen@fpt.edu.vn', '123456789', 'C:\a.png', 0);
+insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, activeStatus) values ('LIB00001', 'Dung', '3', 1, '1234', '1234', 'dung@fpt.edu.vn', '123456789', 'C:\a.png', 0);
+insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, activeStatus) values ('MNG00001', 'Phuc', '2', 1, '1234', '1234', 'phuc@fpt.edu.vn', '123456789', 'C:\a.png', 0);
 
 insert into ImportLogs (id,	bookID,	managerID, dateTaken, supplier, quantity) values (1, 1, 'LIB00001', '2020/06/06', 'Xuong in Thien Phuc', 1);
 insert into ImportLogs (id,	bookID,	managerID, dateTaken, supplier, quantity) values (2, 2, 'LIB00001', '2021/06/07', 'Xuong in Nguyen Dung', 1);
