@@ -198,118 +198,110 @@
             </div>
             <%--End: Book Options Section--%>
             <%--Start: Book Comment Section--%>
+            <%--List<CommentObj>--%>
+            <c:set var="commentList" value="${requestScope.COMMENT_LIST}"/>
             <div class="card mt-3">
                 <div class="card-body">
-                    <div class="card-title">Comments (2)</div>
-                    <div class="row mt-3">
-                        <div class="col-lg-2">
-                            <img src="images/images/faces/fn2.png" class="rounded-circle img-fluid" alt="..."/>
-                        </div>
-                        <div class="col-lg-8">
-                            <div class="card">
-                                <div class="card-body pt-1">
-                                    <div class="card-title mt-1 mb-1">
-                                        Nguyễn Dũng (K15 HCM)
+                    <%--Start: Other Comments--%>
+                    <c:if test="${not empty commentList}">
+                        <div class="card-title">Comments (${requestScope.COMMENT_AMOUNT})</div>
+                        <c:forEach var="comment" items="${commentList}" varStatus="commentCounter">
+                            <div class="row mt-3">
+                                <div class="col-2">
+                                    <img src="images/images/faces/fn2.png"
+                                         class="rounded-circle img-fluid" alt="..."/>
+                                </div>
+                                <div class="col-8">
+                                    <div class="card">
+                                        <div class="card-body pt-1">
+                                            <div class="card-title my-1">
+                                                    ${comment.memberName}
+                                                <small class="card-text text-info font-weight-light">
+                                                    <c:set var="memberRating"
+                                                           value="${fn:substringBefore(comment.rating,'.')}"/>
+                                                    <c:forEach begin="${1}" end="${memberRating}">
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                    </c:forEach>
+                                                    <c:forEach begin="${memberRating}" end="${4}">
+                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                    </c:forEach>
+                                                </small>
+                                            </div>
+                                            <div class="card-text">
+                                                    ${comment.textComment}
+                                            </div>
+                                            <small class="card-text">
+                                                <c:if test="${comment.edited}">
+                                                    <div class="mt-2 font-weight-lighter text-right text-muted ">
+                                                        Edited by ${comment.editorName}
+                                                    </div>
+                                                </c:if>
+                                            </small>
+                                        </div>
                                     </div>
-                                    <div class="card-text">khok 🥲.</div>
+                                </div>
+                                <div class="col-2" style="list-style-type: none;">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link count-indicator" data-toggle="dropdown">
+                                            <i class="ti-more"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                                             aria-labelledby="commentOptionDropdown">
+                                            <a class="dropdown-item preview-item d-flex align-items-center">
+                                                <div class="preview-thumbnail">
+                                                    <i class="fa fa-edit"></i>
+                                                </div>
+                                                <div class="preview-item-content">
+                                                    <h6 class="preview-subject font-weight-normal mb-0">Edit
+                                                        Comment</h6>
+                                                </div>
+                                            </a>
+                                            <a class="dropdown-item preview-item d-flex align-items-center">
+                                                <div class="preview-thumbnail">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </div>
+                                                <div class="preview-item-content">
+                                                    <h6 class="preview-subject font-weight-normal mb-0">Delete
+                                                        Comment</h6>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </li>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-2" style="list-style-type: none;">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link count-indicator" id="commentOptionDropdown" href="#"
-                                   data-toggle="dropdown">
-                                    <i class="ti-more"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                     aria-labelledby="commentOptionDropdown">
-                                    <a class="dropdown-item preview-item d-flex align-items-center">
-                                        <div class="preview-thumbnail">
-                                            <i class="fa fa-edit"></i>
-                                        </div>
-                                        <div class="preview-item-content">
-                                            <h6 class="preview-subject font-weight-normal mb-0">Edit Comment</h6>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item preview-item d-flex align-items-center">
-                                        <div class="preview-thumbnail">
-                                            <i class="fa fa-trash-o"></i>
-                                        </div>
-                                        <div class="preview-item-content">
-                                            <h6 class="preview-subject font-weight-normal mb-0">Delete Comment</h6>
-                                        </div>
-                                    </a>
+                        </c:forEach>
+                    </c:if>
+                    <%--End: Other Comments--%>
+                    <%--Start: Current User Comment--%>
+                    <c:set var="session" value="${sessionScope}"/>
+                    <c:if test="${not empty session}">
+                        <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
+                        <c:if test="${not empty user}">
+                            <div class="row mt-3">
+                                <div class="col-sm-2 col-lg-2">
+                                    <img src="images/images/faces/face9.jpg" class="rounded-circle img-fluid"/>
                                 </div>
-                            </li>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-lg-2">
-                            <img src="images/images/faces/face25.jpg" class="rounded-circle img-fluid" alt="..."/>
-                        </div>
-                        <div class="col-lg-8">
-                            <div class="card">
-                                <div class="card-body pt-1">
-                                    <div class="card-title mt-1 mb-1">Ni Gà (K15 HCM)</div>
-                                    <div class="card-text">
-                                        Yooooo... duude, this stuff takes you to frickin' heaven maan...
+                                <div class="col-sm-8 col-lg-8">
+                                    <div class="card">
+                                        <div class="card-body pt-1">
+                                            <div class="card-title my-1">
+                                                    ${user.name}
+                                            </div>
+                                            <div class="form-group">
+                                                <textarea class="form-control" rows="3"></textarea>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="col-sm-2 col-lg-2">
+                                    <button type="button" class="btn btn-primary btn-block">
+                                        <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit
+                                    </button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-2" style="list-style-type: none;">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link count-indicator" id="notificationDropdown" href="#"
-                                   data-toggle="dropdown">
-                                    <i class="ti-more"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                     aria-labelledby="notificationDropdown">
-                                    <a class="dropdown-item preview-item d-flex align-items-center">
-                                        <div class="preview-thumbnail">
-                                            <i class="fa fa-edit"></i>
-                                        </div>
-                                        <div class="preview-item-content">
-                                            <h6 class="preview-subject font-weight-normal mb-0">Edit Comment
-                                            </h6>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item preview-item d-flex align-items-center">
-                                        <div class="preview-thumbnail">
-                                            <i class="fa fa-trash-o"></i>
-                                        </div>
-                                        <div class="preview-item-content">
-                                            <h6 class="preview-subject font-weight-normal mb-0">Delete Comment
-                                            </h6>
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-lg-2">
-                            <img src="images/images/faces/face9.jpg" class="rounded-circle img-fluid" alt="..."/>
-                        </div>
-                        <div class="col-lg-8">
-                            <div class="card">
-                                <div class="card-body pt-1">
-                                    <div class="card-title mt-1 mb-1">
-                                        Quí Bừu Lọt (K15 HCM)
-                                    </div>
-                                    <div class="form-group">
-                                        <textarea class="form-control" id="exampleFormControlTextarea1"
-                                                  rows="3"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2">
-                            <button type="button" class="btn btn-primary btn-block">
-                                <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit
-                            </button>
-                        </div>
-                    </div>
+                        </c:if>
+                    </c:if>
+                    <%--End: Current User Comment--%>
                 </div>
             </div>
             <%--End: Book Comment Section--%>
