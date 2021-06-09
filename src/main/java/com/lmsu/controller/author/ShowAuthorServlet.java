@@ -1,9 +1,7 @@
-package com.lmsu.controller;
+package com.lmsu.controller.author;
 
 import com.lmsu.authors.AuthorDAO;
 import com.lmsu.authors.AuthorDTO;
-import com.lmsu.books.BookDAO;
-import com.lmsu.books.BookDTO;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;

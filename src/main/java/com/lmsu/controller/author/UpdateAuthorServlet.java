@@ -1,7 +1,8 @@
-package com.lmsu.controller;
+package com.lmsu.controller.author;
 
 import com.lmsu.authors.AuthorDAO;
 import com.lmsu.books.BookDAO;
+import com.lmsu.controller.UpdateBookServlet;
 import com.lmsu.utils.ImageHelpers;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
