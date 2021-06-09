@@ -30,16 +30,12 @@ public class DispatchServlet extends HttpServlet {
     private static final String CHANGE_PASSWORD_CONTROLLER = "ChangePasswordServlet";
     private static final String CHANGE_PHONE_CONTROLLER = "ChangePhoneServlet";
     private static final String VIEW_BOOK_DETAILS_CONTROLLER = "ViewBookDetailsServlet";
-<<<<<<< HEAD
     private static final String SEARCH_MEMBER_CONTROLLER = "SearchMemberServlet";
-=======
     private static final String UPDATE_AUTHOR_CONTROLLER = "UpdateAuthorServlet";
     private static final String DELETE_AUTHOR_CONTROLLER = "DeleteAuthorServlet";
     private static final String SEARCH_AUTHOR_CONTROLLER = "SearchAuthorNameServlet";
     private static final String ADD_AUTHOR_CONTROLLER = "AddAuthorServlet";
     private static final String VIEW_AUTHOR_DETAILS_CONTROLLER = "ViewAuthorDetailsServlet";
-
->>>>>>> 585cae0a5bb43aee7c82d07dfc204a5332bf7e6a
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -74,10 +70,8 @@ public class DispatchServlet extends HttpServlet {
                 url = CHANGE_PHONE_CONTROLLER;
             } else if (button.equals("View Details")) {
                 url = VIEW_BOOK_DETAILS_CONTROLLER;
-<<<<<<< HEAD
             } else if (button.equals("SearchMember")){
                 url = SEARCH_MEMBER_CONTROLLER;
-=======
             } else if (button.equals("Update Author")) {
                 url = UPDATE_AUTHOR_CONTROLLER;
             } else if (button.equals("Delete Author")) {
@@ -88,7 +82,6 @@ public class DispatchServlet extends HttpServlet {
                 url = ADD_AUTHOR_CONTROLLER;
             } else if (button.equals("View Authors")){
                 url = VIEW_AUTHOR_DETAILS_CONTROLLER;
->>>>>>> 585cae0a5bb43aee7c82d07dfc204a5332bf7e6a
             }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
