@@ -154,8 +154,13 @@
                     </a>
                     <div class="collapse" id="user-management">
                         <ul class="nav flex-column sub-menu">
+<<<<<<< HEAD
+                            <li class="nav-item"><a class="nav-link" href="ShowMemberServlet">Member</a></li>
+                            <li class="nav-item"><a class="nav-link" href="StaffManagement.html">Staff</a></li>
+=======
                             <li class="nav-item"><a class="nav-link" href="MemberManagement.jsp">Member</a></li>
                             <li class="nav-item"><a class="nav-link" href="StaffManagement.jsp">Staff</a></li>
+>>>>>>> 585cae0a5bb43aee7c82d07dfc204a5332bf7e6a
                         </ul>
                     </div>
                 </li>
@@ -441,13 +446,13 @@
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
-                                                            aria-label="NAME: activate to sort column ascending"
-                                                            style="width: 96px; text-align: center">NAME
+                                                            aria-label="BOOK NAME: activate to sort column ascending"
+                                                            style="width: 96px; text-align: left">NAME
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
                                                             aria-label="QUANTITY: activate to sort column ascending"
-                                                            style="width: 96px; text-align: center">QUANTITY
+                                                            style="width: 96px; text-align: right">QUANTITY
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
@@ -471,10 +476,10 @@
                                                                 <!--Start: Book Item Form-->
                                                                 <td class="sorting_1"
                                                                     style="text-align: center">${counter.count}</td>
-                                                                <td style="text-align: center">
+                                                                <td style="text-align: left">
                                                                         ${book.title}
                                                                 </td>
-                                                                <td style="text-align: center">${book.quantity}</td>
+                                                                <td style="text-align: right">${book.quantity}</td>
                                                                 <td style="text-align: center">
                                                                     <c:if test="${book.quantity > 0}">
                                                                         <label class="badge badge-success">Available</label>

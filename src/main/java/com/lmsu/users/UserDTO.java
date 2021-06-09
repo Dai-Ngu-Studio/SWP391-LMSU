@@ -17,6 +17,6 @@ class UserDTO implements Serializable {
     private String passwordGoogle;
     private String email;
     private String phoneNumber;
-    private String semester; // thiếu trong DB
+    private String semester;
     private String profilePicturePath;
 }

@@ -16,7 +16,7 @@ import java.util.List;
 public class ChangePasswordServlet extends HttpServlet {
 
     private static final String RESULT_PAGE = "usersettings.jsp";
-    //private static final String ERROR_PAGE = "usersettings.jsp";
+
     static final Logger LOGGER = Logger.getLogger(ChangePasswordServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,16 +26,25 @@ public class ChangePasswordServlet extends HttpServlet {
         String confirmPW = request.getParameter("txtConfirmPassword");
 
         String url = RESULT_PAGE;
+
         try {
+            HttpSession session = request.getSession();
             UserDAO dao = new UserDAO();
-            if(dao.DoesPasswordEnterCorrect(currentPW)){
-                if(confirmPW.trim().equals(newPW.trim())){
+            UserDTO dto = (UserDTO) session.getAttribute("LOGIN_USER");
+
+            if (currentPW.equals(dto.getPassword())) {
+                if (confirmPW.trim().equals(newPW.trim())) {
                     boolean result = dao.updatePassword(pk, newPW);
-                    if(result){
-                        url = RESULT_PAGE;
+                    if (result) {
+                        dto.setPassword(newPW);
                     }
+                } else {
+                    request.setAttribute("WRONG_CONFIRM_PASSWORD", "confirm password not match!");
                 }
+            } else {
+                request.setAttribute("WRONG_PASSWORD", "password not match!");
             }
+            url = RESULT_PAGE;
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
             log("ChangePasswordServlet _ SQL: " + ex.getMessage());
