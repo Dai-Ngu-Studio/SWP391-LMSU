@@ -23,10 +23,10 @@
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="images/images/favicon.png"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
     <script src="js/bookmanagement.js"></script>
+    <script src="js/iconpro.js"></script>
 </head>
 <body>
 <div class="container-scroller">
@@ -167,7 +167,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="ShowAuthorServlet">
-                        <i class="icon-head menu-icon"></i>
+                        <i class="fal fa-user-edit menu-icon"></i>
                         <span class="menu-title">Authors</span>
                     </a>
                 </li>
