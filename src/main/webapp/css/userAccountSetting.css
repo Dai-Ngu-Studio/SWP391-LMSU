@@ -5,6 +5,8 @@
 .list-group-item.active {
     color: #fff !important;
     border-radius: 0 !important;
+    background-color: #748DDB !important;
+    border-color: #748DDB !important;
 }
 
 .form-control {
@@ -14,6 +16,10 @@
 .row .btn {
     padding: 0 1.5rem !important;
     height: 44px !important;
+}
+
+th, td {
+    text-align: center !important;
 }
 
 .input-group-prepend,
