@@ -73,8 +73,8 @@ public class ViewBookDetailsServlet extends HttpServlet {
                         numberOfComment++;
                     }
                     request.setAttribute("COMMENT_LIST", commentObjList);
-                    request.setAttribute("COMMENT_AMOUNT", numberOfComment);
                 }
+                request.setAttribute("COMMENT_AMOUNT", numberOfComment);
                 url = BOOK_DETAILS_PAGE;
             } //end if bookDTO existed
         } catch (SQLException e) {

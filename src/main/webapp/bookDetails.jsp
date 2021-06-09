@@ -203,8 +203,8 @@
             <div class="card mt-3">
                 <div class="card-body">
                     <%--Start: Other Comments--%>
+                    <div class="card-title">Comments (${requestScope.COMMENT_AMOUNT})</div>
                     <c:if test="${not empty commentList}">
-                        <div class="card-title">Comments (${requestScope.COMMENT_AMOUNT})</div>
                         <c:forEach var="comment" items="${commentList}" varStatus="commentCounter">
                             <div class="row mt-3">
                                 <div class="col-2">
@@ -215,7 +215,7 @@
                                     <div class="card">
                                         <div class="card-body pt-1">
                                             <div class="card-title my-1">
-                                                    ${comment.memberName}
+                                                <span class="card-text mr-2">${comment.memberName}</span>
                                                 <small class="card-text text-info font-weight-light">
                                                     <c:set var="memberRating"
                                                            value="${fn:substringBefore(comment.rating,'.')}"/>
@@ -277,28 +277,51 @@
                     <c:if test="${not empty session}">
                         <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
                         <c:if test="${not empty user}">
-                            <div class="row mt-3">
-                                <div class="col-sm-2 col-lg-2">
-                                    <img src="images/images/faces/face9.jpg" class="rounded-circle img-fluid"/>
-                                </div>
-                                <div class="col-sm-8 col-lg-8">
-                                    <div class="card">
-                                        <div class="card-body pt-1">
-                                            <div class="card-title my-1">
-                                                    ${user.name}
-                                            </div>
-                                            <div class="form-group">
-                                                <textarea class="form-control" rows="3"></textarea>
+                            <c:forEach var="comment" items="${commentList}">
+                                <c:if test="${comment.memberID eq user.id}" var="hasCommented"></c:if>
+                            </c:forEach>
+                            <c:if test="${not hasCommented}">
+                                <form action="AddCommentServlet" class="my-0 mx-0">
+                                    <div class="row mt-3">
+                                        <div class="col-2">
+                                            <img src="images/images/faces/face9.jpg" class="rounded-circle img-fluid"/>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="card">
+                                                <div class="card-body pt-1">
+                                                    <div class="card-title my-1">
+                                                    <span class="row">
+                                                        <span class="card-text col-7">${user.name}</span>
+                                                        <span class="row col-5">
+                                                            <span class="col-6 font-weight-light">Rating</span>
+                                                            <select name="bookRating" class="custom-select col-6">
+                                                                <option value="0" selected>0</option>
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5">5</option>
+                                                            </select>
+                                                        </span>
+                                                    </span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                    <textarea class="form-control" rows="3"
+                                                              name="txtComment"></textarea>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="col-2">
+                                            <input type="hidden" name="bookPk" value="${bookObj.id}"/>
+                                            <button type="submit" class="btn btn-primary btn-block"
+                                                    name="btAction" value="AddComment">
+                                                <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-sm-2 col-lg-2">
-                                    <button type="button" class="btn btn-primary btn-block">
-                                        <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit
-                                    </button>
-                                </div>
-                            </div>
+                                </form>
+                            </c:if>
                         </c:if>
                     </c:if>
                     <%--End: Current User Comment--%>

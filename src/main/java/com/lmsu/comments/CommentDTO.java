@@ -12,15 +12,18 @@ class CommentDTO implements Serializable {
     private float rating;
     private String editorID;
     private boolean isEdited;
+    private boolean deleteStatus;
 
     public CommentDTO() { }
 
-    public CommentDTO(String memberID, String bookID, String textComment, float rating, String editorID, boolean isEdited) {
+    public CommentDTO(String memberID, String bookID, String textComment, float rating,
+                      String editorID, boolean isEdited, boolean deleteStatus) {
         this.memberID = memberID;
         this.bookID = bookID;
         this.textComment = textComment;
         this.rating = rating;
         this.editorID = editorID;
         this.isEdited = isEdited;
+        this.deleteStatus = deleteStatus;
     }
 }
