@@ -4,8 +4,12 @@ import com.lmsu.authors.AuthorDAO;
 import com.lmsu.authors.AuthorDTO;
 import com.lmsu.bean.member.AuthorObj;
 import com.lmsu.bean.member.BookObj;
+import com.lmsu.bean.member.CommentObj;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
+import com.lmsu.comments.CommentDAO;
+import com.lmsu.comments.CommentDTO;
+import com.lmsu.users.UserDAO;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -14,6 +18,8 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "ViewBookDetailsServlet", value = "/ViewBookDetailsServlet")
 public class ViewBookDetailsServlet extends HttpServlet {
@@ -48,6 +54,27 @@ public class ViewBookDetailsServlet extends HttpServlet {
                         bookDTO.getDescription(), bookDTO.getQuantity(), bookDTO.getAvgRating(),
                         bookDTO.getIsbnTen(), bookDTO.getIsbnThirteen(), bookDTO.getCoverPath());
                 request.setAttribute("BOOK_OBJECT", bookObj);
+
+                // Get comments
+                CommentDAO commentDAO = new CommentDAO();
+                commentDAO.viewBookComments(bookID);
+                List<CommentDTO> commentList = commentDAO.getCommentList();
+                List<CommentObj> commentObjList = new ArrayList<CommentObj>();
+                int numberOfComment = 0;
+                if (commentList != null) {
+                    for (CommentDTO commentDTO : commentList) {
+                        CommentObj commentObj =
+                                new CommentObj(commentDTO.getMemberID(), "Nguyen Dung (K15 HCM)",
+                                        commentDTO.getBookID(), commentDTO.getTextComment(),
+                                        commentDTO.getRating(), commentDTO.getEditorID(),
+                                        "Bonk Master",
+                                        commentDTO.isEdited());
+                        commentObjList.add(commentObj);
+                        numberOfComment++;
+                    }
+                    request.setAttribute("COMMENT_LIST", commentObjList);
+                }
+                request.setAttribute("COMMENT_AMOUNT", numberOfComment);
                 url = BOOK_DETAILS_PAGE;
             } //end if bookDTO existed
         } catch (SQLException e) {

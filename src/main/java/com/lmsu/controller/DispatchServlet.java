@@ -21,16 +21,25 @@ public class DispatchServlet extends HttpServlet {
     private static final String LOGIN_CONTROLLER = "LoginServlet";
     private static final String LOGOUT_CONTROLLER = "LogoutServlet";
     private static final String STARTUP_CONTROLLER = "StartupServlet";
-    private static final String UPDATE_CONTROLLER = "UpdateBookServlet";
-    private static final String DELETE_CONTROLLER = "DeleteBookServlet";
-    private static final String SEARCH_CONTROLLER = "SearchTitleServlet";
-    private static final String ADD_CONTROLLER = "AddBookServlet";
+    private static final String UPDATE_BOOK_CONTROLLER = "UpdateBookServlet";
+    private static final String DELETE_BOOK_CONTROLLER = "DeleteBookServlet";
+    private static final String SEARCH_BOOK_CONTROLLER = "SearchTitleServlet";
+    private static final String ADD_BOOK_CONTROLLER = "AddBookServlet";
     private static final String SEARCH_CATALOG_CONTROLLER = "SearchBookCatalogServlet";
     private static final String SHOW_AUTHOR_BOOK_CONTROLLER = "ShowAuthorBookServlet";
     private static final String CHANGE_PASSWORD_CONTROLLER = "ChangePasswordServlet";
     private static final String CHANGE_PHONE_CONTROLLER = "ChangePhoneServlet";
     private static final String VIEW_BOOK_DETAILS_CONTROLLER = "ViewBookDetailsServlet";
+<<<<<<< HEAD
     private static final String SEARCH_MEMBER_CONTROLLER = "SearchMemberServlet";
+=======
+    private static final String UPDATE_AUTHOR_CONTROLLER = "UpdateAuthorServlet";
+    private static final String DELETE_AUTHOR_CONTROLLER = "DeleteAuthorServlet";
+    private static final String SEARCH_AUTHOR_CONTROLLER = "SearchAuthorNameServlet";
+    private static final String ADD_AUTHOR_CONTROLLER = "AddAuthorServlet";
+    private static final String VIEW_AUTHOR_DETAILS_CONTROLLER = "ViewAuthorDetailsServlet";
+
+>>>>>>> 585cae0a5bb43aee7c82d07dfc204a5332bf7e6a
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -48,13 +57,13 @@ public class DispatchServlet extends HttpServlet {
             } else if (button.equals("Logout")) {
                 url = LOGOUT_CONTROLLER;
             } else if (button.equals("Update Book")) {
-                url = UPDATE_CONTROLLER;
+                url = UPDATE_BOOK_CONTROLLER;
             } else if (button.equals("Delete Book")) {
-                url = DELETE_CONTROLLER;
+                url = DELETE_BOOK_CONTROLLER;
             } else if (button.equals("SearchBook")) {
-                url = SEARCH_CONTROLLER;
+                url = SEARCH_BOOK_CONTROLLER;
             } else if (button.equals("AddBook")) {
-                url = ADD_CONTROLLER;
+                url = ADD_BOOK_CONTROLLER;
             } else if (button.equals("SearchBookCatalog")) {
                 url = SEARCH_CATALOG_CONTROLLER;
             } else if (button.equals("See More Books of This Author")) {
@@ -65,8 +74,21 @@ public class DispatchServlet extends HttpServlet {
                 url = CHANGE_PHONE_CONTROLLER;
             } else if (button.equals("View Details")) {
                 url = VIEW_BOOK_DETAILS_CONTROLLER;
+<<<<<<< HEAD
             } else if (button.equals("SearchMember")){
                 url = SEARCH_MEMBER_CONTROLLER;
+=======
+            } else if (button.equals("Update Author")) {
+                url = UPDATE_AUTHOR_CONTROLLER;
+            } else if (button.equals("Delete Author")) {
+                url = DELETE_AUTHOR_CONTROLLER;
+            } else if (button.equals("SearchAuthor")) {
+                url = SEARCH_AUTHOR_CONTROLLER;
+            } else if (button.equals("AddAuthor")) {
+                url = ADD_AUTHOR_CONTROLLER;
+            } else if (button.equals("View Authors")){
+                url = VIEW_AUTHOR_DETAILS_CONTROLLER;
+>>>>>>> 585cae0a5bb43aee7c82d07dfc204a5332bf7e6a
             }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: NDungx
@@ -199,19 +200,32 @@
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="profileDropdown">
                     <img src="images/images/faces/fn2.png" alt="profile" style="border-radius: 50%; cursor: pointer;"/>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="dashboard.jsp">
-                        <i class="icon-grid text-primary"></i> Dashboard
-                    </a>
-                    <a class="dropdown-item" href="usersettings.jsp">
-                        <i class="ti-settings text-primary"></i> Profile
-                    </a>
-                    <form action="DispatchServlet" class="my-0">
-                        <button class="dropdown-item" name="btAction" value="Logout">
-                            <i class="ti-power-off text-primary"></i> Logout
-                        </button>
-                    </form>
-                </div>
+                <c:set var="session" value="${sessionScope}"/>
+                <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
+                <c:if test="${not empty session}">
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                        <c:if test="${user.roleID ne '4'}">
+                            <a class="dropdown-item" href="dashboard.jsp">
+                                <i class="icon-grid text-primary"></i> Dashboard
+                            </a>
+                        </c:if>
+                        <a class="dropdown-item" href="usersettings.jsp">
+                            <i class="ti-settings text-primary"></i> Profile
+                        </a>
+                        <form action="DispatchServlet" class="my-0">
+                            <button class="dropdown-item" name="btAction" value="Logout">
+                                <i class="ti-power-off text-primary"></i> Logout
+                            </button>
+                        </form>
+                    </div>
+                </c:if>
+                <c:if test="${empty session}">
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                        <a class="dropdown-item" href="login.html">
+                            <i class="ti-settings text-primary"></i> Login
+                        </a>
+                    </div>
+                </c:if>
             </li>
         </ul>
     </div>

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: NDungx
@@ -29,10 +30,10 @@
     <!-- partial:../../partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo mr-5" href="dashboard.html"><img src="images/LMSU LOGO DASHBOARD.svg"
+            <a class="navbar-brand brand-logo mr-5" href="dashboard.jsp"><img src="images/LMSU LOGO DASHBOARD.svg"
                                                                                class="mr-2" alt="logo"
                                                                                style="margin-left: 40px;"/></a>
-            <a class="navbar-brand brand-logo-mini" href="dashboard.html"><img src="images/LMSU LOGO MINI DASHBOARD.svg"
+            <a class="navbar-brand brand-logo-mini" href="dashboard.jsp"><img src="images/LMSU LOGO MINI DASHBOARD.svg"
                                                                                alt="logo"/></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
@@ -108,10 +109,10 @@
                         <img src="images/images/faces/fn2.png" alt="profile" style="border-radius: 50%;"/>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" href="usersettings.jsp">
                             <i class="ti-settings text-primary"></i> Profile
                         </a>
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" href="LogoutServlet">
                             <i class="ti-power-off text-primary"></i> Logout
                         </a>
                     </div>
@@ -130,17 +131,20 @@
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="dashboard.html">
+                    <a class="nav-link" href="dashboard.jsp">
                         <i class="icon-grid menu-icon"></i>
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">
-                        <i class="icon-paper menu-icon"></i>
-                        <span class="menu-title">Library</span>
-                    </a>
-                </li>
+                <c:set var="role" value="${sessionScope.LOGIN_USER}"/>
+                <c:if test="${role.roleID eq '2' or role.roleID eq '3'}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.jsp">
+                            <i class="icon-paper menu-icon"></i>
+                            <span class="menu-title">Library</span>
+                        </a>
+                    </li>
+                </c:if>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#user-management" aria-expanded="false"
                        aria-controls="ui-basic">
@@ -159,6 +163,12 @@
                     <a class="nav-link" href="ShowBookServlet">
                         <i class="icon-book menu-icon"></i>
                         <span class="menu-title">Books</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="ShowAuthorServlet">
+                        <i class="icon-head menu-icon"></i>
+                        <span class="menu-title">Authors</span>
                     </a>
                 </li>
                 <li class="nav-item">
