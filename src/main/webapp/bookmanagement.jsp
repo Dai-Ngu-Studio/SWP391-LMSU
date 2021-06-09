@@ -154,13 +154,8 @@
                     </a>
                     <div class="collapse" id="user-management">
                         <ul class="nav flex-column sub-menu">
-<<<<<<< HEAD
                             <li class="nav-item"><a class="nav-link" href="ShowMemberServlet">Member</a></li>
                             <li class="nav-item"><a class="nav-link" href="StaffManagement.html">Staff</a></li>
-=======
-                            <li class="nav-item"><a class="nav-link" href="MemberManagement.jsp">Member</a></li>
-                            <li class="nav-item"><a class="nav-link" href="StaffManagement.jsp">Staff</a></li>
->>>>>>> 585cae0a5bb43aee7c82d07dfc204a5332bf7e6a
                         </ul>
                     </div>
                 </li>
