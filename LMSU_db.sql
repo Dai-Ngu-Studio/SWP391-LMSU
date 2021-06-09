@@ -31,7 +31,7 @@ CREATE TABLE Users(
 	password varchar(255),
 	passwordGoogle varchar(255),
 	email varchar(255),
-	phoneNumber varchar(255),
+	phoneNumber varchar(10),
 	profilePicturePath varchar(MAX)
 );
 GO
@@ -83,7 +83,51 @@ CREATE TABLE Comments(
 	editorID varchar(255),
 	isEdited bit,
 );
-
+CREATE TABLE Carts(
+	id varchar(255) NOT NULL PRIMARY KEY,
+	memberID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
+	orderDate date,
+	lendMethod bit,
+);
+CREATE TABLE CartItems(
+	id varchar(255) NOT NULL PRIMARY KEY,
+	cartID varchar(255) NOT NULL FOREIGN KEY REFERENCES Carts(id),
+	bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
+	lendStatus int,
+	returnDeadline date,
+	lendDate date,
+	returnDate date
+);
+CREATE TABLE Penalties(
+	itemID varchar(255) NOT NULL FOREIGN KEY REFERENCES CartItems(id),
+	penaltyAmount decimal,
+	penaltyStatus bit
+);
+CREATE TABLE RenewalRequests(
+	id varchar(255) NOT NULL PRIMARY KEY,
+	itemID varchar(255) NOT NULL FOREIGN KEY REFERENCES CartItems(id),
+	librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
+	reason varchar(MAX),
+	requestedExtendDate date,
+	approvalStatus bit
+);
+CREATE TABLE directOrder(
+	cartID varchar(255) NOT NULL FOREIGN KEY REFERENCES Carts(id),
+	librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
+	scheduledTime datetime,
+);
+CREATE TABLE deliveryOrder(
+	cartID varchar(255) NOT NULL FOREIGN KEY REFERENCES Carts(id),
+	managerID varchar(255) FOREIGN KEY REFERENCES Users(id),
+	deliverer varchar(255),
+	scheduledDeliveryTime date,
+	phoneNumber varchar(10),
+	deliveryAddress1 varchar(MAX),
+	deliveryAddress2 varchar(MAX),
+	city varchar(255),
+	district varchar(255),
+	ward varchar(255)
+);
 
 insert into Subjects (id, name, semester_no) values (1, 'Art', 1);
 insert into Subjects (id, name, semester_no) values (2, 'History', 1);
