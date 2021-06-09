@@ -30,6 +30,7 @@ public class DispatchServlet extends HttpServlet {
     private static final String CHANGE_PASSWORD_CONTROLLER = "ChangePasswordServlet";
     private static final String CHANGE_PHONE_CONTROLLER = "ChangePhoneServlet";
     private static final String VIEW_BOOK_DETAILS_CONTROLLER = "ViewBookDetailsServlet";
+    private static final String SEARCH_MEMBER_CONTROLLER = "SearchMemberServlet";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -64,6 +65,8 @@ public class DispatchServlet extends HttpServlet {
                 url = CHANGE_PHONE_CONTROLLER;
             } else if (button.equals("View Details")) {
                 url = VIEW_BOOK_DETAILS_CONTROLLER;
+            } else if (button.equals("SearchMember")){
+                url = SEARCH_MEMBER_CONTROLLER;
             }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
