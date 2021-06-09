@@ -67,7 +67,7 @@ public class UserDAO implements Serializable {
             if (con != null) {
                 //2. Create SQL String
                 String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [passwordGoogle], [email], " +
-                        "[phoneNumber], [profilePicturePath] " +
+                        "[phoneNumber], [profilePicturePath], [activeStatus] " +
                         "FROM [Users]";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
@@ -84,7 +84,8 @@ public class UserDAO implements Serializable {
                     String phoneNumber = rs.getString("phoneNumber");
                     String semester = rs.getString("semester_no");
                     String profilePicturePath = rs.getString("profilePicturePath");
-                    UserDTO dto = new UserDTO(id, name, roleID, password, passwordGoogle, email, phoneNumber, semester, profilePicturePath);
+                    boolean activeStatus = rs.getBoolean("activeStatus");
+                    UserDTO dto = new UserDTO(id, name, roleID, password, passwordGoogle, email, phoneNumber, semester, profilePicturePath, activeStatus);
 
                     if (this.listAccount == null) {
                         this.listAccount = new ArrayList<UserDTO>();
@@ -159,7 +160,7 @@ public class UserDAO implements Serializable {
             if (con != null) {
                 //2. Create SQL String
                 String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [passwordGoogle], [email], " +
-                        "[phoneNumber], [profilePicturePath] " +
+                        "[phoneNumber], [profilePicturePath], [activeStatus] " +
                         "FROM [Users] " +
                         "WHERE [name] LIKE ?";
                 //3. Create Statement
@@ -178,7 +179,8 @@ public class UserDAO implements Serializable {
                     String phoneNumber = rs.getString("phoneNumber");
                     String semester = rs.getString("semester_no");
                     String profilePicturePath = rs.getString("profilePicturePath");
-                    UserDTO dto = new UserDTO(id, name, roleID, password, passwordGoogle, email, phoneNumber, semester, profilePicturePath);
+                    boolean activeStatus = rs.getBoolean("activeStatus");
+                    UserDTO dto = new UserDTO(id, name, roleID, password, passwordGoogle, email, phoneNumber, semester, profilePicturePath, activeStatus);
 
                     if (this.listAccount == null) {
                         this.listAccount = new ArrayList<UserDTO>();
