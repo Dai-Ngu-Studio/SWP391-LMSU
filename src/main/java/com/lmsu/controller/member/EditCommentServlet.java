@@ -21,7 +21,8 @@ public class EditCommentServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String bookID = request.getParameter("bookPk");
-        String textComment = request.getParameter("txtComment");
+        String textEditComment = request.getParameter("txtEditComment");
+        String memberID = request.getParameter("commentMemberID");
 
         String url = VIEW_BOOK_DETAILS_CONTROLLER + "?bookPk=" + bookID;
 
@@ -33,19 +34,19 @@ public class EditCommentServlet extends HttpServlet {
             if (userDTO != null) {
                 String userID = userDTO.getId();
                 CommentDAO commentDAO = new CommentDAO();
-                // W.I.P.
-                if (true) {
+                boolean result = commentDAO.editBookComment(memberID, bookID, textEditComment, userID);
+                if (result) {
                     url = VIEW_BOOK_DETAILS_CONTROLLER + "?bookPk=" + bookID;
                 }
             }
         }
-//        catch (SQLException e) {
-//            LOGGER.error(e.getMessage());
-//            log("EditCommentServlet _ SQL: " + e.getMessage());
-//        } catch (NamingException e) {
-//            LOGGER.error(e.getMessage());
-//            log("EditCommentServlet _ Naming: " + e.getMessage());
-//        }
+        catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            log("EditCommentServlet _ SQL: " + e.getMessage());
+        } catch (NamingException e) {
+            LOGGER.error(e.getMessage());
+            log("EditCommentServlet _ Naming: " + e.getMessage());
+        }
         finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
