@@ -138,7 +138,7 @@
                     </div>
                     <div class="card-title mt-2 mb-0">Description</div>
                     <div class="card-text">
-                        ${bookObj.description}
+                        <c:out value="${bookObj.description}"/>
                     </div>
                 </div>
             </div>
@@ -229,7 +229,7 @@
                                                     </small>
                                                 </div>
                                                 <div class="card-text" id="commentNo${commentCounter.count}">
-                                                        <c:out value="${comment.textComment}"/>
+                                                    <c:out value="${comment.textComment}"/>
                                                 </div>
                                                     <%--Script to toggle edit box--%>
                                                 <script>
