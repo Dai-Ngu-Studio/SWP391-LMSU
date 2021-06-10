@@ -100,7 +100,7 @@
                                     </c:if>
                                 </div>
                                 <c:if test="${not empty user}">
-                                    <a href="../../../../LMSU-FE/LMSU-FE/orderForm.html" type="button"
+                                    <a href="orderform.jsp" type="button"
                                        class="btn btn-success link mt-2">
                                         Proceed to borrow
                                     </a>
