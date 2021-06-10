@@ -10,6 +10,7 @@ import com.lmsu.books.BookDTO;
 import com.lmsu.comments.CommentDAO;
 import com.lmsu.comments.CommentDTO;
 import com.lmsu.users.UserDAO;
+import com.lmsu.users.UserDTO;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -57,17 +58,24 @@ public class ViewBookDetailsServlet extends HttpServlet {
 
                 // Get comments
                 CommentDAO commentDAO = new CommentDAO();
+                UserDAO userDAO = new UserDAO();
                 commentDAO.viewBookComments(bookID);
                 List<CommentDTO> commentList = commentDAO.getCommentList();
                 List<CommentObj> commentObjList = new ArrayList<CommentObj>();
                 int numberOfComment = 0;
                 if (commentList != null) {
                     for (CommentDTO commentDTO : commentList) {
+                        UserDTO userDTO_member = userDAO.getUserByID(commentDTO.getMemberID());
+                        UserDTO userDTO_editor = userDAO.getUserByID(commentDTO.getEditorID());
+                        String editorName = "";
+                        if (userDTO_editor != null) {
+                            editorName = userDTO_editor.getName();
+                        }
                         CommentObj commentObj =
-                                new CommentObj(commentDTO.getMemberID(), "Nguyen Dung (K15 HCM)",
+                                new CommentObj(commentDTO.getMemberID(), userDTO_member.getName(),
                                         commentDTO.getBookID(), commentDTO.getTextComment(),
                                         commentDTO.getRating(), commentDTO.getEditorID(),
-                                        "Bonk Master",
+                                        editorName,
                                         commentDTO.isEdited());
                         commentObjList.add(commentObj);
                         numberOfComment++;

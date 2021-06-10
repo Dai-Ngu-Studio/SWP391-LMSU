@@ -336,8 +336,11 @@
                     <c:if test="${not empty session}">
                         <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
                         <c:if test="${not empty user}">
+                            <c:set var="hasCommented" value="${false}"/>
                             <c:forEach var="comment" items="${commentList}">
-                                <c:if test="${comment.memberID eq user.id}" var="hasCommented"></c:if>
+                                <c:if test="${comment.memberID eq user.id}">
+                                    <c:set var="hasCommented" value="${true}"/>
+                                </c:if>
                             </c:forEach>
                             <c:if test="${not hasCommented}">
                                 <form action="AddCommentServlet" class="my-0 mx-0">
