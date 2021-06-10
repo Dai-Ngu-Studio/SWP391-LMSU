@@ -55,7 +55,7 @@
                             <img src="${pageContext.request.contextPath}/image/${author.coverPath}"
                                  alt="Author Portrait"
                                  class="img-fluid img-thumbnail w-50 my-2"
-                                 onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"/>
+                                 onerror="this.onerror=null; this.src='images/default-user-icon.png';"/>
                         </div>
                         <div class="col-lg-8">
                             <div class="card-body">
