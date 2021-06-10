@@ -127,9 +127,9 @@
                         </c:if>
                         <%--If rating is 0, print five empty stars--%>
                         <c:if test="${bookAvgRating eq 0}">
-                            <c:forEach begin="${1}" end="${5}">
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </c:forEach>
+                                <div class="badge badge-secondary text-wrap">
+                                    Not rated
+                                </div>
                         </c:if>
                         </span>
                     <%--End: Book Rating--%>
