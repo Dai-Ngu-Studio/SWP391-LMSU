@@ -344,12 +344,17 @@
                                                             aria-controls="order-listing" rowspan="1" colspan="1"
                                                             aria-sort="ascending"
                                                             aria-label="Order #: activate to sort column descending"
-                                                            style="width: 0px; text-align: center">#
+                                                            style="width: 0px; text-align: right">#
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
                                                             aria-label="NAME: activate to sort column ascending"
-                                                            style="width: 96px; text-align: center">NAME
+                                                            style="width: 96px; text-align: left">NAME
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
+                                                            rowspan="1" colspan="1"
+                                                            aria-label="NAME: activate to sort column ascending"
+                                                            style="width: 67px; text-align: left">
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
@@ -367,9 +372,11 @@
                                                             <form action="DispatchServlet">
                                                                 <!--Start: Author Item Form-->
                                                                 <td class="sorting_1"
-                                                                    style="text-align: center">${counter.count}</td>
-                                                                <td style="text-align: center">
+                                                                    style="text-align: right">${counter.count}</td>
+                                                                <td style="text-align: left">
                                                                         ${author.authorName}
+                                                                </td>
+                                                                <td style="text-align: left">
                                                                 </td>
                                                             </form>
                                                             <!--End: Author Item Form-->
