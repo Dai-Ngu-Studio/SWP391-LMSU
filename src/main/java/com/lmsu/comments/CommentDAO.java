@@ -97,7 +97,8 @@ public class CommentDAO implements Serializable {
         return false;
     }
 
-    public boolean editBookComment(String memberID, String bookID, String textComment, String editorID)
+    public boolean editBookComment(String memberID, String bookID, String textComment, float rating,
+                                   String editorID, boolean isEdited, boolean deleteStatus)
             throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -109,17 +110,21 @@ public class CommentDAO implements Serializable {
                 //2. Create SQL String
                 String sql = "UPDATE [Comments] " +
                         "SET [textComment] = ?, " +
+                        "[rating] = ?, " +
                         "[editorID] = ?, " +
-                        "[isEdited] = ? " +
+                        "[isEdited] = ?, " +
+                        "[deleteStatus] = ? " +
                         "WHERE [memberID] = ? " +
                         "AND [bookID] = ?";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 stm.setString(1, textComment);
-                stm.setString(2, editorID);
-                stm.setBoolean(3, true);
-                stm.setString(4, memberID);
-                stm.setString(5, bookID);
+                stm.setFloat(2, rating);
+                stm.setString(3, editorID);
+                stm.setBoolean(4, isEdited);
+                stm.setBoolean(5, deleteStatus);
+                stm.setString(6, memberID);
+                stm.setString(7, bookID);
                 //4. Execute Update
                 int row = stm.executeUpdate();
                 //5. Process result
@@ -164,7 +169,7 @@ public class CommentDAO implements Serializable {
                     String editorID = rs.getString("editorID");
                     boolean isEdited = rs.getBoolean("isEdited");
                     boolean deleteStatus = rs.getBoolean("deleteStatus");
-                    CommentDTO dto = new CommentDTO( memberIDVal, bookIDVal, textComment,
+                    CommentDTO dto = new CommentDTO(memberIDVal, bookIDVal, textComment,
                             rating, editorID, isEdited, deleteStatus);
                     return dto;
                 } //end while traversing result
