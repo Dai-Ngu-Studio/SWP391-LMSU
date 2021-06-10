@@ -24,8 +24,6 @@
         <h2 class="pageTitle"><b>Author</b></h2>
     </div>
     <c:set var="authorObj" value="${requestScope.AUTHOR_OBJECT}"/>
-    <c:set var="author" value="${requestScope.AUTHOR_LIST}"/>
-    <c:set var="book" value="${requestScope.BOOK_LIST}"/>
     <div class="author">
         <div class="authorItem d-flex">
             <div class="d-flex flex-column">
@@ -34,9 +32,8 @@
                      onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"
                 />
                 <form action="ShowAuthorBookServlet">
-                    <input type="hidden" name="bookPk" value="${book.bookID}">
-                    <input type="hidden" name="authorPK" value="${authorObj.authorID}"/>
-                    <button class="btn btn-light w-100 mt-3">See More Books of This Author</button>
+                    <input type="hidden" name="authorPk" value="${authorObj.authorID}"/>
+                    <button type="submit" class="btn btn-light w-100 mt-3">See More Books of This Author</button>
                 </form>
             </div>
 

@@ -21,17 +21,15 @@ public class ShowAuthorBookServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String pk = request.getParameter("authorPK");
-        String url = RESULT_PAGE;
+        String authorID = request.getParameter("authorPk");
+        String url = ERROR_PAGE;
         try {
-            List<BookDTO> searchResultReceived = (List<BookDTO>) request.getAttribute("SEARCH_RESULT");
-            if (searchResultReceived != null) {
-                request.setAttribute("BOOK_LIST", searchResultReceived);
-            } else {
-                BookDAO dao = new BookDAO();
-                dao.viewBookByAuthor(pk);
-                List<BookDTO> result = dao.getBookList();
+            BookDAO dao = new BookDAO();
+            dao.viewBookByAuthor(authorID);
+            List<BookDTO> result = dao.getBookList();
+            if (!result.isEmpty()) {
                 request.setAttribute("BOOK_LIST", result);
+                url = RESULT_PAGE;
             }
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());

@@ -21,96 +21,74 @@
 <jsp:include page="header.jsp"></jsp:include>
 <jsp:include page="navbar.html"></jsp:include>
 <%--Actual Body--%>
-<div class="row mt-5">
-    <div class="col-lg-2"></div>
-    <div class="col-lg-8 text-center">
-        <h3>Author Catalog</h3>
-    </div>
-    <div class="col-lg-2"></div>
-</div>
-<div class="row mt-2">
-    <div class="col-lg-2"></div>
-    <div class="col-lg-4 text-center h5">Page 1 of 20</div>
-    <div class="col-lg-4 text-center h5">
-        < 1 2 3 4 5 6 7 ...>
-    </div>
-    <div class="col-lg-2"></div>
-</div>
-
-<c:set var="authorList" value="${requestScope.AUTHOR_LIST}"/>
-<c:set var="indexCount" value="${0}"/>
-<c:set var="authorTotal" value="${0}"/>
-<c:forEach var="author" items="${authorList}"
-           varStatus="counter">
-    <%--Book Row--%>
-    <c:if test="${indexCount eq 0}">
-        <div class="row mt-3"> <%--Start: div class="row mt-2" --%>
-    </c:if>
-    <%--Start: Empty Column--%>
-    <c:if test="${indexCount eq 0}">
+<div class="bg-light py-5">
+    <div class="row">
         <div class="col-lg-2"></div>
-    </c:if>
-    <%--End: Empty Column--%>
-    <%--Start: Book Item--%>
+        <div class="col-lg-8 text-center">
+            <h3>Author Catalog</h3>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-4 text-center h5">Page 1 of 20</div>
+        <div class="col-lg-4 text-center h5">
+            < 1 2 3 4 5 6 7 ...>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
 
-    <div class="col-lg-4 text-center">
-        <div class="card h-100 mh-100" style="max-width: 540px">
-            <div class="row">
-                <div class="col-lg-4">
-                    <img src="${pageContext.request.contextPath}/image/${book.coverPath}" alt="Book cover"
-                         class="img-fluid"
-                         onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"/>
-                </div>
-                <div class="col-lg-8">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">${book.title}</h5>
-                        <div class="card-text">
-                            <div class="row mb-3 text-left">
-                                ${author.authorName}
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-2"></div>
-                                <div class="col-lg-8">
-                                    <form action="ViewAuthorDetailsServlet" class="mb-0">
-                                        <input type="hidden" name="authorPk" value="${author.authorID}">
-                                        <button type="submit" class="btn btn-info"><i class="fa fa-info-circle"
-                                                                                      aria-hidden="true"></i> More Info
-                                        </button>
-                                    </form>
+    <c:set var="authorList" value="${requestScope.AUTHOR_LIST}"/>
+    <c:set var="authorTotal" value="${0}"/>
+
+    <c:forEach var="author" items="${authorList}"
+               varStatus="counter">
+        <div class="row my-3">
+                <%--Start: Empty Column--%>
+            <div class="col-lg-2"></div>
+                <%--End: Empty Column--%>
+                <%--Start: Author Item--%>
+            <div class="col-lg-8 text-center">
+                <div class="card h-100 mh-100">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <img src="${pageContext.request.contextPath}/image/${author.coverPath}"
+                                 alt="Author Portrait"
+                                 class="img-fluid img-thumbnail w-50 my-2"
+                                 onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"/>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">${author.authorName}</h5>
+                                <div class="card-text">
+                                    <div class="row mb-3 text-left">
+                                            ${author.authorBio}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2"></div>
+                                        <div class="col-lg-8">
+                                            <form action="ShowAuthorBookServlet" class="mb-0">
+                                                <input type="hidden" name="authorPk" value="${author.authorID}">
+                                                <button type="submit" class="btn btn-info">
+                                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                                    See More Books of this Author
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <div class="col-lg-2"></div>
+                                    </div>
                                 </div>
-                                <div class="col-lg-2"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+                <%--Start: Empty Column--%>
+            <div class="col-lg-2"></div>
+                <%--End: Empty Column--%>
         </div>
-    </div>
-
-    <%--End: Book Item--%>
-    <%--Start: Empty Column--%>
-    <c:if test="${indexCount eq 1}">
-        <div class="col-lg-2"></div>
-    </c:if>
-    <%--End: Empty Column--%>
-    <c:if test="${indexCount eq 1}">
-        </div> <%--End: div class="row mt-2" --%>
-    </c:if>
-    <c:choose>
-        <c:when test="${indexCount eq 0}">
-            <c:set var="indexCount" value="${1}"/>
-        </c:when>
-        <c:otherwise>
-            <c:set var="indexCount" value="${0}"/>
-        </c:otherwise>
-    </c:choose>
-    <%--End of Book Row--%>
-    <c:set var="authorTotal" value="${counter.count}"/>
-</c:forEach>
-<c:if test="${(authorTotal mod 2) ne 0}">
-    <%--Closing div in case odd number of books--%>
-    </div> <%--End: div class="row mt-2" --%>
-</c:if>
+    </c:forEach>
+</div>
 <%--Actual Body--%>
 <jsp:include page="scrolltotop.html"></jsp:include>
 <jsp:include page="footer.html"></jsp:include>
