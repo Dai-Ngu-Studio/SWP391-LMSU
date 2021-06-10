@@ -32,7 +32,7 @@
             <%--Start: Book Cover Image--%>
             <div class="text-center">
                 <img src="${pageContext.request.contextPath}/image/${bookObj.coverPath}"
-                     class="rounded img-fluid img-thumbnail" alt="..."
+                     class="rounded img-fluid img-thumbnail"
                      onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"
                 />
             </div>
@@ -209,8 +209,8 @@
                             <form action="EditCommentServlet" class="my-0 mx-0">
                                 <div class="row mt-3">
                                     <div class="col-2">
-                                        <img src="images/images/faces/fn2.png"
-                                             class="rounded-circle img-fluid" alt="..."/>
+                                        <img src="images/default-user-icon.png"
+                                             class="rounded-circle img-fluid"/>
                                     </div>
                                     <div class="col-8">
                                         <div class="card">
