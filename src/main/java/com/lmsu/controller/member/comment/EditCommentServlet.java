@@ -1,4 +1,4 @@
-package com.lmsu.controller.member;
+package com.lmsu.controller.member.comment;
 
 import com.lmsu.comments.CommentDAO;
 import com.lmsu.users.UserDTO;
@@ -11,8 +11,8 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "AddCommentServlet", value = "/AddCommentServlet")
-public class AddCommentServlet extends HttpServlet {
+@WebServlet(name = "EditCommentServlet", value = "/EditCommentServlet")
+public class EditCommentServlet extends HttpServlet {
 
     static final Logger LOGGER = Logger.getLogger(AddCommentServlet.class);
     private static final String VIEW_BOOK_DETAILS_CONTROLLER = "ViewBookDetailsServlet";
@@ -21,8 +21,8 @@ public class AddCommentServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String bookID = request.getParameter("bookPk");
-        String textComment = request.getParameter("txtComment");
-        String txtRating = request.getParameter("bookRating");
+        String textEditComment = request.getParameter("txtEditComment");
+        String memberID = request.getParameter("commentMemberID");
 
         String url = VIEW_BOOK_DETAILS_CONTROLLER + "?bookPk=" + bookID;
 
@@ -33,23 +33,21 @@ public class AddCommentServlet extends HttpServlet {
             UserDTO userDTO = (UserDTO) session.getAttribute("LOGIN_USER");
             if (userDTO != null) {
                 String userID = userDTO.getId();
-                float rating = Float.parseFloat(txtRating);
                 CommentDAO commentDAO = new CommentDAO();
-                boolean result = commentDAO.addCommentToBook(userID, bookID, textComment, rating);
+                boolean result = commentDAO.editBookComment(memberID, bookID, textEditComment, userID);
                 if (result) {
                     url = VIEW_BOOK_DETAILS_CONTROLLER + "?bookPk=" + bookID;
                 }
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             LOGGER.error(e.getMessage());
-            log("AddCommentServlet _ SQL: " + e.getMessage());
+            log("EditCommentServlet _ SQL: " + e.getMessage());
         } catch (NamingException e) {
             LOGGER.error(e.getMessage());
-            log("AddCommentServlet _ Naming: " + e.getMessage());
-        } catch (NumberFormatException e) {
-            LOGGER.error(e.getMessage());
-            log("AddCommentServlet _ NumberFormat: " + e.getMessage());
-        } finally {
+            log("EditCommentServlet _ Naming: " + e.getMessage());
+        }
+        finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }
