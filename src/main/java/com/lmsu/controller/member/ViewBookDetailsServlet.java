@@ -26,7 +26,7 @@ import java.util.List;
 public class ViewBookDetailsServlet extends HttpServlet {
 
     private static final String BOOK_CATALOG_CONTROLLER = "ShowBookCatalogServlet";
-    private static final String BOOK_DETAILS_PAGE = "bookDetails.jsp";
+    private static final String BOOK_DETAILS_PAGE = "bookdetails.jsp";
     static final Logger LOGGER = Logger.getLogger(ViewBookDetailsServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

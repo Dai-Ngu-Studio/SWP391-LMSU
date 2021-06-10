@@ -229,7 +229,7 @@
                                                     </small>
                                                 </div>
                                                 <div class="card-text" id="commentNo${commentCounter.count}">
-                                                        ${comment.textComment}
+                                                        <c:out value="${comment.textComment}"/>
                                                 </div>
                                                     <%--Script to toggle edit box--%>
                                                 <script>
@@ -242,7 +242,7 @@
                                                                     'name="txtEditComment" ' +
                                                                     'id="commentNo${commentCounter.count}"' +
                                                                     'rows="3">' +
-                                                                    '${comment.textComment}' +
+                                                                    '<c:out value="${comment.textComment}"/>' +
                                                                     '</textarea>');
                                                             <%--Replace with Cancel Edit Button--%>
                                                             $('#editSwitch${commentCounter.count}')
@@ -260,7 +260,7 @@
                                                                     $('#commentNo${commentCounter.count}')
                                                                         .replaceWith('<div class="card-text" ' +
                                                                             'id="commentNo${commentCounter.count}">' +
-                                                                            '${comment.textComment}</div>');
+                                                                            '<c:out value="${comment.textComment}"/></div>');
                                                                     <%--Replace with Edit Button--%>
                                                                     $('#cancelEditSwitch${commentCounter.count}')
                                                                         .replaceWith('<h6 id="editSwitch${commentCounter.count}" ' +
