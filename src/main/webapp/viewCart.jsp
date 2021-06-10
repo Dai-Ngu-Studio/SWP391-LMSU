@@ -70,7 +70,7 @@
                                                     />
                                                 </div>
                                                 <div class="col-lg-5">
-                                                        ${book.value.description}
+
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <input type="hidden" name="bookPk" value="${book.key}">
