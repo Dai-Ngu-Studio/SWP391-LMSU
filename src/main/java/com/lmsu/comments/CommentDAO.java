@@ -133,4 +133,37 @@ public class CommentDAO implements Serializable {
         }
         return false;
     }
+
+    public boolean hasCommented(String memberID, String bookID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT [memberID], [bookID] " +
+                        "FROM [Comments] " +
+                        "WHERE [memberID] = ? " +
+                        "AND [bookID] = ?";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, memberID);
+                stm.setString(2, bookID);
+                //4. Execute Query
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                if (rs.next()) {
+                    return true;
+                } //end while traversing result
+            } //end if connection existed
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
 }
