@@ -206,6 +206,7 @@
                     <div class="card-title">Comments (${requestScope.COMMENT_AMOUNT})</div>
                     <c:if test="${not empty commentList}">
                         <c:forEach var="comment" items="${commentList}" varStatus="commentCounter">
+                            <%--Start: Edit Comment Form--%>
                             <form action="EditCommentServlet" class="my-0 mx-0">
                                 <div class="row mt-3">
                                     <div class="col-2">
@@ -308,7 +309,11 @@
                                                         <i class="fa fa-trash-o"></i>
                                                     </div>
                                                     <div class="preview-item-content">
-                                                        <h6 class="preview-subject font-weight-normal mb-0">
+                                                        <h6 id="deleteSwitch${commentCounter.count}"
+                                                            class="preview-subject font-weight-normal mb-0"
+                                                            data-toggle="modal"
+                                                            data-target="#deleteCmtModal${commentCounter.count}"
+                                                            style="cursor: default">
                                                             Delete Comment
                                                         </h6>
                                                     </div>
@@ -328,6 +333,42 @@
                                     </div>
                                 </div>
                             </form>
+                            <%--End: Edit Comment Form--%>
+                            <%--Start: Delete Comment Form--%>
+                            <form action="DeleteCommentServlet" class="my-0">
+                                <input type="hidden" name="commentMemberID" value="${comment.memberID}"/>
+                                <input type="hidden" name="bookPk" value="${comment.bookID}"/>
+                                <div class="modal fade" id="deleteCmtModal${commentCounter.count}"
+                                     tabindex="-1" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="card-title">
+                                                        Delete Comment
+                                                    </div>
+                                                    <div class="card-text">
+                                                        This action cannot be undone. Are you sure?
+                                                    </div>
+                                                    <div class="modal-footer mt-3 pb-0">
+                                                        <button type="button"
+                                                                class="btn btn-secondary"
+                                                                data-dismiss="modal">
+                                                            Cancel
+                                                        </button>
+                                                        <button type="submit" class="btn btn-danger"
+                                                                name="btAction"
+                                                                value="DeleteComment">
+                                                            Delete
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <%--End: Delete Comment Form--%>
                         </c:forEach>
                     </c:if>
                     <%--End: Other Comments--%>
