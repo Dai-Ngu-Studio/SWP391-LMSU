@@ -429,10 +429,12 @@
                                                     <form action="DispatchServlet" enctype="multipart/form-data"
                                                           method="POST">
                                                         <input type="hidden" name="btAction" value="AddBook">
+                                                        <input type="hidden" name="isAddFile" value="True">
                                                         <label class="btn btn-primary" style="border-radius: 5px">
                                                             <input type="file"
                                                                    hidden
-                                                                   onchange="form.submit()"
+                                                                   name="fileAdd"
+                                                                   onchange="form.submit();"
                                                             >
                                                             <i class="fas fa-file-plus"></i>
                                                         </label>

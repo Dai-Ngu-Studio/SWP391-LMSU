@@ -2,6 +2,7 @@ package com.lmsu.controller;
 
 import com.lmsu.books.BookDAO;
 import com.lmsu.utils.ImageHelpers;
+import com.opencsv.CSVReader;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.apache.commons.io.FilenameUtils;
@@ -12,6 +13,8 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -36,48 +39,62 @@ public class AddBookServlet extends HttpServlet {
         //                           String isbn_thirteen
 
         String searchVal = request.getParameter("txtSearchValue");
-
-        String title = request.getParameter("txtTitle");
-        String authorID = request.getParameter("txtAuthorID");
-        String subjectID = request.getParameter("txtSubjectID");
-        String publisher = request.getParameter("txtPublisher");
-        String publishDate = request.getParameter("txtPublishDate");
-        String description = request.getParameter("txtDescription");
-        String price = request.getParameter("txtPrice");
-        String quantity = request.getParameter("txtQuantity");
-        String isbnTen = request.getParameter("txtISBNTen");
-        String isbnThirteen = request.getParameter("txtISBNThirteen");
-
+        String addFile = request.getParameter("isAddFile");
         String url = SHOW_BOOK_CONTROLLER;
 
         try {
-            BookDAO dao = new BookDAO();
-            int bookID = 0;
-            do {
-                bookID++;
-            } while (dao.checkBookId(String.valueOf(bookID)));
-
-            String bookIDTxt = String.valueOf(bookID);
-
-            boolean deleteStatus = false;
-            BigDecimal priceDecimal = new BigDecimal(price);
-            int quantityNum = Integer.parseInt(quantity);
-            Date lastLentDate = Date.valueOf("1980-01-01");
-            float avgRating = 0.0f;
-            //Start to add img to server process
-            String uploadPath= ImageHelpers.getPathImgFolder(getServletContext().getRealPath(""));
-            String fileName="";
-            for (Part part : request.getParts()) {
-                fileName = part.getSubmittedFileName();
-                if (!(fileName == null || fileName.trim().isEmpty())) {
-                    fileName="book-" + bookIDTxt + "." + FilenameUtils.getExtension(fileName);
-                    part.write(uploadPath + fileName);
-//                    String theString = IOUtils.toString(part.getInputStream(), "UTF-8");
-//                    System.out.println(theString);
-                    break;
+            boolean result = false;
+            String title;
+            String authorID;
+            String subjectID;
+            String publisher;
+            String publishDate;
+            String description;
+            String price;
+            String quantity;
+            String isbnTen;
+            String isbnThirteen;
+            if (addFile != null) {
+                for (Part part : request.getParts()) {
+                    if (!(part.getSubmittedFileName() == null || part.getSubmittedFileName().trim().isEmpty())) {
+                        CSVReader csvReader = new CSVReader(new InputStreamReader(part.getInputStream(), "UTF-8"));
+                        String[] nextRecord;
+                        csvReader.readNext(); //Skip first line
+                        while ((nextRecord = csvReader.readNext()) != null) {
+//                            title = nextRecord[0];
+//                            authorID = nextRecord[1];
+//                            subjectID = nextRecord[2];
+//                            publisher = nextRecord[3];
+//                            publishDate = nextRecord[4];
+//                            System.out.println("CSV: "+publishDate);
+//                            description = nextRecord[5];
+//                            price = nextRecord[6];
+//                            quantity = nextRecord[7];
+//                            isbnTen = nextRecord[8];
+//                            isbnThirteen = nextRecord[9];
+//                            add(request, title, authorID, subjectID, publisher, publishDate,
+//                                    description, price, quantity, isbnTen, isbnThirteen, false);
+                            add(request, nextRecord[0], nextRecord[1], nextRecord[2], nextRecord[3], nextRecord[4],
+                                    nextRecord[5], nextRecord[6], nextRecord[7], nextRecord[8], nextRecord[9], false);
+                        }
+                        break;
+                    }
                 }
+            } else {
+                title = request.getParameter("txtTitle");
+                authorID = request.getParameter("txtAuthorID");
+                subjectID = request.getParameter("txtSubjectID");
+                publisher = request.getParameter("txtPublisher");
+                publishDate = request.getParameter("txtPublishDate");
+                System.out.println("WEB: "+publishDate);
+                description = request.getParameter("txtDescription");
+                price = request.getParameter("txtPrice");
+                quantity = request.getParameter("txtQuantity");
+                isbnTen = request.getParameter("txtISBNTen");
+                isbnThirteen = request.getParameter("txtISBNThirteen");
+                add(request, title, authorID, subjectID, publisher, publishDate,
+                        description, price, quantity, isbnTen, isbnThirteen, true);
             }
-            boolean result = dao.addBook(bookIDTxt, title, authorID, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, deleteStatus, lastLentDate, avgRating, isbnTen, isbnThirteen, fileName);
             if (result) {
                 if (searchVal == null || searchVal.trim().isEmpty()) {
                     url = SHOW_BOOK_CONTROLLER;
@@ -85,12 +102,6 @@ public class AddBookServlet extends HttpServlet {
                     url = SEARCH_CONTROLLER;
                 }
             }
-//            if (!result) {
-//                url = "DispatchServlet" +
-//                        "?btAction=SearchBook" +
-//                        "&txtSearchValue=" + searchVal;
-//            }
-
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
             log("AddBookServlet _ SQL: " + ex.getMessage());
@@ -103,6 +114,46 @@ public class AddBookServlet extends HttpServlet {
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
+    }
+
+    protected boolean add(HttpServletRequest request,
+                          String title,
+                          String authorID,
+                          String subjectID,
+                          String publisher,
+                          String publishDate,
+                          String description,
+                          String price,
+                          String quantity,
+                          String isbnTen,
+                          String isbnThirteen,
+                          boolean hasCover) throws Exception {
+        BookDAO dao = new BookDAO();
+        int bookID = 0;
+        do {
+            bookID++;
+        } while (dao.checkBookId(String.valueOf(bookID)));
+
+        String bookIDTxt = String.valueOf(bookID);
+
+        boolean deleteStatus = false;
+        BigDecimal priceDecimal = new BigDecimal(price);
+        int quantityNum = Integer.parseInt(quantity);
+        Date lastLentDate = Date.valueOf("1980-01-01");
+        float avgRating = 0.0f;
+        //Start to add img to server process
+        String uploadPath = ImageHelpers.getPathImgFolder(getServletContext().getRealPath(""));
+        String fileName = "";
+        if (hasCover)
+            for (Part part : request.getParts()) {
+                fileName = part.getSubmittedFileName();
+                if (!(fileName == null || fileName.trim().isEmpty())) {
+                    fileName = "book-" + bookIDTxt + "." + FilenameUtils.getExtension(fileName);
+                    part.write(uploadPath + fileName);
+                    break;
+                }
+            }
+        return dao.addBook(bookIDTxt, title, authorID, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, deleteStatus, lastLentDate, avgRating, isbnTen, isbnThirteen, fileName);
     }
 
     @Override
