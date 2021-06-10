@@ -109,7 +109,7 @@
                                             <span class="input-group-text">Phone Number</span>
                                         </div>
                                         <input type="text" class="form-control" aria-label="Phone Number"
-                                               value="${profile.phoneNumber}" pattern="^[0-9]{10}$"
+                                               value="${profile.phoneNumber}" pattern="^[0-9]{1,10}$"
                                                name="txtPhone"/>
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="submit" name="btAction"

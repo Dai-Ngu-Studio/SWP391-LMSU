@@ -1,6 +1,7 @@
 package com.lmsu.controller;
 
 import com.lmsu.users.UserDAO;
+import com.lmsu.users.UserDTO;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -14,25 +15,26 @@ import java.sql.SQLException;
 public class ChangePhoneServlet extends HttpServlet {
 
     private static final String RESULT_PAGE = "usersettings.jsp";
-    //private static final String
-    //private static final String ERROR_PAGE = "usersettings.jsp";
     static final Logger LOGGER = Logger.getLogger(ChangePasswordServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pk = request.getParameter("pk");
         String phone = request.getParameter("txtPhone");
-
+        HttpSession session = request.getSession();
 
         String url = RESULT_PAGE;
         try {
             UserDAO dao = new UserDAO();
-            if(!phone.equals("")){
-                boolean result = dao.updatePhone(pk, phone);
-                if(result){
-                    url = RESULT_PAGE;
+            UserDTO dto = (UserDTO) session.getAttribute("LOGIN_USER");
+            if(session != null){
+                if(!phone.equals("")){
+                    boolean result = dao.updatePhone(pk, phone);
+                    if(result){
+                        dto.setPhoneNumber(phone);
+                    }
                 }
             }
-
+            url = RESULT_PAGE;
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
             log("ChangePasswordServlet _ SQL: " + ex.getMessage());
