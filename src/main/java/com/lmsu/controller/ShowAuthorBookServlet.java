@@ -22,12 +22,12 @@ public class ShowAuthorBookServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String authorID = request.getParameter("authorPk");
-        String url = ERROR_PAGE;
+        String url = RESULT_PAGE;
         try {
             BookDAO dao = new BookDAO();
             dao.viewBookByAuthor(authorID);
             List<BookDTO> result = dao.getBookList();
-            if (!result.isEmpty()) {
+            if (result != null) {
                 request.setAttribute("BOOK_LIST", result);
                 url = RESULT_PAGE;
             }
