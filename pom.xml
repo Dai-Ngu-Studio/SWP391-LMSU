@@ -96,6 +96,7 @@
             <version>1.18.12</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -107,7 +108,12 @@
             <artifactId>opencsv</artifactId>
             <version>5.4</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>20.0</version>
+        </dependency>
     </dependencies>
 
     <build>
