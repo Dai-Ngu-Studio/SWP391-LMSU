@@ -206,70 +206,128 @@
                     <div class="card-title">Comments (${requestScope.COMMENT_AMOUNT})</div>
                     <c:if test="${not empty commentList}">
                         <c:forEach var="comment" items="${commentList}" varStatus="commentCounter">
-                            <div class="row mt-3">
-                                <div class="col-2">
-                                    <img src="images/images/faces/fn2.png"
-                                         class="rounded-circle img-fluid" alt="..."/>
-                                </div>
-                                <div class="col-8">
-                                    <div class="card">
-                                        <div class="card-body pt-1">
-                                            <div class="card-title my-1">
-                                                <span class="card-text mr-2">${comment.memberName}</span>
-                                                <small class="card-text text-info font-weight-light">
-                                                    <c:set var="memberRating"
-                                                           value="${fn:substringBefore(comment.rating,'.')}"/>
-                                                    <c:forEach begin="${1}" end="${memberRating}">
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                    </c:forEach>
-                                                    <c:forEach begin="${memberRating}" end="${4}">
-                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
-                                                    </c:forEach>
+                            <form action="EditCommentServlet" class="my-0 mx-0">
+                                <div class="row mt-3">
+                                    <div class="col-2">
+                                        <img src="images/images/faces/fn2.png"
+                                             class="rounded-circle img-fluid" alt="..."/>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="card">
+                                            <div class="card-body pt-1">
+                                                <div class="card-title my-1">
+                                                    <span class="card-text mr-2">${comment.memberName}</span>
+                                                    <small class="card-text text-info font-weight-light">
+                                                        <c:set var="memberRating"
+                                                               value="${fn:substringBefore(comment.rating,'.')}"/>
+                                                        <c:forEach begin="${1}" end="${memberRating}">
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                        </c:forEach>
+                                                        <c:forEach begin="${memberRating}" end="${4}">
+                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        </c:forEach>
+                                                    </small>
+                                                </div>
+                                                <div class="card-text" id="commentNo${commentCounter.count}">
+                                                        ${comment.textComment}
+                                                </div>
+                                                    <%--Script to toggle edit box--%>
+                                                <script>
+                                                    $(function editToggle() {
+                                                        $('#editSwitch${commentCounter.count}').bind('click', function () {
+                                                            <%--Replace with editable comment box--%>
+                                                            $('#commentNo${commentCounter.count}')
+                                                                .replaceWith('<textarea ' +
+                                                                    'class="form-control" ' +
+                                                                    'name="txtEditComment" ' +
+                                                                    'id="commentNo${commentCounter.count}"' +
+                                                                    'rows="3">' +
+                                                                    '${comment.textComment}' +
+                                                                    '</textarea>');
+                                                            <%--Replace with Cancel Edit Button--%>
+                                                            $('#editSwitch${commentCounter.count}')
+                                                                .replaceWith('<h6 id="cancelEditSwitch${commentCounter.count}" ' +
+                                                                    'class="preview-subject font-weight-normal mb-0" ' +
+                                                                    'style="cursor: default">' +
+                                                                    'Cancel Edit' +
+                                                                    '</h6>')
+                                                            <%--Show Edit Submit Button--%>
+                                                            $('#editBtAction${commentCounter.count}').toggle();
+                                                            <%--Cancel Edit Button Function--%>
+                                                            $('#cancelEditSwitch${commentCounter.count}')
+                                                                .bind('click', function () {
+                                                                    <%--Replace with comment box--%>
+                                                                    $('#commentNo${commentCounter.count}')
+                                                                        .replaceWith('<div class="card-text" ' +
+                                                                            'id="commentNo${commentCounter.count}">' +
+                                                                            '${comment.textComment}</div>');
+                                                                    <%--Replace with Edit Button--%>
+                                                                    $('#cancelEditSwitch${commentCounter.count}')
+                                                                        .replaceWith('<h6 id="editSwitch${commentCounter.count}" ' +
+                                                                            'class="preview-subject font-weight-normal mb-0" ' +
+                                                                            'style="cursor: default">' +
+                                                                            'Edit Comment' +
+                                                                            '</h6>');
+                                                                    <%--Hide Edit Submit Button--%>
+                                                                    $('#editBtAction${commentCounter.count}').toggle();
+                                                                    editToggle();
+                                                                });
+                                                        });
+                                                    });
+                                                </script>
+                                                <small class="card-text">
+                                                    <c:if test="${comment.edited}">
+                                                        <div class="mt-2 font-weight-lighter text-right text-muted ">
+                                                            Edited by ${comment.editorName}
+                                                        </div>
+                                                    </c:if>
                                                 </small>
                                             </div>
-                                            <div class="card-text">
-                                                    ${comment.textComment}
-                                            </div>
-                                            <small class="card-text">
-                                                <c:if test="${comment.edited}">
-                                                    <div class="mt-2 font-weight-lighter text-right text-muted ">
-                                                        Edited by ${comment.editorName}
-                                                    </div>
-                                                </c:if>
-                                            </small>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-2" style="list-style-type: none;">
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link count-indicator" data-toggle="dropdown">
-                                            <i class="ti-more"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list">
-                                            <a class="dropdown-item preview-item d-flex align-items-center">
-                                                <div class="preview-thumbnail">
-                                                    <i class="fa fa-edit"></i>
-                                                </div>
-                                                <div class="preview-item-content">
-                                                    <h6 class="preview-subject font-weight-normal mb-0">
-                                                        Edit Comment
-                                                    </h6>
-                                                </div>
+                                    <div class="col-2" style="list-style-type: none;">
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link count-indicator" data-toggle="dropdown">
+                                                <i class="ti-more"></i>
                                             </a>
-                                            <a class="dropdown-item preview-item d-flex align-items-center">
-                                                <div class="preview-thumbnail">
-                                                    <i class="fa fa-trash-o"></i>
-                                                </div>
-                                                <div class="preview-item-content">
-                                                    <h6 class="preview-subject font-weight-normal mb-0">
-                                                        Delete Comment
-                                                    </h6>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </li>
+                                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list">
+                                                <a class="dropdown-item preview-item d-flex align-items-left">
+                                                    <div class="preview-thumbnail">
+                                                        <i class="fa fa-edit"></i>
+                                                    </div>
+                                                    <div class="preview-item-content">
+                                                        <h6 id="editSwitch${commentCounter.count}"
+                                                            class="preview-subject font-weight-normal mb-0"
+                                                            style="cursor: default">
+                                                            Edit Comment
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                                <a class="dropdown-item preview-item d-flex align-items-left">
+                                                    <div class="preview-thumbnail">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </div>
+                                                    <div class="preview-item-content">
+                                                        <h6 class="preview-subject font-weight-normal mb-0">
+                                                            Delete Comment
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </li>
+                                            <%--Start: btAction to submit Edit--%>
+                                        <input type="hidden" name="commentMemberID" value="${comment.memberID}"/>
+                                        <input type="hidden" name="bookPk" value="${comment.bookID}"/>
+                                        <button type="submit" class="btn btn-info btn-block"
+                                                style="display: none"
+                                                id="editBtAction${commentCounter.count}"
+                                                name="btAction" value="EditComment">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i> Edit
+                                        </button>
+                                            <%--End: btAction to submit Edit--%>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </c:forEach>
                     </c:if>
                     <%--End: Other Comments--%>
