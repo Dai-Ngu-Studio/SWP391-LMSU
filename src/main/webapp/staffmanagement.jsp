@@ -33,10 +33,10 @@
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
             <a class="navbar-brand brand-logo mr-5" href="dashboard.jsp"><img src="images/LMSU LOGO DASHBOARD.svg"
-                                                                               class="mr-2" alt="logo"
-                                                                               style="margin-left: 36px;"/></a>
+                                                                              class="mr-2" alt="logo"
+                                                                              style="margin-left: 36px;"/></a>
             <a class="navbar-brand brand-logo-mini" href="dashboard.jsp"><img src="images/LMSU LOGO MINI DASHBOARD.svg"
-                                                                               alt="logo"/></a>
+                                                                              alt="logo"/></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -209,7 +209,7 @@
                                                                aria-controls="order-listing"
                                                         >
                                                         <button class="btn btn-primary" type="submit"
-                                                                name="btAction" value="SearchMember"
+                                                                name="btAction" value="SearchStaff"
                                                                 style="border-radius: 5px"><i class="fa fa-search"></i>
                                                         </button>
                                                     </form>
@@ -257,15 +257,15 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <c:set var="memberList" value="${requestScope.MEMBER_LIST}"/>
+                                                    <c:set var="staffList" value="${requestScope.STAFF_LIST}"/>
 
-                                                    <c:forEach var="member" items="${memberList}" varStatus="counter">
-                                                        <c:if test="${member.roleID eq '4'}">
+                                                    <c:forEach var="staff" items="${staffList}" varStatus="counter">
+                                                        <c:if test="${staff.roleID eq '2' or staff.roleID eq '3'}">
                                                             <tr class="odd">
                                                                 <td class="sorting_1 text-right">${counter.count}</td>
-                                                                <td class="text-left">${member.id}</td>
-                                                                <td class="text-left">${member.name}</td>
-                                                                <td class="text-left">${member.email}</td>
+                                                                <td class="text-left">${staff.id}</td>
+                                                                <td class="text-left">${staff.name}</td>
+                                                                <td class="text-left">${staff.email}</td>
                                                                 <td class="text-center">
                                                                     <span class="badge badge-success text-center">Active</span>
                                                                 </td>
@@ -282,7 +282,7 @@
                                                                                 <div class="modal-header">
                                                                                     <h5 class="modal-title"
                                                                                         id="exampleModalLongTitle">
-                                                                                        View Member Details
+                                                                                        View Staff Details
                                                                                     </h5>
                                                                                     <button type="button" class="close"
                                                                                             data-dismiss="modal"
@@ -298,14 +298,14 @@
                                                                                             <div class="col-sm-9">
                                                                                                 <img class="img-thumbnail rounded float-right"
                                                                                                      style="height: 200px; width: auto;"
-                                                                                                     src="${pageContext.request.contextPath}/image/${member.profilePicturePath}"
-                                                                                                     id="coverPictureUpdate${member.id}"
+                                                                                                     src="${pageContext.request.contextPath}/image/${staff.profilePicturePath}"
+                                                                                                     id="coverPictureUpdate${staff.id}"
                                                                                                      alt="Avatar"
                                                                                                      onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"
                                                                                                 />
                                                                                                 <input type="hidden"
                                                                                                        name="txtCoverFile"
-                                                                                                       value="${member.profilePicturePath}">
+                                                                                                       value="${staff.profilePicturePath}">
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="form-group row">
@@ -313,7 +313,7 @@
                                                                                             <div class="col-sm-9">
                                                                                                 <input type="text" readonly
                                                                                                        class="form-control"
-                                                                                                       value="${member.email}">
+                                                                                                       value="${staff.email}">
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="form-group row">
@@ -322,7 +322,7 @@
                                                                                             <div class="col-sm-9">
                                                                                                 <input type="text" readonly
                                                                                                        class="form-control"
-                                                                                                       value="${member.name}">
+                                                                                                       value="${staff.name}">
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="form-group row">
@@ -331,7 +331,7 @@
                                                                                             <div class="col-sm-9">
                                                                                                 <input type="text" readonly
                                                                                                        class="form-control"
-                                                                                                       value="${member.semester}">
+                                                                                                       value="${staff.semester}">
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="form-group row">
@@ -340,7 +340,7 @@
                                                                                             <div class="col-sm-9">
                                                                                                 <input type="text" readonly
                                                                                                        class="form-control"
-                                                                                                       value="${member.roleID}">
+                                                                                                       value="${staff.roleID}">
                                                                                             </div>
                                                                                         </div>
                                                                                     </form>

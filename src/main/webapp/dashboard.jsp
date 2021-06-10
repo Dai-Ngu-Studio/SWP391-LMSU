@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="images/images/favicon.png"/>
+    <script src="js/iconpro.js"></script>
 </head>
 <body>
 <div class="container-scroller">
@@ -167,7 +168,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="ShowAuthorServlet">
-                        <i class="icon-head menu-icon"></i>
+                        <i class="fal fa-user-edit menu-icon"></i>
                         <span class="menu-title">Authors</span>
                     </a>
                 </li>
