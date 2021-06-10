@@ -215,18 +215,25 @@
                                     </div>
                                     <div class="col-8">
                                         <div class="card">
-                                            <div class="card-body pt-1">
+                                            <div class="card-body pt-1 pb-3">
                                                 <div class="card-title my-1">
                                                     <span class="card-text mr-2">${comment.memberName}</span>
                                                     <small class="card-text text-info font-weight-light">
                                                         <c:set var="memberRating"
                                                                value="${fn:substringBefore(comment.rating,'.')}"/>
-                                                        <c:forEach begin="${1}" end="${memberRating}">
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                        </c:forEach>
-                                                        <c:forEach begin="${memberRating}" end="${4}">
-                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                                        </c:forEach>
+                                                        <c:if test="${memberRating eq 0}">
+                                                            <div class="badge badge-secondary text-wrap py-1">
+                                                                No rating given
+                                                            </div>
+                                                        </c:if>
+                                                        <c:if test="${memberRating ne 0}">
+                                                            <c:forEach begin="${1}" end="${memberRating}">
+                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                            </c:forEach>
+                                                            <c:forEach begin="${memberRating}" end="${4}">
+                                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            </c:forEach>
+                                                        </c:if>
                                                     </small>
                                                 </div>
                                                 <div class="card-text" id="commentNo${commentCounter.count}">
@@ -391,21 +398,26 @@
                                         </div>
                                         <div class="col-8">
                                             <div class="card">
-                                                <div class="card-body pt-1">
+                                                <div class="card-body pt-1 pb-0">
                                                     <div class="card-title my-1">
-                                                    <span class="row">
-                                                        <span class="card-text col-7">${user.name}</span>
-                                                        <span class="row col-5">
-                                                            <span class="col-6 font-weight-light">Rating</span>
-                                                            <select name="bookRating" class="custom-select col-6">
-                                                                <option value="0" selected>0</option>
+                                                    <span class="row mb-2">
+                                                        <div class="card-text col-6">${user.name}</div>
+                                                        <div class="input-group col-6">
+                                                            <div class="input-group-prepend">
+                                                                <label class="input-group-text py-0">
+                                                                    Rating
+                                                                </label>
+                                                            </div>
+                                                            <select name="bookRating"
+                                                                    class="custom-select">
+                                                                <option value="0">None</option>
                                                                 <option value="1">1</option>
                                                                 <option value="2">2</option>
                                                                 <option value="3">3</option>
                                                                 <option value="4">4</option>
                                                                 <option value="5">5</option>
                                                             </select>
-                                                        </span>
+                                                        </div>
                                                     </span>
                                                     </div>
                                                     <div class="form-group">
@@ -417,7 +429,7 @@
                                         </div>
                                         <div class="col-2">
                                             <input type="hidden" name="bookPk" value="${bookObj.id}"/>
-                                            <button type="submit" class="btn btn-primary btn-block"
+                                            <button type="submit" class="btn btn-info btn-block"
                                                     name="btAction" value="AddComment">
                                                 <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit
                                             </button>
