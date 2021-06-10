@@ -1,6 +1,7 @@
 package com.lmsu.controller.member.comment;
 
 import com.lmsu.comments.CommentDAO;
+import com.lmsu.comments.CommentDTO;
 import com.lmsu.users.UserDTO;
 import org.apache.log4j.Logger;
 
@@ -14,7 +15,7 @@ import java.sql.SQLException;
 @WebServlet(name = "EditCommentServlet", value = "/EditCommentServlet")
 public class EditCommentServlet extends HttpServlet {
 
-    static final Logger LOGGER = Logger.getLogger(AddCommentServlet.class);
+    static final Logger LOGGER = Logger.getLogger(EditCommentServlet.class);
     private static final String VIEW_BOOK_DETAILS_CONTROLLER = "ViewBookDetailsServlet";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -34,20 +35,21 @@ public class EditCommentServlet extends HttpServlet {
             if (userDTO != null) {
                 String userID = userDTO.getId();
                 CommentDAO commentDAO = new CommentDAO();
-                boolean result = commentDAO.editBookComment(memberID, bookID, textEditComment, userID);
+                CommentDTO commentDTO = commentDAO.getCommentOfBookFromUserID(memberID, bookID);
+                // isEdited: true
+                boolean result = commentDAO.editBookComment(memberID, bookID, textEditComment,
+                        commentDTO.getRating(), userID, true, false);
                 if (result) {
                     url = VIEW_BOOK_DETAILS_CONTROLLER + "?bookPk=" + bookID;
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             log("EditCommentServlet _ SQL: " + e.getMessage());
         } catch (NamingException e) {
             LOGGER.error(e.getMessage());
             log("EditCommentServlet _ Naming: " + e.getMessage());
-        }
-        finally {
+        } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }
