@@ -153,9 +153,9 @@
 <body>
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="index.html"><img src="images/LIBRARY LOGO.svg" class="mr-2"
+        <a class="navbar-brand brand-logo mr-5" href="IndexServlet"><img src="images/LIBRARY LOGO.svg" class="mr-2"
                                                                        alt="logo" style="margin-left: 36px;"/></a>
-        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/LIBRARY LOGO MINI.svg"
+        <a class="navbar-brand brand-logo-mini" href="IndexServlet"><img src="images/LIBRARY LOGO MINI.svg"
                                                                        alt="logo"/></a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end"
