@@ -2,6 +2,7 @@ package com.lmsu.controller;
 
 import com.lmsu.books.BookDAO;
 import com.lmsu.utils.ImageHelpers;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.apache.commons.io.FilenameUtils;
 
@@ -61,7 +62,7 @@ public class AddBookServlet extends HttpServlet {
             boolean deleteStatus = false;
             BigDecimal priceDecimal = new BigDecimal(price);
             int quantityNum = Integer.parseInt(quantity);
-            Date lastLentDate = Date.valueOf("1960-01-01");
+            Date lastLentDate = Date.valueOf("1980-01-01");
             float avgRating = 0.0f;
             //Start to add img to server process
             String uploadPath= ImageHelpers.getPathImgFolder(getServletContext().getRealPath(""));
@@ -69,9 +70,10 @@ public class AddBookServlet extends HttpServlet {
             for (Part part : request.getParts()) {
                 fileName = part.getSubmittedFileName();
                 if (!(fileName == null || fileName.trim().isEmpty())) {
-                    System.out.println(fileName);
                     fileName="book-" + bookIDTxt + "." + FilenameUtils.getExtension(fileName);
                     part.write(uploadPath + fileName);
+//                    String theString = IOUtils.toString(part.getInputStream(), "UTF-8");
+//                    System.out.println(theString);
                     break;
                 }
             }
