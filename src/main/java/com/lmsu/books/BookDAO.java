@@ -142,7 +142,7 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [title], [authorID], [subjectID], [publisher], [publishDate], [description], " +
+                String sql = "SELECT [id], [title], [authorID], [subjectID], [publisher], [publishDate], [description], " +
                         "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] " +
                         "FROM [Books] " +
                         "WHERE [authorID] = ? " +
@@ -154,9 +154,9 @@ public class BookDAO implements Serializable {
                 rs = stm.executeQuery();
                 //5. Process ResultSet
                 while (rs.next()) {
-                    //String bookID = rs.getString("id");
+                    String bookID = rs.getString("id");
                     String title = rs.getString("title");
-                    //String authorID = rs.getString("authorID");
+                    String authorIDVal = rs.getString("authorID");
                     String subjectID = rs.getString("subjectID");
                     String publisher = rs.getString("publisher");
                     String publication_date = rs.getString("publishDate");
@@ -169,7 +169,7 @@ public class BookDAO implements Serializable {
                     String isbnTen = rs.getString("ISBN_tenDigits");
                     String isbnThirteen = rs.getString("ISBN_thirteenDigits");
                     String coverPath = rs.getString("coverPicturePath");
-                    BookDTO dto = new BookDTO("", title, authorID, subjectID, publisher, publication_date,
+                    BookDTO dto = new BookDTO(bookID, title, authorIDVal, subjectID, publisher, publication_date,
                             description, price, quantity, deleteStatus, lastLentDate,
                             avg_rating, isbnTen, isbnThirteen, coverPath);
                     if (this.bookList == null) {
