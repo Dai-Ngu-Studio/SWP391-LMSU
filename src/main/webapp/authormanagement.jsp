@@ -353,11 +353,6 @@
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
-                                                            aria-label="NAME: activate to sort column ascending"
-                                                            style="width: 96px; text-align: center">STATUS
-                                                        </th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1"
                                                             aria-label="Actions: activate to sort column ascending"
                                                             style="width: 64px; text-align: center">Actions
                                                         </th>
@@ -375,9 +370,6 @@
                                                                     style="text-align: center">${counter.count}</td>
                                                                 <td style="text-align: center">
                                                                         ${author.authorName}
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    <span class="badge badge-success text-center">Active</span>
                                                                 </td>
                                                             </form>
                                                             <!--End: Author Item Form-->
