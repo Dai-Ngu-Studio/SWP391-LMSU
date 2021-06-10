@@ -1,6 +1,7 @@
 package com.lmsu.controller.member.comment;
 
 import com.lmsu.comments.CommentDAO;
+import com.lmsu.comments.CommentDTO;
 import com.lmsu.users.UserDTO;
 import org.apache.log4j.Logger;
 
@@ -35,9 +36,19 @@ public class AddCommentServlet extends HttpServlet {
                 String userID = userDTO.getId();
                 float rating = Float.parseFloat(txtRating);
                 CommentDAO commentDAO = new CommentDAO();
-                boolean result = commentDAO.addCommentToBook(userID, bookID, textComment, rating);
-                if (result) {
-                    url = VIEW_BOOK_DETAILS_CONTROLLER + "?bookPk=" + bookID;
+                // 3. Check if user has already commented on this book (regardless of deleteStatus)
+                CommentDTO userComment = commentDAO.getCommentOfBookFromUserID(userID, bookID);
+                // 4.1. User had already commented but deleted; update textComment, deleteStatus, isEdited, rating
+                // instead of adding new comment (because memberID, bookID are both PK for Comments)
+                if (userComment != null) {
+                    commentDAO.editBookComment(userID, bookID, textComment, rating,
+                            "", false,false);
+                } else {
+                    // 4.2. User hasn't commented before, add new comment
+                    boolean result = commentDAO.addCommentToBook(userID, bookID, textComment, rating);
+                    if (result) {
+                        url = VIEW_BOOK_DETAILS_CONTROLLER + "?bookPk=" + bookID;
+                    }
                 }
             }
         } catch (SQLException e) {
