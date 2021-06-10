@@ -346,7 +346,7 @@
                                 <form action="AddCommentServlet" class="my-0 mx-0">
                                     <div class="row mt-3">
                                         <div class="col-2">
-                                            <img src="images/images/faces/face9.jpg" class="rounded-circle img-fluid"/>
+                                            <img src="images/default-user-icon.png" class="rounded-circle img-fluid"/>
                                         </div>
                                         <div class="col-8">
                                             <div class="card">
