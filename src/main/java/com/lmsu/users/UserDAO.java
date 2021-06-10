@@ -180,8 +180,8 @@ public class UserDAO implements Serializable {
                     String semester = rs.getString("semester_no");
                     String profilePicturePath = rs.getString("profilePicturePath");
                     boolean activeStatus = rs.getBoolean("activeStatus");
-                    UserDTO dto = new UserDTO(id, name, roleID, password, passwordGoogle, email, phoneNumber, semester, profilePicturePath, activeStatus);
-
+                    UserDTO dto = new UserDTO(id, name, roleID, password, passwordGoogle,
+                            email, phoneNumber, semester, profilePicturePath, activeStatus);
                     if (this.listAccount == null) {
                         this.listAccount = new ArrayList<UserDTO>();
                     } //end if book list not existed
@@ -193,6 +193,50 @@ public class UserDAO implements Serializable {
             if (stm != null) stm.close();
             if (con != null) con.close();
         }
+    }
+
+    public UserDTO getUserByID(String userID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [passwordGoogle], [email], " +
+                        "[phoneNumber], [profilePicturePath], [activeStatus] " +
+                        "FROM [Users] " +
+                        "WHERE [id] = ?";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, userID);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                if (rs.next()) {
+                    String id = rs.getString("id");
+                    String name = rs.getString("name");
+                    String roleID = rs.getString("roleID");
+                    String semester = rs.getString("semester_no");
+                    String password = rs.getString("password");
+                    String passwordGoogle = rs.getString("passwordGoogle");
+                    String email = rs.getString("email");
+                    String phoneNumber = rs.getString("phoneNumber");
+                    String profilePicturePath = rs.getString("profilePicturePath");
+                    boolean activeStatus = rs.getBoolean("activeStatus");
+                    UserDTO dto = new UserDTO(id, name, roleID, password, passwordGoogle,
+                            email, phoneNumber, semester, profilePicturePath, activeStatus);
+                    return dto;
+                } //end while traversing result set
+            } //end if connection existed
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return null;
     }
 }
 
