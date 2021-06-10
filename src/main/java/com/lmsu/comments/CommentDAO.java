@@ -134,7 +134,7 @@ public class CommentDAO implements Serializable {
         return false;
     }
 
-    public boolean hasCommented(String memberID, String bookID) throws SQLException, NamingException {
+    public CommentDTO getCommentOfBookFromUserID(String memberID, String bookID) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -144,7 +144,8 @@ public class CommentDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [memberID], [bookID] " +
+                String sql = "SELECT [memberID], [bookID], [textComment], [rating], " +
+                        "[editorID], [isEdited], [deleteStatus] " +
                         "FROM [Comments] " +
                         "WHERE [memberID] = ? " +
                         "AND [bookID] = ?";
@@ -156,7 +157,16 @@ public class CommentDAO implements Serializable {
                 rs = stm.executeQuery();
                 //5. Process ResultSet
                 if (rs.next()) {
-                    return true;
+                    String memberIDVal = rs.getString("memberID");
+                    String bookIDVal = rs.getString("bookID");
+                    String textComment = rs.getString("textComment");
+                    float rating = rs.getFloat("rating");
+                    String editorID = rs.getString("editorID");
+                    boolean isEdited = rs.getBoolean("isEdited");
+                    boolean deleteStatus = rs.getBoolean("deleteStatus");
+                    CommentDTO dto = new CommentDTO( memberIDVal, bookIDVal, textComment,
+                            rating, editorID, isEdited, deleteStatus);
+                    return dto;
                 } //end while traversing result
             } //end if connection existed
         } finally {
@@ -164,6 +174,6 @@ public class CommentDAO implements Serializable {
             if (stm != null) stm.close();
             if (con != null) con.close();
         }
-        return false;
+        return null;
     }
 }
