@@ -25,6 +25,13 @@ public class CheckoutValidationServlet extends HttpServlet {
         String phoneNumber = request.getParameter("txtPhoneNumber");
         String addressOne = request.getParameter("txtAddressOne");
         String addressTwo = request.getParameter("txtAddressTwo");
+        String city = request.getParameter("txtCity");
+        String district = request.getParameter("txtDistrict");
+        String ward = request.getParameter("txtWard");
+        System.out.println(city);
+        System.out.println(district);
+        System.out.println(ward);
+
         Map<String, String> errors = new HashMap<>();
 
         try {
@@ -39,8 +46,9 @@ public class CheckoutValidationServlet extends HttpServlet {
 
             if (phoneNumber != null) {
                 if (phoneNumber.trim().length() < 10
-                        || phoneNumber.trim().length() > 12
-                        || phoneNumber.trim().matches("^[^0-9]$")) {
+                        || phoneNumber.trim().length() > 12) {
+                    errors.put("errorPhoneNumber", "inputPhoneNumber");
+                } else if (!phoneNumber.trim().matches("^[\\d]{10,12}$")) {
                     errors.put("errorPhoneNumber", "inputPhoneNumber");
                 }
             }
@@ -55,6 +63,24 @@ public class CheckoutValidationServlet extends HttpServlet {
             if (addressTwo != null) {
                 if (addressTwo.trim().length() > 50) {
                     errors.put("errorAddressTwo", "inputAddressTwo");
+                }
+            }
+
+            if (city != null) {
+                if (city.isEmpty()) {
+                    errors.put("errorCity", "inputCity");
+                }
+            }
+
+            if (district != null) {
+                if (district.isEmpty()) {
+                    errors.put("errorDistrict", "inputDistrict");
+                }
+            }
+
+            if (ward != null) {
+                if (ward.isEmpty()) {
+                    errors.put("errorWard", "inputWard");
                 }
             }
         } finally {

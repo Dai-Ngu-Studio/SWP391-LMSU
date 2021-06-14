@@ -22,8 +22,8 @@
     <c:set var="session" value="${sessionScope}"/>
     <c:if test="${not empty session}">
         <div class="row mt-5">
-            <div class="col-lg-2"></div>
-            <div class="col-lg-2">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-2">
                 <div class="btn-group-vertical list-group">
                     <a class="btn btn-primary rounded-top active" data-toggle="list"
                        href="#list-direct">
@@ -35,7 +35,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body">
                         <div class="tab-content" id="nav-tabContent" style="border: none">
@@ -95,13 +95,15 @@
                                                         txtReceiverName: $('#inputReceiverName').val(),
                                                         txtPhoneNumber: $('#inputPhoneNumber').val(),
                                                         txtAddressOne: $('#inputAddressOne').val(),
-                                                        txtAddressTwo: $('#inputAddressTwo').val()
+                                                        txtAddressTwo: $('#inputAddressTwo').val(),
+                                                        txtCity: $('#inputCity').val(),
+                                                        txtDistrict: $('#inputDistrict').val(),
+                                                        txtWard: $('#inputWard').val()
                                                     },
                                                     dataType: 'json',
                                                     success: function (responseJson) {
                                                         console.log(responseJson);
                                                         $.each(responseJson, function (key, value) {
-                                                            console.log(key);
                                                             $('#' + key)
                                                                 .removeClass('text-muted')
                                                                 .addClass('text-danger');
@@ -109,6 +111,12 @@
                                                                 .removeClass('is-valid')
                                                                 .addClass('is-invalid');
                                                         });
+
+                                                        if ($.isEmptyObject(responseJson)) {
+                                                            $('#btnDeliveryOrder').removeAttr('disabled');
+                                                        } else {
+                                                            $('#btnDeliveryOrder').attr('disabled', '');
+                                                        }
                                                     }
                                                 });
                                             });
@@ -155,31 +163,108 @@
                                                 letters, numbers and special characters.
                                             </small>
                                         </div>
+                                        <script>
+                                            $(document).ready(function () {
+                                                var cityData;
+                                                $.ajax({
+                                                    method: 'POST',
+                                                    url: 'data/city-data.json',
+                                                    dataType: 'json',
+                                                    success: function (responseJson) {
+                                                        cityData = responseJson;
+                                                        loadCities();
+                                                        console.log(cityData);
+                                                    }
+                                                });
+
+                                                function loadCities() {
+                                                    $.each(cityData, function (key, value) {
+                                                        $('<option>')
+                                                            .text(value['Name'])
+                                                            .val(value['Id'])
+                                                            .appendTo('#inputCity');
+                                                    });
+                                                }
+
+                                                var selectedCity;
+                                                var districts;
+                                                var selectedDistrict;
+                                                var wards;
+
+                                                $('#inputCity').on('change', function () {
+                                                    $('#inputDistrict').empty();
+                                                    $('<option>')
+                                                        .attr('selected', '')
+                                                        .attr('disabled', '')
+                                                        .text('Select a district...')
+                                                        .appendTo('#inputDistrict');
+                                                    selectedCity = cityData
+                                                        .filter(n => n.Id === $('#inputCity').val());
+                                                    districts = selectedCity[0]['Districts'];
+                                                    console.log(districts);
+                                                    $.each(districts, function (key, value) {
+                                                        $('<option>')
+                                                            .text(value['Name'])
+                                                            .val(value['Id'])
+                                                            .appendTo('#inputDistrict');
+                                                    });
+                                                });
+
+                                                $('#inputDistrict').on('change', function () {
+                                                    $('#inputWard').empty();
+                                                    $('<option>')
+                                                        .attr('selected', '')
+                                                        .attr('disabled', '')
+                                                        .text('Select a ward...')
+                                                        .appendTo('#inputWard');
+                                                    selectedDistrict = districts
+                                                        .filter(n => n.Id === $('#inputDistrict').val());
+                                                    wards = selectedDistrict[0]['Wards'];
+                                                    console.log(wards);
+                                                    $.each(wards, function (key, value) {
+                                                        $('<option>')
+                                                            .text(value['Name'])
+                                                            .val(value['Id'])
+                                                            .appendTo('#inputWard');
+                                                    });
+                                                });
+                                            });
+                                        </script>
                                         <div class="form-row">
                                             <div class="form-group col-md-4">
                                                 <label for="inputCity">City</label>
-                                                <select id="inputCity" class="form-control">
-                                                    <option selected>Choose...</option>
-                                                    <option>...</option>
+                                                <select id="inputCity" class="custom-select deliverInput">
+                                                    <option selected disabled>Select a city..</option>
                                                 </select>
+                                                <small id="errorCity"
+                                                       class="form-text text-muted deliverError">
+                                                    Please select a city.
+                                                </small>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="inputDistrict">District</label>
-                                                <select id="inputDistrict" class="form-control">
-                                                    <option selected>Choose...</option>
-                                                    <option>...</option>
+                                                <select id="inputDistrict" class="custom-select deliverInput">
+                                                    <option selected disabled>Select a city first...</option>
                                                 </select>
+                                                <small id="errorDistrict"
+                                                       class="form-text text-muted deliverError">
+                                                    Please select a district.
+                                                </small>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="inputWard">Ward</label>
-                                                <select id="inputWard" class="form-control">
-                                                    <option selected>Choose...</option>
-                                                    <option>...</option>
+                                                <select id="inputWard" class="custom-select deliverInput">
+                                                    <option selected disabled>Select a district first...</option>
                                                 </select>
+                                                <small id="errorWard"
+                                                       class="form-text text-muted deliverError">
+                                                    Please select a ward.
+                                                </small>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-primary"
+                                                    id="btnDeliveryOrder"
                                                     name="btAction" value="DeliveryOrder"
                                                     disabled>
                                                 Checkout
@@ -193,7 +278,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2"></div>
+            <div class="col-sm-2"></div>
         </div>
     </c:if>
 </div>
