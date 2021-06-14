@@ -7,13 +7,11 @@
     <title>Checkout - LMSU</title>
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="../../../../LMSU-FE/LMSU-FE/css/orderForm.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
           integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <link rel="shortcut icon" href="../../../../LMSU-FE/LMSU-FE/images/images/favicon.png"/>
 </head>
 
 <body>
@@ -51,7 +49,8 @@
                                                 <label for="receiptDate">Date of Receipt</label>
                                             </div>
                                             <div class="form-group">
-                                                <input class="text-black-50" type="date" id="receiptDate" name="receiptDate"
+                                                <input class="text-black-50" type="date" id="receiptDate"
+                                                       name="receiptDate"
                                                        style="border-radius: 0.3rem"/>
                                             </div>
                                         </div>
@@ -83,26 +82,78 @@
                                 <div class="card-title text-dark">Delivery</div>
                                 <div class="card-text">
                                         <%--Start: Delivery Order Form--%>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('.deliverInput').on("input", function () {
+                                                $('.deliverError').removeClass('text-danger').addClass('text-muted');
+
+                                                $('.deliverInput').removeClass('is-invalid').addClass('is-valid');
+                                                $.ajax({
+                                                    method: 'POST',
+                                                    url: 'CheckoutValidationServlet',
+                                                    data: {
+                                                        txtReceiverName: $('#inputReceiverName').val(),
+                                                        txtPhoneNumber: $('#inputPhoneNumber').val(),
+                                                        txtAddressOne: $('#inputAddressOne').val(),
+                                                        txtAddressTwo: $('#inputAddressTwo').val()
+                                                    },
+                                                    dataType: 'json',
+                                                    success: function (responseJson) {
+                                                        console.log(responseJson);
+                                                        $.each(responseJson, function (key, value) {
+                                                            console.log(key);
+                                                            $('#' + key)
+                                                                .removeClass('text-muted')
+                                                                .addClass('text-danger');
+                                                            $('#' + value)
+                                                                .removeClass('is-valid')
+                                                                .addClass('is-invalid');
+                                                        });
+                                                    }
+                                                });
+                                            });
+                                        });
+                                    </script>
                                     <form action="CheckoutServlet" class="my-0">
-                                        <div class="form-group">
+                                        <div class="form-group my-10">
                                             <label for="inputReceiverName">Receiver Name</label>
-                                            <input type="text" class="form-control" id="inputReceiverName"
+                                            <input type="text" class="form-control deliverInput" id="inputReceiverName"
                                                    placeholder="Sinh Vi En"/>
+                                            <small id="errorReceiverName"
+                                                   class="form-text text-muted deliverError">
+                                                Name of receiver must be 2-60 characters long, and must only contain
+                                                letters.
+                                            </small>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputPhoneNumber">Phone Number</label>
-                                            <input type="text" class="form-control" id="inputPhoneNumber"
-                                                   placeholder="09xxxxxxxxxx"/>
+                                            <input type="text" class="form-control deliverInput" id="inputPhoneNumber"
+                                                   placeholder="090000000000"/>
+                                            <small id="errorPhoneNumber"
+                                                   class="form-text text-muted deliverError">
+                                                Phone number must be 10-12 characters long, and must only contain
+                                                numbers.
+                                            </small>
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputAddress">Address</label>
-                                            <input type="text" class="form-control" id="inputAddress"
+                                            <label for="inputAddressOne">Street Address</label>
+                                            <input type="text" class="form-control deliverInput" id="inputAddressOne"
                                                    placeholder="1234 D1 Street"/>
+                                            <small id="errorAddressOne"
+                                                   class="form-text text-muted deliverError">
+                                                Street address must be 5-50 characters long, can contain letters,
+                                                numbers and special characters.
+                                            </small>
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputAddress2">Address 2</label>
-                                            <input type="text" class="form-control" id="inputAddress2"
+                                            <label for="inputAddressTwo">Residence Address</label>
+                                            <input type="text" class="form-control deliverInput" id="inputAddressTwo"
                                                    placeholder="Apartment, or floor"/>
+                                            <small id="errorAddressTwo"
+                                                   class="form-text text-muted deliverError">
+                                                Residence address is optional must be 0-50 characters long, can contain
+                                                letters, numbers and special characters.
+                                            </small>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-4">
@@ -129,7 +180,8 @@
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-primary"
-                                                    name="btAction" value="DeliveryOrder">
+                                                    name="btAction" value="DeliveryOrder"
+                                                    disabled>
                                                 Checkout
                                             </button>
                                         </div>
