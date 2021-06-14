@@ -6,8 +6,8 @@ DROP TABLE IF EXISTS DeliveryOrder
 DROP TABLE IF EXISTS DirectOrder
 DROP TABLE IF EXISTS RenewalRequests
 DROP TABLE IF EXISTS Penalties
-DROP TABLE IF EXISTS CartItems
-DROP TABLE IF EXISTS Carts
+DROP TABLE IF EXISTS OrderItems
+DROP TABLE IF EXISTS Orders
 DROP TABLE IF EXISTS Comments
 DROP TABLE IF EXISTS ImportLogs
 DROP TABLE IF EXISTS Books
@@ -93,15 +93,15 @@ CREATE TABLE Comments(
 	isEdited bit,
 	deleteStatus bit NOT NULL
 );
-CREATE TABLE Carts(
+CREATE TABLE Orders(
 	id varchar(255) NOT NULL PRIMARY KEY,
 	memberID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
 	orderDate date,
 	lendMethod bit,
 );
-CREATE TABLE CartItems(
+CREATE TABLE OrderItems(
 	id varchar(255) NOT NULL PRIMARY KEY,
-	cartID varchar(255) NOT NULL FOREIGN KEY REFERENCES Carts(id),
+	orderID varchar(255) NOT NULL FOREIGN KEY REFERENCES Orders(id),
 	bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
 	lendStatus int,
 	returnDeadline date,
@@ -109,25 +109,25 @@ CREATE TABLE CartItems(
 	returnDate date
 );
 CREATE TABLE Penalties(
-	itemID varchar(255) NOT NULL FOREIGN KEY REFERENCES CartItems(id),
+	itemID varchar(255) NOT NULL FOREIGN KEY REFERENCES OrderItems(id),
 	penaltyAmount decimal,
 	penaltyStatus bit
 );
 CREATE TABLE RenewalRequests(
 	id varchar(255) NOT NULL PRIMARY KEY,
-	itemID varchar(255) NOT NULL FOREIGN KEY REFERENCES CartItems(id),
+	itemID varchar(255) NOT NULL FOREIGN KEY REFERENCES OrderItems(id),
 	librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
 	reason varchar(MAX),
 	requestedExtendDate date,
 	approvalStatus bit
 );
 CREATE TABLE DirectOrder(
-	cartID varchar(255) NOT NULL FOREIGN KEY REFERENCES Carts(id),
+	orderID varchar(255) NOT NULL FOREIGN KEY REFERENCES Orders(id),
 	librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
 	scheduledTime datetime,
 );
 CREATE TABLE DeliveryOrder(
-	cartID varchar(255) NOT NULL FOREIGN KEY REFERENCES Carts(id),
+	orderID varchar(255) NOT NULL FOREIGN KEY REFERENCES Orders(id),
 	managerID varchar(255) FOREIGN KEY REFERENCES Users(id),
 	deliverer varchar(255),
 	scheduledDeliveryTime date,
