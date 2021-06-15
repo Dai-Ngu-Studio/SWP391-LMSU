@@ -9,6 +9,7 @@ public @Data
 class OrderItemDTO implements Serializable {
     private int id;
     private int orderID;
+    private String memberID;
     private String bookID;
     private int lendStatus;
     private Date returnDeadline;
@@ -19,9 +20,10 @@ class OrderItemDTO implements Serializable {
 
     }
 
-    public OrderItemDTO(int id, int orderID, String bookID, int lendStatus, Date returnDeadline, Date lendDate, Date returnDate) {
+    public OrderItemDTO(int id, int orderID, String memberID, String bookID, int lendStatus, Date returnDeadline, Date lendDate, Date returnDate) {
         this.id = id;
         this.orderID = orderID;
+        this.memberID = memberID;
         this.bookID = bookID;
         this.lendStatus = lendStatus;
         this.returnDeadline = returnDeadline;
