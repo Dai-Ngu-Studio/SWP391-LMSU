@@ -40,7 +40,7 @@ public class RenewalRequestDAO implements Serializable {
         return false;
     }
 
-    public boolean checkRenewalId(String bookId) throws SQLException, NamingException {
+    public boolean checkRenewalId(String renewalId) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -51,11 +51,11 @@ public class RenewalRequestDAO implements Serializable {
             if (con != null) {
                 //2. Create SQL String
                 String sql = "SELECT [id] " +
-                        "FROM [Books] " +
+                        "FROM [RenewalRequests] " +
                         "WHERE [id] LIKE ? ";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
-                stm.setString(1, bookId);
+                stm.setString(1, renewalId);
                 //4. Execute Query and get ResultSet
                 rs = stm.executeQuery();
                 //5. Process ResultSet
