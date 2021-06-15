@@ -98,6 +98,7 @@ CREATE TABLE Orders(
 	memberID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
 	orderDate date,
 	lendMethod bit,
+	activeStatus bit NOT NULL
 );
 CREATE TABLE OrderItems(
 	id int NOT NULL PRIMARY KEY IDENTITY(1,1),
