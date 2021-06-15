@@ -100,7 +100,7 @@ CREATE TABLE Orders(
 	lendMethod bit,
 );
 CREATE TABLE OrderItems(
-	id varchar(255) NOT NULL PRIMARY KEY,
+	id int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
 	bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
 	lendStatus int,
@@ -109,13 +109,13 @@ CREATE TABLE OrderItems(
 	returnDate date
 );
 CREATE TABLE Penalties(
-	itemID varchar(255) NOT NULL FOREIGN KEY REFERENCES OrderItems(id),
+	itemID int NOT NULL FOREIGN KEY REFERENCES OrderItems(id),
 	penaltyAmount decimal,
 	penaltyStatus bit
 );
 CREATE TABLE RenewalRequests(
 	id varchar(255) NOT NULL PRIMARY KEY,
-	itemID varchar(255) NOT NULL FOREIGN KEY REFERENCES OrderItems(id),
+	itemID int NOT NULL FOREIGN KEY REFERENCES OrderItems(id),
 	librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
 	reason varchar(MAX),
 	requestedExtendDate date,
