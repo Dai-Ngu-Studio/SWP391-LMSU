@@ -61,7 +61,7 @@
             border-color: #748DDB;
         }
 
-        .search .btn-primary i{
+        .search .btn-primary i {
             color: #fff !important;
         }
 
@@ -134,8 +134,14 @@
         #notificationDropdown i {
             color: #748DDB;
         }
-        .btn{
+
+        .btn {
             height: auto !important;
+        }
+
+        .login-btn a {
+            color: #748DDB;
+            text-decoration: none !important;
         }
     </style>
     <!-- plugins:css -->
@@ -154,9 +160,9 @@
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
         <a class="navbar-brand brand-logo mr-5" href="IndexServlet"><img src="images/LIBRARY LOGO.svg" class="mr-2"
-                                                                       alt="logo" style="margin-left: 36px;"/></a>
+                                                                         alt="logo" style="margin-left: 36px;"/></a>
         <a class="navbar-brand brand-logo-mini" href="IndexServlet"><img src="images/LIBRARY LOGO MINI.svg"
-                                                                       alt="logo"/></a>
+                                                                         alt="logo"/></a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end"
          style="justify-content: inherit !important">
@@ -196,13 +202,13 @@
                     <i class="ti-shopping-cart"></i>
                 </a>
             </li>
-            <li class="nav-item nav-profile dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="profileDropdown">
-                    <img src="images/images/faces/fn2.png" alt="profile" style="border-radius: 50%; cursor: pointer;"/>
-                </a>
-                <c:set var="session" value="${sessionScope}"/>
-                <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
-                <c:if test="${not empty session}">
+            <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
+            <c:if test="${not empty user}">
+                <li class="nav-item nav-profile dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="profileDropdown">
+                        <img src="${user.profilePicturePath}" alt="profile"
+                             style="border-radius: 50%; cursor: pointer;"/>
+                    </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                         <c:if test="${user.roleID ne '4'}">
                             <a class="dropdown-item" href="dashboard.jsp">
@@ -218,15 +224,13 @@
                             </button>
                         </form>
                     </div>
-                </c:if>
-                <c:if test="${empty session}">
-                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item" href="login.html">
-                            <i class="ti-settings text-primary"></i> Login
-                        </a>
-                    </div>
-                </c:if>
-            </li>
+                </li>
+            </c:if>
+            <c:if test="${empty user}">
+                <div class="d-flex login-btn align-items-center">
+                    <a href="login.html">Login</a>
+                </div>
+            </c:if>
         </ul>
     </div>
 </nav>
