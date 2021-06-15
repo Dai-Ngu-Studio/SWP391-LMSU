@@ -1,6 +1,7 @@
 package com.lmsu.controller;
 
 import com.lmsu.books.BookDAO;
+import com.lmsu.books.BookDTO;
 import com.lmsu.utils.ImageHelpers;
 import com.opencsv.CSVReader;
 import org.apache.commons.io.IOUtils;
@@ -54,6 +55,7 @@ public class AddBookServlet extends HttpServlet {
             String quantity;
             String isbnTen;
             String isbnThirteen;
+            String supplier;
             if (addFile != null) {
                 for (Part part : request.getParts()) {
                     if (!(part.getSubmittedFileName() == null || part.getSubmittedFileName().trim().isEmpty())) {
@@ -86,14 +88,22 @@ public class AddBookServlet extends HttpServlet {
                 subjectID = request.getParameter("txtSubjectID");
                 publisher = request.getParameter("txtPublisher");
                 publishDate = request.getParameter("txtPublishDate");
-                System.out.println("WEB: "+publishDate);
                 description = request.getParameter("txtDescription");
                 price = request.getParameter("txtPrice");
                 quantity = request.getParameter("txtQuantity");
                 isbnTen = request.getParameter("txtISBNTen");
                 isbnThirteen = request.getParameter("txtISBNThirteen");
-                add(request, title, authorID, subjectID, publisher, publishDate,
-                        description, price, quantity, isbnTen, isbnThirteen, true);
+                supplier = request.getParameter("txtSupplier");
+                if (title == null) {
+                    BookDAO bookDAO = new BookDAO();
+                    BookDTO bookAddingExisted = bookDAO.getBookByISBN13(isbnThirteen);
+                    result = bookDAO.updateQuantity(bookAddingExisted.getBookID(),
+                            Integer.parseInt(quantity) + bookAddingExisted.getQuantity());
+                    System.out.println(bookAddingExisted);
+                } else {
+                    result = add(request, title, authorID, subjectID, publisher, publishDate,
+                            description, price, quantity, isbnTen, isbnThirteen, true);
+                }
             }
             if (result) {
                 if (searchVal == null || searchVal.trim().isEmpty()) {

@@ -462,8 +462,8 @@ public class BookDAO implements Serializable {
                         "WHERE [id] = ?";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
-                stm.setString(1, bookID);
-                stm.setInt(2, quantity);
+                stm.setInt(1, quantity);
+                stm.setString(2, bookID);
                 //4. Execute Query and get rows affected
                 int rows = stm.executeUpdate();
                 //5. Process result
@@ -554,7 +554,54 @@ public class BookDAO implements Serializable {
             if (con != null) con.close();
         }
     }
-
+    public BookDTO getBookByISBN13(String ISBN_thirteenDigits) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT [id], [title], [authorID], [subjectID], [publisher], [publishDate], [description], " +
+                        "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] " +
+                        "FROM [Books] " +
+                        "WHERE [ISBN_thirteenDigits] = ?";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, ISBN_thirteenDigits);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                if (rs.next()) {
+                    String bookIdVal = rs.getString("id");
+                    String title = rs.getString("title");
+                    String authorID = rs.getString("authorID");
+                    String subjectID = rs.getString("subjectID");
+                    String publisher = rs.getString("publisher");
+                    String publicationDate = rs.getString("publishDate");
+                    String description = rs.getString("description");
+                    BigDecimal price = rs.getBigDecimal("price");
+                    int quantity = rs.getInt("quantity");
+                    boolean deleteStatus = rs.getBoolean("deleteStatus");
+                    Date lastLentDate = rs.getDate("lastLentDate");
+                    float avgRating = rs.getFloat("avgRating");
+                    String isbnTen = rs.getString("ISBN_tenDigits");
+                    String isbnThirteen = rs.getString("ISBN_thirteenDigits");
+                    String coverPath = rs.getString("coverPicturePath");
+                    BookDTO dto = new BookDTO(bookIdVal, title, authorID, subjectID, publisher, publicationDate,
+                            description, price, quantity, deleteStatus, lastLentDate,
+                            avgRating, isbnTen, isbnThirteen, coverPath);
+                    return dto;
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return null;
+    }
     // Start: Test Paged List
 //    public void viewPagedBookList() throws SQLException, NamingException {
 //        Connection con = null;

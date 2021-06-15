@@ -249,137 +249,18 @@
                                                                             <span aria-hidden="true">&times;</span>
                                                                         </button>
                                                                     </div>
-                                                                    <div class="modal-body">
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">Book
-                                                                                Cover
-                                                                            </label>
-                                                                            <div class="col-sm-9">
-                                                                                <img class="rounded float-right"
-                                                                                     style="height: 400px;
-                                                                                     width: auto;"
-                                                                                     src="images/NotAvailable.jpg"
-                                                                                     id="coverPicture"
-                                                                                     alt="Book cover"
-                                                                                >
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <div class="col-sm-3">
-                                                                            </div>
-                                                                            <div class="col-sm-9">
-                                                                                <div class="custom-file">
-                                                                                    <input type="file"
-                                                                                           class="custom-file-input"
-                                                                                           id="customFileAdd"
-                                                                                           name="coverPicture"
-                                                                                           onchange="readURL(this, 'coverPicture');"
-                                                                                    >
-                                                                                    <label class="custom-file-label"
-                                                                                           for="customFileAdd">Choose
-                                                                                        Image </label>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <div class="col-sm-3">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">
-                                                                                Title
-                                                                            </label>
-                                                                            <div class="col-sm-9">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value=""
-                                                                                       name="txtTitle"
-                                                                                >
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">
-                                                                                Author ID
-                                                                            </label>
-                                                                            <div class="col-sm-9">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value=""
-                                                                                       name="txtAuthorID"
-                                                                                >
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">
-                                                                                Subject ID
-                                                                            </label>
-                                                                            <div class="col-sm-9">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value=""
-                                                                                       name="txtSubjectID"
-                                                                                >
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">
-                                                                                Publisher
-                                                                            </label>
-                                                                            <div class="col-sm-9">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value=""
-                                                                                       name="txtPublisher"
-                                                                                >
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">
-                                                                                Publish Date
-                                                                            </label>
-                                                                            <div class="col-sm-9">
-                                                                                <input class="form-control"
-                                                                                       type="date"
-                                                                                       value="2021-06-03"
-                                                                                       name="txtPublishDate"
-                                                                                >
-                                                                            </div>
-
-                                                                        </div>
-
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">
-                                                                                Price
-                                                                            </label>
-                                                                            <div class="col-sm-9">
-                                                                                <input type="number"
-                                                                                       class="form-control"
-                                                                                       value=""
-                                                                                       name="txtPrice"
-                                                                                >
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">
-                                                                                Quantity
-                                                                            </label>
-                                                                            <div class="col-sm-9">
-                                                                                <input type="number"
-                                                                                       class="form-control"
-                                                                                       value=""
-                                                                                       name="txtQuantity"
-                                                                                >
-                                                                            </div>
-                                                                        </div>
+                                                                    <div class="modal-body" id="addModalBody">
                                                                         <div class="form-group row">
                                                                             <label class="col-sm-3 col-form-label">
                                                                                 ISBN 10 Digits
                                                                             </label>
                                                                             <div class="col-sm-9">
                                                                                 <input type="text"
+                                                                                       id="txtISBNTen"
                                                                                        class="form-control"
                                                                                        value=""
                                                                                        name="txtISBNTen"
+                                                                                       oninput="checkISBN();"
                                                                                 >
                                                                             </div>
                                                                         </div>
@@ -389,21 +270,146 @@
                                                                             </label>
                                                                             <div class="col-sm-9">
                                                                                 <input type="text"
+                                                                                       id="txtISBNThirteen"
                                                                                        class="form-control"
                                                                                        value=""
                                                                                        name="txtISBNThirteen"
+                                                                                       oninput="checkISBN();"
                                                                                 >
                                                                             </div>
                                                                         </div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">Description
-                                                                            </label>
-                                                                            <div class="col-sm-9">
-                                                                                <textarea class="form-control"
-                                                                                          rows="5"
-                                                                                          name="txtDescription"> </textarea>
-                                                                            </div>
-                                                                        </div>
+<%--                                                                        <div class="form-group row">--%>
+<%--                                                                            <label class="col-sm-3 col-form-label">Book--%>
+<%--                                                                                Cover--%>
+<%--                                                                            </label>--%>
+<%--                                                                            <div class="col-sm-9">--%>
+<%--                                                                                <img class="rounded float-right"--%>
+<%--                                                                                     style="height: 400px;--%>
+<%--                                                                                     width: auto;"--%>
+<%--                                                                                     src="images/NotAvailable.jpg"--%>
+<%--                                                                                     id="coverPicture"--%>
+<%--                                                                                     alt="Book cover"--%>
+<%--                                                                                >--%>
+<%--                                                                            </div>--%>
+<%--                                                                        </div>--%>
+
+<%--                                                                        <div class="form-group row">--%>
+<%--                                                                            <div class="col-sm-3">--%>
+<%--                                                                            </div>--%>
+<%--                                                                            <div class="col-sm-9">--%>
+<%--                                                                                <div class="custom-file">--%>
+<%--                                                                                    <input type="file"--%>
+<%--                                                                                           class="custom-file-input"--%>
+<%--                                                                                           id="customFileAdd"--%>
+<%--                                                                                           name="coverPicture"--%>
+<%--                                                                                           onchange="readURL(this, 'coverPicture');"--%>
+<%--                                                                                    >--%>
+<%--                                                                                    <label class="custom-file-label"--%>
+<%--                                                                                           for="customFileAdd">Choose--%>
+<%--                                                                                        Image </label>--%>
+<%--                                                                                </div>--%>
+<%--                                                                            </div>--%>
+<%--                                                                        </div>--%>
+<%--                                                                        <div class="form-group row">--%>
+<%--                                                                            <div class="col-sm-3">--%>
+<%--                                                                            </div>--%>
+<%--                                                                        </div>--%>
+<%--                                                                        <div class="form-group row">--%>
+<%--                                                                            <label class="col-sm-3 col-form-label">--%>
+<%--                                                                                Title--%>
+<%--                                                                            </label>--%>
+<%--                                                                            <div class="col-sm-9">--%>
+<%--                                                                                <input type="text"--%>
+<%--                                                                                       class="form-control"--%>
+<%--                                                                                       value=""--%>
+<%--                                                                                       name="txtTitle"--%>
+<%--                                                                                >--%>
+<%--                                                                            </div>--%>
+<%--                                                                        </div>--%>
+<%--                                                                        <div class="form-group row">--%>
+<%--                                                                            <label class="col-sm-3 col-form-label">--%>
+<%--                                                                                Author ID--%>
+<%--                                                                            </label>--%>
+<%--                                                                            <div class="col-sm-9">--%>
+<%--                                                                                <input type="text"--%>
+<%--                                                                                       class="form-control"--%>
+<%--                                                                                       value=""--%>
+<%--                                                                                       name="txtAuthorID"--%>
+<%--                                                                                >--%>
+<%--                                                                            </div>--%>
+<%--                                                                        </div>--%>
+<%--                                                                        <div class="form-group row">--%>
+<%--                                                                            <label class="col-sm-3 col-form-label">--%>
+<%--                                                                                Subject ID--%>
+<%--                                                                            </label>--%>
+<%--                                                                            <div class="col-sm-9">--%>
+<%--                                                                                <input type="text"--%>
+<%--                                                                                       class="form-control"--%>
+<%--                                                                                       value=""--%>
+<%--                                                                                       name="txtSubjectID"--%>
+<%--                                                                                >--%>
+<%--                                                                            </div>--%>
+<%--                                                                        </div>--%>
+<%--                                                                        <div class="form-group row">--%>
+<%--                                                                            <label class="col-sm-3 col-form-label">--%>
+<%--                                                                                Publisher--%>
+<%--                                                                            </label>--%>
+<%--                                                                            <div class="col-sm-9">--%>
+<%--                                                                                <input type="text"--%>
+<%--                                                                                       class="form-control"--%>
+<%--                                                                                       value=""--%>
+<%--                                                                                       name="txtPublisher"--%>
+<%--                                                                                >--%>
+<%--                                                                            </div>--%>
+<%--                                                                        </div>--%>
+<%--                                                                        <div class="form-group row">--%>
+<%--                                                                            <label class="col-sm-3 col-form-label">--%>
+<%--                                                                                Publish Date--%>
+<%--                                                                            </label>--%>
+<%--                                                                            <div class="col-sm-9">--%>
+<%--                                                                                <input class="form-control"--%>
+<%--                                                                                       type="date"--%>
+<%--                                                                                       value="2021-06-03"--%>
+<%--                                                                                       name="txtPublishDate"--%>
+<%--                                                                                >--%>
+<%--                                                                            </div>--%>
+
+<%--                                                                        </div>--%>
+
+<%--                                                                        <div class="form-group row">--%>
+<%--                                                                            <label class="col-sm-3 col-form-label">--%>
+<%--                                                                                Price--%>
+<%--                                                                            </label>--%>
+<%--                                                                            <div class="col-sm-9">--%>
+<%--                                                                                <input type="number"--%>
+<%--                                                                                       class="form-control"--%>
+<%--                                                                                       value=""--%>
+<%--                                                                                       name="txtPrice"--%>
+<%--                                                                                >--%>
+<%--                                                                            </div>--%>
+<%--                                                                        </div>--%>
+<%--                                                                        <div class="form-group row">--%>
+<%--                                                                            <label class="col-sm-3 col-form-label">--%>
+<%--                                                                                Quantity--%>
+<%--                                                                            </label>--%>
+<%--                                                                            <div class="col-sm-9">--%>
+<%--                                                                                <input type="number"--%>
+<%--                                                                                       class="form-control"--%>
+<%--                                                                                       value=""--%>
+<%--                                                                                       name="txtQuantity"--%>
+<%--                                                                                >--%>
+<%--                                                                            </div>--%>
+<%--                                                                        </div>--%>
+
+<%--                                                                        <div class="form-group row">--%>
+<%--                                                                            <label class="col-sm-3 col-form-label">Description--%>
+<%--                                                                            </label>--%>
+<%--                                                                            <div class="col-sm-9">--%>
+<%--                                                                                <textarea class="form-control"--%>
+<%--                                                                                          rows="5"--%>
+<%--                                                                                          name="txtDescription"> </textarea>--%>
+<%--                                                                            </div>--%>
+<%--                                                                        </div>--%>
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <button type="submit"
