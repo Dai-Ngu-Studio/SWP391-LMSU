@@ -32,14 +32,14 @@ public class OrderItemDAO implements Serializable {
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     int id = rs.getInt("id");
-                    String title = rs.getString("title");
                     int orderID = rs.getInt("orderID");
+                    String memberID = rs.getString("memberID");
                     String bookID = rs.getString("bookID");
                     int lendStatus = rs.getInt("lendStatus");
                     Date returnDeadline = rs.getDate("returnDeadline");
                     Date lendDate = rs.getDate("lendDate");
                     Date returnDate = rs.getDate("returnDate");
-                    OrderItemDTO dto = new OrderItemDTO(id, orderID, bookID, lendStatus, returnDeadline, lendDate, returnDate);
+                    OrderItemDTO dto = new OrderItemDTO(id, orderID, memberID, bookID, lendStatus, returnDeadline, lendDate, returnDate);
 
                     if (this.orderItemList == null) {
                         this.orderItemList = new ArrayList<OrderItemDTO>();
