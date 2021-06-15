@@ -7,12 +7,18 @@ import java.sql.Date;
 
 public @Data
 class OrderDTO implements Serializable {
-    private String id;
+    /**
+     * @param lendMethod false = direct, true = delivery
+     */
+    private int id;
     private String memberID;
     private Date orderDate;
     private boolean lendMethod;
 
-    public OrderDTO(String id, String memberID, Date orderDate, boolean lendMethod) {
+    public OrderDTO() {
+    }
+
+    public OrderDTO(int id, String memberID, Date orderDate, boolean lendMethod) {
         this.id = id;
         this.memberID = memberID;
         this.orderDate = orderDate;

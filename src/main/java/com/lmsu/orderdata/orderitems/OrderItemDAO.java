@@ -17,33 +17,31 @@ public class OrderItemDAO implements Serializable {
         return this.orderItemList;
     }
 
-    public void viewOrderItems() throws SQLException, NamingException{
+    public void viewOrderItems() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
 
         try {
             con = DBHelpers.makeConnection();
-            if(con != null){
+            if (con != null) {
                 String sql = "SELECT OrderItems.id, [title], [orderID], [bookID], [lendStatus], [returnDeadline], [lendDate], [returnDate] " +
                         "FROM OrderItems, Books " +
                         "WHERE OrderItems.bookID = Books.id";
-
                 stm = con.prepareStatement(sql);
-
                 rs = stm.executeQuery();
-                while(rs.next()){
-                    String id = rs.getString("id");
+                while (rs.next()) {
+                    int id = rs.getInt("id");
                     String title = rs.getString("title");
-                    String orderID = rs.getString("orderID");
+                    int orderID = rs.getInt("orderID");
                     String bookID = rs.getString("bookID");
                     int lendStatus = rs.getInt("lendStatus");
                     Date returnDeadline = rs.getDate("returnDeadline");
                     Date lendDate = rs.getDate("lendDate");
                     Date returnDate = rs.getDate("returnDate");
-                    OrderItemDTO dto = new OrderItemDTO(id, orderID, bookID, lendStatus, returnDeadline, lendDate, returnDate, title);
+                    OrderItemDTO dto = new OrderItemDTO(id, orderID, bookID, lendStatus, returnDeadline, lendDate, returnDate);
 
-                    if(this.orderItemList == null){
+                    if (this.orderItemList == null) {
                         this.orderItemList = new ArrayList<OrderItemDTO>();
                     }
                     this.orderItemList.add(dto);
@@ -51,9 +49,9 @@ public class OrderItemDAO implements Serializable {
             }
 
         } finally {
-            if(rs != null) rs.close();
-            if(stm != null) stm.close();
-            if(con != null) con.close();
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
         }
     }
 }
