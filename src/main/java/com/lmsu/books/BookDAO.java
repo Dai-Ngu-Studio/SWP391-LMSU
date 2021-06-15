@@ -486,7 +486,7 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT TOP 4 [id], [title], [authorID], [deleteStatus] " +
+                String sql = "SELECT TOP 4 [id], [title], [authorID], [deleteStatus], [coverPicturePath] " +
                         "FROM [Books] " +
                         "WHERE [deleteStatus] = 0" +
                         "ORDER BY [avgRating] desc";
@@ -525,7 +525,7 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT TOP 4 [id], [title], [authorID], [deleteStatus] " +
+                String sql = "SELECT TOP 4 [id], [title], [authorID], [deleteStatus], [coverPicturePath] " +
                         "FROM [Books] " +
                         "WHERE [deleteStatus] = 0" +
                         "ORDER BY [avgRating] asc";
