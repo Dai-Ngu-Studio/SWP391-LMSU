@@ -102,6 +102,7 @@ CREATE TABLE Orders(
 CREATE TABLE OrderItems(
 	id int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
+	memberID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
 	bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
 	lendStatus int,
 	returnDeadline date,
