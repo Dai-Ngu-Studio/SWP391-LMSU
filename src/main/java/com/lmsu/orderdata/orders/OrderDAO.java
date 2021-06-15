@@ -1,4 +1,7 @@
 package com.lmsu.orderdata.orders;
 
-public class OrderDAO {
+import java.io.Serializable;
+
+public class OrderDAO implements Serializable {
+
 }
