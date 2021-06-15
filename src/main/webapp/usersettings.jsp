@@ -231,6 +231,7 @@
                              aria-labelledby="list-miscellaneous-list">
                             <div class="row">
                                 <div class="col-sm-12">
+
                                     <table id="order-listing" class="table dataTable no-footer" role="grid"
                                            aria-describedby="order-listing_info">
                                         <thead>
@@ -241,63 +242,97 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr class="odd">
-                                            <td class="sorting_1">1</td>
-                                            <td>Watership Down</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <a href="bookDetails.html" class="btn btn-light" role="button">
-                                                        <i class="fa fa-eye text-primary"></i>
-                                                    </a>
-                                                    <button type="button" class="btn btn-light" data-toggle="modal"
-                                                            data-target="#renewModal" title="Renew"
-                                                            data-original-title="Renew">
-                                                        <i class="fa fa-refresh text-primary" aria-hidden="true"></i>
-                                                    </button>
-                                                    <div class="modal fade" id="renewModal" tabindex="-1" role="dialog"
-                                                         aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLongTitle">
-                                                                        Request renew book
-                                                                    </h5>
-                                                                    <button type="button" class="close"
-                                                                            data-dismiss="modal" aria-label="Close">
+                                        <c:set var="order_items" value="${requestScope.ORDER_ITEMS}"/>
+                                        <c:forEach var="order" items="${order_items}" varStatus="counter">
+                                            <tr class="odd">
+                                                <form action="DispatchServlet">
+                                                    <!--Start: Renew Book Item Form-->
+                                                    <td class="sorting_1"
+                                                        style="text-align: center">${counter.count}</td>
+                                                    <td style="text-align: left">
+                                                        ${order.title}
+                                                    </td>
+                                                </form>
+
+                                                <form action="DispatchServlet">
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <input type="hidden" name="bookPk" value="${order.bookID}">
+                                                            <input type="hidden" name="orderItemsPk" value="${order.id}">
+
+                                                            <button type="submit" class="btn btn-light"
+                                                                    name="btAction" value="View Details">
+                                                                <i class="fa fa-eye text-primary"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-light" data-toggle="modal"
+                                                                    data-target="#renewModal" title="Renew"
+                                                                    data-original-title="Renew">
+                                                                <i class="fa fa-refresh text-primary" aria-hidden="true"></i>
+                                                            </button>
+                                                            <div class="modal fade" id="renewModal" tabindex="-1" role="dialog"
+                                                                 aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLongTitle">
+                                                                                Request renew book
+                                                                            </h5>
+                                                                            <button type="button" class="close"
+                                                                                    data-dismiss="modal" aria-label="Close">
                                                                                 <span
                                                                                         aria-hidden="true">&times;
                                                                                 </span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form>
-                                                                        <div class="form-group row">
-                                                                            <p class="ml-3">
-                                                                                Do you want send a request to renew
-                                                                                Watership Down
-                                                                            </p>
+                                                                            </button>
                                                                         </div>
-                                                                    </form>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-primary"
-                                                                            data-dismiss="modal">Yes
-                                                                    </button>
-                                                                    <button type="button"
-                                                                            class="btn btn-outline-primary"
-                                                                            data-dismiss="modal">Cancel
-                                                                    </button>
-                                                                </div>
+                                                                        <div class="modal-body">
+                                                                            <form>
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-3 col-form-label">
+                                                                                        Reason
+                                                                                    </label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input type="text"
+                                                                                               class="form-control"
+                                                                                               name="txtReason"
+                                                                                               value="">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group row" id="rowPublishDate">
+                                                                                    <label class="col-sm-3 col-form-label">
+                                                                                        Extend Date
+                                                                                    </label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input class="form-control"
+                                                                                               type="date"
+                                                                                               value="2021-06-03"
+                                                                                               name="txtExtendDate"
+                                                                                        >
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="submit" class="btn btn-primary"
+                                                                                    data-dismiss="modal" name="btAction" value="Renew Book">
+                                                                                Yes
+                                                                            </button>
+                                                                            <button type="button"
+                                                                                    class="btn btn-outline-primary"
+                                                                                    data-dismiss="modal">Cancel
+                                                                            </button>
+                                                                        </div>
 
+                                                                    </div>
+                                                                </div>
                                                             </div>
+                                                            <button type="button" class="btn btn-light" data-toggle="tooltip"
+                                                                    title="Delete" data-original-title="Delete">
+                                                                <i class="fa fa-reply text-primary" aria-hidden="true"></i>
+                                                            </button>
                                                         </div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-light" data-toggle="tooltip"
-                                                            title="Delete" data-original-title="Delete">
-                                                        <i class="fa fa-reply text-primary" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
+                                                    </td>
+                                                </form>
+                                        </c:forEach>
                                         </tr>
                                         </tbody>
                                     </table>

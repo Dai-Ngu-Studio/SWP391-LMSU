@@ -110,7 +110,7 @@
                         <img src="images/images/faces/fn2.png" alt="profile" style="border-radius: 50%;"/>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item" href="usersettings.jsp">
+                        <a class="dropdown-item" href="ShowProfileServlet">
                             <i class="ti-settings text-primary"></i> Profile
                         </a>
                         <a class="dropdown-item" href="LogoutServlet">
@@ -179,7 +179,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="ImportLog.html">
+                    <a class="nav-link" href="log.jsp">
                         <i class="icon-file-subtract menu-icon"></i>
                         <span class="menu-title">Import Log</span>
                     </a>

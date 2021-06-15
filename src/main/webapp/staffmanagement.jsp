@@ -111,10 +111,10 @@
                         <img src="images/images/faces/fn2.png" alt="profile" style="border-radius: 50%;"/>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" href="ShowProfileServlet">
                             <i class="ti-settings text-primary"></i> Profile
                         </a>
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" href="LogoutServlet">
                             <i class="ti-power-off text-primary"></i> Logout
                         </a>
                     </div>

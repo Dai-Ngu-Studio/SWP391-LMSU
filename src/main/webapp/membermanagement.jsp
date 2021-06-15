@@ -26,6 +26,7 @@
     <link rel="shortcut icon" href="images/images/favicon.png"/>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <script src="js/iconpro.js"></script>
 </head>
 <body>
 <div class="container-scroller">
@@ -111,10 +112,10 @@
                         <img src="images/images/faces/fn2.png" alt="profile" style="border-radius: 50%;"/>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" href="ShowProfileServlet">
                             <i class="ti-settings text-primary"></i> Profile
                         </a>
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" href="LogoutServlet">
                             <i class="ti-power-off text-primary"></i> Logout
                         </a>
                     </div>
@@ -138,12 +139,15 @@
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">
-                        <i class="icon-paper menu-icon"></i>
-                        <span class="menu-title">Library</span>
-                    </a>
-                </li>
+                <c:set var="role" value="${sessionScope.LOGIN_USER}"/>
+                <c:if test="${role.roleID eq '2' or role.roleID eq '3'}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.jsp">
+                            <i class="icon-paper menu-icon"></i>
+                            <span class="menu-title">Library</span>
+                        </a>
+                    </li>
+                </c:if>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#user-management" aria-expanded="false"
                        aria-controls="ui-basic">
@@ -162,6 +166,12 @@
                     <a class="nav-link" href="ShowBookServlet">
                         <i class="icon-book menu-icon"></i>
                         <span class="menu-title">Books</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="ShowAuthorServlet">
+                        <i class="fal fa-user-edit menu-icon"></i>
+                        <span class="menu-title">Authors</span>
                     </a>
                 </li>
                 <li class="nav-item">

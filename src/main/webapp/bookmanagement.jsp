@@ -112,10 +112,10 @@
                         <img src="images/images/faces/fn2.png" alt="profile" style="border-radius: 50%;"/>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" href="ShowProfileServlet">
                             <i class="ti-settings text-primary"></i> Profile
                         </a>
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" href="LogoutServlet">
                             <i class="ti-power-off text-primary"></i> Logout
                         </a>
                     </div>
@@ -155,7 +155,7 @@
                     <div class="collapse" id="user-management">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"><a class="nav-link" href="ShowMemberServlet">Member</a></li>
-                            <li class="nav-item"><a class="nav-link" href="StaffManagement.html">Staff</a></li>
+                            <li class="nav-item"><a class="nav-link" href="ShowStaffServlet">Staff</a></li>
                         </ul>
                     </div>
                 </li>
@@ -178,7 +178,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="ImportLog.jsp">
+                    <a class="nav-link" href="log.jsp">
                         <i class="icon-file-subtract menu-icon"></i>
                         <span class="menu-title">Import Log</span>
                     </a>

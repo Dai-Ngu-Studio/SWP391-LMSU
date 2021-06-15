@@ -209,7 +209,7 @@
                                 <i class="icon-grid text-primary"></i> Dashboard
                             </a>
                         </c:if>
-                        <a class="dropdown-item" href="usersettings.jsp">
+                        <a class="dropdown-item" href="ShowProfileServlet">
                             <i class="ti-settings text-primary"></i> Profile
                         </a>
                         <form action="DispatchServlet" class="my-0">
