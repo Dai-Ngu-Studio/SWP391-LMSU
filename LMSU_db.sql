@@ -94,14 +94,14 @@ CREATE TABLE Comments(
 	deleteStatus bit NOT NULL
 );
 CREATE TABLE Orders(
-	id varchar(255) NOT NULL PRIMARY KEY,
+	id int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	memberID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
 	orderDate date,
 	lendMethod bit,
 );
 CREATE TABLE OrderItems(
 	id varchar(255) NOT NULL PRIMARY KEY,
-	orderID varchar(255) NOT NULL FOREIGN KEY REFERENCES Orders(id),
+	orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
 	bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
 	lendStatus int,
 	returnDeadline date,
@@ -122,12 +122,12 @@ CREATE TABLE RenewalRequests(
 	approvalStatus bit
 );
 CREATE TABLE DirectOrder(
-	orderID varchar(255) NOT NULL FOREIGN KEY REFERENCES Orders(id),
+	orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
 	librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
 	scheduledTime datetime,
 );
 CREATE TABLE DeliveryOrder(
-	orderID varchar(255) NOT NULL FOREIGN KEY REFERENCES Orders(id),
+	orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
 	managerID varchar(255) FOREIGN KEY REFERENCES Users(id),
 	deliverer varchar(255),
 	scheduledDeliveryTime date,
@@ -153,16 +153,16 @@ insert into Authors (id, name, bio, profilePicturePath, deleteStatus) values (4,
 insert into Authors (id, name, bio, profilePicturePath, deleteStatus) values (5, 'Olympie', 'Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh. In quis justo.', 'C:\a.png', 0);
 insert into Authors (id, name, bio, profilePicturePath, deleteStatus) values (6, 'Carter', 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum.', 'C:\a.png', 0);
 
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (1, 'sem fusce consequat nulla nisl nunc nisl', '5', 3, 'Wordpedia', '2020/09/17', 1, 16.55, 20, 1, '2020/12/09', 4.1, '439024713', '7749623681234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (2, 'at turpis a pede posuere nonummy', 6, 2, 'Divape', '2020/09/04', 2, 20.28, 13, 1, '2020/06/16', 1.0, '581621217', '5157100231234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (3, 'lacus morbi quis tortor', 3, 6, 'Zoombeat', '2020/10/27', 3, 20.4, 1, 1, '2020/06/10', 0.1, '421605316', '3568879141234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (4, 'pellentesque eget nunc donec quis orci eget orci', 6, 1, 'Janyx', '2021/01/24', 4, 23.2, 1, 0, '2020/06/18', 3.7, '404663114', '3665328051234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (5, 'risus auctor sed tristique', 4, 1, 'Pixoboo', '2021/04/30', 5, 32.37, 15, 1, '2020/11/13', 2.7, '035966056', '4426072141234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (6, 'vitae nisl', 2, 1, 'Tagchat', '2020/08/01', 6, 18.3, 7, 1, '2020/11/15', 2.8, '901484984', '8576192651234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (7, 'cubilia curae ', 5, 3, 'Rhynyx', '2021/03/05', 7, 22.19, 15, 1, '2020/11/24', 4.0, '276332597', '0975709511234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (8, 'justo eu massa donec dapibus duis at velit eu', 5, 5, 'Innotype', '2020/10/10', 8, 46.01, 11, 0, '2020/12/27', 0.4, '759833713', '801023987-9', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (9, 'mauris', 1, 1, 'Kwimbee', '2021/05/13', 9, 45.39, 6, 0, '2020/09/11', 1.3, '486202312', '4376406501234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (10, 'habitasse platea dictumst', 1, 2, 'Kwimbee', '2020/10/29', 10, 28.24, 6, 1, '2021/04/30', 4.0, '076228356', '5154947231234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (1, 'Software Engineering at Google: Lessons Learned', '5', 3, 'Wordpedia', '2020/09/17', 1, 16.55, 20, 1, '2020/12/09', 4.1, '439024713', '7749623681234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (2, 'Fundamentals of Software Architecture', 6, 2, 'Divape', '2020/09/04', 2, 20.28, 13, 1, '2020/06/16', 1.0, '581621217', '5157100231234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (3, 'Python Crash Course, 2nd Edition', 3, 6, 'Zoombeat', '2020/10/27', 3, 20.4, 1, 1, '2020/06/10', 0.1, '421605316', '3568879141234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (4, 'Blockchain Bubble or Revolution', 6, 1, 'Janyx', '2021/01/24', 4, 23.2, 1, 0, '2020/06/18', 3.7, '404663114', '3665328051234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (5, 'Expert Python Programming: Master Python', 4, 1, 'Pixoboo', '2021/04/30', 5, 32.37, 15, 1, '2020/11/13', 2.7, '035966056', '4426072141234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (6, 'ASP.NET Core 5 and Angular: Full-stack Web development', 2, 1, 'Tagchat', '2020/08/01', 6, 18.3, 7, 1, '2020/11/15', 2.8, '901484984', '8576192651234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (7, 'The Road to React: Your Journey to Master', 5, 3, 'Rhynyx', '2021/03/05', 7, 22.19, 15, 1, '2020/11/24', 4.0, '276332597', '0975709511234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (8, 'JavaScript and JQuery: Interactive Front-End Web Development', 5, 5, 'Innotype', '2020/10/10', 8, 46.01, 11, 0, '2020/12/27', 0.4, '759833713', '801023987-9', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (9, 'PHP & MySQL: Server-side Web Development', 1, 1, 'Kwimbee', '2021/05/13', 9, 45.39, 6, 0, '2020/09/11', 1.3, '486202312', '4376406501234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (10, 'Mobile Development with .NET', 1, 2, 'Kwimbee', '2020/10/29', 10, 28.24, 6, 1, '2021/04/30', 4.0, '076228356', '5154947231234', 'C:\b.png');
 insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (11, 'mattis nibh ligula nec sem duis aliquam convallis', 4, 1, 'Edgeclub', '2020/09/24', 11, 26.67, 18, 0, '2020/12/24', 2.7, '278713956', '1000736211234', 'C:\b.png');
 insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (12, 'porta volutpat erat quisque erat eros viverra eget congue', 4, 5, 'Trilith', '2021/04/03', 12, 27.87, 7, 1, '2020/06/23', 3.4, '199263196', '7785898321234', 'C:\b.png');
 insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (13, 'dapibus augue vel accumsan tellus', 5, 6, 'Youfeed', '2021/05/15', 13, 16.8, 12, 1, '2020/08/13', 1.9, '416309651', '9771421951234', 'C:\b.png');
@@ -187,6 +187,6 @@ insert into Users (id, name, roleID, semester_no, password, passwordGoogle, emai
 insert into ImportLogs (id,	bookID,	managerID, dateTaken, supplier, quantity) values (1, 1, 'LIB00001', '2020/06/06', 'Xuong in Thien Phuc', 1);
 insert into ImportLogs (id,	bookID,	managerID, dateTaken, supplier, quantity) values (2, 2, 'LIB00001', '2021/06/07', 'Xuong in Nguyen Dung', 1);
 
-insert into Comments (memberID, bookID, textComment, rating, isEdited, deleteStatus) values ('LIB00001', 1, 'wow nice pok', 0, 0, 0);
-insert into Comments (memberID, bookID, textComment, rating, isEdited, deleteStatus) values ('LIB00001', 2, 'wow worst pok', 5, 0, 0);
-insert into Comments (memberID, bookID, textComment, rating, isEdited, deleteStatus) values ('SE000001', 1, 'okay pok', 3.5, 0, 0);
+insert into Comments (memberID, bookID, textComment, rating, isEdited, deleteStatus) values ('LIB00001', 1, 'Not bad, could be more informative.', 0, 0, 0);
+insert into Comments (memberID, bookID, textComment, rating, isEdited, deleteStatus) values ('LIB00001', 2, 'Great book, much insightful.', 5, 0, 0);
+insert into Comments (memberID, bookID, textComment, rating, isEdited, deleteStatus) values ('SE000001', 1, 'Fine work, not much application though.', 3.5, 0, 0);
