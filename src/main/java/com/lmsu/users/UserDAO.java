@@ -238,5 +238,60 @@ public class UserDAO implements Serializable {
         }
         return null;
     }
+
+    public boolean updateOnFirstLogin(String email, String password, String profilePicturePath) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE [Users] " +
+                        "SET [password] = ? , [profilePicturePath] = ?, [activeStatus] = 1 " +
+                        "WHERE [email] = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, password);
+                stm.setString(2, profilePicturePath);
+                stm.setString(3, email);
+
+                int row = stm.executeUpdate();
+                if (row > 0) return true;
+            }
+
+        } finally {
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
+
+    public boolean isActive(String email) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [activeStatus] "
+                        + "FROM [Users] "
+                        + "WHERE [email] = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, email);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    boolean isActive = rs.getBoolean("activeStatus");
+                    if (isActive) {
+                        return true;
+                    }
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
 }
 
