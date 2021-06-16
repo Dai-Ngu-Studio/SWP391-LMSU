@@ -170,25 +170,35 @@
                                 </c:when>
                                 <%--Book not existed in cart--%>
                                 <c:otherwise>
-                                    <%--gt: greater than--%>
-                                    <c:if test="${bookObj.quantity gt 0}">
-                                        <form action="AddBookToCartServlet" class="row my-lg-0">
-                                            <input type="hidden" name="bookPk" value="${bookObj.id}">
-                                            <button type="submit" class="btn btn-primary btn-block"
-                                                    name="btAction" value="AddToCart">
-                                                <i class="fa fa-cart-plus" aria-hidden="true"></i> Add to Cart
-                                            </button>
-                                        </form>
-                                    </c:if>
-                                    <%--eq: equal--%>
-                                    <c:if test="${bookObj.quantity eq 0}">
-                                        <div class="row">This book is currently out of stock.</div>
-                                        <div class="row">
-                                            <button type="button" class="btn btn-success btn-block">
-                                                <i class="fa fa-heart" aria-hidden="true"></i> Add to Wishlist
-                                            </button>
-                                        </div>
-                                    </c:if>
+                                    <c:set var="orderitemsObj" value="${requestScope.ORDER_ITEMS}"/>
+                                    <c:choose>
+                                        <c:when test="${orderitemsObj.lendStatus eq 0 or orderitemsObj.lendStatus eq 1
+                                            or orderitemsObj.lendStatus eq 2 or orderitemsObj.lendStatus eq 3
+                                            or orderitemsObj.lendStatus eq 5 or orderitemsObj.lendStatus eq 6}">
+                                            <div class="row">You have already borrowed this book.</div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <%--gt: greater than--%>
+                                            <c:if test="${bookObj.quantity gt 0}">
+                                                <form action="AddBookToCartServlet" class="row my-lg-0">
+                                                    <input type="hidden" name="bookPk" value="${bookObj.id}">
+                                                    <button type="submit" class="btn btn-primary btn-block"
+                                                            name="btAction" value="AddToCart">
+                                                        <i class="fa fa-cart-plus" aria-hidden="true"></i> Add to Cart
+                                                    </button>
+                                                </form>
+                                            </c:if>
+                                            <%--eq: equal--%>
+                                            <c:if test="${bookObj.quantity eq 0}">
+                                                <div class="row">This book is currently out of stock.</div>
+                                                <div class="row">
+                                                    <button type="button" class="btn btn-success btn-block">
+                                                        <i class="fa fa-heart" aria-hidden="true"></i> Add to Wishlist
+                                                    </button>
+                                                </div>
+                                            </c:if>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </c:otherwise>
                             </c:choose>
                         </div>

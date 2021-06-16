@@ -22,13 +22,14 @@ import java.sql.SQLException;
 public class RenewRequestServlet extends HttpServlet {
 
     static final Logger LOGGER = Logger.getLogger(RenewRequestServlet.class);
-    private static final String USER_SETTING_PAGE = "usersettings.jsp";
+    private static final String USER_SETTING_CONTROLLER = "ShowProfileServlet";
+    private static final String USER_PAGE = "index.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String url = USER_SETTING_PAGE;
-        String bookID = request.getParameter("bookPk");
+        String url = USER_PAGE;
+        //String bookID = request.getParameter("bookPk");
         String orderItemsID = request.getParameter("orderItemsPk");
         String reason = request.getParameter("txtReason");
         String extendDate = request.getParameter("txtExtendDate");
@@ -36,14 +37,22 @@ public class RenewRequestServlet extends HttpServlet {
         try {
             RenewalRequestDAO dao = new RenewalRequestDAO();
             int renewalID = 0;
+            int orderItemsIDVal = Integer.parseInt(orderItemsID);
+            do {
+                renewalID++;
+            } while (dao.checkRenewalId(String.valueOf(renewalID)));
+            String renewalIDtxt = String.valueOf(renewalID);
+            boolean result = dao.addRenewal(renewalIDtxt,orderItemsIDVal, reason, extendDate);
+            if(result){
+                url = USER_SETTING_CONTROLLER;
+            }
 
-
-//        } catch (SQLException ex) {
-//            LOGGER.error(ex.getMessage());
-//            log("RenewRequestServlet _ SQL: " + ex.getMessage());
-//        } catch (NamingException ex) {
-//            LOGGER.error(ex.getMessage());
-//            log("RenewRequestServlet _ Naming: " + ex.getMessage());
+        } catch (SQLException ex) {
+            LOGGER.error(ex.getMessage());
+            log("RenewRequestServlet _ SQL: " + ex.getMessage());
+        } catch (NamingException ex) {
+            LOGGER.error(ex.getMessage());
+            log("RenewRequestServlet _ Naming: " + ex.getMessage());
        } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

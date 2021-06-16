@@ -8,8 +8,8 @@ import java.sql.*;
 
 public class RenewalRequestDAO implements Serializable {
 
-    public boolean addRenewal(String id, String itemID, String librarianID, String reason, Date requestedExtendDate,
-                              boolean approvalStatus) throws SQLException, NamingException {
+    public boolean addRenewal(String id, int itemID, String reason, String requestedExtendDate
+    ) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
 
@@ -17,15 +17,15 @@ public class RenewalRequestDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if(con != null){
                 String sql = "INSERT INTO " +
-                        "RenewalRequests([id], [itemID], [librarianID], [reason], [requestedExtendDate], [approvalStatus]) " +
-                        "VALUES(?, ?, ?, ?, ?, ?)";
+                        "RenewalRequests([id], [itemID], [reason], [requestedExtendDate]) " +
+                        "VALUES(?, ?, ?, ?)";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, id);
-                stm.setString(2, itemID);
-                stm.setString(3, librarianID);
-                stm.setString(4, reason);
-                stm.setDate(5, requestedExtendDate);
-                stm.setBoolean(6, approvalStatus);
+                stm.setInt(2, itemID);
+                //stm.setString(3, librarianID);
+                stm.setString(3, reason);
+                stm.setString(4, requestedExtendDate);
+                //stm.setBoolean(6, approvalStatus);
 
                 int row = stm.executeUpdate();
                 if(row > 0)

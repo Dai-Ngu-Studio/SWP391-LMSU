@@ -80,7 +80,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                         orderItemDTO.setBookID(bookID);
                                         orderItemDTO.setLendStatus(0);
                                         orderItemDTO.setReturnDeadline(deadlineDate);
-                                        orderItemDTO.setLendDate(null);
+                                        orderItemDTO.setLendDate(currentDate);
                                         orderItemDTO.setReturnDate(null);
                                         orderItems.add(orderItemDTO);
                                     }// end traverse items in cart

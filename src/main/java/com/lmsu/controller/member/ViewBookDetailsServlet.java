@@ -9,6 +9,8 @@ import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import com.lmsu.comments.CommentDAO;
 import com.lmsu.comments.CommentDTO;
+import com.lmsu.orderdata.orderitems.OrderItemDAO;
+import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
 import org.apache.log4j.Logger;
@@ -55,6 +57,11 @@ public class ViewBookDetailsServlet extends HttpServlet {
                         bookDTO.getDescription(), bookDTO.getQuantity(), bookDTO.getAvgRating(),
                         bookDTO.getIsbnTen(), bookDTO.getIsbnThirteen(), bookDTO.getCoverPath());
                 request.setAttribute("BOOK_OBJECT", bookObj);
+
+                //Get orderItems
+                OrderItemDAO orderItemDAO = new OrderItemDAO();
+                OrderItemDTO orderItemDTO = orderItemDAO.getItemsByBookID(bookID);
+                request.setAttribute("ORDER_ITEMS", orderItemDTO);
 
                 // Get comments
                 CommentDAO commentDAO = new CommentDAO();
