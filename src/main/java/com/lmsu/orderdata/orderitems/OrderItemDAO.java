@@ -1,6 +1,5 @@
 package com.lmsu.orderdata.orderitems;
 
-import com.lmsu.books.BookDTO;
 import com.lmsu.utils.DBHelpers;
 
 import javax.naming.NamingException;
@@ -11,10 +10,18 @@ import java.util.List;
 
 public class OrderItemDAO implements Serializable {
 
+    private Connection conn;
     private List<OrderItemDTO> orderItemList;
 
     public List<OrderItemDTO> getOrderItemList() {
         return this.orderItemList;
+    }
+
+    public OrderItemDAO() {
+    }
+
+    public OrderItemDAO(Connection conn) {
+        this.conn = conn;
     }
 
     public void viewOrderItems() throws SQLException, NamingException {
@@ -53,5 +60,36 @@ public class OrderItemDAO implements Serializable {
             if (stm != null) stm.close();
             if (con != null) con.close();
         }
+    }
+
+    public boolean addOrderItems(List<OrderItemDTO> orderItems)
+            throws SQLException, NamingException {
+        PreparedStatement stm = null;
+        try {
+            if (conn != null) {
+                String sql = "INSERT INTO [OrderItems] " +
+                        "([orderID], [memberID], [bookID], [lendStatus], [returnDeadline]) " +
+                        "VALUES(?, ?, ?, ?, ?) ";
+                stm = conn.prepareStatement(sql);
+                for (OrderItemDTO orderItem : orderItems) {
+                    stm.setInt(1, orderItem.getOrderID());
+                    stm.setString(2, orderItem.getMemberID());
+                    stm.setString(3, orderItem.getBookID());
+                    stm.setInt(4, orderItem.getLendStatus());
+                    stm.setDate(5, orderItem.getReturnDeadline());
+                    stm.addBatch();
+                    stm.clearParameters();
+                }
+                int[] rows = stm.executeBatch();
+                boolean addFailed = false;
+                for (int row : rows) {
+                    if (row == 0) addFailed = true;
+                }
+                if (!addFailed) return true;
+            }
+        } finally {
+            if (stm != null) stm.close();
+        }
+        return false;
     }
 }

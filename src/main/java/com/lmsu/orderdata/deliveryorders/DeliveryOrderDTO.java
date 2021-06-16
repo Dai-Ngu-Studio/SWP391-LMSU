@@ -18,6 +18,9 @@ class DeliveryOrderDTO implements Serializable {
     private String district;
     private String ward;
 
+    public DeliveryOrderDTO() {
+    }
+
     public DeliveryOrderDTO(String orderID, String managerID, String deliverer, Date scheduledDeliveryTime,
                             String phoneNumber, String deliveryAddress1, String deliveryAddress2, String city,
                             String district, String ward) {
