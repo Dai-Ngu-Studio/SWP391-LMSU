@@ -122,11 +122,11 @@
                                             });
                                         });
                                     </script>
-                                    <form action="CheckoutServlet" class="my-0">
+                                    <form action="CheckoutDeliveryServlet" method="POST" class="my-0">
                                         <div class="form-group my-10">
                                             <label for="inputReceiverName">Receiver Name</label>
                                             <input type="text" class="form-control deliverInput" id="inputReceiverName"
-                                                   placeholder="Sinh Vi En"/>
+                                                   name="txtReceiverName" placeholder="Sinh Vi En"/>
                                             <small id="errorReceiverName"
                                                    class="form-text text-muted deliverError">
                                                 Name of receiver must be 2-60 characters long, and must only contain
@@ -136,7 +136,7 @@
                                         <div class="form-group">
                                             <label for="inputPhoneNumber">Phone Number</label>
                                             <input type="text" class="form-control deliverInput" id="inputPhoneNumber"
-                                                   placeholder="090000000000"/>
+                                                   name="txtPhoneNumber" placeholder="090000000000"/>
                                             <small id="errorPhoneNumber"
                                                    class="form-text text-muted deliverError">
                                                 Phone number must be 10-12 characters long, and must only contain
@@ -146,7 +146,7 @@
                                         <div class="form-group">
                                             <label for="inputAddressOne">Street Address</label>
                                             <input type="text" class="form-control deliverInput" id="inputAddressOne"
-                                                   placeholder="1234 D1 Street"/>
+                                                   name="txtAddressOne" placeholder="1234 D1 Street"/>
                                             <small id="errorAddressOne"
                                                    class="form-text text-muted deliverError">
                                                 Street address must be 5-50 characters long, can contain letters,
@@ -156,7 +156,7 @@
                                         <div class="form-group">
                                             <label for="inputAddressTwo">Residence Address</label>
                                             <input type="text" class="form-control deliverInput" id="inputAddressTwo"
-                                                   placeholder="Apartment, or floor"/>
+                                                   name="txtAddressTwo" placeholder="Apartment, or floor"/>
                                             <small id="errorAddressTwo"
                                                    class="form-text text-muted deliverError">
                                                 Residence address is optional must be 0-50 characters long, can contain
@@ -181,7 +181,7 @@
                                                     $.each(cityData, function (key, value) {
                                                         $('<option>')
                                                             .text(value['Name'])
-                                                            .val(value['Id'])
+                                                            .val(value['Name'])
                                                             .appendTo('#inputCity');
                                                     });
                                                 }
@@ -199,13 +199,13 @@
                                                         .text('Select a district...')
                                                         .appendTo('#inputDistrict');
                                                     selectedCity = cityData
-                                                        .filter(n => n.Id === $('#inputCity').val());
+                                                        .filter(n => n.Name === $('#inputCity').val());
                                                     districts = selectedCity[0]['Districts'];
                                                     console.log(districts);
                                                     $.each(districts, function (key, value) {
                                                         $('<option>')
                                                             .text(value['Name'])
-                                                            .val(value['Id'])
+                                                            .val(value['Name'])
                                                             .appendTo('#inputDistrict');
                                                     });
                                                 });
@@ -218,13 +218,13 @@
                                                         .text('Select a ward...')
                                                         .appendTo('#inputWard');
                                                     selectedDistrict = districts
-                                                        .filter(n => n.Id === $('#inputDistrict').val());
+                                                        .filter(n => n.Name === $('#inputDistrict').val());
                                                     wards = selectedDistrict[0]['Wards'];
                                                     console.log(wards);
                                                     $.each(wards, function (key, value) {
                                                         $('<option>')
                                                             .text(value['Name'])
-                                                            .val(value['Id'])
+                                                            .val(value['Name'])
                                                             .appendTo('#inputWard');
                                                     });
                                                 });
@@ -233,7 +233,8 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-4">
                                                 <label for="inputCity">City</label>
-                                                <select id="inputCity" class="custom-select deliverInput">
+                                                <select id="inputCity" name="txtCity"
+                                                        class="custom-select deliverInput">
                                                     <option selected disabled>Select a city..</option>
                                                 </select>
                                                 <small id="errorCity"
@@ -243,7 +244,8 @@
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="inputDistrict">District</label>
-                                                <select id="inputDistrict" class="custom-select deliverInput">
+                                                <select id="inputDistrict" name="txtDistrict"
+                                                        class="custom-select deliverInput">
                                                     <option selected disabled>Select a city first...</option>
                                                 </select>
                                                 <small id="errorDistrict"
@@ -253,7 +255,8 @@
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="inputWard">Ward</label>
-                                                <select id="inputWard" class="custom-select deliverInput">
+                                                <select id="inputWard" name="txtWard"
+                                                        class="custom-select deliverInput">
                                                     <option selected disabled>Select a district first...</option>
                                                 </select>
                                                 <small id="errorWard"
