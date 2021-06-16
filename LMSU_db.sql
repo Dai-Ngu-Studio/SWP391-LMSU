@@ -70,7 +70,7 @@ CREATE TABLE Books(
 );
 GO
 CREATE TABLE ImportLogs(
-	id varchar(255) NOT NULL PRIMARY KEY,
+	id int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
 	managerID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
 	dateTaken date,
@@ -155,8 +155,8 @@ insert into Authors (id, name, bio, profilePicturePath, deleteStatus) values (4,
 insert into Authors (id, name, bio, profilePicturePath, deleteStatus) values (5, 'Olympie', 'Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh. In quis justo.', 'C:\a.png', 0);
 insert into Authors (id, name, bio, profilePicturePath, deleteStatus) values (6, 'Carter', 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum.', 'C:\a.png', 0);
 
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (1, 'Software Engineering at Google: Lessons Learned', '5', 3, 'Wordpedia', '2020/09/17', 1, 16.55, 20, 1, '2020/12/09', 4.1, '439024713', '7749623681234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (2, 'Fundamentals of Software Architecture', 6, 2, 'Divape', '2020/09/04', 2, 20.28, 13, 1, '2020/06/16', 1.0, '581621217', '5157100231234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (1, 'Software Engineering at Google: Lessons Learned', '5', 3, 'Wordpedia', '2020/09/17', 1, 16.55, 20, 0, '2020/12/09', 4.1, '439024713', '7749623681234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (2, 'Fundamentals of Software Architecture', 6, 2, 'Divape', '2020/09/04', 2, 20.28, 13, 0, '2020/06/16', 1.0, '581621217', '5157100231234', 'C:\b.png');
 insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (3, 'Python Crash Course, 2nd Edition', 3, 6, 'Zoombeat', '2020/10/27', 3, 20.4, 1, 1, '2020/06/10', 0.1, '421605316', '3568879141234', 'C:\b.png');
 insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (4, 'Blockchain Bubble or Revolution', 6, 1, 'Janyx', '2021/01/24', 4, 23.2, 1, 0, '2020/06/18', 3.7, '404663114', '3665328051234', 'C:\b.png');
 insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (5, 'Expert Python Programming: Master Python', 4, 1, 'Pixoboo', '2021/04/30', 5, 32.37, 15, 1, '2020/11/13', 2.7, '035966056', '4426072141234', 'C:\b.png');
@@ -186,8 +186,8 @@ insert into Users (id, name, roleID, semester_no, password, passwordGoogle, emai
 insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, activeStatus) values ('LIB00001', 'Dung', '3', 1, '1234', '1234', 'dung@fpt.edu.vn', '123456789', 'C:\a.png', 0);
 insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, activeStatus) values ('MNG00001', 'Phuc', '2', 1, '1234', '1234', 'phuc@fpt.edu.vn', '123456789', 'C:\a.png', 0);
 
-insert into ImportLogs (id,	bookID,	managerID, dateTaken, supplier, quantity) values (1, 1, 'LIB00001', '2020/06/06', 'Xuong in Thien Phuc', 1);
-insert into ImportLogs (id,	bookID,	managerID, dateTaken, supplier, quantity) values (2, 2, 'LIB00001', '2021/06/07', 'Xuong in Nguyen Dung', 1);
+insert into ImportLogs (bookID,	managerID, dateTaken, supplier, quantity) values (1, 'LIB00001', '2020/06/06', 'Xuong in Thien Phuc', 1);
+insert into ImportLogs (bookID,	managerID, dateTaken, supplier, quantity) values (2, 'LIB00001', '2021/06/07', 'Xuong in Nguyen Dung', 1);
 
 insert into Comments (memberID, bookID, textComment, rating, isEdited, deleteStatus) values ('LIB00001', 1, 'Not bad, could be more informative.', 0, 0, 0);
 insert into Comments (memberID, bookID, textComment, rating, isEdited, deleteStatus) values ('LIB00001', 2, 'Great book, much insightful.', 5, 0, 0);
