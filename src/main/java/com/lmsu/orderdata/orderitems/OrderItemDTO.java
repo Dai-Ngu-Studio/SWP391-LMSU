@@ -17,7 +17,6 @@ class OrderItemDTO implements Serializable {
     private Date returnDate;
 
     public OrderItemDTO() {
-
     }
 
     public OrderItemDTO(int id, int orderID, String memberID, String bookID, int lendStatus, Date returnDeadline, Date lendDate, Date returnDate) {
