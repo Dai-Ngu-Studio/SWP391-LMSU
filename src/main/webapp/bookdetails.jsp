@@ -20,6 +20,7 @@
 <body>
 <jsp:include page="header.jsp"></jsp:include>
 <jsp:include page="navbar.html"></jsp:include>
+<c:set var="session" value="${sessionScope}"/>
 <%--Actual Body--%>
 <div class="bg-light">
     <%--Start: Book Section--%>
@@ -94,6 +95,9 @@
                     <%--Start: Book Rating--%>
                     <span class="card-text text-primary">
                         <c:set var="bookAvgRating" value="${bookObj.avgRating}"/>
+                        <c:if test="${bookAvgRating gt 5}">
+                            <c:set var="bookAvgRating" value="${5}"/>
+                        </c:if>
                         <%--Get numbers before and after decimal plate--%>
                         <c:set var="integralRating" value="${fn:substringBefore(bookAvgRating,'.')}"/>
                         <c:set var="fractionalRating" value="${bookAvgRating mod 1}"/>
@@ -148,7 +152,6 @@
                     <div class="row text-center">
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4">
-                            <c:set var="session" value="${sessionScope}"/>
                             <c:if test="${not empty session}">
                                 <c:set var="cart" value="${sessionScope.MEMBER_CART}"/>
                                 <c:if test="${not empty cart}">
@@ -220,8 +223,9 @@
                             <form action="EditCommentServlet" class="my-0 mx-0">
                                 <div class="row mt-3">
                                     <div class="col-2">
-                                        <img src="images/default-user-icon.png"
-                                             class="rounded-circle img-fluid"/>
+                                        <img src="${comment.memberProfilePicturePath}"
+                                             class="rounded-circle img-fluid"
+                                             onerror="this.onerror=null; this.src='images/default-user-icon.png';"/>
                                     </div>
                                     <div class="col-8">
                                         <div class="card">
@@ -304,39 +308,49 @@
                                         </div>
                                     </div>
                                     <div class="col-2" style="list-style-type: none;">
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link count-indicator" data-toggle="dropdown">
-                                                <i class="ti-more"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list">
-                                                <a class="dropdown-item preview-item d-flex align-items-left">
-                                                    <div class="preview-thumbnail">
-                                                        <i class="fa fa-edit"></i>
-                                                    </div>
-                                                    <div class="preview-item-content">
-                                                        <h6 id="editSwitch${commentCounter.count}"
-                                                            class="preview-subject font-weight-normal mb-0"
-                                                            style="cursor: default">
-                                                            Edit Comment
-                                                        </h6>
-                                                    </div>
-                                                </a>
-                                                <a class="dropdown-item preview-item d-flex align-items-left">
-                                                    <div class="preview-thumbnail">
-                                                        <i class="fa fa-trash-o"></i>
-                                                    </div>
-                                                    <div class="preview-item-content">
-                                                        <h6 id="deleteSwitch${commentCounter.count}"
-                                                            class="preview-subject font-weight-normal mb-0"
-                                                            data-toggle="modal"
-                                                            data-target="#deleteCmtModal${commentCounter.count}"
-                                                            style="cursor: default">
-                                                            Delete Comment
-                                                        </h6>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </li>
+                                        <c:if test="${not empty session}">
+                                            <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
+                                            <c:if test="${not empty user}">
+                                                <c:if test="${(user.roleID eq '1')
+                                                or (user.roleID eq '2')
+                                                or (user.roleID eq '3')
+                                                or (user.id eq comment.memberID)}">
+                                                    <li class="nav-item dropdown">
+                                                        <a class="nav-link count-indicator" data-toggle="dropdown">
+                                                            <i class="ti-more"></i>
+                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list">
+                                                            <a class="dropdown-item preview-item d-flex align-items-left">
+                                                                <div class="preview-thumbnail">
+                                                                    <i class="fa fa-edit"></i>
+                                                                </div>
+                                                                <div class="preview-item-content">
+                                                                    <h6 id="editSwitch${commentCounter.count}"
+                                                                        class="preview-subject font-weight-normal mb-0"
+                                                                        style="cursor: default">
+                                                                        Edit Comment
+                                                                    </h6>
+                                                                </div>
+                                                            </a>
+                                                            <a class="dropdown-item preview-item d-flex align-items-left">
+                                                                <div class="preview-thumbnail">
+                                                                    <i class="fa fa-trash-o"></i>
+                                                                </div>
+                                                                <div class="preview-item-content">
+                                                                    <h6 id="deleteSwitch${commentCounter.count}"
+                                                                        class="preview-subject font-weight-normal mb-0"
+                                                                        data-toggle="modal"
+                                                                        data-target="#deleteCmtModal${commentCounter.count}"
+                                                                        style="cursor: default">
+                                                                        Delete Comment
+                                                                    </h6>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                </c:if>
+                                            </c:if>
+                                        </c:if>
                                             <%--Start: btAction to submit Edit--%>
                                         <input type="hidden" name="commentMemberID" value="${comment.memberID}"/>
                                         <input type="hidden" name="bookPk" value="${comment.bookID}"/>
@@ -390,7 +404,6 @@
                     </c:if>
                     <%--End: Other Comments--%>
                     <%--Start: Current User Comment--%>
-                    <c:set var="session" value="${sessionScope}"/>
                     <c:if test="${not empty session}">
                         <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
                         <c:if test="${not empty user}">

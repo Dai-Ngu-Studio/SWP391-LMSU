@@ -84,6 +84,7 @@ public class ViewBookDetailsServlet extends HttpServlet {
                         }
                         CommentObj commentObj =
                                 new CommentObj(commentDTO.getMemberID(), userDTO_member.getName(),
+                                        userDTO_member.getProfilePicturePath(),
                                         commentDTO.getBookID(), commentDTO.getTextComment(),
                                         commentDTO.getRating(), commentDTO.getEditorID(),
                                         editorName,

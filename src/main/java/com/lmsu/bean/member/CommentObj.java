@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class CommentObj implements Serializable {
     private String memberID;
     private String memberName;
+    private String memberProfilePicturePath;
     private String bookID;
     private String textComment;
     private float rating;
@@ -14,11 +15,12 @@ public class CommentObj implements Serializable {
 
     public CommentObj() { }
 
-    public CommentObj(String memberID, String memberName, String bookID,
+    public CommentObj(String memberID, String memberName, String memberProfilePicturePath, String bookID,
                       String textComment, float rating, String editorID,
                       String editorName, boolean isEdited) {
         this.memberID = memberID;
         this.memberName = memberName;
+        this.memberProfilePicturePath = memberProfilePicturePath;
         this.bookID = bookID;
         this.textComment = textComment;
         this.rating = rating;
@@ -30,6 +32,8 @@ public class CommentObj implements Serializable {
     public String getMemberID() { return memberID; }
 
     public String getMemberName() { return memberName; }
+
+    public String getMemberProfilePicturePath() { return memberProfilePicturePath; }
 
     public String getBookID() { return bookID; }
 
