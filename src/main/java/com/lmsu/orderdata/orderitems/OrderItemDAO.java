@@ -74,15 +74,14 @@ public class OrderItemDAO implements Serializable {
             if (conn != null) {
                 String sql = "INSERT INTO [OrderItems] " +
                         "([orderID], [memberID], [bookID], [lendStatus], [returnDeadline], [lendDate]) " +
-                        "VALUES(?, ?, ?, ?, ?, ?) ";
+                        "VALUES(?, ?, ?, ?, CURRENT_TIMESTAMP + 14, ?) ";
                 stm = conn.prepareStatement(sql);
                 for (OrderItemDTO orderItem : orderItems) {
                     stm.setInt(1, orderItem.getOrderID());
                     stm.setString(2, orderItem.getMemberID());
                     stm.setString(3, orderItem.getBookID());
                     stm.setInt(4, orderItem.getLendStatus());
-                    stm.setDate(5, orderItem.getReturnDeadline());
-                    stm.setDate(6, orderItem.getLendDate());
+                    stm.setDate(5, orderItem.getLendDate());
                     stm.addBatch();
                     stm.clearParameters();
                 }

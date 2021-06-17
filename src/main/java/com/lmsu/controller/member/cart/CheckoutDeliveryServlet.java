@@ -33,6 +33,8 @@ public class CheckoutDeliveryServlet extends HttpServlet {
     static final Logger LOGGER = Logger.getLogger(CheckoutDeliveryServlet.class);
     private final String SHOW_BOOK_CATALOG_CONTROLLER = "ShowBookCatalogServlet"; //W.I.P. temporary (to be changed)
     private final String INDEX_CONTROLLER = "IndexServlet"; //W.I.P. temporary (to be changed)
+    private final boolean DELIVERY_METHOD = true;
+    private final int MEMBER_ORDERED = 0;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -65,11 +67,9 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                             if (conn != null) {
                                 conn.setAutoCommit(false);
                                 // 5. Get current date, get deadline
-                                Date currentDate = DateHelpers.getCurrentDate();
-                                Date deadlineDate = DateHelpers.getDeadlineDate(currentDate, 14);
                                 // 6. Create new order
                                 OrderDAO orderDAO = new OrderDAO(conn);
-                                int orderID = orderDAO.addOrder(userDTO.getId(), currentDate, true);
+                                int orderID = orderDAO.addOrder(userDTO.getId(), DELIVERY_METHOD);
                                 if (orderID > 0) {
                                     // 7. Traverse items in cart and add to list
                                     List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
@@ -79,10 +79,8 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                         orderItemDTO.setMemberID(userDTO.getId());
                                         orderItemDTO.setBookID(bookID);
                                         //do lát present nên tui sửa tạm orderItemDTO.setLendStatus(0) thành
-                                        //orderItemDTO.setLendStatus(2)
+                                        //orderItemDTO.setLendStatus(2) (T. Phuc)
                                         orderItemDTO.setLendStatus(2);
-                                        orderItemDTO.setReturnDeadline(deadlineDate);
-                                        orderItemDTO.setLendDate(currentDate);
                                         orderItemDTO.setReturnDate(null);
                                         orderItems.add(orderItemDTO);
                                     }// end traverse items in cart

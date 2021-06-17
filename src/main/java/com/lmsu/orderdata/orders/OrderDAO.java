@@ -23,7 +23,7 @@ public class OrderDAO implements Serializable {
         this.conn = conn;
     }
 
-    public int addOrder(String memberID, Date orderDate, boolean lendMethod)
+    public int addOrder(String memberID, boolean lendMethod)
             throws SQLException, NamingException {
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -32,12 +32,11 @@ public class OrderDAO implements Serializable {
             if (conn != null) {
                 String sql = "INSERT INTO [Orders] " +
                         "([memberID], [orderDate], [lendMethod], [activeStatus]) " +
-                        "VALUES(?, ?, ?, ?) ";
+                        "VALUES(?, CURRENT_TIMESTAMP, ?, ?) ";
                 stm = conn.prepareStatement(sql, new String[]{"id"});
                 stm.setString(1, memberID);
-                stm.setDate(2, orderDate);
-                stm.setBoolean(3, lendMethod);
-                stm.setBoolean(4, true);
+                stm.setBoolean(2, lendMethod);
+                stm.setBoolean(3, true);
                 int row = stm.executeUpdate();
                 if (row > 0) {
                     rs = stm.getGeneratedKeys();
