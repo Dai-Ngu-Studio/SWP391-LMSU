@@ -252,150 +252,156 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr class="odd">
-                                                        <td class="sorting_1">1</td>
-                                                        <td>11/02/2020</td>
-                                                        <td>Penguin Random House</td>
-                                                        <td>Liam</td>
-                                                        <td>5</td>
-                                                        <td>$3200</td>
-                                                        <td>
-                                                            <button class="btn btn-outline-primary" data-toggle="modal"
-                                                                    data-target="#logModal1">View
-                                                                Details
-                                                            </button>
-                                                            <div class="modal fade" id="logModal1" tabindex="-1"
-                                                                 role="dialog" aria-labelledby="exampleModalLongTitle"
-                                                                 aria-hidden="true">
-                                                                <div class="modal-dialog" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title"
-                                                                                id="exampleModalLongTitle">
-                                                                                Import Log</h5>
-                                                                            <button type="button" class="close"
-                                                                                    data-dismiss="modal"
-                                                                                    aria-label="Close">
+                                                    <c:set var="logMap" value="${requestScope.LOG_MAP_LIST}"/>
+                                                    <c:forEach var="keyDate" items="${logMap.keySet()}">
+                                                        <tr class="odd">
+                                                            <td>${keyDate}</td>
+                                                            <td>Penguin Random House</td>
+                                                            <td>Liam</td>
+                                                            <td>5</td>
+                                                            <td>$3200</td>
+                                                            <td>
+                                                                <button class="btn btn-outline-primary"
+                                                                        data-toggle="modal"
+                                                                        data-target="#logModal1">View
+                                                                    Details
+                                                                </button>
+                                                                <div class="modal fade" id="logModal1" tabindex="-1"
+                                                                     role="dialog"
+                                                                     aria-labelledby="exampleModalLongTitle"
+                                                                     aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLongTitle">
+                                                                                    Import Log</h5>
+                                                                                <button type="button" class="close"
+                                                                                        data-dismiss="modal"
+                                                                                        aria-label="Close">
                                                                                         <span
                                                                                                 aria-hidden="true">&times;</span>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <form>
-                                                                                <fieldset disabled>
-                                                                                    <div class="form-group row">
-                                                                                        <label for="id1"
-                                                                                               class="col-sm-3 col-form-label">ID
-                                                                                            Log</label>
-                                                                                        <div class="col-sm-9">
-                                                                                            <input type="text" id="id1"
-                                                                                                   class="form-control"
-                                                                                                   value="00001">
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <form>
+                                                                                    <fieldset disabled>
+                                                                                        <div class="form-group row">
+                                                                                            <label for="id1"
+                                                                                                   class="col-sm-3 col-form-label">ID
+                                                                                                Log</label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <input type="text"
+                                                                                                       id="id1"
+                                                                                                       class="form-control"
+                                                                                                       value="00001">
+                                                                                            </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="form-group row">
-                                                                                        <label class="col-sm-3 col-form-label">Imported
-                                                                                            date</label>
-                                                                                        <div class="col-sm-9">
-                                                                                            <input type="text"
-                                                                                                   class="form-control"
-                                                                                                   value="11/02/2020">
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-sm-3 col-form-label">Imported
+                                                                                                date</label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <input type="text"
+                                                                                                       class="form-control"
+                                                                                                       value="11/02/2020">
+                                                                                            </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="form-group row">
-                                                                                        <label class="col-sm-3 col-form-label">Origin
-                                                                                        </label>
-                                                                                        <div class="col-sm-9">
-                                                                                            <input type="text"
-                                                                                                   class="form-control"
-                                                                                                   value="Penguin Random House">
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-sm-3 col-form-label">Origin
+                                                                                            </label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <input type="text"
+                                                                                                       class="form-control"
+                                                                                                       value="Penguin Random House">
+                                                                                            </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="form-group row">
-                                                                                        <label class="col-sm-3 col-form-label">Manager
-                                                                                        </label>
-                                                                                        <div class="col-sm-9">
-                                                                                            <input type="text"
-                                                                                                   class="form-control"
-                                                                                                   value="Liam">
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-sm-3 col-form-label">Manager
+                                                                                            </label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <input type="text"
+                                                                                                       class="form-control"
+                                                                                                       value="Liam">
+                                                                                            </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="form-group row">
-                                                                                        <table class="table table-hover table-responsive">
-                                                                                            <thead>
-                                                                                            <tr>
-                                                                                                <th scope="col">
-                                                                                                    Book ID
-                                                                                                </th>
-                                                                                                <th scope="col">
-                                                                                                    Book Name
-                                                                                                </th>
-                                                                                                <th scope="col">
-                                                                                                    Quantity
-                                                                                                </th>
-                                                                                            </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                            <tr>
-                                                                                                <td>01234
-                                                                                                </td>
-                                                                                                <td>Watership Down
-                                                                                                </td>
-                                                                                                <td>2</td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>01111
-                                                                                                </td>
-                                                                                                <td>Introduction to
-                                                                                                    Software Engineering
-                                                                                                </td>
-                                                                                                <td>5</td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>000078
-                                                                                                </td>
-                                                                                                <td>Clean Code
-                                                                                                </td>
-                                                                                                <td>1</td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>000078
-                                                                                                </td>
-                                                                                                <td>Clean Code
-                                                                                                </td>
-                                                                                                <td>1</td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>000078
-                                                                                                </td>
-                                                                                                <td>Clean Code
-                                                                                                </td>
-                                                                                                <td>1</td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>000078
-                                                                                                </td>
-                                                                                                <td>Clean Code
-                                                                                                </td>
-                                                                                                <td>1</td>
-                                                                                            </tr>
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div>
-                                                                                </fieldset>
-                                                                            </form>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button"
-                                                                                    class="btn btn-primary"
-                                                                                    data-dismiss="modal">Close
-                                                                            </button>
+                                                                                        <div class="form-group row">
+                                                                                            <table class="table table-hover table-responsive">
+                                                                                                <thead>
+                                                                                                <tr>
+                                                                                                    <th scope="col">
+                                                                                                        Book ID
+                                                                                                    </th>
+                                                                                                    <th scope="col">
+                                                                                                        Book Name
+                                                                                                    </th>
+                                                                                                    <th scope="col">
+                                                                                                        Quantity
+                                                                                                    </th>
+                                                                                                </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                <tr>
+                                                                                                    <td>01234
+                                                                                                    </td>
+                                                                                                    <td>Watership Down
+                                                                                                    </td>
+                                                                                                    <td>2</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td>01111
+                                                                                                    </td>
+                                                                                                    <td>Introduction to
+                                                                                                        Software
+                                                                                                        Engineering
+                                                                                                    </td>
+                                                                                                    <td>5</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td>000078
+                                                                                                    </td>
+                                                                                                    <td>Clean Code
+                                                                                                    </td>
+                                                                                                    <td>1</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td>000078
+                                                                                                    </td>
+                                                                                                    <td>Clean Code
+                                                                                                    </td>
+                                                                                                    <td>1</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td>000078
+                                                                                                    </td>
+                                                                                                    <td>Clean Code
+                                                                                                    </td>
+                                                                                                    <td>1</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td>000078
+                                                                                                    </td>
+                                                                                                    <td>Clean Code
+                                                                                                    </td>
+                                                                                                    <td>1</td>
+                                                                                                </tr>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+                                                                                    </fieldset>
+                                                                                </form>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                        class="btn btn-primary"
+                                                                                        data-dismiss="modal">Close
+                                                                                </button>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
                                                     </tbody>
                                                 </table>
                                             </div>
