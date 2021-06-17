@@ -78,7 +78,9 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                         orderItemDTO.setOrderID(orderID);
                                         orderItemDTO.setMemberID(userDTO.getId());
                                         orderItemDTO.setBookID(bookID);
-                                        orderItemDTO.setLendStatus(0);
+                                        //do lát present nên tui sửa tạm orderItemDTO.setLendStatus(0) thành
+                                        //orderItemDTO.setLendStatus(2)
+                                        orderItemDTO.setLendStatus(2);
                                         orderItemDTO.setReturnDeadline(deadlineDate);
                                         orderItemDTO.setLendDate(currentDate);
                                         orderItemDTO.setReturnDate(null);

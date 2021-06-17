@@ -167,7 +167,7 @@ public class OrderItemDAO implements Serializable {
         return null;
     }
 
-    public OrderItemDTO getItemsByBookID(String bookID) throws SQLException, NamingException{
+    public OrderItemDTO getItemsByBookID(String bookID, String memberID) throws SQLException, NamingException{
 
         Connection con = null;
         PreparedStatement stm = null;
@@ -178,22 +178,24 @@ public class OrderItemDAO implements Serializable {
             if (con != null) {
                 String sql = "SELECT [id], [orderID], [memberID], [bookID], [lendStatus], [returnDeadline], [lendDate], [returnDate] " +
                         "FROM [OrderItems] " +
-                        "WHERE [bookID] = ?";
+                        "WHERE [bookID] = ? " +
+                        "AND [memberID] = ?";
 
                 stm = con.prepareStatement(sql);
                 stm.setString(1, bookID);
+                stm.setString(2, memberID);
 
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     int orderItemsID = rs.getInt("id");
                     int orderID = rs.getInt("orderID");
-                    String memberID = rs.getString("memberID");
+                    String memberIDVal = rs.getString("memberID");
                     String bookIDVal = rs.getString("bookID");
                     int lendStatus = rs.getInt("lendStatus");
                     Date returnDeadline = rs.getDate("returnDeadline");
                     Date lendDate = rs.getDate("lendDate");
                     Date returnDate = rs.getDate("returnDate");
-                    OrderItemDTO dto = new OrderItemDTO(orderItemsID, orderID, memberID, bookIDVal, lendStatus,
+                    OrderItemDTO dto = new OrderItemDTO(orderItemsID, orderID, memberIDVal, bookIDVal, lendStatus,
                             returnDeadline, lendDate, returnDate);
                     return dto;
 

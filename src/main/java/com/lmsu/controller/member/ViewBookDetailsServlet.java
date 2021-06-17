@@ -39,6 +39,7 @@ public class ViewBookDetailsServlet extends HttpServlet {
         String url = BOOK_CATALOG_CONTROLLER;
 
         String bookID = request.getParameter("bookPk");
+        HttpSession session = request.getSession();
 
         try {
             BookDAO bookDAO = new BookDAO();
@@ -59,9 +60,12 @@ public class ViewBookDetailsServlet extends HttpServlet {
                 request.setAttribute("BOOK_OBJECT", bookObj);
 
                 //Get orderItems
-                OrderItemDAO orderItemDAO = new OrderItemDAO();
-                OrderItemDTO orderItemDTO = orderItemDAO.getItemsByBookID(bookID);
-                request.setAttribute("ORDER_ITEMS", orderItemDTO);
+                if(session != null){
+                    UserDTO user_dto = (UserDTO) session.getAttribute("LOGIN_USER");
+                    OrderItemDAO orderItemDAO = new OrderItemDAO();
+                    OrderItemDTO orderItemDTO = orderItemDAO.getItemsByBookID(bookID, user_dto.getId());
+                    request.setAttribute("ORDER_ITEMS", orderItemDTO);
+                }
 
                 // Get comments
                 CommentDAO commentDAO = new CommentDAO();
