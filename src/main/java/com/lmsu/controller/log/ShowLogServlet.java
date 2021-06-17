@@ -1,7 +1,5 @@
-package com.lmsu.controller;
+package com.lmsu.controller.log;
 
-import com.lmsu.books.BookDAO;
-import com.lmsu.books.BookDTO;
 import com.lmsu.importlog.ImportLogDAO;
 import com.lmsu.importlog.ImportLogDTO;
 import org.apache.log4j.Logger;
@@ -11,8 +9,9 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
 
 @WebServlet(name = "ShowLogServlet", value = "/ShowLogServlet")
 public class ShowLogServlet extends HttpServlet {
@@ -33,8 +32,27 @@ public class ShowLogServlet extends HttpServlet {
                 ImportLogDAO dao = new ImportLogDAO();
                 dao.viewImportList();
                 List<ImportLogDTO> result = dao.getImportList();
+                for (ImportLogDTO dto : result
+                ) {
+                    System.out.println(dto);
+                }
+                System.out.println();
+                LinkedHashMap<Date, List<ImportLogDTO>> logMap = new LinkedHashMap<>();
+                for (ImportLogDTO x : result) {
+                    if (logMap.containsKey(x.getDateTaken())) {
+                        logMap.get(x.getDateTaken()).add(x);
+                    } else {
+                        List<ImportLogDTO> newList = new ArrayList<>();
+                        newList.add(x);
+                        logMap.put(x.getDateTaken(), newList);
+                    }
 
-                request.setAttribute("LOG_LIST", result);
+                }
+                System.out.println();
+                for (Date date : logMap.keySet()) {
+                    System.out.println("Key: " + date + " value: " + logMap.get(date));
+                }
+                request.setAttribute("LOG_MAP_LIST", logMap);
             }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());

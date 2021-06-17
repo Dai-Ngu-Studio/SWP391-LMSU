@@ -1,15 +1,17 @@
 package com.lmsu.importlog;
 
+import com.lmsu.books.BookDTO;
+import com.lmsu.users.UserDTO;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 public @Data
 class ImportLogDTO implements Serializable {
     private int logID;
-    private String bookID;
-    private String managerID;
+    private BookDTO book;
+    private UserDTO manager;
     private Date dateTaken;
     private String supplier;
     private int quantity;
@@ -17,13 +19,12 @@ class ImportLogDTO implements Serializable {
     public ImportLogDTO(){
     }
 
-    public ImportLogDTO(int logID, String bookID, String managerID, Date dateTaken, String supplier, int quantity){
+    public ImportLogDTO(int logID, BookDTO book, UserDTO manager, Date dateTaken, String supplier, int quantity) {
         this.logID = logID;
-        this.bookID = bookID;
-        this.managerID = managerID;
+        this.book = book;
+        this.manager = manager;
         this.dateTaken = dateTaken;
         this.supplier = supplier;
         this.quantity = quantity;
     }
-
 }

@@ -1,6 +1,8 @@
 package com.lmsu.importlog;
 
+import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
+import com.lmsu.users.UserDAO;
 import com.lmsu.utils.DBHelpers;
 
 import javax.naming.NamingException;
@@ -29,7 +31,8 @@ public class ImportLogDAO implements Serializable {
             if (con != null) {
                 //2. Create SQL String
                 String sql = "SELECT [id], [bookID], [managerID], [dateTaken], [supplier], [quantity] " +
-                        "FROM [ImportLogs]";
+                        "FROM [ImportLogs] " +
+                        "ORDER BY [dateTaken] DESC";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 //4. Execute Query and get ResultSet
@@ -42,8 +45,9 @@ public class ImportLogDAO implements Serializable {
                     Date dateTaken = rs.getDate("dateTaken");
                     String supplier = rs.getString("supplier");
                     int quantity = rs.getInt("quantity");
-
-                    ImportLogDTO dto = new ImportLogDTO(logID, bookID, managerID, dateTaken, supplier, quantity);
+                    BookDAO bookDAO=new BookDAO();
+                    UserDAO userDAO=new UserDAO();
+                    ImportLogDTO dto = new ImportLogDTO(logID, bookDAO.getBookById(bookID), userDAO.getUserByID(managerID), dateTaken, supplier, quantity);
 
                     if (this.importList == null) {
                         this.importList = new ArrayList<ImportLogDTO>();
@@ -118,7 +122,9 @@ public class ImportLogDAO implements Serializable {
                     Date dateTaken = rs.getDate("dateTaken");
                     String supplier = rs.getString("supplier");
                     int quantity = rs.getInt("quantity");
-                    ImportLogDTO dto = new ImportLogDTO(logID, bookID, managerID, dateTaken, supplier, quantity);
+                    BookDAO bookDAO=new BookDAO();
+                    UserDAO userDAO=new UserDAO();
+                    ImportLogDTO dto = new ImportLogDTO(logID, bookDAO.getBookById(bookID), userDAO.getUserByID(managerID), dateTaken, supplier, quantity);
                     if (this.importList == null) {
                         this.importList = new ArrayList<ImportLogDTO>();
                     } //end if bookList not existed

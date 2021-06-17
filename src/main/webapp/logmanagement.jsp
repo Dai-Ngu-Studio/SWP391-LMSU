@@ -26,6 +26,8 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="images/images/favicon.png"/>
     <script src="js/iconpro.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 </head>
 <body>
 <div class="container-scroller">
@@ -217,23 +219,13 @@
                                                             aria-controls="order-listing" rowspan="1" colspan="1"
                                                             aria-sort="ascending"
                                                             aria-label="Order #: activate to sort column descending"
-                                                            style="width: 54px;">Order #
+                                                            style="width: 54px;">Imported On
                                                         </th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1"
-                                                            aria-label="Imported On: activate to sort column ascending"
-                                                            style="width: 96px;">Imported On
-                                                        </th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1"
-                                                            aria-label="From: activate to sort column ascending"
-                                                            style="width: 67px;">From
-                                                        </th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1"
-                                                            aria-label="Ship To: activate to sort column ascending"
-                                                            style="width: 56px;">Manager
-                                                        </th>
+                                                        <%--                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"--%>
+                                                        <%--                                                            rowspan="1" colspan="1"--%>
+                                                        <%--                                                            aria-label="Ship To: activate to sort column ascending"--%>
+                                                        <%--                                                            style="width: 56px;">--%>
+                                                        <%--                                                        </th>--%>
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
                                                             aria-label="Return Date: activate to sort column ascending"
@@ -242,7 +234,7 @@
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
                                                             aria-label="Purchased Price: activate to sort column ascending"
-                                                            style="width: 110px;">Price
+                                                            style="width: 110px;">Total Imported Times
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
@@ -253,28 +245,36 @@
                                                     </thead>
                                                     <tbody>
                                                     <c:set var="logMap" value="${requestScope.LOG_MAP_LIST}"/>
-                                                    <c:forEach var="keyDate" items="${logMap.keySet()}">
+                                                    <c:forEach var="keyDate" items="${logMap.keySet()}"
+                                                               varStatus="counter">
+                                                        <c:set var="totalQuantity" value="${0}"/>
+                                                        <c:set var="totalLog" value="${0}"/>
+                                                        <c:forEach var="log" items="${logMap.get(keyDate)}">
+                                                            <c:set var="totalQuantity"
+                                                                   value="${totalQuantity+log.quantity}"/>
+                                                            <c:set var="totalLog" value="${totalLog+1}"/>
+                                                        </c:forEach>
                                                         <tr class="odd">
                                                             <td>${keyDate}</td>
-                                                            <td>Penguin Random House</td>
-                                                            <td>Liam</td>
-                                                            <td>5</td>
-                                                            <td>$3200</td>
+                                                            <td>${totalQuantity}</td>
+                                                            <td>${totalLog}</td>
                                                             <td>
                                                                 <button class="btn btn-outline-primary"
                                                                         data-toggle="modal"
-                                                                        data-target="#logModal1">View
+                                                                        data-target="#logModal${counter.count}">View
                                                                     Details
                                                                 </button>
-                                                                <div class="modal fade" id="logModal1" tabindex="-1"
+                                                                <div class="modal fade"
+                                                                     id="logModal${counter.count}"
+                                                                     tabindex="-1"
                                                                      role="dialog"
                                                                      aria-labelledby="exampleModalLongTitle"
                                                                      aria-hidden="true">
-                                                                    <div class="modal-dialog" role="document">
+                                                                    <div class="modal-dialog modal-lg" role="document">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
                                                                                 <h5 class="modal-title"
-                                                                                    id="exampleModalLongTitle">
+                                                                                    id="modalTitle${counter.count}">
                                                                                     Import Log</h5>
                                                                                 <button type="button" class="close"
                                                                                         data-dismiss="modal"
@@ -284,111 +284,71 @@
                                                                                 </button>
                                                                             </div>
                                                                             <div class="modal-body">
-                                                                                <form>
-                                                                                    <fieldset disabled>
-                                                                                        <div class="form-group row">
-                                                                                            <label for="id1"
-                                                                                                   class="col-sm-3 col-form-label">ID
-                                                                                                Log</label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <input type="text"
-                                                                                                       id="id1"
-                                                                                                       class="form-control"
-                                                                                                       value="00001">
-                                                                                            </div>
+                                                                                <fieldset disabled>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-3 col-form-label">Imported
+                                                                                            date</label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   value="${keyDate}">
                                                                                         </div>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">Imported
-                                                                                                date</label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <input type="text"
-                                                                                                       class="form-control"
-                                                                                                       value="11/02/2020">
-                                                                                            </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-3 col-form-label">Total
+                                                                                            Quantity</label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   value="${totalQuantity}">
                                                                                         </div>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">Origin
-                                                                                            </label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <input type="text"
-                                                                                                       class="form-control"
-                                                                                                       value="Penguin Random House">
-                                                                                            </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-3 col-form-label">Total
+                                                                                            Imports</label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   value="${totalLog}">
                                                                                         </div>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">Manager
-                                                                                            </label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <input type="text"
-                                                                                                       class="form-control"
-                                                                                                       value="Liam">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="form-group row">
-                                                                                            <table class="table table-hover table-responsive">
-                                                                                                <thead>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <table class="table table-hover table-responsive w-100 d-block d-md-table">
+                                                                                            <thead>
+                                                                                            <tr>
+                                                                                                <th scope="col">
+                                                                                                    Log ID
+                                                                                                </th>
+                                                                                                <th scope="col">
+                                                                                                    Book Title
+                                                                                                </th>
+                                                                                                <th scope="col">
+                                                                                                    Manager Imported
+                                                                                                </th>
+                                                                                                <th scope="col">
+                                                                                                    Supplier
+                                                                                                </th>
+                                                                                                <th scope="col">
+                                                                                                    Quantity
+                                                                                                </th>
+                                                                                            </tr>
+                                                                                            </thead>
+                                                                                            <tbody>
+                                                                                            <c:forEach var="log"
+                                                                                                       items="${logMap.get(keyDate)}">
                                                                                                 <tr>
-                                                                                                    <th scope="col">
-                                                                                                        Book ID
-                                                                                                    </th>
-                                                                                                    <th scope="col">
-                                                                                                        Book Name
-                                                                                                    </th>
-                                                                                                    <th scope="col">
-                                                                                                        Quantity
-                                                                                                    </th>
+                                                                                                    <td>${log.logID} </td>
+                                                                                                    <td>${log.book.title}</td>
+                                                                                                    <td>${log.manager.name}</td>
+                                                                                                    <td>${log.supplier}</td>
+                                                                                                    <td>${log.quantity}</td>
                                                                                                 </tr>
-                                                                                                </thead>
-                                                                                                <tbody>
-                                                                                                <tr>
-                                                                                                    <td>01234
-                                                                                                    </td>
-                                                                                                    <td>Watership Down
-                                                                                                    </td>
-                                                                                                    <td>2</td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td>01111
-                                                                                                    </td>
-                                                                                                    <td>Introduction to
-                                                                                                        Software
-                                                                                                        Engineering
-                                                                                                    </td>
-                                                                                                    <td>5</td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td>000078
-                                                                                                    </td>
-                                                                                                    <td>Clean Code
-                                                                                                    </td>
-                                                                                                    <td>1</td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td>000078
-                                                                                                    </td>
-                                                                                                    <td>Clean Code
-                                                                                                    </td>
-                                                                                                    <td>1</td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td>000078
-                                                                                                    </td>
-                                                                                                    <td>Clean Code
-                                                                                                    </td>
-                                                                                                    <td>1</td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td>000078
-                                                                                                    </td>
-                                                                                                    <td>Clean Code
-                                                                                                    </td>
-                                                                                                    <td>1</td>
-                                                                                                </tr>
-                                                                                                </tbody>
-                                                                                            </table>
-                                                                                        </div>
-                                                                                    </fieldset>
-                                                                                </form>
+                                                                                            </c:forEach>
+
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </fieldset>
                                                                             </div>
                                                                             <div class="modal-footer">
                                                                                 <button type="button"

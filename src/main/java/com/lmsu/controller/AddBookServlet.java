@@ -61,6 +61,7 @@ public class AddBookServlet extends HttpServlet {
             if (addFile != null) {
                 for (Part part : request.getParts()) {
                     if (!(part.getSubmittedFileName() == null || part.getSubmittedFileName().trim().isEmpty())) {
+                        if (!FilenameUtils.getExtension(part.getSubmittedFileName()).equalsIgnoreCase("csv"));
                         CSVReader csvReader = new CSVReader(new InputStreamReader(part.getInputStream(), "UTF-8"));
                         String[] nextRecord;
                         csvReader.readNext(); //Skip first line
@@ -78,8 +79,16 @@ public class AddBookServlet extends HttpServlet {
 //                            isbnThirteen = nextRecord[9];
 //                            add(request, title, authorID, subjectID, publisher, publishDate,
 //                                    description, price, quantity, isbnTen, isbnThirteen, false);
-                            add(request, nextRecord[0], nextRecord[1], nextRecord[2], nextRecord[3], nextRecord[4],
-                                    nextRecord[5], nextRecord[6], nextRecord[7], nextRecord[8], nextRecord[9], nextRecord[10], userDTO.getId(), false);
+                            boolean readResult = true;
+                            for (int i = 0; i <= 10; i++) {
+                                if (nextRecord[i].isEmpty()) {
+                                    readResult = false;
+                                }
+                            }
+                            if (readResult) {
+                                add(request, nextRecord[0], nextRecord[1], nextRecord[2], nextRecord[3], nextRecord[4],
+                                        nextRecord[5], nextRecord[6], nextRecord[7], nextRecord[8], nextRecord[9], nextRecord[10], userDTO.getId(), false);
+                            }
                         }
                         break;
                     }
