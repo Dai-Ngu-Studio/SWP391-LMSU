@@ -135,13 +135,13 @@
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="dashboard.html">
+                    <a class="nav-link" href="dashboard.jsp">
                         <i class="icon-grid menu-icon"></i>
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="IndexServlet">
                         <i class="icon-paper menu-icon"></i>
                         <span class="menu-title">Library</span>
                     </a>
@@ -155,13 +155,13 @@
                     </a>
                     <div class="collapse" id="user-management">
                         <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"><a class="nav-link" href="MemberManagement.html">Member</a></li>
-                            <li class="nav-item"><a class="nav-link" href="StaffManagement.html">Staff</a></li>
+                            <li class="nav-item"><a class="nav-link" href="ShowMemberServlet">Member</a></li>
+                            <li class="nav-item"><a class="nav-link" href="ShowStaffServlet">Staff</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="BookManagement.html">
+                    <a class="nav-link" href="ShowBookServlet">
                         <i class="icon-book menu-icon"></i>
                         <span class="menu-title">Books</span>
                     </a>
@@ -173,7 +173,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="ImportLog.html">
+                    <a class="nav-link" href="ShowLogServlet">
                         <i class="icon-file-subtract menu-icon"></i>
                         <span class="menu-title">Import Log</span>
                     </a>
