@@ -7,7 +7,7 @@ import java.util.Date;
 
 public @Data
 class ImportLogDTO implements Serializable {
-    private String logID;
+    private int logID;
     private String bookID;
     private String managerID;
     private Date dateTaken;
@@ -17,7 +17,7 @@ class ImportLogDTO implements Serializable {
     public ImportLogDTO(){
     }
 
-    public ImportLogDTO(String logID, String bookID, String managerID, Date dateTaken, String supplier, int quantity){
+    public ImportLogDTO(int logID, String bookID, String managerID, Date dateTaken, String supplier, int quantity){
         this.logID = logID;
         this.bookID = bookID;
         this.managerID = managerID;

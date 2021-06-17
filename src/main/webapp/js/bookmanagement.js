@@ -102,7 +102,7 @@ function checkISBN() {
                                     </div>
                                     <div class="form-group row" id="rowSupplier">
                                         <label class="col-sm-3 col-form-label">
-                                            Publisher
+                                            Supplier
                                         </label>
                                         <div class="col-sm-9">
                                             <input type="text"

@@ -2,6 +2,8 @@ package com.lmsu.controller;
 
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
+import com.lmsu.importlog.ImportLogDAO;
+import com.lmsu.users.UserDTO;
 import com.lmsu.utils.ImageHelpers;
 import com.opencsv.CSVReader;
 import org.apache.commons.io.IOUtils;
@@ -42,7 +44,7 @@ public class AddBookServlet extends HttpServlet {
         String searchVal = request.getParameter("txtSearchValue");
         String addFile = request.getParameter("isAddFile");
         String url = SHOW_BOOK_CONTROLLER;
-
+        UserDTO userDTO = (UserDTO) request.getSession(true).getAttribute("LOGIN_USER");
         try {
             boolean result = false;
             String title;
@@ -77,7 +79,7 @@ public class AddBookServlet extends HttpServlet {
 //                            add(request, title, authorID, subjectID, publisher, publishDate,
 //                                    description, price, quantity, isbnTen, isbnThirteen, false);
                             add(request, nextRecord[0], nextRecord[1], nextRecord[2], nextRecord[3], nextRecord[4],
-                                    nextRecord[5], nextRecord[6], nextRecord[7], nextRecord[8], nextRecord[9], false);
+                                    nextRecord[5], nextRecord[6], nextRecord[7], nextRecord[8], nextRecord[9], nextRecord[10], userDTO.getId(), false);
                         }
                         break;
                     }
@@ -99,10 +101,9 @@ public class AddBookServlet extends HttpServlet {
                     BookDTO bookAddingExisted = bookDAO.getBookByISBN13(isbnThirteen);
                     result = bookDAO.updateQuantity(bookAddingExisted.getBookID(),
                             Integer.parseInt(quantity) + bookAddingExisted.getQuantity());
-                    System.out.println(bookAddingExisted);
                 } else {
                     result = add(request, title, authorID, subjectID, publisher, publishDate,
-                            description, price, quantity, isbnTen, isbnThirteen, true);
+                            description, price, quantity, isbnTen, isbnThirteen, supplier, userDTO.getId(), true);
                 }
             }
             if (result) {
@@ -137,6 +138,8 @@ public class AddBookServlet extends HttpServlet {
                           String quantity,
                           String isbnTen,
                           String isbnThirteen,
+                          String supplier,
+                          String managerID,
                           boolean hasCover) throws Exception {
         BookDAO dao = new BookDAO();
         int bookID = 0;
@@ -163,7 +166,14 @@ public class AddBookServlet extends HttpServlet {
                     break;
                 }
             }
-        return dao.addBook(bookIDTxt, title, authorID, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, deleteStatus, lastLentDate, avgRating, isbnTen, isbnThirteen, fileName);
+        // Import log
+        long millis = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(millis);
+        ImportLogDAO importLogDAO = new ImportLogDAO();
+        boolean resultAddBook = dao.addBook(bookIDTxt, title, authorID, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, deleteStatus, lastLentDate, avgRating, isbnTen, isbnThirteen, fileName);
+
+        boolean resultAddLog = importLogDAO.addLog(bookIDTxt, managerID, date, supplier, quantityNum);
+        return resultAddBook && resultAddLog;
     }
 
     @Override

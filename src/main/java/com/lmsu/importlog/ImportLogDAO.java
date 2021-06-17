@@ -36,7 +36,7 @@ public class ImportLogDAO implements Serializable {
                 rs = stm.executeQuery();
                 //5. Process ResultSet
                 while (rs.next()) {
-                    String logID = rs.getString("id");
+                    int logID = rs.getInt("id");
                     String bookID = rs.getString("bookID");
                     String managerID = rs.getString("managerID");
                     Date dateTaken = rs.getDate("dateTaken");
@@ -58,7 +58,7 @@ public class ImportLogDAO implements Serializable {
         }
     }
 
-    public boolean addLog(String logID, String bookID, String managerID, Date dateTaken, String supplier,
+    public boolean addLog(String bookID, String managerID, Date dateTaken, String supplier,
                           int quantity) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -69,16 +69,15 @@ public class ImportLogDAO implements Serializable {
             if (con != null) {
                 //2. Create SQL String
                 String sql = "INSERT INTO " +
-                        "ImportLogs([id], [bookID], [managerID], [dateTaken], [supplier], [quantity] ) " +
-                        "VALUES(?, ?, ?, ?, ?, ?)";
+                        "ImportLogs([bookID], [managerID], [dateTaken], [supplier], [quantity] ) " +
+                        "VALUES(?, ?, ?, ?, ?)";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
-                stm.setString(1, logID);
-                stm.setString(2, bookID);
-                stm.setString(3, managerID);
-                stm.setDate(4, dateTaken);
-                stm.setString(5, supplier);
-                stm.setInt(6, quantity);
+                stm.setString(1, bookID);
+                stm.setString(2, managerID);
+                stm.setDate(3, dateTaken);
+                stm.setString(4, supplier);
+                stm.setInt(5, quantity);
 
                 //4. Execute Query and get rows affected
                 int rows = stm.executeUpdate();
@@ -113,7 +112,7 @@ public class ImportLogDAO implements Serializable {
                 rs = stm.executeQuery();
                 //5. Process ResultSet
                 while (rs.next()) {
-                    String logID = rs.getString("id");
+                    int logID = rs.getInt("id");
                     String bookID = rs.getString("bookID");
                     String managerID = rs.getString("managerID");
                     Date dateTaken = rs.getDate("dateTaken");
