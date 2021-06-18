@@ -5,7 +5,9 @@ import com.lmsu.utils.DBHelpers;
 import javax.naming.NamingException;
 import java.io.Serializable;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 public class OrderDAO implements Serializable {
 
@@ -59,5 +61,50 @@ public class OrderDAO implements Serializable {
             if (stm != null) stm.close();
         }
         return -1;
+    }
+
+    public void viewOrders(boolean lendMethod, List<Integer> activeStatuses) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [id], [memberID], [orderDate], [lendMethod], [activeStatus] " +
+                        "FROM [Orders] " +
+                        "WHERE [lendMethod] = ? ";
+                if (activeStatuses != null) {
+                    sql += " AND ( ";
+                    ListIterator<Integer> statusItr = activeStatuses.listIterator();
+                    while (statusItr.hasNext()) {
+                        if (statusItr.hasPrevious()) {
+                            sql += " OR ";
+                        }
+                        sql += " [activeStatus] = " + statusItr.next() + " ";
+                    }
+                    sql += " ) ";
+                }
+                stm = con.prepareStatement(sql);
+                stm.setBoolean(1, lendMethod);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    if (this.orderList == null) {
+                        this.orderList = new ArrayList<>();
+                    }
+                    OrderDTO dto = new OrderDTO();
+                    dto.setId(rs.getInt("id"));
+                    dto.setMemberID(rs.getString("memberID"));
+                    dto.setOrderDate(rs.getDate("orderDate"));
+                    dto.setLendMethod(rs.getBoolean("lendMethod"));
+                    dto.setActiveStatus(rs.getInt("activeStatus"));
+                    this.orderList.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
     }
 }
