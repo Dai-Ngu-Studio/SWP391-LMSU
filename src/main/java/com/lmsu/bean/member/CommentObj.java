@@ -1,8 +1,11 @@
 package com.lmsu.bean.member;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
-public class CommentObj implements Serializable {
+public @Data
+class CommentObj implements Serializable {
     private String memberID;
     private String memberName;
     private String memberProfilePicturePath;
@@ -13,7 +16,8 @@ public class CommentObj implements Serializable {
     private String editorName;
     private boolean isEdited;
 
-    public CommentObj() { }
+    public CommentObj() {
+    }
 
     public CommentObj(String memberID, String memberName, String memberProfilePicturePath, String bookID,
                       String textComment, float rating, String editorID,
@@ -28,22 +32,4 @@ public class CommentObj implements Serializable {
         this.editorName = editorName;
         this.isEdited = isEdited;
     }
-
-    public String getMemberID() { return memberID; }
-
-    public String getMemberName() { return memberName; }
-
-    public String getMemberProfilePicturePath() { return memberProfilePicturePath; }
-
-    public String getBookID() { return bookID; }
-
-    public String getTextComment() { return textComment; }
-
-    public float getRating() { return rating; }
-
-    public String getEditorID() { return editorID; }
-
-    public String getEditorName() { return editorName; }
-
-    public boolean isEdited() { return isEdited; }
 }
