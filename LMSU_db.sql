@@ -36,7 +36,6 @@ CREATE TABLE Users(
 	roleID varchar(255) NOT NULL FOREIGN KEY REFERENCES Roles(id),
 	semester_no int NOT NULL,
 	password varchar(255),
-	passwordGoogle varchar(255),
 	email varchar(255),
 	phoneNumber varchar(10),
 	profilePicturePath varchar(MAX),
@@ -87,7 +86,7 @@ CREATE TABLE Comments(
         bookID
     ),
 
-	textComment varchar(MAX),
+	textComment nvarchar(MAX),
 	rating decimal,
 	editorID varchar(255),
 	isEdited bit,
@@ -136,9 +135,9 @@ CREATE TABLE DeliveryOrder(
 	phoneNumber varchar(10),
 	deliveryAddress1 varchar(MAX),
 	deliveryAddress2 varchar(MAX),
-	city varchar(255),
-	district varchar(255),
-	ward varchar(255)
+	city nvarchar(255),
+	district nvarchar(255),
+	ward nvarchar(255)
 );
 
 insert into Subjects (id, name, semester_no, deleteStatus) values (1, 'Art', 1, 0);
@@ -181,10 +180,10 @@ insert into Roles (id, name) values ('2', 'MNG');
 insert into Roles (id, name) values ('3', 'LIB');
 insert into Roles (id, name) values ('4', 'MEM');
 
-insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, activeStatus) values ('SE000001', 'Dat', '4', 1, '1234', '1234', 'dat@fpt.edu.vn', '123456789', 'C:\a.png', 0);
-insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, activeStatus) values ('LE000001', 'Nguyen', '4', 1, '1234', '1234', 'nguyen@fpt.edu.vn', '123456789', 'C:\a.png', 0);
-insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, activeStatus) values ('LIB00001', 'Dung', '3', 1, '1234', '1234', 'dung@fpt.edu.vn', '123456789', 'C:\a.png', 0);
-insert into Users (id, name, roleID, semester_no, password, passwordGoogle, email, phoneNumber, profilePicturePath, activeStatus) values ('MNG00001', 'Phuc', '2', 1, '1234', '1234', 'phuc@fpt.edu.vn', '123456789', 'C:\a.png', 0);
+insert into Users (id, name, roleID, semester_no, password, email, phoneNumber, profilePicturePath, activeStatus) values ('SE000001', 'Dat', '4', 1, '1234', 'dat@fpt.edu.vn', '123456789', 'C:\a.png', 0);
+insert into Users (id, name, roleID, semester_no, password, email, phoneNumber, profilePicturePath, activeStatus) values ('LE000001', 'Nguyen', '4', 1, '1234', 'nguyen@fpt.edu.vn', '123456789', 'C:\a.png', 0);
+insert into Users (id, name, roleID, semester_no, password, email, phoneNumber, profilePicturePath, activeStatus) values ('LIB00001', 'Dung', '3', 1, '1234', 'dung@fpt.edu.vn', '123456789', 'C:\a.png', 0);
+insert into Users (id, name, roleID, semester_no, password, email, phoneNumber, profilePicturePath, activeStatus) values ('MNG00001', 'Phuc', '2', 1, '1234', 'phuc@fpt.edu.vn', '123456789', 'C:\a.png', 0);
 
 insert into ImportLogs (bookID,	managerID, dateTaken, supplier, quantity) values (1, 'LIB00001', '2020/06/06', 'Xuong in Thien Phuc', 1);
 insert into ImportLogs (bookID,	managerID, dateTaken, supplier, quantity) values (2, 'LIB00001', '2021/06/07', 'Xuong in Nguyen Dung', 1);
