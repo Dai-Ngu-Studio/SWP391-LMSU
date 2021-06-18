@@ -28,10 +28,6 @@ public class CheckoutValidationServlet extends HttpServlet {
         String city = request.getParameter("txtCity");
         String district = request.getParameter("txtDistrict");
         String ward = request.getParameter("txtWard");
-        System.out.println(city);
-        System.out.println(district);
-        System.out.println(ward);
-
         Map<String, String> errors = new HashMap<>();
 
         try {
