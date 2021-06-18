@@ -20,39 +20,52 @@ import java.util.List;
 @WebServlet(name = "ShowProfileServlet", value = "/ShowProfileServlet")
 public class ShowProfileServlet extends HttpServlet {
 
-    private static final String RESULT_PAGE = "usersettings.jsp";
+    private static final String PROFILE_PAGE = "usersettings.jsp";
     static final Logger LOGGER = Logger.getLogger(ShowProfileServlet.class);
+
+    // temporary
+    private final List<Integer> NO_LEND_STATUS_SPECIFIED = null;
+
+    private final String ATTR_LOGIN_USER = "LOGIN_USER";
+    private final String ATTR_ORDER_ITEMS = "ORDER_ITEMS";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-        String url = RESULT_PAGE;
+        String url = PROFILE_PAGE;
         try {
+            if (session != null) {
+                UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
+                if (userDTO != null) {
+                    OrderItemDAO orderItemDAO = new OrderItemDAO();
+                    orderItemDAO.getOrderItemsFromMember(userDTO.getId(), NO_LEND_STATUS_SPECIFIED);
 
-            UserDTO user_dto = (UserDTO) session.getAttribute("LOGIN_USER");
-            OrderItemDAO orderItemDAO = new OrderItemDAO();
-            orderItemDAO.viewOrderItems(user_dto.getId());
-            BookDAO book_dao = new BookDAO();
+                    List<OrderItemDTO> orderItemList = orderItemDAO.getOrderItemList();
+                    List<OrderItemObj> orderItemObjList = new ArrayList<>();
 
-            List<OrderItemDTO> orderItemList = orderItemDAO.getOrderItemList();
-            List<OrderItemObj> orderItemObjList = new ArrayList<>();
-            //OrderItemDTO orderitems_dto = new OrderItemDTO();
+                    BookDAO bookDAO = new BookDAO();
 
-            if(session != null){
-                if(orderItemList != null){
-                    for(OrderItemDTO orderitemDTO: orderItemList){
-                       BookDTO book_dto = book_dao.getBookById(orderitemDTO.getBookID());
+                    if (orderItemList != null) {
+                        for (OrderItemDTO orderitemDTO : orderItemList) {
+                            BookDTO book_dto = bookDAO.getBookById(orderitemDTO.getBookID());
 
-                        OrderItemObj orderitemObj = new OrderItemObj(orderitemDTO.getId(), orderitemDTO.getOrderID(),
-                               orderitemDTO.getMemberID(), orderitemDTO.getBookID(), book_dto.getTitle(),
-                               orderitemDTO.getLendStatus(), orderitemDTO.getReturnDeadline(), orderitemDTO.getLendDate(),
-                               orderitemDTO.getReturnDate());
-                       orderItemObjList.add(orderitemObj);
+                            OrderItemObj orderitemObj = new OrderItemObj();
+                            orderitemObj.setId(orderitemDTO.getId());
+                            orderitemObj.setOrderID(orderitemDTO.getOrderID());
+                            orderitemObj.setMemberID(orderitemDTO.getMemberID());
+                            orderitemObj.setBookID(orderitemDTO.getBookID());
+                            orderitemObj.setTitle(book_dto.getTitle());
+                            orderitemObj.setLendStatus(orderitemDTO.getLendStatus());
+                            orderitemObj.setReturnDeadline(orderitemDTO.getReturnDeadline());
+                            orderitemObj.setLendDate(orderitemDTO.getLendDate());
+                            orderitemObj.setReturnDate(orderitemDTO.getReturnDate());
+                            orderItemObjList.add(orderitemObj);
+                        }
+                        request.setAttribute(ATTR_ORDER_ITEMS, orderItemObjList);
                     }
-                    request.setAttribute("ORDER_ITEMS", orderItemObjList);
                 }
             }
-            url = RESULT_PAGE;
+            url = PROFILE_PAGE;
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             log("ShowProfileServlet _ SQL: " + e.getMessage());
