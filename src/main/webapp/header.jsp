@@ -197,7 +197,7 @@
         </ul>
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item dropdown">
-                <a class="nav-link count-indicator dropdown-toggle d-flex" href="viewCart.jsp">
+                <a class="nav-link count-indicator dropdown-toggle d-flex" href="ShowCartServlet">
                     <p class="mb-0 px-2">View Cart</p>
                     <i class="ti-shopping-cart"></i>
                 </a>
