@@ -2,14 +2,12 @@ package com.lmsu.orderdata.orderitems;
 
 import com.lmsu.utils.DBHelpers;
 
-import javax.crypto.Cipher;
 import javax.naming.NamingException;
-import javax.print.attribute.standard.MediaSize;
-import javax.xml.transform.Result;
 import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 public class OrderItemDAO implements Serializable {
 
@@ -261,9 +259,15 @@ public class OrderItemDAO implements Serializable {
                         "FROM [OrderItems] " +
                         "WHERE [memberID] = ? ";
                 if (lendStatuses != null) {
-                    for (int lendStatus : lendStatuses) {
-                        sql += " OR [lendStatus] = " + lendStatus + " ";
+                    sql += " AND ( ";
+                    ListIterator<Integer> statusItr = lendStatuses.listIterator();
+                    while (statusItr.hasNext()) {
+                        if (statusItr.hasPrevious()) {
+                            sql += " OR ";
+                        }
+                        sql += " [lendStatus] = " + statusItr.next() + " ";
                     }
+                    sql += " ) ";
                 }
                 stm = con.prepareStatement(sql);
                 stm.setString(1, memberID);
