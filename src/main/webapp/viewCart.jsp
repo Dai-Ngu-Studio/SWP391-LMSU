@@ -35,7 +35,7 @@
                     <div class="col-lg-2"></div>
                         <%--Start: Cart Quantity--%>
                     <div class="col-lg-5">
-                        <h4>Your Cart<small class="text-muted"> (${cart.cartQuantity} books)</small></h4>
+                        <h4>Your Cart<small class="text-muted"> (${cart.cartQuantity}/10 books)</small></h4>
                     </div>
                         <%--End: Cart Quantity--%>
                     <div class="col-lg-3"></div>

@@ -5,6 +5,7 @@ import com.lmsu.authors.AuthorDTO;
 import com.lmsu.bean.member.AuthorObj;
 import com.lmsu.bean.member.BookObj;
 import com.lmsu.bean.member.CommentObj;
+import com.lmsu.bean.member.OrderItemsObj;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import com.lmsu.comments.CommentDAO;
@@ -65,6 +66,20 @@ public class ViewBookDetailsServlet extends HttpServlet {
                     OrderItemDAO orderItemDAO = new OrderItemDAO();
                     OrderItemDTO orderItemDTO = orderItemDAO.getItemsByBookID(bookID, user_dto.getId());
                     request.setAttribute("ORDER_ITEMS", orderItemDTO);
+
+                    orderItemDAO.getAllItemsByMemberID(user_dto.getId());
+                    List<OrderItemDTO> itemsList = orderItemDAO.getOrderItemList();
+                    List<OrderItemsObj> itemsObjList = new ArrayList<>();
+                    if(itemsList != null){
+                        for(OrderItemDTO orderitemDTO: itemsList){
+                            OrderItemsObj orderitemsObj = new OrderItemsObj(orderitemDTO.getId(), orderitemDTO.getOrderID(),
+                                    orderitemDTO.getMemberID(), orderitemDTO.getBookID(), "",
+                                    orderitemDTO.getLendStatus(), orderitemDTO.getReturnDeadline(), orderitemDTO.getLendDate(),
+                                    orderitemDTO.getReturnDate());
+                            itemsObjList.add(orderitemsObj);
+                        }
+                        request.setAttribute("NUMBER_BORROWED", itemsObjList);
+                    }
                 }
 
                 // Get comments
