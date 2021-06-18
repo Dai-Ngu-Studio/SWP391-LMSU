@@ -157,10 +157,14 @@
                                 <c:if test="${not empty cart}">
                                     <c:set var="existedInCart" value="${cart.isExistedInCart(bookObj.id)}"/>
                                 </c:if>
+                                <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
                             </c:if>
                             <c:choose>
                                 <%--Book existed in cart--%>
-                                <c:when test="${(not empty session) and (not empty cart) and (existedInCart)}">
+                                <c:when test="${(not empty session)
+                                        and (not empty user)
+                                        and (not empty cart)
+                                        and (existedInCart)}">
                                     <div class="row">This book is already in your cart.</div>
                                     <form action="RemoveFromCartServlet" class="my-0 mx-0">
                                         <input type="hidden" name="bookPk" value="${bookObj.id}">
@@ -173,43 +177,47 @@
                                 </c:when>
                                 <%--Book not existed in cart--%>
                                 <c:otherwise>
-                                    <c:set var="orderitemsObj" value="${requestScope.ORDER_ITEMS}"/>
-                                    <c:set var="itemNumbers" value="${requestScope.NUMBER_BORROWED}"/>
-                                    <c:choose>
-                                        <c:when test="${orderitemsObj.lendStatus eq 0 or orderitemsObj.lendStatus eq 1
-                                            or orderitemsObj.lendStatus eq 2 or orderitemsObj.lendStatus eq 3
-                                            or orderitemsObj.lendStatus eq 5 or orderitemsObj.lendStatus eq 6}">
-                                            <div class="row">You have already borrowed this book.</div>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <c:choose>
-                                                <c:when test="${cart.cartQuantity eq 10 or itemNumbers.size() eq 10}">
-                                                    <div class="row">You have already exceeded the borrowing limit.</div>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <%--gt: greater than--%>
-                                                    <c:if test="${bookObj.quantity gt 0}">
-                                                        <form action="AddBookToCartServlet" class="row my-lg-0">
-                                                            <input type="hidden" name="bookPk" value="${bookObj.id}">
-                                                            <button type="submit" class="btn btn-primary btn-block"
-                                                                    name="btAction" value="AddToCart">
-                                                                <i class="fa fa-cart-plus" aria-hidden="true"></i> Add to Cart
-                                                            </button>
-                                                        </form>
-                                                    </c:if>
-                                                    <%--eq: equal--%>
-                                                    <c:if test="${bookObj.quantity eq 0}">
-                                                        <div class="row">This book is currently out of stock.</div>
-                                                        <div class="row">
-                                                            <button type="button" class="btn btn-success btn-block">
-                                                                <i class="fa fa-heart" aria-hidden="true"></i> Add to Wishlist
-                                                            </button>
-                                                        </div>
-                                                    </c:if>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:otherwise>
-                                    </c:choose>
+                                    <c:if test="${(not empty session) and (not empty user)}">
+                                        <c:set var="isBorrowed"
+                                               value="${requestScope.MEMBER_BOOK_BORROW_STATUS}"/>
+                                        <c:set var="memberTotalActiveBorrows"
+                                               value="${sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS}"/>
+                                        <c:choose>
+                                            <c:when test="${isBorrowed}">
+                                                <div class="row">You are currently borrowing this book.</div>
+                                            </c:when>
+                                            <c:when test="${(not empty cart)
+                                                    and (not empty memberTotalActiveBorrows)
+                                                    and ((cart.cartQuantity + memberTotalActiveBorrows.size() ge 10))}">
+                                                <div class="row">You have already reached the borrowing limit.</div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <%--gt: greater than--%>
+                                                <c:if test="${bookObj.quantity gt 0}">
+                                                    <form action="AddBookToCartServlet" class="row my-0">
+                                                        <input type="hidden" name="bookPk" value="${bookObj.id}">
+                                                        <button type="submit" class="btn btn-primary btn-block"
+                                                                name="btAction" value="AddToCart">
+                                                            <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                                            Add to Cart
+                                                        </button>
+                                                    </form>
+                                                </c:if>
+                                                <%--eq: equal--%>
+                                                <c:if test="${bookObj.quantity eq 0}">
+                                                    <div class="row">This book is currently out of stock.
+                                                        Add it to your cart to get notified when it becomes available.
+                                                    </div>
+                                                    <div class="row">
+                                                        <button type="button" class="btn btn-success btn-block">
+                                                            <i class="fa fa-bookmark" aria-hidden="true"></i>
+                                                            Reserve Book
+                                                        </button>
+                                                    </div>
+                                                </c:if>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:if>
                                 </c:otherwise>
                             </c:choose>
                         </div>

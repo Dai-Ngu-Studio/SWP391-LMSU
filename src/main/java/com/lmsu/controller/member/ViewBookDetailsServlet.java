@@ -5,7 +5,7 @@ import com.lmsu.authors.AuthorDTO;
 import com.lmsu.bean.member.AuthorObj;
 import com.lmsu.bean.member.BookObj;
 import com.lmsu.bean.member.CommentObj;
-import com.lmsu.bean.member.OrderItemsObj;
+import com.lmsu.bean.member.OrderItemObj;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import com.lmsu.comments.CommentDAO;
@@ -23,6 +23,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @WebServlet(name = "ViewBookDetailsServlet", value = "/ViewBookDetailsServlet")
@@ -32,10 +33,21 @@ public class ViewBookDetailsServlet extends HttpServlet {
     private static final String BOOK_DETAILS_PAGE = "bookdetails.jsp";
     static final Logger LOGGER = Logger.getLogger(ViewBookDetailsServlet.class);
 
+    private final static int ITEM_PENDING = 0;
+    private final static int ITEM_APPROVED = 1;
+    private final static int ITEM_RECEIVED = 2;
+    private final static int ITEM_RETURN_SCHEDULED = 3;
+    private final static int ITEM_OVERDUE = 5;
+    private final static int ITEM_OVERDUE_RETURN_SCHEDULED = 6;
+
+    private final static boolean ATTR_BOOK_BORROWED = true;
+    private final static String ATTR_MEMBER_TOTAL_ACTIVE_BORROWS = "MEMBER_TOTAL_ACTIVE_BORROWS";
+    private final static String ATTR_MEMBER_BOOK_BORROW_STATUS = "MEMBER_BOOK_BORROW_STATUS";
+    private final static String ATTR_COMMENT_LIST = "COMMENT_LIST";
+    private final static String ATTR_COMMENT_AMOUNT = "COMMENT_AMOUNT";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
 
         String url = BOOK_CATALOG_CONTROLLER;
 
@@ -50,7 +62,7 @@ public class ViewBookDetailsServlet extends HttpServlet {
                 AuthorDAO authorDAO = new AuthorDAO();
                 // Get AuthorDTO
                 AuthorDTO authorDTO = authorDAO.getAuthorByID(bookDTO.getAuthorID());
-                // Create Beans
+                // Create Author Bean, Book Bean
                 AuthorObj authorObj = new AuthorObj(authorDTO.getAuthorID(),
                         authorDTO.getAuthorName(), authorDTO.getAuthorBio());
                 // Subject name not yet implemented
@@ -59,29 +71,34 @@ public class ViewBookDetailsServlet extends HttpServlet {
                         bookDTO.getDescription(), bookDTO.getQuantity(), bookDTO.getAvgRating(),
                         bookDTO.getIsbnTen(), bookDTO.getIsbnThirteen(), bookDTO.getCoverPath());
                 request.setAttribute("BOOK_OBJECT", bookObj);
-
-                //Get orderItems
-                if(session != null){
-                    UserDTO user_dto = (UserDTO) session.getAttribute("LOGIN_USER");
-                    OrderItemDAO orderItemDAO = new OrderItemDAO();
-                    OrderItemDTO orderItemDTO = orderItemDAO.getItemsByBookID(bookID, user_dto.getId());
-                    request.setAttribute("ORDER_ITEMS", orderItemDTO);
-
-                    orderItemDAO.getAllItemsByMemberID(user_dto.getId());
-                    List<OrderItemDTO> itemsList = orderItemDAO.getOrderItemList();
-                    List<OrderItemsObj> itemsObjList = new ArrayList<>();
-                    if(itemsList != null){
-                        for(OrderItemDTO orderitemDTO: itemsList){
-                            OrderItemsObj orderitemsObj = new OrderItemsObj(orderitemDTO.getId(), orderitemDTO.getOrderID(),
-                                    orderitemDTO.getMemberID(), orderitemDTO.getBookID(), "",
-                                    orderitemDTO.getLendStatus(), orderitemDTO.getReturnDeadline(), orderitemDTO.getLendDate(),
-                                    orderitemDTO.getReturnDate());
-                            itemsObjList.add(orderitemsObj);
+                //----------------------------------------------------
+                //Get order items of member
+                if (session != null) {
+                    UserDTO userDTO = (UserDTO) session.getAttribute("LOGIN_USER");
+                    if (userDTO != null) {
+                        OrderItemDAO orderItemDAO = new OrderItemDAO();
+                        // Get the number of active borrowed books from member
+                        //----------------------------------------------------
+                        orderItemDAO
+                                .getOrderItemsFromMember(
+                                        userDTO.getId(),
+                                        new ArrayList<Integer>(
+                                                Arrays.asList(
+                                                        ITEM_PENDING, ITEM_APPROVED, ITEM_RECEIVED,
+                                                        ITEM_RETURN_SCHEDULED, ITEM_OVERDUE,
+                                                        ITEM_OVERDUE_RETURN_SCHEDULED
+                                                )));
+                        //----------------------------------------------------
+                        List<OrderItemDTO> memberTotalActiveBorrows = orderItemDAO.getOrderItemList();
+                        session.setAttribute(ATTR_MEMBER_TOTAL_ACTIVE_BORROWS, memberTotalActiveBorrows);
+                        //----------------------------------------------------
+                        // Check if member had borrowed this book
+                        if (orderItemDAO.getOrderItemFromBookID(bookID, userDTO.getId()) != null) {
+                            request.setAttribute(ATTR_MEMBER_BOOK_BORROW_STATUS, ATTR_BOOK_BORROWED);
                         }
-                        request.setAttribute("NUMBER_BORROWED", itemsObjList);
                     }
                 }
-
+                //----------------------------------------------------
                 // Get comments
                 CommentDAO commentDAO = new CommentDAO();
                 UserDAO userDAO = new UserDAO();
@@ -107,9 +124,9 @@ public class ViewBookDetailsServlet extends HttpServlet {
                         commentObjList.add(commentObj);
                         numberOfComment++;
                     }
-                    request.setAttribute("COMMENT_LIST", commentObjList);
+                    request.setAttribute(ATTR_COMMENT_LIST, commentObjList);
                 }
-                request.setAttribute("COMMENT_AMOUNT", numberOfComment);
+                request.setAttribute(ATTR_COMMENT_AMOUNT, numberOfComment);
                 url = BOOK_DETAILS_PAGE;
             } //end if bookDTO existed
         } catch (SQLException e) {
@@ -126,11 +143,15 @@ public class ViewBookDetailsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         processRequest(request, response);
     }
 }

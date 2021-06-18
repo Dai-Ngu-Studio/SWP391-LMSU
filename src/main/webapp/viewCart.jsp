@@ -25,105 +25,108 @@
 
     <c:if test="${not empty session}">
         <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
-        <%--CartObj--%>
-        <c:set var="cart" value="${sessionScope.MEMBER_CART}"/>
-        <c:if test="${not empty cart}">
-            <%--Map<String, BookObj>--%>
-            <c:set var="books" value="${cart.items}"/>
-            <c:if test="${not empty books}">
-                <div class="row pt-5">
-                    <div class="col-lg-2"></div>
-                        <%--Start: Cart Quantity--%>
-                    <div class="col-lg-5">
-                        <h4>Your Cart<small class="text-muted"> (${cart.cartQuantity}/10 books)</small></h4>
+        <c:if test="${not empty user}">
+            <c:set var="memberTotalActiveBorrows" value="${0}"/>
+            <c:if test="${not empty sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS}">
+                <c:set var="memberTotalActiveBorrows" value="${sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS.size()}"/>
+            </c:if>
+            <c:set var="cart" value="${sessionScope.MEMBER_CART}"/>
+            <c:if test="${not empty cart}">
+                <c:set var="books" value="${cart.items}"/>
+                <c:if test="${not empty books}">
+                    <div class="row pt-5">
+                        <div class="col-2"></div>
+                        <div class="col-5">
+                            <h4>Your Cart<small class="text-muted"> (${cart.cartQuantity}/${10-memberTotalActiveBorrows})</small>
+                            </h4>
+                        </div>
+                        <div class="col-3"></div>
+                        <div class="col-2"></div>
                     </div>
-                        <%--End: Cart Quantity--%>
-                    <div class="col-lg-3"></div>
-                    <div class="col-lg-2"></div>
-                </div>
-                <div class="row pb-5">
-                        <%--Start: Empty Column--%>
-                    <div class="col-lg-2"></div>
-                        <%--End: Empty Column--%>
-                        <%--Start: Cart Items Column--%>
-                    <div class="col-lg-5">
-                        <c:forEach var="book" items="${books}" varStatus="bookCounter">
-                            <form action="RemoveFromCartServlet" class="my-0 mx-0">
-                                <div class="card mt-2">
-                                    <div class="card-body">
-                                        <div class="card-title">
-                                            <a href="<c:url value='ViewBookDetailsServlet?bookPk=${book.key}'/>"
-                                               class="link text-info">
-                                                    ${book.value.title}</a>
-                                            <a href="<c:url value='ViewBookDetailsServlet?bookPk=${book.key}'/>"
-                                               class="link"><i
-                                                    class="fa fa-arrow-circle-right text-info"
-                                                    aria-hidden="true"></i></a>
-                                        </div>
-                                        <div class="card-text">
-                                            <div class="row">
-                                                <div class="col-lg-3">
-                                                    <img src="${pageContext.request.contextPath}/image/${book.value.coverPath}"
-                                                         class="rounded img-fluid img-thumbnail"
-                                                         alt="..."
-                                                         onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"
-                                                    />
-                                                </div>
-                                                <div class="col-lg-5">
+                    <div class="row pb-5">
+                        <div class="col-2"></div>
+                            <%--Start: Cart Items Column--%>
+                        <div class="col-5">
+                            <c:forEach var="book" items="${books}" varStatus="bookCounter">
+                                <form action="RemoveFromCartServlet" class="my-0 mx-0">
+                                    <div class="card mt-2">
+                                        <div class="card-body">
+                                            <div class="card-title">
+                                                <a href="<c:url value='ViewBookDetailsServlet?bookPk=${book.key}'/>"
+                                                   class="link text-info">
+                                                        ${book.value.title}</a>
+                                                <a href="<c:url value='ViewBookDetailsServlet?bookPk=${book.key}'/>"
+                                                   class="link"><i
+                                                        class="fa fa-arrow-circle-right text-info"
+                                                        aria-hidden="true"></i></a>
+                                            </div>
+                                            <div class="card-text">
+                                                <div class="row">
+                                                    <div class="col-3">
+                                                        <img src="${pageContext.request.contextPath}/image/${book.value.coverPath}"
+                                                             class="rounded img-fluid img-thumbnail"
+                                                             alt="..."
+                                                             onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"
+                                                        />
+                                                    </div>
+                                                    <div class="col-5">
 
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <input type="hidden" name="bookPk" value="${book.key}">
-                                                    <button type="submit" name="btAction"
-                                                            value="RemoveFromCart" class="btn btn-danger btn-block">
-                                                        <i class="fa fa-minus-circle" aria-hidden="true"></i> Remove
-                                                    </button>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <input type="hidden" name="bookPk" value="${book.key}">
+                                                        <button type="submit" name="btAction"
+                                                                value="RemoveFromCart" class="btn btn-danger btn-block">
+                                                            <i class="fa fa-minus-circle" aria-hidden="true"></i> Remove
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </form>
-                        </c:forEach>
-                    </div>
-                        <%--End: Cart Items Column--%>
-                        <%--Start: Checkout Column--%>
-                    <div class="col-lg-3">
-                        <div class="card mt-2">
-                            <div class="card-body text-center">
-                                <div class="card-text">
-                                    <c:if test="${not empty user}">
+                                </form>
+                            </c:forEach>
+                        </div>
+                            <%--End: Cart Items Column--%>
+                            <%--Start: Checkout Column--%>
+                        <div class="col-3">
+                            <div class="card mt-2">
+                                <div class="card-body text-center">
+                                    <div class="card-text">
                                         Logged in as <strong>${user.name}</strong>
-                                    </c:if>
-                                    <c:if test="${empty user}">
-                                        Currently not logged in.
+                                    </div>
+                                    <c:if test="${not empty user}">
+                                        <a href="orderform.jsp" type="button"
+                                           class="btn btn-success link mt-2">
+                                            Proceed to borrow
+                                        </a>
                                     </c:if>
                                 </div>
-                                <c:if test="${not empty user}">
-                                    <a href="orderform.jsp" type="button"
-                                       class="btn btn-success link mt-2">
-                                        Proceed to borrow
-                                    </a>
-                                </c:if>
-                                <c:if test="${empty user}">
-                                    <a href="StartupServlet" type="button"
-                                       class="btn btn-primary link mt-2">
-                                        Login now
-                                    </a>
-                                </c:if>
                             </div>
                         </div>
+                            <%--End: Checkout Column--%>
+                        <div class="col-2"></div>
                     </div>
-                        <%--End: Checkout Column--%>
-                        <%--Start: Empty Column--%>
-                    <div class="col-lg-2"></div>
-                        <%--End: Empty Column--%>
-                </div>
+                </c:if>
+                <c:if test="${empty books}">
+                    <div class="row my-4">
+                        <div class="col-4"></div>
+                        <div class="col-4">
+                            <div class="card mt-2">
+                                <div class="card-body text-center">
+                                    <div class="card-text">
+                                        No books have been added to cart yet.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+                </c:if>
             </c:if>
-            <c:if test="${empty books}">
+            <c:if test="${empty cart}">
                 <div class="row my-4">
-                    <div class="col-lg-4"></div>
-                    <div class="col-lg-4">
+                    <div class="col-4"></div>
+                    <div class="col-4">
                         <div class="card mt-2">
                             <div class="card-body text-center">
                                 <div class="card-text">
@@ -132,56 +135,40 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4"></div>
+                    <div class="col-4"></div>
                 </div>
             </c:if>
         </c:if>
-        <c:if test="${empty cart}">
-            <div class="row my-4">
-                <div class="col-lg-4"></div>
-                <div class="col-lg-4">
-                    <div class="card mt-2">
-                        <div class="card-body text-center">
-                            <div class="card-text">
-                                No books have been added to cart yet.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4"></div>
-            </div>
-        </c:if>
     </c:if>
-    <c:if test="${empty session}">
+    <c:if test="${(empty session) or (empty user)}">
         <div class="row my-4">
-            <div class="col-lg-4"></div>
-            <div class="col-lg-4">
+            <div class="col-4"></div>
+            <div class="col-4">
                 <div class="card mt-2">
                     <div class="card-body text-center">
                         <div class="card-text">
                             <div class="row">
-                                <div class="col-lg-2"></div>
-                                <div class="col-lg-8">
-                                    No books have been added to cart yet.<br>
-                                    Currently not logged in.
+                                <div class="col-2"></div>
+                                <div class="col-8">
+                                    You are currently not logged in.<br>
                                 </div>
-                                <div class="col-lg-2"></div>
+                                <div class="col-2"></div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-2"></div>
-                                <div class="col-lg-8">
+                                <div class="col-2"></div>
+                                <div class="col-8">
                                     <a href="StartupServlet" type="button"
                                        class="btn btn-primary link mt-2">
                                         Login now
                                     </a>
                                 </div>
-                                <div class="col-lg-2"></div>
+                                <div class="col-2"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4"></div>
+            <div class="col-4"></div>
         </div>
     </c:if>
 </div>
