@@ -9,6 +9,14 @@ import java.util.List;
 
 public class OrderDAO implements Serializable {
 
+    private final int ORDER_CANCELLED = -1;
+    private final int ORDER_PENDING = 0;
+    private final int ORDER_APPROVED = 1;
+    private final int ORDER_RECEIVED = 2;
+    private final int ORDER_RETURNED = 3;
+    private final int ORDER_OVERDUE = 4;
+    private final int ORDER_REJECTED = 5;
+
     private Connection conn;
     private List<OrderDTO> orderList;
 
@@ -36,7 +44,7 @@ public class OrderDAO implements Serializable {
                 stm = conn.prepareStatement(sql, new String[]{"id"});
                 stm.setString(1, memberID);
                 stm.setBoolean(2, lendMethod);
-                stm.setBoolean(3, true);
+                stm.setInt(3, ORDER_PENDING);
                 int row = stm.executeUpdate();
                 if (row > 0) {
                     rs = stm.getGeneratedKeys();

@@ -14,12 +14,12 @@ class OrderDTO implements Serializable {
     private String memberID;
     private Date orderDate;
     private boolean lendMethod;
-    private boolean activeStatus;
+    private int activeStatus;
 
     public OrderDTO() {
     }
 
-    public OrderDTO(int id, String memberID, Date orderDate, boolean lendMethod, boolean activeStatus) {
+    public OrderDTO(int id, String memberID, Date orderDate, boolean lendMethod, int activeStatus) {
         this.id = id;
         this.memberID = memberID;
         this.orderDate = orderDate;
