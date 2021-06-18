@@ -29,22 +29,24 @@ import java.util.List;
 @WebServlet(name = "ViewBookDetailsServlet", value = "/ViewBookDetailsServlet")
 public class ViewBookDetailsServlet extends HttpServlet {
 
-    private static final String BOOK_CATALOG_CONTROLLER = "ShowBookCatalogServlet";
-    private static final String BOOK_DETAILS_PAGE = "bookdetails.jsp";
+    private final String BOOK_CATALOG_CONTROLLER = "ShowBookCatalogServlet";
+    private final String BOOK_DETAILS_PAGE = "bookdetails.jsp";
     static final Logger LOGGER = Logger.getLogger(ViewBookDetailsServlet.class);
 
-    private final static int ITEM_PENDING = 0;
-    private final static int ITEM_APPROVED = 1;
-    private final static int ITEM_RECEIVED = 2;
-    private final static int ITEM_RETURN_SCHEDULED = 3;
-    private final static int ITEM_OVERDUE = 5;
-    private final static int ITEM_OVERDUE_RETURN_SCHEDULED = 6;
+    private final int ITEM_PENDING = 0;
+    private final int ITEM_APPROVED = 1;
+    private final int ITEM_RECEIVED = 2;
+    private final int ITEM_RETURN_SCHEDULED = 3;
+    private final int ITEM_OVERDUE = 5;
+    private final int ITEM_OVERDUE_RETURN_SCHEDULED = 6;
 
-    private final static boolean ATTR_BOOK_BORROWED = true;
-    private final static String ATTR_MEMBER_TOTAL_ACTIVE_BORROWS = "MEMBER_TOTAL_ACTIVE_BORROWS";
-    private final static String ATTR_MEMBER_BOOK_BORROW_STATUS = "MEMBER_BOOK_BORROW_STATUS";
-    private final static String ATTR_COMMENT_LIST = "COMMENT_LIST";
-    private final static String ATTR_COMMENT_AMOUNT = "COMMENT_AMOUNT";
+    private final boolean ATTR_BOOK_BORROWED = true;
+    private final String ATTR_MEMBER_TOTAL_ACTIVE_BORROWS = "MEMBER_TOTAL_ACTIVE_BORROWS";
+    private final String ATTR_MEMBER_BOOK_BORROW_STATUS = "MEMBER_BOOK_BORROW_STATUS";
+    private final String ATTR_COMMENT_LIST = "COMMENT_LIST";
+    private final String ATTR_COMMENT_AMOUNT = "COMMENT_AMOUNT";
+    private final String ATTR_LOGIN_USER = "LOGIN_USER";
+    private final String ATTR_BOOK_OBJECT = "BOOK_OBJECT";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -70,11 +72,11 @@ public class ViewBookDetailsServlet extends HttpServlet {
                         "TEMP", bookDTO.getPublisher(), bookDTO.getPublicationDate(),
                         bookDTO.getDescription(), bookDTO.getQuantity(), bookDTO.getAvgRating(),
                         bookDTO.getIsbnTen(), bookDTO.getIsbnThirteen(), bookDTO.getCoverPath());
-                request.setAttribute("BOOK_OBJECT", bookObj);
+                request.setAttribute(ATTR_BOOK_OBJECT, bookObj);
                 //----------------------------------------------------
                 //Get order items of member
                 if (session != null) {
-                    UserDTO userDTO = (UserDTO) session.getAttribute("LOGIN_USER");
+                    UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
                     if (userDTO != null) {
                         OrderItemDAO orderItemDAO = new OrderItemDAO();
                         // Get the number of active borrowed books from member

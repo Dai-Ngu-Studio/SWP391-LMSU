@@ -20,18 +20,18 @@ import java.util.List;
 public class ShowCartServlet extends HttpServlet {
 
     static final Logger LOGGER = Logger.getLogger(ShowCartServlet.class);
-    private final static String VIEW_CART_PAGE = "viewCart.jsp";
+    private final String VIEW_CART_PAGE = "viewCart.jsp";
 
-    private final static int ITEM_PENDING = 0;
-    private final static int ITEM_APPROVED = 1;
-    private final static int ITEM_RECEIVED = 2;
-    private final static int ITEM_RETURN_SCHEDULED = 3;
-    private final static int ITEM_OVERDUE = 5;
-    private final static int ITEM_OVERDUE_RETURN_SCHEDULED = 6;
+    private final int ITEM_PENDING = 0;
+    private final int ITEM_APPROVED = 1;
+    private final int ITEM_RECEIVED = 2;
+    private final int ITEM_RETURN_SCHEDULED = 3;
+    private final int ITEM_OVERDUE = 5;
+    private final int ITEM_OVERDUE_RETURN_SCHEDULED = 6;
 
-    private final static String ATTR_MEMBER_TOTAL_ACTIVE_BORROWS = "MEMBER_TOTAL_ACTIVE_BORROWS";
-    private final static String ATTR_LOGIN_USER = "LOGIN_USER";
-    private final static String ATTR_MEMBER_CART = "MEMBER_CART";
+    private final String ATTR_MEMBER_TOTAL_ACTIVE_BORROWS = "MEMBER_TOTAL_ACTIVE_BORROWS";
+    private final String ATTR_LOGIN_USER = "LOGIN_USER";
+    private final String ATTR_MEMBER_CART = "MEMBER_CART";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -66,7 +66,7 @@ public class ShowCartServlet extends HttpServlet {
             url = VIEW_CART_PAGE;
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
-            log("ShowCartServlet _ Naming: " + ex.getMessage());
+            log("ShowCartServlet _ SQL: " + ex.getMessage());
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
             log("ShowCartServlet _ Naming: " + ex.getMessage());
