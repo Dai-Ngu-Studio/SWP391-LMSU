@@ -1,6 +1,6 @@
 package com.lmsu.controller;
 
-import com.lmsu.bean.member.OrderItemsObj;
+import com.lmsu.bean.member.OrderItemObj;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
@@ -35,7 +35,7 @@ public class ShowProfileServlet extends HttpServlet {
             BookDAO book_dao = new BookDAO();
 
             List<OrderItemDTO> orderItemList = orderItemDAO.getOrderItemList();
-            List<OrderItemsObj> orderItemsObjList = new ArrayList<>();
+            List<OrderItemObj> orderItemObjList = new ArrayList<>();
             //OrderItemDTO orderitems_dto = new OrderItemDTO();
 
             if(session != null){
@@ -43,13 +43,13 @@ public class ShowProfileServlet extends HttpServlet {
                     for(OrderItemDTO orderitemDTO: orderItemList){
                        BookDTO book_dto = book_dao.getBookById(orderitemDTO.getBookID());
 
-                        OrderItemsObj orderitemsObj = new OrderItemsObj(orderitemDTO.getId(), orderitemDTO.getOrderID(),
+                        OrderItemObj orderitemObj = new OrderItemObj(orderitemDTO.getId(), orderitemDTO.getOrderID(),
                                orderitemDTO.getMemberID(), orderitemDTO.getBookID(), book_dto.getTitle(),
                                orderitemDTO.getLendStatus(), orderitemDTO.getReturnDeadline(), orderitemDTO.getLendDate(),
                                orderitemDTO.getReturnDate());
-                       orderItemsObjList.add(orderitemsObj);
+                       orderItemObjList.add(orderitemObj);
                     }
-                    request.setAttribute("ORDER_ITEMS", orderItemsObjList);
+                    request.setAttribute("ORDER_ITEMS", orderItemObjList);
                 }
             }
             url = RESULT_PAGE;

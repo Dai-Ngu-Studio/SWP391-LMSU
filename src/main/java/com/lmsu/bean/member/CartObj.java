@@ -13,7 +13,7 @@ public class CartObj implements Serializable {
     }
 
     public int getCartQuantity() {
-        return this.items.size();
+        return (this.items != null) ? this.items.size() : 0;
     }
 
     public void addBookToCart(BookObj bookObj) {
