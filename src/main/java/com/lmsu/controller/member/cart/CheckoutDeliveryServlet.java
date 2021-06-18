@@ -39,7 +39,6 @@ public class CheckoutDeliveryServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.setCharacterEncoding("UTF-8");
         String url = SHOW_BOOK_CATALOG_CONTROLLER; //W.I.P. temporary (to be changed)
         String receiverName = request.getParameter("txtReceiverName");
         String phoneNumber = request.getParameter("txtPhoneNumber");
@@ -131,11 +130,13 @@ public class CheckoutDeliveryServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         processRequest(request, response);
     }
 }

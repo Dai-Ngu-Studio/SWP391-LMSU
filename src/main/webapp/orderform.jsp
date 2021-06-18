@@ -2,8 +2,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
-    <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Checkout - LMSU</title>
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -15,10 +15,13 @@
 </head>
 
 <body>
+<jsp:directive.page pageEncoding="UTF-8"/>
+<jsp:directive.page contentType="text/html; charset=UTF-8"/>
 <jsp:include page="header.jsp"></jsp:include>
 <jsp:include page="navbar.html"></jsp:include>
 <!--Actual Body-->
 <div class="bg-light py-4">
+	
     <c:set var="session" value="${sessionScope}"/>
     <c:if test="${not empty session}">
         <div class="row mt-5">
@@ -102,7 +105,6 @@
                                                     },
                                                     dataType: 'json',
                                                     success: function (responseJson) {
-                                                        console.log(responseJson);
                                                         $.each(responseJson, function (key, value) {
                                                             $('#' + key)
                                                                 .removeClass('text-muted')
