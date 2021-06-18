@@ -97,14 +97,14 @@ CREATE TABLE Orders(
 	memberID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
 	orderDate date,
 	lendMethod bit,
-	activeStatus bit NOT NULL
+	activeStatus int NOT NULL
 );
 CREATE TABLE OrderItems(
 	id int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
 	memberID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
 	bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
-	lendStatus int,
+	lendStatus int NOT NULL,
 	returnDeadline date,
 	lendDate date,
 	returnDate date
@@ -133,8 +133,8 @@ CREATE TABLE DeliveryOrder(
 	deliverer varchar(255),
 	scheduledDeliveryTime date,
 	phoneNumber varchar(10),
-	deliveryAddress1 varchar(MAX),
-	deliveryAddress2 varchar(MAX),
+	deliveryAddress1 nvarchar(MAX),
+	deliveryAddress2 nvarchar(MAX),
 	city nvarchar(255),
 	district nvarchar(255),
 	ward nvarchar(255)
