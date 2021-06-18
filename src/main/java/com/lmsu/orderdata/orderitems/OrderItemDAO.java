@@ -208,4 +208,44 @@ public class OrderItemDAO implements Serializable {
         }
         return null;
     }
+
+    public void getAllItemsByMemberID(String memberID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [id], [orderID], OrderItems.memberID, [bookID], [lendStatus], [returnDeadline], [lendDate], [returnDate] " +
+                        "FROM OrderItems " +
+                        "WHERE memberID = ? ";
+                stm = con.prepareStatement(sql);
+                //stm.setString(1, bookID);
+                stm.setString(1, memberID);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    int orderID = rs.getInt("orderID");
+                    String memberIDval = rs.getString("memberID");
+                    String bookIDVal = rs.getString("bookID");
+                    int lendStatus = rs.getInt("lendStatus");
+                    Date returnDeadline = rs.getDate("returnDeadline");
+                    Date lendDate = rs.getDate("lendDate");
+                    Date returnDate = rs.getDate("returnDate");
+                    OrderItemDTO dto = new OrderItemDTO(id, orderID, memberIDval, bookIDVal, lendStatus, returnDeadline, lendDate, returnDate);
+
+                    if (this.orderItemList == null) {
+                        this.orderItemList = new ArrayList<OrderItemDTO>();
+                    }
+                    this.orderItemList.add(dto);
+                }
+            }
+
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
 }
