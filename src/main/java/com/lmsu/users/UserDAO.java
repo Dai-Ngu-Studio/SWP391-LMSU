@@ -28,7 +28,7 @@ public class UserDAO implements Serializable {
         try {
             con = DBHelpers.makeConnection();
             if (con != null) {
-                String sql = "select [id], [name], [roleID],[semester_no], [password], [passwordGoogle], [email], [phoneNumber], [profilePicturePath] "
+                String sql = "select [id], [name], [roleID],[semester_no], [password], [email], [phoneNumber], [profilePicturePath] "
                         + "from [Users] "
                         + "where [email] = ? and [password] = ?";
                 stm = con.prepareStatement(sql);
@@ -41,11 +41,10 @@ public class UserDAO implements Serializable {
                     String roleID = rs.getString("roleID");
                     String semester_no = rs.getString("semester_no");
                     String passwordCol = rs.getString("password");
-                    String passwordGoogle = rs.getString("passwordGoogle");
                     String emailCol = rs.getString("email");
                     String phoneNumber = rs.getString("phoneNumber");
                     String profilePicturePath = rs.getString("profilePicturePath");
-                    user = new UserDTO(id, name, roleID, passwordCol, passwordGoogle, emailCol, phoneNumber, semester_no, profilePicturePath);
+                    user = new UserDTO(id, name, roleID, passwordCol, emailCol, phoneNumber, semester_no, profilePicturePath);
                 }
             }
         } finally {
@@ -66,7 +65,7 @@ public class UserDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [passwordGoogle], [email], " +
+                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], " +
                         "[phoneNumber], [profilePicturePath], [activeStatus] " +
                         "FROM [Users]";
                 //3. Create Statement
@@ -79,13 +78,12 @@ public class UserDAO implements Serializable {
                     String name = rs.getString("name");
                     String roleID = rs.getString("roleID");
                     String password = rs.getString("password");
-                    String passwordGoogle = rs.getString("passwordGoogle");
                     String email = rs.getString("email");
                     String phoneNumber = rs.getString("phoneNumber");
                     String semester = rs.getString("semester_no");
                     String profilePicturePath = rs.getString("profilePicturePath");
                     boolean activeStatus = rs.getBoolean("activeStatus");
-                    UserDTO dto = new UserDTO(id, name, roleID, password, passwordGoogle, email, phoneNumber, semester, profilePicturePath, activeStatus);
+                    UserDTO dto = new UserDTO(id, name, roleID, password, email, phoneNumber, semester, profilePicturePath, activeStatus);
 
                     if (this.listAccount == null) {
                         this.listAccount = new ArrayList<UserDTO>();
@@ -159,7 +157,7 @@ public class UserDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [passwordGoogle], [email], " +
+                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], " +
                         "[phoneNumber], [profilePicturePath], [activeStatus] " +
                         "FROM [Users] " +
                         "WHERE [name] LIKE ?";
@@ -174,13 +172,12 @@ public class UserDAO implements Serializable {
                     String name = rs.getString("name");
                     String roleID = rs.getString("roleID");
                     String password = rs.getString("password");
-                    String passwordGoogle = rs.getString("passwordGoogle");
                     String email = rs.getString("email");
                     String phoneNumber = rs.getString("phoneNumber");
                     String semester = rs.getString("semester_no");
                     String profilePicturePath = rs.getString("profilePicturePath");
                     boolean activeStatus = rs.getBoolean("activeStatus");
-                    UserDTO dto = new UserDTO(id, name, roleID, password, passwordGoogle,
+                    UserDTO dto = new UserDTO(id, name, roleID, password,
                             email, phoneNumber, semester, profilePicturePath, activeStatus);
                     if (this.listAccount == null) {
                         this.listAccount = new ArrayList<UserDTO>();
@@ -205,7 +202,7 @@ public class UserDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [passwordGoogle], [email], " +
+                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], " +
                         "[phoneNumber], [profilePicturePath], [activeStatus] " +
                         "FROM [Users] " +
                         "WHERE [id] = ?";
@@ -221,12 +218,11 @@ public class UserDAO implements Serializable {
                     String roleID = rs.getString("roleID");
                     String semester = rs.getString("semester_no");
                     String password = rs.getString("password");
-                    String passwordGoogle = rs.getString("passwordGoogle");
                     String email = rs.getString("email");
                     String phoneNumber = rs.getString("phoneNumber");
                     String profilePicturePath = rs.getString("profilePicturePath");
                     boolean activeStatus = rs.getBoolean("activeStatus");
-                    UserDTO dto = new UserDTO(id, name, roleID, password, passwordGoogle,
+                    UserDTO dto = new UserDTO(id, name, roleID, password,
                             email, phoneNumber, semester, profilePicturePath, activeStatus);
                     return dto;
                 } //end while traversing result set
