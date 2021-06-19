@@ -1,7 +1,8 @@
 package com.lmsu.bean.member;
 
+import com.lmsu.bean.book.BookObj;
+
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package com.lmsu.bean.member;
+package com.lmsu.bean.orderdata;
 
 import lombok.Data;
 

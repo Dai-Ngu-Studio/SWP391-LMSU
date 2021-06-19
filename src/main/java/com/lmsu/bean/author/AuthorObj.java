@@ -1,4 +1,4 @@
-package com.lmsu.bean.member;
+package com.lmsu.bean.author;
 
 import lombok.Data;
 
