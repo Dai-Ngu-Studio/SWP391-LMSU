@@ -4,6 +4,8 @@ import com.lmsu.authors.AuthorDAO;
 import com.lmsu.authors.AuthorDTO;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
+import com.lmsu.booksandauthor.BooksAndAuthorDAO;
+import com.lmsu.booksandauthor.BooksAndAuthorDTO;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -32,25 +34,25 @@ public class IndexServlet extends HttpServlet {
         String url = ERROR_PAGE;
 
         try {
-            BookDAO bookDAO = new BookDAO();
+            BooksAndAuthorDAO booksAndAuthorDAO = new BooksAndAuthorDAO();
             AuthorDAO authorDAO = new AuthorDAO();
 
             //get Popular Books
-            bookDAO.getPopularBooks();
-            List<BookDTO> popularBookList = bookDAO.getBookList();
-            request.setAttribute("POPULAR_BOOKS", popularBookList);
+            booksAndAuthorDAO.getMostFavoriteBooksAndPopularAuthor();
+            List<BooksAndAuthorDTO> mostFavoriteBookList = booksAndAuthorDAO.getBooksAndAuthorList();
+            request.setAttribute("MOST_FAVORITE_BOOKS_LIST", mostFavoriteBookList);
 
-            bookDAO.clearList();
+            booksAndAuthorDAO.clearList();
 
-            //get New Arrival Books
-            bookDAO.getNewArrival();
-            List<BookDTO> newArrivalBookList = bookDAO.getBookList();
-            request.setAttribute("NEW_ARRIVAL_BOOKS", newArrivalBookList);
+//            //get New Arrival Books
+//            booksAndAuthorDAO.getNewArrival();
+//            List<BooksAndAuthorDTO> newArrivalBookList = booksAndAuthorDAO.getBooksAndAuthorList();
+//            request.setAttribute("NEW_ARRIVAL_BOOKS_LIST", newArrivalBookList);
 
-//            //get Popular Authors
-//            authorDAO.getPopularAuthor();
-//            List<AuthorDTO> popularAuthorList = authorDAO.getAuthorList();
-//            request.setAttribute("POPULAR_AUTHORS", popularAuthorList);
+            //get Popular Authors
+            booksAndAuthorDAO.getMostFavoriteBooksAndPopularAuthor();
+            List<BooksAndAuthorDTO> popularAuthorList = booksAndAuthorDAO.getBooksAndAuthorList();
+            request.setAttribute("POPULAR_AUTHORS_LIST", popularAuthorList);
 
             url = INDEX_PAGE;
         } catch (SQLException ex) {
