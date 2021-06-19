@@ -37,7 +37,8 @@
         <div>
             <p>Dear Library Users,</p>
             <p>
-                Delivering textbook schedule for Summer 2021 semester at FPTU - Hoa Lac Library. Library users are required to follow below schedule:
+                Delivering textbook schedule for Summer 2021 semester at FPTU - Hoa Lac Library. Library users are
+                required to follow below schedule:
             </p>
             <p class="text-danger">
                 <b>
@@ -45,7 +46,8 @@
                 </b>
             </p>
             <p>
-                Textbook for subjects: ENT203, TRS401, TRS501, TRS601, JIT301 and Japanese subjects (JPD116, JPD126, JPD216, JPD226, JPD316, JPD326) <b class="text-danger">from Monday 10/5/2021 to 21/5/2021at room no
+                Textbook for subjects: ENT203, TRS401, TRS501, TRS601, JIT301 and Japanese subjects (JPD116, JPD126,
+                JPD216, JPD226, JPD316, JPD326) <b class="text-danger">from Monday 10/5/2021 to 21/5/2021at room no
                 107</b> .
             </p>
             <h4><b>Time:</b></h4>
@@ -54,7 +56,9 @@
             </p>
             <h4><b>Notes:</b></h4>
             <p>
-                - Students must return old textbooks before borrow new textbooks; <br> - Students who don't borrow and get textbooks as schedule must take responsibility of having no textbooks; <br> - Students can view infomartion of textbooks at
+                - Students must return old textbooks before borrow new textbooks; <br> - Students who don't borrow and
+                get textbooks as schedule must take responsibility of having no textbooks; <br> - Students can view
+                infomartion of textbooks at
                 here
             </p>
             <h4><b>Should you have any inquiry, please contact us via:</b></h4>
