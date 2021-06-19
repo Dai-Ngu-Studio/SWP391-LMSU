@@ -34,7 +34,7 @@
 
 
 <div class="container-scroller">
-    <!-- partial:../../partials/_navbar.html -->
+    <%-- partial:../../partials/_navbar.html --%>
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
             <a class="navbar-brand brand-logo mr-5" href="dashboard.jsp"><img src="images/LMSU LOGO DASHBOARD.svg"
@@ -158,69 +158,7 @@
                                             <div class="col-sm-12 col-md-8">
 
                                                 <div id="order-listing_filter" class="dataTables_filter">
-                                                    <!--Start: Add Order Form-->
-                                                    <form action="DispatchServlet" enctype="multipart/form-data"
-                                                          method="POST">
-                                                        <input type="search" class="form-control"
-                                                               placeholder="Search"
-                                                               name="txtSearchValue" value="${param.txtSearchValue}"
-                                                               aria-controls="order-listing"
-                                                               id="searchBox">
-                                                        <button class="btn btn-primary" type="submit"
-                                                                name="btAction" value="SearchDirectOrder"
-                                                                style="border-radius: 5px"><i class="fa fa-search"></i>
-                                                        </button>
 
-                                                        <button class="btn btn-primary" type="button"
-                                                                style="border-radius: 5px"
-                                                                data-toggle="modal"
-                                                                data-target="#AddDirectOrderModal"
-                                                                title="Add a Direct Order">
-                                                            <i class="fa fa-plus"></i></button>
-
-                                                        <div class="modal fade" id="AddDirectOrderModal"
-                                                             tabindex="-1"
-                                                             role="dialog"
-                                                             aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title">
-                                                                            Add a Direct Order
-                                                                        </h5>
-                                                                        <button type="button"
-                                                                                class="close"
-                                                                                data-dismiss="modal"
-                                                                                aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body" id="addModalBody">
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">
-                                                                                To-do
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="submit"
-                                                                                class="btn btn-primary"
-                                                                                name="btAction"
-                                                                                value="AddDirectOrder"
-                                                                        >
-                                                                            Save
-                                                                        </button>
-                                                                        <button type="button"
-                                                                                class="btn btn-outline-primary"
-                                                                                data-dismiss="modal">
-                                                                            Close
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                    <!--End: Add Order Form-->
                                                 </div>
                                             </div>
                                         </div>
@@ -260,117 +198,218 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
+                                                    <%--orderList: Map<OrderObj, List<OrderItemObj>>--%>
                                                     <c:set var="orderList" value="${requestScope.ORDER_LIST}"/>
-
                                                     <c:forEach var="order" items="${orderList}"
                                                                varStatus="counter">
                                                         <tr class="odd">
-                                                            <form action="DispatchServlet">
-                                                                <!--Start: Order Item Form-->
+                                                                <%--Start: Order Item Form--%>
+<%--                                                            <form action="DispatchServlet">--%>
                                                                 <td class="sorting_1 text-center">${counter.count}</td>
                                                                 <td class="text-left">
-                                                                        ${order.orderDate}
+                                                                        ${order.key.orderDate}
                                                                 </td>
-                                                                <td class="text-left">${order.memberID}</td>
+                                                                <td class="text-left">${order.key.memberName}</td>
                                                                 <td class="text-center">
                                                                     <c:choose>
-                                                                        <c:when test="${order.activeStatus eq -1}">
-                                                                            <label class="badge badge-secondary">Cancelled</label>
+                                                                        <c:when test="${order.key.activeStatus eq -1}">
+                                                                            <label class="badge
+                                                                            badge-secondary
+                                                                            text-white">Cancelled</label>
                                                                         </c:when>
-                                                                        <c:when test="${order.activeStatus eq 0}">
-                                                                            <label class="badge badge-warning">Pending</label>
+                                                                        <c:when test="${order.key.activeStatus eq 0}">
+                                                                            <label class="badge
+                                                                            badge-warning
+                                                                            text-dark">Pending</label>
                                                                         </c:when>
-                                                                        <c:when test="${order.activeStatus eq 1}">
-                                                                            <label class="badge badge-info">Approved</label>
+                                                                        <c:when test="${order.key.activeStatus eq 1}">
+                                                                            <label class="badge
+                                                                            badge-info
+                                                                            text-white">Approved</label>
                                                                         </c:when>
-                                                                        <c:when test="${order.activeStatus eq 2}">
-                                                                            <label class="badge badge-primary">Delivered</label>
+                                                                        <c:when test="${order.key.activeStatus eq 2}">
+                                                                            <label class="badge
+                                                                            badge-primary
+                                                                            text-white">Delivered</label>
                                                                         </c:when>
-                                                                        <c:when test="${order.activeStatus eq 3}">
-                                                                            <label class="badge badge-success">Closed</label>
+                                                                        <c:when test="${order.key.activeStatus eq 3}">
+                                                                            <label class="badge
+                                                                            badge-success
+                                                                            text-white">Closed</label>
                                                                         </c:when>
-                                                                        <c:when test="${order.activeStatus eq 4}">
-                                                                            <label class="badge badge-danger">Overdue</label>
+                                                                        <c:when test="${order.key.activeStatus eq 4}">
+                                                                            <label class="badge
+                                                                            badge-danger
+                                                                            text-white">Overdue</label>
                                                                         </c:when>
-                                                                        <c:when test="${order.activeStatus eq 5}">
-                                                                            <label class="badge badge-dark">Rejected</label>
+                                                                        <c:when test="${order.key.activeStatus eq 5}">
+                                                                            <label class="badge
+                                                                            badge-dark
+                                                                            text-white">Rejected</label>
                                                                         </c:when>
                                                                     </c:choose>
                                                                 </td>
-                                                            </form>
-                                                            <!--End: order Item Form-->
-                                                            <%--temporary--%>
-                                                            <!--Start: Delete order Form-->
-                                                            <form action="DispatchServlet">
-                                                                <input type="hidden" value="${order.id}"
-                                                                       name="pk">
-                                                                <input type="hidden" value="${order.id}"
+<%--                                                            </form>--%>
+                                                                <%--End: Order Item Form--%>
+                                                                <%--temporary--%>
+                                                                <%--Start: ??? Form--%>
+<%--                                                            <form action="DispatchServlet">--%>
+                                                                <input type="hidden" value="${order.key.id}"
                                                                        name="orderPk">
                                                                 <input type="hidden" name="txtSearchValue"
                                                                        value="${param.txtSearchValue}"/>
                                                                 <td class="text-center">
                                                                     <div class="btn-group">
-                                                                        <button type="submit" class="btn btn-light"
-                                                                                name="btAction" value="View Details">
-                                                                            <i class="fa fa-eye text-primary"></i>
-                                                                        </button>
                                                                         <button type="button" class="btn btn-light"
                                                                                 data-toggle="modal"
-                                                                                data-target="#updateModal${order.id}"
+                                                                                data-target="#orderModal${order.key.id}">
+                                                                            <i class="fa fa-eye text-primary"></i>
+                                                                        </button>
+                                                                            <%--not implemented--%>
+                                                                        <button type="button" class="btn btn-light"
+                                                                                data-toggle="modal"
+                                                                                data-target="#updateModal${order.key.id}"
                                                                                 title="Update"
                                                                                 data-original-title="Edit">
                                                                             <i class="fa fa-pencil text-primary"></i>
                                                                         </button>
-
-                                                                        <button type="submit" class="btn btn-light"
-                                                                                name="btAction" value="Delete order">
-                                                                            <i class="fa fa-times text-primary"></i>
-                                                                        </button>
                                                                     </div>
                                                                 </td>
-                                                            </form>
-                                                            <!--End: Delete order Form-->
-                                                            <%--temporary--%>
-                                                            <!--Start: Update order Form-->
-                                                            <form action="DispatchServlet" enctype="multipart/form-data"
-                                                                  method="POST">
-                                                                <input type="hidden" value="${order.id}"
-                                                                       name="pk">
-                                                                <input type="hidden" name="txtSearchValue"
-                                                                       value="${param.txtSearchValue}"/>
-                                                                <div class="modal fade" id="updateModal${order.id}"
-                                                                     tabindex="-1"
-                                                                     role="dialog"
-                                                                     aria-hidden="true">
-                                                                    <div class="modal-dialog" role="document">
+<%--                                                            </form>--%>
+                                                                <%--End: ??? Form--%>
+                                                                <%--temporary, might combine with update form later--%>
+                                                                <%--Start: Order Details Form--%>
+<%--                                                            <form action="DispatchServlet">--%>
+                                                                <div class="modal"
+                                                                     id="orderModal${order.key.id}"
+                                                                     tabindex="-1">
+                                                                    <div class="modal-dialog">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
-                                                                                <h5 class="modal-title"
-                                                                                    id="exampleModalLongTitle">
-                                                                                    Edit order Details
+                                                                                <h5 class="modal-title">
+                                                                                    Order Details
                                                                                 </h5>
                                                                                 <button type="button"
                                                                                         class="close"
-                                                                                        data-dismiss="modal"
-                                                                                        aria-label="Close">
+                                                                                        data-dismiss="modal">
                                                                                     <span aria-hidden="true">&times;</span>
                                                                                 </button>
                                                                             </div>
                                                                             <div class="modal-body">
-                                                                                <div class="form-group row">
-                                                                                    <div class="col-sm-9">
-                                                                                        To-do
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-4 col-form-label">
+                                                                                            Order ID
+                                                                                        </label>
+                                                                                        <div class="col-8">
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   value="${order.key.id}"
+                                                                                                   disabled/>
+                                                                                        </div>
                                                                                     </div>
-                                                                                </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-4 col-form-label">
+                                                                                            Member ID
+                                                                                        </label>
+                                                                                        <div class="col-8">
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   value="${order.key.memberID}"
+                                                                                                   disabled/>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-4 col-form-label">
+                                                                                            Member Name
+                                                                                        </label>
+                                                                                        <div class="col-8">
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   value="${order.key.memberName}"
+                                                                                                   disabled/>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-4 col-form-label">
+                                                                                            Order Date
+                                                                                        </label>
+                                                                                        <div class="col-8">
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   value="${order.key.orderDate}"
+                                                                                                   disabled/>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-4 col-form-label">
+                                                                                            Status
+                                                                                        </label>
+                                                                                        <div class="col-8">
+                                                                                            <c:choose>
+                                                                                                <c:when test="${order.key.activeStatus eq -1}">
+                                                                                                    <input type="text"
+                                                                                                           class="form-control
+                                                                                                       text-white
+                                                                                                       bg-secondary"
+                                                                                                           value="Cancelled"
+                                                                                                           disabled/>
+                                                                                                </c:when>
+                                                                                                <c:when test="${order.key.activeStatus eq 0}">
+                                                                                                    <input type="text"
+                                                                                                           class="form-control
+                                                                                                       text-dark
+                                                                                                       bg-warning"
+                                                                                                           value="Pending"
+                                                                                                           disabled/>
+                                                                                                </c:when>
+                                                                                                <c:when test="${order.key.activeStatus eq 1}">
+                                                                                                    <input type="text"
+                                                                                                           class="form-control
+                                                                                                       text-white
+                                                                                                       bg-info"
+                                                                                                           value="Approved"
+                                                                                                           disabled/>
+                                                                                                </c:when>
+                                                                                                <c:when test="${order.key.activeStatus eq 2}">
+                                                                                                    <input type="text"
+                                                                                                           class="form-control
+                                                                                                       text-white
+                                                                                                       bg-primary"
+                                                                                                           value="Delivered"
+                                                                                                           disabled/>
+                                                                                                </c:when>
+                                                                                                <c:when test="${order.key.activeStatus eq 3}">
+                                                                                                    <input type="text"
+                                                                                                           class="form-control
+                                                                                                       text-white
+                                                                                                       bg-success"
+                                                                                                           value="Closed"
+                                                                                                           disabled/>
+                                                                                                </c:when>
+                                                                                                <c:when test="${order.key.activeStatus eq 4}">
+                                                                                                    <input type="text"
+                                                                                                           class="form-control
+                                                                                                       text-white
+                                                                                                       bg-danger"
+                                                                                                           value="Overdue"
+                                                                                                           disabled/>
+                                                                                                </c:when>
+                                                                                                <c:when test="${order.key.activeStatus eq 5}">
+                                                                                                    <input type="text"
+                                                                                                           class="form-control
+                                                                                                       text-white
+                                                                                                       bg-dark"
+                                                                                                           value="Rejected"
+                                                                                                           disabled/>
+                                                                                                </c:when>
+                                                                                            </c:choose>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+
+                                                                                    </div>
                                                                             </div>
                                                                             <div class="modal-footer">
-                                                                                <button type="submit"
-                                                                                        name="btAction"
-                                                                                        value="Update order"
-                                                                                        class="btn btn-primary"
-                                                                                >
-                                                                                    Save
-                                                                                </button>
                                                                                 <button type="button"
                                                                                         class="btn btn-outline-primary"
                                                                                         data-dismiss="modal">
@@ -380,11 +419,13 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </form>
-                                                            <!--End: Update order Form-->
+<%--                                                            </form>--%>
+                                                                <%--End: Order Details Form--%>
                                                         </tr>
                                                     </c:forEach>
+
                                                     </tbody>
+
                                                 </table>
                                             </div>
                                         </div>
@@ -432,8 +473,8 @@
                     </div>
                 </div>
             </div>
-            <!-- content-wrapper ends -->
-            <!-- partial:../../partials/_footer.html -->
+            <%-- content-wrapper ends --%>
+            <%-- partial:../../partials/_footer.html --%>
             <footer class="footer">
                 <div class="d-sm-flex justify-content-center justify-content-sm-between">
                         <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.
@@ -443,29 +484,29 @@
                             with <i class="ti-heart text-danger ml-1"></i></span>
                 </div>
             </footer>
-            <!-- partial -->
+            <%-- partial --%>
         </div>
-        <!-- main-panel ends -->
+        <%-- main-panel ends --%>
     </div>
-    <!-- page-body-wrapper ends -->
+    <%-- page-body-wrapper ends --%>
 </div>
-<!-- container-scroller -->
-<!-- plugins:js -->
+<%-- container-scroller --%>
+<%-- plugins:js --%>
 <script src="vendors/js/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- Plugin js for this page -->
+<%-- endinject --%>
+<%-- Plugin js for this page --%>
 <script src="vendors/datatables.net/jquery.dataTables.js"></script>
 <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-<!-- End plugin js for this page -->
-<!-- inject:js -->
+<%-- End plugin js for this page --%>
+<%-- inject:js --%>
 <script src="js/off-canvas.js"></script>
 <script src="js/hoverable-collapse.js"></script>
 <script src="js/template.js"></script>
 <script src="js/settings.js"></script>
 <script src="js/todolist.js"></script>
-<!-- endinject -->
-<!-- Custom js for this page-->
+<%-- endinject --%>
+<%-- Custom js for this page--%>
 
-<!-- End custom js for this page-->
+<%-- End custom js for this page--%>
 </body>
 </html>

@@ -2,9 +2,14 @@ package com.lmsu.controller.librarian.direct;
 
 import com.lmsu.bean.orderdata.OrderItemObj;
 import com.lmsu.bean.orderdata.OrderObj;
+import com.lmsu.books.BookDAO;
+import com.lmsu.books.BookDTO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
+import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.orderdata.orders.OrderDAO;
 import com.lmsu.orderdata.orders.OrderDTO;
+import com.lmsu.users.UserDAO;
+import com.lmsu.users.UserDTO;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -39,28 +44,52 @@ public class ShowDirectOrderServlet extends HttpServlet {
         try {
             OrderDAO orderDAO = new OrderDAO();
             OrderItemDAO orderItemDAO = new OrderItemDAO();
+            UserDAO userDAO = new UserDAO();
+            BookDAO bookDAO = new BookDAO();
+
             //--------------------------------------------------
-            // default show pending and overdue
+            // default show pending and overdue (need to change to depend on parameters and not hard-coded)
             orderDAO
                     .viewOrders(
                             DIRECT_METHOD,
                             new ArrayList<Integer>(
                                     Arrays.asList(
-                                    ORDER_PENDING, ORDER_OVERDUE
-                            )));
+                                            ORDER_PENDING, ORDER_OVERDUE
+                                    )));
             //--------------------------------------------------
             List<OrderDTO> orders = orderDAO.getOrderList();
             Map<OrderObj, List<OrderItemObj>> detailedOrders = new LinkedHashMap<OrderObj, List<OrderItemObj>>();
-            for (OrderDTO order : orders) {
+            for (OrderDTO orderDTO : orders) {
+                UserDTO userDTO = userDAO.getUserByID(orderDTO.getMemberID());
+                OrderObj orderObj = new OrderObj();
+                orderObj.setId(orderDTO.getId());
+                orderObj.setMemberID(orderDTO.getMemberID());
+                orderObj.setMemberName(userDTO.getName());
+                orderObj.setOrderDate(orderDTO.getOrderDate());
+                orderObj.setLendMethod((orderDTO.isLendMethod()));
+                orderObj.setActiveStatus(orderDTO.getActiveStatus());
 
+                orderItemDAO.getOrderItemsFromOrderID(orderDTO.getId());
+                List<OrderItemDTO> orderItems = orderItemDAO.getOrderItemList();
+                List<OrderItemObj> orderItemObjs = new ArrayList<>();
+                for (OrderItemDTO orderItemDTO : orderItems) {
+                    BookDTO bookDTO = bookDAO.getBookById(orderItemDTO.getBookID());
+                    OrderItemObj orderItemObj = new OrderItemObj();
+                    orderItemObj.setId(orderItemDTO.getId());
+                    orderItemObj.setOrderID(orderItemDTO.getOrderID());
+                    orderItemObj.setMemberID(orderItemDTO.getMemberID());
+                    orderItemObj.setBookID(orderItemDTO.getBookID());
+                    orderItemObj.setTitle(bookDTO.getTitle());
+                    orderItemObj.setLendStatus(orderItemDTO.getLendStatus());
+                    orderItemObj.setReturnDeadline(orderItemDTO.getReturnDeadline());
+                    orderItemObj.setLendDate(orderItemDTO.getLendDate());
+                    orderItemObj.setReturnDate(orderItemDTO.getLendDate());
+
+                    orderItemObjs.add(orderItemObj);
+                }
+                detailedOrders.put(orderObj, orderItemObjs);
             }
-            // temporarily use orderDTO
-            // need to create bean for order to display name of borrower, ...
-            // temporarily use list
-            // need to use map to show items of order
-            if (orders != null) {
-                request.setAttribute(ATTR_ORDER_LIST, orders);
-            }
+            request.setAttribute(ATTR_ORDER_LIST, detailedOrders);
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
             log("ShowDirectOrderServlet _ SQL: " + ex.getMessage());
@@ -68,7 +97,7 @@ public class ShowDirectOrderServlet extends HttpServlet {
             LOGGER.error(ex.getMessage());
             log("ShowDirectOrderServlet _ Naming: " + ex.getMessage());
         } finally {
-            request.getRequestDispatcher(url).forward(request,response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
