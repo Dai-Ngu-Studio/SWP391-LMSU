@@ -144,16 +144,15 @@ public class OrderItemDAO implements Serializable {
 
                 rs = stm.executeQuery();
                 if (rs.next()) {
-                    int orderItemsID = rs.getInt("id");
-                    int orderID = rs.getInt("orderID");
-                    String memberIDVal = rs.getString("memberID");
-                    String bookIDVal = rs.getString("bookID");
-                    int lendStatus = rs.getInt("lendStatus");
-                    Date returnDeadline = rs.getDate("returnDeadline");
-                    Date lendDate = rs.getDate("lendDate");
-                    Date returnDate = rs.getDate("returnDate");
-                    OrderItemDTO dto = new OrderItemDTO(orderItemsID, orderID, memberIDVal, bookIDVal, lendStatus,
-                            returnDeadline, lendDate, returnDate);
+                    OrderItemDTO dto = new OrderItemDTO();
+                    dto.setId(rs.getInt("id"));
+                    dto.setOrderID(rs.getInt("orderID"));
+                    dto.setMemberID(rs.getString("memberID"));
+                    dto.setBookID(rs.getString("bookID"));
+                    dto.setLendStatus(rs.getInt("lendStatus"));
+                    dto.setReturnDeadline(rs.getDate("returnDeadline"));
+                    dto.setLendDate(rs.getDate("lendDate"));
+                    dto.setReturnDate(rs.getDate("returnDate"));
                     return dto;
                 }
             }
