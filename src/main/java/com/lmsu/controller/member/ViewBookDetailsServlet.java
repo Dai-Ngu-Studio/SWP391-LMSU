@@ -94,7 +94,7 @@ public class ViewBookDetailsServlet extends HttpServlet {
                         session.setAttribute(ATTR_MEMBER_TOTAL_ACTIVE_BORROWS, memberTotalActiveBorrows);
                         //----------------------------------------------------
                         // Check if member had borrowed this book
-                        if (orderItemDAO.getOrderItemFromBookID(bookID, userDTO.getId()) != null) {
+                        if (orderItemDAO.getMemberItemFromBookID(bookID, userDTO.getId()) != null) {
                             request.setAttribute(ATTR_MEMBER_BOOK_BORROW_STATUS, ATTR_BOOK_BORROWED);
                         }
                     }

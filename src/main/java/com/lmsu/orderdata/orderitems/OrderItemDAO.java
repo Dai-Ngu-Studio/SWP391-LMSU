@@ -138,7 +138,7 @@ public class OrderItemDAO implements Serializable {
         return null;
     }
 
-    public OrderItemDTO getOrderItemFromBookID(String bookID, String memberID) throws SQLException, NamingException {
+    public OrderItemDTO getMemberItemFromBookID(String bookID, String memberID) throws SQLException, NamingException {
 
         Connection con = null;
         PreparedStatement stm = null;
@@ -205,6 +205,45 @@ public class OrderItemDAO implements Serializable {
                 }
                 stm = con.prepareStatement(sql);
                 stm.setString(1, memberID);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    if (this.orderItemList == null) {
+                        this.orderItemList = new ArrayList<>();
+                    }
+                    OrderItemDTO dto = new OrderItemDTO();
+                    dto.setId(rs.getInt("id"));
+                    dto.setOrderID(rs.getInt("orderID"));
+                    dto.setMemberID(rs.getString("memberID"));
+                    dto.setBookID(rs.getString("bookID"));
+                    dto.setLendStatus(rs.getInt("lendStatus"));
+                    dto.setReturnDeadline(rs.getDate("returnDeadline"));
+                    dto.setLendDate(rs.getDate("lendDate"));
+                    dto.setReturnDate(rs.getDate("returnDate"));
+                    this.orderItemList.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
+
+    public void getOrderItemsFromOrderID(int orderID)
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [id], [orderID], [memberID], [bookID], [lendStatus], " +
+                        "[returnDeadline], [lendDate], [returnDate] " +
+                        "FROM [OrderItems] " +
+                        "WHERE [orderID] = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, orderID);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     if (this.orderItemList == null) {
