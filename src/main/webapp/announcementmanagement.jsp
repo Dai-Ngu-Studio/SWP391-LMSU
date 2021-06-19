@@ -1,10 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: NDungx
-  Date: 6/2/2021
-  Time: 8:23 PM
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -24,6 +18,7 @@
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="images/images/favicon.png"/>
+    <link rel="stylesheet" href="css/announcementmanagement.css">
     <script src="js/iconpro.js"></script>
 </head>
 <body>
@@ -32,10 +27,10 @@
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
             <a class="navbar-brand brand-logo mr-5" href="dashboard.jsp"><img src="images/LMSU LOGO DASHBOARD.svg"
-                                                                               class="mr-2" alt="logo"
-                                                                               style="margin-left: 40px;"/></a>
+                                                                              class="mr-2" alt="logo"
+                                                                              style="margin-left: 40px;"/></a>
             <a class="navbar-brand brand-logo-mini" href="dashboard.jsp"><img src="images/LMSU LOGO MINI DASHBOARD.svg"
-                                                                               alt="logo"/></a>
+                                                                              alt="logo"/></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -195,57 +190,135 @@
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
-                <div class="row">
-                    <div class="col-lg-6 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Line chart</h4>
-                                <canvas id="lineChart"></canvas>
+                <div class="card">
+                    <div class="card-body">
+                        <form>
+                            <div class="d-flex flex-column align-items-center mb-5">
+                                <h6><b>INFORMATION AND LIBRARY CENTER</b></h6>
+                                <h3><b>ANNOUNCEMENT</b></h3>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Bar chart</h4>
-                                <canvas id="barChart"></canvas>
+                            <div>
+                                <p>Dear Library Users,</p>
+                                <p>
+                                    Delivering textbook schedule for <input type="text" placeholder="Enter semester"
+                                                                            id="semester" name="semester" value=""
+                                                                            required>
+                                    <input type="text" placeholder="Enter year" id="year" required
+                                           name="year" value=""> semester at FPT University Library.
+                                    Library users are required to follow below schedule:
+                                </p>
+                                <p class="text-danger">
+                                    <b>
+                                        Start: <input type="text" placeholder="Enter day from" id="defaultDayFrom"
+                                                      name="defaultDayFrom" value="" required> <input type="date"
+                                                                                                      id="date"
+                                                                                                      name="defaultDateFrom"
+                                                                                                      value="" required>
+                                        to
+                                        <input type="text" placeholder="Enter day to" id="defaultDayTo" required
+                                               name="defaultDayTo" value=""> <input type="date" id="defaultDateTo"
+                                                                                    name="defaultDateTo" value=""
+                                                                                    required> at room no LB102.
+                                    </b>
+                                </p>
+                                <p>
+                                    Textbook for subjects: <input type="text" placeholder="Enter subject" id="subject"
+                                                                  name="subject" value="" required>
+                                    <b class="text-danger">from <input type="text" placeholder="Enter day" id="day"
+                                                                       name="day" value="" required>
+                                        <input type="date" id="dateFrom" name="dateFrom" value="" required>
+                                        to <input type="date" id="dateTo" name="dateTo" value="" required> at room no LB101</b> .
+                                </p>
+                                <h3><b>Time:</b></h3>
+                                <p>
+                                    - Morning: From 08:30 to 11:30 <br> - Afternoon: From 13:30 to 16:30
+                                </p>
+                                <h3><b>Notes:</b></h3>
+                                <p>
+                                    - Students must return old textbooks before borrow new textbooks; <br> -
+                                    Students who don't borrow and get textbooks as schedule must take responsibility
+                                    of having no textbooks; <br> - Students can view infomartion of textbooks at
+                                    here
+                                </p>
+                                <h3><b>Should you have any inquiry, please contact us via:</b></h3>
+                                <p>
+                                    <b>Phone No:</b> 024-6680 5912 <br>
+                                    <b>Email:</b> lmsu@gmail.com <br> <b>Fanpage:</b> https://www.facebook.com/lmsu
+                                </p>
+                                <div class="d-flex flex-row justify-content-center">
+                                    <button class="btn btn-secondary m-3" type="button" data-toggle="modal"
+                                            id="ViewDraft" data-target="#ViewDraftModal" title="View Draft">View draft
+                                    </button>
+                                    <button class="btn btn-primary m-3" type="submit"
+                                            name="btAction" value="Update Announcement">Save
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-6 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Area chart</h4>
-                                <canvas id="areaChart"></canvas>
+            </div>
+            <div class="modal fade" id="ViewDraftModal" tabindex="-1" role="dialog"
+                 aria-labelledby="ariaViewDraftModal" style="display: none" aria-modal="true">
+                <div class="modal-dialog mt-4" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">View Draft</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="d-flex flex-column align-items-center mb-5">
+                                <h6><b>INFORMATION AND LIBRARY CENTER</b></h6>
+                                <h3><b>ANNOUNCEMENT</b></h3>
+                            </div>
+                            <div>
+                                <p>Dear Library Users,</p>
+                                <p>
+                                    Delivering textbook schedule for <span id="semesterDraft"></span> <span
+                                        id="yearDraft"></span>
+                                    semester at FPT University Library. Library users are required to follow below
+                                    schedule:
+                                </p>
+                                <p class="text-danger">
+                                    <b>
+                                        Start: <span id="defaultDayFromDraft"></span> <span
+                                            id="defaultDateFromDraft"></span> to
+                                        <span id="defaultDayToDraft"></span> <span id="defaultDateToDraft"></span> at
+                                        room no LB102.
+                                    </b>
+                                </p>
+                                <p>
+                                    Textbook for subjects: <span id="subjectDraft"></span> <b class="text-danger">
+                                    from <span id="dayDraft"></span> <span id="dateFromDraft"></span> to <span
+                                        id="dateToDraft"></span> at room no LB101</b> .
+                                </p>
+                                <h3><b>Time:</b></h3>
+                                <p>
+                                    - Morning: From 08:30 to 11:30 <br> - Afternoon: From 13:30 to 16:30
+                                </p>
+                                <h3><b>Notes:</b></h3>
+                                <p>
+                                    - Students must return old textbooks before borrow new textbooks; <br> -
+                                    Students who don't borrow and get textbooks as schedule must take responsibility
+                                    of having no textbooks; <br> - Students can view infomartion of textbooks at
+                                    here
+                                </p>
+                                <h3><b>Should you have any inquiry, please contact us via:</b></h3>
+                                <p>
+                                    <b>Phone No:</b> 024-6680 5912 <br>
+                                    <b>Email:</b> lmsu@gmail.com <br> <b>Fanpage:</b> https://www.facebook.com/lmsu
+                                </p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Doughnut chart</h4>
-                                <canvas id="doughnutChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Pie chart</h4>
-                                <canvas id="pieChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Scatter chart</h4>
-                                <canvas id="scatterChart"></canvas>
-                            </div>
+                        <div class="modal-footer">
+                            <button type="submit" name="btAction" value="Update Announcement" class="btn btn-primary">
+                                Save
+                            </button>
+                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">
+                                Close
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -267,12 +340,16 @@
     </div>
     <!-- page-body-wrapper ends -->
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="js/announcementmanagement.js"></script>
 <!-- container-scroller -->
 <!-- plugins:js -->
 <script src="vendors/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
 <!-- Plugin js for this page -->
-<script src="vendors/chart.js/Chart.min.js"></script>
+
 <!-- End plugin js for this page -->
 <!-- inject:js -->
 <script src="js/off-canvas.js"></script>
@@ -282,7 +359,7 @@
 <script src="js/todolist.js"></script>
 <!-- endinject -->
 <!-- Custom js for this page-->
-<script src="js/chart.js"></script>
+
 <!-- End custom js for this page-->
 </body>
 </html>
