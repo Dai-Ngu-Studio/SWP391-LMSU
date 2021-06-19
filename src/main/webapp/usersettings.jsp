@@ -236,52 +236,120 @@
                                            aria-describedby="order-listing_info">
                                         <thead>
                                         <tr role="row">
-                                            <th style="width: 100px;">#</th>
-                                            <th style="width: 73%;">NAME</th>
-                                            <th style="width: 64px;">Actions</th>
+                                            <th class="text-center" style="width: 100px;">#</th>
+                                            <th class="text-left" style="width: 73%;">NAME</th>
+                                            <th class="text-center" style="width: 73%;">STATUS</th>
+                                            <th class="text-center" style="width: 64px;">Actions</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <c:set var="order_items" value="${requestScope.ORDER_ITEMS}"/>
-                                        <c:forEach var="order" items="${order_items}" varStatus="counter">
+                                        <%--Need to add row to show status of item--%>
+                                        <c:set var="orderItems" value="${requestScope.MEMBER_ORDER_ITEMS}"/>
+                                        <c:forEach var="orderItem" items="${orderItems}" varStatus="counter">
                                             <tr class="odd">
                                                 <form action="DispatchServlet">
-                                                    <!--Start: Renew Book Item Form-->
-                                                    <td class="sorting_1"
-                                                        style="text-align: center">${counter.count}</td>
-                                                    <td style="text-align: left">
-                                                        ${order.title}
+                                                    <td class="sorting_1 text-center">${counter.count}</td>
+                                                    <td class="text-left">
+                                                            ${orderItem.title}
+                                                    </td>
+                                                        <%--
+                                                            ITEM_CANCELLED = -1 ( does not show, only notify )
+                                                            ITEM_PENDING = 0
+                                                            ITEM_APPROVED = 1
+                                                            ITEM_RECEIVED = 2
+                                                            ITEM_RETURN_SCHEDULED = 3
+                                                            ITEM_RETURNED = 4
+                                                            ITEM_OVERDUE = 5
+                                                            ITEM_OVERDUE_RETURN_SCHEDULED = 6
+                                                            ITEM_OVERDUE_RETURNED = 7
+                                                            ITEM_REJECTED = 8 ( does not show, only notify )
+                                                            ITEM_LOST = 9
+                                                            ITEM_RESERVED = 10 ( different tab )
+                                                        --%>
+                                                    <td class="text-center">
+                                                        <c:choose>
+                                                            <c:when test="${orderItem.lendStatus eq 0}">
+                                                                <label class="badge badge-secondary">Pending</label>
+                                                            </c:when>
+                                                            <c:when test="${orderItem.lendStatus eq 1}">
+                                                                <label class="badge badge-info">Approved</label>
+                                                            </c:when>
+                                                            <c:when test="${orderItem.lendStatus eq 2}">
+                                                                <label class="badge badge-primary">Received</label>
+                                                            </c:when>
+                                                            <c:when test="${orderItem.lendStatus eq 3}">
+                                                                <label class="badge badge-warning">Scheduled</label>
+                                                            </c:when>
+                                                            <c:when test="${orderItem.lendStatus eq 4}">
+                                                                <label class="badge badge-success">Returned</label>
+                                                            </c:when>
+                                                            <c:when test="${orderItem.lendStatus eq 5}">
+                                                                <label class="badge badge-danger">Overdue</label>
+                                                            </c:when>
+                                                            <c:when test="${orderItem.lendStatus eq 6}">
+                                                                <label class="badge badge-warning">Scheduled</label>
+                                                            </c:when>
+                                                            <c:when test="${orderItem.lendStatus eq 7}">
+                                                                <label class="badge badge-success">Returned</label>
+                                                            </c:when>
+                                                            <c:when test="${orderItem.lendStatus eq 9}">
+                                                                <label class="badge badge-dark">Missing</label>
+                                                            </c:when>
+                                                        </c:choose>
                                                     </td>
                                                 </form>
                                                 <form action="DispatchServlet">
-                                                    <input type="hidden" name="bookPk" value="${order.bookID}">
-                                                    <input type="hidden" name="orderItemsPk" value="${order.id}">
-                                                    <td style="text-align: center">
+                                                    <input type="hidden" name="bookPk" value="${orderItem.bookID}">
+                                                    <input type="hidden" name="orderItemPk" value="${orderItem.id}">
+                                                    <td class="text-center">
                                                         <div class="btn-group">
                                                             <button type="submit" class="btn btn-light"
                                                                     name="btAction" value="View Details">
                                                                 <i class="fa fa-eye text-primary"></i>
                                                             </button>
-                                                            <button type="button" class="btn btn-light" data-toggle="modal"
-                                                                    data-target="#renewModal${order.id}" title="Renew"
-                                                                    data-original-title="Renew">
-                                                                <i class="fa fa-refresh text-primary" aria-hidden="true"></i>
-                                                            </button>
-                                                            <button type="submit" class="btn btn-light"
-                                                                    name="btAction" value="Return Book">
-                                                                <i class="fa fa-reply text-primary" aria-hidden="true"></i>
-                                                            </button>
+                                                                <%--
+                                                                Only allow to renew item with status:
+                                                                    ITEM_RECEIVED = 2
+                                                                    ITEM_OVERDUE = 5 (might need check business policy)
+                                                                    --%>
+                                                            <c:if test="${(orderItem.lendStatus eq 2)
+                                                            or (orderItem.lendStatus eq 5)}">
+                                                                <button type="button" class="btn btn-light"
+                                                                        data-toggle="modal"
+                                                                        data-target="#renewModal${orderItem.id}"
+                                                                        title="Renew"
+                                                                        data-original-title="Renew">
+                                                                    <i class="fa fa-refresh text-primary"
+                                                                       aria-hidden="true"></i>
+                                                                </button>
+                                                            </c:if>
+                                                                <%--
+                                                                Temporary return function,
+                                                                need to add form similar to checkout.
+                                                                Only allow to return item with status:
+                                                                    ITEM_RECEIVED = 2
+                                                                    ITEM_OVERDUE = 5
+                                                                --%>
+                                                            <c:if test="${(orderItem.lendStatus eq 2)
+                                                                or (orderItem.lendStatus eq 5)}">
+                                                                <button type="submit" class="btn btn-light"
+                                                                        name="btAction" value="Return Book">
+                                                                    <i class="fa fa-reply text-primary"
+                                                                       aria-hidden="true"></i>
+                                                                </button>
+                                                            </c:if>
                                                         </div>
                                                     </td>
                                                 </form>
 
                                                 <form action="DispatchServlet">
-                                                    <input type="hidden" name="orderItemsPk" value="${order.id}">
-                                                    <div class="modal fade" id="renewModal${order.id}"
+                                                    <input type="hidden" name="orderItemPk" value="${orderItem.id}">
+                                                    <div class="modal fade" id="renewModal${orderItem.id}"
                                                          tabindex="-1"
                                                          role="dialog"
-                                                         aria-labelledby="ariaRenewModal${order.id}"
+                                                         aria-labelledby="ariaRenewModal${orderItem.id}"
                                                          aria-hidden="true">
+
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
