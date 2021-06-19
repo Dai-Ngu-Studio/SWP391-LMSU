@@ -14,6 +14,19 @@ public class OrderItemDAO implements Serializable {
     private Connection conn;
     private List<OrderItemDTO> orderItemList;
 
+    private final int ITEM_CANCELLED = -1;
+    private final int ITEM_PENDING = 0;
+    private final int ITEM_APPROVED = 1;
+    private final int ITEM_RECEIVED = 2;
+    private final int ITEM_RETURN_SCHEDULED = 3;
+    private final int ITEM_RETURNED = 4;
+    private final int ITEM_OVERDUE = 5;
+    private final int ITEM_OVERDUE_RETURN_SCHEDULED = 6;
+    private final int ITEM_OVERDUE_RETURNED = 7;
+    private final int ITEM_REJECTED = 8;
+    private final int ITEM_LOST = 9;
+    private final int ITEM_RESERVED = 10;
+
     public List<OrderItemDTO> getOrderItemList() {
         return this.orderItemList;
     }
