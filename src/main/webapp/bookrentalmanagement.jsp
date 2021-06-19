@@ -299,6 +299,7 @@
                                                                 </td>
                                                             </form>
                                                             <!--End: order Item Form-->
+                                                            <%--temporary--%>
                                                             <!--Start: Delete order Form-->
                                                             <form action="DispatchServlet">
                                                                 <input type="hidden" value="${order.id}"
@@ -329,6 +330,7 @@
                                                                 </td>
                                                             </form>
                                                             <!--End: Delete order Form-->
+                                                            <%--temporary--%>
                                                             <!--Start: Update order Form-->
                                                             <form action="DispatchServlet" enctype="multipart/form-data"
                                                                   method="POST">

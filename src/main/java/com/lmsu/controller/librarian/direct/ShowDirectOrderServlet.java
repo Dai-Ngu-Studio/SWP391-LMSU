@@ -1,5 +1,8 @@
 package com.lmsu.controller.librarian.direct;
 
+import com.lmsu.bean.orderdata.OrderItemObj;
+import com.lmsu.bean.orderdata.OrderObj;
+import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orders.OrderDAO;
 import com.lmsu.orderdata.orders.OrderDTO;
 import org.apache.log4j.Logger;
@@ -10,9 +13,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @WebServlet(name = "ShowDirectOrderServlet", value = "/ShowDirectOrderServlet")
 public class ShowDirectOrderServlet extends HttpServlet {
@@ -37,6 +38,7 @@ public class ShowDirectOrderServlet extends HttpServlet {
         String url = BOOK_RENTAL_MANAGEMENT_PAGE;
         try {
             OrderDAO orderDAO = new OrderDAO();
+            OrderItemDAO orderItemDAO = new OrderItemDAO();
             //--------------------------------------------------
             // default show pending and overdue
             orderDAO
@@ -48,6 +50,10 @@ public class ShowDirectOrderServlet extends HttpServlet {
                             )));
             //--------------------------------------------------
             List<OrderDTO> orders = orderDAO.getOrderList();
+            Map<OrderObj, List<OrderItemObj>> detailedOrders = new LinkedHashMap<OrderObj, List<OrderItemObj>>();
+            for (OrderDTO order : orders) {
+
+            }
             // temporarily use orderDTO
             // need to create bean for order to display name of borrower, ...
             // temporarily use list
