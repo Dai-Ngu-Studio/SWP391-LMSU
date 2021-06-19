@@ -15,6 +15,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @WebServlet(name = "ShowProfileServlet", value = "/ShowProfileServlet")
@@ -23,11 +24,23 @@ public class ShowProfileServlet extends HttpServlet {
     private static final String PROFILE_PAGE = "usersettings.jsp";
     static final Logger LOGGER = Logger.getLogger(ShowProfileServlet.class);
 
-    // temporary
     private final List<Integer> NO_LEND_STATUS_SPECIFIED = null;
 
+    private final int ITEM_CANCELLED = -1;
+    private final int ITEM_PENDING = 0;
+    private final int ITEM_APPROVED = 1;
+    private final int ITEM_RECEIVED = 2;
+    private final int ITEM_RETURN_SCHEDULED = 3;
+    private final int ITEM_RETURNED = 4;
+    private final int ITEM_OVERDUE = 5;
+    private final int ITEM_OVERDUE_RETURN_SCHEDULED = 6;
+    private final int ITEM_OVERDUE_RETURNED = 7;
+    private final int ITEM_REJECTED = 8;
+    private final int ITEM_LOST = 9;
+    private final int ITEM_RESERVED = 10;
+
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
-    private final String ATTR_ORDER_ITEMS = "ORDER_ITEMS";
+    private final String ATTR_MEMBER_ORDER_ITEMS = "MEMBER_ORDER_ITEMS";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -38,7 +51,15 @@ public class ShowProfileServlet extends HttpServlet {
                 UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
                 if (userDTO != null) {
                     OrderItemDAO orderItemDAO = new OrderItemDAO();
-                    orderItemDAO.getOrderItemsFromMember(userDTO.getId(), NO_LEND_STATUS_SPECIFIED);
+                    orderItemDAO
+                            .getOrderItemsFromMember(
+                                    userDTO.getId(),
+                                    new ArrayList<Integer>(
+                                            Arrays.asList(
+                                                    ITEM_PENDING, ITEM_APPROVED, ITEM_RECEIVED, ITEM_RETURN_SCHEDULED,
+                                                    ITEM_RETURNED, ITEM_OVERDUE, ITEM_OVERDUE_RETURN_SCHEDULED,
+                                                    ITEM_OVERDUE_RETURNED, ITEM_LOST
+                                            )));
 
                     List<OrderItemDTO> orderItemList = orderItemDAO.getOrderItemList();
                     List<OrderItemObj> orderItemObjList = new ArrayList<>();
@@ -47,21 +68,21 @@ public class ShowProfileServlet extends HttpServlet {
 
                     if (orderItemList != null) {
                         for (OrderItemDTO orderitemDTO : orderItemList) {
-                            BookDTO book_dto = bookDAO.getBookById(orderitemDTO.getBookID());
+                            BookDTO bookDTO = bookDAO.getBookById(orderitemDTO.getBookID());
 
                             OrderItemObj orderitemObj = new OrderItemObj();
                             orderitemObj.setId(orderitemDTO.getId());
                             orderitemObj.setOrderID(orderitemDTO.getOrderID());
                             orderitemObj.setMemberID(orderitemDTO.getMemberID());
                             orderitemObj.setBookID(orderitemDTO.getBookID());
-                            orderitemObj.setTitle(book_dto.getTitle());
+                            orderitemObj.setTitle(bookDTO.getTitle());
                             orderitemObj.setLendStatus(orderitemDTO.getLendStatus());
                             orderitemObj.setReturnDeadline(orderitemDTO.getReturnDeadline());
                             orderitemObj.setLendDate(orderitemDTO.getLendDate());
                             orderitemObj.setReturnDate(orderitemDTO.getReturnDate());
                             orderItemObjList.add(orderitemObj);
                         }
-                        request.setAttribute(ATTR_ORDER_ITEMS, orderItemObjList);
+                        request.setAttribute(ATTR_MEMBER_ORDER_ITEMS, orderItemObjList);
                     }
                 }
             }
