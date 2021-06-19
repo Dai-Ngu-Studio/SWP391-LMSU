@@ -2,10 +2,9 @@ package com.lmsu.controller.member;
 
 import com.lmsu.authors.AuthorDAO;
 import com.lmsu.authors.AuthorDTO;
-import com.lmsu.bean.member.AuthorObj;
-import com.lmsu.bean.member.BookObj;
-import com.lmsu.bean.member.CommentObj;
-import com.lmsu.bean.member.OrderItemObj;
+import com.lmsu.bean.author.AuthorObj;
+import com.lmsu.bean.book.BookObj;
+import com.lmsu.bean.comment.CommentObj;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import com.lmsu.comments.CommentDAO;

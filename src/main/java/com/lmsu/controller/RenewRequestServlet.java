@@ -1,13 +1,5 @@
 package com.lmsu.controller;
 
-import com.lmsu.authors.AuthorDAO;
-import com.lmsu.authors.AuthorDTO;
-import com.lmsu.bean.member.AuthorObj;
-import com.lmsu.bean.member.BookObj;
-import com.lmsu.bean.member.CartObj;
-import com.lmsu.books.BookDAO;
-import com.lmsu.books.BookDTO;
-import com.lmsu.controller.member.cart.AddBookToCartServlet;
 import com.lmsu.renewalrequests.RenewalRequestDAO;
 import org.apache.log4j.Logger;
 

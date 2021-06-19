@@ -2,10 +2,7 @@ package com.lmsu.controller.member;
 
 import com.lmsu.authors.AuthorDAO;
 import com.lmsu.authors.AuthorDTO;
-import com.lmsu.bean.member.AuthorObj;
-import com.lmsu.bean.member.BookObj;
-import com.lmsu.books.BookDAO;
-import com.lmsu.books.BookDTO;
+import com.lmsu.bean.author.AuthorObj;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;

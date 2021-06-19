@@ -2,8 +2,8 @@ package com.lmsu.controller.member.cart;
 
 import com.lmsu.authors.AuthorDAO;
 import com.lmsu.authors.AuthorDTO;
-import com.lmsu.bean.member.AuthorObj;
-import com.lmsu.bean.member.BookObj;
+import com.lmsu.bean.author.AuthorObj;
+import com.lmsu.bean.book.BookObj;
 import com.lmsu.bean.member.CartObj;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;

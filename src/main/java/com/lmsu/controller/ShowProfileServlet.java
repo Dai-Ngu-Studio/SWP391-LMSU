@@ -1,6 +1,6 @@
 package com.lmsu.controller;
 
-import com.lmsu.bean.member.OrderItemObj;
+import com.lmsu.bean.orderdata.OrderItemObj;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
