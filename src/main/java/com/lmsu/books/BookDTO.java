@@ -46,11 +46,4 @@ class BookDTO implements Serializable {
         this.isbnThirteen = isbnThirteen;
         this.coverPath = coverPath;
     }
-
-    public BookDTO(String bookID, String title, String authorID, boolean deleteStatus) {
-        this.bookID = bookID;
-        this.title = title;
-        this.authorID = authorID;
-        this.deleteStatus = deleteStatus;
-    }
 }
