@@ -1,11 +1,8 @@
 package com.lmsu.controller;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
@@ -28,6 +25,34 @@ public class LogoutServlet extends HttpServlet {
                 session.invalidate();
                 url = LOGIN_PAGE;
             }
+
+//            Cookie[] cookies = request.getCookies();
+//            if (cookies != null) {
+//                String selector = "";
+//
+//                for (Cookie aCookie : cookies) {
+//                    if (aCookie.getName().equals("selector")) {
+//                        selector = aCookie.getValue();
+//                    }
+//                }
+//
+//                if (!selector.isEmpty()) {
+//                    // delete token from database
+//                    AuthencicateDAO dao = new AuthencicateDAO();
+//                    AuthencicateDTO dto = authDao.findBySelector(selector);
+//
+//                    if (dto != null) {
+//                        dao.removeCookie(token.getId());
+//
+//                        Cookie cookieSelector = new Cookie("selector", "");
+//                        cookieSelector.setMaxAge(0);
+//
+//                        Cookie cookieValidator = new Cookie("validator", "");
+//                        cookieValidator.setMaxAge(0);
+//                        response.addCookie(cookieSelector);
+//                        response.addCookie(cookieValidator);
+//                    }
+//                }
         } finally {
             response.sendRedirect(url);
         }
