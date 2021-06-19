@@ -27,6 +27,8 @@ public class OrderItemDAO implements Serializable {
     private final int ITEM_LOST = 9;
     private final int ITEM_RESERVED = 10;
 
+    private final int DAYS_TO_DEADLINE = 14;
+
     public List<OrderItemDTO> getOrderItemList() {
         return this.orderItemList;
     }
@@ -45,7 +47,7 @@ public class OrderItemDAO implements Serializable {
             if (conn != null) {
                 String sql = "INSERT INTO [OrderItems] " +
                         "([orderID], [memberID], [bookID], [lendStatus], [returnDeadline], [lendDate]) " +
-                        "VALUES(?, ?, ?, ?, CURRENT_TIMESTAMP + 14, ?) ";
+                        "VALUES(?, ?, ?, ?, CURRENT_TIMESTAMP + DAYS_TO_DEADLINE, ?) ";
                 stm = conn.prepareStatement(sql);
                 for (OrderItemDTO orderItem : orderItems) {
                     stm.setInt(1, orderItem.getOrderID());
