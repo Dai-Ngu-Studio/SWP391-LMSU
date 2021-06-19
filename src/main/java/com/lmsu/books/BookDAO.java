@@ -447,6 +447,7 @@ public class BookDAO implements Serializable {
         }
         return false;
     }
+
     public boolean updateQuantity(String bookID, int quantity)
             throws SQLException, NamingException {
         Connection con = null;
@@ -476,84 +477,6 @@ public class BookDAO implements Serializable {
         return false;
     }
 
-    public void getPopularBooks() throws SQLException, NamingException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-
-        try {
-            //1. Connect DB using method built
-            con = DBHelpers.makeConnection();
-            if (con != null) {
-                //2. Create SQL String
-                String sql = "SELECT TOP 4 [id], [title], [authorID], [deleteStatus], [coverPicturePath] " +
-                        "FROM [Books] " +
-                        "WHERE [deleteStatus] = 0" +
-                        "ORDER BY [avgRating] desc";
-                //3. Create Statement
-                stm = con.prepareStatement(sql);
-                //4. Execute Query and get ResultSet
-                rs = stm.executeQuery();
-                //5. Process ResultSet
-                while (rs.next()) {
-                    String bookID = rs.getString("id");
-                    String title = rs.getString("title");
-                    String authorID = rs.getString("authorID");
-                    boolean deleteStatus = rs.getBoolean("deleteStatus");
-
-                    BookDTO dto = new BookDTO(bookID, title, authorID, deleteStatus);
-                    if (this.bookList == null) {
-                        this.bookList = new ArrayList<BookDTO>();
-                    } //end if bookList not existed
-                    this.bookList.add(dto);
-                } //end while traversing result
-            } //end if connection existed
-        } finally {
-            if (rs != null) rs.close();
-            if (stm != null) stm.close();
-            if (con != null) con.close();
-        }
-    }
-
-    public void getNewArrival() throws SQLException, NamingException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-
-        try {                                                   //chưa có data import log nên để tạm data như dưới
-            //1. Connect DB using method built
-            con = DBHelpers.makeConnection();
-            if (con != null) {
-                //2. Create SQL String
-                String sql = "SELECT TOP 4 [id], [title], [authorID], [deleteStatus], [coverPicturePath] " +
-                        "FROM [Books] " +
-                        "WHERE [deleteStatus] = 0" +
-                        "ORDER BY [avgRating] asc";
-                //3. Create Statement
-                stm = con.prepareStatement(sql);
-                //4. Execute Query and get ResultSet
-                rs = stm.executeQuery();
-                //5. Process ResultSet
-                while (rs.next()) {
-                    String bookID = rs.getString("id");
-                    String title = rs.getString("title");
-                    String authorID = rs.getString("authorID");
-                    boolean deleteStatus = rs.getBoolean("deleteStatus");
-
-                    BookDTO dto = new BookDTO(bookID, title, authorID, deleteStatus);
-
-                    if (this.bookList == null) {
-                        this.bookList = new ArrayList<BookDTO>();
-                    } //end if bookList not existed
-                    this.bookList.add(dto);
-                } //end while traversing result
-            } //end if connection existed
-        } finally {
-            if (rs != null) rs.close();
-            if (stm != null) stm.close();
-            if (con != null) con.close();
-        }
-    }
     public BookDTO getBookByISBN13(String ISBN_thirteenDigits) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
