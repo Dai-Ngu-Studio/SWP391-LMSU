@@ -267,13 +267,12 @@
                                                         <tr class="odd">
                                                             <form action="DispatchServlet">
                                                                 <!--Start: Order Item Form-->
-                                                                <td class="sorting_1"
-                                                                    style="text-align: center">${counter.count}</td>
-                                                                <td style="text-align: left">
+                                                                <td class="sorting_1 text-center">${counter.count}</td>
+                                                                <td class="text-left">
                                                                         ${order.orderDate}
                                                                 </td>
-                                                                <td style="text-align: left">${order.memberID}</td>
-                                                                <td style="text-align: center">
+                                                                <td class="text-left">${order.memberID}</td>
+                                                                <td class="text-center">
                                                                     <c:choose>
                                                                         <c:when test="${order.activeStatus eq -1}">
                                                                             <label class="badge badge-secondary">Cancelled</label>
@@ -308,7 +307,7 @@
                                                                        name="orderPk">
                                                                 <input type="hidden" name="txtSearchValue"
                                                                        value="${param.txtSearchValue}"/>
-                                                                <td style="text-align: center">
+                                                                <td class="text-center">
                                                                     <div class="btn-group">
                                                                         <button type="submit" class="btn btn-light"
                                                                                 name="btAction" value="View Details">
