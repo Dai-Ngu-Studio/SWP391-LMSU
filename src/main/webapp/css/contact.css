@@ -98,9 +98,9 @@
     flex-direction: column;
 }
 
-.form-check:nth-child() {
-    width: 90px;
-}
+/*.form-check:nth-child() {*/
+/*    width: 90px;*/
+/*}*/
 
 .form-check .form-check-label {
     margin-left: unset !important;
@@ -186,4 +186,12 @@ tr {
 
 .btn-send-message:hover {
     background-color: #6b4dbb !important;
+}
+
+.navbar .navbar-brand-wrapper .navbar-brand img {
+    margin-bottom: 6px !important;
+}
+
+.search .btn-primary i {
+    margin-bottom: 6px !important;
 }
