@@ -140,7 +140,7 @@
                 <c:set var="role" value="${sessionScope.LOGIN_USER}"/>
                 <c:if test="${role.roleID eq '2' or role.roleID eq '3'}">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.jsp">
+                        <a class="nav-link" href="IndexServlet">
                             <i class="icon-paper menu-icon"></i>
                             <span class="menu-title">Library</span>
                         </a>
@@ -182,6 +182,12 @@
                     <a class="nav-link" href="log.jsp">
                         <i class="icon-file-subtract menu-icon"></i>
                         <span class="menu-title">Import Log</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="announcementmanagement.jsp">
+                        <i class="icon-bell menu-icon"></i>
+                        <span class="menu-title">Announcement</span>
                     </a>
                 </li>
             </ul>
