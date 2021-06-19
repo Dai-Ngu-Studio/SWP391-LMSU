@@ -21,7 +21,7 @@ public class ReturnBookServlet extends HttpServlet {
 
     static final Logger LOGGER = Logger.getLogger(ReturnBookServlet.class);
     private static final String SHOW_PROFILE_CONTROLLER = "ShowProfileServlet";
-    private static final String USER_PAGE = "index.jsp";
+    private static final String INDEX_CONTROLLER = "IndexServlet";
 
     private final int ITEM_CANCELLED = -1;
     private final int ITEM_PENDING = 0;
@@ -41,7 +41,7 @@ public class ReturnBookServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String url = USER_PAGE;
+        String url = INDEX_CONTROLLER;
         String orderItemID = request.getParameter("orderItemPk");
 
         try {
