@@ -1,7 +1,7 @@
+<%@ page import="com.lmsu.booksandauthor.BooksAndAuthorDTO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
-  User: NDungx
   Date: 6/2/2021
   Time: 4:27 PM
 --%>
@@ -115,20 +115,21 @@
         <div class="title">
             <img src="images/book-icon.png">
             <p style="width: max-content;">
-                <b>Popular Books</b>
+                <b>Most Favorite Books</b>
             </p>
         </div>
         <div class="section-child">
-            <c:forEach var="popularBook" items="${requestScope.POPULAR_BOOKS}" end="3">
-                <a href="#">
-                    <div class="book-cover"></div>
+            <c:forEach var="mostFavoriteBook" items="${requestScope.MOST_FAVORITE_BOOKS_LIST}" end="3">
+                <c:url var="viewBookDetails" value="DispatchServlet">
+                    <c:param name="btAction" value="View Details"/>
+                    <c:param name="bookPk" value="${mostFavoriteBook.bookID}"/>
+                </c:url>
+                <a href="${viewBookDetails}">
+                    <div class="book-cover" style="background-image: url(${pageContext.request.contextPath}/image/${mostFavoriteBook.bookCoverPath});">
+                    </div>
                     <div class="book-info">
-                        <p>
-                            <b>
-                                    ${popularBook.title}
-                            </b>
-                        </p>
-                        <p>${popularBook.authorID}</p>
+                        <p><b>${mostFavoriteBook.bookTitle}</b></p>
+                        <p>${mostFavoriteBook.authorName}</p>
                     </div>
                     <div class="more-info">
                         <p>More info&nbsp;</p>
@@ -151,20 +152,20 @@
             <p><b>New Arrival</b></p>
         </div>
         <div class="section-child">
-            <c:forEach var="newArrivalBook" items="${requestScope.NEW_ARRIVAL_BOOKS}" end="3">
-                <a href="#">
-                    <div class="book-cover"></div>
-                    <div class="book-info">
-                        <p><b>${newArrivalBook.title}</b></p>
+<%--            <c:forEach var="newArrivalBook" items="${requestScope.NEW_ARRIVAL_BOOKS_LIST}" end="3">--%>
+<%--                <a href="#">--%>
+<%--                    <div class="book-cover"></div>--%>
+<%--                    <div class="book-info">--%>
+<%--                        <p><b>${newArrivalBook.title}</b></p>--%>
 
-                        <p>${newArrivalBook.authorID}</p>
-                    </div>
-                    <div class="more-info">
-                        <p>More info&nbsp;</p>
-                        <i class="fa fa-arrow-circle-right"></i>
-                    </div>
-                </a>
-            </c:forEach>
+<%--                        <p>${newArrivalBook.authorID}</p>--%>
+<%--                    </div>--%>
+<%--                    <div class="more-info">--%>
+<%--                        <p>More info&nbsp;</p>--%>
+<%--                        <i class="fa fa-arrow-circle-right"></i>--%>
+<%--                    </div>--%>
+<%--                </a>--%>
+<%--            </c:forEach>--%>
         </div>
         <div>
             <button class="btn seeMoreBtn">
@@ -175,26 +176,30 @@
         </div>
     </div>
 </div>
-<%--<div class="section" style="position: relative; margin-top: -20px;">--%>
-<%--    <div class="sectionTitle">--%>
-<%--        <p><b>Popular Author</b></p>--%>
-<%--    </div>--%>
-<%--    <div class="section-child">--%>
-<%--        <c:forEach var="popularAuthor" items="${requestScope.POPULAR_AUTHORS}" end="3">--%>
-<%--            <a href="#">--%>
-<%--                <div>--%>
-<%--                    <div class="author-image"></div>--%>
-<%--                    <p class="author-name my-2"><b>Ian Sommerville</b></p>--%>
-<%--                </div>--%>
-<%--            </a>--%>
-<%--        </c:forEach>--%>
-<%--    </div>--%>
-<%--    <div style="display: flex; justify-content: center;">--%>
-<%--        <button class="btn seeMoreBtn">--%>
-<%--            <a href="#"><b>See more</b></a>--%>
-<%--        </button>--%>
-<%--    </div>--%>
-<%--</div>--%>
+<div class="section" style="position: relative; margin-top: -20px;">
+    <div class="sectionTitle">
+        <p><b>Popular Author</b></p>
+    </div>
+    <div class="section-child">
+        <c:forEach var="popularAuthor" items="${requestScope.POPULAR_AUTHORS_LIST}" end="3">
+            <c:url var="author" value="DispatchServlet">
+                <c:param name="btAction" value="See More Books of This Author"/>
+                <c:param name="authorPk" value="${popularAuthor.authorID}"/>
+            </c:url>
+            <a href="${author}">
+                <div>
+                    <div class="author-image" style="background-image: url(${pageContext.request.contextPath}/image/${popularAuthor.authorCoverPath});"></div>
+                    <p class="author-name my-2"><b>${popularAuthor.authorName}</b></p>
+                </div>
+            </a>
+        </c:forEach>
+    </div>
+    <div style="display: flex; justify-content: center;">
+        <button class="btn seeMoreBtn">
+            <a href="#"><b>See more</b></a>
+        </button>
+    </div>
+</div>
 <div class="anotherSection">
     <div class="smallSection">
         <div class="title">
@@ -272,6 +277,7 @@
         </div>
     </div>
 </div>
+
 <jsp:include page="scrolltotop.html"></jsp:include>
 <jsp:include page="footer.html"></jsp:include>
 <script>
