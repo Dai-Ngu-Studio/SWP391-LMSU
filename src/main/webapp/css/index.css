@@ -179,24 +179,12 @@ body {
     -webkit-transition: background-size .3s ease-in;
 }
 
-a:nth-child(1) .book-cover {
-    background-image: url(../images/software-engineering.jpg);
-}
-
-a:nth-child(2) .book-cover {
-    background-image: url(../images/software-requirement.jpg);
-}
-
-a:nth-child(3) .book-cover {
-    background-image: url(../images/software-testing.jpg);
-}
-
-a:nth-child(4) .book-cover {
-    background-image: url(../images/adaptive-code-via-csharp.jpg);
-}
-
 .book-info {
-    padding: 0px .5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: .7rem .5rem;
 }
 
 .book-info p:nth-child(1) {
@@ -257,22 +245,6 @@ a:nth-child(4) .book-cover {
     -o-transition: background-size .3s ease-in;
     -webkit-transition: background-size .3s ease-in;
     border-radius: 20px 20px 0px 0px;
-}
-
-a:nth-child(1) .author-image {
-    background-image: url(../images/ian-sommerville.jpg);
-}
-
-a:nth-child(2) .author-image {
-    background-image: url(../images/karl-wiegers.jpg);
-}
-
-a:nth-child(3) .author-image {
-    background-image: url(../images/joy-beattyjpeg.jpeg);
-}
-
-a:nth-child(4) .author-image {
-    background-image: url(../images/rex-black.jpg);
 }
 
 .author-name {
