@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-import lombok.Data;
+import com.lmsu.authors.AuthorDTO;
+import com.lmsu.importlog.ImportLogDTO;
+import lombok.*;
 
 public @Data
 class BookDTO implements Serializable {
@@ -23,6 +25,8 @@ class BookDTO implements Serializable {
     private String isbnTen;
     private String isbnThirteen;
     private String coverPath;
+    private AuthorDTO author;
+    private ImportLogDTO importLog;
 
     public BookDTO() {
     }
@@ -45,5 +49,20 @@ class BookDTO implements Serializable {
         this.isbnTen = isbnTen;
         this.isbnThirteen = isbnThirteen;
         this.coverPath = coverPath;
+    }
+
+    public BookDTO(String bookID, String title, float avgRating, String coverPath, AuthorDTO author) {
+        this.bookID = bookID;
+        this.title = title;
+        this.avgRating = avgRating;
+        this.coverPath = coverPath;
+        this.author = author;
+    }
+
+    public BookDTO(String bookID, String title, String coverPath, AuthorDTO author) {
+        this.bookID = bookID;
+        this.title = title;
+        this.coverPath = coverPath;
+        this.author = author;
     }
 }
