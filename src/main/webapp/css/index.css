@@ -67,11 +67,12 @@ body {
 
 .section-child a {
     background-color: #fff;
-    border-radius: 20px;
+    border-radius: 10px;
     width: 15%;
     text-decoration: none !important;
     transition: 0.5s;
     color: #748DDB;
+    width: 16vw;
 }
 
 .section-child a:hover {
@@ -149,7 +150,7 @@ body {
 }
 
 .anotherSection .section-child a {
-    width: 17%;
+    width: 16vw;
     border-radius: 10px;
     height: auto;
     display: flex;
@@ -161,6 +162,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
 .anotherSection .section-child a:hover .book-cover {
@@ -244,7 +246,7 @@ body {
     -ms-transition: background-size .3s ease-in;
     -o-transition: background-size .3s ease-in;
     -webkit-transition: background-size .3s ease-in;
-    border-radius: 20px 20px 0px 0px;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .author-name {
