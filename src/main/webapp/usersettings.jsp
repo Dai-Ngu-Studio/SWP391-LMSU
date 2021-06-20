@@ -311,17 +311,23 @@
                                                                 Only allow to renew item with status:
                                                                     ITEM_RECEIVED = 2
                                                                     ITEM_OVERDUE = 5 (might need check business policy)
+                                                                    chỉnh cho khi cái nút renewal của 1 quyển sách đạt tới giới hạn thì nó
+                                                                    ko mất nút mà chỉ bị xám màu thôi
                                                                     --%>
-                                                            <c:if test="${(orderItem.lendStatus eq 2)
-                                                            or (orderItem.lendStatus eq 5)}">
-                                                                <button type="button" class="btn btn-light"
-                                                                        data-toggle="modal"
-                                                                        data-target="#renewModal${orderItem.id}"
-                                                                        title="Renew"
-                                                                        data-original-title="Renew">
-                                                                    <i class="fa fa-refresh text-primary"
-                                                                       aria-hidden="true"></i>
-                                                                </button>
+                                                            <c:set var="renewalMap" value="${requestScope.RENEWAL_MAP_LIST}"/>
+                                                            <c:set var="keyset" value="${renewalMap.keySet()}"/>
+                                                            <c:if test="${renewalMap.get(orderItem.id) <= 3}">
+                                                                <c:if test="${(orderItem.lendStatus eq 2)
+                                                                or (orderItem.lendStatus eq 5)}">
+                                                                    <button type="button" class="btn btn-light"
+                                                                            data-toggle="modal"
+                                                                            data-target="#renewModal${orderItem.id}"
+                                                                            title="Renew"
+                                                                            data-original-title="Renew">
+                                                                        <i class="fa fa-refresh text-primary"
+                                                                           aria-hidden="true"></i>
+                                                                    </button>
+                                                                </c:if>
                                                             </c:if>
                                                                 <%--
                                                                 Temporary return function,
@@ -332,7 +338,7 @@
                                                                 --%>
                                                             <c:if test="${(orderItem.lendStatus eq 2)
                                                                 or (orderItem.lendStatus eq 5)}">
-                                                                <button type="submit" class="btn btn-light"
+                                                                <button type="submit" class="btn btn-light" title="Return"
                                                                         name="btAction" value="Return Book">
                                                                     <i class="fa fa-reply text-primary"
                                                                        aria-hidden="true"></i>

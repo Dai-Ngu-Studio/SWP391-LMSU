@@ -47,7 +47,7 @@ public class OrderItemDAO implements Serializable {
             if (conn != null) {
                 String sql = "INSERT INTO [OrderItems] " +
                         "([orderID], [memberID], [bookID], [lendStatus], [returnDeadline], [lendDate]) " +
-                        "VALUES(?, ?, ?, ?, CURRENT_TIMESTAMP + DAYS_TO_DEADLINE, ?) ";
+                        "VALUES(?, ?, ?, ?, CURRENT_TIMESTAMP + 14, ?) ";
                 stm = conn.prepareStatement(sql);
                 for (OrderItemDTO orderItem : orderItems) {
                     stm.setInt(1, orderItem.getOrderID());

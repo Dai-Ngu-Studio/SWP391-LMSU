@@ -5,6 +5,8 @@ import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
+import com.lmsu.renewalrequests.RenewalRequestDAO;
+import com.lmsu.renewalrequests.RenewalRequestDTO;
 import com.lmsu.users.UserDTO;
 import org.apache.log4j.Logger;
 
@@ -14,9 +16,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @WebServlet(name = "ShowProfileServlet", value = "/ShowProfileServlet")
 public class ShowProfileServlet extends HttpServlet {
@@ -41,6 +41,7 @@ public class ShowProfileServlet extends HttpServlet {
 
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
     private final String ATTR_MEMBER_ORDER_ITEMS = "MEMBER_ORDER_ITEMS";
+    private final String ATTR_MEMBER_RENEWAL_REQUEST = "MEMBER_RENEWAL_REQUEST";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -83,6 +84,19 @@ public class ShowProfileServlet extends HttpServlet {
                             orderItemObjList.add(orderitemObj);
                         }
                         request.setAttribute(ATTR_MEMBER_ORDER_ITEMS, orderItemObjList);
+                    }
+
+                    RenewalRequestDAO renewalDAO = new RenewalRequestDAO();
+                    LinkedHashMap<Integer, Integer> renewalMap = new LinkedHashMap<>();
+                    renewalDAO.viewRenewalRequests();
+                    List<RenewalRequestDTO> renewalList = renewalDAO.getRenewalList();
+
+                    if(renewalList != null){
+                        for (OrderItemDTO orderItemDTO: orderItemList
+                             ) {
+                            renewalMap.put(orderItemDTO.getId(), renewalDAO.countRenewalRequestByItemID(orderItemDTO.getId()));
+                        }
+                        request.setAttribute("RENEWAL_MAP_LIST", renewalMap);
                     }
                 }
             }

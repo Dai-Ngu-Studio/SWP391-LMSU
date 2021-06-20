@@ -1,12 +1,22 @@
 package com.lmsu.renewalrequests;
 
+import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.utils.DBHelpers;
 
 import javax.naming.NamingException;
 import java.io.Serializable;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.ListIterator;
 
 public class RenewalRequestDAO implements Serializable {
+    private List<RenewalRequestDTO> renewalList;
+
+    public List<RenewalRequestDTO> getRenewalList(){
+        return this.renewalList;
+    }
 
     public boolean addRenewal(String id, int itemID, String reason, String requestedExtendDate
     ) throws SQLException, NamingException {
@@ -67,5 +77,69 @@ public class RenewalRequestDAO implements Serializable {
             if (con != null) con.close();
         }
         return false;
+    }
+
+    public void viewRenewalRequests()
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [id], [itemID], [librarianID], [reason], " +
+                        "[requestedExtendDate], [approvalStatus] " +
+                        "FROM [RenewalRequests] ";
+
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String renewalID = rs.getString("id");
+                    int itemID = rs.getInt("itemID");
+                    String librarianID = rs.getString("librarianID");
+                    String reason = rs.getString("reason");
+                    Date requestedExtendDate = rs.getDate("requestedExtendDate");
+                    boolean approvalStatus = rs.getBoolean("approvalStatus");
+                    RenewalRequestDTO dto = new RenewalRequestDTO(renewalID, itemID, librarianID,
+                            reason, requestedExtendDate, approvalStatus);
+                    if (this.renewalList == null) {
+                        this.renewalList = new ArrayList<>();
+                    }
+                    this.renewalList.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
+
+    public int countRenewalRequestByItemID(int itemID) throws SQLException, NamingException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT COUNT (*) AS countRenewal " +
+                        "FROM [RenewalRequests] " +
+                        "WHERE itemID = ?";
+
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, itemID);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt("countRenewal");
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return -1;
     }
 }

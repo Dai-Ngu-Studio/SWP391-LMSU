@@ -188,7 +188,8 @@
                                             </c:when>
                                             <c:when test="${(not empty cart)
                                                     and (not empty memberTotalActiveBorrows)
-                                                    and ((cart.cartQuantity + memberTotalActiveBorrows.size() ge 10))}">
+                                                    and ((cart.cartQuantity + memberTotalActiveBorrows.size() ge 10))
+                                                    or memberTotalActiveBorrows.size() eq 10}">
                                                 <div class="row">You have already reached the borrowing limit.</div>
                                             </c:when>
                                             <c:otherwise>

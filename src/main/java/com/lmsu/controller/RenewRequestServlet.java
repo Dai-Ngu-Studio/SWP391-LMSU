@@ -22,7 +22,7 @@ public class RenewRequestServlet extends HttpServlet {
 
         String url = USER_PAGE;
         //String bookID = request.getParameter("bookPk");
-        String orderItemsID = request.getParameter("orderItemsPk");
+        String orderItemsID = request.getParameter("orderItemPk");
         String reason = request.getParameter("txtReason");
         String extendDate = request.getParameter("txtExtendDate");
 
@@ -30,11 +30,12 @@ public class RenewRequestServlet extends HttpServlet {
             RenewalRequestDAO dao = new RenewalRequestDAO();
             int renewalID = 0;
             int orderItemsIDVal = Integer.parseInt(orderItemsID);
+            System.out.println(orderItemsIDVal);
             do {
                 renewalID++;
             } while (dao.checkRenewalId(String.valueOf(renewalID)));
             String renewalIDtxt = String.valueOf(renewalID);
-            boolean result = dao.addRenewal(renewalIDtxt,orderItemsIDVal, reason, extendDate);
+            boolean result = dao.addRenewal(renewalIDtxt, orderItemsIDVal, reason, extendDate);
             if(result){
                 url = USER_SETTING_CONTROLLER;
             }
