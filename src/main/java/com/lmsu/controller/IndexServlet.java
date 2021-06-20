@@ -1,11 +1,7 @@
 package com.lmsu.controller;
 
-import com.lmsu.authors.AuthorDAO;
-import com.lmsu.authors.AuthorDTO;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
-import com.lmsu.booksandauthor.BooksAndAuthorDAO;
-import com.lmsu.booksandauthor.BooksAndAuthorDTO;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -34,24 +30,18 @@ public class IndexServlet extends HttpServlet {
         String url = ERROR_PAGE;
 
         try {
-            BooksAndAuthorDAO booksAndAuthorDAO = new BooksAndAuthorDAO();
-            AuthorDAO authorDAO = new AuthorDAO();
+            BookDAO dao = new BookDAO();
 
             //get Popular Books
-            booksAndAuthorDAO.getMostFavoriteBooksAndPopularAuthor();
-            List<BooksAndAuthorDTO> mostFavoriteBookList = booksAndAuthorDAO.getBooksAndAuthorList();
+            List<BookDTO> mostFavoriteBookList = dao.getMostFavoriteBooksAndPopularAuthor();
             request.setAttribute("MOST_FAVORITE_BOOKS_LIST", mostFavoriteBookList);
 
-            booksAndAuthorDAO.clearList();
-
-//            //get New Arrival Books
-//            booksAndAuthorDAO.getNewArrival();
-//            List<BooksAndAuthorDTO> newArrivalBookList = booksAndAuthorDAO.getBooksAndAuthorList();
-//            request.setAttribute("NEW_ARRIVAL_BOOKS_LIST", newArrivalBookList);
+            //get New Arrival Books
+            List<BookDTO> newArrivalBookList = dao.getNewArrivalBooks();
+            request.setAttribute("NEW_ARRIVAL_BOOKS_LIST", newArrivalBookList);
 
             //get Popular Authors
-            booksAndAuthorDAO.getMostFavoriteBooksAndPopularAuthor();
-            List<BooksAndAuthorDTO> popularAuthorList = booksAndAuthorDAO.getBooksAndAuthorList();
+            List<BookDTO> popularAuthorList = dao.getMostFavoriteBooksAndPopularAuthor();
             request.setAttribute("POPULAR_AUTHORS_LIST", popularAuthorList);
 
             url = INDEX_PAGE;
