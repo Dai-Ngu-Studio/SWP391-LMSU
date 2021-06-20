@@ -311,24 +311,34 @@
                                                                 Only allow to renew item with status:
                                                                     ITEM_RECEIVED = 2
                                                                     ITEM_OVERDUE = 5 (might need check business policy)
-                                                                    chỉnh cho khi cái nút renewal của 1 quyển sách đạt tới giới hạn thì nó
-                                                                    ko mất nút mà chỉ bị xám màu thôi
                                                                     --%>
                                                             <c:set var="renewalMap" value="${requestScope.RENEWAL_MAP_LIST}"/>
                                                             <c:set var="keyset" value="${renewalMap.keySet()}"/>
-                                                            <c:if test="${renewalMap.get(orderItem.id) <= 3}">
-                                                                <c:if test="${(orderItem.lendStatus eq 2)
-                                                                or (orderItem.lendStatus eq 5)}">
+                                                            <c:choose>
+                                                                <c:when test="${renewalMap.get(orderItem.id) <= 3}">
+                                                                    <c:if test="${(orderItem.lendStatus eq 2)
+                                                                    or (orderItem.lendStatus eq 5)}">
+                                                                        <button type="button" class="btn btn-light"
+                                                                                data-toggle="modal"
+                                                                                data-target="#renewModal${orderItem.id}"
+                                                                                title="Renew"
+                                                                                data-original-title="Renew">
+                                                                            <i class="fa fa-refresh text-primary"
+                                                                               aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </c:if>
+                                                                </c:when>
+                                                                <c:when test="${renewalMap.get(orderItem.id) == 4}">
                                                                     <button type="button" class="btn btn-light"
                                                                             data-toggle="modal"
-                                                                            data-target="#renewModal${orderItem.id}"
+                                                                            data-target="#renewModal"
                                                                             title="Renew"
                                                                             data-original-title="Renew">
                                                                         <i class="fa fa-refresh text-primary"
                                                                            aria-hidden="true"></i>
                                                                     </button>
-                                                                </c:if>
-                                                            </c:if>
+                                                                </c:when>
+                                                            </c:choose>
                                                                 <%--
                                                                 Temporary return function,
                                                                 need to add form similar to checkout.
@@ -347,6 +357,28 @@
                                                         </div>
                                                     </td>
                                                 </form>
+
+                                                <div class="modal fade" id="renewModal" tabindex="-1"
+                                                     role="dialog" aria-labelledby="ariaRenewModal" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLongTitle2">
+                                                                    Renewal Limit
+                                                                </h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                This boos has reached the renewal limit
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                                 <form action="DispatchServlet">
                                                     <input type="hidden" name="orderItemPk" value="${orderItem.id}">
