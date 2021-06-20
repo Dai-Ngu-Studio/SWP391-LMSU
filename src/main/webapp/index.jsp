@@ -1,4 +1,3 @@
-<%@ page import="com.lmsu.booksandauthor.BooksAndAuthorDTO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -119,17 +118,18 @@
             </p>
         </div>
         <div class="section-child">
-            <c:forEach var="mostFavoriteBook" items="${requestScope.MOST_FAVORITE_BOOKS_LIST}" end="3">
-                <c:url var="viewBookDetails" value="DispatchServlet">
-                    <c:param name="btAction" value="View Details"/>
+            <c:forEach var="mostFavoriteBook" items="${requestScope.MOST_FAVORITE_BOOKS_LIST}">
+                <c:url var="viewBookDetails" value="ViewBookDetailsServlet">
                     <c:param name="bookPk" value="${mostFavoriteBook.bookID}"/>
                 </c:url>
                 <a href="${viewBookDetails}">
-                    <div class="book-cover" style="background-image: url(${pageContext.request.contextPath}/image/${mostFavoriteBook.bookCoverPath});">
+                    <div class="book-cover"
+                         style="background-image: url(${pageContext.request.contextPath}/image/${mostFavoriteBook.coverPath}),
+                                 url(images/NotAvailable.jpg);">
                     </div>
                     <div class="book-info">
-                        <p><b>${mostFavoriteBook.bookTitle}</b></p>
-                        <p>${mostFavoriteBook.authorName}</p>
+                        <p><b>${mostFavoriteBook.title}</b></p>
+                        <p>${mostFavoriteBook.author.authorName}</p>
                     </div>
                     <div class="more-info">
                         <p>More info&nbsp;</p>
@@ -152,20 +152,25 @@
             <p><b>New Arrival</b></p>
         </div>
         <div class="section-child">
-<%--            <c:forEach var="newArrivalBook" items="${requestScope.NEW_ARRIVAL_BOOKS_LIST}" end="3">--%>
-<%--                <a href="#">--%>
-<%--                    <div class="book-cover"></div>--%>
-<%--                    <div class="book-info">--%>
-<%--                        <p><b>${newArrivalBook.title}</b></p>--%>
+            <c:forEach var="newArrivalBook" items="${requestScope.NEW_ARRIVAL_BOOKS_LIST}">
+                <c:url var="viewBookDetails" value="ViewBookDetailsServlet">
+                    <c:param name="bookPk" value="${newArrivalBook.bookID}"/>
+                </c:url>
+                <a href="${viewBookDetails}">
+                    <div class="book-cover"
+                         style="background-image: url(${pageContext.request.contextPath}/image/${newArrivalBook.coverPath}),
+                                 url(images/NotAvailable.jpg);"></div>
+                    <div class="book-info">
+                        <p><b>${newArrivalBook.title}</b></p>
 
-<%--                        <p>${newArrivalBook.authorID}</p>--%>
-<%--                    </div>--%>
-<%--                    <div class="more-info">--%>
-<%--                        <p>More info&nbsp;</p>--%>
-<%--                        <i class="fa fa-arrow-circle-right"></i>--%>
-<%--                    </div>--%>
-<%--                </a>--%>
-<%--            </c:forEach>--%>
+                        <p>${newArrivalBook.author.authorName}</p>
+                    </div>
+                    <div class="more-info">
+                        <p>More info&nbsp;</p>
+                        <i class="fa fa-arrow-circle-right"></i>
+                    </div>
+                </a>
+            </c:forEach>
         </div>
         <div>
             <button class="btn seeMoreBtn">
@@ -181,15 +186,16 @@
         <p><b>Popular Author</b></p>
     </div>
     <div class="section-child">
-        <c:forEach var="popularAuthor" items="${requestScope.POPULAR_AUTHORS_LIST}" end="3">
-            <c:url var="author" value="DispatchServlet">
-                <c:param name="btAction" value="See More Books of This Author"/>
-                <c:param name="authorPk" value="${popularAuthor.authorID}"/>
+        <c:forEach var="popularAuthor" items="${requestScope.POPULAR_AUTHORS_LIST}">
+            <c:url var="author" value="ShowAuthorBookServlet">
+                <c:param name="authorPk" value="${popularAuthor.author.authorID}"/>
             </c:url>
             <a href="${author}">
                 <div>
-                    <div class="author-image" style="background-image: url(${pageContext.request.contextPath}/image/${popularAuthor.authorCoverPath});"></div>
-                    <p class="author-name my-2"><b>${popularAuthor.authorName}</b></p>
+                    <div class="author-image"
+                         style="background-image: url(${pageContext.request.contextPath}/image/${popularAuthor.author.coverPath}),
+                                 url(images/default-user-icon.png);"></div>
+                    <p class="author-name my-2"><b>${popularAuthor.author.authorName}</b></p>
                 </div>
             </a>
         </c:forEach>
