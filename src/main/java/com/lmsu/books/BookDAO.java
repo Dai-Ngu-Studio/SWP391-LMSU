@@ -1,5 +1,6 @@
 package com.lmsu.books;
 
+import com.lmsu.authors.AuthorDTO;
 import com.lmsu.utils.DBHelpers;
 
 import javax.naming.NamingException;
@@ -21,7 +22,7 @@ public class BookDAO implements Serializable {
     }
 
     public void clearList() {
-        bookList.clear();
+        this.bookList.clear();
     }
 
     public void viewBookList() throws SQLException, NamingException {
@@ -518,6 +519,103 @@ public class BookDAO implements Serializable {
                     return dto;
                 }
             }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return null;
+    }
+
+    public List<BookDTO> getMostFavoriteBooksAndPopularAuthor() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<BookDTO> list = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT TOP 4 Books.id, Books.title, Books.authorID AS authorID, Books.avgRating, " +
+                        "Books.coverPicturePath, Authors.id, Authors.[name], Authors.profilePicturePath " +
+                        "FROM [Books] " +
+                        "LEFT JOIN [Authors] ON Books.authorID = Authors.id " +
+                        "WHERE Books.deleteStatus = 0 AND Authors.deleteStatus = 0 " +
+                        "ORDER BY [avgRating] desc";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                while (rs.next()) {
+                    String bookID = rs.getString("id");
+                    String bookTitle = rs.getString("title");
+                    float avgRating = rs.getFloat("avgRating");
+                    String bookCoverPath = rs.getString("coverPicturePath");
+                    String authorID = rs.getString("id");
+                    String authorName = rs.getString("name");
+                    String profilePicturePath = rs.getString("profilePicturePath");
+
+                    AuthorDTO authorDTO = new AuthorDTO(authorID, authorName, profilePicturePath);
+
+                    BookDTO dto = new BookDTO(bookID,bookTitle,avgRating, bookCoverPath, authorDTO);
+                    if (list == null) {
+                        list = new ArrayList<>();
+                    } //end if bookList not existed
+                    list.add(dto);
+                } //end while traversing result
+                return list;
+            } //end if connection existed
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return null;
+    }
+
+    public List<BookDTO> getNewArrivalBooks() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<BookDTO> list = null;
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT TOP 4 Books.id  as bookID, Books.title, Books.authorID, Books.coverPicturePath, " +
+                        "Authors.id, Authors.[name], Authors.[profilePicturePath], ImportLogs.id, ImportLogs.bookID, ImportLogs.dateTaken " +
+                        "FROM [Books] " +
+                        "LEFT JOIN ImportLogs ON ImportLogs.bookID = Books.id " +
+                        "LEFT JOIN Authors ON Authors.id = Books.id " +
+                        "WHERE Books.deleteStatus = 0 AND Authors.deleteStatus = 0 " +
+                        "ORDER BY [dateTaken] desc";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                while (rs.next()) {
+                    String bookID = rs.getString("bookID");
+                    String bookTitle = rs.getString("title");
+                    String authorID = rs.getString("authorID");
+                    String bookCoverPath = rs.getString("coverPicturePath");
+                    String authorName = rs.getString("name");
+                    String profilePicturePath = rs.getString("profilePicturePath");
+
+                    AuthorDTO authorDTO = new AuthorDTO(authorID, authorName, profilePicturePath);
+
+                    BookDTO dto = new BookDTO(bookID,bookTitle, bookCoverPath, authorDTO);
+                    if (list == null) {
+                        list = new ArrayList<>();
+                    } //end if bookList not existed
+                    list.add(dto);
+                } //end while traversing result
+                return list;
+            } //end if connection existed
         } finally {
             if (rs != null) rs.close();
             if (stm != null) stm.close();
