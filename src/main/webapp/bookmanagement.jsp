@@ -530,12 +530,63 @@
                                                                             <i class="fa fa-pencil text-primary"></i>
                                                                         </button>
 
-                                                                        <button type="submit" class="btn btn-light"
-                                                                                name="btAction" value="Delete Book">
+                                                                        <button type="button" class="btn btn-light"
+                                                                                data-toggle="modal"
+                                                                                data-target="#deleteModal${book.bookID}"
+                                                                                title="Delete"
+                                                                                data-original-title="Remove">
                                                                             <i class="fa fa-times text-primary"></i>
                                                                         </button>
+
                                                                     </div>
                                                                 </td>
+                                                            </form>
+
+                                                            <form action="DispatchServlet" enctype="multipart/form-data"
+                                                                  method="POST">
+                                                                <input type="hidden" value="${book.bookID}"
+                                                                       name="pk">
+                                                                <input type="hidden" name="txtSearchValue"
+                                                                       value="${param.txtSearchValue}"/>
+                                                                <div class="modal fade" id="deleteModal${book.bookID}"
+                                                                     tabindex="-1"
+                                                                     role="dialog"
+                                                                     aria-labelledby="ariaDeleteModal${book.bookID}"
+                                                                     aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLongTitle2">
+                                                                                    WARNING
+                                                                                </h5>
+                                                                                <button type="button"
+                                                                                        class="close"
+                                                                                        data-dismiss="modal"
+                                                                                        aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                Do you want to delete this book?
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="submit"
+                                                                                        name="btAction"
+                                                                                        value="Delete Book"
+                                                                                        class="btn btn-primary"
+                                                                                >
+                                                                                    Save
+                                                                                </button>
+                                                                                <button type="button"
+                                                                                        class="btn btn-outline-primary"
+                                                                                        data-dismiss="modal">
+                                                                                    Close
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </form>
                                                             <!--End: Delete Book Form-->
                                                             <!--Start: Update Book Form-->

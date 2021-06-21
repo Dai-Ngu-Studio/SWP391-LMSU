@@ -8,6 +8,7 @@ public @Data
 class BookObj implements Serializable {
     private String id;
     private String title;
+    private String authorID;
     private String authorName;
     private String subjectName;
     private String publisher;
@@ -37,5 +38,23 @@ class BookObj implements Serializable {
         this.isbnTen = isbnTen;
         this.isbnThirteen = isbnThirteen;
         this.coverPath = coverPath;
+    }
+
+    public BookObj(String id, String title, String authorName, String subjectName, String publisher,
+                   String publishDate, String description, int quantity, float avgRating, String isbnTen,
+                   String isbnThirteen, String coverPath, String authorID) {
+        this.id = id;
+        this.title = title;
+        this.authorName = authorName;
+        this.subjectName = subjectName;
+        this.publisher = publisher;
+        this.publishDate = publishDate;
+        this.description = description;
+        this.quantity = quantity;
+        this.avgRating = avgRating;
+        this.isbnTen = isbnTen;
+        this.isbnThirteen = isbnThirteen;
+        this.coverPath = coverPath;
+        this.authorID = authorID;
     }
 }

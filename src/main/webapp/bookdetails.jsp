@@ -54,7 +54,10 @@
                         <li class="list-group-item mt-0 mb-0">
                             <div class="row">
                                 <div class="col-lg-6"><strong>Author</strong></div>
-                                <div class="col-lg-6">${bookObj.authorName}</div>
+                                <a href="<c:url value='ShowAuthorBookServlet?authorPk=${bookObj.authorID}'/>"
+                                   class="link text-info">
+                                    <div class="col-lg-12" style="text-decoration: underline">${bookObj.authorName}</div>
+                                </a>
                             </div>
                         </li>
                         <li class="list-group-item mt-0 mb-0">

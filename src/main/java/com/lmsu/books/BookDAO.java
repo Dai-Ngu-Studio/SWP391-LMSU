@@ -623,6 +623,34 @@ public class BookDAO implements Serializable {
         }
         return null;
     }
+
+    public int countBookByAuthorID(String authorID) throws SQLException, NamingException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT COUNT (*) AS countBooks " +
+                        "FROM [Books] " +
+                        "WHERE authorID = ? " +
+                        "AND [deleteStatus] = 0";
+
+                stm = con.prepareStatement(sql);
+                stm.setString(1, authorID);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt("countBooks");
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return -1;
+    }
     // Start: Test Paged List
 //    public void viewPagedBookList() throws SQLException, NamingException {
 //        Connection con = null;

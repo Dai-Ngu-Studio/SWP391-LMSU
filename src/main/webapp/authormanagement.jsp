@@ -381,6 +381,7 @@
                                                             </form>
                                                             <!--End: Author Item Form-->
                                                             <!--Start: Delete Author Form-->
+                                                            <c:set var="bookMap" value="${requestScope.COUNT_BOOK}"/>
                                                             <form action="DispatchServlet">
                                                                 <input type="hidden" value="${author.authorID}"
                                                                        name="pk">
@@ -402,12 +403,77 @@
                                                                             <i class="fa fa-pencil text-primary"></i>
                                                                         </button>
 
-                                                                        <button type="submit" class="btn btn-light"
-                                                                                name="btAction" value="Delete Author">
+                                                                        <button type="button" class="btn btn-light"
+                                                                                data-toggle="modal"
+                                                                                data-target="#deleteModal${author.authorID}"
+                                                                                title="Delete"
+                                                                                data-original-title="Remove">
                                                                             <i class="fa fa-times text-primary"></i>
                                                                         </button>
                                                                     </div>
                                                                 </td>
+                                                            </form>
+                                                            <form action="DispatchServlet" enctype="multipart/form-data"
+                                                                  method="POST">
+                                                                <input type="hidden" value="${author.authorID}"
+                                                                       name="pk">
+                                                                <input type="hidden" name="txtSearchValue"
+                                                                       value="${param.txtSearchValue}"/>
+                                                                <div class="modal fade" id="deleteModal${author.authorID}"
+                                                                     tabindex="-1"
+                                                                     role="dialog"
+                                                                     aria-labelledby="ariaDeleteModal${author.authorID}"
+                                                                     aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLongTitle2">
+                                                                                    WARNING
+                                                                                </h5>
+                                                                                <button type="button"
+                                                                                        class="close"
+                                                                                        data-dismiss="modal"
+                                                                                        aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <c:choose>
+                                                                                <c:when test="${bookMap.get(author.authorID) > 0}">
+                                                                                    <div class="modal-body">
+                                                                                        You haven't deleted all the books from this author
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button"
+                                                                                                class="btn btn-outline-primary"
+                                                                                                data-dismiss="modal">
+                                                                                            Close
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </c:when>
+                                                                                <c:when test="${bookMap.get(author.authorID) eq null}">
+                                                                                    <div class="modal-body">
+                                                                                        Do you want to delete this author?
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="submit"
+                                                                                                name="btAction"
+                                                                                                value="Delete Author"
+                                                                                                class="btn btn-primary"
+                                                                                        >
+                                                                                            Save
+                                                                                        </button>
+                                                                                        <button type="button"
+                                                                                                class="btn btn-outline-primary"
+                                                                                                data-dismiss="modal">
+                                                                                            Close
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </c:when>
+                                                                            </c:choose>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </form>
                                                             <!--End: Delete Author Form-->
                                                             <!--Start: Update Author Form-->

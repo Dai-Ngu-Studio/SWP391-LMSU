@@ -1,4 +1,4 @@
-package com.lmsu.controller;
+package com.lmsu.controller.usersettings;
 
 import com.lmsu.renewalrequests.RenewalRequestDAO;
 import org.apache.log4j.Logger;
@@ -30,7 +30,6 @@ public class RenewRequestServlet extends HttpServlet {
             RenewalRequestDAO dao = new RenewalRequestDAO();
             int renewalID = 0;
             int orderItemsIDVal = Integer.parseInt(orderItemsID);
-            System.out.println(orderItemsIDVal);
             do {
                 renewalID++;
             } while (dao.checkRenewalId(String.valueOf(renewalID)));

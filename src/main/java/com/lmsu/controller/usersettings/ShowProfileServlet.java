@@ -1,4 +1,4 @@
-package com.lmsu.controller;
+package com.lmsu.controller.usersettings;
 
 import com.lmsu.bean.orderdata.OrderItemObj;
 import com.lmsu.books.BookDAO;
@@ -6,7 +6,6 @@ import com.lmsu.books.BookDTO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.renewalrequests.RenewalRequestDAO;
-import com.lmsu.renewalrequests.RenewalRequestDTO;
 import com.lmsu.users.UserDTO;
 import org.apache.log4j.Logger;
 
@@ -41,7 +40,6 @@ public class ShowProfileServlet extends HttpServlet {
 
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
     private final String ATTR_MEMBER_ORDER_ITEMS = "MEMBER_ORDER_ITEMS";
-    private final String ATTR_MEMBER_RENEWAL_REQUEST = "MEMBER_RENEWAL_REQUEST";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -88,16 +86,12 @@ public class ShowProfileServlet extends HttpServlet {
 
                     RenewalRequestDAO renewalDAO = new RenewalRequestDAO();
                     LinkedHashMap<Integer, Integer> renewalMap = new LinkedHashMap<>();
-                    renewalDAO.viewRenewalRequests();
-                    List<RenewalRequestDTO> renewalList = renewalDAO.getRenewalList();
 
-                    if(renewalList != null){
-                        for (OrderItemDTO orderItemDTO: orderItemList
-                             ) {
-                            renewalMap.put(orderItemDTO.getId(), renewalDAO.countRenewalRequestByItemID(orderItemDTO.getId()));
-                        }
-                        request.setAttribute("RENEWAL_MAP_LIST", renewalMap);
+                    for (OrderItemDTO orderItemDTO: orderItemList
+                    ) {
+                        renewalMap.put(orderItemDTO.getId(), renewalDAO.countRenewalRequestByItemID(orderItemDTO.getId()));
                     }
+                    request.setAttribute("RENEWAL_MAP_LIST", renewalMap);
                 }
             }
             url = PROFILE_PAGE;

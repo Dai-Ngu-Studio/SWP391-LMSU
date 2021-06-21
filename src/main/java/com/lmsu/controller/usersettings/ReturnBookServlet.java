@@ -1,10 +1,8 @@
-package com.lmsu.controller;
+package com.lmsu.controller.usersettings;
 
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
-import com.lmsu.renewalrequests.RenewalRequestDAO;
 import com.lmsu.users.UserDTO;
-import com.lmsu.utils.DateHelpers;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -12,8 +10,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.net.URL;
-import java.sql.Date;
 import java.sql.SQLException;
 
 @WebServlet(name = "ReturnBookServlet", value = "/ReturnBookServlet")
