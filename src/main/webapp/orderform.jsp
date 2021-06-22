@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Checkout - LMSU</title>
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -21,7 +21,7 @@
 <jsp:include page="navbar.html"></jsp:include>
 <!--Actual Body-->
 <div class="bg-light py-4">
-	
+
     <c:set var="session" value="${sessionScope}"/>
     <c:if test="${not empty session}">
         <div class="row mt-5">
@@ -43,38 +43,93 @@
                     <div class="card-body">
                         <div class="tab-content" id="nav-tabContent" style="border: none">
                             <div class="tab-pane fade show active" id="list-direct">
-                                <div class="card-title text-dark">Direct Receipt</div>
+                                <div class="card-title text-dark">Direct Pick-up</div>
                                 <div class="card-text">
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('.directInput').on("input", function () {
+                                                $('.directError').removeClass('text-danger').addClass('text-muted');
+                                                $('.directInput').removeClass('is-invalid').addClass('is-valid');
+                                                $('#errorPickupDate')
+                                                    .text("Your pick-up must be within 7 days from now.");
+                                                $('#errorPickupTime')
+                                                    .text("Please choose a time slot to pick-up your books.");
+                                                $.ajax({
+                                                    method: 'POST',
+                                                    url: 'CheckoutDirectValidationServlet',
+                                                    data: {
+                                                        txtPickupDate: $('#txtPickupDate').val(),
+                                                        txtPickupTime: $('#txtPickupTime').val()
+                                                    },
+                                                    datatype: 'json',
+                                                    success: function (responseJson) {
+                                                        $.each(responseJson, function (tagError, inputMessage) {
+                                                            $('#' + tagError)
+                                                                .removeClass('text-muted')
+                                                                .addClass('text-danger');
+                                                            console.log("inputMsg", inputMessage);
+                                                            $.each(inputMessage, function (tagInput, errorMsg) {
+                                                                $('#' + inputMessage['key'])
+                                                                    .removeClass('is-valid')
+                                                                    .addClass('is-invalid');
+                                                                $('#' + tagError)
+                                                                    .text(errorMsg);
+                                                            });
+                                                        });
+
+                                                        if ($.isEmptyObject(responseJson)) {
+                                                            $('#btnDirectOrder').removeAttr('disabled');
+                                                        } else {
+                                                            $('#btnDirectOrder').attr('disabled', '');
+                                                        }
+                                                    }
+                                                });
+                                            });
+                                        });
+                                    </script>
                                         <%--Start: Direct Borrow Form--%>
-                                    <form action="CheckoutServlet" class="my-0">
+                                    <form action="CheckoutDirectServlet" method="POST" class="my-0">
                                         <div class="form-group">
                                             <div class="form-group mb-0">
-                                                <label for="receiptDate">Date of Receipt</label>
+                                                <label for="txtPickupDate">Date of Pick-up</label>
                                             </div>
                                             <div class="form-group">
-                                                <input class="text-black-50" type="date" id="receiptDate"
-                                                       name="receiptDate"
+                                                <input class="text-black-50 directInput" type="date" id="txtPickupDate"
+                                                       name="txtPickupDate"
                                                        style="border-radius: 0.3rem"/>
+                                                <small id="errorPickupDate"
+                                                       class="form-text text-muted directError">
+                                                    Your pick-up must be within 7 days from now.
+                                                </small>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="receiptTime">Time of Receipt</label>
-                                            <select id="receiptTime" name="receiptTime" class="form-control">
+                                            <label for="txtPickupTime">Time of Pick-up</label>
+                                            <select id="txtPickupTime" name="txtPickupTime"
+                                                    class="form-control directInput">
                                                 <option disabled selected hidden>Choose...</option>
-                                                <option>...</option>
+                                                <option value="09:00">09:00</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="16:00">16:00</option>
                                             </select>
+                                            <small id="errorPickupTime"
+                                                   class="form-text text-muted directError">
+                                                Please choose a time slot to pick-up your books.
+                                            </small>
                                         </div>
                                         <div class="form-group">
                                             <small class="text-info">
                                                 Please present your ID card to the librarian when you are to receive
-                                                your
-                                                orders.
+                                                your books.
                                             </small>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-primary"
-                                                    name="btAction" value="DirectBorrow">
-                                                Schedule your receipt
+                                            <button type="submit" class="btn btn-primary" id="btnDirectOrder"
+                                                    name="btAction" value="DirectOrder" disabled>
+                                                Schedule your pick-up
                                             </button>
                                         </div>
                                     </form>
@@ -89,11 +144,10 @@
                                         $(document).ready(function () {
                                             $('.deliverInput').on("input", function () {
                                                 $('.deliverError').removeClass('text-danger').addClass('text-muted');
-
                                                 $('.deliverInput').removeClass('is-invalid').addClass('is-valid');
                                                 $.ajax({
                                                     method: 'POST',
-                                                    url: 'CheckoutValidationServlet',
+                                                    url: 'CheckoutDeliveryValidationServlet',
                                                     data: {
                                                         txtReceiverName: $('#inputReceiverName').val(),
                                                         txtPhoneNumber: $('#inputPhoneNumber').val(),
