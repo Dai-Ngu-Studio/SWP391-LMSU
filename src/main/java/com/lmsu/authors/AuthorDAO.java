@@ -150,6 +150,48 @@ public class AuthorDAO implements Serializable {
         return null;
     }
 
+    public ArrayList<AuthorDTO> getListAuthorName(String name) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        ArrayList<AuthorDTO> list = new ArrayList<>();
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT [id], [name] "
+                        + "FROM [Authors] "
+                        + "WHERE [name] LIKE ? ";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, "%" + name + "%");
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet then returns author name
+                while (rs.next()) {
+                    String id = rs.getString("id");
+                    String nameCol = rs.getString("name");
+                    AuthorDTO dto = new AuthorDTO(id, nameCol);
+                    list.add(dto);
+                }
+            } //end if connection existed
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return list;
+    }
+
+
     public void getPopularAuthor() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
