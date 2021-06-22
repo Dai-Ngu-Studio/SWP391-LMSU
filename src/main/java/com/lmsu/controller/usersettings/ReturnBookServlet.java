@@ -10,7 +10,10 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.spi.LocaleNameProvider;
 
 @WebServlet(name = "ReturnBookServlet", value = "/ReturnBookServlet")
 public class ReturnBookServlet extends HttpServlet {
@@ -47,14 +50,15 @@ public class ReturnBookServlet extends HttpServlet {
                 if (userDTO != null) {
                     OrderItemDAO orderItemDAO = new OrderItemDAO();
                     OrderItemDTO orderItemDTO = orderItemDAO.getOrderItemByID(Integer.valueOf(orderItemID));
+                    java.sql.Date currentDate =new java.sql.Date(System.currentTimeMillis());
                     int lendStatus = orderItemDTO.getLendStatus();
                     if (lendStatus == ITEM_RECEIVED) {
-                        boolean result = orderItemDAO.returnBook(orderItemID, ITEM_RETURN_SCHEDULED);
+                        boolean result = orderItemDAO.returnBook(orderItemID, ITEM_RETURN_SCHEDULED, currentDate);
                         if (result) {
                             url = SHOW_PROFILE_CONTROLLER;
                         }
                     } else if (lendStatus == ITEM_OVERDUE) {
-                        boolean result = orderItemDAO.returnBook(orderItemID, ITEM_OVERDUE_RETURN_SCHEDULED);
+                        boolean result = orderItemDAO.returnBook(orderItemID, ITEM_OVERDUE_RETURN_SCHEDULED, currentDate);
                         if (result) {
                             url = SHOW_PROFILE_CONTROLLER;
                         }

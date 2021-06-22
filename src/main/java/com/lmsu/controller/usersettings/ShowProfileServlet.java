@@ -82,16 +82,15 @@ public class ShowProfileServlet extends HttpServlet {
                             orderItemObjList.add(orderitemObj);
                         }
                         request.setAttribute(ATTR_MEMBER_ORDER_ITEMS, orderItemObjList);
-                    }
+                        RenewalRequestDAO renewalDAO = new RenewalRequestDAO();
+                        LinkedHashMap<Integer, Integer> renewalMap = new LinkedHashMap<>();
 
-                    RenewalRequestDAO renewalDAO = new RenewalRequestDAO();
-                    LinkedHashMap<Integer, Integer> renewalMap = new LinkedHashMap<>();
-
-                    for (OrderItemDTO orderItemDTO: orderItemList
-                    ) {
-                        renewalMap.put(orderItemDTO.getId(), renewalDAO.countRenewalRequestByItemID(orderItemDTO.getId()));
+                        for (OrderItemDTO orderItemDTO: orderItemList
+                        ) {
+                            renewalMap.put(orderItemDTO.getId(), renewalDAO.countRenewalRequestByItemID(orderItemDTO.getId()));
+                        }
+                        request.setAttribute("RENEWAL_MAP_LIST", renewalMap);
                     }
-                    request.setAttribute("RENEWAL_MAP_LIST", renewalMap);
                 }
             }
             url = PROFILE_PAGE;

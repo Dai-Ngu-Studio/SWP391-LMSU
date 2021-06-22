@@ -212,12 +212,16 @@
                                                     <div class="row">This book is currently out of stock.
                                                         Add it to your cart to get notified when it becomes available.
                                                     </div>
-                                                    <div class="row">
-                                                        <button type="button" class="btn btn-success btn-block">
-                                                            <i class="fa fa-bookmark" aria-hidden="true"></i>
-                                                            Reserve Book
-                                                        </button>
-                                                    </div>
+                                                    <form action="AddBookToCartServlet" class="row my-0">
+                                                        <input type="hidden" name="bookPk" value="${bookObj.id}">
+                                                        <div class="row">
+                                                            <button type="submit" class="btn btn-success btn-block"
+                                                                    name="btAction" value="AddToCart">
+                                                                <i class="fa fa-bookmark" aria-hidden="true"></i>
+                                                                Reserve Book
+                                                            </button>
+                                                        </div>
+                                                    </form>
                                                 </c:if>
                                             </c:otherwise>
                                         </c:choose>

@@ -5,6 +5,7 @@ import com.lmsu.utils.DBHelpers;
 import javax.naming.NamingException;
 import java.io.Serializable;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -71,7 +72,7 @@ public class OrderItemDAO implements Serializable {
         return false;
     }
 
-    public boolean returnBook(String orderItemID, int lendStatus) throws SQLException, NamingException {
+    public boolean returnBook(String orderItemID, int lendStatus, Date returnDate) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
 
@@ -81,12 +82,13 @@ public class OrderItemDAO implements Serializable {
             if (con != null) {
                 //2. Create SQL String
                 String sql = "UPDATE [OrderItems] " +
-                        "SET [lendStatus] = ? " +
+                        "SET [lendStatus] = ?, [returnDate] = ? " +
                         "WHERE [id] = ? ";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, lendStatus);
-                stm.setString(2, orderItemID);
+                stm.setDate(2, returnDate);
+                stm.setString(3, orderItemID);
                 //4. Execute Query and get rows affected
                 int rows = stm.executeUpdate();
                 //5. Process result
