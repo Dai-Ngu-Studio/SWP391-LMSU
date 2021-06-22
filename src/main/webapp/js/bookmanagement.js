@@ -66,15 +66,31 @@ function checkISBN() {
                                     </div>
                                     <div class="form-group row" id="rowAuthor">
                                         <label class="col-sm-3 col-form-label">
-                                            Author ID
+                                            Author Name
                                         </label>
                                         <div class="col-sm-9">
-                                            <input type="text"
+                                            <input type="text" id="authorAutoComplete"
                                                     class="form-control"
-                                                    value=""
+                                            >
+                                            <input type="hidden" id="authorIDAutocomplete"
                                                     name="txtAuthorID"
+                                                    value=""
                                             >
                                         </div>
+                                        <script>
+                                            $("#authorAutoComplete").autocomplete({
+                                            //lookup: countries,
+                                            serviceUrl: 'AutoSuggestAuthorServlet', //tell the script where to send requests
+                                            width: "auto", //set width
+                                            //add value to input field
+                                            onSelect: function (suggestion) {
+                                                $('#authorAutoComplete').val(suggestion.authorName);
+                                                $('input[id=authorIDAutocomplete]').val((suggestion.authorID));
+                                            },
+                                            showNoSuggestionNotice: true,
+                                            noSuggestionNotice: 'Sorry, no matching results',
+                                            });
+                                        </script>
                                     </div>
                                     <div class="form-group row" id="rowSubject">
                                         <label class="col-sm-3 col-form-label">
@@ -188,7 +204,7 @@ function checkISBN() {
                                             </div>`;
                         $('#addModalBody').append(rowHTMLSupplier);
                     }
-                    if (!$('#rowQuantity').length){
+                    if (!$('#rowQuantity').length) {
                         let rowHTMLQuantity = `<div class="form-group row" id="rowQuantity">
                                                     <label class="col-sm-3 col-form-label">
                                                     Quantity
@@ -206,7 +222,7 @@ function checkISBN() {
                 }
             }
         };
-        xhttp.open("GET", 'GetBookByISBNServlet?txtISBNTen='+inputTen.value+'&txtISBNThirteen='+inputThirteen.value, true);
+        xhttp.open("GET", 'GetBookByISBNServlet?txtISBNTen=' + inputTen.value + '&txtISBNThirteen=' + inputThirteen.value, true);
         xhttp.send();
     } else {
         $('#rowCover').remove();
