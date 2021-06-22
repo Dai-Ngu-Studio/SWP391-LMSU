@@ -41,8 +41,7 @@ public class IndexServlet extends HttpServlet {
             request.setAttribute("NEW_ARRIVAL_BOOKS_LIST", newArrivalBookList);
 
             //get Popular Authors
-            List<BookDTO> popularAuthorList = dao.getMostFavoriteBooksAndPopularAuthor();
-            request.setAttribute("POPULAR_AUTHORS_LIST", popularAuthorList);
+            request.setAttribute("POPULAR_AUTHORS_LIST", mostFavoriteBookList);
 
             url = INDEX_PAGE;
         } catch (SQLException ex) {
