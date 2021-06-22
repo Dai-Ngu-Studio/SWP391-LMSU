@@ -19,10 +19,33 @@ public class DateHelpers implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 String sql = "SELECT CAST(CURRENT_TIMESTAMP AS DATE) AS [currentDate] ";
-                con.prepareStatement(sql);
+                stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     return rs.getDate("currentDate");
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (rs != null) con.close();
+        }
+        return null;
+    }
+
+    public static java.sql.Time getCurrentTime() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT CAST(CURRENT_TIMESTAMP AS TIME) AS [currentTime] ";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    return rs.getTime("currentTime");
                 }
             }
         } finally {
