@@ -366,7 +366,7 @@
                                                                                                class="form-control
                                                                                                        text-white
                                                                                                        bg-primary"
-                                                                                               value="Delivered"
+                                                                                               value="Received"
                                                                                                disabled/>
                                                                                     </c:when>
                                                                                     <c:when test="${order.key.activeStatus eq 3}">

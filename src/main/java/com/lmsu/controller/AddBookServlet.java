@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 @WebServlet(name = "AddBookServlet", value = "/AddBookServlet")
@@ -65,7 +66,10 @@ public class AddBookServlet extends HttpServlet {
                         CSVReader csvReader = new CSVReader(new InputStreamReader(part.getInputStream(), "UTF-8"));
                         String[] nextRecord;
                         csvReader.readNext(); //Skip first line
+                        int indexRow = 1;
+                        ArrayList<Integer> invalidIndexRows = new ArrayList<>();
                         while ((nextRecord = csvReader.readNext()) != null) {
+                            indexRow++;
 //                            title = nextRecord[0];
 //                            authorID = nextRecord[1];
 //                            subjectID = nextRecord[2];
@@ -82,13 +86,16 @@ public class AddBookServlet extends HttpServlet {
                             boolean readResult = true;
                             for (int i = 0; i <= 10; i++) {
                                 if (nextRecord[i].isEmpty()) {
-                                    readResult = false;
+                                    invalidIndexRows.add(indexRow);
                                 }
                             }
                             if (readResult) {
                                 add(request, nextRecord[0], nextRecord[1], nextRecord[2], nextRecord[3], nextRecord[4],
                                         nextRecord[5], nextRecord[6], nextRecord[7], nextRecord[8], nextRecord[9], nextRecord[10], userDTO.getId(), false);
                             }
+                        }
+                        if (invalidIndexRows.isEmpty()==false){
+                            request.setAttribute("INVALID_ROW_LIST", invalidIndexRows);
                         }
                         break;
                     }

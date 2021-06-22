@@ -198,7 +198,15 @@
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item dropdown">
                 <a class="nav-link count-indicator dropdown-toggle d-flex" href="ShowCartServlet">
-                    <p class="mb-0 px-2">View Cart</p>
+                    <c:set var="memberTotalActiveBorrows" value="${0}"/>
+                    <c:if test="${not empty sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS}">
+                        <c:set var="memberTotalActiveBorrows" value="${sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS.size()}"/>
+                    </c:if>
+                    <p class="mb-0 px-2">View Cart
+                        <c:if test="${not empty sessionScope.MEMBER_CART}">
+                            <c:out value=" (${sessionScope.MEMBER_CART.cartQuantity}/${10-memberTotalActiveBorrows})"/>
+                        </c:if>
+                    </p>
                     <i class="ti-shopping-cart"></i>
                 </a>
             </li>

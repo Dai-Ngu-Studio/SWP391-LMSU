@@ -9,18 +9,14 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-@WebServlet(name = "CheckoutValidationServlet", value = "/CheckoutValidationServlet")
-public class CheckoutValidationServlet extends HttpServlet {
+@WebServlet(name = "CheckoutDeliveryValidationServlet", value = "/CheckoutDeliveryValidationServlet")
+public class CheckoutDeliveryValidationServlet extends HttpServlet {
 
-    static final Logger LOGGER = Logger.getLogger(CheckoutValidationServlet.class);
-    private final static String VIEW_CART_PAGE = "viewCart.jsp";
+    static final Logger LOGGER = Logger.getLogger(CheckoutDeliveryValidationServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = VIEW_CART_PAGE;
         String receiverName = request.getParameter("txtReceiverName");
         String phoneNumber = request.getParameter("txtPhoneNumber");
         String addressOne = request.getParameter("txtAddressOne");
@@ -79,7 +75,11 @@ public class CheckoutValidationServlet extends HttpServlet {
                     errors.put("errorWard", "inputWard");
                 }
             }
-        } finally {
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+            log("CheckoutDeliveryValidationServlet _ Exception: " + ex.getMessage());
+        }
+        finally {
             String json = new Gson().toJson(errors);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");

@@ -19,125 +19,125 @@ DROP TABLE IF EXISTS Roles
 USE [LMSU_database]
 GO
 CREATE TABLE Roles(
-	id varchar(255) NOT NULL PRIMARY KEY,
-	name varchar(255)
+                      id varchar(255) NOT NULL PRIMARY KEY,
+                      name varchar(255)
 );
 GO
 CREATE TABLE Subjects(
-	id varchar(255) NOT NULL PRIMARY KEY,
-	name varchar(255) NOT NULL,
-	semester_no int NOT NULL,
-	deleteStatus bit NOT NULL
+                         id varchar(255) NOT NULL PRIMARY KEY,
+                         name varchar(255) NOT NULL,
+                         semester_no int NOT NULL,
+                         deleteStatus bit NOT NULL
 );
 GO
 CREATE TABLE Users(
-	id varchar(255) NOT NULL PRIMARY KEY,
-	name varchar(255) NOT NULL,
-	roleID varchar(255) NOT NULL FOREIGN KEY REFERENCES Roles(id),
-	semester_no int NOT NULL,
-	password varchar(255),
-	email varchar(255),
-	phoneNumber varchar(10),
-	profilePicturePath varchar(MAX),
-	activeStatus bit NOT NULL
+                      id varchar(255) NOT NULL PRIMARY KEY,
+                      name varchar(255) NOT NULL,
+                      roleID varchar(255) NOT NULL FOREIGN KEY REFERENCES Roles(id),
+                      semester_no int NOT NULL,
+                      password varchar(255),
+                      email varchar(255),
+                      phoneNumber varchar(10),
+                      profilePicturePath varchar(MAX),
+                      activeStatus bit NOT NULL
 );
 GO
 CREATE TABLE Authors(
-	id varchar(255) NOT NULL PRIMARY KEY,
-	name varchar(255) NOT NULL,
-	bio varchar(MAX) NOT NULL,
-	profilePicturePath varchar(MAX),
-	deleteStatus bit NOT NULL
+                        id varchar(255) NOT NULL PRIMARY KEY,
+                        name varchar(255) NOT NULL,
+                        bio varchar(MAX) NOT NULL,
+                        profilePicturePath varchar(MAX),
+                        deleteStatus bit NOT NULL
 );
 GO
 CREATE TABLE Books(
-	id varchar(255) NOT NULL PRIMARY KEY,
-	title varchar(255) NOT NULL,
-	authorID varchar(255) NOT NULL FOREIGN KEY REFERENCES Authors(id),
-	subjectID varchar(255) NOT NULL FOREIGN KEY REFERENCES Subjects(id),
-	publisher varchar(255) NOT NULL,
-	publishDate date,
-	description varchar(MAX) NOT NULL,
-	price decimal NOT NULL,
-	quantity int NOT NULL,
-	deleteStatus bit NOT NULL,
-	lastLentDate date,
-	avgRating decimal,
-	ISBN_tenDigits varchar(10),
-	ISBN_thirteenDigits varchar(13),
-	coverPicturePath varchar(MAX)
+                      id varchar(255) NOT NULL PRIMARY KEY,
+                      title varchar(255) NOT NULL,
+                      authorID varchar(255) NOT NULL FOREIGN KEY REFERENCES Authors(id),
+                      subjectID varchar(255) NOT NULL FOREIGN KEY REFERENCES Subjects(id),
+                      publisher varchar(255) NOT NULL,
+                      publishDate date,
+                      description varchar(MAX) NOT NULL,
+                      price decimal NOT NULL,
+                      quantity int NOT NULL,
+                      deleteStatus bit NOT NULL,
+                      lastLentDate date,
+                      avgRating decimal,
+                      ISBN_tenDigits varchar(10),
+                      ISBN_thirteenDigits varchar(13),
+                      coverPicturePath varchar(MAX)
 );
 GO
 CREATE TABLE ImportLogs(
-	id int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
-	managerID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
-	dateTaken date,
-	supplier varchar(255) NOT NULL,
-	quantity int,
+                           id int NOT NULL PRIMARY KEY IDENTITY(1,1),
+                           bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
+                           managerID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
+                           dateTaken date,
+                           supplier varchar(255) NOT NULL,
+                           quantity int,
 );
 GO
 CREATE TABLE Comments(
-	memberID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
-	bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
-	CONSTRAINT PK_UserComment PRIMARY KEY
-    (
-        memberID,
-        bookID
-    ),
+                         memberID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
+                         bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
+                         CONSTRAINT PK_UserComment PRIMARY KEY
+                             (
+                              memberID,
+                              bookID
+                                 ),
 
-	textComment nvarchar(MAX),
-	rating decimal,
-	editorID varchar(255),
-	isEdited bit,
-	deleteStatus bit NOT NULL
+                         textComment nvarchar(MAX),
+                         rating decimal,
+                         editorID varchar(255),
+                         isEdited bit,
+                         deleteStatus bit NOT NULL
 );
 CREATE TABLE Orders(
-	id int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	memberID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
-	orderDate date,
-	lendMethod bit,
-	activeStatus int NOT NULL
+                       id int NOT NULL PRIMARY KEY IDENTITY(1,1),
+                       memberID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
+                       orderDate date,
+                       lendMethod bit,
+                       activeStatus int NOT NULL
 );
 CREATE TABLE OrderItems(
-	id int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
-	memberID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
-	bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
-	lendStatus int NOT NULL,
-	returnDeadline date,
-	lendDate date,
-	returnDate date
+                           id int NOT NULL PRIMARY KEY IDENTITY(1,1),
+                           orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
+                           memberID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
+                           bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
+                           lendStatus int NOT NULL,
+                           returnDeadline date,
+                           lendDate date,
+                           returnDate date
 );
 CREATE TABLE Penalties(
-	itemID int NOT NULL FOREIGN KEY REFERENCES OrderItems(id),
-	penaltyAmount decimal,
-	penaltyStatus bit
+                          itemID int NOT NULL FOREIGN KEY REFERENCES OrderItems(id),
+                          penaltyAmount decimal,
+                          penaltyStatus bit
 );
 CREATE TABLE RenewalRequests(
-	id varchar(255) NOT NULL PRIMARY KEY,
-	itemID int NOT NULL FOREIGN KEY REFERENCES OrderItems(id),
-	librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
-	reason varchar(MAX),
-	requestedExtendDate date,
-	approvalStatus bit
+                                id varchar(255) NOT NULL PRIMARY KEY,
+                                itemID int NOT NULL FOREIGN KEY REFERENCES OrderItems(id),
+                                librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
+                                reason varchar(MAX),
+                                requestedExtendDate date,
+                                approvalStatus bit
 );
 CREATE TABLE DirectOrder(
-	orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
-	librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
-	scheduledTime datetime,
+                            orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
+                            librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
+                            scheduledTime datetime,
 );
 CREATE TABLE DeliveryOrder(
-	orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
-	managerID varchar(255) FOREIGN KEY REFERENCES Users(id),
-	deliverer varchar(255),
-	scheduledDeliveryTime date,
-	phoneNumber varchar(10),
-	deliveryAddress1 nvarchar(MAX),
-	deliveryAddress2 nvarchar(MAX),
-	city nvarchar(255),
-	district nvarchar(255),
-	ward nvarchar(255)
+                              orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
+                              managerID varchar(255) FOREIGN KEY REFERENCES Users(id),
+                              deliverer varchar(255),
+                              scheduledDeliveryTime date,
+                              phoneNumber varchar(10),
+                              deliveryAddress1 nvarchar(MAX),
+                              deliveryAddress2 nvarchar(MAX),
+                              city nvarchar(255),
+                              district nvarchar(255),
+                              ward nvarchar(255)
 );
 
 insert into Subjects (id, name, semester_no, deleteStatus) values (1, 'Art', 1, 0);
@@ -154,26 +154,26 @@ insert into Authors (id, name, bio, profilePicturePath, deleteStatus) values (4,
 insert into Authors (id, name, bio, profilePicturePath, deleteStatus) values (5, 'Olympie', 'Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh. In quis justo.', 'C:\a.png', 0);
 insert into Authors (id, name, bio, profilePicturePath, deleteStatus) values (6, 'Carter', 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum.', 'C:\a.png', 0);
 
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (1, 'Software Engineering at Google: Lessons Learned', '5', 3, 'Wordpedia', '2020/09/17', 1, 16.55, 20, 0, '2020/12/09', 4.1, '439024713', '7749623681234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (2, 'Fundamentals of Software Architecture', 6, 2, 'Divape', '2020/09/04', 2, 20.28, 13, 0, '2020/06/16', 1.0, '581621217', '5157100231234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (3, 'Python Crash Course, 2nd Edition', 3, 6, 'Zoombeat', '2020/10/27', 3, 20.4, 1, 0, '2020/06/10', 0.1, '421605316', '3568879141234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (4, 'Blockchain Bubble or Revolution', 6, 1, 'Janyx', '2021/01/24', 4, 23.2, 1, 0, '2020/06/18', 3.7, '404663114', '3665328051234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (5, 'Expert Python Programming: Master Python', 4, 1, 'Pixoboo', '2021/04/30', 5, 32.37, 15, 0, '2020/11/13', 2.7, '035966056', '4426072141234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (6, 'ASP.NET Core 5 and Angular: Full-stack Web development', 2, 1, 'Tagchat', '2020/08/01', 6, 18.3, 7, 0, '2020/11/15', 2.8, '901484984', '8576192651234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (7, 'The Road to React: Your Journey to Master', 5, 3, 'Rhynyx', '2021/03/05', 7, 22.19, 15, 0, '2020/11/24', 4.0, '276332597', '0975709511234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (8, 'JavaScript and JQuery: Interactive Front-End Web Development', 5, 5, 'Innotype', '2020/10/10', 8, 46.01, 11, 0, '2020/12/27', 0.4, '759833713', '801023987-9', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (9, 'PHP & MySQL: Server-side Web Development', 1, 1, 'Kwimbee', '2021/05/13', 9, 45.39, 6, 0, '2020/09/11', 1.3, '486202312', '4376406501234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (10, 'Mobile Development with .NET', 1, 2, 'Kwimbee', '2020/10/29', 10, 28.24, 6, 0, '2021/04/30', 4.0, '076228356', '5154947231234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (11, 'mattis nibh ligula nec sem duis aliquam convallis', 4, 1, 'Edgeclub', '2020/09/24', 11, 26.67, 18, 0, '2020/12/24', 2.7, '278713956', '1000736211234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (12, 'porta volutpat erat quisque erat eros viverra eget congue', 4, 5, 'Trilith', '2021/04/03', 12, 27.87, 7, 0, '2020/06/23', 3.4, '199263196', '7785898321234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (13, 'dapibus augue vel accumsan tellus', 5, 6, 'Youfeed', '2021/05/15', 13, 16.8, 12, 0, '2020/08/13', 1.9, '416309651', '9771421951234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (14, 'odio curabitur convallist', 5, 5, 'Plajo', '2020/11/09', 14, 31.83, 10, 0, '2020/12/17', 1.7, '382417431', '4110274001234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (15, 'mauris morbi non lectus aliquam sit amet', 2, 6, 'Vipe', '2021/04/29', 15, 35.47, 13, 0, '2020/09/13', 2.0, '507392395', '2147368091234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (16, 'ante vivamus tortor', 1, 5, 'Kamba', '2021/03/10', 16, 30.62, 7, 0, '2020/08/21', 0.6, '239724965', '2125483091234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (17, 'etiam vel augue vestibulum rutrum', 1, 4, 'Pixonyx', '2020/09/05', 17, 15.66, 11, 0, '2021/01/16', 1.4, '204390397', '8816519391234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (18, 'in purus eu magna vulputate', 6, 5, 'Zoomlounge', '2021/02/01', 18, 20.04, 6, 0, '2021/03/26', 0.2, '189775883', '472913602-0', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (19, 'blandit nam nulla', 5, 6, 'Skiba', '2021/04/20', 19, 48.62, 4, 0, '2021/04/19', 2.5, '237484306', '0773323141234', 'C:\b.png');
-insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (20, 'diam id ornare imperdiet sapien urna pretium', 2, 3, 'Kwideo', '2020/11/08', 20, 13.32, 6, 0, '2020/08/11', 0.3, '498193421', '2973443681234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (1, 'Software Engineering at Google: Lessons Learned', '5', 3, 'Wordpedia', '2020/09/17', 'Today, software engineers need to know not only how to program effectively but also how to develop proper engineering practices to make their codebase sustainable and healthy. This book emphasizes this difference between programming and software engineering. How can software engineers manage a living codebase that evolves and responds to changing requirements and demands over the length of its life? Based on their experience at Google, software engineers Titus Winters and Hyrum Wright, along with technical writer Tom Manshreck, present a candid and insightful look at how some of the world’s leading practitioners construct and maintain software. This book covers Google’s unique engineering culture, processes, and tools and how these aspects contribute to the effectiveness of an engineering organization.', 16.55, 20, 0, '2020/12/09', 4.1, '439024713', '7749623681234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (2, 'Fundamentals of Software Architecture', 6, 2, 'Divape', '2020/09/04', 'Salary surveys worldwide regularly place software architect in the top 10 best jobs, yet no real guide exists to help developers become architects. Until now. This book provides the first comprehensive overview of software architecture’s many aspects. Aspiring and existing architects alike will examine architectural characteristics, architectural patterns, component determination, diagramming and presenting architecture, evolutionary architecture, and many other topics.', 20.28, 13, 0, '2020/06/16', 1.0, '581621217', '5157100231234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (3, 'Python Crash Course, 2nd Edition', 3, 6, 'Zoombeat', '2020/10/27', 'Python Crash Course is the world''s best-selling guide to the Python programming language. This fast-paced, thorough introduction to programming with Python will have you writing programs, solving problems, and making things that work in no time.', 20.4, 1, 0, '2020/06/10', 0.1, '421605316', '3568879141234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (4, 'Blockchain Bubble or Revolution', 6, 1, 'Janyx', '2021/01/24', 'Authored by Silicon Valley leaders from Google, Microsoft, and Facebook, Bubble or Revolution cuts through the hype to offer a balanced, comprehensive, and accessible analysis of blockchains and cryptocurrencies.', 23.2, 1, 0, '2020/06/18', 3.7, '404663114', '3665328051234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (5, 'Expert Python Programming: Master Python', 4, 1, 'Pixoboo', '2021/04/30', 'The book will start by taking you through the new features in Python 3.7. You''ll then learn the advanced components of Python syntax, in addition to understanding how to apply concepts of various programming paradigms, including object-oriented programming, functional programming, and event-driven programming. This book will also guide you through learning the best naming practices, writing your own distributable Python packages, and getting up to speed with automated ways of deploying your software on remote servers. You''ll discover how to create useful Python extensions with C, C++, Cython, and CFFI. Furthermore, studying about code management tools, writing clear documentation, and exploring test-driven development will help you write clean code.', 32.37, 15, 0, '2020/11/13', 2.7, '035966056', '4426072141234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (6, 'ASP.NET Core 5 and Angular: Full-stack Web development', 2, 1, 'Tagchat', '2020/08/01', 'Learning full-stack development calls for knowledge of both front-end and back-end web development. ASP.NET Core 5 and Angular, Fourth Edition will enhance your ability to create, debug, and deploy efficient web applications using ASP.NET Core and Angular. This revised edition includes coverage of the Angular routing module, expanded discussion on the Angular CLI, and detailed instructions for deploying apps on Azure, as well as both Windows and Linux.', 18.3, 7, 0, '2020/11/15', 2.8, '901484984', '8576192651234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (7, 'The Road to React: Your Journey to Master', 5, 3, 'Rhynyx', '2021/03/05', 'In "The Road to React" you will learn about all the fundamentals of React.js with Hooks while building a full-blown React application step by step. While you create the React application, every chapter will introduce you to a new React key feature. However, there is more than only the fundamentals: The book dives into related topics (e.g. React with TypeScript, Testing, Performance Optimizations) and advanced feature implementations like client- and server-side searching. At the end of the book, you will have a fully working deployed React application.Is it up to date?Programming books are usually outdated soon after their release, but since this book is self- published, I can update it as needed whenever a new version of something related to this book gets released.I am a beginner. Is this book for me?Yes. The book starts from zero and takes you through the learning experience step by step. Every chapter builds up on the learnings from the previous chapter. In addition, at the end of every chapter, exercises fortify your lessons learned. If you got stuck in a chapter, you will always find a reference URL to the status quo of the actual code.', 22.19, 15, 0, '2020/11/24', 4.0, '276332597', '0975709511234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (8, 'JavaScript and JQuery: Interactive Front-End Web Development', 5, 5, 'Innotype', '2020/10/10', 'By the end of the book, not only will you be able to use the thousands of scripts, JavaScript APIs, and jQuery plugins that are freely available on the web, and be able to customize them - you will also be able to create your own scripts from scratch.', 46.01, 11, 0, '2020/12/27', 0.4, '759833713', '801023987-9', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (9, 'PHP & MySQL: Server-side Web Development', 1, 1, 'Kwimbee', '2021/05/13', 'This full-color book is packed with inspiring code examples, infographics and photography that not only teach you the PHP language and how to work with databases, but also show you how to build new applications from scratch.', 45.39, 6, 0, '2020/09/11', 1.3, '486202312', '4376406501234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (10, 'Mobile Development with .NET', 1, 2, 'Kwimbee', '2020/10/29', 'Quisque ligula lorem, dictum vitae ante in, pretium finibus ante. Sed sem mauris, convallis eget lectus non, vestibulum pharetra felis. Vivamus a metus neque. Duis sed est lorem. Duis imperdiet eu nisl vulputate scelerisque. Donec ut ligula neque. Proin nunc augue, pharetra quis vulputate quis, finibus a orci. Sed rutrum dapibus mattis. ', 28.24, 6, 0, '2021/04/30', 4.0, '076228356', '5154947231234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (11, 'mattis nibh ligula nec sem duis aliquam convallis', 4, 1, 'Edgeclub', '2020/09/24', 'Maecenas in pharetra nisl, nec laoreet purus. In posuere mi nunc, in porttitor odio maximus vel. Proin semper porttitor odio. Aliquam non nibh eu urna semper tincidunt. Morbi ac cursus eros. Praesent viverra non lorem nec malesuada. Sed commodo id nibh lobortis sodales. Maecenas rhoncus iaculis nisi, ac placerat diam.', 26.67, 18, 0, '2020/12/24', 2.7, '278713956', '1000736211234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (12, 'porta volutpat erat quisque erat eros viverra eget congue', 4, 5, 'Trilith', '2021/04/03', 'Quisque ligula lorem, dictum vitae ante in, pretium finibus ante. Sed sem mauris, convallis eget lectus non, vestibulum pharetra felis. Vivamus a metus neque. Duis sed est lorem. Duis imperdiet eu nisl vulputate scelerisque. Donec ut ligula neque. Proin nunc augue, pharetra quis vulputate quis, finibus a orci. Sed rutrum dapibus mattis. ', 27.87, 7, 0, '2020/06/23', 3.4, '199263196', '7785898321234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (13, 'dapibus augue vel accumsan tellus', 5, 6, 'Youfeed', '2021/05/15', 'Maecenas in pharetra nisl, nec laoreet purus. In posuere mi nunc, in porttitor odio maximus vel. Proin semper porttitor odio. Aliquam non nibh eu urna semper tincidunt. Morbi ac cursus eros. Praesent viverra non lorem nec malesuada. Sed commodo id nibh lobortis sodales. Maecenas rhoncus iaculis nisi, ac placerat diam.', 16.8, 12, 0, '2020/08/13', 1.9, '416309651', '9771421951234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (14, 'odio curabitur convallist', 5, 5, 'Plajo', '2020/11/09', 'Quisque ligula lorem, dictum vitae ante in, pretium finibus ante. Sed sem mauris, convallis eget lectus non, vestibulum pharetra felis. Vivamus a metus neque. Duis sed est lorem. Duis imperdiet eu nisl vulputate scelerisque. Donec ut ligula neque. Proin nunc augue, pharetra quis vulputate quis, finibus a orci. Sed rutrum dapibus mattis. ', 31.83, 10, 0, '2020/12/17', 1.7, '382417431', '4110274001234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (15, 'mauris morbi non lectus aliquam sit amet', 2, 6, 'Vipe', '2021/04/29', 'Maecenas in pharetra nisl, nec laoreet purus. In posuere mi nunc, in porttitor odio maximus vel. Proin semper porttitor odio. Aliquam non nibh eu urna semper tincidunt. Morbi ac cursus eros. Praesent viverra non lorem nec malesuada. Sed commodo id nibh lobortis sodales. Maecenas rhoncus iaculis nisi, ac placerat diam.', 35.47, 13, 0, '2020/09/13', 2.0, '507392395', '2147368091234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (16, 'ante vivamus tortor', 1, 5, 'Kamba', '2021/03/10', 'Quisque ligula lorem, dictum vitae ante in, pretium finibus ante. Sed sem mauris, convallis eget lectus non, vestibulum pharetra felis. Vivamus a metus neque. Duis sed est lorem. Duis imperdiet eu nisl vulputate scelerisque. Donec ut ligula neque. Proin nunc augue, pharetra quis vulputate quis, finibus a orci. Sed rutrum dapibus mattis. ', 30.62, 7, 0, '2020/08/21', 0.6, '239724965', '2125483091234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (17, 'etiam vel augue vestibulum rutrum', 1, 4, 'Pixonyx', '2020/09/05', 'Maecenas in pharetra nisl, nec laoreet purus. In posuere mi nunc, in porttitor odio maximus vel. Proin semper porttitor odio. Aliquam non nibh eu urna semper tincidunt. Morbi ac cursus eros. Praesent viverra non lorem nec malesuada. Sed commodo id nibh lobortis sodales. Maecenas rhoncus iaculis nisi, ac placerat diam.', 15.66, 11, 0, '2021/01/16', 1.4, '204390397', '8816519391234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (18, 'in purus eu magna vulputate', 6, 5, 'Zoomlounge', '2021/02/01', 'Quisque ligula lorem, dictum vitae ante in, pretium finibus ante. Sed sem mauris, convallis eget lectus non, vestibulum pharetra felis. Vivamus a metus neque. Duis sed est lorem. Duis imperdiet eu nisl vulputate scelerisque. Donec ut ligula neque. Proin nunc augue, pharetra quis vulputate quis, finibus a orci. Sed rutrum dapibus mattis. ', 20.04, 6, 0, '2021/03/26', 0.2, '189775883', '472913602-0', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (19, 'blandit nam nulla', 5, 6, 'Skiba', '2021/04/20', 'Maecenas in pharetra nisl, nec laoreet purus. In posuere mi nunc, in porttitor odio maximus vel. Proin semper porttitor odio. Aliquam non nibh eu urna semper tincidunt. Morbi ac cursus eros. Praesent viverra non lorem nec malesuada. Sed commodo id nibh lobortis sodales. Maecenas rhoncus iaculis nisi, ac placerat diam.', 48.62, 4, 0, '2021/04/19', 2.5, '237484306', '0773323141234', 'C:\b.png');
+insert into Books (id, title, authorID, subjectID, publisher, publishDate, description, price, quantity, deleteStatus, lastLentDate, avgRating, ISBN_tenDigits, ISBN_thirteenDigits, coverPicturePath) values (20, 'diam id ornare imperdiet sapien urna pretium', 2, 3, 'Kwideo', '2020/11/08', 'Quisque ligula lorem, dictum vitae ante in, pretium finibus ante. Sed sem mauris, convallis eget lectus non, vestibulum pharetra felis. Vivamus a metus neque. Duis sed est lorem. Duis imperdiet eu nisl vulputate scelerisque. Donec ut ligula neque. Proin nunc augue, pharetra quis vulputate quis, finibus a orci. Sed rutrum dapibus mattis. ', 13.32, 6, 0, '2020/08/11', 0.3, '498193421', '2973443681234', 'C:\b.png');
 
 insert into Roles (id, name) values ('1', 'ADM');
 insert into Roles (id, name) values ('2', 'MNG');
