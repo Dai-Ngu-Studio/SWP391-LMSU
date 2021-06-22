@@ -59,35 +59,37 @@ public class ShowDirectOrderServlet extends HttpServlet {
             //--------------------------------------------------
             List<OrderDTO> orders = orderDAO.getOrderList();
             Map<OrderObj, List<OrderItemObj>> detailedOrders = new LinkedHashMap<OrderObj, List<OrderItemObj>>();
-            for (OrderDTO orderDTO : orders) {
-                UserDTO userDTO = userDAO.getUserByID(orderDTO.getMemberID());
-                OrderObj orderObj = new OrderObj();
-                orderObj.setId(orderDTO.getId());
-                orderObj.setMemberID(orderDTO.getMemberID());
-                orderObj.setMemberName(userDTO.getName());
-                orderObj.setOrderDate(orderDTO.getOrderDate());
-                orderObj.setLendMethod((orderDTO.isLendMethod()));
-                orderObj.setActiveStatus(orderDTO.getActiveStatus());
+            if (orders!=null) {
+                for (OrderDTO orderDTO : orders) {
+                    UserDTO userDTO = userDAO.getUserByID(orderDTO.getMemberID());
+                    OrderObj orderObj = new OrderObj();
+                    orderObj.setId(orderDTO.getId());
+                    orderObj.setMemberID(orderDTO.getMemberID());
+                    orderObj.setMemberName(userDTO.getName());
+                    orderObj.setOrderDate(orderDTO.getOrderDate());
+                    orderObj.setLendMethod((orderDTO.isLendMethod()));
+                    orderObj.setActiveStatus(orderDTO.getActiveStatus());
 
-                orderItemDAO.getOrderItemsFromOrderID(orderDTO.getId());
-                List<OrderItemDTO> orderItems = orderItemDAO.getOrderItemList();
-                List<OrderItemObj> orderItemObjs = new ArrayList<>();
-                for (OrderItemDTO orderItemDTO : orderItems) {
-                    BookDTO bookDTO = bookDAO.getBookById(orderItemDTO.getBookID());
-                    OrderItemObj orderItemObj = new OrderItemObj();
-                    orderItemObj.setId(orderItemDTO.getId());
-                    orderItemObj.setOrderID(orderItemDTO.getOrderID());
-                    orderItemObj.setMemberID(orderItemDTO.getMemberID());
-                    orderItemObj.setBookID(orderItemDTO.getBookID());
-                    orderItemObj.setTitle(bookDTO.getTitle());
-                    orderItemObj.setLendStatus(orderItemDTO.getLendStatus());
-                    orderItemObj.setReturnDeadline(orderItemDTO.getReturnDeadline());
-                    orderItemObj.setLendDate(orderItemDTO.getLendDate());
-                    orderItemObj.setReturnDate(orderItemDTO.getLendDate());
+                    orderItemDAO.getOrderItemsFromOrderID(orderDTO.getId());
+                    List<OrderItemDTO> orderItems = orderItemDAO.getOrderItemList();
+                    List<OrderItemObj> orderItemObjs = new ArrayList<>();
+                    for (OrderItemDTO orderItemDTO : orderItems) {
+                        BookDTO bookDTO = bookDAO.getBookById(orderItemDTO.getBookID());
+                        OrderItemObj orderItemObj = new OrderItemObj();
+                        orderItemObj.setId(orderItemDTO.getId());
+                        orderItemObj.setOrderID(orderItemDTO.getOrderID());
+                        orderItemObj.setMemberID(orderItemDTO.getMemberID());
+                        orderItemObj.setBookID(orderItemDTO.getBookID());
+                        orderItemObj.setTitle(bookDTO.getTitle());
+                        orderItemObj.setLendStatus(orderItemDTO.getLendStatus());
+                        orderItemObj.setReturnDeadline(orderItemDTO.getReturnDeadline());
+                        orderItemObj.setLendDate(orderItemDTO.getLendDate());
+                        orderItemObj.setReturnDate(orderItemDTO.getLendDate());
 
-                    orderItemObjs.add(orderItemObj);
+                        orderItemObjs.add(orderItemObj);
+                    }
+                    detailedOrders.put(orderObj, orderItemObjs);
                 }
-                detailedOrders.put(orderObj, orderItemObjs);
             }
             request.setAttribute(ATTR_ORDER_LIST, detailedOrders);
         } catch (SQLException ex) {
