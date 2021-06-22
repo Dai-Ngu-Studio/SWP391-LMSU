@@ -178,7 +178,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="ImportLog.html">
+                    <a class="nav-link" href="ShowLogServlet">
                         <i class="icon-file-subtract menu-icon"></i>
                         <span class="menu-title">Import Log</span>
                     </a>
