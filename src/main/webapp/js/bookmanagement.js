@@ -238,3 +238,6 @@ function checkISBN() {
         $('#rowSupplier').remove();
     }
 }
+$(document).ready(function() {
+    $('#book-datatable').DataTable();
+} );

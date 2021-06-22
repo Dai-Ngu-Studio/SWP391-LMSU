@@ -29,8 +29,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Jquery UI -->
     <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
-    <!-- JS -->
-    <script src="js/bookmanagement.js"></script>
     <!-- icon -->
     <script src="js/iconpro.js"></script>
     <!-- CSS Autocomplete -->
@@ -140,6 +138,7 @@
         <!-- partial -->
         <jsp:include page="sidebar.jsp"/>
         <!-- partial -->
+
         <div class="main-panel">
             <div class="content-wrapper">
                 <div class="card">
@@ -156,91 +155,75 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="table-responsive">
-                                    <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-4">
-                                                <div class="dataTables_length" id="order-listing_length"><label>Show
-                                                    <select name="order-listing_length"
-                                                            aria-controls="order-listing"
-                                                            class="custom-select custom-select-sm form-control">
-                                                        <option value="5">5</option>
-                                                        <option value="10">10</option>
-                                                        <option value="15">15</option>
-                                                        <option value="-1">All</option>
-                                                    </select> entries</label></div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-8">
+                                    <!--Start: Add Book Form-->
+                                    <form action="DispatchServlet" enctype="multipart/form-data"
+                                          method="POST">
+                                        <input type="search" class="form-control"
+                                               placeholder="Search"
+                                               name="txtSearchValue" value="${param.txtSearchValue}"
+                                               aria-controls="order-listing"
+                                               id="searchBox">
+                                        <button class="btn btn-primary" type="submit"
+                                                name="btAction" value="SearchBook"
+                                                style="border-radius: 5px"><i class="fa fa-search"></i>
+                                        </button>
 
-                                                <div id="order-listing_filter" class="dataTables_filter">
-                                                    <!--Start: Add Book Form-->
-                                                    <form action="DispatchServlet" enctype="multipart/form-data"
-                                                          method="POST">
-                                                        <input type="search" class="form-control"
-                                                               placeholder="Search"
-                                                               name="txtSearchValue" value="${param.txtSearchValue}"
-                                                               aria-controls="order-listing"
-                                                               id="searchBox">
-                                                        <button class="btn btn-primary" type="submit"
-                                                                name="btAction" value="SearchBook"
-                                                                style="border-radius: 5px"><i class="fa fa-search"></i>
+                                        <button class="btn btn-primary" type="button"
+                                                style="border-radius: 5px"
+                                                data-toggle="modal"
+                                                data-target="#AddBookModal"
+                                                title="Add a book">
+                                            <i class="fa fa-plus"></i></button>
+
+                                        <div class="modal fade" id="AddBookModal"
+                                             tabindex="-1"
+                                             role="dialog"
+                                             aria-labelledby="AddBookModalLongTitle"
+                                             aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title"
+                                                            id="AddBookModalLongTitle">
+                                                            Add book
+                                                        </h5>
+                                                        <button type="button"
+                                                                class="close"
+                                                                data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
                                                         </button>
-
-                                                        <button class="btn btn-primary" type="button"
-                                                                style="border-radius: 5px"
-                                                                data-toggle="modal"
-                                                                data-target="#AddBookModal"
-                                                                title="Add a book">
-                                                            <i class="fa fa-plus"></i></button>
-
-                                                        <div class="modal fade" id="AddBookModal"
-                                                             tabindex="-1"
-                                                             role="dialog"
-                                                             aria-labelledby="AddBookModalLongTitle"
-                                                             aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title"
-                                                                            id="AddBookModalLongTitle">
-                                                                            Add book
-                                                                        </h5>
-                                                                        <button type="button"
-                                                                                class="close"
-                                                                                data-dismiss="modal"
-                                                                                aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body" id="addModalBody">
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">
-                                                                                ISBN 10 Digits
-                                                                            </label>
-                                                                            <div class="col-sm-9">
-                                                                                <input type="text"
-                                                                                       id="txtISBNTen"
-                                                                                       class="form-control"
-                                                                                       value=""
-                                                                                       name="txtISBNTen"
-                                                                                       oninput="checkISBN();"
-                                                                                >
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">
-                                                                                ISBN 13 Digits
-                                                                            </label>
-                                                                            <div class="col-sm-9">
-                                                                                <input type="text"
-                                                                                       id="txtISBNThirteen"
-                                                                                       class="form-control"
-                                                                                       value=""
-                                                                                       name="txtISBNThirteen"
-                                                                                       oninput="checkISBN();"
-                                                                                >
-                                                                            </div>
-                                                                        </div>
-                                                                        <!--
+                                                    </div>
+                                                    <div class="modal-body" id="addModalBody">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">
+                                                                ISBN 10 Digits
+                                                            </label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text"
+                                                                       id="txtISBNTen"
+                                                                       class="form-control"
+                                                                       value=""
+                                                                       name="txtISBNTen"
+                                                                       oninput="checkISBN();"
+                                                                >
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">
+                                                                ISBN 13 Digits
+                                                            </label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text"
+                                                                       id="txtISBNThirteen"
+                                                                       class="form-control"
+                                                                       value=""
+                                                                       name="txtISBNThirteen"
+                                                                       oninput="checkISBN();"
+                                                                >
+                                                            </div>
+                                                        </div>
+                                                        <!--
                                                                         <%--                                                                        <div class="form-group row">--%>
                                                                         <%--                                                                            <label class="col-sm-3 col-form-label">Book--%>
                                                                         <%--                                                                                Cover--%>
@@ -374,424 +357,362 @@
                                                                         <%--                                                                            </div>--%>
                                                                         <%--                                                                        </div>--%>
                                                                         -->
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="submit"
-                                                                                class="btn btn-primary"
-                                                                                name="btAction"
-                                                                                value="AddBook"
-                                                                        >
-                                                                            Save
-                                                                        </button>
-                                                                        <button type="button"
-                                                                                class="btn btn-outline-primary"
-                                                                                data-dismiss="modal">
-                                                                            Close
-                                                                        </button>
-                                                                    </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit"
+                                                                class="btn btn-primary"
+                                                                name="btAction"
+                                                                value="AddBook"
+                                                        >
+                                                            Save
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn btn-outline-primary"
+                                                                data-dismiss="modal">
+                                                            Close
+                                                        </button>
+                                                    </div>
 
-                                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!--End: Add Book Form-->
+                                    <%--Start: BUTTON AND ADD FILE--%>
+                                    <form action="DispatchServlet" enctype="multipart/form-data"
+                                          method="POST">
+                                        <input type="hidden" name="btAction" value="AddBook">
+                                        <input type="hidden" name="isAddFile" value="True">
+                                        <label class="btn btn-primary" style="border-radius: 5px">
+                                            <input type="file"
+                                                   hidden
+                                                   name="fileAdd"
+                                                   onchange="form.submit();"
+                                            >
+                                            <i class="fas fa-file-plus"></i>
+                                        </label>
+                                    </form>
+                                    <%--End: BUTTON AND ADD FILE--%>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="book-datatable"
+                                       class="table table-hover dataTable no-footer my-2"
+                                       role="grid"
+                                       aria-describedby="order-listing_info">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 0px; text-align: center">#</th>
+                                        <th style="width: 96px; text-align: left">NAME</th>
+                                        <th style="width: 96px; text-align: right">QUANTITY</th>
+                                        <th style="width: 67px; text-align: center">STATUS</th>
+                                        <th style="width: 64px; text-align: center">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:set var="bookList" value="${requestScope.BOOK_LIST}"/>
+
+                                    <c:forEach var="book" items="${bookList}"
+                                               varStatus="counter">
+                                        <tr class="odd">
+                                            <form action="DispatchServlet">
+                                                <!--Start: Book Item Form-->
+                                                <td class="sorting_1"
+                                                    style="text-align: center">${counter.count}</td>
+                                                <td style="text-align: left">
+                                                        ${book.title}
+                                                </td>
+                                                <td style="text-align: right">${book.quantity}</td>
+                                                <td style="text-align: center">
+                                                    <c:if test="${book.quantity > 0}">
+                                                        <label class="badge badge-success">Available</label>
+                                                    </c:if>
+                                                    <c:if test="${book.quantity == 0}">
+                                                        <label class="badge badge-danger">Unavailable</label>
+                                                    </c:if>
+                                                </td>
+                                            </form>
+                                            <!--End: Book Item Form-->
+                                            <!--Start: Delete Book Form-->
+                                            <form action="DispatchServlet">
+                                                <input type="hidden" value="${book.bookID}"
+                                                       name="pk">
+                                                <input type="hidden" value="${book.bookID}"
+                                                       name="bookPk">
+                                                <input type="hidden" name="txtSearchValue"
+                                                       value="${param.txtSearchValue}"/>
+                                                <td style="text-align: center">
+                                                    <div class="btn-group">
+                                                        <button type="submit" class="btn btn-light"
+                                                                name="btAction" value="View Details">
+                                                            <i class="fa fa-eye text-primary"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-light"
+                                                                data-toggle="modal"
+                                                                data-target="#updateModal${book.bookID}"
+                                                                title="Update"
+                                                                data-original-title="Edit">
+                                                            <i class="fa fa-pencil text-primary"></i>
+                                                        </button>
+
+                                                        <button type="button" class="btn btn-light"
+                                                                data-toggle="modal"
+                                                                data-target="#deleteModal${book.bookID}"
+                                                                title="Delete"
+                                                                data-original-title="Remove">
+                                                            <i class="fa fa-times text-primary"></i>
+                                                        </button>
+
+                                                    </div>
+                                                </td>
+                                            </form>
+
+                                            <form action="DispatchServlet" enctype="multipart/form-data"
+                                                  method="POST">
+                                                <input type="hidden" value="${book.bookID}"
+                                                       name="pk">
+                                                <input type="hidden" name="txtSearchValue"
+                                                       value="${param.txtSearchValue}"/>
+                                                <div class="modal fade" id="deleteModal${book.bookID}"
+                                                     tabindex="-1"
+                                                     role="dialog"
+                                                     aria-labelledby="ariaDeleteModal${book.bookID}"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="exampleModalLongTitle2">
+                                                                    WARNING
+                                                                </h5>
+                                                                <button type="button"
+                                                                        class="close"
+                                                                        data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Do you want to delete this book?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit"
+                                                                        name="btAction"
+                                                                        value="Delete Book"
+                                                                        class="btn btn-primary"
+                                                                >
+                                                                    Yes
+                                                                </button>
+                                                                <button type="button"
+                                                                        class="btn btn-outline-primary"
+                                                                        data-dismiss="modal">
+                                                                    Cancel
+                                                                </button>
                                                             </div>
                                                         </div>
-                                                    </form>
-                                                    <!--End: Add Book Form-->
-                                                    <%--Start: BUTTON AND ADD FILE MODAL--%>
-                                                    <form action="DispatchServlet" enctype="multipart/form-data"
-                                                          method="POST">
-                                                        <input type="hidden" name="btAction" value="AddBook">
-                                                        <input type="hidden" name="isAddFile" value="True">
-                                                        <label class="btn btn-primary" style="border-radius: 5px">
-                                                            <input type="file"
-                                                                   hidden
-                                                                   name="fileAdd"
-                                                                   onchange="form.submit();"
-                                                            >
-                                                            <i class="fas fa-file-plus"></i>
-                                                        </label>
-                                                    </form>
-                                                    <%--End: BUTTON AND ADD FILE MODAL--%>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <table id="order-listing" class="table dataTable no-footer my-2"
-                                                       role="grid"
-                                                       aria-describedby="order-listing_info">
-                                                    <thead>
-                                                    <tr role="row">
-                                                        <th class="sorting_asc" tabindex="0"
-                                                            aria-controls="order-listing" rowspan="1" colspan="1"
-                                                            aria-sort="ascending"
-                                                            aria-label="Order #: activate to sort column descending"
-                                                            style="width: 0px; text-align: center">#
-                                                        </th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1"
-                                                            aria-label="BOOK NAME: activate to sort column ascending"
-                                                            style="width: 96px; text-align: left">NAME
-                                                        </th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1"
-                                                            aria-label="QUANTITY: activate to sort column ascending"
-                                                            style="width: 96px; text-align: right">QUANTITY
-                                                        </th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1"
-                                                            aria-label="STATUS: activate to sort column ascending"
-                                                            style="width: 67px; text-align: center">STATUS
-                                                        </th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1"
-                                                            aria-label="Actions: activate to sort column ascending"
-                                                            style="width: 64px; text-align: center">Actions
-                                                        </th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <c:set var="bookList" value="${requestScope.BOOK_LIST}"/>
-
-                                                    <c:forEach var="book" items="${bookList}"
-                                                               varStatus="counter">
-                                                        <tr class="odd">
-                                                            <form action="DispatchServlet">
-                                                                <!--Start: Book Item Form-->
-                                                                <td class="sorting_1"
-                                                                    style="text-align: center">${counter.count}</td>
-                                                                <td style="text-align: left">
-                                                                        ${book.title}
-                                                                </td>
-                                                                <td style="text-align: right">${book.quantity}</td>
-                                                                <td style="text-align: center">
-                                                                    <c:if test="${book.quantity > 0}">
-                                                                        <label class="badge badge-success">Available</label>
-                                                                    </c:if>
-                                                                    <c:if test="${book.quantity == 0}">
-                                                                        <label class="badge badge-danger">Unavailable</label>
-                                                                    </c:if>
-                                                                </td>
-                                                            </form>
-                                                            <!--End: Book Item Form-->
-                                                            <!--Start: Delete Book Form-->
-                                                            <form action="DispatchServlet">
-                                                                <input type="hidden" value="${book.bookID}"
-                                                                       name="pk">
-                                                                <input type="hidden" value="${book.bookID}"
-                                                                       name="bookPk">
-                                                                <input type="hidden" name="txtSearchValue"
-                                                                       value="${param.txtSearchValue}"/>
-                                                                <td style="text-align: center">
-                                                                    <div class="btn-group">
-                                                                        <button type="submit" class="btn btn-light"
-                                                                                name="btAction" value="View Details">
-                                                                            <i class="fa fa-eye text-primary"></i>
-                                                                        </button>
-                                                                        <button type="button" class="btn btn-light"
-                                                                                data-toggle="modal"
-                                                                                data-target="#updateModal${book.bookID}"
-                                                                                title="Update"
-                                                                                data-original-title="Edit">
-                                                                            <i class="fa fa-pencil text-primary"></i>
-                                                                        </button>
-
-                                                                        <button type="button" class="btn btn-light"
-                                                                                data-toggle="modal"
-                                                                                data-target="#deleteModal${book.bookID}"
-                                                                                title="Delete"
-                                                                                data-original-title="Remove">
-                                                                            <i class="fa fa-times text-primary"></i>
-                                                                        </button>
-
+                                            </form>
+                                            <!--End: Delete Book Form-->
+                                            <!--Start: Update Book Form-->
+                                            <form action="DispatchServlet" enctype="multipart/form-data"
+                                                  method="POST">
+                                                <input type="hidden" value="${book.bookID}"
+                                                       name="pk">
+                                                <input type="hidden" name="txtSearchValue"
+                                                       value="${param.txtSearchValue}"/>
+                                                <div class="modal fade" id="updateModal${book.bookID}"
+                                                     tabindex="-1"
+                                                     role="dialog"
+                                                     aria-labelledby="ariaUpdateModal${book.bookID}"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="exampleModalLongTitle">
+                                                                    Edit Book Details
+                                                                </h5>
+                                                                <button type="button"
+                                                                        class="close"
+                                                                        data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-3 col-form-label">Book
+                                                                        Cover
+                                                                    </label>
+                                                                    <div class="col-sm-9">
+                                                                        <img class="rounded float-right"
+                                                                             style="height: 400px; width: auto;"
+                                                                             src="${pageContext.request.contextPath}/image/${book.coverPath}"
+                                                                             id="coverPictureUpdate${book.bookID}"
+                                                                             alt="Book cover"
+                                                                             onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"
+                                                                        />
+                                                                        <input type="hidden"
+                                                                               name="txtCoverFile"
+                                                                               value="${book.coverPath}">
                                                                     </div>
-                                                                </td>
-                                                            </form>
-
-                                                            <form action="DispatchServlet" enctype="multipart/form-data"
-                                                                  method="POST">
-                                                                <input type="hidden" value="${book.bookID}"
-                                                                       name="pk">
-                                                                <input type="hidden" name="txtSearchValue"
-                                                                       value="${param.txtSearchValue}"/>
-                                                                <div class="modal fade" id="deleteModal${book.bookID}"
-                                                                     tabindex="-1"
-                                                                     role="dialog"
-                                                                     aria-labelledby="ariaDeleteModal${book.bookID}"
-                                                                     aria-hidden="true">
-                                                                    <div class="modal-dialog" role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title"
-                                                                                    id="exampleModalLongTitle2">
-                                                                                    WARNING
-                                                                                </h5>
-                                                                                <button type="button"
-                                                                                        class="close"
-                                                                                        data-dismiss="modal"
-                                                                                        aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                </button>
-                                                                            </div>
-                                                                            <div class="modal-body">
-                                                                                Do you want to delete this book?
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="submit"
-                                                                                        name="btAction"
-                                                                                        value="Delete Book"
-                                                                                        class="btn btn-primary"
-                                                                                >
-                                                                                    Yes
-                                                                                </button>
-                                                                                <button type="button"
-                                                                                        class="btn btn-outline-primary"
-                                                                                        data-dismiss="modal">
-                                                                                    Cancel
-                                                                                </button>
-                                                                            </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-3">
+                                                                    </div>
+                                                                    <div class="col-sm-9">
+                                                                        <div class="custom-file">
+                                                                            var
+                                                                            abc="'coverPictureUpdate${book.bookID}'";
+                                                                            <input type="file"
+                                                                                   class="custom-file-input"
+                                                                                   id="customFileUpdate${book.bookID}"
+                                                                                   name="coverPicture"
+                                                                                   onchange="readURL(this, 'coverPictureUpdate${book.bookID}');"
+                                                                            >
+                                                                            <label class="custom-file-label"
+                                                                                   for="customFileUpdate${book.bookID}">Choose
+                                                                                Image
+                                                                            </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </form>
-                                                            <!--End: Delete Book Form-->
-                                                            <!--Start: Update Book Form-->
-                                                            <form action="DispatchServlet" enctype="multipart/form-data"
-                                                                  method="POST">
-                                                                <input type="hidden" value="${book.bookID}"
-                                                                       name="pk">
-                                                                <input type="hidden" name="txtSearchValue"
-                                                                       value="${param.txtSearchValue}"/>
-                                                                <div class="modal fade" id="updateModal${book.bookID}"
-                                                                     tabindex="-1"
-                                                                     role="dialog"
-                                                                     aria-labelledby="ariaUpdateModal${book.bookID}"
-                                                                     aria-hidden="true">
-                                                                    <div class="modal-dialog" role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title"
-                                                                                    id="exampleModalLongTitle">
-                                                                                    Edit Book Details
-                                                                                </h5>
-                                                                                <button type="button"
-                                                                                        class="close"
-                                                                                        data-dismiss="modal"
-                                                                                        aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                </button>
-                                                                            </div>
-                                                                            <div class="modal-body">
-                                                                                <div class="form-group row">
-                                                                                    <label class="col-sm-3 col-form-label">Book
-                                                                                        Cover
-                                                                                    </label>
-                                                                                    <div class="col-sm-9">
-                                                                                        <img class="rounded float-right"
-                                                                                             style="height: 400px; width: auto;"
-                                                                                             src="${pageContext.request.contextPath}/image/${book.coverPath}"
-                                                                                             id="coverPictureUpdate${book.bookID}"
-                                                                                             alt="Book cover"
-                                                                                             onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"
-                                                                                        />
-                                                                                        <input type="hidden"
-                                                                                               name="txtCoverFile"
-                                                                                               value="${book.coverPath}">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group row">
-                                                                                    <div class="col-sm-3">
-                                                                                    </div>
-                                                                                    <div class="col-sm-9">
-                                                                                        <div class="custom-file">
-                                                                                            var
-                                                                                            abc="'coverPictureUpdate${book.bookID}'";
-                                                                                            <input type="file"
-                                                                                                   class="custom-file-input"
-                                                                                                   id="customFileUpdate${book.bookID}"
-                                                                                                   name="coverPicture"
-                                                                                                   onchange="readURL(this, 'coverPictureUpdate${book.bookID}');"
-                                                                                            >
-                                                                                            <label class="custom-file-label"
-                                                                                                   for="customFileUpdate${book.bookID}">Choose
-                                                                                                Image
-                                                                                            </label>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group row">
-                                                                                    <label class="col-sm-3 col-form-label">Title</label>
-                                                                                    <div class="col-sm-9">
-                                                                                        <input type="text"
-                                                                                               class="form-control"
-                                                                                               name="txtUpdateTitle"
-                                                                                               value="${book.title}">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group row">
-                                                                                    <label class="col-sm-3 col-form-label">
-                                                                                        Author ID
-                                                                                    </label>
-                                                                                    <div class="col-sm-9">
-                                                                                        <input type="text"
-                                                                                               class="form-control"
-                                                                                               name="txtUpdateAuthorID"
-                                                                                               value="${book.authorID}">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group row">
-                                                                                    <label class="col-sm-3 col-form-label">
-                                                                                        Subject ID
-                                                                                    </label>
-                                                                                    <div class="col-sm-9">
-                                                                                        <input type="text"
-                                                                                               class="form-control"
-                                                                                               name="txtUpdateSubjectID"
-                                                                                               value="${book.subjectID}">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group row">
-                                                                                    <label class="col-sm-3 col-form-label">
-                                                                                        Publisher
-                                                                                    </label>
-                                                                                    <div class="col-sm-9">
-                                                                                        <input type="text"
-                                                                                               class="form-control"
-                                                                                               name="txtUpdatePublisher"
-                                                                                               value="${book.publisher}">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group row">
-                                                                                    <label class="col-sm-3 col-form-label">
-                                                                                        Publication date
-                                                                                    </label>
-                                                                                    <div class="col-sm-9">
-                                                                                        <input type="text"
-                                                                                               class="form-control"
-                                                                                               name="txtUpdatePubliDate"
-                                                                                               value="${book.publicationDate}">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group row">
-                                                                                    <label class="col-sm-3 col-form-label">
-                                                                                        Price
-                                                                                    </label>
-                                                                                    <div class="col-sm-9">
-                                                                                        <input type="text"
-                                                                                               class="form-control"
-                                                                                               name="txtUpdatePrice"
-                                                                                               value="${book.price}">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group row">
-                                                                                    <label class="col-sm-3 col-form-label">
-                                                                                        Quantity
-                                                                                    </label>
-                                                                                    <div class="col-sm-9">
-                                                                                        <input type="text"
-                                                                                               class="form-control"
-                                                                                               name="txtUpdateQuantity"
-                                                                                               value="${book.quantity}">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group row">
-                                                                                    <label class="col-sm-3 col-form-label">
-                                                                                        ISBN Ten
-                                                                                    </label>
-                                                                                    <div class="col-sm-9">
-                                                                                        <input type="text"
-                                                                                               class="form-control"
-                                                                                               name="txtUpdateISBNTen"
-                                                                                               value="${book.isbnTen}">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group row">
-                                                                                    <label class="col-sm-3 col-form-label">
-                                                                                        ISBN Thirteen
-                                                                                    </label>
-                                                                                    <div class="col-sm-9">
-                                                                                        <input type="text"
-                                                                                               class="form-control"
-                                                                                               name="txtUpdateISBNThirteen"
-                                                                                               value="${book.isbnThirteen}">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group row">
-                                                                                    <label class="col-sm-3 col-form-label">Description
-                                                                                    </label>
-                                                                                    <div class="col-sm-9">
-                                                                                                    <textarea
-                                                                                                            class="form-control"
-                                                                                                            id="Textarea${book.bookID}"
-                                                                                                            name="txtUpdateDescription"
-                                                                                                            rows="5">${book.description}
-                                                                                                    </textarea>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="submit"
-                                                                                        name="btAction"
-                                                                                        value="Update Book"
-                                                                                        class="btn btn-primary"
-                                                                                >
-                                                                                    Save
-                                                                                </button>
-                                                                                <button type="button"
-                                                                                        class="btn btn-outline-primary"
-                                                                                        data-dismiss="modal">
-                                                                                    Close
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-3 col-form-label">Title</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               name="txtUpdateTitle"
+                                                                               value="${book.title}">
                                                                     </div>
                                                                 </div>
-                                                            </form>
-                                                            <!--End: Update Book Form-->
-                                                        </tr>
-                                                    </c:forEach>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-5">
-                                                <div class="dataTables_info" id="order-listing_info" role="status"
-                                                     aria-live="polite">Showing 1 to 5 of 10 entries
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-3 col-form-label">
+                                                                        Author ID
+                                                                    </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               name="txtUpdateAuthorID"
+                                                                               value="${book.authorID}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-3 col-form-label">
+                                                                        Subject ID
+                                                                    </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               name="txtUpdateSubjectID"
+                                                                               value="${book.subjectID}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-3 col-form-label">
+                                                                        Publisher
+                                                                    </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               name="txtUpdatePublisher"
+                                                                               value="${book.publisher}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-3 col-form-label">
+                                                                        Publication date
+                                                                    </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               name="txtUpdatePubliDate"
+                                                                               value="${book.publicationDate}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-3 col-form-label">
+                                                                        Price
+                                                                    </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               name="txtUpdatePrice"
+                                                                               value="${book.price}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-3 col-form-label">
+                                                                        Quantity
+                                                                    </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               name="txtUpdateQuantity"
+                                                                               value="${book.quantity}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-3 col-form-label">
+                                                                        ISBN Ten
+                                                                    </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               name="txtUpdateISBNTen"
+                                                                               value="${book.isbnTen}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-3 col-form-label">
+                                                                        ISBN Thirteen
+                                                                    </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               name="txtUpdateISBNThirteen"
+                                                                               value="${book.isbnThirteen}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-3 col-form-label">Description
+                                                                    </label>
+                                                                    <div class="col-sm-9">
+                                                                        <textarea class="form-control"
+                                                                                  id="Textarea${book.bookID}"
+                                                                                  name="txtUpdateDescription"
+                                                                                  rows="5">${book.description}
+                                                                        </textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit"
+                                                                        name="btAction"
+                                                                        value="Update Book"
+                                                                        class="btn btn-primary"
+                                                                >
+                                                                    Save
+                                                                </button>
+                                                                <button type="button"
+                                                                        class="btn btn-outline-primary"
+                                                                        data-dismiss="modal">
+                                                                    Close
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-7">
-                                                <div class="dataTables_paginate paging_simple_numbers"
-                                                     id="order-listing_paginate">
-                                                    <ul class="pagination">
-                                                        <li class="paginate_button page-item previous disabled"
-                                                            id="order-listing_previous"><a href="#"
-                                                                                           aria-controls="order-listing"
-                                                                                           data-dt-idx="0" tabindex="0"
-                                                                                           class="page-link">Previous</a>
-                                                        </li>
-                                                        <li class="paginate_button page-item active"><a href="#"
-                                                                                                        aria-controls="order-listing"
-                                                                                                        data-dt-idx="1"
-                                                                                                        tabindex="0"
-                                                                                                        class="page-link">1</a>
-                                                        </li>
-                                                        <li class="paginate_button page-item "><a href="#"
-                                                                                                  aria-controls="order-listing"
-                                                                                                  data-dt-idx="2"
-                                                                                                  tabindex="0"
-                                                                                                  class="page-link">2</a>
-                                                        </li>
-                                                        <li class="paginate_button page-item next"
-                                                            id="order-listing_next"><a href="#"
-                                                                                       aria-controls="order-listing"
-                                                                                       data-dt-idx="3" tabindex="0"
-                                                                                       class="page-link">Next</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                            </form>
+                                            <!--End: Update Book Form-->
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -822,7 +743,11 @@
 <!-- Plugin js for this page -->
 <script src="vendors/datatables.net/jquery.dataTables.js"></script>
 <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+<!-- JS -->
+<script src="js/bookmanagement.js"></script>
 <!-- End plugin js for this page -->
 <!-- inject:js -->
 <script src="js/off-canvas.js"></script>
