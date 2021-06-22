@@ -28,7 +28,7 @@ public class AutoSuggestAuthorServlet extends HttpServlet {
             //System.out.println("called");
             //System.out.println(request.getParameter("query"));
             String q = request.getParameter("query");
-            ArrayList<AuthorDTO> o = dao.getListAuthorName(q);
+            ArrayList<AuthorDTO> o = dao.getListAuthor(q);
 
             //convert java object to JSON format, and returned as JSON formatted string
             Gson gson = new Gson();

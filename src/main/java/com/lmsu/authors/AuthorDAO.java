@@ -150,7 +150,7 @@ public class AuthorDAO implements Serializable {
         return null;
     }
 
-    public ArrayList<AuthorDTO> getListAuthorName(String name) throws SQLException, NamingException {
+    public ArrayList<AuthorDTO> getListAuthor(String name) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
