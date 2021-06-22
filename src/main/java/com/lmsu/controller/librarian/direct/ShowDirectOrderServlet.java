@@ -54,11 +54,19 @@ public class ShowDirectOrderServlet extends HttpServlet {
                             DIRECT_METHOD,
                             new ArrayList<Integer>(
                                     Arrays.asList(
-                                            ORDER_PENDING, ORDER_OVERDUE
+                                            ORDER_PENDING, ORDER_OVERDUE,
+                                            ORDER_APPROVED, ORDER_RECEIVED, ORDER_RETURNED
                                     )));
             //--------------------------------------------------
             List<OrderDTO> orders = orderDAO.getOrderList();
-            Map<OrderObj, List<OrderItemObj>> detailedOrders = new LinkedHashMap<OrderObj, List<OrderItemObj>>();
+
+            Map<Integer, String> map = new HashMap<>();
+            Set<Integer> s = map.keySet();
+            for (Integer key : s) {
+                map.get(key);
+            }
+
+            Map<OrderObj, List<OrderItemObj>> detailedOrders = new HashMap<OrderObj, List<OrderItemObj>>();
             if (orders!=null) {
                 for (OrderDTO orderDTO : orders) {
                     UserDTO userDTO = userDAO.getUserByID(orderDTO.getMemberID());
@@ -70,6 +78,7 @@ public class ShowDirectOrderServlet extends HttpServlet {
                     orderObj.setLendMethod((orderDTO.isLendMethod()));
                     orderObj.setActiveStatus(orderDTO.getActiveStatus());
 
+                    orderItemDAO.clearOrderItemList();
                     orderItemDAO.getOrderItemsFromOrderID(orderDTO.getId());
                     List<OrderItemDTO> orderItems = orderItemDAO.getOrderItemList();
                     List<OrderItemObj> orderItemObjs = new ArrayList<>();
@@ -84,7 +93,7 @@ public class ShowDirectOrderServlet extends HttpServlet {
                         orderItemObj.setLendStatus(orderItemDTO.getLendStatus());
                         orderItemObj.setReturnDeadline(orderItemDTO.getReturnDeadline());
                         orderItemObj.setLendDate(orderItemDTO.getLendDate());
-                        orderItemObj.setReturnDate(orderItemDTO.getLendDate());
+                        orderItemObj.setReturnDate(orderItemDTO.getReturnDate());
 
                         orderItemObjs.add(orderItemObj);
                     }
