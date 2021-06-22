@@ -41,6 +41,12 @@ public class OrderItemDAO implements Serializable {
         this.conn = conn;
     }
 
+    public void clearOrderItemList() {
+        if (this.orderItemList != null) {
+            this.orderItemList.clear();
+        }
+    }
+
     public boolean addOrderItems(List<OrderItemDTO> orderItems)
             throws SQLException, NamingException {
         PreparedStatement stm = null;
