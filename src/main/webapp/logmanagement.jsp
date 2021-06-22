@@ -18,9 +18,6 @@
     <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
     <!-- endinject -->
@@ -134,54 +131,54 @@
         <!-- partial:../../partials/_sidebar.html -->
         <jsp:include page="sidebar.jsp"/>
 
-    <%--        <nav class="sidebar sidebar-offcanvas" id="sidebar">--%>
-<%--            <ul class="nav">--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="dashboard.jsp">--%>
-<%--                        <i class="icon-grid menu-icon"></i>--%>
-<%--                        <span class="menu-title">Dashboard</span>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="IndexServlet">--%>
-<%--                        <i class="icon-paper menu-icon"></i>--%>
-<%--                        <span class="menu-title">Library</span>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" data-toggle="collapse" href="#user-management" aria-expanded="false"--%>
-<%--                       aria-controls="ui-basic">--%>
-<%--                        <i class="icon-head menu-icon"></i>--%>
-<%--                        <span class="menu-title">Users</span>--%>
-<%--                        <i class="menu-arrow"></i>--%>
-<%--                    </a>--%>
-<%--                    <div class="collapse" id="user-management">--%>
-<%--                        <ul class="nav flex-column sub-menu">--%>
-<%--                            <li class="nav-item"><a class="nav-link" href="ShowMemberServlet">Member</a></li>--%>
-<%--                            <li class="nav-item"><a class="nav-link" href="ShowStaffServlet">Staff</a></li>--%>
-<%--                        </ul>--%>
-<%--                    </div>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="ShowBookServlet">--%>
-<%--                        <i class="icon-book menu-icon"></i>--%>
-<%--                        <span class="menu-title">Books</span>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="BookRentalManagement.html">--%>
-<%--                        <i class="icon-archive menu-icon"></i>--%>
-<%--                        <span class="menu-title">Book Rental</span>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="ShowLogServlet">--%>
-<%--                        <i class="icon-file-subtract menu-icon"></i>--%>
-<%--                        <span class="menu-title">Import Log</span>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-<%--            </ul>--%>
-<%--        </nav>--%>
+        <%--        <nav class="sidebar sidebar-offcanvas" id="sidebar">--%>
+        <%--            <ul class="nav">--%>
+        <%--                <li class="nav-item">--%>
+        <%--                    <a class="nav-link" href="dashboard.jsp">--%>
+        <%--                        <i class="icon-grid menu-icon"></i>--%>
+        <%--                        <span class="menu-title">Dashboard</span>--%>
+        <%--                    </a>--%>
+        <%--                </li>--%>
+        <%--                <li class="nav-item">--%>
+        <%--                    <a class="nav-link" href="IndexServlet">--%>
+        <%--                        <i class="icon-paper menu-icon"></i>--%>
+        <%--                        <span class="menu-title">Library</span>--%>
+        <%--                    </a>--%>
+        <%--                </li>--%>
+        <%--                <li class="nav-item">--%>
+        <%--                    <a class="nav-link" data-toggle="collapse" href="#user-management" aria-expanded="false"--%>
+        <%--                       aria-controls="ui-basic">--%>
+        <%--                        <i class="icon-head menu-icon"></i>--%>
+        <%--                        <span class="menu-title">Users</span>--%>
+        <%--                        <i class="menu-arrow"></i>--%>
+        <%--                    </a>--%>
+        <%--                    <div class="collapse" id="user-management">--%>
+        <%--                        <ul class="nav flex-column sub-menu">--%>
+        <%--                            <li class="nav-item"><a class="nav-link" href="ShowMemberServlet">Member</a></li>--%>
+        <%--                            <li class="nav-item"><a class="nav-link" href="ShowStaffServlet">Staff</a></li>--%>
+        <%--                        </ul>--%>
+        <%--                    </div>--%>
+        <%--                </li>--%>
+        <%--                <li class="nav-item">--%>
+        <%--                    <a class="nav-link" href="ShowBookServlet">--%>
+        <%--                        <i class="icon-book menu-icon"></i>--%>
+        <%--                        <span class="menu-title">Books</span>--%>
+        <%--                    </a>--%>
+        <%--                </li>--%>
+        <%--                <li class="nav-item">--%>
+        <%--                    <a class="nav-link" href="BookRentalManagement.html">--%>
+        <%--                        <i class="icon-archive menu-icon"></i>--%>
+        <%--                        <span class="menu-title">Book Rental</span>--%>
+        <%--                    </a>--%>
+        <%--                </li>--%>
+        <%--                <li class="nav-item">--%>
+        <%--                    <a class="nav-link" href="ShowLogServlet">--%>
+        <%--                        <i class="icon-file-subtract menu-icon"></i>--%>
+        <%--                        <span class="menu-title">Import Log</span>--%>
+        <%--                    </a>--%>
+        <%--                </li>--%>
+        <%--            </ul>--%>
+        <%--        </nav>--%>
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
@@ -193,29 +190,12 @@
                                 <div class="table-responsive">
                                     <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                         <div class="row">
-                                            <div class="col-sm-12 col-md-6">
-                                                <div class="dataTables_length" id="order-listing_length"><label>Show
-                                                    <select name="order-listing_length"
-                                                            aria-controls="order-listing"
-                                                            class="custom-select custom-select-sm form-control">
-                                                        <option value="5">5</option>
-                                                        <option value="10">10</option>
-                                                        <option value="15">15</option>
-                                                        <option value="-1">All</option>
-                                                    </select> entries</label></div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-6">
-                                                <div id="order-listing_filter" class="dataTables_filter">
-                                                    <label><input type="search" class="form-control"
-                                                                  placeholder="Search"
-                                                                  aria-controls="order-listing"></label></div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="col-sm-12">
+
                                                 <table id="order-listing" class="table dataTable no-footer" role="grid"
                                                        aria-describedby="order-listing_info">
                                                     <thead>
+
                                                     <tr role="row">
                                                         <th class="sorting_asc" tabindex="0"
                                                             aria-controls="order-listing" rowspan="1" colspan="1"
@@ -223,11 +203,6 @@
                                                             aria-label="Order #: activate to sort column descending"
                                                             style="width: 54px;">Imported On
                                                         </th>
-                                                        <%--                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"--%>
-                                                        <%--                                                            rowspan="1" colspan="1"--%>
-                                                        <%--                                                            aria-label="Ship To: activate to sort column ascending"--%>
-                                                        <%--                                                            style="width: 56px;">--%>
-                                                        <%--                                                        </th>--%>
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
                                                             aria-label="Return Date: activate to sort column ascending"
@@ -244,6 +219,7 @@
                                                             style="width: 64px;">Actions
                                                         </th>
                                                     </tr>
+
                                                     </thead>
                                                     <tbody>
                                                     <c:set var="logMap" value="${requestScope.LOG_MAP_LIST}"/>
@@ -272,7 +248,7 @@
                                                                      role="dialog"
                                                                      aria-labelledby="exampleModalLongTitle"
                                                                      aria-hidden="true">
-                                                                    <div class="modal-dialog modal-lg" role="document">
+                                                                    <div class="modal-dialog modal-xl" role="document">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
                                                                                 <h5 class="modal-title"
@@ -315,40 +291,42 @@
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="form-group row">
-                                                                                        <table class="table table-hover table-responsive w-100 d-block d-md-table">
-                                                                                            <thead>
-                                                                                            <tr>
-                                                                                                <th scope="col">
-                                                                                                    Log ID
-                                                                                                </th>
-                                                                                                <th scope="col">
-                                                                                                    Book Title
-                                                                                                </th>
-                                                                                                <th scope="col">
-                                                                                                    Manager Imported
-                                                                                                </th>
-                                                                                                <th scope="col">
-                                                                                                    Supplier
-                                                                                                </th>
-                                                                                                <th scope="col">
-                                                                                                    Quantity
-                                                                                                </th>
-                                                                                            </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                            <c:forEach var="log"
-                                                                                                       items="${logMap.get(keyDate)}">
+                                                                                        <div class="table-responsive">
+                                                                                            <table class="table table-hover">
+                                                                                                <thead>
                                                                                                 <tr>
-                                                                                                    <td>${log.logID} </td>
-                                                                                                    <td>${log.book.title}</td>
-                                                                                                    <td>${log.manager.name}</td>
-                                                                                                    <td>${log.supplier}</td>
-                                                                                                    <td>${log.quantity}</td>
+                                                                                                    <th scope="col">
+                                                                                                        Log ID
+                                                                                                    </th>
+                                                                                                    <th scope="col">
+                                                                                                        Book Title
+                                                                                                    </th>
+                                                                                                    <th scope="col">
+                                                                                                        Manager Imported
+                                                                                                    </th>
+                                                                                                    <th scope="col">
+                                                                                                        Supplier
+                                                                                                    </th>
+                                                                                                    <th scope="col">
+                                                                                                        Quantity
+                                                                                                    </th>
                                                                                                 </tr>
-                                                                                            </c:forEach>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                <c:forEach var="log"
+                                                                                                           items="${logMap.get(keyDate)}">
+                                                                                                    <tr>
+                                                                                                        <td>${log.logID} </td>
+                                                                                                        <td>${log.book.title}</td>
+                                                                                                        <td>${log.manager.name}</td>
+                                                                                                        <td>${log.supplier}</td>
+                                                                                                        <td>${log.quantity}</td>
+                                                                                                    </tr>
+                                                                                                </c:forEach>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
 
-                                                                                            </tbody>
-                                                                                        </table>
                                                                                     </div>
                                                                                 </fieldset>
                                                                             </div>
@@ -366,43 +344,6 @@
                                                     </c:forEach>
                                                     </tbody>
                                                 </table>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-5">
-                                                <div class="dataTables_info" id="order-listing_info" role="status"
-                                                     aria-live="polite">Showing 1 to 5 of 10 entries
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-7">
-                                                <div class="dataTables_paginate paging_simple_numbers"
-                                                     id="order-listing_paginate">
-                                                    <ul class="pagination">
-                                                        <li class="paginate_button page-item previous disabled"
-                                                            id="order-listing_previous"><a href="#"
-                                                                                           aria-controls="order-listing"
-                                                                                           data-dt-idx="0" tabindex="0"
-                                                                                           class="page-link">Previous</a>
-                                                        </li>
-                                                        <li class="paginate_button page-item active"><a href="#"
-                                                                                                        aria-controls="order-listing"
-                                                                                                        data-dt-idx="1"
-                                                                                                        tabindex="0"
-                                                                                                        class="page-link">1</a>
-                                                        </li>
-                                                        <li class="paginate_button page-item "><a href="#"
-                                                                                                  aria-controls="order-listing"
-                                                                                                  data-dt-idx="2"
-                                                                                                  tabindex="0"
-                                                                                                  class="page-link">2</a>
-                                                        </li>
-                                                        <li class="paginate_button page-item next"
-                                                            id="order-listing_next"><a href="#"
-                                                                                       aria-controls="order-listing"
-                                                                                       data-dt-idx="3" tabindex="0"
-                                                                                       class="page-link">Next</a></li>
-                                                    </ul>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -433,10 +374,12 @@
 <!-- plugins:js -->
 <script src="vendors/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
-<!-- Plugin js for this page -->
-<script src="vendors/datatables.net/jquery.dataTables.js"></script>
-<script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-<!-- End plugin js for this page -->
+<%--    Datatable--%>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jqc-1.12.4/dt-1.10.25/datatables.min.css"/>
+
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jqc-1.12.4/dt-1.10.25/datatables.min.js"></script>
+<script type="text/javascript" src="js/logmanager.js"></script>
+<%--    End inject dataTable--%>
 <!-- inject:js -->
 <script src="js/off-canvas.js"></script>
 <script src="js/hoverable-collapse.js"></script>
