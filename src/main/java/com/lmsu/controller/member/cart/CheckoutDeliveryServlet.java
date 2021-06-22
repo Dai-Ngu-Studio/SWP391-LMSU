@@ -2,6 +2,7 @@ package com.lmsu.controller.member.cart;
 
 import com.lmsu.bean.book.BookObj;
 import com.lmsu.bean.member.CartObj;
+import com.lmsu.books.BookDAO;
 import com.lmsu.orderdata.deliveryorders.DeliveryOrderDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
@@ -82,13 +83,18 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                     // 7. Traverse items in cart and add to list
                                     List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
                                     for (String bookID : cartItems.keySet()) {
+                                        BookDAO bookDAO = new BookDAO();
                                         OrderItemDTO orderItemDTO = new OrderItemDTO();
                                         orderItemDTO.setOrderID(orderID);
                                         orderItemDTO.setMemberID(userDTO.getId());
                                         orderItemDTO.setBookID(bookID);
                                         //do lát present nên tui sửa tạm orderItemDTO.setLendStatus(0) thành
                                         //orderItemDTO.setLendStatus(ITEM_RECEIVED) (T. Phuc)
-                                        orderItemDTO.setLendStatus(ITEM_RECEIVED);
+                                        if(!bookDAO.getBookByIDAndQuantity(bookID)) {
+                                            orderItemDTO.setLendStatus(ITEM_RECEIVED);
+                                        } else {
+                                            orderItemDTO.setLendStatus(ITEM_RESERVED);
+                                        }
                                         // default ▼
                                         //orderItemDTO.setLendStatus(ITEM_PENDING);
                                         orderItemDTO.setReturnDate(null);
