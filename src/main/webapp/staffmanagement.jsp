@@ -232,7 +232,7 @@
                                                         <th class="sorting text-left" aria-controls="order-listing"
                                                             rowspan="1" colspan="1" tabindex="0"
                                                             aria-label="MEMBER ID: activate to sort column ascending"
-                                                            style="width: 96px;">MEMBER ID
+                                                            style="width: 96px;">STAFF ID
                                                         </th>
                                                         <th class="sorting text-left" aria-controls="order-listing"
                                                             rowspan="1" colspan="1" tabindex="0"
@@ -326,15 +326,15 @@
                                                                                                        value="${staff.name}">
                                                                                             </div>
                                                                                         </div>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">Semester
-                                                                                            </label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <input type="text" readonly
-                                                                                                       class="form-control"
-                                                                                                       value="${staff.semester}">
-                                                                                            </div>
-                                                                                        </div>
+<%--                                                                                        <div class="form-group row">--%>
+<%--                                                                                            <label class="col-sm-3 col-form-label">Semester--%>
+<%--                                                                                            </label>--%>
+<%--                                                                                            <div class="col-sm-9">--%>
+<%--                                                                                                <input type="text" readonly--%>
+<%--                                                                                                       class="form-control"--%>
+<%--                                                                                                       value="${staff.semester}">--%>
+<%--                                                                                            </div>--%>
+<%--                                                                                        </div>--%>
                                                                                         <div class="form-group row">
                                                                                             <label class="col-sm-3 col-form-label">Role
                                                                                             </label>
