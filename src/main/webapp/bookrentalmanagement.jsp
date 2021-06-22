@@ -177,7 +177,7 @@
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
                                                             aria-label="order NAME: activate to sort column ascending"
-                                                            style="width: 96px; text-align: left">BORROWED ON
+                                                            style="width: 96px; text-align: left">ORDERED ON
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
