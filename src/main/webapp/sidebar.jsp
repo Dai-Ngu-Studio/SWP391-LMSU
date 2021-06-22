@@ -39,7 +39,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="index.jsp">
+            <a class="nav-link" href="IndexServlet">
                 <i class="icon-paper menu-icon"></i>
                 <span class="menu-title">Library</span>
             </a>
@@ -77,7 +77,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="log.jsp">
+            <a class="nav-link" href="ShowLogServlet">
                 <i class="icon-file-subtract menu-icon"></i>
                 <span class="menu-title">Import Log</span>
             </a>

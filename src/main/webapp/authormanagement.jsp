@@ -131,60 +131,61 @@
     <div class="container-fluid page-body-wrapper">
         <!-- partial -->
         <!-- partial:../../partials/_sidebar.html -->
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="dashboard.jsp">
-                        <i class="icon-grid menu-icon"></i>
-                        <span class="menu-title">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="index.jsp">
-                        <i class="icon-paper menu-icon"></i>
-                        <span class="menu-title">Library</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="collapse" href="#user-management" aria-expanded="false"
-                       aria-controls="ui-basic">
-                        <i class="icon-head menu-icon"></i>
-                        <span class="menu-title">Users</span>
-                        <i class="menu-arrow"></i>
-                    </a>
-                    <div class="collapse" id="user-management">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"><a class="nav-link" href="MemberManagement.html">Member</a></li>
-                            <li class="nav-item"><a class="nav-link" href="ShowStaffServlet">Staff</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="ShowBookServlet">
-                        <i class="icon-book menu-icon"></i>
-                        <span class="menu-title">Books</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="ShowAuthorServlet">
-                        <i class="fal fa-user-edit menu-icon"></i>
-                        <span class="menu-title">Authors</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="BookRentalManagement.html">
-                        <i class="icon-archive menu-icon"></i>
-                        <span class="menu-title">Book Rental</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="ShowLogServlet">
-                        <i class="icon-file-subtract menu-icon"></i>
-                        <span class="menu-title">Import Log</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <jsp:include page="sidebar.jsp"/>
+    <%--        <nav class="sidebar sidebar-offcanvas" id="sidebar">--%>
+<%--            <ul class="nav">--%>
+<%--                <li class="nav-item">--%>
+<%--                    <a class="nav-link" href="dashboard.jsp">--%>
+<%--                        <i class="icon-grid menu-icon"></i>--%>
+<%--                        <span class="menu-title">Dashboard</span>--%>
+<%--                    </a>--%>
+<%--                </li>--%>
+<%--                <li class="nav-item">--%>
+<%--                    <a class="nav-link" href="index.jsp">--%>
+<%--                        <i class="icon-paper menu-icon"></i>--%>
+<%--                        <span class="menu-title">Library</span>--%>
+<%--                    </a>--%>
+<%--                </li>--%>
+<%--                <li class="nav-item">--%>
+<%--                    <a class="nav-link" data-toggle="collapse" href="#user-management" aria-expanded="false"--%>
+<%--                       aria-controls="ui-basic">--%>
+<%--                        <i class="icon-head menu-icon"></i>--%>
+<%--                        <span class="menu-title">Users</span>--%>
+<%--                        <i class="menu-arrow"></i>--%>
+<%--                    </a>--%>
+<%--                    <div class="collapse" id="user-management">--%>
+<%--                        <ul class="nav flex-column sub-menu">--%>
+<%--                            <li class="nav-item"><a class="nav-link" href="MemberManagement.html">Member</a></li>--%>
+<%--                            <li class="nav-item"><a class="nav-link" href="ShowStaffServlet">Staff</a></li>--%>
+<%--                        </ul>--%>
+<%--                    </div>--%>
+<%--                </li>--%>
+<%--                <li class="nav-item">--%>
+<%--                    <a class="nav-link" href="ShowBookServlet">--%>
+<%--                        <i class="icon-book menu-icon"></i>--%>
+<%--                        <span class="menu-title">Books</span>--%>
+<%--                    </a>--%>
+<%--                </li>--%>
+<%--                <li class="nav-item">--%>
+<%--                    <a class="nav-link" href="ShowAuthorServlet">--%>
+<%--                        <i class="fal fa-user-edit menu-icon"></i>--%>
+<%--                        <span class="menu-title">Authors</span>--%>
+<%--                    </a>--%>
+<%--                </li>--%>
+<%--                <li class="nav-item">--%>
+<%--                    <a class="nav-link" href="BookRentalManagement.html">--%>
+<%--                        <i class="icon-archive menu-icon"></i>--%>
+<%--                        <span class="menu-title">Book Rental</span>--%>
+<%--                    </a>--%>
+<%--                </li>--%>
+<%--                <li class="nav-item">--%>
+<%--                    <a class="nav-link" href="ShowLogServlet">--%>
+<%--                        <i class="icon-file-subtract menu-icon"></i>--%>
+<%--                        <span class="menu-title">Import Log</span>--%>
+<%--                    </a>--%>
+<%--                </li>--%>
+<%--            </ul>--%>
+<%--        </nav>--%>
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
