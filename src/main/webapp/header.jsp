@@ -214,7 +214,8 @@
             <c:if test="${not empty user}">
                 <li class="nav-item nav-profile dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="profileDropdown">
-                        <img src="${user.profilePicturePath}" alt="profile"
+                        <img src="${user.profilePicturePath}" alt="profile picture"
+                             onerror="this.onerror=null; this.src='images/imagenotfound.jpg';"
                              style="border-radius: 50%; cursor: pointer;"/>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
