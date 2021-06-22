@@ -46,6 +46,9 @@ public class AddBookServlet extends HttpServlet {
         String addFile = request.getParameter("isAddFile");
         String url = SHOW_BOOK_CONTROLLER;
         UserDTO userDTO = (UserDTO) request.getSession(true).getAttribute("LOGIN_USER");
+        if (userDTO == null) {
+            System.out.println("You're not logged in yet >:(");
+        }
         try {
             boolean result = false;
             String title;
@@ -62,7 +65,7 @@ public class AddBookServlet extends HttpServlet {
             if (addFile != null) {
                 for (Part part : request.getParts()) {
                     if (!(part.getSubmittedFileName() == null || part.getSubmittedFileName().trim().isEmpty())) {
-                        if (!FilenameUtils.getExtension(part.getSubmittedFileName()).equalsIgnoreCase("csv"));
+                        if (!FilenameUtils.getExtension(part.getSubmittedFileName()).equalsIgnoreCase("csv")) ;
                         CSVReader csvReader = new CSVReader(new InputStreamReader(part.getInputStream(), "UTF-8"));
                         String[] nextRecord;
                         csvReader.readNext(); //Skip first line
@@ -84,17 +87,24 @@ public class AddBookServlet extends HttpServlet {
 //                            add(request, title, authorID, subjectID, publisher, publishDate,
 //                                    description, price, quantity, isbnTen, isbnThirteen, false);
                             boolean readResult = true;
-                            for (int i = 0; i <= 10; i++) {
-                                if (nextRecord[i].isEmpty()) {
+                            System.out.println();
+                            if (nextRecord.length < 11) {
+                                invalidIndexRows.add(indexRow);
+                                readResult = false;
+                            } else for (int i = 0; i <= 10; i++) {
+                                if (nextRecord[i].trim().isEmpty()) {
                                     invalidIndexRows.add(indexRow);
+                                    readResult = false;
+                                    break;
                                 }
                             }
+
                             if (readResult) {
                                 add(request, nextRecord[0], nextRecord[1], nextRecord[2], nextRecord[3], nextRecord[4],
                                         nextRecord[5], nextRecord[6], nextRecord[7], nextRecord[8], nextRecord[9], nextRecord[10], userDTO.getId(), false);
                             }
                         }
-                        if (invalidIndexRows.isEmpty()==false){
+                        if (invalidIndexRows.isEmpty() == false) {
                             request.setAttribute("INVALID_ROW_LIST", invalidIndexRows);
                         }
                         break;
@@ -157,6 +167,7 @@ public class AddBookServlet extends HttpServlet {
                           String supplier,
                           String managerID,
                           boolean hasCover) throws Exception {
+
         BookDAO dao = new BookDAO();
         int bookID = 0;
         do {
@@ -173,6 +184,7 @@ public class AddBookServlet extends HttpServlet {
         //Start to add img to server process
         String uploadPath = ImageHelpers.getPathImgFolder(getServletContext().getRealPath(""));
         String fileName = "";
+
         if (hasCover)
             for (Part part : request.getParts()) {
                 fileName = part.getSubmittedFileName();
@@ -182,6 +194,7 @@ public class AddBookServlet extends HttpServlet {
                     break;
                 }
             }
+
         // Import log
         long millis = System.currentTimeMillis();
         java.sql.Date date = new java.sql.Date(millis);

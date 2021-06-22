@@ -21,10 +21,12 @@
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <!-- endinject -->
     <link rel="shortcut icon" href="images/images/favicon.png"/>
     <!-- Jquery JS -->
-    <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Jquery UI -->
     <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
     <!-- JS -->
@@ -142,7 +144,15 @@
             <div class="content-wrapper">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Data table</h4>
+                        <h4 class="card-title">Books Management</h4>
+                        <c:set var="invalidRowList" value="${requestScope.INVALID_ROW_LIST}"/>
+                        <c:if test="${not empty invalidRowList}">
+                            <c:forEach var="indexRow" items="${invalidRowList}">
+                                <div class="alert alert-danger">
+                                    <strong>Error!</strong> There are invalid information at row number ${indexRow}
+                                </div>
+                            </c:forEach>
+                        </c:if>
                         <div class="row">
                             <div class="col-12">
                                 <div class="table-responsive">
@@ -812,6 +822,7 @@
 <!-- Plugin js for this page -->
 <script src="vendors/datatables.net/jquery.dataTables.js"></script>
 <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 <!-- End plugin js for this page -->
 <!-- inject:js -->
 <script src="js/off-canvas.js"></script>
