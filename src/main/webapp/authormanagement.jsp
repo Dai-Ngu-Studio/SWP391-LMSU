@@ -25,7 +25,7 @@
     <link rel="shortcut icon" href="images/images/favicon.png"/>
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
-    <script src="js/bookmanagement.js"></script>
+    <script src="js/authormanagement.js"></script>
     <script src="js/iconpro.js"></script>
 </head>
 <body>
@@ -34,10 +34,10 @@
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
             <a class="navbar-brand brand-logo mr-5" href="dashboard.jsp"><img src="images/LMSU LOGO DASHBOARD.svg"
-                                                                               class="mr-2" alt="logo"
-                                                                               style="margin-left: 36px;"/></a>
+                                                                              class="mr-2" alt="logo"
+                                                                              style="margin-left: 36px;"/></a>
             <a class="navbar-brand brand-logo-mini" href="dashboard.jsp"><img src="images/LMSU LOGO MINI DASHBOARD.svg"
-                                                                               alt="logo"/></a>
+                                                                              alt="logo"/></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -132,359 +132,72 @@
         <!-- partial -->
         <!-- partial:../../partials/_sidebar.html -->
         <jsp:include page="sidebar.jsp"/>
-    <%--        <nav class="sidebar sidebar-offcanvas" id="sidebar">--%>
-<%--            <ul class="nav">--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="dashboard.jsp">--%>
-<%--                        <i class="icon-grid menu-icon"></i>--%>
-<%--                        <span class="menu-title">Dashboard</span>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="index.jsp">--%>
-<%--                        <i class="icon-paper menu-icon"></i>--%>
-<%--                        <span class="menu-title">Library</span>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" data-toggle="collapse" href="#user-management" aria-expanded="false"--%>
-<%--                       aria-controls="ui-basic">--%>
-<%--                        <i class="icon-head menu-icon"></i>--%>
-<%--                        <span class="menu-title">Users</span>--%>
-<%--                        <i class="menu-arrow"></i>--%>
-<%--                    </a>--%>
-<%--                    <div class="collapse" id="user-management">--%>
-<%--                        <ul class="nav flex-column sub-menu">--%>
-<%--                            <li class="nav-item"><a class="nav-link" href="MemberManagement.html">Member</a></li>--%>
-<%--                            <li class="nav-item"><a class="nav-link" href="ShowStaffServlet">Staff</a></li>--%>
-<%--                        </ul>--%>
-<%--                    </div>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="ShowBookServlet">--%>
-<%--                        <i class="icon-book menu-icon"></i>--%>
-<%--                        <span class="menu-title">Books</span>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="ShowAuthorServlet">--%>
-<%--                        <i class="fal fa-user-edit menu-icon"></i>--%>
-<%--                        <span class="menu-title">Authors</span>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="BookRentalManagement.html">--%>
-<%--                        <i class="icon-archive menu-icon"></i>--%>
-<%--                        <span class="menu-title">Book Rental</span>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="ShowLogServlet">--%>
-<%--                        <i class="icon-file-subtract menu-icon"></i>--%>
-<%--                        <span class="menu-title">Import Log</span>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-<%--            </ul>--%>
-<%--        </nav>--%>
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Data table</h4>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="table-responsive">
-                                    <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-4">
-                                                <div class="dataTables_length" id="order-listing_length"><label>Show
-                                                    <select name="order-listing_length"
-                                                            aria-controls="order-listing"
-                                                            class="custom-select custom-select-sm form-control">
-                                                        <option value="5">5</option>
-                                                        <option value="10">10</option>
-                                                        <option value="15">15</option>
-                                                        <option value="-1">All</option>
-                                                    </select> entries</label></div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-8">
-
-                                                <div id="order-listing_filter" class="dataTables_filter">
-                                                    <!--Start: Add Author Form-->
-                                                    <form action="DispatchServlet" enctype="multipart/form-data"
+                        <div class="table-responsive">
+                            <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <table id="author-datatable" class="table dataTable no-footer my-2"
+                                               role="grid"
+                                               aria-describedby="order-listing_info">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 0px; text-align: right">#</th>
+                                                <th style="width: 96px; text-align: left">NAME</th>
+                                                <%--                                                <th style="width: 67px; text-align: left"></th>--%>
+                                                <th style="width: 64px; text-align: center">Actions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <c:set var="authorList" value="${requestScope.AUTHOR_LIST}"/>
+                                            <c:forEach var="author" items="${authorList}"
+                                                       varStatus="counter">
+                                                <tr>
+                                                    <form action="DispatchServlet"
+                                                          enctype="multipart/form-data"
                                                           method="POST">
-                                                        <input type="search" class="form-control"
-                                                               placeholder="Search"
-                                                               name="txtSearchValue" value="${param.txtSearchValue}"
-                                                               aria-controls="order-listing"
-                                                               id="searchBox">
-                                                        <button class="btn btn-primary" type="submit"
-                                                                name="btAction" value="SearchAuthor"
-                                                                style="border-radius: 5px"><i class="fa fa-search"></i>
-                                                        </button>
-                                                        <button class="btn btn-primary" type="button"
-                                                                style="border-radius: 5px"
-                                                                data-toggle="modal"
-                                                                data-target="#AddAuthorModal"
-                                                                title="Add a author">
-                                                            <i class="fa fa-plus"></i></button>
-                                                        <div class="modal fade" id="AddAuthorModal"
-                                                             tabindex="-1"
-                                                             role="dialog"
-                                                             aria-labelledby="AddAuthorModalLongTitle"
-                                                             aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title"
-                                                                            id="AddAuthorModalLongTitle">
-                                                                            Add author
-                                                                        </h5>
-                                                                        <button type="button"
-                                                                                class="close"
-                                                                                data-dismiss="modal"
-                                                                                aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">Author
-                                                                                Cover
-                                                                            </label>
-                                                                            <div class="col-sm-9">
-                                                                                <img class="rounded float-right"
-                                                                                     style="height: 280px;
-                                                                                     width: auto;"
-                                                                                     src="images/imagenotfound.jpg"
-                                                                                     id="coverPicture"
-                                                                                     alt="Author cover"
-                                                                                >
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <div class="col-sm-3">
-                                                                            </div>
-                                                                            <div class="col-sm-9">
-                                                                                <div class="custom-file">
-                                                                                    <input type="file"
-                                                                                           class="custom-file-input"
-                                                                                           id="customFileAdd"
-                                                                                           name="coverPicture"
-                                                                                           onchange="readURL(this, 'coverPicture');"
-                                                                                    >
-                                                                                    <label class="custom-file-label"
-                                                                                           for="customFileAdd">Choose
-                                                                                        Image </label>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <div class="col-sm-3">
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">
-                                                                                Name
-                                                                            </label>
-                                                                            <div class="col-sm-9">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value=""
-                                                                                       name="txtAuthorName"
-                                                                                >
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-3 col-form-label">
-                                                                                Bio
-                                                                            </label>
-                                                                            <div class="col-sm-9">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value=""
-                                                                                       name="txtBio"
-                                                                                >
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="submit"
-                                                                                class="btn btn-primary"
-                                                                                name="btAction"
-                                                                                value="AddAuthor"
-                                                                        >
-                                                                            Save
-                                                                        </button>
-                                                                        <button type="button"
-                                                                                class="btn btn-outline-primary"
-                                                                                data-dismiss="modal">
-                                                                            Close
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                    <!--End: Add Author Form-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <table id="order-listing" class="table dataTable no-footer my-2"
-                                                       role="grid"
-                                                       aria-describedby="order-listing_info">
-                                                    <thead>
-                                                    <tr role="row">
-                                                        <th class="sorting_asc" tabindex="0"
-                                                            aria-controls="order-listing" rowspan="1" colspan="1"
-                                                            aria-sort="ascending"
-                                                            aria-label="Order #: activate to sort column descending"
-                                                            style="width: 0px; text-align: right">#
-                                                        </th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1"
-                                                            aria-label="NAME: activate to sort column ascending"
-                                                            style="width: 96px; text-align: left">NAME
-                                                        </th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1"
-                                                            aria-label="NAME: activate to sort column ascending"
-                                                            style="width: 67px; text-align: left">
-                                                        </th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1"
-                                                            aria-label="Actions: activate to sort column ascending"
-                                                            style="width: 64px; text-align: center">Actions
-                                                        </th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <c:set var="authorList" value="${requestScope.AUTHOR_LIST}"/>
-
-                                                    <c:forEach var="author" items="${authorList}"
-                                                               varStatus="counter">
-                                                        <tr class="odd">
-                                                            <form action="DispatchServlet">
-                                                                <!--Start: Author Item Form-->
-                                                                <td class="sorting_1"
-                                                                    style="text-align: right">${counter.count}</td>
-                                                                <td style="text-align: left">
-                                                                        ${author.authorName}
-                                                                </td>
-                                                                <td style="text-align: left">
-                                                                </td>
-                                                            </form>
-                                                            <!--End: Author Item Form-->
-                                                            <!--Start: Delete Author Form-->
-                                                            <c:set var="bookMap" value="${requestScope.COUNT_BOOK}"/>
-                                                            <form action="DispatchServlet">
-                                                                <input type="hidden" value="${author.authorID}"
-                                                                       name="pk">
-                                                                <input type="hidden" value="${author.authorID}"
-                                                                       name="authorPk">
-                                                                <input type="hidden" name="txtSearchValue"
-                                                                       value="${param.txtSearchValue}"/>
-                                                                <td style="text-align: center">
-                                                                    <div class="btn-group">
-                                                                        <button type="submit" class="btn btn-light"
-                                                                                name="btAction" value="View Authors" title="Details">
-                                                                            <i class="fa fa-eye text-primary"></i>
-                                                                        </button>
-                                                                        <button type="button" class="btn btn-light"
-                                                                                data-toggle="modal"
-                                                                                data-target="#updateModal${author.authorID}"
-                                                                                title="Update"
-                                                                                data-original-title="Edit">
-                                                                            <i class="fa fa-pencil text-primary"></i>
-                                                                        </button>
-
-                                                                        <button type="button" class="btn btn-light"
-                                                                                data-toggle="modal"
-                                                                                data-target="#deleteModal${author.authorID}"
-                                                                                title="Delete"
-                                                                                data-original-title="Remove">
-                                                                            <i class="fa fa-times text-primary"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </form>
-                                                            <form action="DispatchServlet" enctype="multipart/form-data"
-                                                                  method="POST">
-                                                                <input type="hidden" value="${author.authorID}"
-                                                                       name="pk">
-                                                                <input type="hidden" name="txtSearchValue"
-                                                                       value="${param.txtSearchValue}"/>
-                                                                <div class="modal fade" id="deleteModal${author.authorID}"
-                                                                     tabindex="-1"
-                                                                     role="dialog"
-                                                                     aria-labelledby="ariaDeleteModal${author.authorID}"
-                                                                     aria-hidden="true">
-                                                                    <div class="modal-dialog" role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title"
-                                                                                    id="exampleModalLongTitle2">
-                                                                                    WARNING
-                                                                                </h5>
-                                                                                <button type="button"
-                                                                                        class="close"
-                                                                                        data-dismiss="modal"
-                                                                                        aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                </button>
-                                                                            </div>
-                                                                            <c:choose>
-                                                                                <c:when test="${bookMap.get(author.authorID) > 0}">
-                                                                                    <div class="modal-body">
-                                                                                        You haven't deleted all the books from this author
-                                                                                    </div>
-                                                                                    <div class="modal-footer">
-                                                                                        <button type="button"
-                                                                                                class="btn btn-outline-primary"
-                                                                                                data-dismiss="modal">
-                                                                                            Close
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </c:when>
-                                                                                <c:when test="${bookMap.get(author.authorID) eq null}">
-                                                                                    <div class="modal-body">
-                                                                                        Do you want to delete this author?
-                                                                                    </div>
-                                                                                    <div class="modal-footer">
-                                                                                        <button type="submit"
-                                                                                                name="btAction"
-                                                                                                value="Delete Author"
-                                                                                                class="btn btn-primary"
-                                                                                        >
-                                                                                            Save
-                                                                                        </button>
-                                                                                        <button type="button"
-                                                                                                class="btn btn-outline-primary"
-                                                                                                data-dismiss="modal">
-                                                                                            Close
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </c:when>
-                                                                            </c:choose>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                            <!--End: Delete Author Form-->
-                                                            <!--Start: Update Author Form-->
-                                                            <form action="DispatchServlet" enctype="multipart/form-data"
-                                                                  method="POST">
-                                                                <input type="hidden" value="${author.authorID}"
-                                                                       name="pk">
-                                                                <input type="hidden" name="txtSearchValue"
-                                                                       value="${param.txtSearchValue}"/>
-                                                                <div class="modal fade" id="updateModal${author.authorID}"
+                                                        <!--Start: Author Item Form-->
+                                                        <td class="sorting_1"
+                                                            style="text-align: right">${counter.count}</td>
+                                                        <td style="text-align: left">
+                                                                ${author.authorName}
+                                                        </td>
+                                                        <c:set var="bookMap" value="${requestScope.COUNT_BOOK}"/>
+                                                        <input type="hidden" value="${author.authorID}"
+                                                               name="pk">
+                                                        <input type="hidden" value="${author.authorID}"
+                                                               name="authorPk">
+                                                        <input type="hidden" name="txtSearchValue"
+                                                               value="${param.txtSearchValue}"/>
+                                                        <td style="text-align: right;">
+                                                            <div class="btn-group">
+                                                                <button type="submit" class="btn btn-light"
+                                                                        name="btAction" value="View Authors"
+                                                                        title="Details">
+                                                                    <i class="fa fa-eye text-primary"></i>
+                                                                </button>
+                                                                <button type="button" class="btn btn-light"
+                                                                        data-toggle="modal"
+                                                                        data-target="#updateModal${author.authorID}"
+                                                                        title="Update"
+                                                                        data-original-title="Edit">
+                                                                    <i class="fa fa-pencil text-primary"></i>
+                                                                </button>
+                                                                <button type="button" class="btn btn-light"
+                                                                        data-toggle="modal"
+                                                                        data-target="#deleteModal${author.authorID}"
+                                                                        title="Delete"
+                                                                        data-original-title="Remove">
+                                                                    <i class="fa fa-times text-primary"></i>
+                                                                </button>
+                                                                <!--Start: Update Author Modal-->
+                                                                <div class="modal fade"
+                                                                     id="updateModal${author.authorID}"
                                                                      tabindex="-1"
                                                                      role="dialog"
                                                                      aria-labelledby="ariaUpdateModal${author.authorID}"
@@ -556,10 +269,10 @@
                                                                                     </label>
                                                                                     <div class="col-sm-9">
                                                                                         <textarea
-                                                                                               class="form-control"
-                                                                                               name="txtUpdateAuthorBio"
-                                                                                               id="${author.authorID}"
-                                                                                               rows="10"> ${author.authorBio}
+                                                                                                class="form-control"
+                                                                                                name="txtUpdateAuthorBio"
+                                                                                                id="${author.authorID}"
+                                                                                                rows="10"> ${author.authorBio}
                                                                                         </textarea>
                                                                                     </div>
                                                                                 </div>
@@ -581,51 +294,76 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </form>
-                                                            <!--End: Update Author Form-->
-                                                        </tr>
-                                                    </c:forEach>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-5">
-                                                <div class="dataTables_info" id="order-listing_info" role="status"
-                                                     aria-live="polite">Showing 1 to 5 of 10 entries
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-7">
-                                                <div class="dataTables_paginate paging_simple_numbers"
-                                                     id="order-listing_paginate">
-                                                    <ul class="pagination">
-                                                        <li class="paginate_button page-item previous disabled"
-                                                            id="order-listing_previous"><a href="#"
-                                                                                           aria-controls="order-listing"
-                                                                                           data-dt-idx="0" tabindex="0"
-                                                                                           class="page-link">Previous</a>
-                                                        </li>
-                                                        <li class="paginate_button page-item active"><a href="#"
-                                                                                                        aria-controls="order-listing"
-                                                                                                        data-dt-idx="1"
-                                                                                                        tabindex="0"
-                                                                                                        class="page-link">1</a>
-                                                        </li>
-                                                        <li class="paginate_button page-item "><a href="#"
-                                                                                                  aria-controls="order-listing"
-                                                                                                  data-dt-idx="2"
-                                                                                                  tabindex="0"
-                                                                                                  class="page-link">2</a>
-                                                        </li>
-                                                        <li class="paginate_button page-item next"
-                                                            id="order-listing_next"><a href="#"
-                                                                                       aria-controls="order-listing"
-                                                                                       data-dt-idx="3" tabindex="0"
-                                                                                       class="page-link">Next</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                                <!--End: Update Author Modal-->
+
+                                                                <!--Start: Delete Author Modal-->
+                                                                <div class="modal fade"
+                                                                     id="deleteModal${author.authorID}"
+                                                                     tabindex="-1"
+                                                                     role="dialog"
+                                                                     aria-labelledby="ariaDeleteModal${author.authorID}"
+                                                                     aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLongTitle2">
+                                                                                    WARNING
+                                                                                </h5>
+                                                                                <button type="button"
+                                                                                        class="close"
+                                                                                        data-dismiss="modal"
+                                                                                        aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <c:choose>
+                                                                                <c:when test="${bookMap.get(author.authorID) > 0}">
+                                                                                    <div class="modal-body">
+                                                                                        You haven't deleted all the
+                                                                                        books from
+                                                                                        this author
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button"
+                                                                                                class="btn btn-outline-primary"
+                                                                                                data-dismiss="modal">
+                                                                                            Close
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </c:when>
+                                                                                <c:when test="${bookMap.get(author.authorID) eq null}">
+                                                                                    <div class="modal-body">
+                                                                                        Do you want to delete this
+                                                                                        author?
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="submit"
+                                                                                                name="btAction"
+                                                                                                value="Delete Author"
+                                                                                                class="btn btn-primary"
+                                                                                        >
+                                                                                            Save
+                                                                                        </button>
+                                                                                        <button type="button"
+                                                                                                class="btn btn-outline-primary"
+                                                                                                data-dismiss="modal">
+                                                                                            Close
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </c:when>
+                                                                            </c:choose>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!--End: Delete Author Modal-->
+                                                            </div>
+                                                        </td>
+                                                    </form>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
