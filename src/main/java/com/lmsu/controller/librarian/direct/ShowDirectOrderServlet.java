@@ -1,15 +1,19 @@
 package com.lmsu.controller.librarian.direct;
 
+import com.lmsu.bean.orderdata.DirectOrderObj;
 import com.lmsu.bean.orderdata.OrderItemObj;
 import com.lmsu.bean.orderdata.OrderObj;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
+import com.lmsu.orderdata.directorders.DirectOrderDAO;
+import com.lmsu.orderdata.directorders.DirectOrderDTO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.orderdata.orders.OrderDAO;
 import com.lmsu.orderdata.orders.OrderDTO;
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
+import javafx.util.Pair;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -44,6 +48,7 @@ public class ShowDirectOrderServlet extends HttpServlet {
         try {
             OrderDAO orderDAO = new OrderDAO();
             OrderItemDAO orderItemDAO = new OrderItemDAO();
+            DirectOrderDAO directOrderDAO = new DirectOrderDAO();
             UserDAO userDAO = new UserDAO();
             BookDAO bookDAO = new BookDAO();
 
@@ -55,19 +60,13 @@ public class ShowDirectOrderServlet extends HttpServlet {
                             new ArrayList<Integer>(
                                     Arrays.asList(
                                             ORDER_PENDING, ORDER_OVERDUE,
-                                            ORDER_APPROVED, ORDER_RECEIVED, ORDER_RETURNED
+                                            ORDER_APPROVED, ORDER_RECEIVED, ORDER_RETURNED,
+                                            ORDER_REJECTED, ORDER_CANCELLED
                                     )));
             //--------------------------------------------------
             List<OrderDTO> orders = orderDAO.getOrderList();
-
-            Map<Integer, String> map = new HashMap<>();
-            Set<Integer> s = map.keySet();
-            for (Integer key : s) {
-                map.get(key);
-            }
-
-            Map<OrderObj, List<OrderItemObj>> detailedOrders = new HashMap<OrderObj, List<OrderItemObj>>();
-            if (orders!=null) {
+            Map<Pair<OrderObj, DirectOrderObj>, List<OrderItemObj>> detailedOrders = new HashMap<Pair<OrderObj, DirectOrderObj>, List<OrderItemObj>>();
+            if (orders != null) {
                 for (OrderDTO orderDTO : orders) {
                     UserDTO userDTO = userDAO.getUserByID(orderDTO.getMemberID());
                     OrderObj orderObj = new OrderObj();
@@ -97,7 +96,20 @@ public class ShowDirectOrderServlet extends HttpServlet {
 
                         orderItemObjs.add(orderItemObj);
                     }
-                    detailedOrders.put(orderObj, orderItemObjs);
+
+                    DirectOrderDTO directOrderDTO = directOrderDAO.getDirectOrderFromOrderID(orderDTO.getId());
+                    DirectOrderObj directOrderObj = new DirectOrderObj();
+                    String librarianID = directOrderDTO.getLibrarianID();
+                    if (librarianID != null) {
+                        UserDTO librarianDTO = userDAO.getUserByID(librarianID);
+                        directOrderObj.setLibrarianName(librarianDTO.getName());
+                    }
+                    directOrderObj.setOrderID(directOrderDTO.getOrderID());
+                    directOrderObj.setLibrarianID(librarianID);
+                    directOrderObj.setScheduledTime(directOrderDTO.getScheduledTime());
+
+                    Pair<OrderObj, DirectOrderObj> orderInformation = new Pair<>(orderObj, directOrderObj);
+                    detailedOrders.put(orderInformation, orderItemObjs);
                 }
             }
             request.setAttribute(ATTR_ORDER_LIST, detailedOrders);
