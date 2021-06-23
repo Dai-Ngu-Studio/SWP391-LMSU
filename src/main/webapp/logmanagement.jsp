@@ -192,7 +192,7 @@
                                        role="grid"
                                        aria-describedby="order-listing_info">
                                     <thead>
-                                    <tr role="row">
+                                    <tr>
                                         <th style="width: 54px;">Imported On</th>
                                         <th style="width: 72px;">Total Quantity</th>
                                         <th style="width: 110px;">Total Imported Times</th>
