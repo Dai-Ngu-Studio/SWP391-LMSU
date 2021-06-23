@@ -186,6 +186,11 @@
                                                         </th>
                                                         <th class="sorting" tabindex="0" aria-controls="order-listing"
                                                             rowspan="1" colspan="1"
+                                                            aria-label="QUANTITY: activate to sort column ascending"
+                                                            style="width: 96px; text-align: left">SCHEDULED TIME
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
+                                                            rowspan="1" colspan="1"
                                                             aria-label="STATUS: activate to sort column ascending"
                                                             style="width: 67px; text-align: center">STATUS
                                                         </th>
@@ -197,48 +202,50 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
+                                                    <%--Map<Pair<OrderObj, DirectOrderObj>, List<OrderItemObj>>--%>
                                                     <c:set var="orderList" value="${requestScope.ORDER_LIST}"/>
                                                     <c:forEach var="order" items="${orderList}"
                                                                varStatus="counter">
                                                         <tr class="odd">
                                                             <td class="sorting_1 text-center">${counter.count}</td>
                                                             <td class="text-left">
-                                                                    ${order.key.orderDate}
+                                                                    ${order.key.key.orderDate}
                                                             </td>
-                                                            <td class="text-left">${order.key.memberName}</td>
+                                                            <td class="text-left">${order.key.key.memberName}</td>
+                                                            <td class="text-left">${order.key.value.scheduledTime}</td>
                                                             <td class="text-center">
                                                                 <c:choose>
-                                                                    <c:when test="${order.key.activeStatus eq -1}">
+                                                                    <c:when test="${order.key.key.activeStatus eq -1}">
                                                                         <label class="badge
                                                                             badge-secondary
                                                                             text-white">Cancelled</label>
                                                                     </c:when>
-                                                                    <c:when test="${order.key.activeStatus eq 0}">
+                                                                    <c:when test="${order.key.key.activeStatus eq 0}">
                                                                         <label class="badge
                                                                             badge-warning
                                                                             text-dark">Pending</label>
                                                                     </c:when>
-                                                                    <c:when test="${order.key.activeStatus eq 1}">
+                                                                    <c:when test="${order.key.key.activeStatus eq 1}">
                                                                         <label class="badge
                                                                             badge-info
                                                                             text-white">Approved</label>
                                                                     </c:when>
-                                                                    <c:when test="${order.key.activeStatus eq 2}">
+                                                                    <c:when test="${order.key.key.activeStatus eq 2}">
                                                                         <label class="badge
                                                                             badge-primary
                                                                             text-white">Received</label>
                                                                     </c:when>
-                                                                    <c:when test="${order.key.activeStatus eq 3}">
+                                                                    <c:when test="${order.key.key.activeStatus eq 3}">
                                                                         <label class="badge
                                                                             badge-success
                                                                             text-white">Closed</label>
                                                                     </c:when>
-                                                                    <c:when test="${order.key.activeStatus eq 4}">
+                                                                    <c:when test="${order.key.key.activeStatus eq 4}">
                                                                         <label class="badge
                                                                             badge-danger
                                                                             text-white">Overdue</label>
                                                                     </c:when>
-                                                                    <c:when test="${order.key.activeStatus eq 5}">
+                                                                    <c:when test="${order.key.key.activeStatus eq 5}">
                                                                         <label class="badge
                                                                             badge-dark
                                                                             text-white">Rejected</label>
@@ -250,13 +257,13 @@
                                                                     <div class="btn-group">
                                                                         <button type="button" class="btn btn-light"
                                                                                 data-toggle="modal"
-                                                                                data-target="#orderModal${order.key.id}">
+                                                                                data-target="#orderModal${order.key.key.id}">
                                                                             <i class="fa fa-eye text-primary"></i>
                                                                         </button>
                                                                             <%--not implemented--%>
                                                                         <button type="button" class="btn btn-light"
                                                                                 data-toggle="modal"
-                                                                                data-target="#updateModal${order.key.id}"
+                                                                                data-target="#updateModal${order.key.key.id}"
                                                                                 title="Update"
                                                                                 data-original-title="Edit">
                                                                             <i class="fa fa-pencil text-primary"></i>
@@ -272,7 +279,7 @@
                                                     <%--Start: Order Details Form--%>
                                                     <form action="DispatchServlet">
                                                         <div class="modal fade"
-                                                             id="orderModal${order.key.id}"
+                                                             id="orderModal${order.key.key.id}"
                                                              tabindex="-1">
                                                             <div class="modal-dialog modal-lg">
                                                                 <div class="modal-content">
@@ -288,56 +295,56 @@
                                                                     </div>
                                                                     <div class="modal-body">
                                                                         <div class="form-group row">
-                                                                            <label class="col-4 col-form-label">
+                                                                            <label class="col-2 col-form-label">
                                                                                 Order ID
                                                                             </label>
-                                                                            <div class="col-8">
+                                                                            <div class="col-10">
                                                                                 <input type="text"
                                                                                        class="form-control"
-                                                                                       value="${order.key.id}"
+                                                                                       value="${order.key.key.id}"
                                                                                        disabled/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group row">
-                                                                            <label class="col-4 col-form-label">
+                                                                            <label class="col-2 col-form-label">
                                                                                 Member ID
                                                                             </label>
-                                                                            <div class="col-8">
+                                                                            <div class="col-10">
                                                                                 <input type="text"
                                                                                        class="form-control"
-                                                                                       value="${order.key.memberID}"
+                                                                                       value="${order.key.key.memberID}"
                                                                                        disabled/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group row">
-                                                                            <label class="col-4 col-form-label">
+                                                                            <label class="col-2 col-form-label">
                                                                                 Member Name
                                                                             </label>
-                                                                            <div class="col-8">
+                                                                            <div class="col-10">
                                                                                 <input type="text"
                                                                                        class="form-control"
-                                                                                       value="${order.key.memberName}"
+                                                                                       value="${order.key.key.memberName}"
                                                                                        disabled/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group row">
-                                                                            <label class="col-4 col-form-label">
+                                                                            <label class="col-2 col-form-label">
                                                                                 Order Date
                                                                             </label>
-                                                                            <div class="col-8">
+                                                                            <div class="col-10">
                                                                                 <input type="text"
                                                                                        class="form-control"
-                                                                                       value="${order.key.orderDate}"
+                                                                                       value="${order.key.key.orderDate}"
                                                                                        disabled/>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group row">
-                                                                            <label class="col-4 col-form-label">
+                                                                            <label class="col-2 col-form-label">
                                                                                 Status
                                                                             </label>
-                                                                            <div class="col-8">
+                                                                            <div class="col-10">
                                                                                 <c:choose>
-                                                                                    <c:when test="${order.key.activeStatus eq -1}">
+                                                                                    <c:when test="${order.key.key.activeStatus eq -1}">
                                                                                         <input type="text"
                                                                                                class="form-control
                                                                                                        text-white
@@ -345,7 +352,7 @@
                                                                                                value="Cancelled"
                                                                                                disabled/>
                                                                                     </c:when>
-                                                                                    <c:when test="${order.key.activeStatus eq 0}">
+                                                                                    <c:when test="${order.key.key.activeStatus eq 0}">
                                                                                         <input type="text"
                                                                                                class="form-control
                                                                                                        text-dark
@@ -353,7 +360,7 @@
                                                                                                value="Pending"
                                                                                                disabled/>
                                                                                     </c:when>
-                                                                                    <c:when test="${order.key.activeStatus eq 1}">
+                                                                                    <c:when test="${order.key.key.activeStatus eq 1}">
                                                                                         <input type="text"
                                                                                                class="form-control
                                                                                                        text-white
@@ -361,7 +368,7 @@
                                                                                                value="Approved"
                                                                                                disabled/>
                                                                                     </c:when>
-                                                                                    <c:when test="${order.key.activeStatus eq 2}">
+                                                                                    <c:when test="${order.key.key.activeStatus eq 2}">
                                                                                         <input type="text"
                                                                                                class="form-control
                                                                                                        text-white
@@ -369,7 +376,7 @@
                                                                                                value="Received"
                                                                                                disabled/>
                                                                                     </c:when>
-                                                                                    <c:when test="${order.key.activeStatus eq 3}">
+                                                                                    <c:when test="${order.key.key.activeStatus eq 3}">
                                                                                         <input type="text"
                                                                                                class="form-control
                                                                                                        text-white
@@ -377,7 +384,7 @@
                                                                                                value="Closed"
                                                                                                disabled/>
                                                                                     </c:when>
-                                                                                    <c:when test="${order.key.activeStatus eq 4}">
+                                                                                    <c:when test="${order.key.key.activeStatus eq 4}">
                                                                                         <input type="text"
                                                                                                class="form-control
                                                                                                        text-white
@@ -385,7 +392,7 @@
                                                                                                value="Overdue"
                                                                                                disabled/>
                                                                                     </c:when>
-                                                                                    <c:when test="${order.key.activeStatus eq 5}">
+                                                                                    <c:when test="${order.key.key.activeStatus eq 5}">
                                                                                         <input type="text"
                                                                                                class="form-control
                                                                                                        text-white

@@ -1,11 +1,10 @@
 package com.lmsu.orderdata.directorders;
 
+import com.lmsu.utils.DBHelpers;
+
 import javax.naming.NamingException;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 
 public class DirectOrderDAO implements Serializable {
     private Connection conn;
@@ -37,5 +36,39 @@ public class DirectOrderDAO implements Serializable {
             if (stm != null) stm.close();
         }
         return false;
+    }
+
+    public DirectOrderDTO getDirectOrderFromOrderID(int orderID)
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [orderID], [librarianID], [scheduledTime] " +
+                        "FROM [DirectOrder] " +
+                        "WHERE [orderID] = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, orderID);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    int orderIDVal = rs.getInt("orderID");
+                    String librarianID = rs.getString("librarianID");
+                    Timestamp scheduledTime = rs.getTimestamp("scheduledTime");
+                    DirectOrderDTO dto = new DirectOrderDTO();
+                    dto.setOrderID(orderIDVal);
+                    dto.setLibrarianID(librarianID);
+                    dto.setScheduledTime(scheduledTime);
+                    return dto;
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return null;
     }
 }

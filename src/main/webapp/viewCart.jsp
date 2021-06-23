@@ -32,6 +32,7 @@
             </c:if>
             <c:set var="cart" value="${sessionScope.MEMBER_CART}"/>
             <c:if test="${not empty cart}">
+                <%--Map<String bookID, BookObj>--%>
                 <c:set var="books" value="${cart.items}"/>
                 <c:if test="${not empty books}">
                     <div class="row pt-5">
@@ -59,6 +60,12 @@
                                                    class="link"><i
                                                         class="fa fa-arrow-circle-right text-info"
                                                         aria-hidden="true"></i></a>
+                                                <c:if test="${book.value.quantity eq 0}">
+                                                    <label class="badge badge-secondary text-white float-right">
+                                                        <i class="fa fa-bookmark" aria-hidden="true"></i>
+                                                        Reserve
+                                                    </label>
+                                                </c:if>
                                             </div>
                                             <div class="card-text">
                                                 <div class="row">
@@ -73,11 +80,19 @@
 
                                                     </div>
                                                     <div class="col-4">
-                                                        <input type="hidden" name="bookPk" value="${book.key}">
-                                                        <button type="submit" name="btAction"
-                                                                value="RemoveFromCart" class="btn btn-danger btn-block">
-                                                            <i class="fa fa-minus-circle" aria-hidden="true"></i> Remove
-                                                        </button>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <input type="hidden" name="bookPk" value="${book.key}">
+                                                                <button type="submit" name="btAction"
+                                                                        value="RemoveFromCart"
+                                                                        class="btn btn-danger btn-block">
+                                                                    <i class="fa fa-minus-circle"
+                                                                       aria-hidden="true"></i> Remove
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+
                                                     </div>
                                                 </div>
                                             </div>
