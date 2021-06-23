@@ -78,9 +78,15 @@
                                                         });
 
                                                         if ($.isEmptyObject(responseJson)) {
-                                                            $('#btnDirectOrder').removeAttr('disabled');
+                                                            $('#btnDirectOrder')
+                                                                .removeAttr('disabled')
+                                                                .removeClass('btn-secondary')
+                                                                .addClass('btn-primary');
                                                         } else {
-                                                            $('#btnDirectOrder').attr('disabled', '');
+                                                            $('#btnDirectOrder')
+                                                                .attr('disabled', '')
+                                                                .removeClass('btn-primary')
+                                                                .addClass('btn-secondary');
                                                         }
                                                     }
                                                 });
@@ -169,9 +175,15 @@
                                                         });
 
                                                         if ($.isEmptyObject(responseJson)) {
-                                                            $('#btnDeliveryOrder').removeAttr('disabled');
+                                                            $('#btnDeliveryOrder')
+                                                                .removeAttr('disabled')
+                                                                .removeClass('btn-secondary')
+                                                                .addClass('btn-primary');
                                                         } else {
-                                                            $('#btnDeliveryOrder').attr('disabled', '');
+                                                            $('#btnDeliveryOrder')
+                                                                .attr('disabled', '')
+                                                                .removeClass('btn-primary')
+                                                                .addClass('btn-secondary');
                                                         }
                                                     }
                                                 });
