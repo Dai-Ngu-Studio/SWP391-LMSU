@@ -1,9 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  Date: 6/2/2021
-  Time: 8:29 PM
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -138,7 +133,6 @@
         <!-- partial -->
         <jsp:include page="sidebar.jsp"/>
         <!-- partial -->
-
         <div class="main-panel">
             <div class="content-wrapper">
                 <div class="card">
@@ -172,15 +166,12 @@
                                     <c:set var="bookList" value="${requestScope.BOOK_LIST}"/>
                                     <c:forEach var="book" items="${bookList}" varStatus="counter">
                                         <!--Start: Book Item Row-->
-
                                         <tr>
                                             <form action="DispatchServlet"
                                                   enctype="multipart/form-data"
                                                   method="POST">
                                                 <td style="text-align: center">${counter.count}</td>
-                                                <td style="text-align: left">
-                                                        ${book.title}
-                                                </td>
+                                                <td style="text-align: left">${book.title}</td>
                                                 <td style="text-align: right">${book.quantity}</td>
                                                 <td style="text-align: center">
                                                     <c:if test="${book.quantity > 0}">
@@ -251,8 +242,6 @@
                                                                             </div>
                                                                             <div class="col-sm-9">
                                                                                 <div class="custom-file">
-                                                                                    var
-                                                                                    abc="'coverPictureUpdate${book.bookID}'";
                                                                                     <input type="file"
                                                                                            class="custom-file-input"
                                                                                            id="customFileUpdate${book.bookID}"
@@ -495,7 +484,6 @@
 <!-- endinject -->
 <!-- Custom js for this page-->
 <script type="text/javascript" src="src/jquery.autocomplete.js"></script>
-<script type="text/javascript" src="js/authorAutocomplete.js" defer></script>
 <!-- End custom js for this page-->
 </body>
 </html>
