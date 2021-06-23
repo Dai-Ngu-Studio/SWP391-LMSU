@@ -170,14 +170,25 @@
                                         and (not empty user)
                                         and (not empty cart)
                                         and (existedInCart)}">
-                                    <div class="row">This book is already in your cart.</div>
-                                    <form action="RemoveFromCartServlet" class="my-0 mx-0">
-                                        <input type="hidden" name="bookPk" value="${bookObj.id}">
-                                        <input type="hidden" name="isBrowsingBooks" value="true">
-                                        <button type="submit" class="btn btn-danger btn-block"
-                                                name="btAction" value="RemoveFromCart">
-                                            <i class="fa fa-minus-circle" aria-hidden="true"></i> Remove from Cart
-                                        </button>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            This book is already in your cart.
+                                        </div>
+                                    </div>
+                                    <form action="RemoveFromCartServlet" class="my-1 mx-0">
+                                        <div class="row">
+                                            <div class="col-2"></div>
+                                            <div class="col-8 text-center">
+                                                <input type="hidden" name="bookPk" value="${bookObj.id}">
+                                                <input type="hidden" name="isBrowsingBooks" value="true">
+                                                <button type="submit" class="btn btn-danger btn-block"
+                                                        name="btAction" value="RemoveFromCart">
+                                                    <i class="fa fa-minus-circle" aria-hidden="true"></i> Remove from
+                                                    Cart
+                                                </button>
+                                            </div>
+                                            <div class="col-2"></div>
+                                        </div>
                                     </form>
                                 </c:when>
                                 <%--Book not existed in cart--%>
@@ -202,8 +213,8 @@
                                                 <c:if test="${bookObj.quantity gt 0}">
                                                     <form action="AddBookToCartServlet" class="my-0">
                                                         <div class="row">
-                                                            <div class="col-2 text-center"></div>
-                                                            <div class="col-8">
+                                                            <div class="col-2"></div>
+                                                            <div class="col-8 text-center">
                                                                 <input type="hidden" name="bookPk"
                                                                        value="${bookObj.id}">
                                                                 <button type="submit" class="btn btn-primary btn-block"
@@ -212,7 +223,7 @@
                                                                     Add to Cart
                                                                 </button>
                                                             </div>
-                                                            <div class="col-2 text-center"></div>
+                                                            <div class="col-2"></div>
                                                         </div>
                                                     </form>
                                                 </c:if>
@@ -228,7 +239,7 @@
                                                     <form action="AddBookToCartServlet" class="my-1">
                                                         <input type="hidden" name="bookPk" value="${bookObj.id}">
                                                         <div class="row">
-                                                            <div class="col-2 text-center"></div>
+                                                            <div class="col-2"></div>
                                                             <div class="col-8 text-center">
                                                                 <button type="submit" class="btn btn-success btn-block"
                                                                         name="btAction" value="AddToCart">
@@ -236,7 +247,7 @@
                                                                     Reserve Book
                                                                 </button>
                                                             </div>
-                                                            <div class="col-2 text-center"></div>
+                                                            <div class="col-2"></div>
                                                         </div>
                                                     </form>
                                                 </c:if>
