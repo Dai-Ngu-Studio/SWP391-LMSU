@@ -26,8 +26,7 @@ function checkISBN() {
                                         </label>
                                         <div class="col-sm-9">
                                             <img class="rounded float-right"
-                                                    style="height: 400px;
-                                                    width: auto;"
+                                                    style="height: 400px; width: auto;"
                                                     src="images/NotAvailable.jpg"
                                                     id="coverPicture"
                                                     alt="Book cover"
@@ -47,8 +46,9 @@ function checkISBN() {
                                                         onchange="readURL(this, 'coverPicture');"
                                                 >
                                                 <label class="custom-file-label"
-                                                        for="customFileAdd">Choose
-                                                    Image </label>
+                                                        for="customFileAdd">
+                                                        Choose Image
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
@@ -79,7 +79,6 @@ function checkISBN() {
                                         </div>
                                         <script>
                                             $("#authorAutoComplete").autocomplete({
-                                            //lookup: countries,
                                             serviceUrl: 'AutoSuggestAuthorServlet', //tell the script where to send requests
                                             width: "auto", //set width
                                             //add value to input field
@@ -262,7 +261,8 @@ $(document).ready(function () {
                                         data-toggle="modal"
                                         data-target="#AddBookModal"
                                         title="Add a book">
-                                    <i class="fa fa-plus"></i></button>
+                                    <i class="fa fa-plus"></i>
+                                </button>
 
                                 <div class="modal fade" id="AddBookModal"
                                     tabindex="-1"
