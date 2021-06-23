@@ -239,8 +239,6 @@
                                                                                     </div>
                                                                                     <div class="col-sm-9">
                                                                                         <div class="custom-file">
-                                                                                            var
-                                                                                            abc="'coverPictureUpdate${author.authorID}'";
                                                                                             <input type="file"
                                                                                                    class="custom-file-input"
                                                                                                    id="customFileUpdate${author.authorID}"
