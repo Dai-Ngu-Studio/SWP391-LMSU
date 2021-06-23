@@ -1,25 +1,26 @@
 package com.lmsu.controller;
 
-import com.lmsu.books.BookDAO;
-import com.lmsu.books.BookDTO;
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
-import javax.servlet.http.*;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "SearchMemberServlet", value = "/SearchMemberServlet")
-public class SearchMemberServlet extends HttpServlet {
+@WebServlet(name = "SearchUserServlet", value = "/SearchUserServlet")
+public class SearchUserServlet extends HttpServlet {
 
     private static final String ERROR_PAGE = "error.jsp";
     private static final String SHOW_MEMBER_CONTROLLER = "ShowMemberServlet";
-    static final Logger LOGGER = Logger.getLogger(SearchMemberServlet.class);
+    static final Logger LOGGER = Logger.getLogger(SearchUserServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,7 +33,7 @@ public class SearchMemberServlet extends HttpServlet {
         try {
             if (searchValue.trim().length() > 0) {
                 UserDAO dao = new UserDAO();
-                dao.searchMemberByName(searchValue);
+                dao.searchUserByName(searchValue);
                 List<UserDTO> list = dao.getListAccount();
                 if (!list.isEmpty()) {
                     request.setAttribute("SEARCH_RESULT", list);
