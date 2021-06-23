@@ -238,6 +238,115 @@ function checkISBN() {
         $('#rowSupplier').remove();
     }
 }
-$(document).ready(function() {
-    $('#book-datatable').DataTable();
-} );
+
+$(document).ready(function () {
+    $('#book-datatable').DataTable({bFilter: false});
+    let fileSearchAdd = `<div class="row float-right" style="padding-right: 50px;">
+                            <!--Start: Add Book Form-->
+                            <form action="DispatchServlet" enctype="multipart/form-data"
+                                method="POST">
+                                <input type="search" class="form-control"
+                                    style="float: left; width: 250px; border-radius: 0px"
+                                    placeholder="Search"
+                                    name="txtSearchValue" value=""
+                                    aria-controls="order-listing"
+                                    id="searchBox">
+                                <button class="btn btn-primary" type="submit"
+                                        name="btAction" value="SearchBook"
+                                        style="border-radius: 0px"><i class="fa fa-search"></i>
+                                </button>
+
+                                <button class="btn btn-primary" type="button"
+                                        style="border-radius: 5px; 
+                                               display: inline-block;"
+                                        data-toggle="modal"
+                                        data-target="#AddBookModal"
+                                        title="Add a book">
+                                    <i class="fa fa-plus"></i></button>
+
+                                <div class="modal fade" id="AddBookModal"
+                                    tabindex="-1"
+                                    role="dialog"
+                                    aria-labelledby="AddBookModalLongTitle"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title"
+                                                    id="AddBookModalLongTitle">
+                                                    Add book
+                                                </h5>
+                                                <button type="button"
+                                                        class="close"
+                                                        data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body" id="addModalBody">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">
+                                                        ISBN 10 Digits
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text"
+                                                            id="txtISBNTen"
+                                                            class="form-control"
+                                                            value=""
+                                                            name="txtISBNTen"
+                                                            oninput="checkISBN();"
+                                                        >
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">
+                                                        ISBN 13 Digits
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text"
+                                                            id="txtISBNThirteen"
+                                                            class="form-control"
+                                                            value=""
+                                                            name="txtISBNThirteen"
+                                                            oninput="checkISBN();"
+                                                        >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit"
+                                                        class="btn btn-primary"
+                                                        name="btAction"
+                                                        value="AddBook"
+                                                >
+                                                    Save
+                                                </button>
+                                                <button type="button"
+                                                        class="btn btn-outline-primary"
+                                                        data-dismiss="modal">
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--End: Add Book Form-->
+                            <!-- Start: BUTTON AND ADD FILE-->
+                            <form action="DispatchServlet" enctype="multipart/form-data"
+                                method="POST">
+                                <input type="hidden" name="btAction" value="AddBook">
+                                <input type="hidden" name="isAddFile" value="True">
+                                <label class="btn btn-primary" style="border-radius: 5px">
+                                    <input type="file"
+                                        hidden
+                                        name="fileAdd"
+                                        onchange="form.submit();"
+                                    >
+                                    <i class="fas fa-file-plus"></i>
+                                </label>
+                            </form>
+                            <!--End: BUTTON AND ADD FILE-->
+                        </div>`;
+    $('#book-datatable_wrapper').children().eq(0).children().eq(1).append(fileSearchAdd);
+});
