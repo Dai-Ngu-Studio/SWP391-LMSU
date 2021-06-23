@@ -56,7 +56,8 @@
                                 <div class="col-lg-6"><strong>Author</strong></div>
                                 <a href="<c:url value='ShowAuthorBookServlet?authorPk=${bookObj.authorID}'/>"
                                    class="link text-info">
-                                    <div class="col-lg-12" style="text-decoration: underline">${bookObj.authorName}</div>
+                                    <div class="col-lg-12"
+                                         style="text-decoration: underline">${bookObj.authorName}</div>
                                 </a>
                             </div>
                         </li>
@@ -141,7 +142,8 @@
                         </span>
                     <%--End: Book Rating--%>
                     <div class="card-text mt-2">
-                        By <a href="#" class="badge badge-secondary">${bookObj.authorName}</a>
+                        By <a href="<c:url value='ShowAuthorBookServlet?authorPk=${bookObj.authorID}'/>"
+                              class="badge badge-secondary">${bookObj.authorName}</a>
                     </div>
                     <div class="card-title mt-2 mb-0">Description</div>
                     <div class="card-text">
@@ -153,8 +155,8 @@
             <div class="card mt-3">
                 <div class="card-body">
                     <div class="row text-center">
-                        <div class="col-lg-4"></div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-6">
                             <c:if test="${not empty session}">
                                 <c:set var="cart" value="${sessionScope.MEMBER_CART}"/>
                                 <c:if test="${not empty cart}">
@@ -198,28 +200,43 @@
                                             <c:otherwise>
                                                 <%--gt: greater than--%>
                                                 <c:if test="${bookObj.quantity gt 0}">
-                                                    <form action="AddBookToCartServlet" class="row my-0">
-                                                        <input type="hidden" name="bookPk" value="${bookObj.id}">
-                                                        <button type="submit" class="btn btn-primary btn-block"
-                                                                name="btAction" value="AddToCart">
-                                                            <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                                                            Add to Cart
-                                                        </button>
+                                                    <form action="AddBookToCartServlet" class="my-0">
+                                                        <div class="row">
+                                                            <div class="col-2 text-center"></div>
+                                                            <div class="col-8">
+                                                                <input type="hidden" name="bookPk"
+                                                                       value="${bookObj.id}">
+                                                                <button type="submit" class="btn btn-primary btn-block"
+                                                                        name="btAction" value="AddToCart">
+                                                                    <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                                                    Add to Cart
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-2 text-center"></div>
+                                                        </div>
                                                     </form>
                                                 </c:if>
                                                 <%--eq: equal--%>
                                                 <c:if test="${bookObj.quantity eq 0}">
-                                                    <div class="row">This book is currently out of stock.
-                                                        Add it to your cart to get notified when it becomes available.
+                                                    <div class="row">
+                                                        <div class="col-12 text-center">
+                                                            <c:out value="This book is currently out of stock."/>
+                                                            <br/>
+                                                            <c:out value='${"Add it to your cart to get notified when it becomes available."}'/>
+                                                        </div>
                                                     </div>
-                                                    <form action="AddBookToCartServlet" class="row my-0">
+                                                    <form action="AddBookToCartServlet" class="my-1">
                                                         <input type="hidden" name="bookPk" value="${bookObj.id}">
                                                         <div class="row">
-                                                            <button type="submit" class="btn btn-success btn-block"
-                                                                    name="btAction" value="AddToCart">
-                                                                <i class="fa fa-bookmark" aria-hidden="true"></i>
-                                                                Reserve Book
-                                                            </button>
+                                                            <div class="col-2 text-center"></div>
+                                                            <div class="col-8 text-center">
+                                                                <button type="submit" class="btn btn-success btn-block"
+                                                                        name="btAction" value="AddToCart">
+                                                                    <i class="fa fa-bookmark" aria-hidden="true"></i>
+                                                                    Reserve Book
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-2 text-center"></div>
                                                         </div>
                                                     </form>
                                                 </c:if>
@@ -229,7 +246,7 @@
                                 </c:otherwise>
                             </c:choose>
                         </div>
-                        <div class="col-lg-4"></div>
+                        <div class="col-lg-3"></div>
                     </div>
                 </div>
             </div>
