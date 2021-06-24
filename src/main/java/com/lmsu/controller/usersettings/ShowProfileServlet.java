@@ -37,9 +37,11 @@ public class ShowProfileServlet extends HttpServlet {
     private final int ITEM_REJECTED = 8;
     private final int ITEM_LOST = 9;
     private final int ITEM_RESERVED = 10;
+    private final int ITEM_AVAILABLE = 11;
 
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
     private final String ATTR_MEMBER_ORDER_ITEMS = "MEMBER_ORDER_ITEMS";
+    private final String ATTR_MEMBER_RESERVE_ITEMS = "MEMBER_RESERVE_ITEMS";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -90,6 +92,47 @@ public class ShowProfileServlet extends HttpServlet {
                             renewalMap.put(orderItemDTO.getId(), renewalDAO.countRenewalRequestByItemID(orderItemDTO.getId()));
                         }
                         request.setAttribute("RENEWAL_MAP_LIST", renewalMap);
+                    }
+
+                    orderItemDAO.clearOrderItemList();
+                    orderItemDAO.getReserveBookFromMember(userDTO.getId(), ITEM_RESERVED);
+                    List<OrderItemDTO> reserveItemList = orderItemDAO.getOrderItemList();
+                    List<OrderItemObj> reserveItemObjList = new ArrayList<>();
+
+                    BookDAO book_DAO = new BookDAO();
+
+                    if (reserveItemList != null) {
+                        for (OrderItemDTO orderitemDTO : reserveItemList) {
+                            BookDTO bookDTO = book_DAO.getBookById(orderitemDTO.getBookID());
+
+                            if(bookDTO.getQuantity() > 0){
+                                OrderItemObj orderitemObj = new OrderItemObj();
+                                orderitemObj.setId(orderitemDTO.getId());
+                                orderitemObj.setOrderID(orderitemDTO.getOrderID());
+                                orderitemObj.setMemberID(orderitemDTO.getMemberID());
+                                orderitemObj.setBookID(orderitemDTO.getBookID());
+                                orderitemObj.setTitle(bookDTO.getTitle());
+                                orderitemObj.setLendStatus(ITEM_AVAILABLE);
+                                orderitemObj.setReturnDeadline(orderitemDTO.getReturnDeadline());
+                                orderitemObj.setLendDate(orderitemDTO.getLendDate());
+                                orderitemObj.setReturnDate(orderitemDTO.getReturnDate());
+                                reserveItemObjList.add(orderitemObj);
+                            }
+                            else {
+                                OrderItemObj orderitemObj = new OrderItemObj();
+                                orderitemObj.setId(orderitemDTO.getId());
+                                orderitemObj.setOrderID(orderitemDTO.getOrderID());
+                                orderitemObj.setMemberID(orderitemDTO.getMemberID());
+                                orderitemObj.setBookID(orderitemDTO.getBookID());
+                                orderitemObj.setTitle(bookDTO.getTitle());
+                                orderitemObj.setLendStatus(orderitemDTO.getLendStatus());
+                                orderitemObj.setReturnDeadline(orderitemDTO.getReturnDeadline());
+                                orderitemObj.setLendDate(orderitemDTO.getLendDate());
+                                orderitemObj.setReturnDate(orderitemDTO.getReturnDate());
+                                reserveItemObjList.add(orderitemObj);
+                            }
+                        }
+                        request.setAttribute(ATTR_MEMBER_RESERVE_ITEMS, reserveItemObjList);
                     }
                 }
             }

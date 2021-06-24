@@ -54,14 +54,15 @@ public class OrderItemDAO implements Serializable {
             if (conn != null) {
                 String sql = "INSERT INTO [OrderItems] " +
                         "([orderID], [memberID], [bookID], [lendStatus], [returnDeadline], [lendDate]) " +
-                        "VALUES(?, ?, ?, ?, CURRENT_TIMESTAMP + 14, ?) ";
+                        "VALUES(?, ?, ?, ?, ?, ?) ";
                 stm = conn.prepareStatement(sql);
                 for (OrderItemDTO orderItem : orderItems) {
                     stm.setInt(1, orderItem.getOrderID());
                     stm.setString(2, orderItem.getMemberID());
                     stm.setString(3, orderItem.getBookID());
                     stm.setInt(4, orderItem.getLendStatus());
-                    stm.setDate(5, orderItem.getLendDate());
+                    stm.setDate(5, orderItem.getReturnDeadline());
+                    stm.setDate(6, orderItem.getLendDate());
                     stm.addBatch();
                     stm.clearParameters();
                 }
@@ -213,6 +214,48 @@ public class OrderItemDAO implements Serializable {
                 }
                 stm = con.prepareStatement(sql);
                 stm.setString(1, memberID);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    if (this.orderItemList == null) {
+                        this.orderItemList = new ArrayList<>();
+                    }
+                    OrderItemDTO dto = new OrderItemDTO();
+                    dto.setId(rs.getInt("id"));
+                    dto.setOrderID(rs.getInt("orderID"));
+                    dto.setMemberID(rs.getString("memberID"));
+                    dto.setBookID(rs.getString("bookID"));
+                    dto.setLendStatus(rs.getInt("lendStatus"));
+                    dto.setReturnDeadline(rs.getDate("returnDeadline"));
+                    dto.setLendDate(rs.getDate("lendDate"));
+                    dto.setReturnDate(rs.getDate("returnDate"));
+                    this.orderItemList.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
+
+    public void getReserveBookFromMember(String memberID, int lendStatus)
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [id], [orderID], [memberID], [bookID], [lendStatus], " +
+                        "[returnDeadline], [lendDate], [returnDate] " +
+                        "FROM [OrderItems] " +
+                        "WHERE [memberID] = ? " +
+                        "AND [lendStatus] = ?";
+
+                stm = con.prepareStatement(sql);
+                stm.setString(1, memberID);
+                stm.setInt(2, lendStatus);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     if (this.orderItemList == null) {

@@ -61,6 +61,9 @@
                             <a class="list-group-item list-group-item-action" id="list-miscellaneous-list"
                                data-toggle="list" href="#list-miscellaneous" role="tab" aria-controls="miscellaneous"><i
                                     class="ti-agenda"></i> Book Borrowing</a>
+                            <a class="list-group-item list-group-item-action" id="list-reserve-list"
+                               data-toggle="list" href="#list-reserve" role="tab" aria-controls="miscellaneous"><i
+                                    class="ti-package"></i> Wishlist</a>
                         </div>
                     </div>
                 </div>
@@ -227,6 +230,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="tab-pane fade" id="list-miscellaneous" role="tabpanel"
                              aria-labelledby="list-miscellaneous-list">
                             <div class="row">
@@ -443,6 +447,74 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </form>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="list-reserve" role="tabpanel"
+                             aria-labelledby="list-reserve-list">
+                            <div class="row">
+                                <div class="col-sm-12">
+
+                                    <table id="order-listing2" class="table dataTable no-footer" role="grid"
+                                           aria-describedby="order-listing_info">
+                                        <thead>
+                                        <tr role="row">
+                                            <th class="text-center" style="width: 100px;">#</th>
+                                            <th class="text-left" style="width: 73%;">NAME</th>
+                                            <th class="text-center" style="width: 73%;">STATUS</th>
+                                            <th class="text-center" style="width: 64px;">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <%--Need to add row to show status of item--%>
+                                        <c:set var="reserveItems" value="${requestScope.MEMBER_RESERVE_ITEMS}"/>
+                                        <c:forEach var="reserveItem" items="${reserveItems}" varStatus="counter">
+                                            <tr class="odd">
+                                                <form action="DispatchServlet">
+                                                    <td class="sorting_1 text-center">${counter.count}</td>
+                                                    <td class="text-left">
+                                                            ${reserveItem.title}
+                                                    </td>
+                                                        <%--
+                                                            ITEM_CANCELLED = -1 ( does not show, only notify )
+                                                            ITEM_PENDING = 0
+                                                            ITEM_APPROVED = 1
+                                                            ITEM_RECEIVED = 2
+                                                            ITEM_RETURN_SCHEDULED = 3
+                                                            ITEM_RETURNED = 4
+                                                            ITEM_OVERDUE = 5
+                                                            ITEM_OVERDUE_RETURN_SCHEDULED = 6
+                                                            ITEM_OVERDUE_RETURNED = 7
+                                                            ITEM_REJECTED = 8 ( does not show, only notify )
+                                                            ITEM_LOST = 9
+                                                            ITEM_RESERVED = 10 ( different tab )
+                                                        --%>
+                                                    <td class="text-center">
+                                                        <c:if test="${reserveItem.lendStatus eq 10}">
+                                                            <label class="badge badge-secondary">OUT OF STOCK</label>
+                                                        </c:if>
+                                                        <c:if test="${reserveItem.lendStatus eq 11}">
+                                                            <label class="badge badge-primary">AVAILABLE</label>
+                                                        </c:if>
+                                                    </td>
+                                                </form>
+                                                <form action="DispatchServlet">
+                                                    <input type="hidden" name="bookPk" value="${reserveItem.bookID}">
+                                                    <input type="hidden" name="orderItemPk" value="${reserveItem.id}">
+                                                    <td class="text-center">
+                                                        <div class="btn-group">
+                                                            <button type="submit" class="btn btn-light"
+                                                                    name="btAction" value="View Details">
+                                                                <i class="fa fa-eye text-primary"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
                                                 </form>
                                             </tr>
                                         </c:forEach>

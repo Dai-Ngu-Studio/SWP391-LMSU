@@ -9,6 +9,7 @@ import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.orderdata.orders.OrderDAO;
 import com.lmsu.users.UserDTO;
 import com.lmsu.utils.DBHelpers;
+import com.lmsu.utils.DateHelpers;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -17,6 +18,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -82,6 +84,7 @@ public class CheckoutDirectServlet extends HttpServlet {
                                 // 6. Create new order
                                 OrderDAO orderDAO = new OrderDAO(conn);
                                 int orderID = orderDAO.addOrder(userDTO.getId(), DIRECT_METHOD);
+                                Date returnDeadline = DateHelpers.getDeadlineDate(DateHelpers.getCurrentDate(), 14);
                                 if (orderID > 0) {
                                     // 7. Traverse items in cart and add to list
                                     List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
@@ -93,8 +96,10 @@ public class CheckoutDirectServlet extends HttpServlet {
                                         orderItemDTO.setBookID(bookID);
                                         if(!bookDAO.getBookByIDAndQuantity(bookID)) {
                                             orderItemDTO.setLendStatus(ITEM_PENDING);
+                                            orderItemDTO.setReturnDeadline(returnDeadline);
                                         } else {
                                             orderItemDTO.setLendStatus(ITEM_RESERVED);
+                                            orderItemDTO.setReturnDeadline(null);
                                         }
                                         orderItemDTO.setReturnDate(null);
                                         orderItems.add(orderItemDTO);

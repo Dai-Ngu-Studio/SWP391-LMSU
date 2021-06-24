@@ -55,4 +55,10 @@ public class DateHelpers implements Serializable {
         }
         return null;
     }
+
+    public static java.sql.Date getDeadlineDate(java.sql.Date date, long days) {
+        LocalDate locDate = date.toLocalDate();
+        locDate = locDate.plusDays(days);
+        return java.sql.Date.valueOf(locDate);
+    }
 }

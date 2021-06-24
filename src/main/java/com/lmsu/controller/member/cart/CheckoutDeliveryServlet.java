@@ -9,6 +9,7 @@ import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.orderdata.orders.OrderDAO;
 import com.lmsu.users.UserDTO;
 import com.lmsu.utils.DBHelpers;
+import com.lmsu.utils.DateHelpers;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -17,6 +18,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +84,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                 if (orderID > 0) {
                                     // 7. Traverse items in cart and add to list
                                     List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
+                                    Date returnDeadline = DateHelpers.getDeadlineDate(DateHelpers.getCurrentDate(), 14);
                                     for (String bookID : cartItems.keySet()) {
                                         BookDAO bookDAO = new BookDAO();
                                         OrderItemDTO orderItemDTO = new OrderItemDTO();
@@ -92,8 +95,10 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                         //orderItemDTO.setLendStatus(ITEM_RECEIVED) (T. Phuc)
                                         if(!bookDAO.getBookByIDAndQuantity(bookID)) {
                                             orderItemDTO.setLendStatus(ITEM_RECEIVED);
+                                            orderItemDTO.setReturnDeadline(returnDeadline);
                                         } else {
                                             orderItemDTO.setLendStatus(ITEM_RESERVED);
+                                            orderItemDTO.setReturnDeadline(null);
                                         }
                                         // default ▼
                                         //orderItemDTO.setLendStatus(ITEM_PENDING);
