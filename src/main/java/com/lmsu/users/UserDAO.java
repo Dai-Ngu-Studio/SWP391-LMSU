@@ -67,7 +67,52 @@ public class UserDAO implements Serializable {
                 //2. Create SQL String
                 String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], " +
                         "[phoneNumber], [profilePicturePath], [activeStatus] " +
-                        "FROM [Users]";
+                        "FROM [Users] " +
+                        "WHERE roleID = 4";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                while (rs.next()) {
+                    String id = rs.getString("id");
+                    String name = rs.getString("name");
+                    String roleID = rs.getString("roleID");
+                    String password = rs.getString("password");
+                    String email = rs.getString("email");
+                    String phoneNumber = rs.getString("phoneNumber");
+                    String semester = rs.getString("semester_no");
+                    String profilePicturePath = rs.getString("profilePicturePath");
+                    boolean activeStatus = rs.getBoolean("activeStatus");
+                    UserDTO dto = new UserDTO(id, name, roleID, password, email, phoneNumber, semester, profilePicturePath, activeStatus);
+
+                    if (this.listAccount == null) {
+                        this.listAccount = new ArrayList<UserDTO>();
+                    } //end if book list not existed
+                    this.listAccount.add(dto);
+                } //end while traversing result set
+            } //end if connection existed
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
+
+    public void viewStaffList() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], " +
+                        "[phoneNumber], [profilePicturePath], [activeStatus] " +
+                        "FROM [Users] " +
+                        "WHERE roleID = 1 OR roleID = 2 OR roleID = 3";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 //4. Execute Query and get ResultSet
@@ -235,6 +280,29 @@ public class UserDAO implements Serializable {
             if (stm != null) stm.close();
             if (con != null) con.close();
         }
+    }
+
+    public boolean deleteUser(String id) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE [Users] " +
+                        "SET [activeStatus] = 0 " +
+                        "WHERE [id] = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, id);
+
+                int row = stm.executeUpdate();
+                if (row > 0) return true;
+            }
+        } finally {
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
     }
 
     public UserDTO getUserByID(String userID) throws SQLException, NamingException {
