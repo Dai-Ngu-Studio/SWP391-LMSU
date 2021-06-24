@@ -139,7 +139,11 @@
                                         <div class="row">
                                             <div class="col-sm-12 col-md-6">
                                                 <div id="order-listing_filter" class="dataTables_filter">
-
+                                                    <c:if test="${requestScope.ADD_DUPLICATE}">
+                                                        <div class="alert alert-danger">
+                                                                ${requestScope.ADD_DUPLICATE}
+                                                        </div>
+                                                    </c:if>
                                                 </div>
                                             </div>
                                         </div>
@@ -166,187 +170,70 @@
                                                     <tbody>
                                                     <c:set var="memberList" value="${requestScope.MEMBER_LIST}"/>
                                                     <c:forEach var="member" items="${memberList}" varStatus="counter">
-                                                        <c:if test="${member.roleID eq '4'}">
-                                                            <tr>
-                                                                <form action="DispatchServlet" enctype="multipart/form-data" method="POST">
-                                                                    <td class="text-right">${counter.count}</td>
-                                                                    <td class="text-left">${member.id}</td>
-                                                                    <td class="text-left">${member.name}</td>
-                                                                    <td class="text-left">${member.email}</td>
-                                                                    <td class="text-center">
-                                                                        <c:if test="${member.activeStatus eq 'false'}">
-                                                                            <span class="badge badge-warning text-center">Inactive</span>
-                                                                        </c:if>
-                                                                        <c:if test="${member.activeStatus eq 'true'}">
-                                                                            <span class="badge badge-success text-center">Active</span>
-                                                                        </c:if>
-                                                                    </td>
+                                                        <tr>
+
+                                                            <td class="text-right">${counter.count}</td>
+                                                            <td class="text-left">${member.id}</td>
+                                                            <td class="text-left">${member.name}</td>
+                                                            <td class="text-left">${member.email}</td>
+                                                            <td class="text-center">
+                                                                <c:if test="${member.activeStatus eq 'false'}">
+                                                                    <span class="badge badge-warning text-center">Inactive</span>
+                                                                </c:if>
+                                                                <c:if test="${member.activeStatus eq 'true'}">
+                                                                    <span class="badge badge-success text-center">Active</span>
+                                                                </c:if>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <form action="DispatchServlet"
+                                                                      enctype="multipart/form-data"
+                                                                      method="POST">
                                                                     <input type="hidden" name="userPk"
                                                                            value="${member.id}">
                                                                     <input type="hidden" name="txtSearchValue"
                                                                            value="${param.txtSearchValue}"/>
-                                                                    <td class="text-center">
-                                                                            <%-- Group button --%>
-                                                                        <div class="btn-group">
-                                                                                <%--Button and view modal--%>
-                                                                            <button type="button" class="btn btn-light"
-                                                                                    data-toggle="modal"
-                                                                                    data-target="#viewModal${member.id}"
-                                                                                    title="View user information">
-                                                                                <i class="fa fa-eye text-primary"></i>
-                                                                            </button>
-                                                                            <div class="modal fade"
-                                                                                 id="viewModal${member.id}"
-                                                                                 tabindex="-1"
-                                                                                 role="dialog"
-                                                                                 aria-labelledby="exampleModalLongTitle"
-                                                                                 aria-hidden="true">
-                                                                                <div class="modal-dialog"
-                                                                                     style="margin-top: 30px"
-                                                                                     role="document">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-header">
-                                                                                            <h5 class="modal-title"
-                                                                                                id="exampleModalLongTitle">
-                                                                                                View User Details
-                                                                                            </h5>
-                                                                                            <button type="button"
-                                                                                                    class="close"
-                                                                                                    data-dismiss="modal"
-                                                                                                    aria-label="Close">
-                                                                                                <span aria-hidden="true">&times;</span>
-                                                                                            </button>
-                                                                                        </div>
-                                                                                        <div class="modal-body">
-                                                                                            <form>
-                                                                                                <div class="form-group row">
-                                                                                                    <label class="col-sm-3 col-form-label">Avatar
-                                                                                                    </label>
-                                                                                                    <div class="col-sm-9">
-                                                                                                        <img class="img-thumbnail rounded float-right"
-                                                                                                             style="height: 250px; width: auto;"
-                                                                                                             src="${pageContext.request.contextPath}/image/${member.profilePicturePath}"
-                                                                                                             id="coverPictureView${member.id}"
-                                                                                                             alt="Avatar"
-                                                                                                             onerror="this.onerror=null; this.src='images/default-user-icon.png';"
-                                                                                                        />
-                                                                                                        <input type="hidden"
-                                                                                                               name="txtCoverFile"
-                                                                                                               value="${member.profilePicturePath}">
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="form-group row">
-                                                                                                    <label class="col-sm-3 col-form-label">Name
-                                                                                                    </label>
-                                                                                                    <div class="col-sm-9">
-                                                                                                        <input type="text"
-                                                                                                               readonly
-                                                                                                               class="form-control"
-                                                                                                               value="${member.name}">
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="form-group row">
-                                                                                                    <label class="col-sm-3 col-form-label">Email</label>
-                                                                                                    <div class="col-sm-9">
-                                                                                                        <input type="text"
-                                                                                                               readonly
-                                                                                                               class="form-control"
-                                                                                                               value="${member.email}">
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="form-group row">
-                                                                                                    <label class="col-sm-3 col-form-label">Phone
-                                                                                                        Number</label>
-                                                                                                    <div class="col-sm-9">
-                                                                                                        <input type="text"
-                                                                                                               readonly
-                                                                                                               class="form-control"
-                                                                                                               value="${member.phoneNumber}">
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="form-group row">
-                                                                                                    <label class="col-sm-3 col-form-label">Semester
-                                                                                                    </label>
-                                                                                                    <div class="col-sm-9">
-                                                                                                        <input type="text"
-                                                                                                               readonly
-                                                                                                               class="form-control"
-                                                                                                               value="${member.semester}">
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="form-group row">
-                                                                                                    <label class="col-sm-3 col-form-label">
-                                                                                                        Active status
-                                                                                                    </label>
-                                                                                                    <div class="col-sm-9">
-                                                                                                        <c:if test="${member.activeStatus eq 'false'}">
-                                                                                                            <input type="text"
-                                                                                                                   readonly
-                                                                                                                   class="form-control"
-                                                                                                                   value="Inactive">
-                                                                                                        </c:if>
-                                                                                                        <c:if test="${member.activeStatus eq 'true'}">
-                                                                                                            <input type="text"
-                                                                                                                   readonly
-                                                                                                                   class="form-control"
-                                                                                                                   value="Active">
-                                                                                                        </c:if>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </form>
-                                                                                        </div>
-                                                                                        <div class="modal-footer">
-                                                                                            <button type="button"
-                                                                                                    class="btn btn-outline-primary"
-                                                                                                    data-dismiss="modal">
-                                                                                                Close
-                                                                                            </button>
-                                                                                        </div>
+                                                                        <%-- Group button --%>
+                                                                    <div class="btn-group">
+                                                                            <%--Button and view modal--%>
+                                                                        <button type="button" class="btn btn-light"
+                                                                                data-toggle="modal"
+                                                                                data-target="#viewModal${member.id}"
+                                                                                title="View user information">
+                                                                            <i class="fa fa-eye text-primary"></i>
+                                                                        </button>
+                                                                        <div class="modal fade"
+                                                                             id="viewModal${member.id}"
+                                                                             tabindex="-1"
+                                                                             role="dialog"
+                                                                             aria-labelledby="exampleModalLongTitle"
+                                                                             aria-hidden="true">
+                                                                            <div class="modal-dialog"
+                                                                                 style="margin-top: 30px"
+                                                                                 role="document">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title"
+                                                                                            id="exampleModalLongTitle">
+                                                                                            View User Details
+                                                                                        </h5>
+                                                                                        <button type="button"
+                                                                                                class="close"
+                                                                                                data-dismiss="modal"
+                                                                                                aria-label="Close">
+                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                        </button>
                                                                                     </div>
-                                                                                </div>
-                                                                            </div>
-                                                                                <%--End button and view modal--%>
-
-                                                                                <%--Button and update modal--%>
-                                                                            <button type="button" class="btn btn-light"
-                                                                                    data-toggle="modal"
-                                                                                    data-target="#updateModal${member.id}"
-                                                                                    title="Update"
-                                                                                    data-original-title="Edit">
-                                                                                <i class="fa fa-pencil text-primary"></i>
-                                                                            </button>
-                                                                            <div class="modal fade"
-                                                                                 id="updateModal${member.id}"
-                                                                                 tabindex="-1"
-                                                                                 role="dialog"
-                                                                                 aria-labelledby="ariaUpdateModal${book.bookID}"
-                                                                                 aria-hidden="true">
-                                                                                <div class="modal-dialog"
-                                                                                     style="margin-top: 30px"
-                                                                                     role="document">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-header">
-                                                                                            <h5 class="modal-title">
-                                                                                                Edit User Details
-                                                                                            </h5>
-                                                                                            <button type="button"
-                                                                                                    class="close"
-                                                                                                    data-dismiss="modal"
-                                                                                                    aria-label="Close">
-                                                                                                <span aria-hidden="true">&times;</span>
-                                                                                            </button>
-                                                                                        </div>
-                                                                                        <div class="modal-body">
+                                                                                    <div class="modal-body">
+                                                                                        <form>
                                                                                             <div class="form-group row">
-                                                                                                <label class="col-sm-3 col-form-label">
-                                                                                                    User avatar
+                                                                                                <label class="col-sm-3 col-form-label">Avatar
                                                                                                 </label>
                                                                                                 <div class="col-sm-9">
-                                                                                                    <img class="rounded float-right"
+                                                                                                    <img class="img-thumbnail rounded float-right"
                                                                                                          style="height: 250px; width: auto;"
                                                                                                          src="${pageContext.request.contextPath}/image/${member.profilePicturePath}"
-                                                                                                         id="coverPictureUpdate${member.id}"
-                                                                                                         alt="User avatar"
+                                                                                                         id="coverPictureView${member.id}"
+                                                                                                         alt="Avatar"
                                                                                                          onerror="this.onerror=null; this.src='images/default-user-icon.png';"
                                                                                                     />
                                                                                                     <input type="hidden"
@@ -355,82 +242,42 @@
                                                                                                 </div>
                                                                                             </div>
                                                                                             <div class="form-group row">
-                                                                                                <div class="col-sm-3">
-                                                                                                </div>
-                                                                                                <div class="col-sm-9">
-                                                                                                    <div class="custom-file">
-                                                                                                        <input type="file"
-                                                                                                               class="custom-file-input"
-                                                                                                               id="customFileUpdate${member.id}"
-                                                                                                               name="coverPicture"
-                                                                                                               onchange="readURL(this, 'coverPictureUpdate${member.profilePicturePath}');"
-                                                                                                        >
-                                                                                                        <label class="custom-file-label"
-                                                                                                               for="customFileUpdate${member.id}">
-                                                                                                            Choose Image
-                                                                                                        </label>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="form-group row">
-                                                                                                <label class="col-sm-3 col-form-label">
-                                                                                                    Member ID
+                                                                                                <label class="col-sm-3 col-form-label">Name
                                                                                                 </label>
                                                                                                 <div class="col-sm-9">
                                                                                                     <input type="text"
                                                                                                            readonly
                                                                                                            class="form-control"
-                                                                                                           value="${member.id}">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="form-group row">
-                                                                                                <label class="col-sm-3 col-form-label">
-                                                                                                    Member name
-                                                                                                </label>
-                                                                                                <div class="col-sm-9">
-                                                                                                    <input type="text"
-                                                                                                           class="form-control"
-                                                                                                           name="txtUpdateMemberName"
                                                                                                            value="${member.name}">
                                                                                                 </div>
                                                                                             </div>
                                                                                             <div class="form-group row">
-                                                                                                <label class="col-sm-3 col-form-label">
-                                                                                                    Semester No.
-                                                                                                </label>
+                                                                                                <label class="col-sm-3 col-form-label">Email</label>
                                                                                                 <div class="col-sm-9">
-                                                                                                    <input type="number"
-                                                                                                           min="0"
-                                                                                                           max="9"
-                                                                                                           readonly
-                                                                                                           class="form-control"
-                                                                                                           value="${member.semester}">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="form-group row">
-                                                                                                <label class="col-sm-3 col-form-label">
-                                                                                                    Email
-                                                                                                </label>
-                                                                                                <div class="col-sm-9">
-                                                                                                    <input type="email"
-                                                                                                           required
+                                                                                                    <input type="text"
                                                                                                            readonly
                                                                                                            class="form-control"
                                                                                                            value="${member.email}">
                                                                                                 </div>
                                                                                             </div>
                                                                                             <div class="form-group row">
-                                                                                                <label class="col-sm-3 col-form-label">
-                                                                                                    Phone Number
+                                                                                                <label class="col-sm-3 col-form-label">Phone
+                                                                                                    Number</label>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <input type="text"
+                                                                                                           readonly
+                                                                                                           class="form-control"
+                                                                                                           value="${member.phoneNumber}">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-3 col-form-label">Semester
                                                                                                 </label>
                                                                                                 <div class="col-sm-9">
-                                                                                                    <input type="number"
-                                                                                                           minlength="10"
-                                                                                                           maxlength="12"
-                                                                                                           required
+                                                                                                    <input type="text"
+                                                                                                           readonly
                                                                                                            class="form-control"
-                                                                                                           name="txtUpdatePhoneNumber"
-                                                                                                           value="${member.phoneNumber}">
+                                                                                                           value="${member.semester}">
                                                                                                 </div>
                                                                                             </div>
                                                                                             <div class="form-group row">
@@ -440,91 +287,249 @@
                                                                                                 <div class="col-sm-9">
                                                                                                     <c:if test="${member.activeStatus eq 'false'}">
                                                                                                         <input type="text"
+                                                                                                               readonly
                                                                                                                class="form-control"
-                                                                                                               name="updateActiveStatus"
                                                                                                                value="Inactive">
                                                                                                     </c:if>
                                                                                                     <c:if test="${member.activeStatus eq 'true'}">
                                                                                                         <input type="text"
+                                                                                                               readonly
                                                                                                                class="form-control"
-                                                                                                               name="updateActiveStatus"
                                                                                                                value="Active">
                                                                                                     </c:if>
                                                                                                 </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div class="modal-footer">
-                                                                                            <button type="submit"
-                                                                                                    name="btAction"
-                                                                                                    value="Update Book"
-                                                                                                    class="btn btn-primary">
-                                                                                                Save
-                                                                                            </button>
-                                                                                            <button type="button"
-                                                                                                    class="btn btn-outline-primary"
-                                                                                                    data-dismiss="modal">
-                                                                                                Close
-                                                                                            </button>
-                                                                                        </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button"
+                                                                                                class="btn btn-outline-primary"
+                                                                                                data-dismiss="modal">
+                                                                                            Close
+                                                                                        </button>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                                <%--End button and update modal--%>
-
-                                                                                <%--Button and Delete modal--%>
-                                                                            <button type="button" class="btn btn-light"
-                                                                                    data-toggle="modal" title="Delete"
-                                                                                    data-target="#deleteModal${member.id}"
-                                                                                    data-original-title="Remove">
-                                                                                <i class="fa fa-times text-primary"></i>
-                                                                            </button>
-                                                                            <div class="modal fade"
-                                                                                 id="deleteModal${member.id}"
-                                                                                 tabindex="-1"
-                                                                                 role="dialog"
-                                                                                 aria-labelledby="ariaDeleteModal${member.id}"
-                                                                                 aria-hidden="true">
-                                                                                <div class="modal-dialog"
-                                                                                     role="document">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-header">
-                                                                                            <h5 class="modal-title">
-                                                                                                WARNING
-                                                                                            </h5>
-                                                                                            <button type="button"
-                                                                                                    class="close"
-                                                                                                    data-dismiss="modal"
-                                                                                                    aria-label="Close">
-                                                                                                <span aria-hidden="true">&times;</span>
-                                                                                            </button>
-                                                                                        </div>
-                                                                                        <div class="modal-body">
-                                                                                            Do you want to delete this
-                                                                                            user?
-                                                                                        </div>
-                                                                                        <div class="modal-footer">
-                                                                                            <button type="submit"
-                                                                                                    name="btAction"
-                                                                                                    value="Delete User"
-                                                                                                    class="btn btn-primary">
-                                                                                                Yes
-                                                                                            </button>
-                                                                                            <button type="button"
-                                                                                                    class="btn btn-outline-primary"
-                                                                                                    data-dismiss="modal">
-                                                                                                Cancel
-                                                                                            </button>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                                <%--End button and Delete modal--%>
                                                                         </div>
-                                                                            <%-- End group button --%>
-                                                                    </td>
+                                                                            <%--End button and view modal--%>
+
+                                                                            <%--Button and update modal--%>
+                                                                        <button type="button" class="btn btn-light"
+                                                                                data-toggle="modal"
+                                                                                data-target="#updateModal${member.id}"
+                                                                                title="Update"
+                                                                                data-original-title="Edit">
+                                                                            <i class="fa fa-pencil text-primary"></i>
+                                                                        </button>
+                                                                        <div class="modal fade"
+                                                                             id="updateModal${member.id}"
+                                                                             tabindex="-1"
+                                                                             role="dialog"
+                                                                             aria-labelledby="ariaUpdateModal${member.id}"
+                                                                             aria-hidden="true">
+                                                                            <div class="modal-dialog"
+                                                                                 style="margin-top: 30px"
+                                                                                 role="document">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title">
+                                                                                            Edit User Details
+                                                                                        </h5>
+                                                                                        <button type="button"
+                                                                                                class="close"
+                                                                                                data-dismiss="modal"
+                                                                                                aria-label="Close">
+                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-sm-3 col-form-label">
+                                                                                                User avatar
+                                                                                            </label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <img class="rounded float-right"
+                                                                                                     style="height: 250px; width: auto;"
+                                                                                                     src="${pageContext.request.contextPath}/image/${member.profilePicturePath}"
+                                                                                                     id="coverPictureUpdate${member.id}"
+                                                                                                     alt="User avatar"
+                                                                                                     onerror="this.onerror=null; this.src='images/default-user-icon.png';"
+                                                                                                />
+                                                                                                <input type="hidden"
+                                                                                                       name="txtCoverFile"
+                                                                                                       value="${member.profilePicturePath}">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group row">
+                                                                                            <div class="col-sm-3">
+                                                                                            </div>
+                                                                                            <div class="col-sm-9">
+                                                                                                <div class="custom-file">
+                                                                                                    <input type="file"
+                                                                                                           class="custom-file-input"
+                                                                                                           id="customFileUpdate${member.id}"
+                                                                                                           name="coverPicture"
+                                                                                                           onchange="readURL(this, 'coverPictureUpdate${member.profilePicturePath}');"
+                                                                                                    >
+                                                                                                    <label class="custom-file-label"
+                                                                                                           for="customFileUpdate${member.id}">
+                                                                                                        Choose Image
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-sm-3 col-form-label">
+                                                                                                Member ID
+                                                                                            </label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <input type="text"
+                                                                                                       readonly
+                                                                                                       class="form-control"
+                                                                                                       value="${member.id}">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-sm-3 col-form-label">
+                                                                                                Member name
+                                                                                            </label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <input type="text"
+                                                                                                       class="form-control"
+                                                                                                       name="txtUpdateMemberName"
+                                                                                                       value="${member.name}">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-sm-3 col-form-label">
+                                                                                                Semester No.
+                                                                                            </label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <input type="number"
+                                                                                                       min="0"
+                                                                                                       max="9"
+                                                                                                       readonly
+                                                                                                       class="form-control"
+                                                                                                       value="${member.semester}">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-sm-3 col-form-label">
+                                                                                                Email
+                                                                                            </label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <input type="email"
+                                                                                                       required
+                                                                                                       readonly
+                                                                                                       class="form-control"
+                                                                                                       value="${member.email}">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-sm-3 col-form-label">
+                                                                                                Phone Number
+                                                                                            </label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <input type="number"
+                                                                                                       minlength="10"
+                                                                                                       maxlength="10"
+                                                                                                       required
+                                                                                                       class="form-control"
+                                                                                                       name="txtUpdatePhoneNumber"
+                                                                                                       value="${member.phoneNumber}">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-sm-3 col-form-label">
+                                                                                                Active status
+                                                                                            </label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <c:if test="${member.activeStatus eq 'false'}">
+                                                                                                    <input type="text"
+                                                                                                           class="form-control"
+                                                                                                           name="updateActiveStatus"
+                                                                                                           value="Inactive">
+                                                                                                </c:if>
+                                                                                                <c:if test="${member.activeStatus eq 'true'}">
+                                                                                                    <input type="text"
+                                                                                                           class="form-control"
+                                                                                                           name="updateActiveStatus"
+                                                                                                           value="Active">
+                                                                                                </c:if>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="submit"
+                                                                                                name="btAction"
+                                                                                                value="Update User"
+                                                                                                class="btn btn-primary">
+                                                                                            Save
+                                                                                        </button>
+                                                                                        <button type="button"
+                                                                                                class="btn btn-outline-primary"
+                                                                                                data-dismiss="modal">
+                                                                                            Close
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                            <%--End button and update modal--%>
+
+                                                                            <%--Button and Delete modal--%>
+                                                                        <button type="button" class="btn btn-light"
+                                                                                data-toggle="modal" title="Delete"
+                                                                                data-target="#deleteModal${member.id}"
+                                                                                data-original-title="Remove">
+                                                                            <i class="fa fa-times text-primary"></i>
+                                                                        </button>
+                                                                        <div class="modal fade"
+                                                                             id="deleteModal${member.id}"
+                                                                             tabindex="-1"
+                                                                             role="dialog"
+                                                                             aria-labelledby="ariaDeleteModal${member.id}"
+                                                                             aria-hidden="true">
+                                                                            <div class="modal-dialog"
+                                                                                 role="document">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title">
+                                                                                            WARNING
+                                                                                        </h5>
+                                                                                        <button type="button"
+                                                                                                class="close"
+                                                                                                data-dismiss="modal"
+                                                                                                aria-label="Close">
+                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        Do you want to delete this
+                                                                                        user?
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="submit"
+                                                                                                name="btAction"
+                                                                                                value="Delete User"
+                                                                                                class="btn btn-primary">
+                                                                                            Yes
+                                                                                        </button>
+                                                                                        <button type="button"
+                                                                                                class="btn btn-outline-primary"
+                                                                                                data-dismiss="modal">
+                                                                                            Cancel
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                            <%--End button and Delete modal--%>
+                                                                    </div>
+                                                                        <%-- End group button --%>
                                                                 </form>
-                                                            </tr>
-                                                        </c:if>
+                                                            </td>
+                                                        </tr>
                                                     </c:forEach>
                                                     </tbody>
                                                 </table>
