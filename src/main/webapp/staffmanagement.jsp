@@ -1,10 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: NDungx
-  Date: 6/9/2021
-  Time: 12:29 PM
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -129,137 +123,52 @@
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
         <!-- partial -->
-        <!-- partial:../../partials/_sidebar.html -->
+        <!-- partial:../../partials/_sidebar.jsp -->
         <jsp:include page="sidebar.jsp"/>
-<%--        <nav class="sidebar sidebar-offcanvas" id="sidebar">--%>
-<%--            <ul class="nav">--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="dashboard.jsp">--%>
-<%--                        <i class="icon-grid menu-icon"></i>--%>
-<%--                        <span class="menu-title">Dashboard</span>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="index.jsp">--%>
-<%--                        <i class="icon-paper menu-icon"></i>--%>
-<%--                        <span class="menu-title">Library</span>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" data-toggle="collapse" href="#user-management" aria-expanded="false"--%>
-<%--                       aria-controls="ui-basic">--%>
-<%--                        <i class="icon-head menu-icon"></i>--%>
-<%--                        <span class="menu-title">Users</span>--%>
-<%--                        <i class="menu-arrow"></i>--%>
-<%--                    </a>--%>
-<%--                    <div class="collapse" id="user-management">--%>
-<%--                        <ul class="nav flex-column sub-menu">--%>
-<%--                            <li class="nav-item"><a class="nav-link" href="ShowMemberServlet">Member</a></li>--%>
-<%--                            <li class="nav-item"><a class="nav-link" href="ShowStaffServlet">Staff</a></li>--%>
-<%--                        </ul>--%>
-<%--                    </div>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="ShowBookServlet">--%>
-<%--                        <i class="icon-book menu-icon"></i>--%>
-<%--                        <span class="menu-title">Books</span>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="BookRentalManagement.html">--%>
-<%--                        <i class="icon-archive menu-icon"></i>--%>
-<%--                        <span class="menu-title">Book Rental</span>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-<%--                <li class="nav-item">--%>
-<%--                    <a class="nav-link" href="ImportLog.html">--%>
-<%--                        <i class="icon-file-subtract menu-icon"></i>--%>
-<%--                        <span class="menu-title">Import Log</span>--%>
-<%--                    </a>--%>
-<%--                </li>--%>
-<%--            </ul>--%>
-<%--        </nav>--%>
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Data table</h4>
+                        <h4 class="card-title">Staff Management</h4>
                         <div class="row">
                             <div class="col-12">
                                 <div class="table-responsive">
                                     <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                         <div class="row">
                                             <div class="col-sm-12 col-md-6">
-                                                <div class="dataTables_length" id="order-listing_length"><label>Show
-                                                    <select name="order-listing_length"
-                                                            aria-controls="order-listing"
-                                                            class="custom-select custom-select-sm form-control">
-                                                        <option value="5">5</option>
-                                                        <option value="10">10</option>
-                                                        <option value="15">15</option>
-                                                        <option value="-1">All</option>
-                                                    </select> entries</label></div>
+                                                <div class="dataTables_length" id="order-listing_length">
+
+                                                </div>
                                             </div>
                                             <div class="col-sm-12 col-md-6">
                                                 <div id="order-listing_filter" class="dataTables_filter">
-                                                    <form action="DispatchServlet">
-                                                        <input type="search" class="form-control"
-                                                               id="searchBox" placeholder="Search"
-                                                               name="txtSearchValue" value="${param.txtSearchValue}"
-                                                               aria-controls="order-listing"
-                                                        >
-                                                        <button class="btn btn-primary" type="submit"
-                                                                name="btAction" value="SearchStaff"
-                                                                style="border-radius: 5px"><i class="fa fa-search"></i>
-                                                        </button>
-                                                    </form>
+
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <table id="order-listing" class="table dataTable no-footer" role="grid"
-                                                       aria-describedby="order-listing_info">
+                                                <table id="staff-datatable" role="grid"
+                                                       class="table table-hover dataTable no-footer my-2">
                                                     <thead>
                                                     <tr role="row">
-                                                        <th class="sorting_asc text-right" tabindex="0"
-                                                            aria-controls="order-listing" rowspan="1" colspan="1"
-                                                            aria-sort="ascending"
-                                                            aria-label="Order #: activate to sort column descending"
-                                                            style="width: 0px;">#
+                                                        <th class="text-right" style="width: 0px;">#
                                                         </th>
-                                                        <th class="sorting text-left" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1" tabindex="0"
-                                                            aria-label="MEMBER ID: activate to sort column ascending"
-                                                            style="width: 96px;">STAFF ID
+                                                        <th style="width: 96px;">STAFF ID
                                                         </th>
-                                                        <th class="sorting text-left" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1" tabindex="0"
-                                                            aria-label="NAME: activate to sort column ascending"
-                                                            style="width: 56px;">NAME
+                                                        <th style="width: 56px;">NAME
                                                         </th>
-                                                        <th class="sorting text-left" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1" tabindex="0"
-                                                            aria-label="EMAIL: activate to sort column ascending"
-                                                            style="width: 67px;">EMAIL
+                                                        <th style="width: 67px;">EMAIL
                                                         </th>
-                                                        <th class="sorting text-center" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1" tabindex="0"
-                                                            aria-label="ROLE: activate to sort column ascending"
-                                                            style="width: 56px;">STATUS
+                                                        <th class="text-center" style="width: 56px;">STATUS
                                                         </th>
-                                                        <th class="sorting text-center" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1" tabindex="0"
-                                                            aria-label="Actions: activate to sort column ascending"
-                                                            style="width: 64px;">INFO
+                                                        <th class="text-center" style="width: 64px;">INFO
                                                         </th>
-
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     <c:set var="staffList" value="${requestScope.STAFF_LIST}"/>
-
                                                     <c:forEach var="staff" items="${staffList}" varStatus="counter">
                                                         <c:if test="${staff.roleID eq '2' or staff.roleID eq '3'}">
                                                             <tr class="odd">
@@ -268,136 +177,354 @@
                                                                 <td class="text-left">${staff.name}</td>
                                                                 <td class="text-left">${staff.email}</td>
                                                                 <td class="text-center">
-                                                                    <span class="badge badge-success text-center">Active</span>
+                                                                    <c:if test="${staff.activeStatus eq 'false'}">
+                                                                        <span class="badge badge-warning text-center">Inactive</span>
+                                                                    </c:if>
+                                                                    <c:if test="${staff.activeStatus eq 'true'}">
+                                                                        <span class="badge badge-success text-center">Active</span>
+                                                                    </c:if>
                                                                 </td>
 
                                                                 <td class="text-center">
-                                                                    <button data-toggle="modal" data-target="#logModal1"
-                                                                            class="btn btn-outline-primary text-center">View
-                                                                    </button>
-                                                                    <div class="modal fade" id="logModal1" tabindex="-1"
-                                                                         role="dialog" aria-labelledby="exampleModalLongTitle"
-                                                                         aria-hidden="true">
-                                                                        <div class="modal-dialog" role="document">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title"
-                                                                                        id="exampleModalLongTitle">
-                                                                                        View Staff Details
-                                                                                    </h5>
-                                                                                    <button type="button" class="close"
-                                                                                            data-dismiss="modal"
-                                                                                            aria-label="Close">
-                                                                                        <span aria-hidden="true">&times;</span>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    <form>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">Avatar
-                                                                                            </label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <img class="img-thumbnail rounded float-right"
-                                                                                                     style="height: 200px; width: auto;"
-                                                                                                     src="${pageContext.request.contextPath}/image/${staff.profilePicturePath}"
-                                                                                                     id="coverPictureUpdate${staff.id}"
-                                                                                                     alt="Avatar"
-                                                                                                     onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"
-                                                                                                />
-                                                                                                <input type="hidden"
-                                                                                                       name="txtCoverFile"
-                                                                                                       value="${staff.profilePicturePath}">
-                                                                                            </div>
+                                                                    <form action="DispatchServlet"
+                                                                          enctype="multipart/form-data"
+                                                                          method="POST">
+                                                                        <input type="hidden" name="userPk"
+                                                                               value="${staff.id}">
+                                                                        <input type="hidden" name="txtSearchValue"
+                                                                               value="${param.txtSearchValue}"/>
+                                                                            <%-- Group button --%>
+                                                                        <div class="btn-group">
+                                                                                <%--Button and view modal--%>
+                                                                            <button type="button" class="btn btn-light"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#viewModal${staff.id}"
+                                                                                    title="View staff information">
+                                                                                <i class="fa fa-eye text-primary"></i>
+                                                                            </button>
+                                                                            <div class="modal fade"
+                                                                                 id="viewModal${staff.id}"
+                                                                                 tabindex="-1"
+                                                                                 role="dialog"
+                                                                                 aria-labelledby="exampleModalLongTitle"
+                                                                                 aria-hidden="true">
+                                                                                <div class="modal-dialog"
+                                                                                     style="margin-top: 30px"
+                                                                                     role="document">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title"
+                                                                                                id="exampleModalLongTitle">
+                                                                                                View Staff Details
+                                                                                            </h5>
+                                                                                            <button type="button"
+                                                                                                    class="close"
+                                                                                                    data-dismiss="modal"
+                                                                                                    aria-label="Close">
+                                                                                                <span aria-hidden="true">&times;</span>
+                                                                                            </button>
                                                                                         </div>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">Email</label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <input type="text" readonly
-                                                                                                       class="form-control"
-                                                                                                       value="${staff.email}">
-                                                                                            </div>
+                                                                                        <div class="modal-body">
+                                                                                            <form>
+                                                                                                <div class="form-group row">
+                                                                                                    <label class="col-sm-3 col-form-label">
+                                                                                                        Avatar
+                                                                                                    </label>
+                                                                                                    <div class="col-sm-9">
+                                                                                                        <img class="img-thumbnail rounded float-right"
+                                                                                                             style="height: 250px; width: auto;"
+                                                                                                             src="${pageContext.request.contextPath}/image/${staff.profilePicturePath}"
+                                                                                                             id="coverPictureView${staff.id}"
+                                                                                                             alt="Avatar"
+                                                                                                             onerror="this.onerror=null; this.src='images/default-user-icon.png';"
+                                                                                                        />
+                                                                                                        <input type="hidden"
+                                                                                                               name="txtCoverFile"
+                                                                                                               value="${staff.profilePicturePath}">
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="form-group row">
+                                                                                                    <label class="col-sm-3 col-form-label">
+                                                                                                        Name
+                                                                                                    </label>
+                                                                                                    <div class="col-sm-9">
+                                                                                                        <input type="text"
+                                                                                                               readonly
+                                                                                                               class="form-control"
+                                                                                                               value="${staff.name}">
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="form-group row">
+                                                                                                    <label class="col-sm-3 col-form-label">Email</label>
+                                                                                                    <div class="col-sm-9">
+                                                                                                        <input type="text"
+                                                                                                               readonly
+                                                                                                               class="form-control"
+                                                                                                               value="${staff.email}">
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="form-group row">
+                                                                                                    <label class="col-sm-3 col-form-label">Phone
+                                                                                                        Number</label>
+                                                                                                    <div class="col-sm-9">
+                                                                                                        <input type="text"
+                                                                                                               readonly
+                                                                                                               class="form-control"
+                                                                                                               value="${staff.phoneNumber}">
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="form-group row">
+                                                                                                    <label class="col-sm-3 col-form-label">
+                                                                                                        Role ID
+                                                                                                    </label>
+                                                                                                    <div class="col-sm-9">
+                                                                                                        <input type="text"
+                                                                                                               readonly
+                                                                                                               class="form-control"
+                                                                                                               value="${staff.roleID}">
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="form-group row">
+                                                                                                    <label class="col-sm-3 col-form-label">
+                                                                                                        Active status
+                                                                                                    </label>
+                                                                                                    <div class="col-sm-9">
+                                                                                                        <c:if test="${staff.activeStatus eq 'false'}">
+                                                                                                            <input type="text"
+                                                                                                                   readonly
+                                                                                                                   class="form-control"
+                                                                                                                   value="Inactive">
+                                                                                                        </c:if>
+                                                                                                        <c:if test="${staff.activeStatus eq 'true'}">
+                                                                                                            <input type="text"
+                                                                                                                   readonly
+                                                                                                                   class="form-control"
+                                                                                                                   value="Active">
+                                                                                                        </c:if>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </form>
                                                                                         </div>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">Name
-                                                                                            </label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <input type="text" readonly
-                                                                                                       class="form-control"
-                                                                                                       value="${staff.name}">
-                                                                                            </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="button"
+                                                                                                    class="btn btn-outline-primary"
+                                                                                                    data-dismiss="modal">
+                                                                                                Close
+                                                                                            </button>
                                                                                         </div>
-<%--                                                                                        <div class="form-group row">--%>
-<%--                                                                                            <label class="col-sm-3 col-form-label">Semester--%>
-<%--                                                                                            </label>--%>
-<%--                                                                                            <div class="col-sm-9">--%>
-<%--                                                                                                <input type="text" readonly--%>
-<%--                                                                                                       class="form-control"--%>
-<%--                                                                                                       value="${staff.semester}">--%>
-<%--                                                                                            </div>--%>
-<%--                                                                                        </div>--%>
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-sm-3 col-form-label">Role
-                                                                                            </label>
-                                                                                            <div class="col-sm-9">
-                                                                                                <input type="text" readonly
-                                                                                                       class="form-control"
-                                                                                                       value="${staff.roleID}">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </form>
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button"
-                                                                                            class="btn btn-outline-primary"
-                                                                                            data-dismiss="modal">Close
-                                                                                    </button>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
+                                                                                <%--End button and view modal--%>
+
+                                                                                <%--Button and update modal--%>
+                                                                            <button type="button" class="btn btn-light"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#updateModal${staff.id}"
+                                                                                    title="Update"
+                                                                                    data-original-title="Edit">
+                                                                                <i class="fa fa-pencil text-primary"></i>
+                                                                            </button>
+                                                                            <div class="modal fade"
+                                                                                 id="updateModal${staff.id}"
+                                                                                 tabindex="-1"
+                                                                                 role="dialog"
+                                                                                 aria-labelledby="ariaUpdateModal${staff.id}"
+                                                                                 aria-hidden="true">
+                                                                                <div class="modal-dialog"
+                                                                                     style="margin-top: 30px"
+                                                                                     role="document">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title">
+                                                                                                Edit Staff Details
+                                                                                            </h5>
+                                                                                            <button type="button"
+                                                                                                    class="close"
+                                                                                                    data-dismiss="modal"
+                                                                                                    aria-label="Close">
+                                                                                                <span aria-hidden="true">&times;</span>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-3 col-form-label">
+                                                                                                    User avatar
+                                                                                                </label>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <img class="rounded float-right"
+                                                                                                         style="height: 250px; width: auto;"
+                                                                                                         src="${pageContext.request.contextPath}/image/${staff.profilePicturePath}"
+                                                                                                         id="coverPictureUpdate${staff.id}"
+                                                                                                         alt="User avatar"
+                                                                                                         onerror="this.onerror=null; this.src='images/default-user-icon.png';"
+                                                                                                    />
+                                                                                                    <input type="hidden"
+                                                                                                           name="txtCoverFile"
+                                                                                                           value="${staff.profilePicturePath}">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group row">
+                                                                                                <div class="col-sm-3">
+                                                                                                </div>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <div class="custom-file">
+                                                                                                        <input type="file"
+                                                                                                               class="custom-file-input"
+                                                                                                               id="customFileUpdate${staff.id}"
+                                                                                                               name="coverPicture"
+                                                                                                               onchange="readURL(this, 'coverPictureUpdate${member.profilePicturePath}');"
+                                                                                                        >
+                                                                                                        <label class="custom-file-label"
+                                                                                                               for="customFileUpdate${staff.id}">
+                                                                                                            Choose Image
+                                                                                                        </label>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-3 col-form-label">
+                                                                                                    Staff ID
+                                                                                                </label>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <input type="text"
+                                                                                                           readonly
+                                                                                                           class="form-control"
+                                                                                                           value="${staff.id}">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-3 col-form-label">
+                                                                                                    Staff name
+                                                                                                </label>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <input type="text"
+                                                                                                           class="form-control"
+                                                                                                           name="txtUpdateMemberName"
+                                                                                                           value="${staff.name}">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-3 col-form-label">
+                                                                                                    Email
+                                                                                                </label>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <input type="email"
+                                                                                                           required
+                                                                                                           readonly
+                                                                                                           class="form-control"
+                                                                                                           value="${staff.email}">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-3 col-form-label">
+                                                                                                    Phone Number
+                                                                                                </label>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <input type="number"
+                                                                                                           minlength="10"
+                                                                                                           maxlength="10"
+                                                                                                           required
+                                                                                                           class="form-control"
+                                                                                                           name="txtUpdatePhoneNumber"
+                                                                                                           value="${staff.phoneNumber}">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-3 col-form-label">
+                                                                                                    Active status
+                                                                                                </label>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <c:if test="${staff.activeStatus eq 'false'}">
+                                                                                                        <input type="text"
+                                                                                                               class="form-control"
+                                                                                                               name="updateActiveStatus"
+                                                                                                               value="Inactive">
+                                                                                                    </c:if>
+                                                                                                    <c:if test="${staff.activeStatus eq 'true'}">
+                                                                                                        <input type="text"
+                                                                                                               class="form-control"
+                                                                                                               name="updateActiveStatus"
+                                                                                                               value="Active">
+                                                                                                    </c:if>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="submit"
+                                                                                                    name="btAction"
+                                                                                                    value="Update Staff"
+                                                                                                    class="btn btn-primary">
+                                                                                                Save
+                                                                                            </button>
+                                                                                            <button type="button"
+                                                                                                    class="btn btn-outline-primary"
+                                                                                                    data-dismiss="modal">
+                                                                                                Close
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                                <%--End button and update modal--%>
+
+                                                                                <%--Button and Delete modal--%>
+                                                                            <button type="button" class="btn btn-light"
+                                                                                    data-toggle="modal" title="Delete"
+                                                                                    data-target="#deleteModal${staff.id}"
+                                                                                    data-original-title="Remove">
+                                                                                <i class="fa fa-times text-primary"></i>
+                                                                            </button>
+                                                                            <div class="modal fade"
+                                                                                 id="deleteModal${staff.id}"
+                                                                                 tabindex="-1"
+                                                                                 role="dialog"
+                                                                                 aria-labelledby="ariaDeleteModal${staff.id}"
+                                                                                 aria-hidden="true">
+                                                                                <div class="modal-dialog"
+                                                                                     role="document">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title">
+                                                                                                WARNING
+                                                                                            </h5>
+                                                                                            <button type="button"
+                                                                                                    class="close"
+                                                                                                    data-dismiss="modal"
+                                                                                                    aria-label="Close">
+                                                                                                <span aria-hidden="true">&times;</span>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            Do you want to delete this
+                                                                                            staff?
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="submit"
+                                                                                                    name="btAction"
+                                                                                                    value="Delete Staff"
+                                                                                                    class="btn btn-primary">
+                                                                                                Yes
+                                                                                            </button>
+                                                                                            <button type="button"
+                                                                                                    class="btn btn-outline-primary"
+                                                                                                    data-dismiss="modal">
+                                                                                                Cancel
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                                <%--End button and Delete modal--%>
                                                                         </div>
-                                                                    </div>
+                                                                            <%-- End group button --%>
+                                                                    </form>
                                                                 </td>
                                                             </tr>
                                                         </c:if>
                                                     </c:forEach>
                                                     </tbody>
                                                 </table>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-5">
-                                                <div class="dataTables_info" id="order-listing_info" role="status"
-                                                     aria-live="polite">Showing 1 to 5 of 10 entries
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-7">
-                                                <div class="dataTables_paginate paging_simple_numbers"
-                                                     id="order-listing_paginate">
-                                                    <ul class="pagination">
-                                                        <li class="paginate_button page-item previous disabled"
-                                                            id="order-listing_previous"><a href="#"
-                                                                                           aria-controls="order-listing"
-                                                                                           data-dt-idx="0" tabindex="0"
-                                                                                           class="page-link">Previous</a>
-                                                        </li>
-                                                        <li class="paginate_button page-item active"><a href="#"
-                                                                                                        aria-controls="order-listing"
-                                                                                                        data-dt-idx="1"
-                                                                                                        tabindex="0"
-                                                                                                        class="page-link">1</a>
-                                                        </li>
-                                                        <li class="paginate_button page-item "><a href="#"
-                                                                                                  aria-controls="order-listing"
-                                                                                                  data-dt-idx="2"
-                                                                                                  tabindex="0"
-                                                                                                  class="page-link">2</a>
-                                                        </li>
-                                                        <li class="paginate_button page-item next"
-                                                            id="order-listing_next"><a href="#"
-                                                                                       aria-controls="order-listing"
-                                                                                       data-dt-idx="3" tabindex="0"
-                                                                                       class="page-link">Next</a></li>
-                                                    </ul>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -440,7 +567,7 @@
 <script src="js/todolist.js"></script>
 <!-- endinject -->
 <!-- Custom js for this page-->
-
+<script src="staffmanagement.js"></script>
 <!-- End custom js for this page-->
 </body>
 </html>
