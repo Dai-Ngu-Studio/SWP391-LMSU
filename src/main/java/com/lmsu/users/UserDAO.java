@@ -55,6 +55,63 @@ public class UserDAO implements Serializable {
         return user;
     }
 
+    public boolean checkUserExisted(String id) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "select [id] "
+                        + "from [Users] "
+                        + "where [id] LIKE ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, id);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
+
+    public boolean addUser(String userID, String userName, String roleID, String password, String email,
+                           String phoneNumber, String semester, String profilePicture, boolean activeStatus) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "INSERT INTO Users([id], [name], [semester_no], [password], [email], " +
+                        "[phoneNumber], [profilePicturePath], [activeStatus]) " +
+                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, userID);
+                stm.setString(2, userName);
+                stm.setString(3, roleID);
+                stm.setString(4, semester);
+                stm.setString(5, password);
+                stm.setString(6, email);
+                stm.setString(7, phoneNumber);
+                stm.setString(8, profilePicture);
+                stm.setBoolean(9, activeStatus);
+                int row = stm.executeUpdate();
+                if (row > 0) return true;
+            }
+        } finally {
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
+
     public void viewUserList() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
