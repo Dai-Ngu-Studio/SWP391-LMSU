@@ -211,7 +211,7 @@
                                             />
                                             <small id="errorPhoneNumber"
                                                    class="form-text text-muted deliverError">
-                                                Phone number must be 10-12 characters long, and must only contain
+                                                Phone number must be 10 characters long, and must only contain
                                                 numbers.
                                             </small>
                                         </div>
