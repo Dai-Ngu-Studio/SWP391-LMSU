@@ -87,7 +87,7 @@ public class ShowProfileServlet extends HttpServlet {
                         RenewalRequestDAO renewalDAO = new RenewalRequestDAO();
                         LinkedHashMap<Integer, Integer> renewalMap = new LinkedHashMap<>();
 
-                        for (OrderItemDTO orderItemDTO: orderItemList
+                        for (OrderItemDTO orderItemDTO : orderItemList
                         ) {
                             renewalMap.put(orderItemDTO.getId(), renewalDAO.countRenewalRequestByItemID(orderItemDTO.getId()));
                         }
@@ -95,7 +95,10 @@ public class ShowProfileServlet extends HttpServlet {
                     }
 
                     orderItemDAO.clearOrderItemList();
-                    orderItemDAO.getReserveBookFromMember(userDTO.getId(), ITEM_RESERVED);
+                    orderItemDAO
+                            .getOrderItemsFromMember(
+                                    userDTO.getId(), new ArrayList<Integer>(Arrays.asList(ITEM_RESERVED))
+                            );
                     List<OrderItemDTO> reserveItemList = orderItemDAO.getOrderItemList();
                     List<OrderItemObj> reserveItemObjList = new ArrayList<>();
 
@@ -105,7 +108,7 @@ public class ShowProfileServlet extends HttpServlet {
                         for (OrderItemDTO orderitemDTO : reserveItemList) {
                             BookDTO bookDTO = book_DAO.getBookById(orderitemDTO.getBookID());
 
-                            if(bookDTO.getQuantity() > 0){
+                            if (bookDTO.getQuantity() > 0) {
                                 OrderItemObj orderitemObj = new OrderItemObj();
                                 orderitemObj.setId(orderitemDTO.getId());
                                 orderitemObj.setOrderID(orderitemDTO.getOrderID());
@@ -117,8 +120,7 @@ public class ShowProfileServlet extends HttpServlet {
                                 orderitemObj.setLendDate(orderitemDTO.getLendDate());
                                 orderitemObj.setReturnDate(orderitemDTO.getReturnDate());
                                 reserveItemObjList.add(orderitemObj);
-                            }
-                            else {
+                            } else {
                                 OrderItemObj orderitemObj = new OrderItemObj();
                                 orderitemObj.setId(orderitemDTO.getId());
                                 orderitemObj.setOrderID(orderitemDTO.getOrderID());
