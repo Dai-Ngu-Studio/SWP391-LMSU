@@ -52,18 +52,21 @@ public class CheckoutDirectServlet extends HttpServlet {
     private final String ATTR_MEMBER_CART = "MEMBER_CART";
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
 
+    private final String ATTR_CHECKOUT_PICKUPDATE = "CHECKOUT_PICKUP_DATE";
+    private final String ATTR_CHECKOUT_PICKUPTIME = "CHECKOUT_PICKUP_TIME";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String url = SHOW_BOOK_CATALOG_CONTROLLER; //W.I.P. temporary (to be changed)
-        String txtPickupDate = request.getParameter("txtPickupDate");
-        String txtPickupTime = request.getParameter("txtPickupTime");
         Connection conn = null;
 
         try {
             // 1. Check if session existed
             HttpSession session = request.getSession(false);
             if (session != null) {
+                String txtPickupDate = (String) session.getAttribute(ATTR_CHECKOUT_PICKUPDATE);
+                String txtPickupTime = (String) session.getAttribute(ATTR_CHECKOUT_PICKUPTIME);
                 // 2. Check if cart existed
                 CartObj cartObj = (CartObj) session.getAttribute(ATTR_MEMBER_CART);
                 if (cartObj != null) {

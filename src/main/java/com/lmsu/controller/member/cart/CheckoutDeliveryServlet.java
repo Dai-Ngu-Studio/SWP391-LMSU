@@ -48,23 +48,31 @@ public class CheckoutDeliveryServlet extends HttpServlet {
     private final String ATTR_MEMBER_CART = "MEMBER_CART";
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
 
+    private final String ATTR_CHECKOUT_RECEIVERNAME = "CHECKOUT_RECEIVERNAME";
+    private final String ATTR_CHECKOUT_PHONENUMBER = "CHECKOUT_PHONENUMBER";
+    private final String ATTR_CHECKOUT_ADDRESSONE = "CHECKOUT_ADDRESSONE";
+    private final String ATTR_CHECKOUT_ADDRESSTWO = "CHECKOUT_ADDRESSTWO";
+    private final String ATTR_CHECKOUT_CITY = "CHECKOUT_CITY";
+    private final String ATTR_CHECKOUT_DISTRICT = "CHECKOUT_DISTRICT";
+    private final String ATTR_CHECKOUT_WARD = "CHECKOUT_WARD";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String url = SHOW_BOOK_CATALOG_CONTROLLER; //W.I.P. temporary (to be changed)
-        String receiverName = request.getParameter("txtReceiverName");
-        String phoneNumber = request.getParameter("txtPhoneNumber");
-        String deliveryAddressOne = request.getParameter("txtAddressOne");
-        String deliveryAddressTwo = request.getParameter("txtAddressTwo");
-        String city = request.getParameter("txtCity");
-        String district = request.getParameter("txtDistrict");
-        String ward = request.getParameter("txtWard");
         Connection conn = null;
 
         try {
             // 1. Check if session existed
             HttpSession session = request.getSession(false);
             if (session != null) {
+                String receiverName = (String) session.getAttribute(ATTR_CHECKOUT_RECEIVERNAME);
+                String phoneNumber = (String) session.getAttribute(ATTR_CHECKOUT_PHONENUMBER);
+                String deliveryAddressOne = (String) session.getAttribute(ATTR_CHECKOUT_ADDRESSONE);
+                String deliveryAddressTwo = (String) session.getAttribute(ATTR_CHECKOUT_ADDRESSTWO);
+                String city = (String) session.getAttribute(ATTR_CHECKOUT_CITY);
+                String district = (String) session.getAttribute(ATTR_CHECKOUT_DISTRICT);
+                String ward = (String) session.getAttribute(ATTR_CHECKOUT_WARD);
                 // 2. Check if cart existed
                 CartObj cartObj = (CartObj) session.getAttribute(ATTR_MEMBER_CART);
                 if (cartObj != null) {
