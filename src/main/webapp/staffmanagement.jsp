@@ -132,27 +132,14 @@
                     <div class="card-body">
                         <h4 class="card-title">Staff Management</h4>
                         <div class="row">
-                            <div class="col-12">
                                 <div class="table-responsive">
                                     <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-6">
-                                                <div class="dataTables_length" id="order-listing_length">
-
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-6">
-                                                <div id="order-listing_filter" class="dataTables_filter">
-
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <table id="staff-datatable" role="grid"
                                                        class="table table-hover dataTable no-footer my-2">
                                                     <thead>
-                                                    <tr role="row">
+                                                    <tr>
                                                         <th class="text-right" style="width: 0px;">#
                                                         </th>
                                                         <th style="width: 96px;">STAFF ID
@@ -171,7 +158,7 @@
                                                     <c:set var="staffList" value="${requestScope.STAFF_LIST}"/>
                                                     <c:forEach var="staff" items="${staffList}" varStatus="counter">
                                                         <c:if test="${staff.roleID eq '2' or staff.roleID eq '3'}">
-                                                            <tr class="odd">
+                                                            <tr>
                                                                 <td class="sorting_1 text-right">${counter.count}</td>
                                                                 <td class="text-left">${staff.id}</td>
                                                                 <td class="text-left">${staff.name}</td>
@@ -529,7 +516,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -567,7 +554,7 @@
 <script src="js/todolist.js"></script>
 <!-- endinject -->
 <!-- Custom js for this page-->
-<script src="staffmanagement.js"></script>
+<script src="js/staffmanagement.js"></script>
 <!-- End custom js for this page-->
 </body>
 </html>

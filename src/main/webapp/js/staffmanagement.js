@@ -1,11 +1,11 @@
 $(document).ready(function () {
     $('#staff-datatable').DataTable({bFilter: false});
 
-    let fileSearchAdd = `
+    let SearchAdd = `
                                                     <form action="DispatchServlet">
                                                         <input type="search" class="form-control"
                                                                id="searchBox" placeholder="Search"
-                                                               name="txtSearchValue" value="${param.txtSearchValue}"
+                                                               name="txtSearchValue" value=""
                                                                aria-controls="order-listing"
                                                         >
                                                         <button class="btn btn-primary" type="submit"
@@ -14,4 +14,5 @@ $(document).ready(function () {
                                                         </button>
                                                     </form>
     `;
+    $('#staff-datatable_wrapper').children().eq(0).children().eq(1).append(SearchAdd);
 });
