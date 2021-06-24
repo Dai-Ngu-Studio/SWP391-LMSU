@@ -94,14 +94,14 @@
                                         });
                                     </script>
                                         <%--Start: Direct Borrow Form--%>
-                                    <form action="CheckoutDirectServlet" method="POST" class="my-0">
+                                    <form action="ReviewOrderServlet" method="POST" class="my-0">
                                         <div class="form-group">
                                             <div class="form-group mb-0">
                                                 <label for="txtPickupDate">Date of Pick-up</label>
                                             </div>
                                             <div class="form-group">
                                                 <input class="text-black-50 directInput" type="date" id="txtPickupDate"
-                                                       name="txtPickupDate"
+                                                       name="txtPickupDate" value="${sessionScope.CHECKOUT_PICKUP_DATE}"
                                                        style="border-radius: 0.3rem"/>
                                                 <small id="errorPickupDate"
                                                        class="form-text text-muted directError">
@@ -190,11 +190,13 @@
                                             });
                                         });
                                     </script>
-                                    <form action="CheckoutDeliveryServlet" method="POST" class="my-0">
+                                    <form action="ReviewOrderServlet" method="POST" class="my-0">
                                         <div class="form-group my-10">
                                             <label for="inputReceiverName">Receiver Name</label>
                                             <input type="text" class="form-control deliverInput" id="inputReceiverName"
-                                                   name="txtReceiverName" placeholder="Sinh Vi En"/>
+                                                   name="txtReceiverName" placeholder="Sinh Vi En"
+                                                   value="${sessionScope.CHECKOUT_RECEIVERNAME}"
+                                            />
                                             <small id="errorReceiverName"
                                                    class="form-text text-muted deliverError">
                                                 Name of receiver must be 2-60 characters long, and must only contain
@@ -204,7 +206,9 @@
                                         <div class="form-group">
                                             <label for="inputPhoneNumber">Phone Number</label>
                                             <input type="text" class="form-control deliverInput" id="inputPhoneNumber"
-                                                   name="txtPhoneNumber" placeholder="090000000000"/>
+                                                   name="txtPhoneNumber" placeholder="090000000000"
+                                                   value="${sessionScope.CHECKOUT_PHONENUMBER}"
+                                            />
                                             <small id="errorPhoneNumber"
                                                    class="form-text text-muted deliverError">
                                                 Phone number must be 10-12 characters long, and must only contain
@@ -214,7 +218,9 @@
                                         <div class="form-group">
                                             <label for="inputAddressOne">Street Address</label>
                                             <input type="text" class="form-control deliverInput" id="inputAddressOne"
-                                                   name="txtAddressOne" placeholder="1234 D1 Street"/>
+                                                   name="txtAddressOne" placeholder="1234 D1 Street"
+                                                   value="${sessionScope.CHECKOUT_ADDRESSONE}"
+                                            />
                                             <small id="errorAddressOne"
                                                    class="form-text text-muted deliverError">
                                                 Street address must be 5-50 characters long, can contain letters,
@@ -224,7 +230,9 @@
                                         <div class="form-group">
                                             <label for="inputAddressTwo">Residence Address</label>
                                             <input type="text" class="form-control deliverInput" id="inputAddressTwo"
-                                                   name="txtAddressTwo" placeholder="Apartment, or floor"/>
+                                                   name="txtAddressTwo" placeholder="Apartment, or floor"
+                                                   value="${sessionScope.CHECKOUT_ADDRESSTWO}"
+                                            />
                                             <small id="errorAddressTwo"
                                                    class="form-text text-muted deliverError">
                                                 Residence address is optional must be 0-50 characters long, can contain
