@@ -27,6 +27,7 @@
         <h3>Book Catalog</h3>
     </div>
     <div class="col-lg-2"></div>
+
 </div>
 <div class="row mt-2">
     <div class="col-lg-2"></div>
@@ -40,6 +41,12 @@
 <c:set var="bookList" value="${requestScope.BOOK_LIST}"/>
 <c:set var="indexCount" value="${0}"/>
 <c:set var="bookTotal" value="${0}"/>
+<script>
+    $(document).ready(function () {
+        $('#checkoutSuccessModal').modal('toggle');
+    });
+</script>
+
 <c:forEach var="book" items="${bookList}"
            varStatus="counter">
     <%--Book Row--%>
@@ -112,6 +119,25 @@
     <%--Closing div in case odd number of books--%>
     </div> <%--End: div class="row mt-2" --%>
 </c:if>
+
+<c:if test="${requestScope.CHECKOUT_SUCCESS}">
+    <div class="row">
+        <div class="modal fade" id="checkoutSuccessModal" tabindex="-1">
+            <div class="modal-dialog-centered modal-sm" tabindex="-1">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        Thank you. </br>
+                        We'll check back with you later for confirmation.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</c:if>
+
 <%--Actual Body--%>
 <jsp:include page="scrolltotop.html"></jsp:include>
 <jsp:include page="footer.html"></jsp:include>
