@@ -38,9 +38,9 @@ public class CheckoutDeliveryValidationServlet extends HttpServlet {
 
             if (phoneNumber != null) {
                 if (phoneNumber.trim().length() < 10
-                        || phoneNumber.trim().length() > 12) {
+                        || phoneNumber.trim().length() > 10) {
                     errors.put("errorPhoneNumber", "inputPhoneNumber");
-                } else if (!phoneNumber.trim().matches("^[\\d]{10,12}$")) {
+                } else if (!phoneNumber.trim().matches("^[\\d]{10}$")) {
                     errors.put("errorPhoneNumber", "inputPhoneNumber");
                 }
             }
