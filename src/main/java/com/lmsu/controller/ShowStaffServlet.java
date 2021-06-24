@@ -39,7 +39,7 @@ public class ShowStaffServlet extends HttpServlet {
                 url = STAFF_MANAGEMENT_PAGE;
             } else {
                 UserDAO dao = new UserDAO();
-                dao.viewUserList();
+                dao.viewStaffList();
                 List<UserDTO> list = dao.getListAccount();
 
                 request.setAttribute("STAFF_LIST", list);
