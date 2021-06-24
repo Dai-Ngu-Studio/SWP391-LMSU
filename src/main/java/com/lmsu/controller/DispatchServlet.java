@@ -40,6 +40,7 @@ public class DispatchServlet extends HttpServlet {
     private static final String VIEW_AUTHOR_DETAILS_CONTROLLER = "ViewAuthorDetailsServlet";
     private static final String RENEWAL_REQUEST_CONTROLLER = "RenewRequestServlet";
     private static final String RETURN_BOOK_CONTROLLER = "ReturnBookServlet";
+    private static final String BORROW_RESERVE_BOOK_CONTROLLER = "BorrowReserveBookServlet";
 
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -95,6 +96,8 @@ public class DispatchServlet extends HttpServlet {
                 url = RENEWAL_REQUEST_CONTROLLER;
             } else if (button.equals("Return Book")) {
                 url = RETURN_BOOK_CONTROLLER;
+            } else if (button.equals("Borrow Book")){
+                url = BORROW_RESERVE_BOOK_CONTROLLER;
             }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);

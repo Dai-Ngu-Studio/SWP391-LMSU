@@ -108,6 +108,35 @@ public class OrderItemDAO implements Serializable {
         return false;
     }
 
+    public boolean borrowReserveBook(int orderItemID, int lendStatus, Date returnDeadline) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "UPDATE [OrderItems] " +
+                        "SET [lendStatus] = ?, [returnDeadline] = ? " +
+                        "WHERE [id] = ? ";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, lendStatus);
+                stm.setDate(2, returnDeadline);
+                stm.setInt(3, orderItemID);
+                //4. Execute Query and get rows affected
+                int rows = stm.executeUpdate();
+                //5. Process result
+                if (rows > 0) return true;
+            }
+        } finally {
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
+
     public OrderItemDTO getOrderItemByID(int orderItemID) throws SQLException, NamingException {
 
         Connection con = null;
