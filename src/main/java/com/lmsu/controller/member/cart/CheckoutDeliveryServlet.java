@@ -47,6 +47,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
 
     private final String ATTR_MEMBER_CART = "MEMBER_CART";
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
+    private final String ATTR_CHECKOUT_SUCCESS = "CHECKOUT_SUCCESS";
 
     private final String ATTR_CHECKOUT_RECEIVERNAME = "CHECKOUT_RECEIVERNAME";
     private final String ATTR_CHECKOUT_PHONENUMBER = "CHECKOUT_PHONENUMBER";
@@ -59,7 +60,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String url = SHOW_BOOK_CATALOG_CONTROLLER; //W.I.P. temporary (to be changed)
+        String url = INDEX_CONTROLLER; //W.I.P. temporary (to be changed)
         Connection conn = null;
 
         try {
@@ -125,7 +126,8 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                         if (deliveryOrderAddResult) {
                                             conn.commit();
                                             session.removeAttribute(ATTR_MEMBER_CART);
-                                            url = INDEX_CONTROLLER; //W.I.P. temporary (to be changed)
+                                            request.setAttribute(ATTR_CHECKOUT_SUCCESS, true);
+                                            url = SHOW_BOOK_CATALOG_CONTROLLER; //W.I.P. temporary (to be changed)
                                         }// end if delivery order created successfully
                                     }// end if order items added successfully
                                 }// end if order created successfully
