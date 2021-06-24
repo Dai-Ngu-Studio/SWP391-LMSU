@@ -140,466 +140,385 @@
                     <div class="card-body">
                         <h4 class="card-title">Data table</h4>
                         <div class="row">
-                            <div class="col-12">
-                                <div class="table-responsive">
-                                    <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-6">
-                                                <div class="dataTables_length" id="order-listing_length"><label>Show
-                                                    <select name="order-listing_length"
-                                                            aria-controls="order-listing"
-                                                            class="custom-select custom-select-sm form-control">
-                                                        <option value="5">5</option>
-                                                        <option value="10">10</option>
-                                                        <option value="15">15</option>
-                                                        <option value="-1">All</option>
-                                                    </select> entries</label></div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-6">
-                                                <div id="order-listing_filter" class="dataTables_filter">
-                                                    <label><input type="search" class="form-control"
-                                                                  placeholder="Search"
-                                                                  aria-controls="order-listing"></label></div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <table id="order-listing" class="table dataTable no-footer" role="grid"
-                                                       aria-describedby="order-listing_info">
-                                                    <thead>
-                                                    <tr role="row">
-                                                        <th class="sorting_asc" tabindex="0"
-                                                            aria-controls="order-listing" rowspan="1" colspan="1"
-                                                            aria-sort="ascending"
-                                                            aria-label="Order #: activate to sort column descending"
-                                                            style="width: 0px; text-align: center">#
-                                                        </th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1"
-                                                            aria-label="order NAME: activate to sort column ascending"
-                                                            style="width: 96px; text-align: left">ORDERED ON
-                                                        </th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1"
-                                                            aria-label="QUANTITY: activate to sort column ascending"
-                                                            style="width: 96px; text-align: left">BORROWER
-                                                        </th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1"
-                                                            aria-label="QUANTITY: activate to sort column ascending"
-                                                            style="width: 96px; text-align: left">SCHEDULED TIME
-                                                        </th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1"
-                                                            aria-label="STATUS: activate to sort column ascending"
-                                                            style="width: 67px; text-align: center">STATUS
-                                                        </th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
-                                                            rowspan="1" colspan="1"
-                                                            aria-label="Actions: activate to sort column ascending"
-                                                            style="width: 64px; text-align: center">ACTIONS
-                                                        </th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <%--Map<Pair<OrderObj, DirectOrderObj>, List<OrderItemObj>>--%>
-                                                    <c:set var="orderList" value="${requestScope.ORDER_LIST}"/>
-                                                    <c:forEach var="order" items="${orderList}"
-                                                               varStatus="counter">
-                                                        <tr class="odd">
-                                                            <td class="sorting_1 text-center">${counter.count}</td>
-                                                            <td class="text-left">
-                                                                    ${order.key.key.orderDate}
-                                                            </td>
-                                                            <td class="text-left">${order.key.key.memberName}</td>
-                                                            <td class="text-left">${order.key.value.scheduledTime}</td>
-                                                            <td class="text-center">
-                                                                <c:choose>
-                                                                    <c:when test="${order.key.key.activeStatus eq -1}">
-                                                                        <label class="badge
+                            <div class="table-responsive">
+                                <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <table id="rental-datatable" class="table dataTable no-footer" role="grid"
+                                                   aria-describedby="order-listing_info">
+                                                <thead>
+                                                <tr>
+                                                    <th style="width: 0px; text-align: center">#</th>
+                                                    <th style="width: 96px; text-align: left">ORDERED ON</th>
+                                                    <th style="width: 96px; text-align: left">BORROWER</th>
+                                                    <th style="width: 96px; text-align: left">SCHEDULED TIME</th>
+                                                    <th style="width: 67px; text-align: center">STATUS</th>
+                                                    <th style="width: 64px; text-align: center">ACTIONS</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <%--Map<Pair<OrderObj, DirectOrderObj>, List<OrderItemObj>>--%>
+                                                <c:set var="orderList" value="${requestScope.ORDER_LIST}"/>
+                                                <c:forEach var="order" items="${orderList}"
+                                                           varStatus="counter">
+                                                    <tr>
+                                                        <td class="text-center">${counter.count}</td>
+                                                        <td class="text-left">
+                                                                ${order.key.key.orderDate}
+                                                        </td>
+                                                        <td class="text-left">${order.key.key.memberName}</td>
+                                                        <td class="text-left">${order.key.value.scheduledTime}</td>
+                                                        <td class="text-center">
+                                                            <c:choose>
+                                                                <c:when test="${order.key.key.activeStatus eq -1}">
+                                                                    <label class="badge
                                                                             badge-secondary
                                                                             text-white">Cancelled</label>
-                                                                    </c:when>
-                                                                    <c:when test="${order.key.key.activeStatus eq 0}">
-                                                                        <label class="badge
+                                                                </c:when>
+                                                                <c:when test="${order.key.key.activeStatus eq 0}">
+                                                                    <label class="badge
                                                                             badge-warning
                                                                             text-dark">Pending</label>
-                                                                    </c:when>
-                                                                    <c:when test="${order.key.key.activeStatus eq 1}">
-                                                                        <label class="badge
+                                                                </c:when>
+                                                                <c:when test="${order.key.key.activeStatus eq 1}">
+                                                                    <label class="badge
                                                                             badge-info
                                                                             text-white">Approved</label>
-                                                                    </c:when>
-                                                                    <c:when test="${order.key.key.activeStatus eq 2}">
-                                                                        <label class="badge
+                                                                </c:when>
+                                                                <c:when test="${order.key.key.activeStatus eq 2}">
+                                                                    <label class="badge
                                                                             badge-primary
                                                                             text-white">Received</label>
-                                                                    </c:when>
-                                                                    <c:when test="${order.key.key.activeStatus eq 3}">
-                                                                        <label class="badge
+                                                                </c:when>
+                                                                <c:when test="${order.key.key.activeStatus eq 3}">
+                                                                    <label class="badge
                                                                             badge-success
                                                                             text-white">Closed</label>
-                                                                    </c:when>
-                                                                    <c:when test="${order.key.key.activeStatus eq 4}">
-                                                                        <label class="badge
+                                                                </c:when>
+                                                                <c:when test="${order.key.key.activeStatus eq 4}">
+                                                                    <label class="badge
                                                                             badge-danger
                                                                             text-white">Overdue</label>
-                                                                    </c:when>
-                                                                    <c:when test="${order.key.key.activeStatus eq 5}">
-                                                                        <label class="badge
+                                                                </c:when>
+                                                                <c:when test="${order.key.key.activeStatus eq 5}">
+                                                                    <label class="badge
                                                                             badge-dark
                                                                             text-white">Rejected</label>
-                                                                    </c:when>
-                                                                </c:choose>
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <form action="DispatchServlet">
-                                                                    <div class="btn-group">
-                                                                        <button type="button" class="btn btn-light"
-                                                                                data-toggle="modal"
-                                                                                data-target="#orderModal${order.key.key.id}">
-                                                                            <i class="fa fa-eye text-primary"></i>
-                                                                        </button>
-                                                                            <%--not implemented--%>
-                                                                        <button type="button" class="btn btn-light"
-                                                                                data-toggle="modal"
-                                                                                data-target="#updateModal${order.key.key.id}"
-                                                                                title="Update"
-                                                                                data-original-title="Edit">
-                                                                            <i class="fa fa-pencil text-primary"></i>
-                                                                        </button>
+                                                                </c:when>
+                                                            </c:choose>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <form action="DispatchServlet">
+                                                                <div class="btn-group">
+                                                                    <button type="button" class="btn btn-light"
+                                                                            data-toggle="modal"
+                                                                            data-target="#orderModal${order.key.key.id}">
+                                                                        <i class="fa fa-eye text-primary"></i>
+                                                                    </button>
+                                                                        <%--not implemented--%>
+                                                                    <button type="button" class="btn btn-light"
+                                                                            data-toggle="modal"
+                                                                            data-target="#updateModal${order.key.key.id}"
+                                                                            title="Update"
+                                                                            data-original-title="Edit">
+                                                                        <i class="fa fa-pencil text-primary"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                            </table>
+                                            <c:forEach var="order" items="${orderList}">
+                                                <%--Start: Order Details Form--%>
+                                                <form action="DispatchServlet">
+                                                    <div class="modal fade"
+                                                         id="orderModal${order.key.key.id}"
+                                                         tabindex="-1">
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">
+                                                                        Order Details
+                                                                    </h5>
+                                                                    <button type="button"
+                                                                            class="close"
+                                                                            data-dismiss="modal">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="form-group row">
+                                                                        <label class="col-2 col-form-label">
+                                                                            Order ID
+                                                                        </label>
+                                                                        <div class="col-10">
+                                                                            <input type="text"
+                                                                                   class="form-control"
+                                                                                   value="${order.key.key.id}"
+                                                                                   disabled/>
+                                                                        </div>
                                                                     </div>
-                                                                </form>
-                                                            </td>
-                                                        </tr>
-                                                    </c:forEach>
-                                                    </tbody>
-                                                </table>
-                                                <c:forEach var="order" items="${orderList}">
-                                                    <%--Start: Order Details Form--%>
-                                                    <form action="DispatchServlet">
-                                                        <div class="modal fade"
-                                                             id="orderModal${order.key.key.id}"
-                                                             tabindex="-1">
-                                                            <div class="modal-dialog modal-lg">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title">
-                                                                            Order Details
-                                                                        </h5>
-                                                                        <button type="button"
-                                                                                class="close"
-                                                                                data-dismiss="modal">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-2 col-form-label">
+                                                                            Member ID
+                                                                        </label>
+                                                                        <div class="col-10">
+                                                                            <input type="text"
+                                                                                   class="form-control"
+                                                                                   value="${order.key.key.memberID}"
+                                                                                   disabled/>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="modal-body">
-                                                                        <div class="form-group row">
-                                                                            <label class="col-2 col-form-label">
-                                                                                Order ID
-                                                                            </label>
-                                                                            <div class="col-10">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value="${order.key.key.id}"
-                                                                                       disabled/>
-                                                                            </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-2 col-form-label">
+                                                                            Member Name
+                                                                        </label>
+                                                                        <div class="col-10">
+                                                                            <input type="text"
+                                                                                   class="form-control"
+                                                                                   value="${order.key.key.memberName}"
+                                                                                   disabled/>
                                                                         </div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-2 col-form-label">
-                                                                                Member ID
-                                                                            </label>
-                                                                            <div class="col-10">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value="${order.key.key.memberID}"
-                                                                                       disabled/>
-                                                                            </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-2 col-form-label">
+                                                                            Order Date
+                                                                        </label>
+                                                                        <div class="col-10">
+                                                                            <input type="text"
+                                                                                   class="form-control"
+                                                                                   value="${order.key.key.orderDate}"
+                                                                                   disabled/>
                                                                         </div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-2 col-form-label">
-                                                                                Member Name
-                                                                            </label>
-                                                                            <div class="col-10">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value="${order.key.key.memberName}"
-                                                                                       disabled/>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-2 col-form-label">
-                                                                                Order Date
-                                                                            </label>
-                                                                            <div class="col-10">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value="${order.key.key.orderDate}"
-                                                                                       disabled/>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-2 col-form-label">
-                                                                                Status
-                                                                            </label>
-                                                                            <div class="col-10">
-                                                                                <c:choose>
-                                                                                    <c:when test="${order.key.key.activeStatus eq -1}">
-                                                                                        <input type="text"
-                                                                                               class="form-control
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-2 col-form-label">
+                                                                            Status
+                                                                        </label>
+                                                                        <div class="col-10">
+                                                                            <c:choose>
+                                                                                <c:when test="${order.key.key.activeStatus eq -1}">
+                                                                                    <input type="text"
+                                                                                           class="form-control
                                                                                                        text-white
                                                                                                        bg-secondary"
-                                                                                               value="Cancelled"
-                                                                                               disabled/>
-                                                                                    </c:when>
-                                                                                    <c:when test="${order.key.key.activeStatus eq 0}">
-                                                                                        <input type="text"
-                                                                                               class="form-control
+                                                                                           value="Cancelled"
+                                                                                           disabled/>
+                                                                                </c:when>
+                                                                                <c:when test="${order.key.key.activeStatus eq 0}">
+                                                                                    <input type="text"
+                                                                                           class="form-control
                                                                                                        text-dark
                                                                                                        bg-warning"
-                                                                                               value="Pending"
-                                                                                               disabled/>
-                                                                                    </c:when>
-                                                                                    <c:when test="${order.key.key.activeStatus eq 1}">
-                                                                                        <input type="text"
-                                                                                               class="form-control
+                                                                                           value="Pending"
+                                                                                           disabled/>
+                                                                                </c:when>
+                                                                                <c:when test="${order.key.key.activeStatus eq 1}">
+                                                                                    <input type="text"
+                                                                                           class="form-control
                                                                                                        text-white
                                                                                                        bg-info"
-                                                                                               value="Approved"
-                                                                                               disabled/>
-                                                                                    </c:when>
-                                                                                    <c:when test="${order.key.key.activeStatus eq 2}">
-                                                                                        <input type="text"
-                                                                                               class="form-control
+                                                                                           value="Approved"
+                                                                                           disabled/>
+                                                                                </c:when>
+                                                                                <c:when test="${order.key.key.activeStatus eq 2}">
+                                                                                    <input type="text"
+                                                                                           class="form-control
                                                                                                        text-white
                                                                                                        bg-primary"
-                                                                                               value="Received"
-                                                                                               disabled/>
-                                                                                    </c:when>
-                                                                                    <c:when test="${order.key.key.activeStatus eq 3}">
-                                                                                        <input type="text"
-                                                                                               class="form-control
+                                                                                           value="Received"
+                                                                                           disabled/>
+                                                                                </c:when>
+                                                                                <c:when test="${order.key.key.activeStatus eq 3}">
+                                                                                    <input type="text"
+                                                                                           class="form-control
                                                                                                        text-white
                                                                                                        bg-success"
-                                                                                               value="Closed"
-                                                                                               disabled/>
-                                                                                    </c:when>
-                                                                                    <c:when test="${order.key.key.activeStatus eq 4}">
-                                                                                        <input type="text"
-                                                                                               class="form-control
+                                                                                           value="Closed"
+                                                                                           disabled/>
+                                                                                </c:when>
+                                                                                <c:when test="${order.key.key.activeStatus eq 4}">
+                                                                                    <input type="text"
+                                                                                           class="form-control
                                                                                                        text-white
                                                                                                        bg-danger"
-                                                                                               value="Overdue"
-                                                                                               disabled/>
-                                                                                    </c:when>
-                                                                                    <c:when test="${order.key.key.activeStatus eq 5}">
-                                                                                        <input type="text"
-                                                                                               class="form-control
+                                                                                           value="Overdue"
+                                                                                           disabled/>
+                                                                                </c:when>
+                                                                                <c:when test="${order.key.key.activeStatus eq 5}">
+                                                                                    <input type="text"
+                                                                                           class="form-control
                                                                                                        text-white
                                                                                                        bg-dark"
-                                                                                               value="Rejected"
-                                                                                               disabled/>
-                                                                                    </c:when>
-                                                                                </c:choose>
-                                                                            </div>
+                                                                                           value="Rejected"
+                                                                                           disabled/>
+                                                                                </c:when>
+                                                                            </c:choose>
                                                                         </div>
-                                                                        <div class="form-group row">
-                                                                            <table class="table table-hover table-responsive w-100 d-block d-md-table">
-                                                                                <thead>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <table class="table table-hover table-responsive w-100 d-block d-md-table">
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th class="text-right">Item ID</th>
+                                                                                <th class="text-left">Book Title
+                                                                                </th>
+                                                                                <th class="text-center">Status</th>
+                                                                                <th class="text-left">Deadline</th>
+                                                                                <th class="text-left">Received on
+                                                                                </th>
+                                                                                <th class="text-left">Returned on
+                                                                                </th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <%--
+                                                                                ITEM_CANCELLED = -1
+                                                                                ITEM_PENDING = 0
+                                                                                ITEM_APPROVED = 1
+                                                                                ITEM_RECEIVED = 2
+                                                                                ITEM_RETURN_SCHEDULED = 3
+                                                                                ITEM_RETURNED = 4
+                                                                                ITEM_OVERDUE = 5
+                                                                                ITEM_OVERDUE_RETURN_SCHEDULED = 6
+                                                                                ITEM_OVERDUE_RETURNED = 7
+                                                                                ITEM_REJECTED = 8
+                                                                                ITEM_LOST = 9
+                                                                                ITEM_RESERVED = 10
+                                                                                --%>
+                                                                            <c:forEach var="orderItem"
+                                                                                       items="${order.value}">
                                                                                 <tr>
-                                                                                    <th class="text-right">Item ID</th>
-                                                                                    <th class="text-left">Book Title
-                                                                                    </th>
-                                                                                    <th class="text-center">Status</th>
-                                                                                    <th class="text-left">Deadline</th>
-                                                                                    <th class="text-left">Received on</th>
-                                                                                    <th class="text-left">Returned on</th>
-                                                                                </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    <%--
-                                                                                    ITEM_CANCELLED = -1
-                                                                                    ITEM_PENDING = 0
-                                                                                    ITEM_APPROVED = 1
-                                                                                    ITEM_RECEIVED = 2
-                                                                                    ITEM_RETURN_SCHEDULED = 3
-                                                                                    ITEM_RETURNED = 4
-                                                                                    ITEM_OVERDUE = 5
-                                                                                    ITEM_OVERDUE_RETURN_SCHEDULED = 6
-                                                                                    ITEM_OVERDUE_RETURNED = 7
-                                                                                    ITEM_REJECTED = 8
-                                                                                    ITEM_LOST = 9
-                                                                                    ITEM_RESERVED = 10
-                                                                                    --%>
-                                                                                <c:forEach var="orderItem"
-                                                                                           items="${order.value}">
-                                                                                    <tr>
-                                                                                        <td class="text-right">${orderItem.id} </td>
-                                                                                        <td class="text-left">${orderItem.title}</td>
-                                                                                        <td class="text-center">
-                                                                                            <c:choose>
-                                                                                                <c:when test="${orderItem.lendStatus eq -1}">
-                                                                                                    <label class="badge
+                                                                                    <td class="text-right">${orderItem.id} </td>
+                                                                                    <td class="text-left">${orderItem.title}</td>
+                                                                                    <td class="text-center">
+                                                                                        <c:choose>
+                                                                                            <c:when test="${orderItem.lendStatus eq -1}">
+                                                                                                <label class="badge
                                                                                                     badge-secondary
                                                                                                     text-white">
-                                                                                                        Cancelled
-                                                                                                    </label>
-                                                                                                </c:when>
-                                                                                                <c:when test="${orderItem.lendStatus eq 0}">
-                                                                                                    <label class="badge
+                                                                                                    Cancelled
+                                                                                                </label>
+                                                                                            </c:when>
+                                                                                            <c:when test="${orderItem.lendStatus eq 0}">
+                                                                                                <label class="badge
                                                                                                     badge-warning
                                                                                                     text-dark">
-                                                                                                        Pending
-                                                                                                    </label>
-                                                                                                </c:when>
-                                                                                                <c:when test="${orderItem.lendStatus eq 1}">
-                                                                                                    <label class="badge
+                                                                                                    Pending
+                                                                                                </label>
+                                                                                            </c:when>
+                                                                                            <c:when test="${orderItem.lendStatus eq 1}">
+                                                                                                <label class="badge
                                                                                                     badge-info
                                                                                                     text-white">
-                                                                                                        Approved
-                                                                                                    </label>
-                                                                                                </c:when>
-                                                                                                <c:when test="${orderItem.lendStatus eq 2}">
-                                                                                                    <label class="badge
+                                                                                                    Approved
+                                                                                                </label>
+                                                                                            </c:when>
+                                                                                            <c:when test="${orderItem.lendStatus eq 2}">
+                                                                                                <label class="badge
                                                                                                     badge-primary
                                                                                                     text-white">
-                                                                                                        Received
-                                                                                                    </label>
-                                                                                                </c:when>
-                                                                                                <c:when test="${orderItem.lendStatus eq 3}">
-                                                                                                    <label class="badge
+                                                                                                    Received
+                                                                                                </label>
+                                                                                            </c:when>
+                                                                                            <c:when test="${orderItem.lendStatus eq 3}">
+                                                                                                <label class="badge
                                                                                                     badge-primary
                                                                                                     text-white">
-                                                                                                        Scheduled
-                                                                                                    </label>
-                                                                                                </c:when>
-                                                                                                <c:when test="${orderItem.lendStatus eq 4}">
-                                                                                                    <label class="badge
+                                                                                                    Scheduled
+                                                                                                </label>
+                                                                                            </c:when>
+                                                                                            <c:when test="${orderItem.lendStatus eq 4}">
+                                                                                                <label class="badge
                                                                                                     badge-success
                                                                                                     text-white">
-                                                                                                        Returned
-                                                                                                    </label>
-                                                                                                </c:when>
-                                                                                                <c:when test="${orderItem.lendStatus eq 5}">
-                                                                                                    <label class="badge
+                                                                                                    Returned
+                                                                                                </label>
+                                                                                            </c:when>
+                                                                                            <c:when test="${orderItem.lendStatus eq 5}">
+                                                                                                <label class="badge
                                                                                                     badge-danger
                                                                                                     text-white">
-                                                                                                        Overdue
-                                                                                                    </label>
-                                                                                                </c:when>
-                                                                                                <c:when test="${orderItem.lendStatus eq 6}">
-                                                                                                    <label class="badge
+                                                                                                    Overdue
+                                                                                                </label>
+                                                                                            </c:when>
+                                                                                            <c:when test="${orderItem.lendStatus eq 6}">
+                                                                                                <label class="badge
                                                                                                     badge-primary
                                                                                                     text-white">
-                                                                                                        Scheduled
-                                                                                                    </label>
-                                                                                                </c:when>
-                                                                                                <c:when test="${orderItem.lendStatus eq 7}">
-                                                                                                    <label class="badge
+                                                                                                    Scheduled
+                                                                                                </label>
+                                                                                            </c:when>
+                                                                                            <c:when test="${orderItem.lendStatus eq 7}">
+                                                                                                <label class="badge
                                                                                                     badge-success
                                                                                                     text-white">
-                                                                                                        Returned
-                                                                                                    </label>
-                                                                                                </c:when>
-                                                                                                <c:when test="${orderItem.lendStatus eq 8}">
-                                                                                                    <label class="badge
+                                                                                                    Returned
+                                                                                                </label>
+                                                                                            </c:when>
+                                                                                            <c:when test="${orderItem.lendStatus eq 8}">
+                                                                                                <label class="badge
                                                                                                     badge-dark
                                                                                                     text-white">
-                                                                                                        Rejected
-                                                                                                    </label>
-                                                                                                </c:when>
-                                                                                                <c:when test="${orderItem.lendStatus eq 9}">
-                                                                                                    <label class="badge
+                                                                                                    Rejected
+                                                                                                </label>
+                                                                                            </c:when>
+                                                                                            <c:when test="${orderItem.lendStatus eq 9}">
+                                                                                                <label class="badge
                                                                                                     badge-danger
                                                                                                     text-white">
-                                                                                                        Missing
-                                                                                                    </label>
-                                                                                                </c:when>
-                                                                                                <c:when test="${orderItem.lendStatus eq 10}">
-                                                                                                    <label class="badge
+                                                                                                    Missing
+                                                                                                </label>
+                                                                                            </c:when>
+                                                                                            <c:when test="${orderItem.lendStatus eq 10}">
+                                                                                                <label class="badge
                                                                                                     badge-secondary
                                                                                                     text-white">
-                                                                                                        Reserved
-                                                                                                    </label>
-                                                                                                </c:when>
-                                                                                            </c:choose>
-                                                                                        </td>
-                                                                                        <td class="text-left">
-                                                                                                ${orderItem.returnDeadline}
-                                                                                        </td>
-                                                                                        <td class="text-left">
-                                                                                            <c:if test="${empty orderItem.lendDate}">
-                                                                                                N/A
-                                                                                            </c:if>
-                                                                                            <c:if test="${not empty orderItem.lendDate}">
-                                                                                                ${orderItem.lendDate}
-                                                                                            </c:if>
-                                                                                        </td>
-                                                                                        <td class="text-left">
-                                                                                            <c:if test="${empty orderItem.returnDate}">
-                                                                                                N/A
-                                                                                            </c:if>
-                                                                                            <c:if test="${not empty orderItem.returnDate}">
-                                                                                                ${orderItem.returnDate}
-                                                                                            </c:if>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </c:forEach>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
+                                                                                                    Reserved
+                                                                                                </label>
+                                                                                            </c:when>
+                                                                                        </c:choose>
+                                                                                    </td>
+                                                                                    <td class="text-left">
+                                                                                            ${orderItem.returnDeadline}
+                                                                                    </td>
+                                                                                    <td class="text-left">
+                                                                                        <c:if test="${empty orderItem.lendDate}">
+                                                                                            N/A
+                                                                                        </c:if>
+                                                                                        <c:if test="${not empty orderItem.lendDate}">
+                                                                                            ${orderItem.lendDate}
+                                                                                        </c:if>
+                                                                                    </td>
+                                                                                    <td class="text-left">
+                                                                                        <c:if test="${empty orderItem.returnDate}">
+                                                                                            N/A
+                                                                                        </c:if>
+                                                                                        <c:if test="${not empty orderItem.returnDate}">
+                                                                                            ${orderItem.returnDate}
+                                                                                        </c:if>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </c:forEach>
+                                                                            </tbody>
+                                                                        </table>
                                                                     </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button"
-                                                                                class="btn btn-outline-primary"
-                                                                                data-dismiss="modal">
-                                                                            Close
-                                                                        </button>
-                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button"
+                                                                            class="btn btn-outline-primary"
+                                                                            data-dismiss="modal">
+                                                                        Close
+                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </form>
-                                                    <%--End: Order Details Form--%>
-                                                </c:forEach>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-5">
-                                                <div class="dataTables_info" id="order-listing_info" role="status"
-                                                     aria-live="polite">Showing 1 to 5 of 10 entries
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-7">
-                                                <div class="dataTables_paginate paging_simple_numbers"
-                                                     id="order-listing_paginate">
-                                                    <ul class="pagination">
-                                                        <li class="paginate_button page-item previous disabled"
-                                                            id="order-listing_previous"><a href="#"
-                                                                                           aria-controls="order-listing"
-                                                                                           data-dt-idx="0" tabindex="0"
-                                                                                           class="page-link">Previous</a>
-                                                        </li>
-                                                        <li class="paginate_button page-item active"><a href="#"
-                                                                                                        aria-controls="order-listing"
-                                                                                                        data-dt-idx="1"
-                                                                                                        tabindex="0"
-                                                                                                        class="page-link">1</a>
-                                                        </li>
-                                                        <li class="paginate_button page-item "><a href="#"
-                                                                                                  aria-controls="order-listing"
-                                                                                                  data-dt-idx="2"
-                                                                                                  tabindex="0"
-                                                                                                  class="page-link">2</a>
-                                                        </li>
-                                                        <li class="paginate_button page-item next"
-                                                            id="order-listing_next"><a href="#"
-                                                                                       aria-controls="order-listing"
-                                                                                       data-dt-idx="3" tabindex="0"
-                                                                                       class="page-link">Next</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                                    </div>
+                                                </form>
+                                                <%--End: Order Details Form--%>
+                                            </c:forEach>
                                         </div>
                                     </div>
                                 </div>
@@ -639,6 +558,7 @@
 <script src="js/template.js"></script>
 <script src="js/settings.js"></script>
 <script src="js/todolist.js"></script>
+<script src="js/bookrentalmanagement.js"></script>
 <!-- endinject -->
 <!-- Custom js for this page-->
 
