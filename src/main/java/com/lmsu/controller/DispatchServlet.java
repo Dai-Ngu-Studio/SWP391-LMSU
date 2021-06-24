@@ -29,10 +29,13 @@ public class DispatchServlet extends HttpServlet {
     private static final String CHANGE_PHONE_CONTROLLER = "ChangePhoneServlet";
     private static final String VIEW_BOOK_DETAILS_CONTROLLER = "ViewBookDetailsServlet";
     private static final String SEARCH_USER_CONTROLLER = "SearchUserServlet";
-    private static final String ADD_USER_CONTROLLER = "";
+    private static final String ADD_USER_CONTROLLER = "AddUserServlet";
     private static final String UPDATE_USER_CONTROLLER = "";
     private static final String DELETE_USER_CONTROLLER = "DeleteUserServlet";
     private static final String SEARCH_STAFF_CONTROLLER = "SearchStaffServlet";
+    private static final String ADD_STAFF_CONTROLLER = "";
+    private static final String UPDATE_STAFF_CONTROLLER = "";
+    private static final String DELETE_STAFF_CONTROLLER = "";
     private static final String UPDATE_AUTHOR_CONTROLLER = "UpdateAuthorServlet";
     private static final String DELETE_AUTHOR_CONTROLLER = "DeleteAuthorServlet";
     private static final String SEARCH_AUTHOR_CONTROLLER = "SearchAuthorNameServlet";
@@ -78,8 +81,12 @@ public class DispatchServlet extends HttpServlet {
                 url = VIEW_BOOK_DETAILS_CONTROLLER;
             } else if (button.equals("Search User")) {
                 url = SEARCH_USER_CONTROLLER;
+            } else if (button.equals("Add User")) {
+                url = ADD_USER_CONTROLLER;
             } else if (button.equals("Delete User")) {
                 url = DELETE_USER_CONTROLLER;
+            } else if (button.equals("Search Staff")) {
+                url = SEARCH_STAFF_CONTROLLER;
             } else if (button.equals("Update Author")) {
                 url = UPDATE_AUTHOR_CONTROLLER;
             } else if (button.equals("Delete Author")) {
@@ -96,7 +103,7 @@ public class DispatchServlet extends HttpServlet {
                 url = RENEWAL_REQUEST_CONTROLLER;
             } else if (button.equals("Return Book")) {
                 url = RETURN_BOOK_CONTROLLER;
-            } else if (button.equals("Borrow Book")){
+            } else if (button.equals("Borrow Book")) {
                 url = BORROW_RESERVE_BOOK_CONTROLLER;
             }
         } finally {
