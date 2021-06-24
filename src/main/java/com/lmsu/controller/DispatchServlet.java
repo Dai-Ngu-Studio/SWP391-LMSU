@@ -1,7 +1,5 @@
 package com.lmsu.controller;
 
-import com.google.gson.internal.bind.util.ISO8601Utils;
-
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +28,10 @@ public class DispatchServlet extends HttpServlet {
     private static final String CHANGE_PASSWORD_CONTROLLER = "ChangePasswordServlet";
     private static final String CHANGE_PHONE_CONTROLLER = "ChangePhoneServlet";
     private static final String VIEW_BOOK_DETAILS_CONTROLLER = "ViewBookDetailsServlet";
-    private static final String SEARCH_MEMBER_CONTROLLER = "SearchMemberServlet";
+    private static final String SEARCH_USER_CONTROLLER = "SearchUserServlet";
+    private static final String ADD_USER_CONTROLLER = "";
+    private static final String UPDATE_USER_CONTROLLER = "";
+    private static final String DELETE_USER_CONTROLLER = "DeleteUserServlet";
     private static final String SEARCH_STAFF_CONTROLLER = "SearchStaffServlet";
     private static final String UPDATE_AUTHOR_CONTROLLER = "UpdateAuthorServlet";
     private static final String DELETE_AUTHOR_CONTROLLER = "DeleteAuthorServlet";
@@ -74,8 +75,10 @@ public class DispatchServlet extends HttpServlet {
                 url = CHANGE_PHONE_CONTROLLER;
             } else if (button.equals("View Details")) {
                 url = VIEW_BOOK_DETAILS_CONTROLLER;
-            } else if (button.equals("SearchMember")){
-                url = SEARCH_MEMBER_CONTROLLER;
+            } else if (button.equals("Search User")) {
+                url = SEARCH_USER_CONTROLLER;
+            } else if (button.equals("Delete User")) {
+                url = DELETE_USER_CONTROLLER;
             } else if (button.equals("Update Author")) {
                 url = UPDATE_AUTHOR_CONTROLLER;
             } else if (button.equals("Delete Author")) {
@@ -84,13 +87,13 @@ public class DispatchServlet extends HttpServlet {
                 url = SEARCH_AUTHOR_CONTROLLER;
             } else if (button.equals("AddAuthor")) {
                 url = ADD_AUTHOR_CONTROLLER;
-            } else if (button.equals("View Authors")){
+            } else if (button.equals("View Authors")) {
                 url = VIEW_AUTHOR_DETAILS_CONTROLLER;
-            } else if (button.equals("SearchStaff")){
+            } else if (button.equals("SearchStaff")) {
                 url = SEARCH_STAFF_CONTROLLER;
-            } else if (button.equals("Renew Book")){
+            } else if (button.equals("Renew Book")) {
                 url = RENEWAL_REQUEST_CONTROLLER;
-            } else if (button.equals("Return Book")){
+            } else if (button.equals("Return Book")) {
                 url = RETURN_BOOK_CONTROLLER;
             }
         } finally {
