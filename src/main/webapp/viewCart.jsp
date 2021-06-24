@@ -61,7 +61,8 @@
                                                         class="fa fa-arrow-circle-right text-info"
                                                         aria-hidden="true"></i></a>
                                                 <c:if test="${book.value.quantity eq 0}">
-                                                    <label class="badge badge-secondary text-white float-right">
+                                                    <label class="badge badge-secondary text-white
+                                                    float-right font-weight-light">
                                                         <i class="fa fa-bookmark" aria-hidden="true"></i>
                                                         Reserve
                                                     </label>
@@ -76,16 +77,16 @@
                                                              onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"
                                                         />
                                                     </div>
-                                                    <div class="col-5">
+                                                    <div class="col-7">
 
                                                     </div>
-                                                    <div class="col-4">
+                                                    <div class="col-2">
                                                         <div class="row">
                                                             <div class="col-12">
                                                                 <input type="hidden" name="bookPk" value="${book.key}">
                                                                 <button type="submit" name="btAction"
                                                                         value="RemoveFromCart"
-                                                                        class="btn btn-danger btn-block">
+                                                                        class="btn btn-outline-danger btn-block">
                                                                     <i class="fa fa-minus-circle"
                                                                        aria-hidden="true"></i> Remove
                                                                 </button>
@@ -112,6 +113,7 @@
                                     <c:if test="${not empty user}">
                                         <a href="orderform.jsp" type="button"
                                            class="btn btn-success link mt-2">
+                                            <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
                                             Proceed to borrow
                                         </a>
                                     </c:if>
