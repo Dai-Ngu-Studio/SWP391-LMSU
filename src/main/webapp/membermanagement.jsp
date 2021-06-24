@@ -574,6 +574,7 @@
 <script src="js/template.js"></script>
 <script src="js/settings.js"></script>
 <script src="js/todolist.js"></script>
+<script src="js/membermanagement.js"></script>
 <!-- endinject -->
 <!-- Custom js for this page-->
 
