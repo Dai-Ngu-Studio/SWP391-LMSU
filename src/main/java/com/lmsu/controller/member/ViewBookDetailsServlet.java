@@ -44,6 +44,7 @@ public class ViewBookDetailsServlet extends HttpServlet {
     private final int ITEM_REJECTED = 8;
     private final int ITEM_LOST = 9;
     private final int ITEM_RESERVED = 10;
+    private final int ITEM_RESERVED_PAST = 11;
 
     private final int STATUS_BORROWED = 0;
     private final int STATUS_RESERVED = 1;
@@ -98,19 +99,24 @@ public class ViewBookDetailsServlet extends HttpServlet {
                         //----------------------------------------------------
                         List<OrderItemDTO> memberTotalActiveBorrows = orderItemDAO.getOrderItemList();
                         session.setAttribute(ATTR_MEMBER_TOTAL_ACTIVE_BORROWS, memberTotalActiveBorrows);
+                        orderItemDAO.clearOrderItemList();
                         //----------------------------------------------------
-                        // Check if member had borrowed this book
-                        OrderItemDTO currentBook = orderItemDAO.getMemberItemFromBookID(bookID, userDTO.getId());
-                        if (currentBook != null) {
-                            int currentBookStatus = currentBook.getLendStatus();
-                            for (int borrowStatus : activeBorrowStatuses) {
-                                if (borrowStatus == currentBookStatus) {
-                                    request.setAttribute(ATTR_MEMBER_BOOK_BORROW_STATUS, STATUS_BORROWED);
+                        // Check if member had borrowed or reserved this book
+                        // Using List because member might borrow book again after having returned it
+                        activeBorrowStatuses.add(ITEM_RESERVED); //an additional status for checking active reserve
+                        orderItemDAO.getMemberItemsFromBookID(bookID, userDTO.getId(), activeBorrowStatuses);
+                        List<OrderItemDTO> itemsOfCurrentBookByMember = orderItemDAO.getOrderItemList();
+                        if (itemsOfCurrentBookByMember != null) {
+                            for (OrderItemDTO currentItem : itemsOfCurrentBookByMember) {
+                                for (int activeBorrowStatus : activeBorrowStatuses) {
+                                    if (currentItem.getLendStatus() == activeBorrowStatus) {
+                                        request.setAttribute(ATTR_MEMBER_BOOK_BORROW_STATUS, STATUS_BORROWED);
+                                    }
+                                }
+                                if (currentItem.getLendStatus() == ITEM_RESERVED) {
+                                    request.setAttribute(ATTR_MEMBER_BOOK_BORROW_STATUS, STATUS_RESERVED);
                                     break;
                                 }
-                            }
-                            if (currentBookStatus == ITEM_RESERVED) {
-                                request.setAttribute(ATTR_MEMBER_BOOK_BORROW_STATUS, STATUS_RESERVED);
                             }
                         }
                     }
