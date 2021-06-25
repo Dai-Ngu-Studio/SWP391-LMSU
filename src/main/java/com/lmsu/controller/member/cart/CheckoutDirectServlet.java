@@ -36,6 +36,16 @@ public class CheckoutDirectServlet extends HttpServlet {
     private final String INDEX_CONTROLLER = "IndexServlet"; //W.I.P. temporary (to be changed)
 
     private final boolean DIRECT_METHOD = false;
+
+    private final int ORDER_CANCELLED = -1;
+    private final int ORDER_PENDING = 0;
+    private final int ORDER_APPROVED = 1;
+    private final int ORDER_RECEIVED = 2;
+    private final int ORDER_RETURNED = 3;
+    private final int ORDER_OVERDUE = 4;
+    private final int ORDER_REJECTED = 5;
+    private final int ORDER_RESERVE_ONLY = 6;
+
     private final int ITEM_CANCELLED = -1;
     private final int ITEM_PENDING = 0;
     private final int ITEM_APPROVED = 1;
@@ -87,7 +97,7 @@ public class CheckoutDirectServlet extends HttpServlet {
                                 Timestamp schedule = Timestamp.valueOf(pickupDateTime);
                                 // 6. Create new order
                                 OrderDAO orderDAO = new OrderDAO(conn);
-                                int orderID = orderDAO.addOrder(userDTO.getId(), DIRECT_METHOD);
+                                int orderID = orderDAO.addOrder(userDTO.getId(), DIRECT_METHOD, ORDER_PENDING);
                                 Date returnDeadline = DateHelpers.getDeadlineDate(DateHelpers.getCurrentDate(), 14);
                                 if (orderID > 0) {
                                     // 7. Traverse items in cart and add to list

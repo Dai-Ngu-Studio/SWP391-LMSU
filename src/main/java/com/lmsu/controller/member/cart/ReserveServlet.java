@@ -3,7 +3,7 @@ package com.lmsu.controller.member.cart;
 import com.lmsu.bean.book.BookObj;
 import com.lmsu.bean.member.CartObj;
 import com.lmsu.books.BookDAO;
-import com.lmsu.orderdata.deliveryorders.DeliveryOrderDAO;
+import com.lmsu.orderdata.directorders.DirectOrderDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.orderdata.orders.OrderDAO;
@@ -20,18 +20,22 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "CheckoutDeliveryServlet", value = "/CheckoutDeliveryServlet")
-public class CheckoutDeliveryServlet extends HttpServlet {
+@WebServlet(name = "ReserveServlet", value = "/ReserveServlet")
+public class ReserveServlet extends HttpServlet {
+    static final Logger LOGGER = Logger.getLogger(ReserveServlet.class);
 
-    static final Logger LOGGER = Logger.getLogger(CheckoutDeliveryServlet.class);
     private final String SHOW_BOOK_CATALOG_CONTROLLER = "ShowBookCatalogServlet"; //W.I.P. temporary (to be changed)
     private final String INDEX_CONTROLLER = "IndexServlet"; //W.I.P. temporary (to be changed)
 
-    private final boolean DELIVERY_METHOD = true;
+    private final boolean DIRECT_METHOD = false;
 
     private final int ORDER_CANCELLED = -1;
     private final int ORDER_PENDING = 0;
@@ -59,17 +63,9 @@ public class CheckoutDeliveryServlet extends HttpServlet {
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
     private final String ATTR_CHECKOUT_SUCCESS = "CHECKOUT_SUCCESS";
 
-    private final String ATTR_CHECKOUT_RECEIVERNAME = "CHECKOUT_RECEIVERNAME";
-    private final String ATTR_CHECKOUT_PHONENUMBER = "CHECKOUT_PHONENUMBER";
-    private final String ATTR_CHECKOUT_ADDRESSONE = "CHECKOUT_ADDRESSONE";
-    private final String ATTR_CHECKOUT_ADDRESSTWO = "CHECKOUT_ADDRESSTWO";
-    private final String ATTR_CHECKOUT_CITY = "CHECKOUT_CITY";
-    private final String ATTR_CHECKOUT_DISTRICT = "CHECKOUT_DISTRICT";
-    private final String ATTR_CHECKOUT_WARD = "CHECKOUT_WARD";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String url = INDEX_CONTROLLER; //W.I.P. temporary (to be changed)
         Connection conn = null;
 
@@ -77,13 +73,6 @@ public class CheckoutDeliveryServlet extends HttpServlet {
             // 1. Check if session existed
             HttpSession session = request.getSession(false);
             if (session != null) {
-                String receiverName = (String) session.getAttribute(ATTR_CHECKOUT_RECEIVERNAME);
-                String phoneNumber = (String) session.getAttribute(ATTR_CHECKOUT_PHONENUMBER);
-                String deliveryAddressOne = (String) session.getAttribute(ATTR_CHECKOUT_ADDRESSONE);
-                String deliveryAddressTwo = (String) session.getAttribute(ATTR_CHECKOUT_ADDRESSTWO);
-                String city = (String) session.getAttribute(ATTR_CHECKOUT_CITY);
-                String district = (String) session.getAttribute(ATTR_CHECKOUT_DISTRICT);
-                String ward = (String) session.getAttribute(ATTR_CHECKOUT_WARD);
                 // 2. Check if cart existed
                 CartObj cartObj = (CartObj) session.getAttribute(ATTR_MEMBER_CART);
                 if (cartObj != null) {
@@ -96,49 +85,36 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                             conn = DBHelpers.makeConnection();
                             if (conn != null) {
                                 conn.setAutoCommit(false);
-                                // 5. Get current date, get deadline
-                                // 6. Create new order
+                                // 5. Create new order
                                 OrderDAO orderDAO = new OrderDAO(conn);
-                                int orderID = orderDAO.addOrder(userDTO.getId(), DELIVERY_METHOD, ORDER_PENDING);
-                                if (orderID > 0) {
-                                    // 7. Traverse items in cart and add to list
+                                int orderID = orderDAO.addOrder(userDTO.getId(), DIRECT_METHOD, ORDER_RESERVE_ONLY);
+                                if (orderID > 0) {// 6. Traverse items in cart and add to list
                                     List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
-                                    Date returnDeadline = DateHelpers.getDeadlineDate(DateHelpers.getCurrentDate(), 14);
                                     for (String bookID : cartItems.keySet()) {
                                         BookDAO bookDAO = new BookDAO();
                                         OrderItemDTO orderItemDTO = new OrderItemDTO();
                                         orderItemDTO.setOrderID(orderID);
                                         orderItemDTO.setMemberID(userDTO.getId());
                                         orderItemDTO.setBookID(bookID);
-                                        //do lát present nên tui sửa tạm orderItemDTO.setLendStatus(0) thành
-                                        //orderItemDTO.setLendStatus(ITEM_RECEIVED) (T. Phuc)
-                                        if(!bookDAO.getBookByIDAndQuantity(bookID)) {
-                                            orderItemDTO.setLendStatus(ITEM_RECEIVED);
-                                            orderItemDTO.setReturnDeadline(returnDeadline);
-                                        } else {
-                                            orderItemDTO.setLendStatus(ITEM_RESERVED);
-                                            orderItemDTO.setReturnDeadline(null);
-                                        }
-                                        // default ▼
-                                        //orderItemDTO.setLendStatus(ITEM_PENDING);
+                                        orderItemDTO.setLendStatus(ITEM_RESERVED);
+                                        orderItemDTO.setReturnDeadline(null);
                                         orderItemDTO.setReturnDate(null);
                                         orderItems.add(orderItemDTO);
                                     }// end traverse items in cart
-                                    // 8. Add order items
+                                    // 7. Add order items
                                     OrderItemDAO orderItemDAO = new OrderItemDAO(conn);
                                     boolean itemsAddResult = orderItemDAO.addOrderItems(orderItems);
                                     if (itemsAddResult) {
-                                        // 9. Create Delivery Order
-                                        DeliveryOrderDAO deliveryOrderDAO = new DeliveryOrderDAO(conn);
-                                        boolean deliveryOrderAddResult = deliveryOrderDAO
-                                                .addDeliveryOrder(orderID, phoneNumber,
-                                                        deliveryAddressOne, deliveryAddressTwo, city, district, ward);
-                                        if (deliveryOrderAddResult) {
+                                        // 8. Create Delivery Order
+                                        DirectOrderDAO directOrderDAO = new DirectOrderDAO(conn);
+                                        boolean directOrderAddResult = directOrderDAO
+                                                .addDirectOrder(orderID, null);
+                                        if (directOrderAddResult) {
                                             conn.commit();
                                             session.removeAttribute(ATTR_MEMBER_CART);
                                             request.setAttribute(ATTR_CHECKOUT_SUCCESS, true);
                                             url = SHOW_BOOK_CATALOG_CONTROLLER; //W.I.P. temporary (to be changed)
-                                        }// end if delivery order created successfully
+                                        }// end if direct order created successfully
                                     }// end if order items added successfully
                                 }// end if order created successfully
                                 if (conn != null) {
@@ -152,19 +128,19 @@ public class CheckoutDeliveryServlet extends HttpServlet {
             }// end if session existed
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
-            log("CheckoutDeliveryServlet _ SQL: " + ex.getMessage());
+            log("ReserveServlet _ SQL: " + ex.getMessage());
             try {
                 conn.rollback();
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
-                log("CheckoutDeliveryServlet _ SQL: " + exRollback.getMessage());
+                log("ReserveServlet _ SQL: " + exRollback.getMessage());
             }
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
-            log("CheckoutDeliveryServlet _ Naming: " + ex.getMessage());
+            log("ReserveServlet _ Naming: " + ex.getMessage());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
-            log("CheckoutDeliveryServlet _ Exception: " + ex.getMessage());
+            log("ReserveServlet _ Exception: " + ex.getMessage());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
