@@ -111,7 +111,7 @@
                                         Logged in as <strong>${user.name}</strong>
                                     </div>
                                     <c:if test="${not empty user}">
-                                        <a href="orderform.jsp" type="button"
+                                        <a href="OrderFormServlet" type="button"
                                            class="btn btn-success link mt-2">
                                             <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
                                             Proceed to borrow
