@@ -18,6 +18,7 @@ public class OrderDAO implements Serializable {
     private final int ORDER_RETURNED = 3;
     private final int ORDER_OVERDUE = 4;
     private final int ORDER_REJECTED = 5;
+    private final int ORDER_RESERVE_ONLY = 6;
 
     private Connection conn;
     private List<OrderDTO> orderList;
@@ -33,7 +34,7 @@ public class OrderDAO implements Serializable {
         this.conn = conn;
     }
 
-    public int addOrder(String memberID, boolean lendMethod)
+    public int addOrder(String memberID, boolean lendMethod, int activeStatus)
             throws SQLException, NamingException {
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -46,7 +47,7 @@ public class OrderDAO implements Serializable {
                 stm = conn.prepareStatement(sql, new String[]{"id"});
                 stm.setString(1, memberID);
                 stm.setBoolean(2, lendMethod);
-                stm.setInt(3, ORDER_PENDING);
+                stm.setInt(3, activeStatus);
                 int row = stm.executeUpdate();
                 if (row > 0) {
                     rs = stm.getGeneratedKeys();
