@@ -50,9 +50,9 @@ public class BorrowReserveBookServlet extends HttpServlet {
         try {
             if(userDTO != null){
                 OrderItemDAO orderItemDAO = new OrderItemDAO();
-                OrderItemDTO orderItemDTO = orderItemDAO.getMemberItemFromBookID(bookID, userDTO.getId());
+//                orderItemDAO.getMemberItemFromBookID(bookID, userDTO.getId(), ITEM_RESERVED);
                 Date returnDeadline = DateHelpers.getDeadlineDate(DateHelpers.getCurrentDate(), 14);
-                boolean result = orderItemDAO.borrowReserveBook(orderItemDTO.getId(), ITEM_RECEIVED, returnDeadline);
+//                boolean result = orderItemDAO.borrowReserveBook(orderItemDTO.getId(), ITEM_RECEIVED, returnDeadline);
 
             }
         } catch (SQLException e) {
