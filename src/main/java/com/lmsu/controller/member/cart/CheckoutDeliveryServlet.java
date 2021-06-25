@@ -3,6 +3,7 @@ package com.lmsu.controller.member.cart;
 import com.lmsu.bean.book.BookObj;
 import com.lmsu.bean.member.CartObj;
 import com.lmsu.books.BookDAO;
+import com.lmsu.books.BookDTO;
 import com.lmsu.orderdata.deliveryorders.DeliveryOrderDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
@@ -101,20 +102,20 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                 // 5. Get current date, get deadline
                                 // 6. Create new order
                                 OrderDAO orderDAO = new OrderDAO(conn);
+                                BookDAO bookDAO = new BookDAO();
                                 int orderID = orderDAO.addOrder(userDTO.getId(), DELIVERY_METHOD, ORDER_PENDING);
                                 if (orderID > 0) {
                                     // 7. Traverse items in cart and add to list
                                     List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
                                     Date returnDeadline = DateHelpers.getDeadlineDate(DateHelpers.getCurrentDate(), 14);
                                     for (String bookID : cartItems.keySet()) {
-                                        BookDAO bookDAO = new BookDAO();
                                         OrderItemDTO orderItemDTO = new OrderItemDTO();
                                         orderItemDTO.setOrderID(orderID);
                                         orderItemDTO.setMemberID(userDTO.getId());
                                         orderItemDTO.setBookID(bookID);
                                         //do lát present nên tui sửa tạm orderItemDTO.setLendStatus(0) thành
                                         //orderItemDTO.setLendStatus(ITEM_RECEIVED) (T. Phuc)
-                                        if (!bookDAO.getBookByIDAndQuantity(bookID)) {
+                                        if (bookDAO.getBookById(bookID).getQuantity() > 0) {
                                             orderItemDTO.setLendStatus(ITEM_RECEIVED);
                                             orderItemDTO.setReturnDeadline(returnDeadline);
                                         } else {
@@ -138,10 +139,15 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                         if (deliveryOrderAddResult) {
                                             conn.commit();
                                             session.removeAttribute(ATTR_MEMBER_CART);
-                                            // 10. Check if books have been reserved in the past
+                                            // 10.a
+                                            // Decrease quantity of books
+                                            // 10.b
+                                            // Check if books have been reserved in the past
                                             // if yes, mark the old reserve status as inactive (ITEM_RESERVED_INACTIVE)
                                             // avoid newest order by checking orderID
                                             for (String bookID : cartItems.keySet()) {
+                                                BookDTO bookDTO = bookDAO.getBookById(bookID);
+                                                bookDAO.updateQuantity(bookID, bookDTO.getQuantity() - 1);
                                                 orderItemDAO.clearOrderItemList();
                                                 orderItemDAO.getMemberItemsFromBookID(
                                                         bookID,
