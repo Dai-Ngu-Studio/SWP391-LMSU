@@ -140,7 +140,9 @@ public class CheckoutDirectServlet extends HttpServlet {
                                             // avoid newest order by checking orderID
                                             for (String bookID : cartItems.keySet()) {
                                                 BookDTO bookDTO = bookDAO.getBookById(bookID);
-                                                bookDAO.updateQuantity(bookID, bookDTO.getQuantity() - 1);
+                                                if (bookDTO.getQuantity() > 0) {
+                                                    bookDAO.updateQuantity(bookID, bookDTO.getQuantity() - 1);
+                                                }
                                                 orderItemDAO.clearOrderItemList();
                                                 orderItemDAO.getMemberItemsFromBookID(
                                                         bookID,
