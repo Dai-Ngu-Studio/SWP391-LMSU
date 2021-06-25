@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +55,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
     private final int ITEM_REJECTED = 8;
     private final int ITEM_LOST = 9;
     private final int ITEM_RESERVED = 10;
+    private final int ITEM_RESERVED_INACTIVE = 11;
 
     private final String ATTR_MEMBER_CART = "MEMBER_CART";
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
@@ -112,7 +114,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                         orderItemDTO.setBookID(bookID);
                                         //do lát present nên tui sửa tạm orderItemDTO.setLendStatus(0) thành
                                         //orderItemDTO.setLendStatus(ITEM_RECEIVED) (T. Phuc)
-                                        if(!bookDAO.getBookByIDAndQuantity(bookID)) {
+                                        if (!bookDAO.getBookByIDAndQuantity(bookID)) {
                                             orderItemDTO.setLendStatus(ITEM_RECEIVED);
                                             orderItemDTO.setReturnDeadline(returnDeadline);
                                         } else {
@@ -136,6 +138,30 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                         if (deliveryOrderAddResult) {
                                             conn.commit();
                                             session.removeAttribute(ATTR_MEMBER_CART);
+                                            // 10. Check if books have been reserved in the past
+                                            // if yes, mark the old reserve status as inactive (ITEM_RESERVED_INACTIVE)
+                                            // avoid newest order by checking orderID
+                                            for (String bookID : cartItems.keySet()) {
+                                                orderItemDAO.clearOrderItemList();
+                                                orderItemDAO.getMemberItemsFromBookID(
+                                                        bookID,
+                                                        userDTO.getId(),
+                                                        new ArrayList<Integer>(Arrays.asList(ITEM_RESERVED)));
+                                                List<OrderItemDTO> itemsOfCurrentBookByMember =
+                                                        orderItemDAO.getOrderItemList();
+                                                if (itemsOfCurrentBookByMember != null) {
+                                                    for (OrderItemDTO currentItem : itemsOfCurrentBookByMember) {
+                                                        if (currentItem.getOrderID() != orderID) {
+                                                            if (currentItem.getLendStatus() == ITEM_RESERVED) {
+                                                                orderItemDAO.updateOrderItemStatus(
+                                                                        currentItem.getId(),
+                                                                        ITEM_RESERVED_INACTIVE
+                                                                );
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
                                             request.setAttribute(ATTR_CHECKOUT_SUCCESS, true);
                                             url = SHOW_BOOK_CATALOG_CONTROLLER; //W.I.P. temporary (to be changed)
                                         }// end if delivery order created successfully
