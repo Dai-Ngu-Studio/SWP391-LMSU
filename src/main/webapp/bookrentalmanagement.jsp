@@ -492,6 +492,13 @@
                                                                                                     Reserved
                                                                                                 </label>
                                                                                             </c:when>
+                                                                                            <c:when test="${orderItem.lendStatus eq 11}">
+                                                                                                <label class="badge
+                                                                                                    badge-secondary
+                                                                                                    text-white">
+                                                                                                    Inactive
+                                                                                                </label>
+                                                                                            </c:when>
                                                                                         </c:choose>
                                                                                     </td>
                                                                                     <td class="text-left">
