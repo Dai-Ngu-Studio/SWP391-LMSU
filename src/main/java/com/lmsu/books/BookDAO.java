@@ -478,6 +478,34 @@ public class BookDAO implements Serializable {
         return false;
     }
 
+    public boolean updateAvgRating(String bookID, float avgRating) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "UPDATE [Books] " +
+                        "SET [avgRating] = ? " +
+                        "WHERE [id] = ?";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setFloat(1, avgRating);
+                stm.setString(2, bookID);
+                //4. Execute Query and get rows affected
+                int rows = stm.executeUpdate();
+                //5. Process result
+                if (rows > 0) return true;
+            }
+        } finally {
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
+
     public BookDTO getBookByISBN13(String ISBN_thirteenDigits) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
