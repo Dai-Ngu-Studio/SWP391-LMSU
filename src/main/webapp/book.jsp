@@ -119,25 +119,6 @@
     <%--Closing div in case odd number of books--%>
     </div> <%--End: div class="row mt-2" --%>
 </c:if>
-
-<c:if test="${requestScope.CHECKOUT_SUCCESS}">
-    <div class="row">
-        <div class="modal fade" id="checkoutSuccessModal" tabindex="-1">
-            <div class="modal-dialog-centered modal-sm" tabindex="-1">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        Thank you. </br>
-                        We'll check back with you later for confirmation.
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</c:if>
-
 <%--Actual Body--%>
 <jsp:include page="scrolltotop.html"></jsp:include>
 <jsp:include page="footer.html"></jsp:include>
