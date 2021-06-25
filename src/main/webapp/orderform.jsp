@@ -28,11 +28,11 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-2">
                 <div class="btn-group-vertical list-group">
-                    <a class="btn btn-primary rounded-top active" data-toggle="list"
+                    <a class="btn btn-primary rounded-top methodSelect text-white active" data-toggle="list"
                        href="#list-direct">
                         Receive directly at the library
                     </a>
-                    <a class="btn btn-primary rounded-bottom" data-toggle="list"
+                    <a class="btn btn-primary rounded-bottom methodSelect text-white" data-toggle="list"
                        href="#list-delivery">
                         Order a delivery
                     </a>
@@ -235,7 +235,7 @@
                                             />
                                             <small id="errorAddressTwo"
                                                    class="form-text text-muted deliverError">
-                                                Residence address is optional must be 0-50 characters long, can contain
+                                                Residence address is optional, must be 0-50 characters long, can contain
                                                 letters, numbers and special characters.
                                             </small>
                                         </div>
