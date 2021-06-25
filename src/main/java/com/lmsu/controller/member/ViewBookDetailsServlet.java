@@ -32,14 +32,21 @@ public class ViewBookDetailsServlet extends HttpServlet {
     private final String BOOK_DETAILS_PAGE = "bookdetails.jsp";
     static final Logger LOGGER = Logger.getLogger(ViewBookDetailsServlet.class);
 
+    private final int ITEM_CANCELLED = -1;
     private final int ITEM_PENDING = 0;
     private final int ITEM_APPROVED = 1;
     private final int ITEM_RECEIVED = 2;
     private final int ITEM_RETURN_SCHEDULED = 3;
+    private final int ITEM_RETURNED = 4;
     private final int ITEM_OVERDUE = 5;
     private final int ITEM_OVERDUE_RETURN_SCHEDULED = 6;
+    private final int ITEM_OVERDUE_RETURNED = 7;
+    private final int ITEM_REJECTED = 8;
+    private final int ITEM_LOST = 9;
+    private final int ITEM_RESERVED = 10;
 
-    private final boolean ATTR_BOOK_BORROWED = true;
+    private final int STATUS_BORROWED = 0;
+    private final int STATUS_RESERVED = 1;
     private final String ATTR_MEMBER_TOTAL_ACTIVE_BORROWS = "MEMBER_TOTAL_ACTIVE_BORROWS";
     private final String ATTR_MEMBER_BOOK_BORROW_STATUS = "MEMBER_BOOK_BORROW_STATUS";
     private final String ATTR_COMMENT_LIST = "COMMENT_LIST";
@@ -78,24 +85,33 @@ public class ViewBookDetailsServlet extends HttpServlet {
                     UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
                     if (userDTO != null) {
                         OrderItemDAO orderItemDAO = new OrderItemDAO();
+                        List<Integer> activeBorrowStatuses = new ArrayList<Integer>(
+                                Arrays.asList(
+                                        ITEM_PENDING, ITEM_APPROVED, ITEM_RECEIVED,
+                                        ITEM_RETURN_SCHEDULED, ITEM_OVERDUE,
+                                        ITEM_OVERDUE_RETURN_SCHEDULED
+                                ));
                         // Get the number of active borrowed books from member
                         //----------------------------------------------------
                         orderItemDAO
-                                .getOrderItemsFromMember(
-                                        userDTO.getId(),
-                                        new ArrayList<Integer>(
-                                                Arrays.asList(
-                                                        ITEM_PENDING, ITEM_APPROVED, ITEM_RECEIVED,
-                                                        ITEM_RETURN_SCHEDULED, ITEM_OVERDUE,
-                                                        ITEM_OVERDUE_RETURN_SCHEDULED
-                                                )));
+                                .getOrderItemsFromMember(userDTO.getId(), activeBorrowStatuses);
                         //----------------------------------------------------
                         List<OrderItemDTO> memberTotalActiveBorrows = orderItemDAO.getOrderItemList();
                         session.setAttribute(ATTR_MEMBER_TOTAL_ACTIVE_BORROWS, memberTotalActiveBorrows);
                         //----------------------------------------------------
                         // Check if member had borrowed this book
-                        if (orderItemDAO.getMemberItemFromBookID(bookID, userDTO.getId()) != null) {
-                            request.setAttribute(ATTR_MEMBER_BOOK_BORROW_STATUS, ATTR_BOOK_BORROWED);
+                        OrderItemDTO currentBook = orderItemDAO.getMemberItemFromBookID(bookID, userDTO.getId());
+                        if (currentBook != null) {
+                            int currentBookStatus = currentBook.getLendStatus();
+                            for (int borrowStatus : activeBorrowStatuses) {
+                                if (borrowStatus == currentBookStatus) {
+                                    request.setAttribute(ATTR_MEMBER_BOOK_BORROW_STATUS, STATUS_BORROWED);
+                                    break;
+                                }
+                            }
+                            if (currentBookStatus == ITEM_RESERVED) {
+                                request.setAttribute(ATTR_MEMBER_BOOK_BORROW_STATUS, STATUS_RESERVED);
+                            }
                         }
                     }
                 }
