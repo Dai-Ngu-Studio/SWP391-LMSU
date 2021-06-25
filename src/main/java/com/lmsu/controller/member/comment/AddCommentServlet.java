@@ -20,8 +20,8 @@ public class AddCommentServlet extends HttpServlet {
     static final Logger LOGGER = Logger.getLogger(AddCommentServlet.class);
     private final String VIEW_BOOK_DETAILS_CONTROLLER = "ViewBookDetailsServlet";
 
-    private final boolean COMMENT_NOT_EDITED = true;
-    private final boolean COMMENT_NOT_DELETED = true;
+    private final boolean COMMENT_NOT_EDITED = false;
+    private final boolean COMMENT_NOT_DELETED = false;
 
     private final String PARAM_BOOKID = "bookPk";
     private final String PARAM_TXTCOMMENT = "txtComment";

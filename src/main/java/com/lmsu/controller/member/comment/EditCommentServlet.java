@@ -21,7 +21,7 @@ public class EditCommentServlet extends HttpServlet {
     private static final String VIEW_BOOK_DETAILS_CONTROLLER = "ViewBookDetailsServlet";
 
     private final boolean COMMENT_EDITED = true;
-    private final boolean COMMENT_NOT_DELETED = true;
+    private final boolean COMMENT_NOT_DELETED = false;
 
     private final String PARAM_BOOKID = "bookPk";
     private final String PARAM_TXT_EDITCOMMENT = "txtEditComment";
