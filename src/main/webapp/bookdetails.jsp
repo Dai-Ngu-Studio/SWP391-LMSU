@@ -194,13 +194,16 @@
                                 <%--Book not existed in cart--%>
                                 <c:otherwise>
                                     <c:if test="${(not empty session) and (not empty user)}">
-                                        <c:set var="isBorrowed"
+                                        <c:set var="bookBorrowStatus"
                                                value="${requestScope.MEMBER_BOOK_BORROW_STATUS}"/>
                                         <c:set var="memberTotalActiveBorrows"
                                                value="${sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS}"/>
                                         <c:choose>
-                                            <c:when test="${isBorrowed}">
+                                            <c:when test="${bookBorrowStatus eq 0}">
                                                 <div class="row">You are currently borrowing this book.</div>
+                                            </c:when>
+                                            <c:when test="${bookBorrowStatus eq 1}">
+                                                <div class="row">You are currently reserving this book.</div>
                                             </c:when>
                                             <c:when test="${(not empty cart)
                                                     and (not empty memberTotalActiveBorrows)
