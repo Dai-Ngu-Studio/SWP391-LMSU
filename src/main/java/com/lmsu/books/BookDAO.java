@@ -206,7 +206,6 @@ public class BookDAO implements Serializable {
                 if (rs.next()) {
                     String bookIdVal = rs.getString("id");
                     String title = rs.getString("title");
-                    String authorID = rs.getString("authorID");
                     String subjectID = rs.getString("subjectID");
                     String publisher = rs.getString("publisher");
                     String publicationDate = rs.getString("publishDate");
@@ -655,9 +654,9 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 String sql = "SELECT COUNT (*) AS countBooks " +
-                        "FROM [Books] " +
-                        "WHERE authorID = ? " +
-                        "AND [deleteStatus] = 0";
+                        "FROM AuthorBookMaps " +
+                        "RIGHT JOIN Books ON AuthorBookMaps.bookID = Books.id " +
+                        "WHERE AuthorBookMaps.authorID = ? AND deleteStatus = 0";
 
                 stm = con.prepareStatement(sql);
                 stm.setString(1, authorID);
