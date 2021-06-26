@@ -199,7 +199,7 @@ public class AddBookServlet extends HttpServlet {
         long millis = System.currentTimeMillis();
         java.sql.Date date = new java.sql.Date(millis);
         ImportLogDAO importLogDAO = new ImportLogDAO();
-        boolean resultAddBook = dao.addBook(bookIDTxt, title, authorID, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, deleteStatus, lastLentDate, avgRating, isbnTen, isbnThirteen, fileName);
+        boolean resultAddBook = dao.addBook(bookIDTxt, title, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, deleteStatus, lastLentDate, avgRating, isbnTen, isbnThirteen, fileName);
 
         boolean resultAddLog = importLogDAO.addLog(bookIDTxt, managerID, date, supplier, quantityNum);
         return resultAddBook && resultAddLog;

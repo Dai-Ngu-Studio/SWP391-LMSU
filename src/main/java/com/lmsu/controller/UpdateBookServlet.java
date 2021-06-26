@@ -59,7 +59,7 @@ public class UpdateBookServlet extends HttpServlet {
                     break;
                 }
             }
-            boolean result = dao.updateBook(bookID, title, authorID, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, ISBN_ten, ISBN_thirteen, coverFile);
+            boolean result = dao.updateBook(bookID, title, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, ISBN_ten, ISBN_thirteen, coverFile);
             if (result) {
                 if (searchVal == null || searchVal.trim().isEmpty()) {
                     url = SHOW_BOOK_CONTROLLER;
