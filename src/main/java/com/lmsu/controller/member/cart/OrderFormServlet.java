@@ -34,15 +34,10 @@ public class OrderFormServlet extends HttpServlet {
                 CartObj cartObj = (CartObj) session.getAttribute(ATTR_MEMBER_CART);
                 if (cartObj != null) {
                     UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
+                    // cart quantity = 0 means only reserved items are in cart/
+                    // no need to check for empty cart here, already checked at viewCart
                     int cartQuantity = cartObj.getCartQuantity();
-                    int reserveQuantity = 0;
-                    Map<String, BookObj> cartItems = cartObj.getItems();
-                    for (String bookID : cartItems.keySet()) {
-                        if (cartItems.get(bookID).getQuantity() == 0) {
-                            reserveQuantity++;
-                        }
-                    }
-                    if (cartQuantity == reserveQuantity) {
+                    if (cartQuantity == 0) {
                         request.setAttribute(ATTR_CHECKOUT_RESERVE, true);
                         url = ORDER_REVIEW_PAGE;
                     }
