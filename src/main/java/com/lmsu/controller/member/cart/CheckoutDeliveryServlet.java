@@ -34,6 +34,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
     private final String INDEX_CONTROLLER = "IndexServlet"; //W.I.P. temporary (to be changed)
 
     private final boolean DELIVERY_METHOD = true;
+    private final boolean DELIVERY_NOT_RETURN = false;
 
     private final int ORDER_CANCELLED = -1;
     private final int ORDER_PENDING = 0;
@@ -135,7 +136,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                         DeliveryOrderDAO deliveryOrderDAO = new DeliveryOrderDAO(conn);
                                         boolean deliveryOrderAddResult = deliveryOrderDAO
                                                 .addDeliveryOrder(orderID, phoneNumber,
-                                                        deliveryAddressOne, deliveryAddressTwo, city, district, ward);
+                                                        deliveryAddressOne, deliveryAddressTwo, city, district, ward, DELIVERY_NOT_RETURN);
                                         if (deliveryOrderAddResult) {
                                             conn.commit();
                                             session.removeAttribute(ATTR_MEMBER_CART);
