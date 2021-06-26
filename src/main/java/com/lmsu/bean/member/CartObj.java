@@ -14,7 +14,32 @@ public class CartObj implements Serializable {
     }
 
     public int getCartQuantity() {
-        return (this.items != null) ? this.items.size() : 0;
+        if (this.items != null) {
+            int cartQuantity = this.items.size();
+            for (String bookID : this.items.keySet()) {
+                BookObj book = this.items.get(bookID);
+                if (book.getQuantity() == 0) {
+                    cartQuantity--;
+                }
+            }
+            return cartQuantity;
+        }
+        return 0;
+    }
+
+    // theoretically could be merged with getCartQuantity() but will complicate current JSP so don't merge
+    public int getCartReserved() {
+        if (this.items !=null) {
+            int cartReserved = 0;
+            for (String bookID : this.items.keySet()) {
+                BookObj book = this.items.get(bookID);
+                if (book.getQuantity() == 0) {
+                    cartReserved++;
+                }
+            }
+            return cartReserved;
+        }
+        return 0;
     }
 
     public void addBookToCart(BookObj bookObj) {
@@ -38,11 +63,10 @@ public class CartObj implements Serializable {
     }
 
     public boolean isExistedInCart(String bookID) {
-        // 1. Check if cart existed
-        if (this.items == null) return false;
-        // 2. Check if item existed
-        if (this.items.containsKey(bookID)) {
-            return true;
+        if (this.items != null) {
+            if (this.items.containsKey(bookID)) {
+                return true;
+            }
         }
         return false;
     }
