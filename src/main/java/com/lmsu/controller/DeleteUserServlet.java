@@ -45,7 +45,8 @@ public class DeleteUserServlet extends HttpServlet {
             LOGGER.error(ex.getMessage());
             log("DeleteUserServlet _ Naming: " + ex.getMessage());
         } finally {
-            response.sendRedirect(url);
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
         }
     }
 
