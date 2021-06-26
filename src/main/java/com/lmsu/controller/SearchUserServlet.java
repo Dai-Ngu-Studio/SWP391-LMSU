@@ -18,7 +18,7 @@ import java.util.List;
 @WebServlet(name = "SearchUserServlet", value = "/SearchUserServlet")
 public class SearchUserServlet extends HttpServlet {
 
-    private static final String ERROR_PAGE = "error.jsp";
+    private static final String ERROR_PAGE = "membermanagement.jsp";
     private static final String SHOW_MEMBER_CONTROLLER = "ShowMemberServlet";
     static final Logger LOGGER = Logger.getLogger(SearchUserServlet.class);
 
@@ -35,7 +35,7 @@ public class SearchUserServlet extends HttpServlet {
                 UserDAO dao = new UserDAO();
                 dao.searchUserByName(searchValue);
                 List<UserDTO> list = dao.getListAccount();
-                if (!list.isEmpty()) {
+                if (list != null && list.isEmpty() == false) {
                     request.setAttribute("SEARCH_RESULT", list);
                     url = SHOW_MEMBER_CONTROLLER;
                 }
