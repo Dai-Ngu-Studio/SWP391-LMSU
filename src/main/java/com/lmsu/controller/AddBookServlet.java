@@ -4,6 +4,7 @@ import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import com.lmsu.importlog.ImportLogDAO;
 import com.lmsu.users.UserDTO;
+import com.lmsu.utils.DateHelpers;
 import com.lmsu.utils.ImageHelpers;
 import com.opencsv.CSVReader;
 import org.apache.commons.io.IOUtils;
@@ -196,12 +197,12 @@ public class AddBookServlet extends HttpServlet {
             }
 
         // Import log
-        long millis = System.currentTimeMillis();
-        java.sql.Date date = new java.sql.Date(millis);
+        java.sql.Date currentDate = DateHelpers.getCurrentDate();
         ImportLogDAO importLogDAO = new ImportLogDAO();
-        boolean resultAddBook = dao.addBook(bookIDTxt, title, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, deleteStatus, lastLentDate, avgRating, isbnTen, isbnThirteen, fileName);
+        boolean resultAddBook = dao.addBook(bookIDTxt, title, subjectID, publisher, publishDate, description,
+                priceDecimal, quantityNum, deleteStatus, lastLentDate, avgRating, isbnTen, isbnThirteen, fileName);
 
-        boolean resultAddLog = importLogDAO.addLog(bookIDTxt, managerID, date, supplier, quantityNum);
+        boolean resultAddLog = importLogDAO.addLog(bookIDTxt, managerID, currentDate, supplier, quantityNum);
         return resultAddBook && resultAddLog;
     }
 
