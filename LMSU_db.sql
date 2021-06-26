@@ -202,3 +202,28 @@ insert into ImportLogs (bookID,	managerID, dateTaken, supplier, quantity) values
 insert into Comments (memberID, bookID, textComment, rating, isEdited, deleteStatus) values ('LIB00001', 1, 'Not bad, could be more informative.', 0, 0, 0);
 insert into Comments (memberID, bookID, textComment, rating, isEdited, deleteStatus) values ('LIB00001', 2, 'Great book, much insightful.', 5, 0, 0);
 insert into Comments (memberID, bookID, textComment, rating, isEdited, deleteStatus) values ('SE000001', 1, 'Fine work, not much application though.', 3.5, 0, 0);
+
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'1', N'1');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'1', N'2');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'1', N'3');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'2', N'4');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'2', N'5');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'2', N'6');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'3', N'7');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'3', N'8');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'3', N'9');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'4', N'10');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'4', N'11');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'4', N'12');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'5', N'13');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'5', N'14');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'5', N'15');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'6', N'16');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'6', N'17');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'6', N'18');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'1', N'19');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'2', N'20');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'2', N'1');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'3', N'1');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'4', N'1');
+INSERT INTO AuthorBookMaps (authorID, bookID) VALUES (N'4', N'2');
