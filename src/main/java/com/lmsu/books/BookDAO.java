@@ -559,11 +559,11 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT TOP 4 Books.id, Books.title, Books.authorID AS authorID, Books.avgRating, " +
+                String sql = "SELECT TOP 4 Books.title, AuthorBookMaps.authorID AS authorID, Books.avgRating, " +
                         "Books.coverPicturePath, Authors.id, Authors.[name], Authors.profilePicturePath " +
-                        "FROM [Books] " +
-                        "LEFT JOIN [Authors] ON Books.authorID = Authors.id " +
-                        "WHERE Books.deleteStatus = 0 AND Authors.deleteStatus = 0 " +
+                        "FROM Books, AuthorBookMaps " +
+                        "LEFT JOIN [Authors] ON AuthorBookMaps.authorID = Authors.id " +
+                        "WHERE Books.deleteStatus = 0 AND Authors.deleteStatus = 0 AND AuthorBookMaps.bookID = Books.id " +
                         "ORDER BY [avgRating] desc";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
@@ -581,7 +581,7 @@ public class BookDAO implements Serializable {
 
                     AuthorDTO authorDTO = new AuthorDTO(authorID, authorName, profilePicturePath);
 
-                    BookDTO dto = new BookDTO(bookID,bookTitle,avgRating, bookCoverPath, authorDTO);
+                    BookDTO dto = new BookDTO(bookID, bookTitle, avgRating, bookCoverPath, authorDTO);
                     if (list == null) {
                         list = new ArrayList<>();
                     } //end if bookList not existed
@@ -607,7 +607,7 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT TOP 4 Books.id  as bookID, Books.title, Books.authorID, Books.coverPicturePath, " +
+                String sql = "SELECT TOP 4 Books.id  as bookID, Books.title, Books.coverPicturePath, " +
                         "Authors.id, Authors.[name], Authors.[profilePicturePath], ImportLogs.id, ImportLogs.bookID, ImportLogs.dateTaken " +
                         "FROM [Books] " +
                         "LEFT JOIN ImportLogs ON ImportLogs.bookID = Books.id " +
@@ -622,14 +622,14 @@ public class BookDAO implements Serializable {
                 while (rs.next()) {
                     String bookID = rs.getString("bookID");
                     String bookTitle = rs.getString("title");
-                    String authorID = rs.getString("authorID");
+                    String authorID = rs.getString("id");
                     String bookCoverPath = rs.getString("coverPicturePath");
                     String authorName = rs.getString("name");
                     String profilePicturePath = rs.getString("profilePicturePath");
 
                     AuthorDTO authorDTO = new AuthorDTO(authorID, authorName, profilePicturePath);
 
-                    BookDTO dto = new BookDTO(bookID,bookTitle, bookCoverPath, authorDTO);
+                    BookDTO dto = new BookDTO(bookID, bookTitle, bookCoverPath, authorDTO);
                     if (list == null) {
                         list = new ArrayList<>();
                     } //end if bookList not existed
