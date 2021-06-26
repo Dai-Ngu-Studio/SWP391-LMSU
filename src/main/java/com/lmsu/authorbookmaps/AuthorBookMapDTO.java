@@ -14,4 +14,10 @@ class AuthorBookMapDTO implements Serializable {
     private int id;
     private AuthorDTO authorDTO;
     private BookDTO bookDTO;
+
+    public AuthorBookMapDTO(int id, AuthorDTO author, BookDTO book) {
+        this.id = id;
+        this.authorDTO = author;
+        this.bookDTO = book;
+    }
 }

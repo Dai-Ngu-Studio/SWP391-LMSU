@@ -49,7 +49,7 @@ public class UpdateAuthorServlet extends HttpServlet {
                     break;
                 }
             }
-            boolean result = dao.updateBook(authorID, authorName, authorBio, coverFile);
+            boolean result = dao.updateAuthor(authorID, authorName, authorBio, coverFile);
             if (result) {
                 if (searchVal == null || searchVal.trim().isEmpty()) {
                     url = SHOW_AUTHOR_CONTROLLER;

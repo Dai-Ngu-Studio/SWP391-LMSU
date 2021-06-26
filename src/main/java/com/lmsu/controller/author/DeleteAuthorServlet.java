@@ -28,7 +28,7 @@ public class DeleteAuthorServlet extends HttpServlet {
         String searchVal = request.getParameter("txtSearchValue");
         try{
             AuthorDAO dao = new AuthorDAO();
-            boolean result = dao.deleteBook(id);
+            boolean result = dao.deleteAuthor(id);
             if (result){
                 if (searchVal==null || searchVal.trim().isEmpty()){
                     url=SHOW_AUTHOR_CONTROLLER;

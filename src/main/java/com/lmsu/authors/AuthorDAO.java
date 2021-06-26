@@ -249,7 +249,7 @@ public class AuthorDAO implements Serializable {
         return false;
     }
 
-    public boolean deleteBook(String authorID) throws SQLException, NamingException {
+    public boolean deleteAuthor(String authorID) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
 
@@ -277,7 +277,7 @@ public class AuthorDAO implements Serializable {
         return false;
     }
 
-    public boolean updateBook(String authorID, String authorName, String authorBio, String coverPath)
+    public boolean updateAuthor(String authorID, String authorName, String authorBio, String coverPath)
             throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
