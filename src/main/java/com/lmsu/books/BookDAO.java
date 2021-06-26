@@ -36,7 +36,7 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id], [title], [authorID], [subjectID], [publisher], [publishDate], [description], " +
+                String sql = "SELECT [id], [title], [subjectID], [publisher], [publishDate], [description], " +
                         "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] " +
                         "FROM [Books]" +
                         "WHERE [deleteStatus] = 0 ";
@@ -48,7 +48,6 @@ public class BookDAO implements Serializable {
                 while (rs.next()) {
                     String bookID = rs.getString("id");
                     String title = rs.getString("title");
-                    String authorID = rs.getString("authorID");
                     String subjectID = rs.getString("subjectID");
                     String publisher = rs.getString("publisher");
                     String publication_date = rs.getString("publishDate");
@@ -61,7 +60,7 @@ public class BookDAO implements Serializable {
                     String isbnTen = rs.getString("ISBN_tenDigits");
                     String isbnThirteen = rs.getString("ISBN_thirteenDigits");
                     String coverPath = rs.getString("coverPicturePath");
-                    BookDTO dto = new BookDTO(bookID, title, authorID, subjectID, publisher, publication_date,
+                    BookDTO dto = new BookDTO(bookID, title, subjectID, publisher, publication_date,
                             description, price, quantity, deleteStatus, lastLentDate,
                             avg_rating, isbnTen, isbnThirteen, coverPath);
 
@@ -89,7 +88,7 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id], [title], [authorID], [subjectID], [publisher], [publishDate], [description], " +
+                String sql = "SELECT [id], [title], [subjectID], [publisher], [publishDate], [description], " +
                         "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] " +
                         "FROM [Books] " +
                         "WHERE [title] LIKE ? " +
@@ -103,7 +102,6 @@ public class BookDAO implements Serializable {
                 while (rs.next()) {
                     String bookID = rs.getString("id");
                     String title = rs.getString("title");
-                    String authorID = rs.getString("authorID");
                     String subjectID = rs.getString("subjectID");
                     String publisher = rs.getString("publisher");
                     String publication_date = rs.getString("publishDate");
@@ -116,7 +114,7 @@ public class BookDAO implements Serializable {
                     String isbnTen = rs.getString("ISBN_tenDigits");
                     String isbnThirteen = rs.getString("ISBN_thirteenDigits");
                     String coverPath = rs.getString("coverPicturePath");
-                    BookDTO dto = new BookDTO(bookID, title, authorID, subjectID, publisher, publication_date,
+                    BookDTO dto = new BookDTO(bookID, title, subjectID, publisher, publication_date,
                             description, price, quantity, deleteStatus, lastLentDate,
                             avg_rating, isbnTen, isbnThirteen, coverPath);
                     if (this.bookList == null) {
@@ -143,11 +141,12 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id], [title], [authorID], [subjectID], [publisher], [publishDate], [description], " +
-                        "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] " +
-                        "FROM [Books] " +
-                        "WHERE [authorID] = ? " +
-                        "AND [deleteStatus] = 0 ";
+                String sql = "SELECT Books.id, Books.title, Books.subjectID, Books.publisher, Books.publishDate, Books.description, Books.price, " +
+                        "Books.quantity, Books.deleteStatus, Books.lastLentDate, Books.avgRating, Books.ISBN_tenDigits, Books.ISBN_thirteenDigits, Books.coverPicturePath " +
+                        "FROM AuthorBookMaps " +
+                        "RIGHT JOIN Books ON AuthorBookMaps.bookID = Books.id " +
+                        "WHERE AuthorBookMaps.authorID = ? " +
+                        "AND Books.deleteStatus = 0";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 stm.setString(1, authorID);
@@ -157,7 +156,6 @@ public class BookDAO implements Serializable {
                 while (rs.next()) {
                     String bookID = rs.getString("id");
                     String title = rs.getString("title");
-                    String authorIDVal = rs.getString("authorID");
                     String subjectID = rs.getString("subjectID");
                     String publisher = rs.getString("publisher");
                     String publication_date = rs.getString("publishDate");
@@ -170,7 +168,7 @@ public class BookDAO implements Serializable {
                     String isbnTen = rs.getString("ISBN_tenDigits");
                     String isbnThirteen = rs.getString("ISBN_thirteenDigits");
                     String coverPath = rs.getString("coverPicturePath");
-                    BookDTO dto = new BookDTO(bookID, title, authorIDVal, subjectID, publisher, publication_date,
+                    BookDTO dto = new BookDTO(bookID, title, subjectID, publisher, publication_date,
                             description, price, quantity, deleteStatus, lastLentDate,
                             avg_rating, isbnTen, isbnThirteen, coverPath);
                     if (this.bookList == null) {
@@ -195,7 +193,7 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id], [title], [authorID], [subjectID], [publisher], [publishDate], [description], " +
+                String sql = "SELECT [id], [title], [subjectID], [publisher], [publishDate], [description], " +
                         "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] " +
                         "FROM [Books] " +
                         "WHERE [id] = ?";
@@ -221,7 +219,7 @@ public class BookDAO implements Serializable {
                     String isbnTen = rs.getString("ISBN_tenDigits");
                     String isbnThirteen = rs.getString("ISBN_thirteenDigits");
                     String coverPath = rs.getString("coverPicturePath");
-                    BookDTO dto = new BookDTO(bookIdVal, title, authorID, subjectID, publisher, publicationDate,
+                    BookDTO dto = new BookDTO(bookIdVal, title, subjectID, publisher, publicationDate,
                             description, price, quantity, deleteStatus, lastLentDate,
                             avgRating, isbnTen, isbnThirteen, coverPath);
                     return dto;
@@ -323,7 +321,7 @@ public class BookDAO implements Serializable {
         return false;
     }
 
-    public boolean addBook(String bookID, String title, String authorID, String subjectID,
+    public boolean addBook(String bookID, String title, String subjectID,
                            String publisher, String publication_date, String description, BigDecimal price, int quantity,
                            boolean deleteStatus, Date lastLentDate, float avgRating, String isbnTen,
                            String isbnThirteen, String coverPath) throws SQLException, NamingException {
@@ -336,26 +334,25 @@ public class BookDAO implements Serializable {
             if (con != null) {
                 //2. Create SQL String
                 String sql = "INSERT INTO " +
-                        "Books([id], [title], [authorID], [subjectID], [publisher], [publishDate], [description], " +
+                        "Books([id], [title], [subjectID], [publisher], [publishDate], [description], " +
                         "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] ) " +
-                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 stm.setString(1, bookID);
                 stm.setString(2, title);
-                stm.setString(3, authorID);
-                stm.setString(4, subjectID);
-                stm.setString(5, publisher);
-                stm.setString(6, publication_date);
-                stm.setString(7, description);
-                stm.setBigDecimal(8, price);
-                stm.setInt(9, quantity);
-                stm.setBoolean(10, deleteStatus);
-                stm.setDate(11, lastLentDate);
-                stm.setFloat(12, avgRating);
-                stm.setString(13, isbnTen);
-                stm.setString(14, isbnThirteen);
-                stm.setString(15, coverPath);
+                stm.setString(3, subjectID);
+                stm.setString(4, publisher);
+                stm.setString(5, publication_date);
+                stm.setString(6, description);
+                stm.setBigDecimal(7, price);
+                stm.setInt(8, quantity);
+                stm.setBoolean(9, deleteStatus);
+                stm.setDate(10, lastLentDate);
+                stm.setFloat(11, avgRating);
+                stm.setString(12, isbnTen);
+                stm.setString(13, isbnThirteen);
+                stm.setString(14, coverPath);
                 //4. Execute Query and get rows affected
                 int rows = stm.executeUpdate();
                 //5. Process result
@@ -396,7 +393,7 @@ public class BookDAO implements Serializable {
         return false;
     }
 
-    public boolean updateBook(String bookID, String title, String authorID, String subjectID,
+    public boolean updateBook(String bookID, String title, String subjectID,
                               String publisher, String publicationDate, String description, BigDecimal price, int quantity,
                               String isbnTen, String isbnThirteen, String coverPath)
             throws SQLException, NamingException {
@@ -410,7 +407,6 @@ public class BookDAO implements Serializable {
                 //2. Create SQL String
                 String sql = "UPDATE [Books] " +
                         "SET [title] = ?, " +
-                        "[authorID] = ?, " +
                         "[subjectID] = ?, " +
                         "[publisher] = ?, " +
                         "[publishDate] = ?, " +
@@ -425,17 +421,16 @@ public class BookDAO implements Serializable {
                 stm = con.prepareStatement(sql);
 
                 stm.setString(1, title);
-                stm.setString(2, authorID);
-                stm.setString(3, subjectID);
-                stm.setString(4, publisher);
-                stm.setString(5, publicationDate);
-                stm.setString(6, description);
-                stm.setBigDecimal(7, price);
-                stm.setInt(8, quantity);
-                stm.setString(9, isbnTen);
-                stm.setString(10, isbnThirteen);
-                stm.setString(11, coverPath);
-                stm.setString(12, bookID);
+                stm.setString(2, subjectID);
+                stm.setString(3, publisher);
+                stm.setString(4, publicationDate);
+                stm.setString(5, description);
+                stm.setBigDecimal(6, price);
+                stm.setInt(7, quantity);
+                stm.setString(8, isbnTen);
+                stm.setString(9, isbnThirteen);
+                stm.setString(10, coverPath);
+                stm.setString(11, bookID);
 
                 //4. Execute Query and get rows affected
                 int rows = stm.executeUpdate();
@@ -515,7 +510,7 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id], [title], [authorID], [subjectID], [publisher], [publishDate], [description], " +
+                String sql = "SELECT [id], [title], [subjectID], [publisher], [publishDate], [description], " +
                         "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] " +
                         "FROM [Books] " +
                         "WHERE [ISBN_thirteenDigits] = ?";
@@ -528,7 +523,6 @@ public class BookDAO implements Serializable {
                 if (rs.next()) {
                     String bookIdVal = rs.getString("id");
                     String title = rs.getString("title");
-                    String authorID = rs.getString("authorID");
                     String subjectID = rs.getString("subjectID");
                     String publisher = rs.getString("publisher");
                     String publicationDate = rs.getString("publishDate");
@@ -541,7 +535,7 @@ public class BookDAO implements Serializable {
                     String isbnTen = rs.getString("ISBN_tenDigits");
                     String isbnThirteen = rs.getString("ISBN_thirteenDigits");
                     String coverPath = rs.getString("coverPicturePath");
-                    BookDTO dto = new BookDTO(bookIdVal, title, authorID, subjectID, publisher, publicationDate,
+                    BookDTO dto = new BookDTO(bookIdVal, title, subjectID, publisher, publicationDate,
                             description, price, quantity, deleteStatus, lastLentDate,
                             avgRating, isbnTen, isbnThirteen, coverPath);
                     return dto;
@@ -680,6 +674,34 @@ public class BookDAO implements Serializable {
         return -1;
     }
 
+    public int getQuantityByBookID(String bookID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT [quantity] " +
+                        "FROM [Books] " +
+                        "WHERE [id] = ? ";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, bookID);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                if (rs.next())
+                    return rs.getInt("quantity");
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return -1;
+    }
     // Start: Test Paged List
 //    public void viewPagedBookList() throws SQLException, NamingException {
 //        Connection con = null;
