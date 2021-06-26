@@ -2,21 +2,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <!-- Required meta tags -->
+    <%-- Required meta tags --%>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>LMSU Dashboard</title>
-    <!-- plugins:css -->
+    <%-- plugins:css --%>
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
+    <%-- endinject --%>
+    <%-- Plugin css for this page --%>
     <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
+    <%-- End plugin css for this page --%>
+    <%-- inject:css --%>
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
-    <!-- endinject -->
+    <%-- endinject --%>
     <link rel="shortcut icon" href="images/images/favicon.png"/>
     <%-- Fontawsome CDN --%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
@@ -24,7 +24,7 @@
 </head>
 <body>
 <div class="container-scroller">
-    <!-- partial:../../partials/_navbar.html -->
+    <%-- partial:../../partials/_navbar.html --%>
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
             <a class="navbar-brand brand-logo mr-5" href="dashboard.jsp"><img src="images/LMSU LOGO DASHBOARD.svg"
@@ -121,12 +121,12 @@
             </button>
         </div>
     </nav>
-    <!-- partial -->
+    <%-- partial --%>
     <div class="container-fluid page-body-wrapper">
-        <!-- partial -->
-        <!-- partial:../../partials/_sidebar.jsp -->
+        <%-- partial --%>
+        <%-- partial:../../partials/_sidebar.jsp --%>
         <jsp:include page="sidebar.jsp"/>
-        <!-- partial -->
+        <%-- partial --%>
         <div class="main-panel">
             <div class="content-wrapper">
                 <div class="card">
@@ -153,25 +153,19 @@
                                                        class="table table-hover dataTable no-footer my-2">
                                                     <thead>
                                                     <tr role="row">
-                                                        <th class="text-right" style="width: 0px;">#
-                                                        </th>
-                                                        <th style="width: 96px;">MEMBER ID
-                                                        </th>
-                                                        <th style="width: 56px;">NAME
-                                                        </th>
-                                                        <th style="width: 67px;">EMAIL
-                                                        </th>
-                                                        <th class="text-center" style="width: 56px;">STATUS
-                                                        </th>
-                                                        <th class="text-center" style="width: 64px;">ACTIONS
-                                                        </th>
+                                                        <th class="text-right" style="width: 0px;">#</th>
+                                                        <th style="width: 96px;">USER ID</th>
+                                                        <th style="width: 56px;">NAME</th>
+                                                        <th style="width: 67px;">EMAIL</th>
+                                                        <th class="text-center" style="width: 56px;">STATUS</th>
+                                                        <th class="text-center" style="width: 64px;">ACTIONS</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     <c:set var="memberList" value="${requestScope.MEMBER_LIST}"/>
-                                                    <c:forEach var="member" items="${memberList}" varStatus="counter">
+                                                    <c:forEach var="member" items="${memberList}"
+                                                               varStatus="counter">
                                                         <tr>
-
                                                             <td class="text-right">${counter.count}</td>
                                                             <td class="text-left">${member.id}</td>
                                                             <td class="text-left">${member.name}</td>
@@ -535,7 +529,6 @@
                                                 </table>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -543,8 +536,8 @@
                     </div>
                 </div>
             </div>
-            <!-- content-wrapper ends -->
-            <!-- partial:../../partials/_footer.html -->
+            <%-- content-wrapper ends --%>
+            <%-- partial:../../partials/_footer.html --%>
             <footer class="footer">
                 <div class="d-sm-flex justify-content-center justify-content-sm-between">
                         <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.
@@ -554,30 +547,30 @@
                             with <i class="ti-heart text-danger ml-1"></i></span>
                 </div>
             </footer>
-            <!-- partial -->
+            <%-- partial --%>
         </div>
-        <!-- main-panel ends -->
+        <%-- main-panel ends --%>
     </div>
-    <!-- page-body-wrapper ends -->
+    <%-- page-body-wrapper ends --%>
 </div>
-<!-- container-scroller -->
-<!-- plugins:js -->
+
+<%-- container-scroller --%>
+<%-- plugins:js --%>
 <script src="vendors/js/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- Plugin js for this page -->
+<%-- endinject -->
+<!-- Plugin js for this page --%>
 <script src="vendors/datatables.net/jquery.dataTables.js"></script>
 <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-<!-- End plugin js for this page -->
-<!-- inject:js -->
+<%-- End plugin js for this page --%>
+<%-- inject:js --%>
 <script src="js/off-canvas.js"></script>
 <script src="js/hoverable-collapse.js"></script>
 <script src="js/template.js"></script>
 <script src="js/settings.js"></script>
 <script src="js/todolist.js"></script>
-<script src="js/membermanagement.js"></script>
-<!-- endinject -->
-<!-- Custom js for this page-->
-
-<!-- End custom js for this page-->
+<%-- endinject --%>
+<%-- Custom js for this page--%>
+<jsp:include page="membermanagement.js.jsp"></jsp:include>
+<%-- End custom js for this page--%>
 </body>
 </html>
