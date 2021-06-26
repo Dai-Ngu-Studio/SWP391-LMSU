@@ -1,15 +1,21 @@
 package com.lmsu.bean.book;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Map;
+
+@AllArgsConstructor
+@NoArgsConstructor
 
 public @Data
 class BookObj implements Serializable {
     private String id;
     private String title;
-    private String authorID;
-    private String authorName;
+    Map<String, String> authors;
+    private String subjectID;
     private String subjectName;
     private String publisher;
     private String publishDate;
@@ -19,42 +25,4 @@ class BookObj implements Serializable {
     private String isbnTen;
     private String isbnThirteen;
     private String coverPath;
-
-    public BookObj() {
-    }
-
-    public BookObj(String id, String title, String authorName, String subjectName, String publisher,
-                   String publishDate, String description, int quantity, float avgRating, String isbnTen,
-                   String isbnThirteen, String coverPath) {
-        this.id = id;
-        this.title = title;
-        this.authorName = authorName;
-        this.subjectName = subjectName;
-        this.publisher = publisher;
-        this.publishDate = publishDate;
-        this.description = description;
-        this.quantity = quantity;
-        this.avgRating = avgRating;
-        this.isbnTen = isbnTen;
-        this.isbnThirteen = isbnThirteen;
-        this.coverPath = coverPath;
-    }
-
-    public BookObj(String id, String title, String authorName, String subjectName, String publisher,
-                   String publishDate, String description, int quantity, float avgRating, String isbnTen,
-                   String isbnThirteen, String coverPath, String authorID) {
-        this.id = id;
-        this.title = title;
-        this.authorName = authorName;
-        this.subjectName = subjectName;
-        this.publisher = publisher;
-        this.publishDate = publishDate;
-        this.description = description;
-        this.quantity = quantity;
-        this.avgRating = avgRating;
-        this.isbnTen = isbnTen;
-        this.isbnThirteen = isbnThirteen;
-        this.coverPath = coverPath;
-        this.authorID = authorID;
-    }
 }
