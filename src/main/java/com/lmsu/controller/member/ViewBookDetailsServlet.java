@@ -5,6 +5,7 @@ import com.lmsu.authors.AuthorDTO;
 import com.lmsu.bean.author.AuthorObj;
 import com.lmsu.bean.book.BookObj;
 import com.lmsu.bean.comment.CommentObj;
+import com.lmsu.bean.member.CartObj;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import com.lmsu.comments.CommentDAO;
@@ -32,20 +33,29 @@ public class ViewBookDetailsServlet extends HttpServlet {
     private final String BOOK_DETAILS_PAGE = "bookdetails.jsp";
     static final Logger LOGGER = Logger.getLogger(ViewBookDetailsServlet.class);
 
+    private final int ITEM_CANCELLED = -1;
     private final int ITEM_PENDING = 0;
     private final int ITEM_APPROVED = 1;
     private final int ITEM_RECEIVED = 2;
     private final int ITEM_RETURN_SCHEDULED = 3;
+    private final int ITEM_RETURNED = 4;
     private final int ITEM_OVERDUE = 5;
     private final int ITEM_OVERDUE_RETURN_SCHEDULED = 6;
+    private final int ITEM_OVERDUE_RETURNED = 7;
+    private final int ITEM_REJECTED = 8;
+    private final int ITEM_LOST = 9;
+    private final int ITEM_RESERVED = 10;
+    private final int ITEM_RESERVED_PAST = 11;
 
-    private final boolean ATTR_BOOK_BORROWED = true;
+    private final int STATUS_BORROWED = 0;
+    private final int STATUS_RESERVED = 1;
     private final String ATTR_MEMBER_TOTAL_ACTIVE_BORROWS = "MEMBER_TOTAL_ACTIVE_BORROWS";
     private final String ATTR_MEMBER_BOOK_BORROW_STATUS = "MEMBER_BOOK_BORROW_STATUS";
     private final String ATTR_COMMENT_LIST = "COMMENT_LIST";
     private final String ATTR_COMMENT_AMOUNT = "COMMENT_AMOUNT";
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
     private final String ATTR_BOOK_OBJECT = "BOOK_OBJECT";
+    private final String ATTR_MEMBER_CART = "MEMBER_CART";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -53,9 +63,16 @@ public class ViewBookDetailsServlet extends HttpServlet {
         String url = BOOK_CATALOG_CONTROLLER;
 
         String bookID = request.getParameter("bookPk");
-        HttpSession session = request.getSession();
 
         try {
+            // 1. Check if session existed (default create one if not exist)
+            HttpSession session = request.getSession();
+            // 2. Check if session has cart
+            CartObj cartObj = (CartObj) session.getAttribute(ATTR_MEMBER_CART);
+            if (cartObj == null) {
+                cartObj = new CartObj();
+                session.setAttribute(ATTR_MEMBER_CART, cartObj);
+            }
             BookDAO bookDAO = new BookDAO();
             // Get BookDTO
             BookDTO bookDTO = bookDAO.getBookById(bookID);
@@ -78,24 +95,42 @@ public class ViewBookDetailsServlet extends HttpServlet {
                     UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
                     if (userDTO != null) {
                         OrderItemDAO orderItemDAO = new OrderItemDAO();
+                        List<Integer> activeBorrowStatuses = new ArrayList<Integer>(
+                                Arrays.asList(
+                                        ITEM_PENDING, ITEM_APPROVED, ITEM_RECEIVED,
+                                        ITEM_RETURN_SCHEDULED, ITEM_OVERDUE,
+                                        ITEM_OVERDUE_RETURN_SCHEDULED
+                                ));
                         // Get the number of active borrowed books from member
                         //----------------------------------------------------
                         orderItemDAO
-                                .getOrderItemsFromMember(
-                                        userDTO.getId(),
-                                        new ArrayList<Integer>(
-                                                Arrays.asList(
-                                                        ITEM_PENDING, ITEM_APPROVED, ITEM_RECEIVED,
-                                                        ITEM_RETURN_SCHEDULED, ITEM_OVERDUE,
-                                                        ITEM_OVERDUE_RETURN_SCHEDULED
-                                                )));
+                                .getOrderItemsFromMember(userDTO.getId(), activeBorrowStatuses);
                         //----------------------------------------------------
                         List<OrderItemDTO> memberTotalActiveBorrows = orderItemDAO.getOrderItemList();
-                        session.setAttribute(ATTR_MEMBER_TOTAL_ACTIVE_BORROWS, memberTotalActiveBorrows);
+                        if (memberTotalActiveBorrows == null) {
+                            session.setAttribute(ATTR_MEMBER_TOTAL_ACTIVE_BORROWS, 0);
+                        } else {
+                            session.setAttribute(ATTR_MEMBER_TOTAL_ACTIVE_BORROWS, memberTotalActiveBorrows.size());
+                        }
+                        orderItemDAO.clearOrderItemList();
                         //----------------------------------------------------
-                        // Check if member had borrowed this book
-                        if (orderItemDAO.getMemberItemFromBookID(bookID, userDTO.getId()) != null) {
-                            request.setAttribute(ATTR_MEMBER_BOOK_BORROW_STATUS, ATTR_BOOK_BORROWED);
+                        // Check if member had borrowed or reserved this book
+                        // Using List because member might borrow book again after having returned it
+                        activeBorrowStatuses.add(ITEM_RESERVED); //an additional status for checking active reserve
+                        orderItemDAO.getMemberItemsFromBookID(bookID, userDTO.getId(), activeBorrowStatuses);
+                        List<OrderItemDTO> itemsOfCurrentBookByMember = orderItemDAO.getOrderItemList();
+                        if (itemsOfCurrentBookByMember != null) {
+                            for (OrderItemDTO currentItem : itemsOfCurrentBookByMember) {
+                                for (int activeBorrowStatus : activeBorrowStatuses) {
+                                    if (currentItem.getLendStatus() == activeBorrowStatus) {
+                                        request.setAttribute(ATTR_MEMBER_BOOK_BORROW_STATUS, STATUS_BORROWED);
+                                    }
+                                }
+                                if (currentItem.getLendStatus() == ITEM_RESERVED) {
+                                    request.setAttribute(ATTR_MEMBER_BOOK_BORROW_STATUS, STATUS_RESERVED);
+                                    break;
+                                }
+                            }
                         }
                     }
                 }

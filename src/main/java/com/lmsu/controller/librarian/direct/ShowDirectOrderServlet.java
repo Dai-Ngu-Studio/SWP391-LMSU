@@ -38,6 +38,7 @@ public class ShowDirectOrderServlet extends HttpServlet {
     private final int ORDER_RETURNED = 3;
     private final int ORDER_OVERDUE = 4;
     private final int ORDER_REJECTED = 5;
+    private final int ORDER_RESERVE_ONLY = 6;
 
     private final String ATTR_ORDER_LIST = "ORDER_LIST";
 
@@ -61,7 +62,7 @@ public class ShowDirectOrderServlet extends HttpServlet {
                                     Arrays.asList(
                                             ORDER_PENDING, ORDER_OVERDUE,
                                             ORDER_APPROVED, ORDER_RECEIVED, ORDER_RETURNED,
-                                            ORDER_REJECTED, ORDER_CANCELLED
+                                            ORDER_REJECTED, ORDER_CANCELLED, ORDER_RESERVE_ONLY
                                     )));
             //--------------------------------------------------
             List<OrderDTO> orders = orderDAO.getOrderList();

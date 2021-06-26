@@ -17,13 +17,14 @@ class DeliveryOrderDTO implements Serializable {
     private String city;
     private String district;
     private String ward;
+    private boolean isReturnOrder;
 
     public DeliveryOrderDTO() {
     }
 
     public DeliveryOrderDTO(String orderID, String managerID, String deliverer, Date scheduledDeliveryTime,
                             String phoneNumber, String deliveryAddress1, String deliveryAddress2, String city,
-                            String district, String ward) {
+                            String district, String ward, boolean isReturnOrder) {
         this.orderID = orderID;
         this.managerID = managerID;
         this.deliverer = deliverer;
@@ -34,5 +35,6 @@ class DeliveryOrderDTO implements Serializable {
         this.city = city;
         this.district = district;
         this.ward = ward;
+        this.isReturnOrder = isReturnOrder;
     }
 }

@@ -142,7 +142,8 @@ CREATE TABLE DeliveryOrder(
                               deliveryAddress2 nvarchar(MAX),
                               city nvarchar(255),
                               district nvarchar(255),
-                              ward nvarchar(255)
+                              ward nvarchar(255),
+                              isReturnOrder bit NOT NULL
 );
 
 insert into Subjects (id, name, semester_no, deleteStatus) values (1, 'Art', 1, 0);

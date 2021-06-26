@@ -205,6 +205,11 @@
                                                                             badge-dark
                                                                             text-white">Rejected</label>
                                                                 </c:when>
+                                                                <c:when test="${order.key.key.activeStatus eq 6}">
+                                                                    <label class="badge
+                                                                            badge-secondary
+                                                                            text-white">Reserve</label>
+                                                                </c:when>
                                                             </c:choose>
                                                         </td>
                                                         <td class="text-center">
@@ -355,6 +360,14 @@
                                                                                            value="Rejected"
                                                                                            disabled/>
                                                                                 </c:when>
+                                                                                <c:when test="${order.key.key.activeStatus eq 6}">
+                                                                                    <input type="text"
+                                                                                           class="form-control
+                                                                                                       text-white
+                                                                                                       bg-secondary"
+                                                                                           value="Reserve"
+                                                                                           disabled/>
+                                                                                </c:when>
                                                                             </c:choose>
                                                                         </div>
                                                                     </div>
@@ -479,10 +492,23 @@
                                                                                                     Reserved
                                                                                                 </label>
                                                                                             </c:when>
+                                                                                            <c:when test="${orderItem.lendStatus eq 11}">
+                                                                                                <label class="badge
+                                                                                                    badge-secondary
+                                                                                                    text-white">
+                                                                                                    Inactive
+                                                                                                </label>
+                                                                                            </c:when>
                                                                                         </c:choose>
                                                                                     </td>
                                                                                     <td class="text-left">
+                                                                                        <c:if test="${empty orderItem.returnDeadline}">
+                                                                                            N/A
+                                                                                        </c:if>
+                                                                                        <c:if test="${not empty orderItem.returnDeadline}">
                                                                                             ${orderItem.returnDeadline}
+                                                                                        </c:if>
+
                                                                                     </td>
                                                                                     <td class="text-left">
                                                                                         <c:if test="${empty orderItem.lendDate}">

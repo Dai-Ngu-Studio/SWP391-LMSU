@@ -27,6 +27,10 @@ public class OrderItemDAO implements Serializable {
     private final int ITEM_REJECTED = 8;
     private final int ITEM_LOST = 9;
     private final int ITEM_RESERVED = 10;
+    private final int ITEM_RESERVED_INACTIVE = 11;
+    // book quantity become >0, member can now checkout the book -> need to set old ITEM_RESERVED to INACTIVE
+    // because the old reserve status is no longer a valid fact, we shouldn't take it in account
+    // remember to do this in CHECKOUT process by iterating over past orderItems of that book id
 
     private final int DAYS_TO_DEADLINE = 14;
 
@@ -176,7 +180,8 @@ public class OrderItemDAO implements Serializable {
         return null;
     }
 
-    public OrderItemDTO getMemberItemFromBookID(String bookID, String memberID) throws SQLException, NamingException {
+    public void getMemberItemsFromBookID(String bookID, String memberID, List<Integer> lendStatuses)
+            throws SQLException, NamingException {
 
         Connection con = null;
         PreparedStatement stm = null;
@@ -191,12 +196,26 @@ public class OrderItemDAO implements Serializable {
                         "WHERE [bookID] = ? " +
                         "AND [memberID] = ? ";
 
+                if (lendStatuses != null) {
+                    sql += " AND ( ";
+                    ListIterator<Integer> statusItr = lendStatuses.listIterator();
+                    while (statusItr.hasNext()) {
+                        if (statusItr.hasPrevious()) {
+                            sql += " OR ";
+                        }
+                        sql += " [lendStatus] = " + statusItr.next() + " ";
+                    }
+                    sql += " ) ";
+                }
+
                 stm = con.prepareStatement(sql);
                 stm.setString(1, bookID);
                 stm.setString(2, memberID);
-
                 rs = stm.executeQuery();
-                if (rs.next()) {
+                while (rs.next()) {
+                    if (this.orderItemList == null) {
+                        this.orderItemList = new ArrayList<OrderItemDTO>();
+                    }
                     OrderItemDTO dto = new OrderItemDTO();
                     dto.setId(rs.getInt("id"));
                     dto.setOrderID(rs.getInt("orderID"));
@@ -206,7 +225,7 @@ public class OrderItemDAO implements Serializable {
                     dto.setReturnDeadline(rs.getDate("returnDeadline"));
                     dto.setLendDate(rs.getDate("lendDate"));
                     dto.setReturnDate(rs.getDate("returnDate"));
-                    return dto;
+                    this.orderItemList.add(dto);
                 }
             }
         } finally {
@@ -214,7 +233,6 @@ public class OrderItemDAO implements Serializable {
             if (stm != null) stm.close();
             if (con != null) con.close();
         }
-        return null;
     }
 
     public void getOrderItemsFromMember(String memberID, List<Integer> lendStatuses)
@@ -243,48 +261,6 @@ public class OrderItemDAO implements Serializable {
                 }
                 stm = con.prepareStatement(sql);
                 stm.setString(1, memberID);
-                rs = stm.executeQuery();
-                while (rs.next()) {
-                    if (this.orderItemList == null) {
-                        this.orderItemList = new ArrayList<>();
-                    }
-                    OrderItemDTO dto = new OrderItemDTO();
-                    dto.setId(rs.getInt("id"));
-                    dto.setOrderID(rs.getInt("orderID"));
-                    dto.setMemberID(rs.getString("memberID"));
-                    dto.setBookID(rs.getString("bookID"));
-                    dto.setLendStatus(rs.getInt("lendStatus"));
-                    dto.setReturnDeadline(rs.getDate("returnDeadline"));
-                    dto.setLendDate(rs.getDate("lendDate"));
-                    dto.setReturnDate(rs.getDate("returnDate"));
-                    this.orderItemList.add(dto);
-                }
-            }
-        } finally {
-            if (rs != null) rs.close();
-            if (stm != null) stm.close();
-            if (con != null) con.close();
-        }
-    }
-
-    public void getReserveBookFromMember(String memberID, int lendStatus)
-            throws SQLException, NamingException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-
-        try {
-            con = DBHelpers.makeConnection();
-            if (con != null) {
-                String sql = "SELECT [id], [orderID], [memberID], [bookID], [lendStatus], " +
-                        "[returnDeadline], [lendDate], [returnDate] " +
-                        "FROM [OrderItems] " +
-                        "WHERE [memberID] = ? " +
-                        "AND [lendStatus] = ?";
-
-                stm = con.prepareStatement(sql);
-                stm.setString(1, memberID);
-                stm.setInt(2, lendStatus);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     if (this.orderItemList == null) {
@@ -346,5 +322,30 @@ public class OrderItemDAO implements Serializable {
             if (stm != null) stm.close();
             if (con != null) con.close();
         }
+    }
+
+    public boolean updateOrderItemStatus(int id, int lendStatus) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE [OrderItems] " +
+                        "SET [lendStatus] = ? " +
+                        "WHERE [id] = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, lendStatus);
+                stm.setInt(2, id);
+                int row = stm.executeUpdate();
+                if (row >0 ) {
+                    return true;
+                }
+            }
+        } finally {
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
     }
 }

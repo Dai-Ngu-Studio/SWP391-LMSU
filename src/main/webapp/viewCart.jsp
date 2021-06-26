@@ -28,7 +28,7 @@
         <c:if test="${not empty user}">
             <c:set var="memberTotalActiveBorrows" value="${0}"/>
             <c:if test="${not empty sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS}">
-                <c:set var="memberTotalActiveBorrows" value="${sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS.size()}"/>
+                <c:set var="memberTotalActiveBorrows" value="${sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS}"/>
             </c:if>
             <c:set var="cart" value="${sessionScope.MEMBER_CART}"/>
             <c:if test="${not empty cart}">
@@ -38,7 +38,13 @@
                     <div class="row pt-5">
                         <div class="col-2"></div>
                         <div class="col-5">
-                            <h4>Your Cart<small class="text-muted"> (${cart.cartQuantity}/${10-memberTotalActiveBorrows})</small>
+                            <h4>Your Cart<small class="text-muted">
+                                <c:out value=" (${cart.cartQuantity}/${10-memberTotalActiveBorrows})"/>
+                                <c:set var="numberOfReserved" value="${cart.cartReserved}"/>
+                                <c:if test="${numberOfReserved > 0}">
+                                    <c:out value=" + ${numberOfReserved} reserved books"/>
+                                </c:if>
+                            </small>
                             </h4>
                         </div>
                         <div class="col-3"></div>
@@ -111,7 +117,7 @@
                                         Logged in as <strong>${user.name}</strong>
                                     </div>
                                     <c:if test="${not empty user}">
-                                        <a href="orderform.jsp" type="button"
+                                        <a href="OrderFormServlet" type="button"
                                            class="btn btn-success link mt-2">
                                             <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
                                             Proceed to borrow
