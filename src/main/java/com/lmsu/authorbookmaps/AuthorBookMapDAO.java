@@ -59,7 +59,6 @@ public class AuthorBookMapDAO implements Serializable {
             if (con != null) con.close();
         }
     }
-}
 
     public void getAuthorsOfBook(String bookID) throws SQLException, NamingException {
         Connection con = null;
