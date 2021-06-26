@@ -1,5 +1,7 @@
 package com.lmsu.controller.member.cart;
 
+import com.lmsu.authorbookmaps.AuthorBookMapDAO;
+import com.lmsu.authorbookmaps.AuthorBookMapDTO;
 import com.lmsu.authors.AuthorDAO;
 import com.lmsu.authors.AuthorDTO;
 import com.lmsu.bean.author.AuthorObj;
@@ -15,55 +17,70 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 
 @WebServlet(name = "AddBookToCartServlet", value = "/AddBookToCartServlet")
 public class AddBookToCartServlet extends HttpServlet {
 
     static final Logger LOGGER = Logger.getLogger(AddBookToCartServlet.class);
     private static final String VIEW_BOOK_DETAILS_CONTROLLER = "ViewBookDetailsServlet";
-    private static final String SHOW_BOOK_CATALOG_CONTROLLER = "ShowBookCatalogServlet";
+
+    private final String PARAM_BOOKID = "bookPk";
+
+    private final String ATTR_BOOK_OBJECT = "BOOK_OBJECT";
+    private final String ATTR_MEMBER_CART = "MEMBER_CART";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String url = SHOW_BOOK_CATALOG_CONTROLLER;
-        String bookID = request.getParameter("bookPk");
+        String url = VIEW_BOOK_DETAILS_CONTROLLER;
+        String bookID = request.getParameter(PARAM_BOOKID);
 
         try {
             // 1. Check if session existed (default create one if not exist)
             HttpSession session = request.getSession();
             // 2. Check if session has cart
-            CartObj cartObj = (CartObj) session.getAttribute("MEMBER_CART");
+            CartObj cartObj = (CartObj) session.getAttribute(ATTR_MEMBER_CART);
             if (cartObj == null) {
                 cartObj = new CartObj();
             }
-            // 3. Start: Get the book which member want to add to cart
+            // 3. Get the book which member want to add to cart
             BookDAO bookDAO = new BookDAO();
             // Get BookDTO
             BookDTO bookDTO = bookDAO.getBookById(bookID);
             if (bookDTO != null) {
-                AuthorDAO authorDAO = new AuthorDAO();
-                // Get AuthorDTO
-                AuthorDTO authorDTO = authorDAO.getAuthorByID(bookDTO.getAuthorID());
-                // Create Beans
-                AuthorObj authorObj = new AuthorObj(authorDTO.getAuthorID(),
-                        authorDTO.getAuthorName(), authorDTO.getAuthorBio());
-                // Subject name not yet implemented
-                BookObj bookObj = new BookObj(bookDTO.getBookID(), bookDTO.getTitle(), authorDTO.getAuthorName(),
-                        "TEMP", bookDTO.getPublisher(), bookDTO.getPublicationDate(),
-                        bookDTO.getDescription(), bookDTO.getQuantity(), bookDTO.getAvgRating(),
-                        bookDTO.getIsbnTen(), bookDTO.getIsbnThirteen(), bookDTO.getCoverPath());
-                // 3. End: Get the book which member want to add to cart
+                // Get authors of this book
+                AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();
+                authorBookMapDAO.getAuthorsOfBook(bookID);
+                List<AuthorBookMapDTO> authorBookMaps = authorBookMapDAO.getAuthorBookMaps();
+                // Create Book Bean
+                BookObj bookObj = new BookObj();
+                bookObj.setId(bookID);
+                bookObj.setTitle(bookDTO.getTitle());
+                bookObj.setSubjectID(bookDTO.getSubjectID());
+                bookObj.setSubjectName("TEMPORARY VALUE"); //need SubjectDAO, DTO
+                bookObj.setPublisher(bookDTO.getPublisher());
+                bookObj.setPublishDate(bookDTO.getPublicationDate());
+                bookObj.setDescription(bookDTO.getDescription());
+                bookObj.setQuantity(bookDTO.getQuantity());
+                bookObj.setAvgRating(bookDTO.getAvgRating());
+                bookObj.setIsbnTen(bookDTO.getIsbnTen());
+                bookObj.setIsbnThirteen(bookDTO.getIsbnThirteen());
+                bookObj.setCoverPath(bookDTO.getCoverPath());
+                bookObj.setAuthors(new HashMap<String, String>());
+                // Map authors to Book Bean
+                for (AuthorBookMapDTO authorBookMap : authorBookMaps) {
+                    AuthorDTO authorDTO = authorBookMap.getAuthorDTO();
+                    bookObj.getAuthors().put(authorDTO.getAuthorID(), authorDTO.getAuthorName());
+                }
                 // 4. Add book to member's cart
                 cartObj.addBookToCart(bookObj);
-                // 5. Save book on server
-                session.setAttribute("MEMBER_CART", cartObj);
+                // 5. Save cart on server
+                session.setAttribute(ATTR_MEMBER_CART, cartObj);
                 // 6. Member continues checking book
-                // (Temporary redirect to cart for testing)
-                url = VIEW_BOOK_DETAILS_CONTROLLER + "?bookPk=" + bookID;
-//                url = "viewCart.jsp";
+                url = VIEW_BOOK_DETAILS_CONTROLLER + "?" + PARAM_BOOKID + "=" + bookID;
             }
-
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
             log("AddBookToCartServlet _ SQL: " + ex.getMessage());

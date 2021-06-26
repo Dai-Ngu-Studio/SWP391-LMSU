@@ -54,11 +54,17 @@
                         <li class="list-group-item mt-0 mb-0">
                             <div class="row">
                                 <div class="col-lg-6"><strong>Author</strong></div>
-                                <a href="<c:url value='ShowAuthorBookServlet?authorPk=${bookObj.authorID}'/>"
-                                   class="link text-info">
-                                    <div class="col-lg-12"
-                                         style="text-decoration: underline">${bookObj.authorName}</div>
-                                </a>
+                                <div class="col-lg-6">
+                                    <c:forEach var="author" items="${bookObj.authors}" varStatus="authorCounter">
+                                        <a href="<c:url value='ShowAuthorBookServlet?authorPk=${author.key}'/>"
+                                           class="text-info">
+                                                ${author.value}
+                                        </a>
+                                        <c:if test="${not authorCounter.last}">
+                                            <c:out value=", "/>
+                                        </c:if>
+                                    </c:forEach>
+                                </div>
                             </div>
                         </li>
                         <li class="list-group-item mt-0 mb-0">
@@ -141,14 +147,24 @@
                         </c:if>
                         </span>
                     <%--End: Book Rating--%>
+                    <%--Start: Author--%>
                     <div class="card-text mt-2">
-                        By <a href="<c:url value='ShowAuthorBookServlet?authorPk=${bookObj.authorID}'/>"
-                              class="badge badge-secondary">${bookObj.authorName}</a>
+                        <c:out value="By "/>
+                        <c:forEach var="author" items="${bookObj.authors}" varStatus="authorCounter">
+                            <a href="<c:url value='ShowAuthorBookServlet?authorPk=${author.key}'/>"
+                               class="badge badge-secondary">${author.value}</a>
+                            <c:if test="${not authorCounter.last}">
+                                <c:out value=" ,"/>
+                            </c:if>
+                        </c:forEach>
                     </div>
+                    <%--End: Author--%>
+                    <%--Start: Description--%>
                     <div class="card-title mt-2 mb-0">Description</div>
                     <div class="card-text">
                         <c:out value="${bookObj.description}"/>
                     </div>
+                    <%--End: Description--%>
                 </div>
             </div>
             <%--Start: Book Options Section--%>
@@ -504,7 +520,9 @@
                                 <form action="AddCommentServlet" class="my-0 mx-0">
                                     <div class="row mt-3">
                                         <div class="col-2">
-                                            <img src="images/default-user-icon.png" class="rounded-circle img-fluid"/>
+                                            <img src="${user.profilePicturePath}"
+                                                 class="rounded-circle img-fluid"
+                                                 onerror="this.onerror=null; this.src='images/default-user-icon.png';"/>
                                         </div>
                                         <div class="col-8">
                                             <div class="card">

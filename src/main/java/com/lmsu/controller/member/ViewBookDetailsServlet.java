@@ -1,5 +1,7 @@
 package com.lmsu.controller.member;
 
+import com.lmsu.authorbookmaps.AuthorBookMapDAO;
+import com.lmsu.authorbookmaps.AuthorBookMapDTO;
 import com.lmsu.authors.AuthorDAO;
 import com.lmsu.authors.AuthorDTO;
 import com.lmsu.bean.author.AuthorObj;
@@ -24,6 +26,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 @WebServlet(name = "ViewBookDetailsServlet", value = "/ViewBookDetailsServlet")
@@ -49,6 +52,9 @@ public class ViewBookDetailsServlet extends HttpServlet {
 
     private final int STATUS_BORROWED = 0;
     private final int STATUS_RESERVED = 1;
+
+    private final String PARAM_BOOKID = "bookPk";
+
     private final String ATTR_MEMBER_TOTAL_ACTIVE_BORROWS = "MEMBER_TOTAL_ACTIVE_BORROWS";
     private final String ATTR_MEMBER_BOOK_BORROW_STATUS = "MEMBER_BOOK_BORROW_STATUS";
     private final String ATTR_COMMENT_LIST = "COMMENT_LIST";
@@ -62,7 +68,7 @@ public class ViewBookDetailsServlet extends HttpServlet {
 
         String url = BOOK_CATALOG_CONTROLLER;
 
-        String bookID = request.getParameter("bookPk");
+        String bookID = request.getParameter(PARAM_BOOKID);
 
         try {
             // 1. Check if session existed (default create one if not exist)
@@ -77,17 +83,30 @@ public class ViewBookDetailsServlet extends HttpServlet {
             // Get BookDTO
             BookDTO bookDTO = bookDAO.getBookById(bookID);
             if (bookDTO != null) {
-                AuthorDAO authorDAO = new AuthorDAO();
-                // Get AuthorDTO
-                AuthorDTO authorDTO = authorDAO.getAuthorByID(bookDTO.getAuthorID());
-                // Create Author Bean, Book Bean
-                AuthorObj authorObj = new AuthorObj(authorDTO.getAuthorID(),
-                        authorDTO.getAuthorName(), authorDTO.getAuthorBio());
-                // Subject name not yet implemented
-                BookObj bookObj = new BookObj(bookDTO.getBookID(), bookDTO.getTitle(), authorDTO.getAuthorName(),
-                        "TEMP", bookDTO.getPublisher(), bookDTO.getPublicationDate(),
-                        bookDTO.getDescription(), bookDTO.getQuantity(), bookDTO.getAvgRating(),
-                        bookDTO.getIsbnTen(), bookDTO.getIsbnThirteen(), bookDTO.getCoverPath(), bookDTO.getAuthorID());
+                // Get authors of this book
+                AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();
+                authorBookMapDAO.getAuthorsOfBook(bookID);
+                List<AuthorBookMapDTO> authorBookMaps = authorBookMapDAO.getAuthorBookMaps();
+                // Create Book Bean
+                BookObj bookObj = new BookObj();
+                bookObj.setId(bookID);
+                bookObj.setTitle(bookDTO.getTitle());
+                bookObj.setSubjectID(bookDTO.getSubjectID());
+                bookObj.setSubjectName("TEMPORARY VALUE"); //need SubjectDAO, DTO
+                bookObj.setPublisher(bookDTO.getPublisher());
+                bookObj.setPublishDate(bookDTO.getPublicationDate());
+                bookObj.setDescription(bookDTO.getDescription());
+                bookObj.setQuantity(bookDTO.getQuantity());
+                bookObj.setAvgRating(bookDTO.getAvgRating());
+                bookObj.setIsbnTen(bookDTO.getIsbnTen());
+                bookObj.setIsbnThirteen(bookDTO.getIsbnThirteen());
+                bookObj.setCoverPath(bookDTO.getCoverPath());
+                bookObj.setAuthors(new HashMap<String, String>());
+                // Map authors to Book Bean
+                for (AuthorBookMapDTO authorBookMap : authorBookMaps) {
+                    AuthorDTO authorDTO = authorBookMap.getAuthorDTO();
+                    bookObj.getAuthors().put(authorDTO.getAuthorID(), authorDTO.getAuthorName());
+                }
                 request.setAttribute(ATTR_BOOK_OBJECT, bookObj);
                 //----------------------------------------------------
                 //Get order items of member
