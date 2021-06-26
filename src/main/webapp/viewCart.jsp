@@ -28,10 +28,9 @@
         <c:if test="${not empty user}">
             <c:set var="memberTotalActiveBorrows" value="${0}"/>
             <c:if test="${not empty sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS}">
-                <c:set var="memberTotalActiveBorrows" value="${sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS.size()}"/>
+                <c:set var="memberTotalActiveBorrows" value="${sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS}"/>
             </c:if>
             <c:set var="cart" value="${sessionScope.MEMBER_CART}"/>
-            <%--When cart has items, it is not null--%>
             <c:if test="${not empty cart}">
                 <%--Map<String bookID, BookObj>--%>
                 <c:set var="books" value="${cart.items}"/>
@@ -147,7 +146,6 @@
                     </div>
                 </c:if>
             </c:if>
-            <%--When cart has no items, it is null--%>
             <c:if test="${empty cart}">
                 <div class="row my-4">
                     <div class="col-4"></div>

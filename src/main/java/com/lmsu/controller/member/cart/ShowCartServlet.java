@@ -60,7 +60,11 @@ public class ShowCartServlet extends HttpServlet {
                                         )));
                 //----------------------------------------------------
                 List<OrderItemDTO> memberTotalActiveBorrows = orderItemDAO.getOrderItemList();
-                session.setAttribute(ATTR_MEMBER_TOTAL_ACTIVE_BORROWS, memberTotalActiveBorrows);
+                if (memberTotalActiveBorrows == null) {
+                    session.setAttribute(ATTR_MEMBER_TOTAL_ACTIVE_BORROWS, 0);
+                } else {
+                    session.setAttribute(ATTR_MEMBER_TOTAL_ACTIVE_BORROWS, memberTotalActiveBorrows.size());
+                }
             }
             // Redirect to cart
             url = VIEW_CART_PAGE;

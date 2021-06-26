@@ -159,17 +159,12 @@
                         <div class="col-lg-6">
                             <c:if test="${not empty session}">
                                 <c:set var="cart" value="${sessionScope.MEMBER_CART}"/>
-                                <c:if test="${not empty cart}">
-                                    <c:set var="existedInCart" value="${cart.isExistedInCart(bookObj.id)}"/>
-                                </c:if>
+                                <c:set var="existedInCart" value="${cart.isExistedInCart(bookObj.id)}"/>
                                 <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
                             </c:if>
                             <c:choose>
                                 <%--Book existed in cart--%>
-                                <c:when test="${(not empty session)
-                                        and (not empty user)
-                                        and (not empty cart)
-                                        and (existedInCart)}">
+                                <c:when test="${(not empty session) and (not empty user) and (existedInCart)}">
                                     <div class="row">
                                         <div class="col-12 text-center">
                                             This book is already in your cart.
@@ -200,28 +195,29 @@
                                                value="${sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS}"/>
                                         <%--Book is available in stock--%>
                                         <c:if test="${bookObj.quantity gt 0}">
+                                            <%--Book is in user's active borrowing list--%>
+                                            <c:if test="${bookBorrowStatus eq 0}">
+                                                <div class="row">
+                                                    <div class="col-12 text-center">
+                                                        You are currently borrowing this book.
+                                                    </div>
+                                                </div>
+                                            </c:if>
                                             <c:choose>
                                                 <%--Borrowing limit reached--%>
-                                                <c:when test="${(not empty cart)
-                                                    and (not empty memberTotalActiveBorrows)
-                                                    and ((cart.cartQuantity + memberTotalActiveBorrows.size() ge 10))
-                                                    or memberTotalActiveBorrows.size() eq 10}">
+                                                <c:when test="${(cart.cartQuantity ge 10)
+                                                or (cart.cartQuantity + memberTotalActiveBorrows ge 10)
+                                                or (memberTotalActiveBorrows ge 10)}">
                                                     <div class="row">
                                                         <div class="col-12 text-center">
                                                             You have already reached the borrowing limit.
                                                         </div>
                                                     </div>
                                                 </c:when>
-                                                <%--Book is in user's active borrowing list--%>
-                                                <c:when test="${bookBorrowStatus eq 0}">
-                                                    <div class="row">
-                                                        <div class="col-12 text-center">
-                                                            You are currently borrowing this book.
-                                                        </div>
-                                                    </div>
-                                                </c:when>
-                                                <%--Reserved book is now available in stock--%>
+
+                                                <%--Borrowing limit not reached--%>
                                                 <c:otherwise>
+                                                    <%--Reserved book is now available in stock--%>
                                                     <c:if test="${bookBorrowStatus eq 1}">
                                                         <div class="row">
                                                             <div class="col-12 text-center">
@@ -229,6 +225,7 @@
                                                             </div>
                                                         </div>
                                                     </c:if>
+                                                    <%--Add to Cart Button--%>
                                                     <form action="AddBookToCartServlet" class="my-0">
                                                         <div class="row">
                                                             <div class="col-2"></div>
