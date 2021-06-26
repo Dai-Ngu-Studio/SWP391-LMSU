@@ -1,9 +1,10 @@
 package com.lmsu.controller.author;
 
+import com.lmsu.authorbookmaps.AuthorBookMapDAO;
+import com.lmsu.authorbookmaps.AuthorBookMapDTO;
 import com.lmsu.authors.AuthorDAO;
 import com.lmsu.authors.AuthorDTO;
 import com.lmsu.books.BookDAO;
-import com.lmsu.books.BookDTO;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -34,18 +35,18 @@ public class ShowAuthorServlet extends HttpServlet {
             } else {
                 AuthorDAO dao = new AuthorDAO();
                 BookDAO bookDAO = new BookDAO();
-                AuthorDTO authorDTO = new AuthorDTO();
+                AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();
 
-                bookDAO.viewBookList();
-                List<BookDTO> book_result = bookDAO.getBookList();
+                authorBookMapDAO.viewAuthorBookMapList();
+                List<AuthorBookMapDTO> authorBookMap_result = authorBookMapDAO.getAuthorBookMaps();
 
                 dao.viewAuthorList();
                 List<AuthorDTO> result = dao.getAuthorList();
                 LinkedHashMap<String, Integer> bookMap = new LinkedHashMap<>();
 
-                for (BookDTO bookDTO: book_result
+                for (AuthorBookMapDTO authorBookMapDTO: authorBookMap_result
                      ) {
-                    bookMap.put(bookDTO.getAuthorID(), bookDAO.countBookByAuthorID(bookDTO.getAuthorID()));
+                    bookMap.put(authorBookMapDTO.getAuthorDTO().getAuthorID(), bookDAO.countBookByAuthorID(authorBookMapDTO.getAuthorDTO().getAuthorID()));
                 }
                 request.setAttribute("AUTHOR_LIST", result);
                 request.setAttribute("COUNT_BOOK", bookMap);
