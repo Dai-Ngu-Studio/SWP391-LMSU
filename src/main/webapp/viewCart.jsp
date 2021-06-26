@@ -31,6 +31,7 @@
                 <c:set var="memberTotalActiveBorrows" value="${sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS.size()}"/>
             </c:if>
             <c:set var="cart" value="${sessionScope.MEMBER_CART}"/>
+            <%--When cart has items, it is not null--%>
             <c:if test="${not empty cart}">
                 <%--Map<String bookID, BookObj>--%>
                 <c:set var="books" value="${cart.items}"/>
@@ -38,7 +39,13 @@
                     <div class="row pt-5">
                         <div class="col-2"></div>
                         <div class="col-5">
-                            <h4>Your Cart<small class="text-muted"> (${cart.cartQuantity}/${10-memberTotalActiveBorrows})</small>
+                            <h4>Your Cart<small class="text-muted">
+                                <c:out value=" (${cart.cartQuantity}/${10-memberTotalActiveBorrows})"/>
+                                <c:set var="numberOfReserved" value="${cart.cartReserved}"/>
+                                <c:if test="${numberOfReserved > 0}">
+                                    <c:out value=" + ${numberOfReserved} reserved books"/>
+                                </c:if>
+                            </small>
                             </h4>
                         </div>
                         <div class="col-3"></div>
@@ -140,6 +147,7 @@
                     </div>
                 </c:if>
             </c:if>
+            <%--When cart has no items, it is null--%>
             <c:if test="${empty cart}">
                 <div class="row my-4">
                     <div class="col-4"></div>
