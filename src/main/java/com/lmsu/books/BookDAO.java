@@ -509,8 +509,8 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id], [title], [subjectID], [publisher], [publishDate], [description], " +
-                        "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] " +
+                String sql = "SELECT [id], [title], [subjectID], [publisher], [publishDate], [description], [price], " +
+                        "[quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] " +
                         "FROM [Books] " +
                         "WHERE [ISBN_thirteenDigits] = ?";
                 //3. Create Statement
@@ -548,7 +548,7 @@ public class BookDAO implements Serializable {
         return null;
     }
 
-    public List<BookDTO> getMostFavoriteBooksAndPopularAuthor() throws SQLException, NamingException {
+    public List<BookDTO> getMostFavoriteBooks() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -559,12 +559,14 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT TOP 4 Books.title, AuthorBookMaps.authorID AS authorID, Books.avgRating, " +
-                        "Books.coverPicturePath, Authors.id, Authors.[name], Authors.profilePicturePath " +
-                        "FROM Books, AuthorBookMaps " +
-                        "LEFT JOIN [Authors] ON AuthorBookMaps.authorID = Authors.id " +
-                        "WHERE Books.deleteStatus = 0 AND Authors.deleteStatus = 0 AND AuthorBookMaps.bookID = Books.id " +
-                        "ORDER BY [avgRating] desc";
+                String sql = "SELECT Books.id, Books.title, Books.avgRating, Books.coverPicturePath, " +
+                        "       STRING_AGG(Authors.name, ', ') AS authors " +
+                        "FROM AuthorBookMaps " +
+                        "         JOIN Books ON Books.id = AuthorBookMaps.bookID " +
+                        "         JOIN Authors ON Authors.id = AuthorBookMaps.authorID " +
+                        "WHERE Books.deleteStatus = 0 AND Authors.deleteStatus = 0 " +
+                        "GROUP BY Books.id, Books.title, Books.avgRating, Books.coverPicturePath " +
+                        "ORDER BY Books.avgRating desc";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 //4. Execute Query and get ResultSet
@@ -607,13 +609,15 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT TOP 4 Books.id  as bookID, Books.title, Books.coverPicturePath, " +
-                        "Authors.id, Authors.[name], Authors.[profilePicturePath], ImportLogs.id, ImportLogs.bookID, ImportLogs.dateTaken " +
-                        "FROM [Books] " +
-                        "LEFT JOIN ImportLogs ON ImportLogs.bookID = Books.id " +
-                        "LEFT JOIN Authors ON Authors.id = Books.id " +
+                String sql = "SELECT TOP 4 Books.id, Books.title, " +
+                        "       Authors.id, Authors.name, Authors.profilePicturePath, " +
+                        "       ImportLogs.dateTaken " +
+                        "FROM ImportLogs " +
+                        "         JOIN Books ON Books.id = ImportLogs.bookID\n" +
+                        "         JOIN AuthorBookMaps on AuthorBookMaps.bookID = ImportLogs.bookID " +
+                        "         JOIN Authors ON Authors.id = AuthorBookMaps.authorID " +
                         "WHERE Books.deleteStatus = 0 AND Authors.deleteStatus = 0 " +
-                        "ORDER BY [dateTaken] desc";
+                        "ORDER BY ImportLogs.dateTaken desc";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 //4. Execute Query and get ResultSet
@@ -645,7 +649,58 @@ public class BookDAO implements Serializable {
         return null;
     }
 
-    public int countBookByAuthorID(String authorID) throws SQLException, NamingException{
+    public List<BookDTO> getPopularAuthorsFromMostFavoriteBooks() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<BookDTO> list = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT TOP 4 Books.id, Books.title, Books.avgRating, " +
+                        "       Authors.id, Authors.name, Authors.profilePicturePath " +
+                        "FROM ImportLogs " +
+                        "         JOIN Books ON Books.id = ImportLogs.bookID\n" +
+                        "         JOIN AuthorBookMaps on AuthorBookMaps.bookID = ImportLogs.bookID " +
+                        "         JOIN Authors ON Authors.id = AuthorBookMaps.authorID " +
+                        "WHERE Books.deleteStatus = 0 AND Authors.deleteStatus = 0 " +
+                        "ORDER BY Books.avgRating desc";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                while (rs.next()) {
+                    String bookID = rs.getString("id");
+                    String bookTitle = rs.getString("title");
+                    float avgRating = rs.getFloat("avgRating");
+                    String bookCoverPath = rs.getString("coverPicturePath");
+                    String authorID = rs.getString("id");
+                    String authorName = rs.getString("name");
+                    String profilePicturePath = rs.getString("profilePicturePath");
+
+                    AuthorDTO authorDTO = new AuthorDTO(authorID, authorName, profilePicturePath);
+
+                    BookDTO dto = new BookDTO(bookID, bookTitle, avgRating, bookCoverPath, authorDTO);
+                    if (list == null) {
+                        list = new ArrayList<>();
+                    } //end if bookList not existed
+                    list.add(dto);
+                } //end while traversing result
+                return list;
+            } //end if connection existed
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return null;
+    }
+
+    public int countBookByAuthorID(String authorID) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
