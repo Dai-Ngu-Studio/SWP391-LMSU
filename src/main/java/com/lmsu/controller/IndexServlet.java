@@ -33,7 +33,7 @@ public class IndexServlet extends HttpServlet {
             BookDAO dao = new BookDAO();
 
             //get Popular Books
-            List<BookDTO> mostFavoriteBookList = dao.getMostFavoriteBooksAndPopularAuthor();
+            List<BookDTO> mostFavoriteBookList = dao.getMostFavoriteBooks();
             request.setAttribute("MOST_FAVORITE_BOOKS_LIST", mostFavoriteBookList);
 
             //get New Arrival Books
@@ -41,7 +41,8 @@ public class IndexServlet extends HttpServlet {
             request.setAttribute("NEW_ARRIVAL_BOOKS_LIST", newArrivalBookList);
 
             //get Popular Authors
-            request.setAttribute("POPULAR_AUTHORS_LIST", mostFavoriteBookList);
+            List<BookDTO> popularAuthorsList = dao.getPopularAuthorsFromMostFavoriteBooks();
+            request.setAttribute("POPULAR_AUTHORS_LIST", popularAuthorsList);
 
             url = INDEX_PAGE;
         } catch (SQLException ex) {
