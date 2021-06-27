@@ -89,7 +89,7 @@ public class UserDAO implements Serializable {
         try {
             con = DBHelpers.makeConnection();
             if (con != null) {
-                String sql = "INSERT INTO Users([id], [name], [semester_no], [password], [email], " +
+                String sql = "INSERT INTO Users([id], [name], [roleID], [semester_no], [password], [email], " +
                         "[phoneNumber], [profilePicturePath], [activeStatus]) " +
                         "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 stm = con.prepareStatement(sql);
@@ -460,4 +460,3 @@ public class UserDAO implements Serializable {
         return false;
     }
 }
-
