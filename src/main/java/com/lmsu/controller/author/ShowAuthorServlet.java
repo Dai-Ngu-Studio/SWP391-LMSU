@@ -13,6 +13,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -34,25 +35,14 @@ public class ShowAuthorServlet extends HttpServlet {
                 request.setAttribute("AUTHOR_LIST", searchResultReceived);
             } else {
                 AuthorDAO dao = new AuthorDAO();
-                BookDAO bookDAO = new BookDAO();
-                AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();
-
-                authorBookMapDAO.viewAuthorBookMapList();
-                List<AuthorBookMapDTO> authorBookMap_result = authorBookMapDAO.getAuthorBookMaps();
-
                 dao.viewAuthorList();
                 List<AuthorDTO> result = dao.getAuthorList();
-                LinkedHashMap<String, Integer> bookMap = new LinkedHashMap<>();
-
-                if (authorBookMap_result != null){
-                    for (AuthorBookMapDTO authorBookMapDTO: authorBookMap_result
-                    ) {
-                        bookMap.put(authorBookMapDTO.getAuthorDTO().getAuthorID(), bookDAO.countBookByAuthorID(authorBookMapDTO.getAuthorDTO().getAuthorID()));
-                    }
-                    request.setAttribute("COUNT_BOOK", bookMap);
-                }
                 request.setAttribute("AUTHOR_LIST", result);
             }
+            AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();
+            ArrayList<String> listOfCannotDeleteAuthor = authorBookMapDAO.getCannotDeleteAuthors();
+            request.setAttribute("DO_NOT_DELETE_AUTHOR_LIST", listOfCannotDeleteAuthor);
+            System.out.println(listOfCannotDeleteAuthor);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             log("ShowBookServlet _ SQL: " + e.getMessage());
