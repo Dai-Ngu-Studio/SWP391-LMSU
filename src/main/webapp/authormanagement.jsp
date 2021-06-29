@@ -167,7 +167,8 @@
                                                         <td style="text-align: left">
                                                                 ${author.authorName}
                                                         </td>
-                                                        <c:set var="bookMap" value="${requestScope.COUNT_BOOK}"/>
+                                                        <c:set var="listOfCannotDeleteAuthor"
+                                                               value="${requestScope.DO_NOT_DELETE_AUTHOR_LIST}"/>
                                                         <input type="hidden" value="${author.authorID}"
                                                                name="pk">
                                                         <input type="hidden" value="${author.authorID}"
@@ -315,11 +316,11 @@
                                                                                     <span aria-hidden="true">&times;</span>
                                                                                 </button>
                                                                             </div>
-                                                                            <c:if test="${bookMap!=null}">
-
+                                                                            <c:if test="${listOfCannotDeleteAuthor!=null}">
 
                                                                                 <c:choose>
-                                                                                    <c:when test="${bookMap.get(author.authorID) > 0}">
+                                                                                    <c:when test="${listOfCannotDeleteAuthor
+                                                                                    .contains(author.authorID)==true}">
                                                                                         <div class="modal-body">
                                                                                             <div class="row">
                                                                                                 <div class="col-12 text-center">
@@ -340,7 +341,8 @@
                                                                                             </button>
                                                                                         </div>
                                                                                     </c:when>
-                                                                                    <c:when test="${bookMap.get(author.authorID) eq null}">
+                                                                                    <c:when test="${listOfCannotDeleteAuthor
+                                                                                    .contains(author.authorID) == false}">
                                                                                         <div class="modal-body">
                                                                                             Do you want to delete this
                                                                                             author?
