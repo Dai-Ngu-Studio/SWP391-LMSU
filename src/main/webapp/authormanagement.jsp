@@ -315,42 +315,53 @@
                                                                                     <span aria-hidden="true">&times;</span>
                                                                                 </button>
                                                                             </div>
-                                                                            <c:choose>
-                                                                                <c:when test="${bookMap.get(author.authorID) > 0}">
-                                                                                    <div class="modal-body">
-                                                                                        You haven't deleted all the
-                                                                                        books from
-                                                                                        this author
-                                                                                    </div>
-                                                                                    <div class="modal-footer">
-                                                                                        <button type="button"
-                                                                                                class="btn btn-outline-primary"
-                                                                                                data-dismiss="modal">
-                                                                                            Close
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </c:when>
-                                                                                <c:when test="${bookMap.get(author.authorID) eq null}">
-                                                                                    <div class="modal-body">
-                                                                                        Do you want to delete this
-                                                                                        author?
-                                                                                    </div>
-                                                                                    <div class="modal-footer">
-                                                                                        <button type="submit"
-                                                                                                name="btAction"
-                                                                                                value="Delete Author"
-                                                                                                class="btn btn-primary"
-                                                                                        >
-                                                                                            Save
-                                                                                        </button>
-                                                                                        <button type="button"
-                                                                                                class="btn btn-outline-primary"
-                                                                                                data-dismiss="modal">
-                                                                                            Close
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </c:when>
-                                                                            </c:choose>
+                                                                            <c:if test="${bookMap!=null}">
+
+
+                                                                                <c:choose>
+                                                                                    <c:when test="${bookMap.get(author.authorID) > 0}">
+                                                                                        <div class="modal-body">
+                                                                                            <div class="row">
+                                                                                                <div class="col-12 text-center">
+                                                                                                    You haven't deleted
+                                                                                                    all
+                                                                                                    the
+                                                                                                    books from
+                                                                                                    this author
+                                                                                                </div>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="button"
+                                                                                                    class="btn btn-outline-primary"
+                                                                                                    data-dismiss="modal">
+                                                                                                Close
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </c:when>
+                                                                                    <c:when test="${bookMap.get(author.authorID) eq null}">
+                                                                                        <div class="modal-body">
+                                                                                            Do you want to delete this
+                                                                                            author?
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="submit"
+                                                                                                    name="btAction"
+                                                                                                    value="Delete Author"
+                                                                                                    class="btn btn-primary"
+                                                                                            >
+                                                                                                Save
+                                                                                            </button>
+                                                                                            <button type="button"
+                                                                                                    class="btn btn-outline-primary"
+                                                                                                    data-dismiss="modal">
+                                                                                                Close
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </c:when>
+                                                                                </c:choose>
+                                                                            </c:if>
                                                                         </div>
                                                                     </div>
                                                                 </div>
