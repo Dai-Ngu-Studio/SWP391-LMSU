@@ -1,5 +1,6 @@
 package com.lmsu.controller.author;
 
+import com.lmsu.authorbookmaps.AuthorBookMapDAO;
 import com.lmsu.authors.AuthorDAO;
 import com.lmsu.books.BookDAO;
 import com.lmsu.controller.DeleteBookServlet;
@@ -26,9 +27,12 @@ public class DeleteAuthorServlet extends HttpServlet {
 
         String id = request.getParameter("pk");
         String searchVal = request.getParameter("txtSearchValue");
+
         try{
             AuthorDAO dao = new AuthorDAO();
             boolean result = dao.deleteAuthor(id);
+            AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();
+            authorBookMapDAO.deleteByAuthorID(id);
             if (result){
                 if (searchVal==null || searchVal.trim().isEmpty()){
                     url=SHOW_AUTHOR_CONTROLLER;
