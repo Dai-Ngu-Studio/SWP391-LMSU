@@ -348,4 +348,29 @@ public class OrderItemDAO implements Serializable {
         }
         return false;
     }
+
+    public boolean updateOrderItemReturnOrderID(int id, int returnOrderID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE [OrderItems] " +
+                        "SET [returnOrderID] = ? " +
+                        "WHERE [id] = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, returnOrderID);
+                stm.setInt(2, id);
+                int row = stm.executeUpdate();
+                if (row >0 ) {
+                    return true;
+                }
+            }
+        } finally {
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
 }
