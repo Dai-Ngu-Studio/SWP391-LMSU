@@ -559,7 +559,7 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT Books.id, Books.title, Books.avgRating, Books.coverPicturePath, " +
+                String sql = "SELECT TOP 4 Books.id, Books.title, Books.avgRating, Books.coverPicturePath, " +
                         "       STRING_AGG(Authors.name, ', ') AS authors " +
                         "FROM AuthorBookMaps " +
                         "         JOIN Books ON Books.id = AuthorBookMaps.bookID " +
@@ -577,10 +577,9 @@ public class BookDAO implements Serializable {
                     String bookTitle = rs.getString("title");
                     float avgRating = rs.getFloat("avgRating");
                     String bookCoverPath = rs.getString("coverPicturePath");
-                    String authorID = rs.getString("id");
                     String authorName = rs.getString("authors");
 
-                    AuthorDTO authorDTO = new AuthorDTO(authorID, authorName);
+                    AuthorDTO authorDTO = new AuthorDTO(authorName);
 
                     BookDTO dto = new BookDTO(bookID, bookTitle, avgRating, bookCoverPath, authorDTO);
                     if (list == null) {
@@ -608,28 +607,27 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT TOP 4 Books.id AS bookID, Books.title, Books.coverPicturePath,\n" +
-                        "             Authors.id, Authors.name,\n" +
-                        "             ImportLogs.dateTaken\n" +
+                String sql = "SELECT TOP 4 Books.id, Books.title, Books.coverPicturePath,\n" +
+                        "             STRING_AGG(Authors.name, ', ') AS authors\n" +
                         "FROM ImportLogs\n" +
                         "         JOIN Books ON Books.id = ImportLogs.bookID\n" +
                         "         JOIN AuthorBookMaps on AuthorBookMaps.bookID = ImportLogs.bookID\n" +
                         "         JOIN Authors ON Authors.id = AuthorBookMaps.authorID\n" +
                         "WHERE Books.deleteStatus = 0 AND Authors.deleteStatus = 0\n" +
-                        "ORDER BY ImportLogs.dateTaken desc";
+                        "GROUP BY Books.id, Books.title, Books.avgRating, Books.coverPicturePath, ImportLogs.dateTaken\n" +
+                        "ORDER BY ImportLogs.dateTaken asc\n";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 //4. Execute Query and get ResultSet
                 rs = stm.executeQuery();
                 //5. Process ResultSet
                 while (rs.next()) {
-                    String bookID = rs.getString("bookID");
+                    String bookID = rs.getString("id");
                     String bookTitle = rs.getString("title");
                     String bookCoverPath = rs.getString("coverPicturePath");
-                    String authorID = rs.getString("id");
-                    String authorName = rs.getString("name");
+                    String authorName = rs.getString("authors");
 
-                    AuthorDTO authorDTO = new AuthorDTO(authorID, authorName);
+                    AuthorDTO authorDTO = new AuthorDTO(authorName);
 
                     BookDTO dto = new BookDTO(bookID, bookTitle, bookCoverPath, authorDTO);
                     if (list == null) {
