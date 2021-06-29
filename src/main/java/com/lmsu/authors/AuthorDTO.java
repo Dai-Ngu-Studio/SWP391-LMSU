@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-
 public @Data
 class AuthorDTO implements Serializable {
     private String authorID;
@@ -31,5 +30,9 @@ class AuthorDTO implements Serializable {
         this.authorID = authorID;
         this.authorName = authorName;
         this.coverPath = coverPath;
+    }
+
+    public AuthorDTO(String authorName) {
+        this.authorName = authorName;
     }
 }
