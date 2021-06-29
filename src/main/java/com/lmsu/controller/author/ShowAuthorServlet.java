@@ -44,12 +44,14 @@ public class ShowAuthorServlet extends HttpServlet {
                 List<AuthorDTO> result = dao.getAuthorList();
                 LinkedHashMap<String, Integer> bookMap = new LinkedHashMap<>();
 
-                for (AuthorBookMapDTO authorBookMapDTO: authorBookMap_result
-                     ) {
-                    bookMap.put(authorBookMapDTO.getAuthorDTO().getAuthorID(), bookDAO.countBookByAuthorID(authorBookMapDTO.getAuthorDTO().getAuthorID()));
+                if (authorBookMap_result != null){
+                    for (AuthorBookMapDTO authorBookMapDTO: authorBookMap_result
+                    ) {
+                        bookMap.put(authorBookMapDTO.getAuthorDTO().getAuthorID(), bookDAO.countBookByAuthorID(authorBookMapDTO.getAuthorDTO().getAuthorID()));
+                    }
+                    request.setAttribute("COUNT_BOOK", bookMap);
                 }
                 request.setAttribute("AUTHOR_LIST", result);
-                request.setAttribute("COUNT_BOOK", bookMap);
             }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
