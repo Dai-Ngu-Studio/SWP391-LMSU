@@ -182,11 +182,11 @@
                                 <%--Book existed in cart--%>
                                 <c:when test="${(not empty session) and (not empty user) and (existedInCart)}">
                                     <div class="row">
-                                        <div class="col-12 text-center">
+                                        <div class="col-12 text-center my-2">
                                             This book is already in your cart.
                                         </div>
                                     </div>
-                                    <form action="RemoveFromCartServlet" class="my-1 mx-0">
+                                    <form action="RemoveFromCartServlet" class="my-1">
                                         <div class="row">
                                             <div class="col-2"></div>
                                             <div class="col-8 text-center">
@@ -214,7 +214,7 @@
                                             <%--Book is in user's active borrowing list--%>
                                             <c:if test="${bookBorrowStatus eq 0}">
                                                 <div class="row">
-                                                    <div class="col-12 text-center">
+                                                    <div class="col-12 text-center my-2">
                                                         You are currently borrowing this book.
                                                     </div>
                                                 </div>
@@ -225,7 +225,7 @@
                                                 or (cart.cartQuantity + memberTotalActiveBorrows ge 10)
                                                 or (memberTotalActiveBorrows ge 10)}">
                                                     <div class="row">
-                                                        <div class="col-12 text-center">
+                                                        <div class="col-12 text-center my-1">
                                                             You have already reached the borrowing limit.
                                                         </div>
                                                     </div>
@@ -236,29 +236,31 @@
                                                     <%--Reserved book is now available in stock--%>
                                                     <c:if test="${bookBorrowStatus eq 1}">
                                                         <div class="row">
-                                                            <div class="col-12 text-center">
+                                                            <div class="col-12 text-center my-2">
                                                                 You are currently reserving this book.
                                                             </div>
                                                         </div>
                                                     </c:if>
                                                     <%--Add to Cart Button--%>
-                                                    <form action="AddBookToCartServlet" class="my-0">
-                                                        <div class="row">
-                                                            <div class="col-2"></div>
-                                                            <div class="col-8 text-center">
-                                                                <input type="hidden" name="bookPk"
-                                                                       value="${bookObj.id}">
-                                                                <button type="submit"
-                                                                        class="btn btn-primary btn-block"
-                                                                        name="btAction" value="AddToCart">
-                                                                    <i class="fa fa-cart-plus"
-                                                                       aria-hidden="true"></i>
-                                                                    Add to Cart
-                                                                </button>
+                                                    <c:if test="${bookBorrowStatus ne 0}">
+                                                        <form action="AddBookToCartServlet" class="my-1">
+                                                            <div class="row">
+                                                                <div class="col-2"></div>
+                                                                <div class="col-8 text-center">
+                                                                    <input type="hidden" name="bookPk"
+                                                                           value="${bookObj.id}">
+                                                                    <button type="submit"
+                                                                            class="btn btn-primary btn-block"
+                                                                            name="btAction" value="AddToCart">
+                                                                        <i class="fa fa-cart-plus"
+                                                                           aria-hidden="true"></i>
+                                                                        Add to Cart
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-2"></div>
                                                             </div>
-                                                            <div class="col-2"></div>
-                                                        </div>
-                                                    </form>
+                                                        </form>
+                                                    </c:if>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:if>
@@ -269,7 +271,7 @@
                                                 <c:when test="${(bookBorrowStatus eq 1)
                                                         or (bookBorrowStatus eq 0)}">
                                                     <div class="row">
-                                                        <div class="col-12 text-center">
+                                                        <div class="col-12 text-center my-2">
                                                             You are currently borrowing or reserving this book.
                                                         </div>
                                                     </div>
@@ -277,7 +279,7 @@
                                                 <%--Allow to reserve--%>
                                                 <c:otherwise>
                                                     <div class="row">
-                                                        <div class="col-12 text-center">
+                                                        <div class="col-12 text-center my-2">
                                                             This book is currently out of stock.
                                                             <br/>
                                                             Add it to your cart to get notified when it becomes
