@@ -88,11 +88,10 @@ public class AddBookServlet extends HttpServlet {
 //                            add(request, title, authorID, subjectID, publisher, publishDate,
 //                                    description, price, quantity, isbnTen, isbnThirteen, false);
                             boolean readResult = true;
-                            System.out.println();
-                            if (nextRecord.length < 11) {
+                            if (nextRecord.length < 10) {
                                 invalidIndexRows.add(indexRow);
                                 readResult = false;
-                            } else for (int i = 0; i <= 10; i++) {
+                            } else for (int i = 0; i <= 9; i++) {
                                 if (nextRecord[i].trim().isEmpty()) {
                                     invalidIndexRows.add(indexRow);
                                     readResult = false;
@@ -102,7 +101,7 @@ public class AddBookServlet extends HttpServlet {
 
                             if (readResult) {
                                 add(request, nextRecord[0], nextRecord[1], nextRecord[2], nextRecord[3], nextRecord[4],
-                                        nextRecord[5], nextRecord[6], nextRecord[7], nextRecord[8], nextRecord[9], nextRecord[10], userDTO.getId(), false);
+                                        nextRecord[5], nextRecord[6], nextRecord[7], nextRecord[8], nextRecord[9], userDTO.getId(), false);
                             }
                         }
                         if (invalidIndexRows.isEmpty() == false) {
@@ -113,7 +112,6 @@ public class AddBookServlet extends HttpServlet {
                 }
             } else {
                 title = request.getParameter("txtTitle");
-                authorID = request.getParameter("txtAuthorID");
                 subjectID = request.getParameter("txtSubjectID");
                 publisher = request.getParameter("txtPublisher");
                 publishDate = request.getParameter("txtPublishDate");
@@ -129,7 +127,7 @@ public class AddBookServlet extends HttpServlet {
                     result = bookDAO.updateQuantity(bookAddingExisted.getBookID(),
                             Integer.parseInt(quantity) + bookAddingExisted.getQuantity());
                 } else {
-                    result = add(request, title, authorID, subjectID, publisher, publishDate,
+                    result = add(request, title, subjectID, publisher, publishDate,
                             description, price, quantity, isbnTen, isbnThirteen, supplier, userDTO.getId(), true);
                 }
             }
@@ -156,7 +154,6 @@ public class AddBookServlet extends HttpServlet {
 
     protected boolean add(HttpServletRequest request,
                           String title,
-                          String authorID,
                           String subjectID,
                           String publisher,
                           String publishDate,
