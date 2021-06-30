@@ -135,4 +135,60 @@ public class AuthorBookMapDAO implements Serializable {
             if (con != null) con.close();
         }
     }
+    public ArrayList<String> getCannotDeleteAuthors() throws SQLException, NamingException{
+        ArrayList<String> listOfCannotDeleteAuthors = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT DISTINCT [o].[authorID] as [doNotDeleteAuthor]" +
+                        "FROM [AuthorBookMaps] as [o]" +
+                        "RIGHT JOIN (" +
+                        "SELECT [bookID] " +
+                        "FROM AuthorBookMaps " +
+                        "GROUP BY [bookID] " +
+                        "HAVING COUNT(*) = 1) as [c] " +
+                        "ON [o].[bookID] = [c].[bookID]";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                while (rs.next()) {
+                    listOfCannotDeleteAuthors.add(rs.getString("doNotDeleteAuthor"));
+                } //end while traversing result set
+            } //end if connection existed
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return listOfCannotDeleteAuthors;
+    }
+    public void deleteByAuthorID(String authorID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "DELETE FROM [AuthorBookMaps] " +
+                        "WHERE [authorID] = ?";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, authorID);
+                //4. Execute Query and get rows affected
+                stm.executeUpdate();
+            }
+        } finally {
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
 }

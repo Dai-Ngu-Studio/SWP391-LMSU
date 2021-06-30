@@ -14,7 +14,7 @@ import java.util.List;
 
 @WebServlet(name = "SearchAuthorNameServlet", value = "/SearchAuthorNameServlet")
 public class SearchAuthorNameServlet extends HttpServlet {
-    private final String ERROR_PAGE = "authormanagement.jsp";
+    private final String ERROR_PAGE = "internalservererror.html";
     private final String RESULT_PAGE = "ShowAuthorServlet";
     static final Logger LOGGER = Logger.getLogger(SearchAuthorNameServlet.class);
 
