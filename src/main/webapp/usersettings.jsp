@@ -316,7 +316,8 @@
                                                                     ITEM_RECEIVED = 2
                                                                     ITEM_OVERDUE = 5 (might need check business policy)
                                                                     --%>
-                                                            <c:set var="renewalMap" value="${requestScope.RENEWAL_MAP_LIST}"/>
+                                                            <c:set var="renewalMap"
+                                                                   value="${requestScope.RENEWAL_MAP_LIST}"/>
                                                             <c:set var="keyset" value="${renewalMap.keySet()}"/>
                                                             <c:choose>
                                                                 <c:when test="${renewalMap.get(orderItem.id) <= 3}">
@@ -350,10 +351,14 @@
                                                                     ITEM_RECEIVED = 2
                                                                     ITEM_OVERDUE = 5
                                                                 --%>
+
                                                             <c:if test="${(orderItem.lendStatus eq 2)
                                                                 or (orderItem.lendStatus eq 5)}">
-                                                                <button type="submit" class="btn btn-light" title="Return"
-                                                                        name="btAction" value="Return Book">
+                                                                <button type="button" class="btn btn-light"
+                                                                        data-toggle="modal"
+                                                                        data-target="#returnModal${orderItem.id}"
+                                                                        title="Return"
+                                                                        data-original-title="Borrowing">
                                                                     <i class="fa fa-reply text-primary"
                                                                        aria-hidden="true"></i>
                                                                 </button>
@@ -361,6 +366,78 @@
                                                         </div>
                                                     </td>
                                                 </form>
+
+                                                <c:set var="session" value="${sessionScope}"/>
+                                                <c:if test="${not empty session}">
+                                                    <c:set var="returnCart"
+                                                           value="${sessionScope.RETURN_CART}"/>
+                                                    <c:set var="cart" value="${sessionScope.MEMBER_CART}"/>
+                                                    <c:set var="existedInReturnCart"
+                                                           value="${returnCart.isExistedInCart(orderItem.id)}"/>
+                                                    <c:set var="existedInCart"
+                                                           value="${cart.isExistedInCart(orderItem.bookID)}"/>
+                                                    <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
+                                                </c:if>
+                                                <div class="modal fade" id="returnModal${orderItem.id}"
+                                                     tabindex="-1"
+                                                     role="dialog"
+                                                     aria-labelledby="ariaReturnModal${orderItem.id}"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">
+                                                                    WARNING
+                                                                </h5>
+                                                                <button type="button"
+                                                                        class="close"
+                                                                        data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <c:choose>
+                                                                <c:when test="${(not empty session) and (not empty user) and (existedInReturnCart)}">
+                                                                    <div class="modal-body">
+                                                                        This book is already in your cart
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button"
+                                                                                class="btn btn-outline-primary"
+                                                                                data-dismiss="modal">
+                                                                            Close
+                                                                        </button>
+                                                                    </div>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <div class="modal-body">
+                                                                        Do you want to return this book?
+                                                                    </div>
+                                                                    <form action="AddBookToReturnCartServlet">
+                                                                        <input type="hidden" name="orderItemPk"
+                                                                               value="${orderItem.id}">
+                                                                        <input type="hidden" name="bookPk"
+                                                                               value="${orderItem.bookID}">
+                                                                        <div class="modal-footer">
+                                                                            <button type="submit"
+                                                                                    name="btAction"
+                                                                                    value="Return Book"
+                                                                                    class="btn btn-primary"
+                                                                            >
+                                                                                Yes
+                                                                            </button>
+                                                                            <button type="button"
+                                                                                    class="btn btn-outline-primary"
+                                                                                    data-dismiss="modal">
+                                                                                Cancel
+                                                                            </button>
+                                                                        </div>
+                                                                    </form>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                                 <div class="modal fade" id="renewModal" tabindex="-1"
                                                      role="dialog" aria-labelledby="ariaRenewModal" aria-hidden="true">
@@ -370,7 +447,8 @@
                                                                 <h5 class="modal-title" id="exampleModalLongTitle2">
                                                                     WARNING
                                                                 </h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
                                                             </div>
@@ -378,7 +456,9 @@
                                                                 This boos has reached the renewal limit
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Close
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -460,7 +540,6 @@
                              aria-labelledby="list-reserve-list">
                             <div class="row">
                                 <div class="col-sm-12">
-
                                     <table id="order-listing2" class="table dataTable no-footer" role="grid"
                                            aria-describedby="order-listing_info">
                                         <thead>
@@ -504,9 +583,17 @@
                                                         </c:if>
                                                     </td>
                                                 </form>
+
+                                                <c:set var="bookObj" value="${requestScope.BOOK_OBJECT}"/>
+                                                <c:if test="${not empty session}">
+                                                    <c:set var="cart" value="${sessionScope.MEMBER_CART}"/>
+                                                    <c:set var="existedInCart"
+                                                           value="${cart.isExistedInCart(reserveItem.bookID)}"/>
+                                                    <c:set var="memberTotalActiveBorrows"
+                                                           value="${sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS}"/>
+                                                </c:if>
                                                 <form action="DispatchServlet">
                                                     <input type="hidden" name="bookPk" value="${reserveItem.bookID}">
-                                                    <input type="hidden" name="orderItemPk" value="${reserveItem.id}">
                                                     <td class="text-center">
                                                         <div class="btn-group">
                                                             <button type="submit" class="btn btn-light"
@@ -524,66 +611,99 @@
                                                     </td>
                                                 </form>
 
-                                                <form action="DispatchServlet">
-                                                    <input type="hidden" name="orderItemPk" value="${reserveItem.id}">
-                                                    <input type="hidden" name="bookPk" value="${reserveItem.bookID}">
-                                                    <div class="modal fade"
-                                                         id="borrowModal${reserveItem.id}"
-                                                         tabindex="-1"
-                                                         role="dialog"
-                                                         aria-labelledby="ariaBorrowModal${reserveItem.id}"
-                                                         aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title"
-                                                                        id="exampleModalLongTitle3">
-                                                                        WARNING
-                                                                    </h5>
-                                                                    <button type="button"
-                                                                            class="close"
-                                                                            data-dismiss="modal"
-                                                                            aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <c:choose>
-                                                                    <c:when test="${orderItems.size() == 10}">
-                                                                        <div class="modal-body">
-                                                                            You have reached the borrowing limit
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button"
-                                                                                    class="btn btn-outline-primary"
-                                                                                    data-dismiss="modal">
-                                                                                Close
-                                                                            </button>
-                                                                        </div>
-                                                                    </c:when>
-                                                                    <c:when test="${orderItems.size() != 10}">
-                                                                        <div class="modal-body">
-                                                                            Do you want to borrow this book
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="submit"
-                                                                                    name="btAction"
-                                                                                    value="Borrow Book"
-                                                                                    class="btn btn-primary"
-                                                                            >
-                                                                                Yes
-                                                                            </button>
-                                                                            <button type="button"
-                                                                                    class="btn btn-outline-primary"
-                                                                                    data-dismiss="modal">
-                                                                                No
-                                                                            </button>
-                                                                        </div>
-                                                                    </c:when>
-                                                                </c:choose>
+                                                <c:set var="quantityMap" value="${requestScope.QUANTITY_MAP_LIST}"/>
+                                                <div class="modal fade"
+                                                     id="borrowModal${reserveItem.id}"
+                                                     tabindex="-1"
+                                                     role="dialog"
+                                                     aria-labelledby="ariaBorrowModal${reserveItem.id}"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="exampleModalLongTitle3">
+                                                                    WARNING
+                                                                </h5>
+                                                                <button type="button"
+                                                                        class="close"
+                                                                        data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
                                                             </div>
+                                                            <c:choose>
+                                                                <c:when test="${quantityMap.get(reserveItem.id) == 0}">
+                                                                    <div class="modal-body">
+                                                                        This book is currently out of stock
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button"
+                                                                                class="btn btn-outline-primary"
+                                                                                data-dismiss="modal">
+                                                                            Close
+                                                                        </button>
+                                                                    </div>
+                                                                </c:when>
+
+                                                                <c:when test="${(cart.cartQuantity ge 10)
+                                                                or (cart.cartQuantity + memberTotalActiveBorrows ge 10)
+                                                                or (memberTotalActiveBorrows ge 10)}">
+                                                                    <div class="modal-body">
+                                                                        You have reached the borrowing limit
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button"
+                                                                                class="btn btn-outline-primary"
+                                                                                data-dismiss="modal">
+                                                                            Close
+                                                                        </button>
+                                                                    </div>
+                                                                </c:when>
+
+                                                                <c:when test="${orderItems.size() != 10 and quantityMap.get(reserveItem.id) > 0}">
+                                                                    <c:choose>
+                                                                        <c:when test="${(not empty session) and (not empty user) and (existedInCart)}">
+                                                                            <div class="modal-body">
+                                                                                This book is already in your cart
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                        class="btn btn-outline-primary"
+                                                                                        data-dismiss="modal">
+                                                                                    Close
+                                                                                </button>
+                                                                            </div>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <form action="AddBookToCartServlet">
+                                                                                <input type="hidden" name="bookPk"
+                                                                                       value="${reserveItem.bookID}">
+                                                                                <div class="modal-body">
+                                                                                    Do you want to borrow this book
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="submit"
+                                                                                            name="btAction"
+                                                                                            value="Borrow Book"
+                                                                                            class="btn btn-primary"
+                                                                                    >
+                                                                                        Yes
+                                                                                    </button>
+                                                                                    <button type="button"
+                                                                                            class="btn btn-outline-primary"
+                                                                                            data-dismiss="modal">
+                                                                                        No
+                                                                                    </button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </c:when>
+                                                            </c:choose>
                                                         </div>
                                                     </div>
-                                                </form>
+                                                </div>
                                             </tr>
                                         </c:forEach>
                                         </tbody>

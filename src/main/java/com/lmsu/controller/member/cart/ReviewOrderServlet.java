@@ -2,6 +2,7 @@ package com.lmsu.controller.member.cart;
 
 import com.lmsu.bean.book.BookObj;
 import com.lmsu.bean.member.CartObj;
+import com.lmsu.bean.member.ReturnCartObj;
 import com.lmsu.users.UserDTO;
 import org.apache.log4j.Logger;
 
@@ -16,6 +17,7 @@ public class ReviewOrderServlet extends HttpServlet {
 
     static final Logger LOGGER = Logger.getLogger(ReviewOrderServlet.class);
     private final String REVIEW_ORDER_PAGE = "revieworder.jsp";
+    private final String REVIEW_RETURN_ORDER_PAGE = "reviewreturnorder.jsp";
     private final String CHECKOUT_PAGE = "orderform.jsp";
 
     private final String PARAM_BTACTION = "btAction";
@@ -32,8 +34,10 @@ public class ReviewOrderServlet extends HttpServlet {
 
     private final String BTACTION_DIRECT = "DirectOrder";
     private final String BTACTION_DELIVERY = "DeliveryOrder";
+    private final String BTACTION_RETURN = "ReturnOrder";
 
     private final String ATTR_MEMBER_CART = "MEMBER_CART";
+    private final String ATTR_RETURN_CART = "RETURN_CART";
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
     private final String ATTR_CHECKOUT_METHOD = "CHECKOUT_METHOD";
 
@@ -59,21 +63,18 @@ public class ReviewOrderServlet extends HttpServlet {
             HttpSession session = request.getSession(false);
             if (session != null) {
                 // 2. Check if cart existed
+                boolean returnBook = false;
+                Object tmp = session.getAttribute("RETURN_BOOK");
+                if (tmp != null){
+                    returnBook = (boolean) tmp;
+                }
                 CartObj cartObj = (CartObj) session.getAttribute(ATTR_MEMBER_CART);
-                if (cartObj != null) {
-                    // 3. Check if items existed
-                    if (cartObj.getItems() != null) {
-                        Map<String, BookObj> cartItems = cartObj.getItems();
-                        UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
-                        if (userDTO != null) {
-                            if (btMethod.equals(BTACTION_DIRECT)) {
-                                String txtPickupDate = request.getParameter(PARAM_PICKUPDATE);
-                                String txtPickupTime = request.getParameter(PARAM_PICKUPTIME);
-                                session.setAttribute(ATTR_CHECKOUT_PICKUPDATE, txtPickupDate);
-                                session.setAttribute(ATTR_CHECKOUT_PICKUPTIME, txtPickupTime);
-                                session.setAttribute(ATTR_CHECKOUT_METHOD, false);
-                                url = REVIEW_ORDER_PAGE;
-                            } else if (btMethod.equals(BTACTION_DELIVERY)) {
+                ReturnCartObj returnObj = (ReturnCartObj) session.getAttribute(ATTR_RETURN_CART);
+                if (returnBook){
+                    if (returnObj != null){
+                        // 3.1 Check if items existed
+                        if(returnObj.getReturnItems() != null){
+                            if (btMethod.equals(BTACTION_RETURN)){
                                 String receiverName = request.getParameter(PARAM_RECEIVERNAME);
                                 String phoneNumber = request.getParameter(PARAM_PHONENUMBER);
                                 String deliveryAddressOne = request.getParameter(PARAM_ADDRESSONE);
@@ -89,7 +90,43 @@ public class ReviewOrderServlet extends HttpServlet {
                                 session.setAttribute(ATTR_CHECKOUT_DISTRICT, district);
                                 session.setAttribute(ATTR_CHECKOUT_WARD, ward);
                                 session.setAttribute(ATTR_CHECKOUT_METHOD, true);
-                                url = REVIEW_ORDER_PAGE;
+                                url = REVIEW_RETURN_ORDER_PAGE;
+                                session.removeAttribute("RETURN_BOOK");
+                            }
+                        }
+                    }
+                } else {
+                    if (cartObj != null) {
+                        // 3.2 Check if items existed
+                        if (cartObj.getItems() != null) {
+                            //Map<String, BookObj> cartItems = cartObj.getItems();
+                            UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
+                            if (userDTO != null) {
+                                if (btMethod.equals(BTACTION_DIRECT)) {
+                                    String txtPickupDate = request.getParameter(PARAM_PICKUPDATE);
+                                    String txtPickupTime = request.getParameter(PARAM_PICKUPTIME);
+                                    session.setAttribute(ATTR_CHECKOUT_PICKUPDATE, txtPickupDate);
+                                    session.setAttribute(ATTR_CHECKOUT_PICKUPTIME, txtPickupTime);
+                                    session.setAttribute(ATTR_CHECKOUT_METHOD, false);
+                                    url = REVIEW_ORDER_PAGE;
+                                } else if (btMethod.equals(BTACTION_DELIVERY)) {
+                                    String receiverName = request.getParameter(PARAM_RECEIVERNAME);
+                                    String phoneNumber = request.getParameter(PARAM_PHONENUMBER);
+                                    String deliveryAddressOne = request.getParameter(PARAM_ADDRESSONE);
+                                    String deliveryAddressTwo = request.getParameter(PARAM_ADDRESSTWO);
+                                    String city = request.getParameter(PARAM_CITY);
+                                    String district = request.getParameter(PARAM_DISTRICT);
+                                    String ward = request.getParameter(PARAM_WARD);
+                                    session.setAttribute(ATTR_CHECKOUT_RECEIVERNAME, receiverName);
+                                    session.setAttribute(ATTR_CHECKOUT_PHONENUMBER, phoneNumber);
+                                    session.setAttribute(ATTR_CHECKOUT_ADDRESSONE, deliveryAddressOne);
+                                    session.setAttribute(ATTR_CHECKOUT_ADDRESSTWO, deliveryAddressTwo);
+                                    session.setAttribute(ATTR_CHECKOUT_CITY, city);
+                                    session.setAttribute(ATTR_CHECKOUT_DISTRICT, district);
+                                    session.setAttribute(ATTR_CHECKOUT_WARD, ward);
+                                    session.setAttribute(ATTR_CHECKOUT_METHOD, true);
+                                    url = REVIEW_ORDER_PAGE;
+                                }
                             }
                         }
                     }

@@ -349,19 +349,19 @@ public class OrderItemDAO implements Serializable {
         return false;
     }
 
-    public boolean updateOrderItemReturnOrderID(int id, int returnOrderID) throws SQLException, NamingException {
-        Connection con = null;
+    public boolean updateOrderItemReturnOrderIDAndStatus(int id, int returnOrderID, int lendStatus) throws SQLException, NamingException {
         PreparedStatement stm = null;
 
         try {
-            con = DBHelpers.makeConnection();
-            if (con != null) {
+            if(conn != null){
                 String sql = "UPDATE [OrderItems] " +
-                        "SET [returnOrderID] = ? " +
+                        "SET [returnOrderID] = ?, " +
+                        "[lendStatus] = ? " +
                         "WHERE [id] = ? ";
-                stm = con.prepareStatement(sql);
+                stm = conn.prepareStatement(sql);
                 stm.setInt(1, returnOrderID);
-                stm.setInt(2, id);
+                stm.setInt(2, lendStatus);
+                stm.setInt(3, id);
                 int row = stm.executeUpdate();
                 if (row >0 ) {
                     return true;
@@ -369,7 +369,6 @@ public class OrderItemDAO implements Serializable {
             }
         } finally {
             if (stm != null) stm.close();
-            if (con != null) con.close();
         }
         return false;
     }
