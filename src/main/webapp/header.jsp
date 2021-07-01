@@ -214,15 +214,6 @@
                     <i class="ti-shopping-cart"></i>
                 </a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link count-indicator dropdown-toggle d-flex" href="ShowReturnCartServlet">
-
-                    <p class="mb-0 px-2">View Return Cart
-
-                    </p>
-                    <i class="ti-shopping-cart"></i>
-                </a>
-            </li>
             <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
             <c:if test="${not empty user}">
                 <li class="nav-item nav-profile dropdown">
