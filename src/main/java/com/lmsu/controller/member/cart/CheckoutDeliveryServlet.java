@@ -8,6 +8,7 @@ import com.lmsu.orderdata.deliveryorders.DeliveryOrderDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.orderdata.orders.OrderDAO;
+import com.lmsu.orderdata.orders.OrderDTO;
 import com.lmsu.users.UserDTO;
 import com.lmsu.utils.DBHelpers;
 import com.lmsu.utils.DateHelpers;
@@ -112,7 +113,6 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                     for (String bookID : cartItems.keySet()) {
                                         OrderItemDTO orderItemDTO = new OrderItemDTO();
                                         orderItemDTO.setOrderID(orderID);
-                                        orderItemDTO.setMemberID(userDTO.getId());
                                         orderItemDTO.setBookID(bookID);
                                         //do lát present nên tui sửa tạm orderItemDTO.setLendStatus(0) thành
                                         //orderItemDTO.setLendStatus(ITEM_RECEIVED) (T. Phuc)
@@ -152,23 +152,27 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                                     bookDAO.updateQuantity(bookID, bookDTO.getQuantity() - 1);
                                                 }
                                                 orderItemDAO.clearOrderItemList();
-                                                orderItemDAO.getMemberItemsFromBookID(
-                                                        bookID,
-                                                        userDTO.getId(),
+                                                // Get reserved items of this book (any user)
+                                                orderItemDAO.getItemsFromBookID(bookID,
                                                         new ArrayList<Integer>(Arrays.asList(ITEM_RESERVED)));
-                                                List<OrderItemDTO> itemsOfCurrentBookByMember =
-                                                        orderItemDAO.getOrderItemList();
-                                                if (itemsOfCurrentBookByMember != null) {
-                                                    for (OrderItemDTO currentItem : itemsOfCurrentBookByMember) {
-                                                        if (currentItem.getOrderID() != orderID) {
-                                                            if (currentItem.getLendStatus() == ITEM_RESERVED) {
-                                                                orderItemDAO.updateOrderItemStatus(
-                                                                        currentItem.getId(),
-                                                                        ITEM_RESERVED_INACTIVE
-                                                                );
+                                                List<OrderItemDTO> reservedItems = orderItemDAO.getOrderItemList();
+                                                if (reservedItems != null) {
+                                                    for (OrderItemDTO reservedItem : reservedItems) {
+                                                        // Avoid current Order ID
+                                                        if (reservedItem.getOrderID() != orderID) {
+                                                            // Get Order from Order ID
+                                                            OrderDTO orderOfItem =
+                                                                    orderDAO.getOrderFromID(reservedItem.getOrderID());
+                                                            if (orderOfItem != null) {
+                                                                // Check Member ID from Order
+                                                                if (orderOfItem.getMemberID().equals(userDTO.getId())) {
+                                                                    orderItemDAO.updateOrderItemStatus(
+                                                                            reservedItem.getId(),
+                                                                            ITEM_RESERVED_INACTIVE);
+                                                                }
                                                             }
                                                         }
-                                                    }
+                                                    } // end traverse reserved items
                                                 }
                                             }
                                             request.setAttribute(ATTR_CHECKOUT_SUCCESS, true);
