@@ -36,6 +36,12 @@ public class OrderDAO implements Serializable {
         this.conn = conn;
     }
 
+    public void clearOrderList() {
+        if (this.orderList != null) {
+            this.orderList.clear();
+        }
+    }
+
     public int addOrder(String memberID, boolean lendMethod, int activeStatus)
             throws SQLException, NamingException {
         PreparedStatement stm = null;
@@ -109,5 +115,99 @@ public class OrderDAO implements Serializable {
             if (stm != null) stm.close();
             if (con != null) con.close();
         }
+    }
+
+    /**
+     * @param lendMethod     0 to get direct orders;
+     *                       1 to get delivery orders;
+     *                       any other integers to get both type of orders;
+     * @param activeStatuses a list of integers representing the order statuses; set null if not interested in
+     *                       querying specific statuses;
+     * @throws SQLException
+     * @throws NamingException
+     */
+    public void getOrdersFromMember(int lendMethod, List<Integer> activeStatuses) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [id], [memberID], [orderDate], [lendMethod], [activeStatus] " +
+                        "FROM [Orders] ";
+                switch (lendMethod) {
+                    case 0:
+                        sql += "WHERE [lendMethod] = 0 ";
+                        break;
+                    case 1:
+                        sql += "WHERE [lendMethod] = 1 ";
+                        break;
+                    default:
+                        sql += "WHERE 1 = 1 ";
+                        break;
+                }
+                if (activeStatuses != null) {
+                    sql += " AND ( ";
+                    ListIterator<Integer> statusItr = activeStatuses.listIterator();
+                    while (statusItr.hasNext()) {
+                        if (statusItr.hasPrevious()) {
+                            sql += " OR ";
+                        }
+                        sql += " [activeStatus] = " + statusItr.next() + " ";
+                    }
+                    sql += " ) ";
+                }
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    if (this.orderList == null) {
+                        this.orderList = new ArrayList<>();
+                    }
+                    OrderDTO dto = new OrderDTO();
+                    dto.setId(rs.getInt("id"));
+                    dto.setMemberID(rs.getString("memberID"));
+                    dto.setOrderDate(rs.getDate("orderDate"));
+                    dto.setLendMethod(rs.getBoolean("lendMethod"));
+                    dto.setActiveStatus(rs.getInt("activeStatus"));
+                    this.orderList.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
+
+    public OrderDTO getOrderFromID(int orderID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [id], [memberID], [orderDate], [lendMethod], [activeStatus] " +
+                        "FROM [Orders] " +
+                        "WHERE [id] = ? ";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    OrderDTO order = new OrderDTO();
+                    order.setId(rs.getInt("id"));
+                    order.setMemberID(rs.getString("memberID"));
+                    order.setOrderDate(rs.getDate("orderDate"));
+                    order.setLendMethod(rs.getBoolean("lendMethod"));
+                    order.setActiveStatus(rs.getInt("activeStatus"));
+                    return order;
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return null;
     }
 }
