@@ -102,11 +102,9 @@ public class ShowProfileServlet extends HttpServlet {
                     List<OrderItemDTO> reserveItemList = orderItemDAO.getOrderItemList();
                     List<OrderItemObj> reserveItemObjList = new ArrayList<>();
 
-                    BookDAO book_DAO = new BookDAO();
-
                     if (reserveItemList != null) {
                         for (OrderItemDTO orderitemDTO : reserveItemList) {
-                            BookDTO bookDTO = book_DAO.getBookById(orderitemDTO.getBookID());
+                            BookDTO bookDTO = bookDAO.getBookById(orderitemDTO.getBookID());
 
                             if (bookDTO.getQuantity() > 0) {
                                 OrderItemObj orderitemObj = new OrderItemObj();
@@ -135,6 +133,12 @@ public class ShowProfileServlet extends HttpServlet {
                             }
                         }
                         request.setAttribute(ATTR_MEMBER_RESERVE_ITEMS, reserveItemObjList);
+                        LinkedHashMap<Integer, Integer> quantityMap = new LinkedHashMap<>();
+                        for (OrderItemDTO orderItemDTO: reserveItemList
+                             ) {
+                            quantityMap.put(orderItemDTO.getId(), bookDAO.getQuantityByBookID(orderItemDTO.getBookID()));
+                        }
+                        request.setAttribute("QUANTITY_MAP_LIST", quantityMap);
                     }
                 }
             }
