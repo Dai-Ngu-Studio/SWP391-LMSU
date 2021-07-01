@@ -51,19 +51,24 @@ public class AddBookToCartServlet extends HttpServlet {
     private final int ITEM_REJECTED = 8;
     private final int ITEM_LOST = 9;
     private final int ITEM_RESERVED = 10;
-    private final int ITEM_AVAILABLE = 11;
+    private final int ITEM_RESERVED_INACTIVE = 11;
+
+    private final String PREVIOUS_ACTION_USER_SETTINGS_ADD_TO_CART = "user_settings:add_to_cart";
+    private final String PREVIOUS_ACTION_BOOK_DETAILS_ADD_TO_CART = "book_details:add_to_cart";
+
+    private final String PARAM_MEMBER_PREVIOUS_ACTION = "memberPreviousAction";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String url = VIEW_BOOK_DETAILS_CONTROLLER;
         String bookID = request.getParameter(PARAM_BOOKID);
+        String memberPreviousAction = request.getParameter(PARAM_MEMBER_PREVIOUS_ACTION);
 
         try {
             // 1. Check if session existed (default create one if not exist)
             HttpSession session = request.getSession();
             // 2. Check if session has cart
-            UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
             CartObj cartObj = (CartObj) session.getAttribute(ATTR_MEMBER_CART);
             if (cartObj == null) {
                 cartObj = new CartObj();
@@ -102,10 +107,7 @@ public class AddBookToCartServlet extends HttpServlet {
                 // 5. Save cart on server
                 session.setAttribute(ATTR_MEMBER_CART, cartObj);
                 // 6. Member continues checking book
-                OrderItemDAO orderItemDAO = new OrderItemDAO();
-                orderItemDAO.getMemberItemsFromBookID(bookID, userDTO.getId(), new ArrayList<Integer>(Arrays.asList(ITEM_RESERVED)));
-                List<OrderItemDTO> orderItemList = orderItemDAO.getOrderItemList();
-                if (orderItemList != null){
+                if (memberPreviousAction.equals(PREVIOUS_ACTION_USER_SETTINGS_ADD_TO_CART)) {
                     url = USER_SETTING_CONTROLLER + "?" + PARAM_BOOKID + "=" + bookID;
                 } else {
                     url = VIEW_BOOK_DETAILS_CONTROLLER + "?" + PARAM_BOOKID + "=" + bookID;
