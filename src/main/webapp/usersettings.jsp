@@ -2,7 +2,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
-  User: NDungx
   Date: 6/7/2021
   Time: 12:01 PM
 --%>
@@ -15,31 +14,26 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/userAccountSetting.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <link rel="shortcut icon" href="images/images/favicon.png"/>
-    <!-- plugins:css -->
+    <%-- plugins:css --%>
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
+    <%-- endinject --%>
+    <%-- Plugin css for this page --%>
 
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-
+    <%-- End plugin css for this page --%>
     <%--Fontawsome CDN--%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <%--jquery CDN--%>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
-    <!-- endinject -->
+    <%-- endinject --%>
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
 <jsp:include page="navbar.html"></jsp:include>
-
 <div class="p-5 bg-light">
     <div class="row">
         <div class="col-lg-3 grid-margin">
@@ -73,7 +67,7 @@
             <div class="card">
                 <div class="col-12">
                     <div class="tab-content" id="nav-tabContent" style="border:none">
-                        <!--Account Information tab-->
+                        <%--Account Information tab--%>
                         <c:set var="profile" value="${sessionScope.LOGIN_USER}"/>
                         <c:set var="email_split" value="${fn:split(profile.email, '@')}"/>
                         <div class="tab-pane fade show active" id="list-information" role="tabpanel"
@@ -132,7 +126,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!--Security tab-->
+                        <%--Security tab--%>
                         <div class="tab-pane fade" id="list-security" role="tabpanel"
                              aria-labelledby="list-security-list">
                             <div class="card-body">
@@ -190,7 +184,7 @@
                             </div>
                         </div>
 
-                        <!--Notifications tab-->
+                        <%--Notifications tab--%>
                         <div class="tab-pane fade" id="list-notifications" role="tabpanel"
                              aria-labelledby="list-notifications-list" style="color: black !important;">
                             <div class="row mb-1 align-items-center">
@@ -234,16 +228,22 @@
                         <div class="tab-pane fade" id="list-miscellaneous" role="tabpanel"
                              aria-labelledby="list-miscellaneous-list">
                             <div class="row">
+                                <div class="col-12">
+                                    <a class="float-right"
+                                       href="ShowReturnCartServlet">
+                                        <c:out value="View Return Cart "/><i class="fa fa-share-square-o"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-sm-12">
-
-                                    <table id="order-listing" class="table dataTable no-footer" role="grid"
-                                           aria-describedby="order-listing_info">
+                                    <table id="orderItemTable" class="table dataTable no-footer" role="grid">
                                         <thead>
                                         <tr role="row">
-                                            <th class="text-center" style="width: 100px;">#</th>
+                                            <th class="text-right" style="width: 100px;">#</th>
                                             <th class="text-left" style="width: 73%;">NAME</th>
                                             <th class="text-center" style="width: 73%;">STATUS</th>
-                                            <th class="text-center" style="width: 64px;">Actions</th>
+                                            <th class="text-center" style="width: 64px;">ACTIONS</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -380,15 +380,10 @@
                                                 </c:if>
                                                 <div class="modal fade" id="returnModal${orderItem.id}"
                                                      tabindex="-1"
-                                                     role="dialog"
-                                                     aria-labelledby="ariaReturnModal${orderItem.id}"
-                                                     aria-hidden="true">
+                                                     role="dialog">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title">
-                                                                    WARNING
-                                                                </h5>
                                                                 <button type="button"
                                                                         class="close"
                                                                         data-dismiss="modal"
@@ -399,7 +394,7 @@
                                                             <c:choose>
                                                                 <c:when test="${(not empty session) and (not empty user) and (existedInReturnCart)}">
                                                                     <div class="modal-body">
-                                                                        This book is already in your cart
+                                                                        This book is already in your cart.
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <button type="button"
@@ -439,21 +434,17 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="modal fade" id="renewModal" tabindex="-1"
-                                                     role="dialog" aria-labelledby="ariaRenewModal" aria-hidden="true">
+                                                <div class="modal fade" id="renewModal" tabindex="-1" role="dialog">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLongTitle2">
-                                                                    WARNING
-                                                                </h5>
-                                                                <button type="button" class="close" data-dismiss="modal"
-                                                                        aria-label="Close">
+                                                                <button type="button" class="close"
+                                                                        data-dismiss="modal">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                This boos has reached the renewal limit
+                                                                You have reached the renewal limit for this item.
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary"
@@ -536,23 +527,23 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane fade" id="list-reserve" role="tabpanel"
-                             aria-labelledby="list-reserve-list">
+                        <div class="tab-pane fade" id="list-reserve" role="tabpanel">
+
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <table id="order-listing2" class="table dataTable no-footer" role="grid"
-                                           aria-describedby="order-listing_info">
+                                    <table id="reservedBookTable" class="table dataTable no-footer" role="grid">
                                         <thead>
                                         <tr role="row">
-                                            <th class="text-center" style="width: 100px;">#</th>
+                                            <th class="text-right" style="width: 100px;">#</th>
                                             <th class="text-left" style="width: 73%;">NAME</th>
                                             <th class="text-center" style="width: 73%;">STATUS</th>
-                                            <th class="text-center" style="width: 64px;">Actions</th>
+                                            <th class="text-center" style="width: 64px;">ACTIONS</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <%--Need to add row to show status of item--%>
                                         <c:set var="reserveItems" value="${requestScope.MEMBER_RESERVE_ITEMS}"/>
+                                        <c:set var="quantityMap" value="${requestScope.QUANTITY_MAP_LIST}"/>
                                         <c:forEach var="reserveItem" items="${reserveItems}" varStatus="counter">
                                             <tr class="odd">
                                                 <form action="DispatchServlet">
@@ -575,11 +566,11 @@
                                                             ITEM_RESERVED = 10 ( different tab )
                                                         --%>
                                                     <td class="text-center">
-                                                        <c:if test="${reserveItem.lendStatus eq 10}">
-                                                            <label class="badge badge-secondary">OUT OF STOCK</label>
+                                                        <c:if test="${quantityMap.get(reserveItem.id) eq 0}">
+                                                            <label class="badge badge-secondary">Out of Stock</label>
                                                         </c:if>
-                                                        <c:if test="${reserveItem.lendStatus eq 11}">
-                                                            <label class="badge badge-primary">AVAILABLE</label>
+                                                        <c:if test="${quantityMap.get(reserveItem.id) gt 0}">
+                                                            <label class="badge badge-primary">Available</label>
                                                         </c:if>
                                                     </td>
                                                 </form>
@@ -611,7 +602,6 @@
                                                     </td>
                                                 </form>
 
-                                                <c:set var="quantityMap" value="${requestScope.QUANTITY_MAP_LIST}"/>
                                                 <div class="modal fade"
                                                      id="borrowModal${reserveItem.id}"
                                                      tabindex="-1"
@@ -621,8 +611,7 @@
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title"
-                                                                    id="exampleModalLongTitle3">
+                                                                <h5 class="modal-title">
                                                                     WARNING
                                                                 </h5>
                                                                 <button type="button"
@@ -635,7 +624,7 @@
                                                             <c:choose>
                                                                 <c:when test="${quantityMap.get(reserveItem.id) == 0}">
                                                                     <div class="modal-body">
-                                                                        This book is currently out of stock
+                                                                        This book is currently out of stock.
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <button type="button"
@@ -647,10 +636,10 @@
                                                                 </c:when>
 
                                                                 <c:when test="${(cart.cartQuantity ge 10)
-                                                                or (cart.cartQuantity + memberTotalActiveBorrows ge 10)
+                                                                or ((cart.cartQuantity + memberTotalActiveBorrows) ge 10)
                                                                 or (memberTotalActiveBorrows ge 10)}">
                                                                     <div class="modal-body">
-                                                                        You have reached the borrowing limit
+                                                                        You have reached the borrowing limit.
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <button type="button"
@@ -661,11 +650,14 @@
                                                                     </div>
                                                                 </c:when>
 
-                                                                <c:when test="${orderItems.size() != 10 and quantityMap.get(reserveItem.id) > 0}">
+                                                                <c:when test="${(orderItems.size() != 10)
+                                                                and (quantityMap.get(reserveItem.id) > 0)}">
                                                                     <c:choose>
-                                                                        <c:when test="${(not empty session) and (not empty user) and (existedInCart)}">
+                                                                        <c:when test="${(not empty session)
+                                                                        and (not empty user)
+                                                                        and (existedInCart)}">
                                                                             <div class="modal-body">
-                                                                                This book is already in your cart
+                                                                                This book is already in your cart.
                                                                             </div>
                                                                             <div class="modal-footer">
                                                                                 <button type="button"
@@ -679,15 +671,17 @@
                                                                             <form action="AddBookToCartServlet">
                                                                                 <input type="hidden" name="bookPk"
                                                                                        value="${reserveItem.bookID}">
+                                                                                <input type="hidden"
+                                                                                       name="memberPreviousAction"
+                                                                                       value="user_settings:add_to_cart">
                                                                                 <div class="modal-body">
-                                                                                    Do you want to borrow this book
+                                                                                    Do you want to borrow this book?
                                                                                 </div>
                                                                                 <div class="modal-footer">
                                                                                     <button type="submit"
                                                                                             name="btAction"
                                                                                             value="Borrow Book"
-                                                                                            class="btn btn-primary"
-                                                                                    >
+                                                                                            class="btn btn-primary">
                                                                                         Yes
                                                                                     </button>
                                                                                     <button type="button"
