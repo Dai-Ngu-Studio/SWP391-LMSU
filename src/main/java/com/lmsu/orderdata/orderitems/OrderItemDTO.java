@@ -15,7 +15,6 @@ class OrderItemDTO implements Serializable {
     private int id;
     private int orderID;
     private int returnOrderID;
-    private String memberID;
     private String bookID;
     private int lendStatus;
     private Date returnDeadline;
