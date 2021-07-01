@@ -22,7 +22,7 @@ import java.util.List;
 public class ShowReturnCartServlet extends HttpServlet {
 
     static final Logger LOGGER = Logger.getLogger(ShowReturnCartServlet.class);
-    private final String VIEW_CART_PAGE = "viewReturnCart.jsp";
+    private final String VIEW_RETURN_CART_PAGE = "viewReturnCart.jsp";
 
     private final int ITEM_PENDING = 0;
     private final int ITEM_APPROVED = 1;
@@ -37,7 +37,7 @@ public class ShowReturnCartServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = VIEW_CART_PAGE;
+        String url = VIEW_RETURN_CART_PAGE;
 
         try {
             // 1. Check if session existed (default create one if not exist)
@@ -48,34 +48,18 @@ public class ShowReturnCartServlet extends HttpServlet {
                 returnCartObj = new ReturnCartObj();
                 session.setAttribute(ATTR_RETURN_CART, returnCartObj);
             }
-            UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
-            if (userDTO != null) {
-                OrderItemDAO orderItemDAO = new OrderItemDAO();
-                //----------------------------------------------------
-                orderItemDAO
-                        .getOrderItemsFromMember(
-                                userDTO.getId(),
-                                new ArrayList<Integer>(
-                                        Arrays.asList(
-                                                ITEM_PENDING, ITEM_APPROVED, ITEM_RECEIVED,
-                                                ITEM_RETURN_SCHEDULED, ITEM_OVERDUE, ITEM_OVERDUE_RETURN_SCHEDULED
-                                        )));
-                //----------------------------------------------------
-                List<OrderItemDTO> memberTotalActiveBorrows = orderItemDAO.getOrderItemList();
-//                if (memberTotalActiveBorrows == null) {
-//                    session.setAttribute(ATTR_MEMBER_TOTAL_ACTIVE_BORROWS, 0);
-//                } else {
-//                    session.setAttribute(ATTR_MEMBER_TOTAL_ACTIVE_BORROWS, memberTotalActiveBorrows.size());
-//                }
-            }
+//            UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
+//            if (userDTO != null) {
+//            }
             // Redirect to cart
-            url = VIEW_CART_PAGE;
-        } catch (SQLException ex) {
-            LOGGER.error(ex.getMessage());
-            log("ShowReturnCartServlet _ SQL: " + ex.getMessage());
-        } catch (NamingException ex) {
-            LOGGER.error(ex.getMessage());
-            log("ShowReturnCartServlet _ Naming: " + ex.getMessage());
+            url = VIEW_RETURN_CART_PAGE;
+//        }
+//        catch (SQLException ex) {
+//            LOGGER.error(ex.getMessage());
+//            log("ShowReturnCartServlet _ SQL: " + ex.getMessage());
+//        } catch (NamingException ex) {
+//            LOGGER.error(ex.getMessage());
+//            log("ShowReturnCartServlet _ Naming: " + ex.getMessage());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
