@@ -87,7 +87,6 @@ public class ShowDirectOrderServlet extends HttpServlet {
                         OrderItemObj orderItemObj = new OrderItemObj();
                         orderItemObj.setId(orderItemDTO.getId());
                         orderItemObj.setOrderID(orderItemDTO.getOrderID());
-                        orderItemObj.setMemberID(orderItemDTO.getMemberID());
                         orderItemObj.setBookID(orderItemDTO.getBookID());
                         orderItemObj.setTitle(bookDTO.getTitle());
                         orderItemObj.setLendStatus(orderItemDTO.getLendStatus());
