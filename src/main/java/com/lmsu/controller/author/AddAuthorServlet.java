@@ -53,7 +53,6 @@ public class AddAuthorServlet extends HttpServlet {
             for (Part part : request.getParts()) {
                 fileName = part.getSubmittedFileName();
                 if (!(fileName == null || fileName.trim().isEmpty())) {
-                    System.out.println(fileName);
                     fileName = "author-" + authorIDTxt + "." + FilenameUtils.getExtension(fileName);
                     part.write(uploadPath + fileName);
                     break;
