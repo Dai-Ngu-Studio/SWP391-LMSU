@@ -247,7 +247,8 @@ public class OrderItemDAO implements Serializable {
      * @throws SQLException
      * @throws NamingException
      */
-    public boolean updateOrderItemStatus(int id, int lendStatus, boolean useInBatch) throws SQLException, NamingException {
+    public boolean updateOrderItemStatus(int id, int lendStatus, boolean useInBatch)
+            throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
 
@@ -264,6 +265,38 @@ public class OrderItemDAO implements Serializable {
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, lendStatus);
                 stm.setInt(2, id);
+                int row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } finally {
+            if (stm != null) stm.close();
+            if (!useInBatch) {
+                if (con != null) con.close();
+            }
+        }
+        return false;
+    }
+
+    public boolean updateOrderItemStatusOfOrder(int orderID, int lendStatus, boolean useInBatch)
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            if (useInBatch) {
+                con = conn;
+            } else {
+                con = DBHelpers.makeConnection();
+            }
+            if (con != null) {
+                String sql = "UPDATE [OrderItems] " +
+                        "SET [lendStatus] = ? " +
+                        "WHERE [orderID] = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, lendStatus);
+                stm.setInt(2, orderID);
                 int row = stm.executeUpdate();
                 if (row > 0) {
                     return true;
