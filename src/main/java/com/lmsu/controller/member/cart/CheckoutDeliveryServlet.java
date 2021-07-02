@@ -46,6 +46,8 @@ public class CheckoutDeliveryServlet extends HttpServlet {
     private final int ORDER_OVERDUE = 4;
     private final int ORDER_REJECTED = 5;
     private final int ORDER_RESERVE_ONLY = 6;
+    private final int ORDER_RETURN_SCHEDULED = 7;
+    private final int ORDER_RETURN_RETURNED = 8;
 
     private final int ITEM_CANCELLED = -1;
     private final int ITEM_PENDING = 0;
