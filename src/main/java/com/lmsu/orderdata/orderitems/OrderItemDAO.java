@@ -238,12 +238,25 @@ public class OrderItemDAO implements Serializable {
         }
     }
 
-    public boolean updateOrderItemStatus(int id, int lendStatus) throws SQLException, NamingException {
+    /**
+     * @param id         id of order item
+     * @param lendStatus status of order item
+     * @param useInBatch specify if a consistent connection is to be used instead,
+     *                   the connection must be specified in the constructor beforehand
+     * @return
+     * @throws SQLException
+     * @throws NamingException
+     */
+    public boolean updateOrderItemStatus(int id, int lendStatus, boolean useInBatch) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
 
         try {
-            con = DBHelpers.makeConnection();
+            if (useInBatch) {
+                con = conn;
+            } else {
+                con = DBHelpers.makeConnection();
+            }
             if (con != null) {
                 String sql = "UPDATE [OrderItems] " +
                         "SET [lendStatus] = ? " +
@@ -252,13 +265,15 @@ public class OrderItemDAO implements Serializable {
                 stm.setInt(1, lendStatus);
                 stm.setInt(2, id);
                 int row = stm.executeUpdate();
-                if (row >0 ) {
+                if (row > 0) {
                     return true;
                 }
             }
         } finally {
             if (stm != null) stm.close();
-            if (con != null) con.close();
+            if (!useInBatch) {
+                if (con != null) con.close();
+            }
         }
         return false;
     }
@@ -268,7 +283,7 @@ public class OrderItemDAO implements Serializable {
         PreparedStatement stm = null;
 
         try {
-            if(conn != null){
+            if (conn != null) {
                 String sql = "UPDATE [OrderItems] " +
                         "SET [returnOrderID] = ?, " +
                         "[lendStatus] = ? " +
@@ -278,7 +293,7 @@ public class OrderItemDAO implements Serializable {
                 stm.setInt(2, lendStatus);
                 stm.setInt(3, id);
                 int row = stm.executeUpdate();
-                if (row >0 ) {
+                if (row > 0) {
                     return true;
                 }
             }

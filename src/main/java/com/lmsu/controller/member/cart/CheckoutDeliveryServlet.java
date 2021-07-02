@@ -36,6 +36,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
 
     private final boolean DELIVERY_METHOD = true;
     private final boolean DELIVERY_NOT_RETURN = false;
+    private final boolean CONNECTION_NO_BATCH = false;
 
     private final int ORDER_CANCELLED = -1;
     private final int ORDER_PENDING = 0;
@@ -168,7 +169,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                                                 if (orderOfItem.getMemberID().equals(userDTO.getId())) {
                                                                     orderItemDAO.updateOrderItemStatus(
                                                                             reservedItem.getId(),
-                                                                            ITEM_RESERVED_INACTIVE);
+                                                                            ITEM_RESERVED_INACTIVE, CONNECTION_NO_BATCH);
                                                                 }
                                                             }
                                                         }

@@ -39,6 +39,7 @@ public class CheckoutDirectServlet extends HttpServlet {
     private final String INDEX_CONTROLLER = "IndexServlet"; //W.I.P. temporary (to be changed)
 
     private final boolean DIRECT_METHOD = false;
+    private final boolean CONNECTION_NO_BATCH = false;
 
     private final int ORDER_CANCELLED = -1;
     private final int ORDER_PENDING = 0;
@@ -160,7 +161,7 @@ public class CheckoutDirectServlet extends HttpServlet {
                                                                 if (orderOfItem.getMemberID().equals(userDTO.getId())) {
                                                                     orderItemDAO.updateOrderItemStatus(
                                                                             reservedItem.getId(),
-                                                                            ITEM_RESERVED_INACTIVE);
+                                                                            ITEM_RESERVED_INACTIVE, CONNECTION_NO_BATCH);
                                                                 }
                                                             }
                                                         }
