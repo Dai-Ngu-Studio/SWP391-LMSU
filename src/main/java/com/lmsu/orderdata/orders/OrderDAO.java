@@ -224,6 +224,7 @@ public class OrderDAO implements Serializable {
                         "FROM [Orders] " +
                         "WHERE [id] = ? ";
                 stm = con.prepareStatement(sql);
+                stm.setInt(1, orderID);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     OrderDTO order = new OrderDTO();
