@@ -72,6 +72,37 @@ public class OrderDAO implements Serializable {
         return -1;
     }
 
+    public boolean updateOrder(int orderID, int activeStatus, boolean useInBatch)
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            if (useInBatch) {
+                con = conn;
+            } else {
+                con = DBHelpers.makeConnection();
+            }
+            if (con != null) {
+                String sql = "UPDATE [Orders] " +
+                        "SET [activeStatus] = ? " +
+                        "WHERE [id] = ? ";
+                stm.setInt(1, activeStatus);
+                stm.setInt(2, orderID);
+                int row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } finally {
+            if (stm != null) stm.close();
+            if (!useInBatch) {
+                if (con != null) con.close();
+            }
+        }
+        return false;
+    }
+
     public void viewOrders(boolean lendMethod, List<Integer> activeStatuses) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
