@@ -14,6 +14,8 @@ import com.lmsu.comments.CommentDAO;
 import com.lmsu.comments.CommentDTO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
+import com.lmsu.orderdata.orders.OrderDAO;
+import com.lmsu.orderdata.orders.OrderDTO;
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
 import org.apache.log4j.Logger;
@@ -36,6 +38,19 @@ public class ViewBookDetailsServlet extends HttpServlet {
     private final String BOOK_DETAILS_PAGE = "bookdetails.jsp";
     static final Logger LOGGER = Logger.getLogger(ViewBookDetailsServlet.class);
 
+    private final List<Integer> NO_ORDER_STATUS_SPECIFIED = null;
+
+    private final int ORDER_CANCELLED = -1;
+    private final int ORDER_PENDING = 0;
+    private final int ORDER_APPROVED = 1;
+    private final int ORDER_RECEIVED = 2;
+    private final int ORDER_RETURNED = 3;
+    private final int ORDER_OVERDUE = 4;
+    private final int ORDER_REJECTED = 5;
+    private final int ORDER_RESERVE_ONLY = 6;
+    private final int ORDER_RETURN_SCHEDULED = 7;
+    private final int ORDER_RETURN_RETURNED = 8;
+
     private final int ITEM_CANCELLED = -1;
     private final int ITEM_PENDING = 0;
     private final int ITEM_APPROVED = 1;
@@ -50,6 +65,7 @@ public class ViewBookDetailsServlet extends HttpServlet {
     private final int ITEM_RESERVED = 10;
     private final int ITEM_RESERVED_PAST = 11;
 
+    private final int ORDER_BOTH_METHOD = -1;
     private final int STATUS_BORROWED = 0;
     private final int STATUS_RESERVED = 1;
 
@@ -113,44 +129,52 @@ public class ViewBookDetailsServlet extends HttpServlet {
                 if (session != null) {
                     UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
                     if (userDTO != null) {
+                        OrderDAO orderDAO = new OrderDAO();
                         OrderItemDAO orderItemDAO = new OrderItemDAO();
-                        List<Integer> activeBorrowStatuses = new ArrayList<Integer>(
+                        //----------------------------------------------------
+                        // Active Order Item Statuses
+                        List<Integer> activeItemStatuses = new ArrayList<Integer>(
                                 Arrays.asList(
                                         ITEM_PENDING, ITEM_APPROVED, ITEM_RECEIVED,
                                         ITEM_RETURN_SCHEDULED, ITEM_OVERDUE,
                                         ITEM_OVERDUE_RETURN_SCHEDULED
                                 ));
+                        //----------------------------------------------------
+                        // Get orders from member
+                        orderDAO.getOrdersFromMember(ORDER_BOTH_METHOD, NO_ORDER_STATUS_SPECIFIED);
+                        List<OrderDTO> orders = orderDAO.getOrderList();
+                        //----------------------------------------------------
                         // Get the number of active borrowed books from member
-                        //----------------------------------------------------
-                        orderItemDAO
-                                .getOrderItemsFromMember(userDTO.getId(), activeBorrowStatuses);
-                        //----------------------------------------------------
-                        List<OrderItemDTO> memberTotalActiveBorrows = orderItemDAO.getOrderItemList();
-                        if (memberTotalActiveBorrows == null) {
-                            session.setAttribute(ATTR_MEMBER_TOTAL_ACTIVE_BORROWS, 0);
-                        } else {
-                            session.setAttribute(ATTR_MEMBER_TOTAL_ACTIVE_BORROWS, memberTotalActiveBorrows.size());
-                        }
-                        orderItemDAO.clearOrderItemList();
-                        //----------------------------------------------------
-                        // Check if member had borrowed or reserved this book
-                        // Using List because member might borrow book again after having returned it
-                        activeBorrowStatuses.add(ITEM_RESERVED); //an additional status for checking active reserve
-                        orderItemDAO.getMemberItemsFromBookID(bookID, userDTO.getId(), activeBorrowStatuses);
-                        List<OrderItemDTO> itemsOfCurrentBookByMember = orderItemDAO.getOrderItemList();
-                        if (itemsOfCurrentBookByMember != null) {
-                            for (OrderItemDTO currentItem : itemsOfCurrentBookByMember) {
-                                for (int activeBorrowStatus : activeBorrowStatuses) {
-                                    if (currentItem.getLendStatus() == activeBorrowStatus) {
-                                        request.setAttribute(ATTR_MEMBER_BOOK_BORROW_STATUS, STATUS_BORROWED);
-                                    }
+                        int memberTotalActiveBorrows = 0;
+                        if (orders != null) {
+                            for (OrderDTO order : orders) {
+                                orderItemDAO.clearOrderItemList();
+                                orderItemDAO.getOrderItemsFromOrderID(order.getId());
+                                List<OrderItemDTO> orderItems = orderItemDAO.getOrderItemList();
+                                if (orderItems != null) {
+                                    for (OrderItemDTO orderItem : orderItems) {
+                                        for (int activeItemStatus : activeItemStatuses) {
+                                            if (orderItem.getLendStatus() == activeItemStatus) {
+                                                // found an active item
+                                                memberTotalActiveBorrows++;
+                                                // check if this active item is current book being viewed
+                                                if (orderItem.getBookID().equals(bookObj.getId())) {
+                                                    request.setAttribute(ATTR_MEMBER_BOOK_BORROW_STATUS, STATUS_BORROWED);
+                                                }
+                                                break; //stop checking active status of current item
+                                            }
+                                        } // end traverse active statuses
+                                        // check if this item is the current book is being reserved
+                                        // (reserves can be in any orders)
+                                        if ((orderItem.getBookID().equals(bookObj.getId()))
+                                                && (orderItem.getLendStatus() == ITEM_RESERVED)) {
+                                            request.setAttribute(ATTR_MEMBER_BOOK_BORROW_STATUS, STATUS_RESERVED);
+                                        }
+                                    } // end traverse items
                                 }
-                                if (currentItem.getLendStatus() == ITEM_RESERVED) {
-                                    request.setAttribute(ATTR_MEMBER_BOOK_BORROW_STATUS, STATUS_RESERVED);
-                                    break;
-                                }
-                            }
+                            } // end traverse orders
                         }
+                        session.setAttribute(ATTR_MEMBER_TOTAL_ACTIVE_BORROWS, memberTotalActiveBorrows);
                     }
                 }
                 //----------------------------------------------------

@@ -9,6 +9,7 @@ public @Data
 class OrderItemObj implements Serializable {
     private int id;
     private int orderID;
+    private int returnOrderID;
     private String memberID;
     private String bookID;
     private String title;
@@ -20,10 +21,11 @@ class OrderItemObj implements Serializable {
     public OrderItemObj() {
     }
 
-    public OrderItemObj(int id, int orderID, String memberID, String bookID, String title, int lendStatus,
+    public OrderItemObj(int id, int orderID, int returnOrderID, String memberID, String bookID, String title, int lendStatus,
                         Date returnDeadline, Date lendDate, Date returnDate) {
         this.id = id;
         this.orderID = orderID;
+        this.returnOrderID = returnOrderID;
         this.memberID = memberID;
         this.bookID = bookID;
         this.title = title;

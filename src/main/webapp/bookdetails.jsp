@@ -244,6 +244,8 @@
                                                     <%--Add to Cart Button--%>
                                                     <c:if test="${bookBorrowStatus ne 0}">
                                                         <form action="AddBookToCartServlet" class="my-1">
+                                                            <input type="hidden" name="memberPreviousAction"
+                                                                   value="book_details:add_to_cart">
                                                             <div class="row">
                                                                 <div class="col-2"></div>
                                                                 <div class="col-8 text-center">
@@ -287,6 +289,8 @@
                                                         </div>
                                                     </div>
                                                     <form action="AddBookToCartServlet" class="my-1">
+                                                        <input type="hidden" name="memberPreviousAction"
+                                                               value="book_details:add_to_cart">
                                                         <input type="hidden" name="bookPk"
                                                                value="${bookObj.id}">
                                                         <div class="row">

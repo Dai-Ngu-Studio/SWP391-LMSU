@@ -9,5 +9,7 @@
         ID: ${requestScope.id}<br>
         Name: ${requestScope.name}<br>
         Email: ${requestScope.email}<br>
+        Profile Picture: ${requestScope.PROFILE_PICTURE}
+        <img src="${requestScope.PROFILE_PICTURE}"/>
     </body>
 </html>

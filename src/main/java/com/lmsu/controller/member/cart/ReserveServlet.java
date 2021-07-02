@@ -94,7 +94,6 @@ public class ReserveServlet extends HttpServlet {
                                         BookDAO bookDAO = new BookDAO();
                                         OrderItemDTO orderItemDTO = new OrderItemDTO();
                                         orderItemDTO.setOrderID(orderID);
-                                        orderItemDTO.setMemberID(userDTO.getId());
                                         orderItemDTO.setBookID(bookID);
                                         orderItemDTO.setLendStatus(ITEM_RESERVED);
                                         orderItemDTO.setReturnDeadline(null);
