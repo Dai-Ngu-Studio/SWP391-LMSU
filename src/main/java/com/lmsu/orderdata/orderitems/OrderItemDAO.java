@@ -279,6 +279,15 @@ public class OrderItemDAO implements Serializable {
         return false;
     }
 
+    /**
+     * Only use for approval, using for any other case will cause faulty logic
+     * @param orderID
+     * @param lendStatus
+     * @param useInBatch
+     * @return
+     * @throws SQLException
+     * @throws NamingException
+     */
     public boolean updateOrderItemStatusOfOrder(int orderID, int lendStatus, boolean useInBatch)
             throws SQLException, NamingException {
         Connection con = null;
@@ -293,7 +302,9 @@ public class OrderItemDAO implements Serializable {
             if (con != null) {
                 String sql = "UPDATE [OrderItems] " +
                         "SET [lendStatus] = ? " +
-                        "WHERE [orderID] = ? ";
+                        "WHERE [orderID] = ? " +
+                        "AND [lendStatus] != " + ITEM_RESERVED + " " +
+                        "AND [lendStatus] != " + ITEM_RESERVED_INACTIVE + " ";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, lendStatus);
                 stm.setInt(2, orderID);

@@ -87,6 +87,7 @@ public class OrderDAO implements Serializable {
                 String sql = "UPDATE [Orders] " +
                         "SET [activeStatus] = ? " +
                         "WHERE [id] = ? ";
+                stm = con.prepareStatement(sql);
                 stm.setInt(1, activeStatus);
                 stm.setInt(2, orderID);
                 int row = stm.executeUpdate();
@@ -223,6 +224,7 @@ public class OrderDAO implements Serializable {
                         "FROM [Orders] " +
                         "WHERE [id] = ? ";
                 stm = con.prepareStatement(sql);
+                stm.setInt(1, orderID);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     OrderDTO order = new OrderDTO();
