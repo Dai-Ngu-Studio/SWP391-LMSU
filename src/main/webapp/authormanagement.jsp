@@ -147,13 +147,15 @@
                                                aria-describedby="order-listing_info">
                                             <thead>
                                             <tr>
-                                                <th style="width: 0px; text-align: right">#</th>
+                                                <th style="width: 0px; text-align: center">#</th>
                                                 <th style="width: 96px; text-align: left">NAME</th>
-                                                <%--                                                <th style="width: 67px; text-align: left"></th>--%>
+                                                <%--<th style="width: 67px; text-align: left"></th>--%>
                                                 <th style="width: 64px; text-align: center">Actions</th>
                                             </tr>
                                             </thead>
                                             <tbody>
+                                            <c:set var="authorMap" value="${requestScope.AUTHOR_MAP}"/>
+                                            <c:set var="keyAuthorID" value="${authorMap.keySet()}"/>
                                             <c:set var="authorList" value="${requestScope.AUTHOR_LIST}"/>
                                             <c:forEach var="author" items="${authorList}"
                                                        varStatus="counter">
@@ -163,7 +165,7 @@
                                                           method="POST">
                                                         <!--Start: Author Item Form-->
                                                         <td class="sorting_1"
-                                                            style="text-align: right">${counter.count}</td>
+                                                            style="text-align: center">${counter.count}</td>
                                                         <td style="text-align: left">
                                                                 ${author.authorName}
                                                         </td>
@@ -175,11 +177,18 @@
                                                                name="authorPk">
                                                         <input type="hidden" name="txtSearchValue"
                                                                value="${param.txtSearchValue}"/>
-                                                        <td style="text-align: right;">
+                                                        <td style="text-align: center;">
                                                             <div class="btn-group">
-                                                                <button type="submit" class="btn btn-light"
-                                                                        name="btAction" value="View Authors"
-                                                                        title="Details">
+                                                                    <%--<button type="submit" class="btn btn-light"
+                                                                            name="btAction" value="View Authors"
+                                                                            title="Details">
+                                                                        <i class="fa fa-eye text-primary"></i>
+                                                                    </button> --%>
+                                                                <button type="button" class="btn btn-light"
+                                                                        data-toggle="modal"
+                                                                        data-target="#viewModal${counter.count}"
+                                                                        title="View"
+                                                                        data-original-title="View">
                                                                     <i class="fa fa-eye text-primary"></i>
                                                                 </button>
                                                                 <button type="button" class="btn btn-light"
@@ -196,6 +205,148 @@
                                                                         data-original-title="Remove">
                                                                     <i class="fa fa-times text-primary"></i>
                                                                 </button>
+                                                                <!--Start: View Author Modal-->
+                                                                <div class="modal fade"
+                                                                     id="viewModal${counter.count}"
+                                                                     tabindex="-1"
+                                                                     role="dialog"
+                                                                     aria-labelledby="exampleModalLongTitle"
+                                                                     aria-hidden="true">
+                                                                    <div class="modal-dialog modal-xl" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="modalTitle${counter.count}">
+                                                                                    Author Log</h5>
+                                                                                <button type="button" class="close"
+                                                                                        data-dismiss="modal"
+                                                                                        aria-label="Close">
+                                                                                        <span
+                                                                                                aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <fieldset disabled>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-1 col-form-label">Author
+                                                                                            Cover
+                                                                                        </label>
+
+                                                                                        <div class="col-sm-6">
+                                                                                            <div class="custom-file">
+                                                                                                <input type="file"
+                                                                                                       class="custom-file-input"
+                                                                                                       id="customFileUpdate${author.authorID}"
+                                                                                                       name="coverPicture"
+                                                                                                       onchange="readURL(this, 'coverPictureUpdate${author.authorID}');"
+                                                                                                >
+                                                                                                <label class="custom-file-label"
+                                                                                                       for="customFileUpdate${author.authorID}">Choose
+                                                                                                    Image
+                                                                                                </label>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-sm-4">
+                                                                                            <img class="rounded float-right"
+                                                                                                 style="height: 280px; width: auto;"
+                                                                                                 src="${pageContext.request.contextPath}/image/${author.coverPath}"
+                                                                                                 id="coverPictureUpdate${author.authorID}"
+                                                                                                 alt="Book cover"
+                                                                                                 onerror="this.onerror=null; this.src='images/imagenotfound.jpg';"
+                                                                                            />
+                                                                                            <input type="hidden"
+                                                                                                   name="txtCoverFile"
+                                                                                                   class="form-control"
+                                                                                                   value="${author.coverPath}">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-1 col-form-label">Name</label>
+                                                                                        <div class="col-sm-10">
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   name="txtUpdateAuthorName"
+                                                                                                   value="${author.authorName}">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-1 col-form-label">
+                                                                                            Author Bio
+                                                                                        </label>
+                                                                                        <div class="col-sm-10">
+                                                                                        <textarea
+                                                                                                class="form-control"
+                                                                                                name="txtUpdateAuthorBio"
+                                                                                                id="${author.authorID}"
+                                                                                                rows="10"> ${author.authorBio}
+                                                                                        </textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <div class="table-responsive">
+                                                                                            <table class="table table-hover">
+                                                                                                <thead>
+                                                                                                <tr>
+                                                                                                    <th scope="col">
+                                                                                                        Book ID
+                                                                                                    </th>
+                                                                                                    <th scope="col">
+                                                                                                        Book Title
+                                                                                                    </th>
+                                                                                                    <th scope="col">
+                                                                                                        Publisher
+                                                                                                    </th>
+                                                                                                    <th scope="col">
+                                                                                                        Publish Date
+                                                                                                    </th>
+                                                                                                    <th scope="col">
+                                                                                                        Price
+                                                                                                    </th>
+                                                                                                    <th scope="col">
+                                                                                                        Quantity
+                                                                                                    </th>
+                                                                                                    <th scope="col">
+                                                                                                        Rating
+                                                                                                    </th>
+                                                                                                </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    <%--<c:set var="authorMap" value="${requestScope.AUTHOR_MAP}"/>
+                                                                                                    <c:set var="keyAuthorID" value="${authorMap.keySet()}"/> --%>
+                                                                                                <c:set var="authorBook"
+                                                                                                       value="${authorMap.get(author.authorID)}"/>
+                                                                                                <c:forEach
+                                                                                                        var="bookOfAuthor"
+                                                                                                        items="${authorBook}">
+                                                                                                    <tr>
+                                                                                                        <td>${bookOfAuthor.bookDTO.bookID} </td>
+                                                                                                        <td>${bookOfAuthor.bookDTO.title} </td>
+                                                                                                        <td>${bookOfAuthor.bookDTO.publisher} </td>
+                                                                                                        <td>${bookOfAuthor.bookDTO.publicationDate} </td>
+                                                                                                        <td>${bookOfAuthor.bookDTO.price} </td>
+                                                                                                        <td>${bookOfAuthor.bookDTO.quantity} </td>
+                                                                                                        <td>${bookOfAuthor.bookDTO.avgRating} </td>
+                                                                                                    </tr>
+                                                                                                </c:forEach>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                        class="btn btn-primary"
+                                                                                        data-dismiss="modal">Close
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!--End: View Author Modal-->
+
                                                                 <!--Start: Update Author Modal-->
                                                                 <div class="modal fade"
                                                                      id="updateModal${author.authorID}"
