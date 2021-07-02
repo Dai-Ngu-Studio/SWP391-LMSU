@@ -6,6 +6,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>LMSU Dashboard</title>
+    <!--materializeCss -->
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="css/chip.css">
+    <!--end: materializeCss -->
     <!-- plugins:css -->
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
@@ -28,6 +32,7 @@
     <script src="js/iconpro.js"></script>
     <!-- CSS Autocomplete -->
     <link rel="stylesheet" href="css/autocomplete.css">
+
 </head>
 <body>
 <div class="container-scroller">
@@ -451,7 +456,10 @@
     <!-- page-body-wrapper ends -->
 </div>
 <!-- container-scroller -->
-
+<!--materializeJS -->
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<!--end: materializeJS -->
 <!-- plugins:js -->
 <script src="vendors/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
