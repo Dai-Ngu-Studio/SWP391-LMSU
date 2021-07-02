@@ -5,7 +5,6 @@ CREATE DATABASE LMSU_database
 DROP TABLE IF EXISTS DeliveryOrder
 DROP TABLE IF EXISTS DirectOrder
 DROP TABLE IF EXISTS RenewalRequests
-DROP TABLE IF EXISTS Penalties
 DROP TABLE IF EXISTS OrderItems
 DROP TABLE IF EXISTS Orders
 DROP TABLE IF EXISTS Comments
@@ -106,19 +105,16 @@ CREATE TABLE Orders(
                        activeStatus int NOT NULL
 );
 CREATE TABLE OrderItems(
-                           id int NOT NULL PRIMARY KEY IDENTITY(1,1),
-                           orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
-                           returnOrderID int FOREIGN KEY REFERENCES Orders(id),
-                           bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
-                           lendStatus int NOT NULL,
-                           returnDeadline date,
-                           lendDate date,
-                           returnDate date
-);
-CREATE TABLE Penalties(
-                          itemID int NOT NULL FOREIGN KEY REFERENCES OrderItems(id),
-                          penaltyAmount decimal,
-                          penaltyStatus bit
+							id int NOT NULL PRIMARY KEY IDENTITY(1,1),
+							orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
+							returnOrderID int FOREIGN KEY REFERENCES Orders(id),
+							bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
+							lendStatus int NOT NULL,
+							returnDeadline date,
+							lendDate date,
+							returnDate date,
+							penaltyAmount decimal,
+							penaltyStatus bit
 );
 CREATE TABLE RenewalRequests(
                                 id varchar(255) NOT NULL PRIMARY KEY,
