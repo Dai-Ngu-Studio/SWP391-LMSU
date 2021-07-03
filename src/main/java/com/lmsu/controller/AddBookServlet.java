@@ -1,5 +1,6 @@
 package com.lmsu.controller;
 
+import com.lmsu.authorbookmaps.AuthorBookMapDAO;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import com.lmsu.importlog.ImportLogDAO;
@@ -7,7 +8,6 @@ import com.lmsu.users.UserDTO;
 import com.lmsu.utils.DateHelpers;
 import com.lmsu.utils.ImageHelpers;
 import com.opencsv.CSVReader;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.apache.commons.io.FilenameUtils;
 
@@ -15,10 +15,8 @@ import javax.naming.NamingException;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -52,8 +50,8 @@ public class AddBookServlet extends HttpServlet {
         }
         try {
             boolean result = false;
+            String authorID[];
             String title;
-            String authorID;
             String subjectID;
             String publisher;
             String publishDate;
@@ -74,19 +72,6 @@ public class AddBookServlet extends HttpServlet {
                         ArrayList<Integer> invalidIndexRows = new ArrayList<>();
                         while ((nextRecord = csvReader.readNext()) != null) {
                             indexRow++;
-//                            title = nextRecord[0];
-//                            authorID = nextRecord[1];
-//                            subjectID = nextRecord[2];
-//                            publisher = nextRecord[3];
-//                            publishDate = nextRecord[4];
-//                            System.out.println("CSV: "+publishDate);
-//                            description = nextRecord[5];
-//                            price = nextRecord[6];
-//                            quantity = nextRecord[7];
-//                            isbnTen = nextRecord[8];
-//                            isbnThirteen = nextRecord[9];
-//                            add(request, title, authorID, subjectID, publisher, publishDate,
-//                                    description, price, quantity, isbnTen, isbnThirteen, false);
                             boolean readResult = true;
                             if (nextRecord.length < 10) {
                                 invalidIndexRows.add(indexRow);
@@ -100,8 +85,8 @@ public class AddBookServlet extends HttpServlet {
                             }
 
                             if (readResult) {
-                                add(request, nextRecord[0], nextRecord[1], nextRecord[2], nextRecord[3], nextRecord[4],
-                                        nextRecord[5], nextRecord[6], nextRecord[7], nextRecord[8], nextRecord[9], userDTO.getId(), false);
+                                addBook(request, nextRecord[0], nextRecord[1], nextRecord[2], nextRecord[3], nextRecord[4],
+                                        nextRecord[5], nextRecord[6], nextRecord[7], nextRecord[8], nextRecord[9], userDTO.getId(), null, false);
                             }
                         }
                         if (invalidIndexRows.isEmpty() == false) {
@@ -111,6 +96,7 @@ public class AddBookServlet extends HttpServlet {
                     }
                 }
             } else {
+                authorID = request.getParameterValues("txtAuthorID");
                 title = request.getParameter("txtTitle");
                 subjectID = request.getParameter("txtSubjectID");
                 publisher = request.getParameter("txtPublisher");
@@ -127,8 +113,8 @@ public class AddBookServlet extends HttpServlet {
                     result = bookDAO.updateQuantity(bookAddingExisted.getBookID(),
                             Integer.parseInt(quantity) + bookAddingExisted.getQuantity());
                 } else {
-                    result = add(request, title, subjectID, publisher, publishDate,
-                            description, price, quantity, isbnTen, isbnThirteen, supplier, userDTO.getId(), true);
+                    result = addBook(request, title, subjectID, publisher, publishDate,
+                            description, price, quantity, isbnTen, isbnThirteen, supplier, userDTO.getId(), authorID, true);
                 }
             }
             if (result) {
@@ -152,25 +138,31 @@ public class AddBookServlet extends HttpServlet {
         }
     }
 
-    protected boolean add(HttpServletRequest request,
-                          String title,
-                          String subjectID,
-                          String publisher,
-                          String publishDate,
-                          String description,
-                          String price,
-                          String quantity,
-                          String isbnTen,
-                          String isbnThirteen,
-                          String supplier,
-                          String managerID,
-                          boolean hasCover) throws Exception {
+    protected void linkAuthorWithBook(String[] authorID, String bookIDTxt) throws SQLException, NamingException{
+        AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();
+        authorBookMapDAO.addMap(authorID,bookIDTxt);
+    }
 
-        BookDAO dao = new BookDAO();
+    protected boolean addBook(HttpServletRequest request,
+                              String title,
+                              String subjectID,
+                              String publisher,
+                              String publishDate,
+                              String description,
+                              String price,
+                              String quantity,
+                              String isbnTen,
+                              String isbnThirteen,
+                              String supplier,
+                              String managerID,
+                              String[] authorID,
+                              boolean hasCover) throws SQLException, NamingException, ServletException, IOException {
+
+        BookDAO bookDAO = new BookDAO();
         int bookID = 0;
         do {
             bookID++;
-        } while (dao.checkBookId(String.valueOf(bookID)));
+        } while (bookDAO.checkBookId(String.valueOf(bookID)));
 
         String bookIDTxt = String.valueOf(bookID);
 
@@ -196,9 +188,9 @@ public class AddBookServlet extends HttpServlet {
         // Import log
         java.sql.Date currentDate = DateHelpers.getCurrentDate();
         ImportLogDAO importLogDAO = new ImportLogDAO();
-        boolean resultAddBook = dao.addBook(bookIDTxt, title, subjectID, publisher, publishDate, description,
+        boolean resultAddBook = bookDAO.addBook(bookIDTxt, title, subjectID, publisher, publishDate, description,
                 priceDecimal, quantityNum, deleteStatus, lastLentDate, avgRating, isbnTen, isbnThirteen, fileName);
-
+        linkAuthorWithBook(authorID, bookIDTxt);
         boolean resultAddLog = importLogDAO.addLog(bookIDTxt, managerID, currentDate, supplier, quantityNum);
         return resultAddBook && resultAddLog;
     }
