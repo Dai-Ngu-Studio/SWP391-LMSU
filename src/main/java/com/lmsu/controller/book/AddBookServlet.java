@@ -1,4 +1,4 @@
-package com.lmsu.controller;
+package com.lmsu.controller.book;
 
 import com.lmsu.authorbookmaps.AuthorBookMapDAO;
 import com.lmsu.books.BookDAO;
@@ -46,7 +46,7 @@ public class AddBookServlet extends HttpServlet {
         String url = SHOW_BOOK_CONTROLLER;
         UserDTO userDTO = (UserDTO) request.getSession(true).getAttribute("LOGIN_USER");
         if (userDTO == null) {
-            System.out.println("You're not logged in yet >:(");
+            System.out.println("You're not logged in yet. How dafuck I can logging when I don't know who you are >:(");
         }
         try {
             boolean result = false;
@@ -107,11 +107,14 @@ public class AddBookServlet extends HttpServlet {
                 isbnTen = request.getParameter("txtISBNTen");
                 isbnThirteen = request.getParameter("txtISBNThirteen");
                 supplier = request.getParameter("txtSupplier");
-                if (title == null) {
+                if (title == null && supplier != null) {
                     BookDAO bookDAO = new BookDAO();
                     BookDTO bookAddingExisted = bookDAO.getBookByISBN13(isbnThirteen);
                     result = bookDAO.updateQuantity(bookAddingExisted.getBookID(),
                             Integer.parseInt(quantity) + bookAddingExisted.getQuantity());
+                } else if (supplier == null) {
+                    BookDAO bookDAO = new BookDAO();
+                    result = bookDAO.restoreBookDeleted(isbnTen, isbnThirteen);
                 } else {
                     result = addBook(request, title, subjectID, publisher, publishDate,
                             description, price, quantity, isbnTen, isbnThirteen, supplier, userDTO.getId(), authorID, true);
@@ -138,9 +141,9 @@ public class AddBookServlet extends HttpServlet {
         }
     }
 
-    protected void linkAuthorWithBook(String[] authorID, String bookIDTxt) throws SQLException, NamingException{
+    protected void linkAuthorWithBook(String[] authorID, String bookIDTxt) throws SQLException, NamingException {
         AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();
-        authorBookMapDAO.addMap(authorID,bookIDTxt);
+        authorBookMapDAO.addMap(authorID, bookIDTxt);
     }
 
     protected boolean addBook(HttpServletRequest request,
