@@ -2,8 +2,7 @@ package com.lmsu.controller.author;
 
 import com.lmsu.authorbookmaps.AuthorBookMapDAO;
 import com.lmsu.authors.AuthorDAO;
-import com.lmsu.books.BookDAO;
-import com.lmsu.controller.DeleteBookServlet;
+import com.lmsu.controller.book.DeleteBookServlet;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
