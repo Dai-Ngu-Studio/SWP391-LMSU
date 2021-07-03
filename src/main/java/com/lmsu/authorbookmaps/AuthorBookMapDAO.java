@@ -191,4 +191,28 @@ public class AuthorBookMapDAO implements Serializable {
             if (con != null) con.close();
         }
     }
+    public void addMap(String[] authorIDs, String bookIDTxt) throws NamingException, SQLException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "INSERT INTO [AuthorBookMaps]([authorID], [bookID]) " +
+                        "VALUES(?, ?)";
+                stm = con.prepareStatement(sql);
+                for (String authorID:authorIDs){
+                    stm.setString(1, authorID);
+                    stm.setString(2,bookIDTxt);
+                    stm.addBatch();
+                }
+                stm.executeBatch();
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
 }
