@@ -15,7 +15,6 @@ import java.sql.SQLException;
 @WebServlet(name = "AddUserServlet", value = "/AddUserServlet")
 public class AddUserServlet extends HttpServlet {
 
-    private static final String ERROR_PAGE = "error.jsp";
     private static final String SHOW_USER_CONTROLLER = "ShowMemberServlet";
     private static final String SEARCH_USER_CONTROLLER = "SearchUserServlet";
     static final Logger LOGGER = Logger.getLogger(AddUserServlet.class);
@@ -25,7 +24,7 @@ public class AddUserServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
 
-        String url = ERROR_PAGE;
+        String url = SHOW_USER_CONTROLLER;
 
         String searchValue = request.getParameter("txtSearchValue");
         String userID = request.getParameter("txtUserID");
@@ -43,7 +42,6 @@ public class AddUserServlet extends HttpServlet {
             boolean result = dao.checkUserExisted(userID);
             if (!result) {
                 dao.addUser(userID, userName, roleID, passwordHashed, email, phoneNumber, semester, profilePicturePath, false);
-                url = SHOW_USER_CONTROLLER;
             } else {
                 request.setAttribute("ADD_DUPLICATE", "User have existed");
             }
