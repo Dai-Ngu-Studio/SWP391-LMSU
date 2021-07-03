@@ -8,8 +8,8 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/GetBookByISBNServlet")
-public class GetBookByISBNServlet extends HttpServlet {
+@WebServlet("/CheckBookByISBNServlet")
+public class CheckBookByISBNServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String isbnTen = request.getParameter("txtISBNTen");
