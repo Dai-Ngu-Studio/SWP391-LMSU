@@ -83,9 +83,13 @@ function checkISBN() {
                                             width: "auto", //set width
                                             //add value to input field
                                             onSelect: function (suggestion) {
-                                                let chipTune='<div class="chip">'+suggestion.authorName+'<i class="close fal fa-times"></i><input type="hidden" value="'+suggestion.authorID+'"></div>';
+                                                let chipTune='<div class="chip">'
+                                                +suggestion.authorName+
+                                                '<i class="close fal fa-times"></i><' +
+                                                 'input type="hidden" name="txtAuthorID" value="'+suggestion.authorID+'">' +
+                                                 '</div>';
                                                 // $('#authorAutoComplete').val(suggestion.authorName);
-                                                $('input[id=authorIDAutocomplete]').parent().append(chipTune);
+                                                $('input[id=authorAutoComplete]').parent().append(chipTune);
                                             },
                                             showNoSuggestionNotice: true,
                                             noSuggestionNotice: 'Sorry, no matching results',
