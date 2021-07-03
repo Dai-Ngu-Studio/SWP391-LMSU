@@ -1,4 +1,4 @@
-package com.lmsu.controller;
+package com.lmsu.controller.book;
 
 import com.lmsu.books.BookDAO;
 import com.lmsu.utils.ImageHelpers;
@@ -11,7 +11,6 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.SQLException;
 
 @WebServlet(name = "UpdateBookServlet", value = "/UpdateBookServlet")
