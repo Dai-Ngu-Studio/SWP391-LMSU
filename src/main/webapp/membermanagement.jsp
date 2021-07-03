@@ -438,18 +438,27 @@
                                                                                                 Active status
                                                                                             </label>
                                                                                             <div class="col-sm-9">
-                                                                                                <c:if test="${member.activeStatus eq 'false'}">
-                                                                                                    <input type="text"
-                                                                                                           class="form-control"
-                                                                                                           name="updateActiveStatus"
-                                                                                                           value="Inactive">
-                                                                                                </c:if>
-                                                                                                <c:if test="${member.activeStatus eq 'true'}">
-                                                                                                    <input type="text"
-                                                                                                           class="form-control"
-                                                                                                           name="updateActiveStatus"
-                                                                                                           value="Active">
-                                                                                                </c:if>
+                                                                                                <select name="txtUpdateActiveStatus"
+                                                                                                        class="pl-3">
+                                                                                                    <c:if test="${member.activeStatus eq 'false'}">
+                                                                                                        <option value="0"
+                                                                                                                selected>
+                                                                                                            Inactive
+                                                                                                        </option>
+                                                                                                        <option value="1">
+                                                                                                            Active
+                                                                                                        </option>
+                                                                                                    </c:if>
+                                                                                                    <c:if test="${member.activeStatus eq 'true'}">
+                                                                                                        <option value="0">
+                                                                                                            Inactive
+                                                                                                        </option>
+                                                                                                        <option value="1"
+                                                                                                                selected>
+                                                                                                            Active
+                                                                                                        </option>
+                                                                                                    </c:if>
+                                                                                                </select>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
