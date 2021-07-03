@@ -77,7 +77,7 @@ public class AuthorBookMapDAO implements Serializable {
                 AuthorDAO authorDAO = new AuthorDAO();
                 BookDAO bookDAO = new BookDAO();
                 while (rs.next()) {
-                    if (this.authorBookMaps==null) {
+                    if (this.authorBookMaps == null) {
                         this.authorBookMaps = new ArrayList<AuthorBookMapDTO>();
                     }
                     int mapID = rs.getInt("id");
@@ -115,7 +115,7 @@ public class AuthorBookMapDAO implements Serializable {
                 AuthorDAO authorDAO = new AuthorDAO();
                 BookDAO bookDAO = new BookDAO();
                 while (rs.next()) {
-                    if (this.authorBookMaps==null) {
+                    if (this.authorBookMaps == null) {
                         this.authorBookMaps = new ArrayList<AuthorBookMapDTO>();
                     }
                     int mapID = rs.getInt("id");
@@ -135,7 +135,8 @@ public class AuthorBookMapDAO implements Serializable {
             if (con != null) con.close();
         }
     }
-    public ArrayList<String> getCannotDeleteAuthors() throws SQLException, NamingException{
+
+    public ArrayList<String> getCannotDeleteAuthors() throws SQLException, NamingException {
         ArrayList<String> listOfCannotDeleteAuthors = new ArrayList<>();
         Connection con = null;
         PreparedStatement stm = null;
@@ -169,6 +170,7 @@ public class AuthorBookMapDAO implements Serializable {
         }
         return listOfCannotDeleteAuthors;
     }
+
     public void deleteByAuthorID(String authorID) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -191,21 +193,23 @@ public class AuthorBookMapDAO implements Serializable {
             if (con != null) con.close();
         }
     }
-    public void addMap(String[] authorIDs, String bookIDTxt) throws NamingException, SQLException{
+
+    public void addMap(String[] authorIDs, String bookIDTxt) throws NamingException, SQLException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
-
         try {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 String sql = "INSERT INTO [AuthorBookMaps]([authorID], [bookID]) " +
                         "VALUES(?, ?)";
                 stm = con.prepareStatement(sql);
-                for (String authorID:authorIDs){
-                    stm.setString(1, authorID);
-                    stm.setString(2,bookIDTxt);
-                    stm.addBatch();
+                for (String authorID : authorIDs) {
+                    if (authorID.trim().isEmpty() == false) {
+                        stm.setString(1, authorID);
+                        stm.setString(2, bookIDTxt);
+                        stm.addBatch();
+                    }
                 }
                 stm.executeBatch();
             }
