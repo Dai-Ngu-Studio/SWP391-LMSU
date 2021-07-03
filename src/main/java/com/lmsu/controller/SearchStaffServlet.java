@@ -18,7 +18,7 @@ import java.util.List;
 @WebServlet(name = "SearchStaffServlet", value = "/SearchStaffServlet")
 public class SearchStaffServlet extends HttpServlet {
 
-    private static final String ERROR_PAGE = "error.jsp";
+    private static final String ERROR_PAGE = "staffmanagement.jsp";
     private static final String SHOW_STAFF_CONTROLLER = "ShowStaffServlet";
     static final Logger LOGGER = Logger.getLogger(SearchStaffServlet.class);
 
@@ -35,7 +35,7 @@ public class SearchStaffServlet extends HttpServlet {
                 UserDAO dao = new UserDAO();
                 dao.searchStaffByName(searchValue);
                 List<UserDTO> list = dao.getListAccount();
-                if (!list.isEmpty()) {
+                if (list != null && list.isEmpty() == false) {
                     request.setAttribute("SEARCH_RESULT", list);
                     url = SHOW_STAFF_CONTROLLER;
                 }
