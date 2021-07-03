@@ -1,8 +1,7 @@
 package com.lmsu.controller.author;
 
 import com.lmsu.authors.AuthorDAO;
-import com.lmsu.books.BookDAO;
-import com.lmsu.controller.UpdateBookServlet;
+import com.lmsu.controller.book.UpdateBookServlet;
 import com.lmsu.utils.ImageHelpers;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
@@ -12,7 +11,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.SQLException;
 
 @WebServlet(name = "UpdateAuthorServlet", value = "/UpdateAuthorServlet")
