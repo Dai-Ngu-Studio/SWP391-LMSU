@@ -1,4 +1,4 @@
-package com.lmsu.controller;
+package com.lmsu.controller.book;
 
 import com.lmsu.books.BookDAO;
 
@@ -17,7 +17,10 @@ public class GetBookByISBNServlet extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
             BookDAO dao = new BookDAO();
-            out.print(dao.checkISBNten(isbnTen) && dao.checkISBNthirteen(isbnThirteen));
+            // 0 mean isbn existed and book not deleted
+            // 1 mean isbn existed but book deleted
+            // 2 mean isbn not existed
+            out.print(dao.checkISBN(isbnTen, isbnThirteen));
         } catch (Exception exception) {
             log(exception.getMessage());
         }

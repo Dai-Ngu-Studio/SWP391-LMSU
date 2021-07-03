@@ -290,6 +290,45 @@ public class BookDAO implements Serializable {
         return false;
     }
 
+    // 0 mean isbn existed and book not deleted
+    // 1 mean isbn existed but book deleted
+    // 2 mean isbn not existed
+    public int checkISBN(String isbnTen, String isbnThirteen)  throws SQLException, NamingException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT [deleteStatus] " +
+                        "FROM [Books] " +
+                        "WHERE [ISBN_thirteenDigits] LIKE ? AND [ISBN_tenDigits] LIKE ?";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, isbnThirteen);
+                stm.setString(2, isbnTen);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                if (rs.next()){
+                    if (rs.getBoolean("deleteStatus")==false){
+                        return 0;
+                    } else{
+                        return 1;
+                    }
+                } else {
+                    return 2;
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return 2;
+    }
     // return true if ID is taken, false if ID is available
     public boolean checkBookId(String bookId) throws SQLException, NamingException {
         Connection con = null;
@@ -750,6 +789,33 @@ public class BookDAO implements Serializable {
             if (con != null) con.close();
         }
         return -1;
+    }
+    public boolean restoreBookDeleted(String isbnTen, String isbnThirteen) throws SQLException, NamingException{
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "UPDATE [Books] " +
+                        "SET [deleteStatus] = 0 " +
+                        "WHERE [ISBN_thirteenDigits] LIKE ? AND [ISBN_tenDigits] LIKE ?";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, isbnThirteen);
+                stm.setString(2, isbnTen);
+                //4. Execute Query and get rows affected
+                int rows = stm.executeUpdate();
+                //5. Process result
+                if (rows > 0) return true;
+            }
+        } finally {
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
     }
     // Start: Test Paged List
 //    public void viewPagedBookList() throws SQLException, NamingException {
