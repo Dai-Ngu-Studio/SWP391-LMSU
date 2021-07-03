@@ -19,7 +19,7 @@ function checkISBN() {
         xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
-                if (this.responseText.localeCompare('true') != 0) {
+                if (this.responseText.localeCompare('2') == 0) {
                     let htmlForNewBook = `<div class="form-group row" id="rowCover">
                                         <label class="col-sm-3 col-form-label">Book
                                             Cover
@@ -181,7 +181,7 @@ function checkISBN() {
                                         </div>
                                     </div>`;
                     $('#addModalBody').append(htmlForNewBook);
-                } else {
+                } else if (this.responseText.localeCompare('0') == 0) {
                     $('#rowCover').remove();
                     $('#rowInputCover').remove();
                     $('#rowTitle').remove();
@@ -193,6 +193,7 @@ function checkISBN() {
                     $('#rowPrice').remove();
                     $('#rowDescription').remove();
                     // $('#rowSupplier').remove();
+                    $('#rowAlert').remove();
                     if (!$('#rowSupplier').length) {
                         let rowHTMLSupplier = `<div class="form-group row" id="rowSupplier">
                                                 <label class="col-sm-3 col-form-label">
@@ -223,10 +224,27 @@ function checkISBN() {
                                                 </div>`;
                         $('#addModalBody').append(rowHTMLQuantity);
                     }
+                } else if (this.responseText.localeCompare('1') == 0){
+                    $('#rowCover').remove();
+                    $('#rowInputCover').remove();
+                    $('#rowTitle').remove();
+                    $('#rowAuthor').remove();
+                    $('#rowSubject').remove();
+                    $('#rowPublisher').remove();
+                    $('#rowPublishDate').remove();
+                    $('#rowQuantity').remove();
+                    $('#rowPrice').remove();
+                    $('#rowDescription').remove();
+                    $('#rowSupplier').remove();
+                    let alert = `<div class="alert alert-primary" role="alert" id="rowAlert">
+                                    This book's information was existed but got deleted <br/>
+                                    Press SAVE to restore this book
+                                </div>`;
+                    $('#addModalBody').append(alert);
                 }
             }
         };
-        xhttp.open("GET", 'GetBookByISBNServlet?txtISBNTen=' + inputTen.value + '&txtISBNThirteen=' + inputThirteen.value, true);
+        xhttp.open("GET", 'CheckBookByISBNServlet?txtISBNTen=' + inputTen.value + '&txtISBNThirteen=' + inputThirteen.value, true);
         xhttp.send();
     } else {
         $('#rowCover').remove();
@@ -240,6 +258,7 @@ function checkISBN() {
         $('#rowPrice').remove();
         $('#rowDescription').remove();
         $('#rowSupplier').remove();
+        $('#rowAlert').remove();
     }
 }
 
