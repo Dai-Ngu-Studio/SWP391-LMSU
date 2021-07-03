@@ -307,7 +307,7 @@ public class UserDAO implements Serializable {
                 String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], " +
                         "[phoneNumber], [profilePicturePath], [activeStatus] " +
                         "FROM [Users] " +
-                        "WHERE [name] LIKE ? AND roleID = 1 OR roleID = 2 OR roleID = 3";
+                        "WHERE [name] LIKE ? AND (roleID = 1 OR roleID = 2 OR roleID = 3)";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 stm.setString(1, "%" + searchValue + "%");

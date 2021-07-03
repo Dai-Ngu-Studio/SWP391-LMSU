@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -132,10 +133,11 @@
                     <div class="card-body">
                         <h4 class="card-title">Staff Management</h4>
                         <div class="row">
+                            <div class="col-12">
                                 <div class="table-responsive">
                                     <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                         <div class="row">
-                                            <div class="col-sm-12">
+                                            <div class="table-responsive">
                                                 <table id="staff-datatable" role="grid"
                                                        class="table table-hover dataTable no-footer my-2">
                                                     <thead>
@@ -173,6 +175,7 @@
                                                                 </td>
 
                                                                 <td class="text-center">
+
                                                                     <form action="DispatchServlet"
                                                                           enctype="multipart/form-data"
                                                                           method="POST">
@@ -218,13 +221,26 @@
                                                                                                         Avatar
                                                                                                     </label>
                                                                                                     <div class="col-sm-9">
-                                                                                                        <img class="img-thumbnail rounded float-right"
-                                                                                                             style="height: 250px; width: auto;"
-                                                                                                             src="${pageContext.request.contextPath}/image/${staff.profilePicturePath}"
-                                                                                                             id="coverPictureView${staff.id}"
-                                                                                                             alt="Avatar"
-                                                                                                             onerror="this.onerror=null; this.src='images/default-user-icon.png';"
-                                                                                                        />
+                                                                                                        <c:set var="googleAvatar"
+                                                                                                               value="${fn:substringBefore(staff.profilePicturePath, ':')}"/>
+                                                                                                        <c:if test="${googleAvatar ne 'https'}">
+                                                                                                            <img class="img-thumbnail rounded float-right"
+                                                                                                                 style="height: 250px; width: auto;"
+                                                                                                                 src="${pageContext.request.contextPath}/image/${staff.profilePicturePath}"
+                                                                                                                 id="coverPictureView${staff.id}"
+                                                                                                                 alt="Avatar"
+                                                                                                                 onerror="this.onerror=null; this.src='images/default-user-icon.png';"
+                                                                                                            />
+                                                                                                        </c:if>
+                                                                                                        <c:if test="${googleAvatar eq 'https'}">
+                                                                                                            <img class="img-thumbnail rounded float-right"
+                                                                                                                 style="height: 250px; width: auto;"
+                                                                                                                 src="${staff.profilePicturePath}"
+                                                                                                                 id="coverPictureView${staff.id}"
+                                                                                                                 alt="AvatarGoogle"
+                                                                                                                 onerror="this.onerror=null; this.src='images/default-user-icon.png';"
+                                                                                                            />
+                                                                                                        </c:if>
                                                                                                         <input type="hidden"
                                                                                                                name="txtCoverFile"
                                                                                                                value="${staff.profilePicturePath}">
@@ -336,16 +352,30 @@
                                                                                         <div class="modal-body">
                                                                                             <div class="form-group row">
                                                                                                 <label class="col-sm-3 col-form-label">
-                                                                                                    User avatar
+                                                                                                    Avatar
                                                                                                 </label>
                                                                                                 <div class="col-sm-9">
-                                                                                                    <img class="rounded float-right"
-                                                                                                         style="height: 250px; width: auto;"
-                                                                                                         src="${pageContext.request.contextPath}/image/${staff.profilePicturePath}"
-                                                                                                         id="coverPictureUpdate${staff.id}"
-                                                                                                         alt="User avatar"
-                                                                                                         onerror="this.onerror=null; this.src='images/default-user-icon.png';"
-                                                                                                    />
+                                                                                                    <c:set var="googleAvatar"
+                                                                                                           value="${fn:substringBefore(staff.profilePicturePath, ':')}"/>
+                                                                                                    <c:if test="${googleAvatar ne 'https'}">
+                                                                                                        <img class="img-thumbnail rounded float-right"
+                                                                                                             style="height: 250px; width: auto;"
+                                                                                                             src="${pageContext.request.contextPath}/image/${staff.profilePicturePath}"
+                                                                                                             id="coverPictureUpdate${staff.id}"
+                                                                                                             alt="Avatar"
+                                                                                                             onerror="this.onerror=null; this.src='images/default-user-icon.png';"
+                                                                                                        />
+                                                                                                    </c:if>
+                                                                                                    <c:if test="${googleAvatar eq 'https'}">
+                                                                                                        <img class="img-thumbnail rounded float-right"
+                                                                                                             style="height: 250px; width: auto;"
+                                                                                                             src="${staff.profilePicturePath}"
+                                                                                                             id="coverPictureUpdate${staff.id}"
+                                                                                                             alt="AvatarGoogle"
+                                                                                                             onerror="this.onerror=null; this.src='images/default-user-icon.png';"
+                                                                                                        />
+
+                                                                                                    </c:if>
                                                                                                     <input type="hidden"
                                                                                                            name="txtCoverFile"
                                                                                                            value="${staff.profilePicturePath}">
@@ -419,21 +449,58 @@
                                                                                             </div>
                                                                                             <div class="form-group row">
                                                                                                 <label class="col-sm-3 col-form-label">
+                                                                                                    Role
+                                                                                                </label>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <select name="txtUpdateRoleID"
+                                                                                                            class="pl-3">
+                                                                                                        <c:if test="${staff.roleID eq '3'}">
+                                                                                                            <option value="3"
+                                                                                                                    selected>
+                                                                                                                Librarian
+                                                                                                            </option>
+                                                                                                            <option value="2">
+                                                                                                                Manager
+                                                                                                            </option>
+                                                                                                        </c:if>
+                                                                                                        <c:if test="${staff.activeStatus eq '2'}">
+                                                                                                            <option value="3">
+                                                                                                                Librarian
+                                                                                                            </option>
+                                                                                                            <option value="2"
+                                                                                                                    selected>
+                                                                                                                Manager
+                                                                                                            </option>
+                                                                                                        </c:if>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-3 col-form-label">
                                                                                                     Active status
                                                                                                 </label>
                                                                                                 <div class="col-sm-9">
-                                                                                                    <c:if test="${staff.activeStatus eq 'false'}">
-                                                                                                        <input type="text"
-                                                                                                               class="form-control"
-                                                                                                               name="updateActiveStatus"
-                                                                                                               value="Inactive">
-                                                                                                    </c:if>
-                                                                                                    <c:if test="${staff.activeStatus eq 'true'}">
-                                                                                                        <input type="text"
-                                                                                                               class="form-control"
-                                                                                                               name="updateActiveStatus"
-                                                                                                               value="Active">
-                                                                                                    </c:if>
+                                                                                                    <select name="txtUpdateActiveStatus"
+                                                                                                            class="pl-3">
+                                                                                                        <c:if test="${staff.activeStatus eq 'false'}">
+                                                                                                            <option value="0"
+                                                                                                                    selected>
+                                                                                                                Inactive
+                                                                                                            </option>
+                                                                                                            <option value="1">
+                                                                                                                Active
+                                                                                                            </option>
+                                                                                                        </c:if>
+                                                                                                        <c:if test="${staff.activeStatus eq 'true'}">
+                                                                                                            <option value="0">
+                                                                                                                Inactive
+                                                                                                            </option>
+                                                                                                            <option value="1"
+                                                                                                                    selected>
+                                                                                                                Active
+                                                                                                            </option>
+                                                                                                        </c:if>
+                                                                                                    </select>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -516,7 +583,7 @@
                                         </div>
                                     </div>
                                 </div>
-
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -554,7 +621,7 @@
 <script src="js/todolist.js"></script>
 <!-- endinject -->
 <!-- Custom js for this page-->
-<script src="js/staffmanagement.js"></script>
+<jsp:include page="staffmanagement.js.jsp"></jsp:include>
 <!-- End custom js for this page-->
 </body>
 </html>

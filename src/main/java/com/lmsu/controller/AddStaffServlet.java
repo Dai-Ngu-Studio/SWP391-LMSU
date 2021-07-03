@@ -12,24 +12,24 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
-@WebServlet(name = "AddUserServlet", value = "/AddUserServlet")
-public class AddUserServlet extends HttpServlet {
+@WebServlet(name = "AddStaffServlet", value = "/AddStaffServlet")
+public class AddStaffServlet extends HttpServlet {
 
-    private static final String SHOW_USER_CONTROLLER = "ShowMemberServlet";
-    private static final String SEARCH_USER_CONTROLLER = "SearchUserServlet";
-    static final Logger LOGGER = Logger.getLogger(AddUserServlet.class);
+    private static final String SHOW_STAFF_CONTROLLER = "ShowStaffServlet";
+    private static final String SEARCH_STAFF_CONTROLLER = "SearchStaffServlet";
+    static final Logger LOGGER = Logger.getLogger(AddStaffServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
 
-        String url = SHOW_USER_CONTROLLER;
+        String url = SHOW_STAFF_CONTROLLER;
 
         String searchValue = request.getParameter("txtSearchValue");
         String userID = request.getParameter("txtUserID");
         String userName = request.getParameter("txtUserName");
-        String roleID = "4";
+        String roleID = request.getParameter("txtRoleID");
         String semester = request.getParameter("txtSemester");
         String password = request.getParameter("txtPassword");
         String passwordHashed = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
@@ -39,25 +39,35 @@ public class AddUserServlet extends HttpServlet {
 
         try {
             UserDAO dao = new UserDAO();
-            boolean result = dao.checkUserExisted(userID);
-            if (!result) {
-                dao.addUser(userID, userName, roleID, passwordHashed, email, phoneNumber, semester, profilePicturePath, false);
-            } else {
-                request.setAttribute("ADD_DUPLICATE", "User have existed");
-            }
-            if (!result) {
-                if (searchValue == null || searchValue.trim().isEmpty()) {
-                    url = SHOW_USER_CONTROLLER;
-                } else {
-                    url = SEARCH_USER_CONTROLLER;
+            if (roleID.equalsIgnoreCase("3")) {
+                if (userID.substring(0, 3).equalsIgnoreCase("LIB")) {
+                    boolean result = dao.checkUserExisted(userID);
+                    if (!result) {
+                        dao.addUser(userID, userName, roleID, passwordHashed, email, phoneNumber, semester, profilePicturePath, false);
+                    } else {
+                        request.setAttribute("ADD_DUPLICATE", "User have existed");
+                    }
                 }
+            }
+            if (roleID.equalsIgnoreCase("2")) {
+                if (userID.substring(0, 3).equalsIgnoreCase("MNG")) {
+                    boolean result = dao.checkUserExisted(userID);
+                    if (!result) {
+                        dao.addUser(userID, userName, roleID, passwordHashed, email, phoneNumber, semester, profilePicturePath, false);
+                    } else {
+                        request.setAttribute("ADD_DUPLICATE", "User have existed");
+                    }
+                }
+            }
+            if (!(searchValue == null || searchValue.trim().isEmpty())) {
+                url = SEARCH_STAFF_CONTROLLER;
             }
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
-            log("AddUserServlet _ SQL: " + ex.getMessage());
+            log("AddStaffServlet _ SQL: " + ex.getMessage());
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
-            log("AddUserServlet _ Naming: " + ex.getMessage());
+            log("AddStaffServlet _ Naming: " + ex.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
