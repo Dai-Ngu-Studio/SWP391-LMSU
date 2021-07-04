@@ -318,7 +318,7 @@
                                                                     --%>
                                                             <c:set var="renewalMap"
                                                                    value="${requestScope.RENEWAL_MAP_LIST}"/>
-                                                            <c:set var="keyset" value="${renewalMap.keySet()}"/>
+
                                                             <c:choose>
                                                                 <c:when test="${renewalMap.get(orderItem.id) <= 3}">
                                                                     <c:if test="${(orderItem.lendStatus eq 2)
@@ -491,14 +491,46 @@
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="form-group row" id="rowExtendDate">
+                                                                    <script>
+                                                                        function validExtendDate(itemid) {
+                                                                            let dateRow = $("#txtDate" + itemid);
+                                                                            console.log(dateRow);
+                                                                            var xhttp;
+                                                                            xhttp = new XMLHttpRequest();
+                                                                            xhttp.onreadystatechange = function () {
+                                                                                if (this.readyState === 4 && this.status === 200) {
+                                                                                    if (this.responseText.localeCompare('false') == 0) {
+                                                                                        let invalidText = `<div class="row">
+                                                                                            <div class="col-12 text-left">
+                                                                                                <small class="text-danger">
+                                                                                                    Please don't choose a date that's below your current deadline
+                                                                                                    (Current Deadline: ${orderItem.returnDeadline.toLocalDate()})
+                                                                                                </small>
+                                                                                            </div>
+                                                                                        </div>`;
+                                                                                        $("#rowExtendDate" + itemid).append(invalidText);
+                                                                                        $("#btnSave"+itemid).attr('disabled', '').addClass("btn-secondary").removeClass("btn-primary");
+                                                                                    }
+                                                                                    else {
+                                                                                        $("#btnSave" + itemid).removeAttr('disabled').addClass("btn-primary").removeClass("btn-secondary");
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                            xhttp.open("GET", 'RenewalTimeValidationServlet?orderItemID=' + itemid + '&txtExtendDate=' + dateRow.val(), true);
+                                                                            xhttp.send();
+                                                                        }
+                                                                    </script>
+
+                                                                    <div class="form-group row" id="rowExtendDate${orderItem.id}">
                                                                         <label class="col-sm-3 col-form-label">
                                                                             Extend Date
                                                                         </label>
                                                                         <div class="col-sm-9">
                                                                             <input class="form-control"
                                                                                    type="date"
-                                                                                   value="2021-06-03"
+                                                                                   id="txtDate${orderItem.id}"
+                                                                                   value=""
+                                                                                   onchange="validExtendDate(${orderItem.id})"
                                                                                    name="txtExtendDate"
                                                                             >
                                                                         </div>
@@ -506,8 +538,12 @@
 
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="submit" class="btn btn-primary"
-                                                                            name="btAction" value="Renew Book">
+                                                                    <button type="submit"
+                                                                            class="btn btn-primary"
+                                                                            name="btAction"
+                                                                            value="Renew Book"
+                                                                            id="btnSave${orderItem.id}"
+                                                                    >
                                                                         Yes
                                                                     </button>
                                                                     <button type="button"

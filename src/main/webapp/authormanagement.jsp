@@ -232,26 +232,11 @@
                                                                                             Cover
                                                                                         </label>
 
-                                                                                        <div class="col-sm-6">
-                                                                                            <div class="custom-file">
-                                                                                                <input type="file"
-                                                                                                       class="custom-file-input"
-                                                                                                       id="customFileUpdate${author.authorID}"
-                                                                                                       name="coverPicture"
-                                                                                                       onchange="readURL(this, 'coverPictureUpdate${author.authorID}');"
-                                                                                                >
-                                                                                                <label class="custom-file-label"
-                                                                                                       for="customFileUpdate${author.authorID}">Choose
-                                                                                                    Image
-                                                                                                </label>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="col-sm-4">
+                                                                                        <div class="col-sm-10">
                                                                                             <img class="rounded float-right"
                                                                                                  style="height: 280px; width: auto;"
                                                                                                  src="${pageContext.request.contextPath}/image/${author.coverPath}"
-                                                                                                 id="coverPictureUpdate${author.authorID}"
+                                                                                                 id="coverPictureUpdate2${author.authorID}"
                                                                                                  alt="Book cover"
                                                                                                  onerror="this.onerror=null; this.src='images/imagenotfound.jpg';"
                                                                                             />
@@ -358,7 +343,7 @@
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
                                                                                 <h5 class="modal-title"
-                                                                                    id="exampleModalLongTitle">
+                                                                                    id="exampleModalLongTitle3">
                                                                                     Edit Author Details
                                                                                 </h5>
                                                                                 <button type="button"
