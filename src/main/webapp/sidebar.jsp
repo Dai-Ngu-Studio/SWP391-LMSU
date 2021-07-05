@@ -25,8 +25,6 @@
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
     <%-- endinject --%>
     <link rel="shortcut icon" href="images/images/favicon.png"/>
-    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
     <script src="js/iconpro.js"></script>
 </head>
 <body>
