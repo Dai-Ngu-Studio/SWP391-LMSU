@@ -1,5 +1,6 @@
 package com.lmsu.controller.book;
 
+import com.lmsu.authorbookmaps.AuthorBookMapDAO;
 import com.lmsu.books.BookDAO;
 import com.lmsu.utils.ImageHelpers;
 import org.apache.commons.io.FilenameUtils;
@@ -27,7 +28,7 @@ public class UpdateBookServlet extends HttpServlet {
 
         String bookID = request.getParameter("pk");
         String title = request.getParameter("txtUpdateTitle");
-        String authorID = request.getParameter("txtUpdateAuthorID");
+        String[] authorIDs = request.getParameterValues("txtAuthorID");
 
         String publishDate = request.getParameter("txtUpdatePubliDate");
         String publisher = request.getParameter("txtUpdatePublisher");
@@ -42,7 +43,6 @@ public class UpdateBookServlet extends HttpServlet {
 
         String searchVal = request.getParameter("txtSearchValue");
         String coverFile = request.getParameter("txtCoverFile");
-        boolean check = false;
         try {
             BigDecimal priceDecimal = new BigDecimal(price);
             int quantityNum = Integer.parseInt(quantity);
@@ -58,6 +58,8 @@ public class UpdateBookServlet extends HttpServlet {
                     break;
                 }
             }
+            AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();
+            authorBookMapDAO.updateMap(authorIDs,bookID);
             boolean result = dao.updateBook(bookID, title, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, ISBN_ten, ISBN_thirteen, coverFile);
             if (result) {
                 if (searchVal == null || searchVal.trim().isEmpty()) {
