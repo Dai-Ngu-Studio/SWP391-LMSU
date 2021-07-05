@@ -63,7 +63,7 @@ public class AuthorDAO implements Serializable {
                 //2. Create SQL String
                 String sql = "SELECT [id], [name], [bio], [profilePicturePath] " +
                         "FROM [Authors] " +
-                        "WHERE [id] = ? ";
+                        "WHERE [id] = ? AND [deleteStatus] = 0";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 stm.setString(1, authorID);
@@ -96,7 +96,7 @@ public class AuthorDAO implements Serializable {
             if (con != null) {
                 String sql = "SELECT [id], [name], [bio], [profilePicturePath] " +
                         "FROM [Authors] " +
-                        "WHERE [name] like ?";
+                        "WHERE [name] LIKE ? AND [deleteStatus] = 0";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, "%" + searchVal + "%");
 
@@ -133,7 +133,7 @@ public class AuthorDAO implements Serializable {
                 //2. Create SQL String
                 String sql = "SELECT [name] " +
                         "FROM [Authors] " +
-                        "WHERE [id] = ? ";
+                        "WHERE [id] = ? AND [deleteStatus] = 0";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 stm.setString(1, authorID);
@@ -163,7 +163,7 @@ public class AuthorDAO implements Serializable {
                 //2. Create SQL String
                 String sql = "SELECT [id], [name] "
                         + "FROM [Authors] "
-                        + "WHERE [name] LIKE ? ";
+                        + "WHERE [name] LIKE ? AND [deleteStatus] = 0";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 stm.setString(1, "%" + name + "%");
