@@ -1,4 +1,4 @@
-package com.lmsu.controller;
+package com.lmsu.controller.usersettings;
 
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
@@ -11,28 +11,37 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "ChangePhoneServlet", value = "/ChangePhoneServlet")
-public class ChangePhoneServlet extends HttpServlet {
+@WebServlet(name = "ChangePasswordServlet", value = "/ChangePasswordServlet")
+public class ChangePasswordServlet extends HttpServlet {
 
     private static final String RESULT_PAGE = "usersettings.jsp";
+
     static final Logger LOGGER = Logger.getLogger(ChangePasswordServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pk = request.getParameter("pk");
-        String phone = request.getParameter("txtPhone");
-        HttpSession session = request.getSession();
+        String currentPW = request.getParameter("txtCurrentPassword");
+        String newPW = request.getParameter("txtNewPassword");
+        String confirmPW = request.getParameter("txtConfirmPassword");
 
         String url = RESULT_PAGE;
+
         try {
+            HttpSession session = request.getSession();
             UserDAO dao = new UserDAO();
             UserDTO dto = (UserDTO) session.getAttribute("LOGIN_USER");
-            if(session != null){
-                if(!phone.equals("")){
-                    boolean result = dao.updatePhone(pk, phone);
-                    if(result){
-                        dto.setPhoneNumber(phone);
+
+            if (currentPW.equals(dto.getPassword())) {
+                if (confirmPW.trim().equals(newPW.trim())) {
+                    boolean result = dao.updatePassword(pk, newPW);
+                    if (result) {
+                        dto.setPassword(newPW);
                     }
+                } else {
+                    request.setAttribute("WRONG_CONFIRM_PASSWORD", "confirm password not match!");
                 }
+            } else {
+                request.setAttribute("WRONG_PASSWORD", "password not match!");
             }
             url = RESULT_PAGE;
         } catch (SQLException ex) {
@@ -55,4 +64,5 @@ public class ChangePhoneServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
+
 }

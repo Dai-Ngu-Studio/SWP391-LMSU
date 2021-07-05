@@ -46,11 +46,6 @@ public class ShowAuthorServlet extends HttpServlet {
                 AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();
                 authorBookMapDAO.viewAuthorBookMapList();
                 List<AuthorBookMapDTO> authorBookMapList = authorBookMapDAO.getAuthorBookMaps();
-                for (AuthorBookMapDTO dto : authorBookMapList
-                ) {
-                    System.out.println(dto);
-                }
-                System.out.println();
 
                 for (AuthorBookMapDTO tmp: authorBookMapList
                      ) {
@@ -63,15 +58,12 @@ public class ShowAuthorServlet extends HttpServlet {
                     }
                 }
                 request.setAttribute("AUTHOR_MAP", authorMap);
-                for (String string : authorMap.keySet()
-                     ) {
-                    System.out.println("Key: " + string + " value: " + authorMap.get(string));
-                }
+
             }
             AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();
             ArrayList<String> listOfCannotDeleteAuthor = authorBookMapDAO.getCannotDeleteAuthors();
             request.setAttribute("DO_NOT_DELETE_AUTHOR_LIST", listOfCannotDeleteAuthor);
-            //System.out.println(listOfCannotDeleteAuthor);
+
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             log("ShowAuthorServlet _ SQL: " + e.getMessage());

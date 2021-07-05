@@ -40,7 +40,6 @@ public class DispatchServlet extends HttpServlet {
     private static final String DELETE_AUTHOR_CONTROLLER = "DeleteAuthorServlet";
     private static final String SEARCH_AUTHOR_CONTROLLER = "SearchAuthorNameServlet";
     private static final String ADD_AUTHOR_CONTROLLER = "AddAuthorServlet";
-    private static final String VIEW_AUTHOR_DETAILS_CONTROLLER = "ViewAuthorDetailsServlet";
     private static final String RENEWAL_REQUEST_CONTROLLER = "RenewRequestServlet";
 
 
@@ -93,8 +92,6 @@ public class DispatchServlet extends HttpServlet {
                 url = SEARCH_AUTHOR_CONTROLLER;
             } else if (button.equals("AddAuthor")) {
                 url = ADD_AUTHOR_CONTROLLER;
-            } else if (button.equals("View Authors")) {
-                url = VIEW_AUTHOR_DETAILS_CONTROLLER;
             } else if (button.equals("SearchStaff")) {
                 url = SEARCH_STAFF_CONTROLLER;
             } else if (button.equals("Renew Book")) {

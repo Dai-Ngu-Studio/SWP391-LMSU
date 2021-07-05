@@ -71,4 +71,35 @@ public class DirectOrderDAO implements Serializable {
         }
         return null;
     }
+
+    public boolean updateLibrarianOfOrder(int orderID, String librarianID, boolean useInBatch)
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        try {
+            if (useInBatch) {
+                con = conn;
+            } else {
+                con = DBHelpers.makeConnection();
+            }
+            if (con != null) {
+                String sql = "UPDATE [DirectOrder] " +
+                        "SET [librarianID] = ? " +
+                        "WHERE [orderID] = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, librarianID);
+                stm.setInt(2, orderID);
+                int row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } finally {
+            if (!useInBatch) {
+                if (con != null) con.close();
+            }
+            if (stm != null) stm.close();
+        }
+        return false;
+    }
 }
