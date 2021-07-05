@@ -193,6 +193,56 @@ public class AuthorBookMapDAO implements Serializable {
             if (con != null) con.close();
         }
     }
+    public void deleteByBookID(String txtBookID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "DELETE FROM [AuthorBookMaps] " +
+                        "WHERE [bookID] = ?";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, txtBookID);
+                //4. Execute Query and get rows affected
+                stm.executeUpdate();
+            }
+        } finally {
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
+    public boolean isExistedMap(String authorID, String bookIDTxt) throws NamingException, SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT [id] " +
+                        "FROM [AuthorBookMaps] " +
+                        "WHERE [authorID] LIKE ? AND [bookID] LIKE ?";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, authorID);
+                stm.setString(2, bookIDTxt);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                if (rs.next()) return true;
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
 
     public void addMap(String[] authorIDs, String bookIDTxt) throws NamingException, SQLException {
         Connection con = null;
@@ -205,7 +255,8 @@ public class AuthorBookMapDAO implements Serializable {
                         "VALUES(?, ?)";
                 stm = con.prepareStatement(sql);
                 for (String authorID : authorIDs) {
-                    if (authorID.trim().isEmpty() == false) {
+                    System.out.println(authorID);
+                    if (authorID.trim().isEmpty() == false && isExistedMap(authorID, bookIDTxt) == false) {
                         stm.setString(1, authorID);
                         stm.setString(2, bookIDTxt);
                         stm.addBatch();
@@ -218,5 +269,9 @@ public class AuthorBookMapDAO implements Serializable {
             if (stm != null) stm.close();
             if (con != null) con.close();
         }
+    }
+    public void updateMap(String[] authorIDs, String bookIDTxt) throws NamingException, SQLException {
+        deleteByBookID(bookIDTxt);
+        addMap(authorIDs,bookIDTxt);
     }
 }
