@@ -1,5 +1,8 @@
 package com.lmsu.controller.book;
 
+import com.lmsu.authorbookmaps.AuthorBookMapDAO;
+import com.lmsu.authorbookmaps.AuthorBookMapDTO;
+import com.lmsu.authors.AuthorDTO;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import org.apache.log4j.Logger;
@@ -13,7 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "ShowBookServlet", value = "/ShowBookServlet")
 public class ShowBookServlet extends HttpServlet {
@@ -28,14 +34,30 @@ public class ShowBookServlet extends HttpServlet {
 
         String url = BOOK_MANAGEMENT_PAGE;
         try {
+            AuthorBookMapDAO authorBookMapDAO= new AuthorBookMapDAO();
+            authorBookMapDAO.viewAuthorBookMapList();
+            List<AuthorBookMapDTO> list = authorBookMapDAO.getAuthorBookMaps();
+            //First String is bookID
+            Map<String, ArrayList<AuthorDTO>> bookAuthorMap = new HashMap<>();
+            for (AuthorBookMapDTO dto:list){
+                String bookID = dto.getBookDTO().getBookID();
+
+                if (bookAuthorMap.containsKey(bookID) == true){
+                    bookAuthorMap.get(bookID).add(dto.getAuthorDTO());
+                } else {
+                    ArrayList<AuthorDTO> newAuthorList = new ArrayList<>();
+                    newAuthorList.add(dto.getAuthorDTO());
+                    bookAuthorMap.put(bookID, newAuthorList);
+                }
+            }
+            request.setAttribute("BOOK_AUTHOR_MAP", bookAuthorMap);
             List<BookDTO> searchResultReceived = (List<BookDTO>) request.getAttribute("SEARCH_RESULT");
             if (searchResultReceived != null) {
                 request.setAttribute("BOOK_LIST", searchResultReceived);
             } else {
-                BookDAO dao = new BookDAO();
-                dao.viewBookList();
-                List<BookDTO> result = dao.getBookList();
-
+                BookDAO bookDAO = new BookDAO();
+                bookDAO.viewBookList();
+                List<BookDTO> result = bookDAO.getBookList();
                 request.setAttribute("BOOK_LIST", result);
             }
         } catch (SQLException e) {
