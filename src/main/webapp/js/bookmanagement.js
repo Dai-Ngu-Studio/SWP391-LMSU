@@ -10,7 +10,24 @@ function readURL(input, idImage) {
         reader.readAsDataURL(input.files[0]);
     }
 }
-
+function inputForAutoComplete(input){
+    let idInput = $(input).attr('id');
+    $('#'+idInput).devbridgeAutocomplete({
+        serviceUrl: 'AutoSuggestAuthorServlet', //tell the script where to send requests
+        width: "auto", //set width
+        //add value to input field
+        onSelect: function (suggestion) {
+            let chipTune='<div class="chip">'
+                +suggestion.authorName+
+                '<i class="close fal fa-times"></i><' +
+                'input type="hidden" name="txtAuthorID" value="'+suggestion.authorID+'">' +
+                '</div>';
+            $('input[id='+idInput+']').parent().append(chipTune);
+        },
+        showNoSuggestionNotice: true,
+        noSuggestionNotice: 'Sorry, no matching results',
+    });
+}
 function checkISBN() {
     let inputTen = document.getElementById("txtISBNTen");
     let inputThirteen = document.getElementById("txtISBNThirteen");
@@ -71,30 +88,31 @@ function checkISBN() {
                                         <div class="col-sm-9">
                                             <input type="text" id="authorAutoComplete"
                                                     class="form-control"
+                                                    onfocus="inputForAutoComplete(this);"
                                             >
                                             <input type="hidden" id="authorIDAutocomplete"
                                                     name="txtAuthorID"
                                                     value=""
                                             >
                                         </div>
-                                        <script>
-                                            $("#authorAutoComplete").autocomplete({
-                                            serviceUrl: 'AutoSuggestAuthorServlet', //tell the script where to send requests
-                                            width: "auto", //set width
-                                            //add value to input field
-                                            onSelect: function (suggestion) {
-                                                let chipTune='<div class="chip">'
-                                                +suggestion.authorName+
-                                                '<i class="close fal fa-times"></i><' +
-                                                 'input type="hidden" name="txtAuthorID" value="'+suggestion.authorID+'">' +
-                                                 '</div>';
-                                                // $('#authorAutoComplete').val(suggestion.authorName);
-                                                $('input[id=authorAutoComplete]').parent().append(chipTune);
-                                            },
-                                            showNoSuggestionNotice: true,
-                                            noSuggestionNotice: 'Sorry, no matching results',
-                                            });
-                                        </script>
+<!--                                        <script>-->
+<!--                                            $("#authorAutoComplete").devbridgeAutocomplete({-->
+<!--                                            serviceUrl: 'AutoSuggestAuthorServlet', //tell the script where to send requests-->
+<!--                                            width: "auto", //set width-->
+<!--                                            //add value to input field-->
+<!--                                            onSelect: function (suggestion) {-->
+<!--                                                let chipTune='<div class="chip">'-->
+<!--                                                +suggestion.authorName+-->
+<!--                                                '<i class="close fal fa-times"></i><' +-->
+<!--                                                 'input type="hidden" name="txtAuthorID" value="'+suggestion.authorID+'">' +-->
+<!--                                                 '</div>';-->
+<!--                                                // $('#authorAutoComplete').val(suggestion.authorName);-->
+<!--                                                $('input[id=authorAutoComplete]').parent().append(chipTune);-->
+<!--                                            },-->
+<!--                                            showNoSuggestionNotice: true,-->
+<!--                                            noSuggestionNotice: 'Sorry, no matching results',-->
+<!--                                            });-->
+<!--                                        </script>-->
                                     </div>
                                     <div class="form-group row" id="rowSubject">
                                         <label class="col-sm-3 col-form-label">
@@ -139,7 +157,7 @@ function checkISBN() {
                                         <div class="col-sm-9">
                                             <input class="form-control"
                                                     type="date"
-                                                    value="2021-06-03"
+                                                    value=""
                                                     name="txtPublishDate"
                                             >
                                         </div>
@@ -373,4 +391,5 @@ $(document).ready(function () {
                             <!--End: BUTTON AND ADD FILE-->
                         </div>`;
     $('#book-datatable_wrapper').children().eq(0).children().eq(1).append(fileSearchAdd);
+
 });
