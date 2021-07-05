@@ -281,6 +281,7 @@ public class OrderItemDAO implements Serializable {
 
     /**
      * Only use for approval, using for any other case will cause faulty logic
+     *
      * @param orderID
      * @param lendStatus
      * @param useInBatch
@@ -342,6 +343,54 @@ public class OrderItemDAO implements Serializable {
                 }
             }
         } finally {
+            if (stm != null) stm.close();
+        }
+        return false;
+    }
+
+    /**
+     * @param id              id of order item
+     * @param date            a java.sql.Date type object
+     * @param receiveOrReturn specify if the date parameter is a receive/ return date;
+     *                        false: receive;
+     *                        true: return;
+     * @param useInBatch      specify if a consistent connection is to be used instead,
+     *                        the connection must be specified in the constructor beforehand
+     * @return
+     * @throws SQLException
+     * @throws NamingException
+     */
+    public boolean updateOrderItemDate(int id, Date date, boolean receiveOrReturn, boolean useInBatch)
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            if (useInBatch) {
+                con = conn;
+            } else {
+                con = DBHelpers.makeConnection();
+            }
+            if (con != null) {
+                String sql = "UPDATE [OrderItems] ";
+                if (!receiveOrReturn) {
+                    sql += " SET [lendDate] = ? ";
+                } else {
+                    sql += " SET [returnDate] = ? ";
+                }
+                sql += " WHERE [id] = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setDate(1, date);
+                stm.setInt(2, id);
+                int row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } finally {
+            if (!useInBatch) {
+                if (con != null) con.close();
+            }
             if (stm != null) stm.close();
         }
         return false;
