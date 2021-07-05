@@ -196,7 +196,7 @@ public class BookDAO implements Serializable {
                 String sql = "SELECT [id], [title], [subjectID], [publisher], [publishDate], [description], " +
                         "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] " +
                         "FROM [Books] " +
-                        "WHERE [id] = ?";
+                        "WHERE [id] = ? AND [deleteStatus] = 0";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 stm.setString(1, bookID);
@@ -551,7 +551,7 @@ public class BookDAO implements Serializable {
                 String sql = "SELECT [id], [title], [subjectID], [publisher], [publishDate], [description], [price], " +
                         "[quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] " +
                         "FROM [Books] " +
-                        "WHERE [ISBN_thirteenDigits] = ?";
+                        "WHERE [ISBN_thirteenDigits] = ? AND [deleteStatus] = 0";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 stm.setString(1, ISBN_thirteenDigits);
@@ -790,7 +790,7 @@ public class BookDAO implements Serializable {
         }
         return -1;
     }
-    public boolean restoreBookDeleted(String isbnTen, String isbnThirteen) throws SQLException, NamingException{
+    public boolean restoreBookDeleted(String isbnTen, String isbnThirteen) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
 
