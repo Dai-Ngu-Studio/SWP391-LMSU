@@ -113,10 +113,10 @@
                         <img src="images/images/faces/fn2.png" alt="profile" style="border-radius: 50%;"/>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" href="ShowProfileServlet">
                             <i class="ti-settings text-primary"></i> Profile
                         </a>
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" href="LogoutServlet">
                             <i class="ti-power-off text-primary"></i> Logout
                         </a>
                     </div>
@@ -414,7 +414,7 @@
                                                                         </button>
                                                                     </div>
                                                                     <div class="row">
-                                                                        <table class="table table-hover table-responsive w-100 d-block d-md-table">
+                                                                        <table class="table table-hover table-responsive w-100 d-block d-xl-table">
                                                                             <thead>
                                                                             <tr>
                                                                                 <th class="text-right">Item ID</th>
@@ -532,6 +532,7 @@
                                                                     <div class="col-12">
                                                                         <button type="button"
                                                                                 class="btn btn-outline-primary float-right ml-3"
+                                                                                id="btnDismissAppr${order.key.key.id}"
                                                                                 data-dismiss="modal">
                                                                             Cancel
                                                                         </button>
@@ -573,6 +574,7 @@
                                                                     <div class="col-12">
                                                                         <button type="button"
                                                                                 class="btn btn-outline-primary float-right ml-3"
+                                                                                id="btnDismissReject${order.key.key.id}"
                                                                                 data-dismiss="modal">
                                                                             Cancel
                                                                         </button>
