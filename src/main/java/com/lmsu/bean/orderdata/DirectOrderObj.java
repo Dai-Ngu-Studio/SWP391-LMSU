@@ -1,9 +1,14 @@
 package com.lmsu.bean.orderdata;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+
+@AllArgsConstructor
+@NoArgsConstructor
 
 public @Data
 class DirectOrderObj implements Serializable {
@@ -11,14 +16,4 @@ class DirectOrderObj implements Serializable {
     private String librarianID;
     private String librarianName;
     private Timestamp scheduledTime;
-
-    public DirectOrderObj(){
-    }
-
-    public DirectOrderObj(int orderID, String librarianID, String librarianName, Timestamp scheduledTime) {
-        this.orderID = orderID;
-        this.librarianID = librarianID;
-        this.librarianName = librarianName;
-        this.scheduledTime = scheduledTime;
-    }
 }

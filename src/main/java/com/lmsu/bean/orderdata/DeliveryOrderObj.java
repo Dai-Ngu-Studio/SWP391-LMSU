@@ -1,4 +1,4 @@
-package com.lmsu.orderdata.deliveryorders;
+package com.lmsu.bean.orderdata;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,9 +11,10 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 
 public @Data
-class DeliveryOrderDTO implements Serializable {
+class DeliveryOrderObj implements Serializable {
     private int orderID;
     private String managerID;
+    private String managerName;
     private String deliverer;
     private Timestamp scheduledDeliveryTime;
     private String phoneNumber;
