@@ -172,8 +172,12 @@ $(document).ready(function () {
                 } else if (orderStat === ORDER_CANCELLED) {
                     alert(`Order had already been cancelled by the borrower.`);
                 }
+                // Toggle modal off
+                $(`#btnDismissAppr${orderID}`).click();
                 // Load edit buttons
-                loadButtons();
+                if (orderStat === ORDER_APPROVED) {
+                    loadButtons();
+                }
             }
         });
     }
@@ -182,7 +186,56 @@ $(document).ready(function () {
     function rejectOrder() {
         let $buttonReject = $(this);
         let orderID = $buttonReject.attr('orderid');
-        alert('Reject not functional yet.');
+        $.ajax({
+            method: 'POST',
+            url: 'RejectDirectOrderServlet',
+            data: {
+                txtOrderID: orderID
+            },
+            datatype: 'json',
+            success: function (orderInformation) {
+                // Load order status
+                $('.lbOrderStat')
+                    .filter(`[orderid='${orderID}']`)
+                    .find('p, label')
+                    .attr('activeStatus', orderInformation.key['activeStatus']);
+                // Load item status
+                $(orderInformation.value).each(function () {
+                    let orderItemID = this['id'];
+                    $(`#lbItemStat${orderItemID}`).attr('lendStatus', this['lendStatus']);
+                });
+                // Remove approval buttons
+                let orderStat = orderInformation.key['activeStatus'].toString();
+                if ((orderStat !== ORDER_PENDING)
+                    && (orderStat !== ORDER_CANCELLED)) {
+                    $('.contModalApprove').filter(`[orderid='${orderID}']`).remove();
+                    $('.contModalReject').filter(`[orderid='${orderID}']`).remove();
+                    let $frmOrderStat = $('.frmOrderStat').filter(`[orderid='${orderID}']`);
+                    let $contStat = $('<div>').addClass('col-lg-5 col-12').appendTo($frmOrderStat);
+                    let $statOrder = $('<div>')
+                        .addClass('btn btn-block btn-outline-danger btn-sm bg-white')
+                        .attr('disabled', 'disabled')
+                        .appendTo($contStat);
+                    let $btnAppr = $('<h3>').appendTo($statOrder);
+                    if (orderStat === ORDER_APPROVED) {
+                        $btnAppr.addClass('fa fa-check-circle text-success')
+                        alert(`Order was approved by another librarian.`);
+                    } else if (orderStat === ORDER_REJECTED) {
+                        $btnAppr.addClass('fa fa-times-circle text-danger')
+                    }
+                } else if (orderStat === ORDER_PENDING) {
+                    alert(`Order was not processed successfully. Please try again.`);
+                } else if (orderStat === ORDER_CANCELLED) {
+                    alert(`Order had already been cancelled by the borrower.`);
+                }
+                // Toggle modal off
+                $(`#btnDismissReject${orderID}`).click();
+                // Load edit buttons
+                if (orderStat === ORDER_APPROVED) {
+                    loadButtons();
+                }
+            }
+        });
     }
 
 });
