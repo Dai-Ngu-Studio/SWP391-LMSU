@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.TimerTask;
 
 public class WeeklyTask extends TimerTask implements Serializable {
-    public static void notifyNewArrivalBooks() {
+    public void notifyNewArrivalBooks() {
 
     }
 
-    public static void notifyHighestRatedBookOfTheWeek() {
+    public void notifyHighestRatedBookOfTheWeek() {
 
     }
 

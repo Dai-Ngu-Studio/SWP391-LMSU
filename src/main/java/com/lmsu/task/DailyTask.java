@@ -23,7 +23,7 @@ public class DailyTask extends TimerTask implements Serializable {
     private static final String PASSWORD = "***REMOVED***";
     static final Logger LOGGER = Logger.getLogger(EmailHelpers.class);
 
-    public static void notifyTenDaysLeft() {
+    public void notifyTenDaysLeft() {
 //        if (check có phải còn 10 ngày so với deadline không) {
         try {
             UserDAO dao = new UserDAO();
