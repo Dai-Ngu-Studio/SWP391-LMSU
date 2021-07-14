@@ -10,9 +10,9 @@
     </welcome-file-list>
     <listener>
         <description>ServletContextListener</description>
-        <listener-class>com.lmsu.log4j.ContextListener</listener-class>
+        <listener-class>com.lmsu.contextlistener.ContextListener</listener-class>
     </listener>
-    <display-name>Log4j</display-name>
+    <display-name>LMSU</display-name>
     <context-param>
         <param-name>log4j-config-location</param-name>
         <param-value>WEB-INF/log4j.properties</param-value>
