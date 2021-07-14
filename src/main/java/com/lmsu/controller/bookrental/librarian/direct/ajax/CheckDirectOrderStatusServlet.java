@@ -1,4 +1,4 @@
-package com.lmsu.controller.librarian.direct.ajax;
+package com.lmsu.controller.bookrental.librarian.direct.ajax;
 
 import com.google.gson.Gson;
 import com.lmsu.orderdata.directorders.DirectOrderDAO;

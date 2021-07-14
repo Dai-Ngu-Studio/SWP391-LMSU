@@ -1,4 +1,4 @@
-package com.lmsu.controller.librarian.direct.ajax;
+package com.lmsu.controller.bookrental.librarian.direct.ajax;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -8,13 +8,9 @@ import com.lmsu.books.BookDTO;
 import com.lmsu.orderdata.directorders.DirectOrderDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
-import com.lmsu.orderdata.orders.OrderDAO;
-import com.lmsu.orderdata.orders.OrderDTO;
 import com.lmsu.users.UserDTO;
 import com.lmsu.utils.DBHelpers;
 import com.lmsu.utils.DateHelpers;
-import com.sun.org.apache.xpath.internal.operations.Or;
-import javafx.util.Pair;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
