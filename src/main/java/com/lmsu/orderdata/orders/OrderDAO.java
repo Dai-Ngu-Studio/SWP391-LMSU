@@ -103,8 +103,16 @@ public class OrderDAO implements Serializable {
         }
         return false;
     }
-
-    public void viewOrders(boolean lendMethod, List<Integer> activeStatuses) throws SQLException, NamingException {
+    /**
+     * @param lendMethod     0 to get direct orders;
+     *                       1 to get delivery orders;
+     *                       any other integers to get both type of orders;
+     * @param activeStatuses a list of integers representing the order statuses; set null if not interested in
+     *                       querying specific statuses;
+     * @throws SQLException
+     * @throws NamingException
+     */
+    public void viewOrders(int lendMethod, List<Integer> activeStatuses) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -113,8 +121,18 @@ public class OrderDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 String sql = "SELECT [id], [memberID], [orderDate], [lendMethod], [activeStatus] " +
-                        "FROM [Orders] " +
-                        "WHERE [lendMethod] = ? ";
+                        "FROM [Orders] ";
+                switch (lendMethod) {
+                    case 0:
+                        sql += "WHERE [lendMethod] = 0 ";
+                        break;
+                    case 1:
+                        sql += "WHERE [lendMethod] = 1 ";
+                        break;
+                    default:
+                        sql += "WHERE 1 = 1 ";
+                        break;
+                }
                 if (activeStatuses != null) {
                     sql += " AND ( ";
                     ListIterator<Integer> statusItr = activeStatuses.listIterator();
@@ -127,7 +145,6 @@ public class OrderDAO implements Serializable {
                     sql += " ) ";
                 }
                 stm = con.prepareStatement(sql);
-                stm.setBoolean(1, lendMethod);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     if (this.orderList == null) {
