@@ -9,7 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserDAO implements Serializable {
 
@@ -458,5 +460,50 @@ public class UserDAO implements Serializable {
             if (con != null) con.close();
         }
         return false;
+    }
+
+    public Map<String, List<String>> getUserWithBorrowedBooks() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        Map<String, List<String>> map = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT Users.id, Users.[name], Users.email, Books.title FROM Users\n"
+                        + "JOIN Orders ON Users.id = Orders.memberID\n"
+                        + "JOIN OrderItems ON Orders.id = OrderItems.orderID\n"
+                        + "JOIN Books ON OrderItems.bookID = Books.id\n"
+                        + "WHERE Orders.activeStatus = 2";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String id = rs.getString("id");
+                    String name = rs.getString("name");
+                    String email = rs.getString("email");
+                    String bookTitle = rs.getString("title");
+
+                    String userDTO = id + ", " + name + ", " + email;
+
+                    if (map == null) {
+                        map = new HashMap<>();
+                    }
+                    map.computeIfAbsent(userDTO, k -> new ArrayList<>()).add(bookTitle);
+                }
+                return map;
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return null;
     }
 }
