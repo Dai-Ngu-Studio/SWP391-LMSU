@@ -66,7 +66,7 @@ public class DailyTask extends TimerTask implements Serializable {
                         + "Any mistake please reply this email.<br>"
                         + "<br>"
                         + "Thanks.<br>"
-                        + "Sincerely.<br>"
+                        + "Sincerely,<br>"
                         + "Information and Library center";
 
                 EmailHelpers.sendEmail(session, user[2], subject, body);
@@ -83,6 +83,9 @@ public class DailyTask extends TimerTask implements Serializable {
         } catch (MessagingException e) {
             LOGGER.error(e.getMessage());
             System.err.println("DailyTask _ Messaging: " + e.getMessage());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            System.err.println("DailyTask _ Exception: " + e.getMessage());
         }
 //        }
     }
