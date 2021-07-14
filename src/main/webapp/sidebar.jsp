@@ -69,7 +69,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="ShowDirectOrderServlet">
+            <a class="nav-link" href="ShowOrdersServlet">
                 <i class="icon-archive menu-icon"></i>
                 <span class="menu-title">Book Rental</span>
             </a>

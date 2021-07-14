@@ -24,6 +24,9 @@
     <%-- inject:css --%>
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
     <%-- endinject --%>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/1.3.0/css/searchPanes.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css">
     <link rel="shortcut icon" href="images/images/favicon.png"/>
     <script src="js/iconpro.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
@@ -149,58 +152,56 @@
                                                 <thead>
                                                 <tr>
                                                     <th style="width: 0px; text-align: center">#</th>
-                                                    <th style="width: 96px; text-align: left">ORDERED ON</th>
-                                                    <th style="width: 96px; text-align: left">BORROWER</th>
-                                                    <th style="width: 96px; text-align: left">SCHEDULED TIME</th>
-                                                    <th style="width: 67px; text-align: center">STATUS</th>
-                                                    <th style="width: 64px; text-align: center">ACTIONS</th>
+                                                    <th style="width: 0px; text-align: center">METHOD</th>
+                                                    <th style="width: 0px; text-align: left">ORDERED ON</th>
+                                                    <th style="width: 0px; text-align: left">BORROWER</th>
+                                                    <th style="width: 0px; text-align: center">STATUS</th>
+                                                    <th style="width: 0px; text-align: center">ACTIONS</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <%--Map<Pair<OrderObj, DirectOrderObj>, List<OrderItemObj>>--%>
+                                                <%--Map<Pair<DirectOrderObj, DeliveryOrderObj>, Pair<OrderObj, List<OrderItemObj>>>--%>
+                                                <%--OLD (FOR REFERENCE): Map<Pair<OrderObj, DirectOrderObj>, List<OrderItemObj>>--%>
                                                 <c:set var="orderList" value="${requestScope.ORDER_LIST}"/>
                                                 <c:forEach var="order" items="${orderList}"
                                                            varStatus="counter">
-                                                    <tr>
-                                                        <td class="text-center">${counter.count}</td>
-                                                        <td class="text-left">
-                                                                ${order.key.key.orderDate}
-                                                        </td>
-                                                        <td class="text-left">${order.key.key.memberName}</td>
-                                                        <td class="text-left">
-                                                            <c:if test="${not empty order.key.value.scheduledTime}">
-                                                                ${order.key.value.scheduledTime}
-                                                            </c:if>
-                                                            <c:if test="${empty order.key.value.scheduledTime}">
-                                                                None
-                                                            </c:if>
-                                                        </td>
-                                                        <td class="text-center lbOrderStat"
-                                                            id="lbOrderStat${order.key.key.id}"
-                                                            orderid="${order.key.key.id}">
-                                                            <label class="badge"
-                                                                   activeStatus="${order.key.key.activeStatus}"></label>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <form action="DispatchServlet">
-                                                                <div class="btn-group">
-                                                                    <button type="button" class="btn btn-light"
-                                                                            data-toggle="modal"
-                                                                            data-target="#orderModal${order.key.key.id}">
-                                                                        <i class="fa fa-eye text-primary"></i>
-                                                                    </button>
-                                                                        <%--not implemented--%>
-                                                                    <button type="button" class="btn btn-light"
-                                                                            data-toggle="modal"
-                                                                            data-target="#updateModal${order.key.key.id}"
-                                                                            title="Update"
-                                                                            data-original-title="Edit">
-                                                                        <i class="fa fa-pencil text-primary"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
+                                                    <c:set var="lendMethod" value="${order.value.key.lendMethod}"/>
+                                                    <%--Return orders are not shown in this page--%>
+                                                    <c:if test="${not order.key.value.returnOrder}">
+                                                        <tr>
+                                                            <td class="text-center">${counter.count}</td>
+                                                            <td class="text-center">
+                                                                <c:if test="${lendMethod}">
+                                                                    Delivery
+                                                                </c:if>
+                                                                <c:if test="${not lendMethod}">
+                                                                    Direct
+                                                                </c:if>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                    ${order.value.key.orderDate}
+                                                            </td>
+                                                            <td class="text-left">${order.value.key.memberName}</td>
+                                                            <td class="text-center lbOrderStat"
+                                                                id="lbOrderStat${order.value.key.id}"
+                                                                orderid="${order.value.key.id}">
+                                                                <label class="badge"
+                                                                       activeStatus="${order.value.key.activeStatus}"
+                                                                       value="${order.value.key.activeStatus}"></label>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <form action="DispatchServlet">
+                                                                    <div class="btn-group">
+                                                                        <button type="button" class="btn btn-light"
+                                                                                data-toggle="modal"
+                                                                                data-target="#orderModal${order.value.key.id}">
+                                                                            <i class="fa fa-eye text-primary"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    </c:if>
                                                 </c:forEach>
                                                 </tbody>
                                             </table>
@@ -208,7 +209,7 @@
                                                 <%--Start: Order Details Form--%>
                                                 <form action="DispatchServlet">
                                                     <div class="modal fade"
-                                                         id="orderModal${order.key.key.id}"
+                                                         id="orderModal${order.value.key.id}"
                                                          tabindex="-1">
                                                         <div class="modal-dialog modal-lg">
                                                             <div class="modal-content">
@@ -229,9 +230,9 @@
                                                                         </label>
                                                                         <div class="col-lg-5 col-12">
                                                                             <input type="text"
-                                                                                   id="txtOrderID${order.key.key.id}"
+                                                                                   id="txtOrderID${order.value.key.id}"
                                                                                    class="form-control"
-                                                                                   value="${order.key.key.id}"
+                                                                                   value="${order.value.key.id}"
                                                                                    disabled/>
                                                                         </div>
                                                                         <label class="col-lg-1 col-12 col-form-label">
@@ -240,7 +241,7 @@
                                                                         <div class="col-lg-5 col-12">
                                                                             <input type="text"
                                                                                    class="form-control"
-                                                                                   value="${order.key.key.orderDate}"
+                                                                                   value="${order.value.key.orderDate}"
                                                                                    disabled/>
                                                                         </div>
                                                                     </div>
@@ -251,7 +252,7 @@
                                                                         <div class="col-lg-5 col-12">
                                                                             <input type="text"
                                                                                    class="form-control"
-                                                                                   value="${order.key.key.memberID}"
+                                                                                   value="${order.value.key.memberID}"
                                                                                    disabled/>
                                                                         </div>
                                                                         <label class="col-lg-1 col-12 col-form-label">
@@ -260,64 +261,86 @@
                                                                         <div class="col-lg-5 col-12">
                                                                             <input type="text"
                                                                                    class="form-control"
-                                                                                   value="${order.key.key.memberName}"
+                                                                                   value="${order.value.key.memberName}"
                                                                                    disabled/>
                                                                         </div>
                                                                     </div>
+                                                                    <c:if test="${lendMethod}">
+                                                                        <c:set var="staffID"
+                                                                               value="${order.key.key.librarianID}"/>
+                                                                        <c:set var="staffName"
+                                                                               value="${order.key.key.librarianName}"/>
+                                                                    </c:if>
+                                                                    <c:if test="${not lendMethod}">
+                                                                        <c:set var="staffID"
+                                                                               value="${order.key.value.managerID}"/>
+                                                                        <c:set var="staffName"
+                                                                               value="${order.key.value.managerName}"/>
+                                                                    </c:if>
+                                                                    <c:if test="${empty staffID}">
+                                                                        <c:set var="staffID" value="N/A"/>
+                                                                        <c:set var="staffName" value="N/A"/>
+                                                                    </c:if>
                                                                     <div class="form-group row">
                                                                         <label class="col-lg-1 col-12 col-form-label">
-                                                                            Librarian ID
+                                                                            Staff ID
                                                                         </label>
-                                                                        <c:set var="librarianID"
-                                                                               value="${order.key.value.librarianID}"/>
-                                                                        <c:set var="librarianName"
-                                                                               value="${order.key.value.librarianName}"/>
-                                                                        <c:if test="${empty librarianID}">
-                                                                            <c:set var="librarianID" value="N/A"/>
-                                                                            <c:set var="librarianName" value="N/A"/>
-                                                                        </c:if>
-                                                                        <div class="col-lg-5 col-12 frmLibrarianID"
-                                                                             orderid="${order.key.key.id}">
+                                                                        <div class="col-lg-5 col-12 frmStaffID"
+                                                                             orderid="${order.value.key.id}">
                                                                             <input type="text"
                                                                                    class="form-control"
-                                                                                   value="${librarianID}"
+                                                                                   value="${staffID}"
                                                                                    disabled/>
                                                                         </div>
                                                                         <label class="col-lg-1 col-12 col-form-label">
-                                                                            Librarian Name
+                                                                            Staff Name
                                                                         </label>
-                                                                        <div class="col-lg-5 col-12 frmLibrarianName"
-                                                                             orderid="${order.key.key.id}">
+                                                                        <div class="col-lg-5 col-12 frmStaffName"
+                                                                             orderid="${order.value.key.id}">
                                                                             <input type="text"
                                                                                    class="form-control"
-                                                                                   value="${librarianName}"
+                                                                                   value="${staffName}"
                                                                                    disabled/>
                                                                         </div>
                                                                     </div>
+                                                                    <c:if test="${not lendMethod}">
+                                                                        <div class="form-group row">
+                                                                            <label class="col-lg-1 col-12 col-form-label">
+                                                                                Scheduled Time
+                                                                            </label>
+                                                                            <div class="col-lg-11 col-12"
+                                                                                 orderid="${order.value.key.id}">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value="${order.key.key.scheduledTime}"
+                                                                                       disabled/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </c:if>
                                                                     <div class="form-group row frmOrderStat"
-                                                                         orderid="${order.key.key.id}">
+                                                                         orderid="${order.value.key.id}">
                                                                         <label class="col-lg-1 col-12 col-form-label">
                                                                             Order Status
                                                                         </label>
                                                                         <div class="col-lg-5 col-12 lbOrderStat"
-                                                                             id="pOrderStat${order.key.key.id}"
-                                                                             orderid="${order.key.key.id}">
+                                                                             id="pOrderStat${order.value.key.id}"
+                                                                             orderid="${order.value.key.id}">
                                                                             <p class="form-control"
-                                                                               activeStatus="${order.key.key.activeStatus}"
-                                                                               orderid="${order.key.key.id}">
+                                                                               activeStatus="${order.value.key.activeStatus}"
+                                                                               orderid="${order.value.key.id}">
                                                                             </p>
                                                                         </div>
                                                                         <label class="col-lg-1 col-12 col-form-label">
                                                                             Approval Status
                                                                         </label>
                                                                         <c:choose>
-                                                                            <c:when test="${order.key.key.activeStatus eq 0}">
+                                                                            <c:when test="${order.value.key.activeStatus eq 0}">
                                                                                 <div class="col-3 pr-0 contModalApprove"
-                                                                                     orderid="${order.key.key.id}">
+                                                                                     orderid="${order.value.key.id}">
                                                                                     <button type="button"
                                                                                             class="btn btn-block btn-light btn-sm rounded-0"
                                                                                             data-toggle="modal"
-                                                                                            data-target="#mdConfirmApprove${order.key.key.id}"
+                                                                                            data-target="#mdConfirmApprove${order.value.key.id}"
                                                                                             style="border-top-left-radius: 1rem !important;
                                                                                     border-bottom-left-radius: 1rem !important">
                                                                                         <h3 class="fa fa-check-circle text-success"></h3>
@@ -325,19 +348,19 @@
                                                                                 </div>
 
                                                                                 <div class="col-2 pl-0 contModalReject"
-                                                                                     orderid="${order.key.key.id}">
+                                                                                     orderid="${order.value.key.id}">
                                                                                     <button type="button"
                                                                                             class="btn btn-block btn-light btn-sm rounded-0"
                                                                                             data-toggle="modal"
-                                                                                            data-target="#mdConfirmReject${order.key.key.id}"
+                                                                                            data-target="#mdConfirmReject${order.value.key.id}"
                                                                                             style="border-top-right-radius: 1rem !important;
                                                                                     border-bottom-right-radius: 1rem !important">
                                                                                         <h3 class="fa fa-times-circle text-danger"></h3>
                                                                                     </button>
                                                                                 </div>
                                                                             </c:when>
-                                                                            <c:when test="${(order.key.key.activeStatus eq -1)
-                                                                            or (order.key.key.activeStatus eq 8)}">
+                                                                            <c:when test="${(order.value.key.activeStatus eq -1)
+                                                                            or (order.value.key.activeStatus eq 8)}">
                                                                                 <div class="col-lg-5 col-12">
                                                                                     <div class="btn btn-block btn-outline-danger btn-sm bg-white"
                                                                                          disabled>
@@ -388,10 +411,10 @@
                                                                     <div class="row">
                                                                         <div class="col-12 text-center">
                                                                             <div class="btn-group groupBtnEdit"
-                                                                                 orderID="${order.key.key.id}">
+                                                                                 orderID="${order.value.key.id}">
                                                                                 <button type="button"
                                                                                         class="btn btn-light"
-                                                                                        orderID="${order.key.key.id}">
+                                                                                        orderID="${order.value.key.id}">
                                                                                     <h4 class="fa fa-pencil text-primary"></h4>
                                                                                 </button>
                                                                             </div>
@@ -399,16 +422,16 @@
                                                                     </div>
                                                                         <%--Place to swap buttons in and out of view--%>
                                                                     <div class="row storageBtn"
-                                                                         id="hiddenBtnStorage${order.key.key.id}"
-                                                                         orderID="${order.key.key.id}"
+                                                                         id="hiddenBtnStorage${order.value.key.id}"
+                                                                         orderID="${order.value.key.id}"
                                                                          hidden>
                                                                         <button type="button" class="btn btn-light"
-                                                                                orderID="${order.key.key.id}"
+                                                                                orderID="${order.value.key.id}"
                                                                                 role="confirmEdit">
                                                                             <h4 class="fa fa-check text-success"></h4>
                                                                         </button>
                                                                         <button type="button" class="btn btn-light"
-                                                                                orderID="${order.key.key.id}"
+                                                                                orderID="${order.value.key.id}"
                                                                                 role="cancelEdit">
                                                                             <h4 class="fa fa-times text-danger"></h4>
                                                                         </button>
@@ -430,7 +453,7 @@
                                                                             </thead>
                                                                             <tbody>
                                                                             <c:forEach var="orderItem"
-                                                                                       items="${order.value}">
+                                                                                       items="${order.value.value}">
                                                                                 <tr>
                                                                                     <td class="text-right">${orderItem.id} </td>
                                                                                     <td class="text-left">${orderItem.title}</td>
@@ -439,21 +462,21 @@
                                                                                                value="${orderItem.lendStatus}"
                                                                                         />
                                                                                         <div class="contSlItemStat"
-                                                                                             orderid="${order.key.key.id}"
+                                                                                             orderid="${order.value.key.id}"
                                                                                              orderitemid="${orderItem.id}"
                                                                                              style="display: none">
                                                                                             <select class="custom-select slItemStat"
                                                                                                     id="slItemStat${orderItem.id}"
-                                                                                                    orderid="${order.key.key.id}"
+                                                                                                    orderid="${order.value.key.id}"
                                                                                                     orderitemid="${orderItem.id}">
                                                                                             </select>
                                                                                         </div>
                                                                                         <div class="contItemStat"
-                                                                                             orderid="${order.key.key.id}"
+                                                                                             orderid="${order.value.key.id}"
                                                                                              orderitemid="${orderItem.id}">
                                                                                             <label class="badge lbItemStat"
                                                                                                    id="lbItemStat${orderItem.id}"
-                                                                                                   orderid="${order.key.key.id}"
+                                                                                                   orderid="${order.value.key.id}"
                                                                                                    orderitemid="${orderItem.id}"
                                                                                                    lendStatus="${statOrderItem}">
                                                                                             </label>
@@ -508,7 +531,7 @@
                                                 </form>
                                                 <%--End: Order Details Form--%>
                                                 <div class="modal fade"
-                                                     id="mdConfirmApprove${order.key.key.id}"
+                                                     id="mdConfirmApprove${order.value.key.id}"
                                                      tabindex="-1"
                                                      style="overflow: hidden !important; ">
                                                     <div class="modal-dialog modal-dialog-centered"
@@ -532,14 +555,14 @@
                                                                     <div class="col-12">
                                                                         <button type="button"
                                                                                 class="btn btn-outline-primary float-right ml-3"
-                                                                                id="btnDismissAppr${order.key.key.id}"
+                                                                                id="btnDismissAppr${order.value.key.id}"
                                                                                 data-dismiss="modal">
                                                                             Cancel
                                                                         </button>
                                                                         <button type="submit"
                                                                                 class="btn btn-primary float-right btnModalAppr"
-                                                                                id="btnApproveOrder${order.key.key.id}"
-                                                                                orderid="${order.key.key.id}"
+                                                                                id="btnApproveOrder${order.value.key.id}"
+                                                                                orderid="${order.value.key.id}"
                                                                                 role="approveOrder">
                                                                             Yes
                                                                         </button>
@@ -550,7 +573,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal fade"
-                                                     id="mdConfirmReject${order.key.key.id}"
+                                                     id="mdConfirmReject${order.value.key.id}"
                                                      tabindex="-1"
                                                      style="overflow: hidden !important; ">
                                                     <div class="modal-dialog modal-dialog-centered"
@@ -574,14 +597,14 @@
                                                                     <div class="col-12">
                                                                         <button type="button"
                                                                                 class="btn btn-outline-primary float-right ml-3"
-                                                                                id="btnDismissReject${order.key.key.id}"
+                                                                                id="btnDismissReject${order.value.key.id}"
                                                                                 data-dismiss="modal">
                                                                             Cancel
                                                                         </button>
                                                                         <button type="submit"
                                                                                 class="btn btn-primary float-right btnModalAppr"
-                                                                                id="btnRejectOrder${order.key.key.id}"
-                                                                                orderid="${order.key.key.id}"
+                                                                                id="btnRejectOrder${order.value.key.id}"
+                                                                                orderid="${order.value.key.id}"
                                                                                 role="rejectOrder">
                                                                             Yes
                                                                         </button>
@@ -624,6 +647,8 @@
 <%-- Plugin js for this page --%>
 <script src="vendors/datatables.net/jquery.dataTables.js"></script>
 <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<script src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 <%-- End plugin js for this page --%>
 <%-- inject:js --%>
 <script src="js/off-canvas.js"></script>

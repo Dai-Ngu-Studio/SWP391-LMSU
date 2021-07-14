@@ -1,6 +1,89 @@
+/*
+private final int ORDER_CANCELLED = -1;
+    private final int ORDER_PENDING = 0;
+    private final int ORDER_APPROVED = 1;
+    private final int ORDER_RECEIVED = 2;
+    private final int ORDER_RETURNED = 3;
+    private final int ORDER_OVERDUE = 4;
+    private final int ORDER_REJECTED = 5;
+    private final int ORDER_RESERVE_ONLY = 6;
+    private final int ORDER_RETURN_SCHEDULED = 7;
+    private final int ORDER_RETURN_RETURNED = 8;
+ */
+
 // DataTable rendering
 $(document).ready(function () {
-    $('#rental-datatable').DataTable();
+    $('#rental-datatable').DataTable({
+        searchPanes: {
+            viewTotal: true,
+            columns: [1, 4]
+        },
+        dom: 'Plfrtip',
+        columnDefs: [
+            {
+                className: 'lbOrderStatDt',
+                searchPanes: {
+                    show: true,
+                    options: [
+                        {
+                            label: 'Pending',
+                            value: function (rowData, rowIdx) {
+                                return $(rowData[4]).attr('activeStatus') === '0';
+                            }
+                        },
+                        {
+                            label: 'Approved',
+                            value: function (rowData, rowIdx) {
+                                return $(rowData[4]).attr('activeStatus') === '1';
+                            }
+                        },
+                        {
+                            label: 'Received',
+                            value: function (rowData, rowIdx) {
+                                return $(rowData[4]).attr('activeStatus') === '2';
+                            }
+                        },
+                        {
+                            label: 'Returned',
+                            value: function (rowData, rowIdx) {
+                                return $(rowData[4]).attr('activeStatus') === '3';
+                            }
+                        },
+                        {
+                            label: 'Overdue',
+                            value: function (rowData, rowIdx) {
+                                return $(rowData[4]).attr('activeStatus') === '4';
+                            }
+                        },
+                        {
+                            label: 'Rejected',
+                            value: function (rowData, rowIdx) {
+                                return $(rowData[4]).attr('activeStatus') === '5';
+                            }
+                        },
+                        {
+                            label: 'Reserve',
+                            value: function (rowData, rowIdx) {
+                                return $(rowData[4]).attr('activeStatus') === '6';
+                            }
+                        },
+                        {
+                            label: 'Cancelled',
+                            value: function (rowData, rowIdx) {
+                                return $(rowData[4]).attr('activeStatus') === '-1';
+                            }
+                        }
+                    ]
+                },
+                targets: [4]
+            }
+        ],
+        order: [[1, 'asc']]
+    });
+
+    $('.dtsp-panesContainer').addClass('col-8 mx-auto');
+    $('.dataTables_scrollBody').css('height', '100px');
+    $('#rental-datatable_wrapper').css('max-width', '81vw');
 });
 
 // For loading item status select options
@@ -46,13 +129,13 @@ function checkDirectOrderStatus(orderID) {
                 .find('p, label')
                 .attr('activeStatus', orderInformation.key['activeStatus']);
             // Load librarian ID
-            if ($('.frmLibrarianID').filter(`[orderid='${orderID}']`)
+            if ($('.frmStaffID').filter(`[orderid='${orderID}']`)
                 .find('input').val() === 'N/A') {
-                $('.frmLibrarianID')
+                $('.frmStaffID')
                     .filter(`[orderid='${orderID}']`)
                     .find('input')
                     .val(orderInformation.value['id']);
-                $('.frmLibrarianName')
+                $('.frmStaffName')
                     .filter(`[orderid='${orderID}']`)
                     .find('input')
                     .val(orderInformation.value['name']);
