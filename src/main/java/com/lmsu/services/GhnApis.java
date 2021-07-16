@@ -32,7 +32,7 @@ public class GhnApis {
             }
 
             BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
+                    (conn.getInputStream()),"UTF-8"));
             String line;
             while ((line = br.readLine()) != null) {
                 output += line;
@@ -71,7 +71,7 @@ public class GhnApis {
             }
 
             BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
+                    (conn.getInputStream()),"UTF-8"));
             String line;
             while ((line = br.readLine()) != null) {
                 output += line;
@@ -105,7 +105,7 @@ public class GhnApis {
             }
 
             BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
+                    (conn.getInputStream()),"UTF-8"));
             String line;
             while ((line = br.readLine()) != null) {
                 output += line;
@@ -152,7 +152,7 @@ public class GhnApis {
             }
 
             BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
+                    (conn.getInputStream()),"UTF-8"));
             String line;
             while ((line = br.readLine()) != null) {
                 output += line;
