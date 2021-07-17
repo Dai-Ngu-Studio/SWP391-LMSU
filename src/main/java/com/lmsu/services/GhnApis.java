@@ -144,7 +144,7 @@ public class GhnApis {
 //                },
 //    ]
 //            }
-            URL url = new URL("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create");
+            URL url = new URL("https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
@@ -210,7 +210,7 @@ public class GhnApis {
     public static String getWardList(String district_id) {
         String output = "";
         try {
-            URL url = new URL("https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id");
+            URL url = new URL("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id\n");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
@@ -250,13 +250,12 @@ public class GhnApis {
     public static String getDistrictList(String province_id) {
         String output = "";
         try {
-            URL url = new URL("https://online-gateway.ghn.vn/shiip/public-api/master-data/district");
+            URL url = new URL("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
             conn.setRequestProperty("Accept", "application/json");
             conn.addRequestProperty("token", "***REMOVED***");
-            conn.addRequestProperty("ShopId", "***REMOVED***");
             conn.setDoOutput(true);
             // Quan 9 district code: 1451
             String requestBody = "{\"province_id\":" + province_id + "}";
@@ -291,7 +290,7 @@ public class GhnApis {
     public static String getProvinceList() {
         String output = "";
         try {
-            URL url = new URL("https://online-gateway.ghn.vn/shiip/public-api/master-data/province");
+            URL url = new URL("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
@@ -327,7 +326,7 @@ public class GhnApis {
     public static String calculateFee(String to_district_id, String to_ward_code, int quantity) {
         String output = "";
         try {
-            URL url = new URL("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee");
+            URL url = new URL("https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
