@@ -179,7 +179,7 @@ GO
         fullName NVARCHAR(MAX),
         email VARCHAR(255),
         phone VARCHAR(10),
-        feedbackType INT,
+        feedbackType VARCHAR(255),
         attachment VARCHAR(MAX),
         feedbackMessage nvarchar(MAX)
     );
