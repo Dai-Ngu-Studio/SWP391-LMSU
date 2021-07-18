@@ -122,9 +122,10 @@
     </nav>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
+        <jsp:include page="sidebar.jsp"/>
         <!-- partial -->
         <!-- partial:../../partials/_sidebar.html -->
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <%--<nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
                 <li class="nav-item">
                     <a class="nav-link" href="dashboard.jsp">
@@ -186,13 +187,15 @@
                     </a>
                 </li>
             </ul>
-        </nav>
+        </nav>--%>
         <!-- partial -->
+        <c:set var="announcement_list" value="${requestScope.ANNOUNCEMENT_MANA_LIST}"/>
+
         <div class="main-panel">
             <div class="content-wrapper">
                 <div class="card">
                     <div class="card-body">
-                        <form>
+                        <form action="DispatchServlet">
                             <div class="d-flex flex-column align-items-center mb-5">
                                 <h6><b>INFORMATION AND LIBRARY CENTER</b></h6>
                                 <h3><b>ANNOUNCEMENT</b></h3>
@@ -211,7 +214,7 @@
                                     <b>
                                         Start: <input type="text" placeholder="Enter day from" id="defaultDayFrom"
                                                       name="defaultDayFrom" value="" required> <input type="date"
-                                                                                                      id="date"
+                                                                                                      id="defaultDateFrom"
                                                                                                       name="defaultDateFrom"
                                                                                                       value="" required>
                                         to
@@ -237,8 +240,10 @@
                                 <p>
                                     - Students must return old textbooks before borrow new textbooks; <br> -
                                     Students who don't borrow and get textbooks as schedule must take responsibility
-                                    of having no textbooks; <br> - Students can view infomartion of textbooks at
-                                    here
+                                    of having no textbooks; <br> - Students can view information of textbooks at
+                                    here; <br> - Students have to return their books before <b class="text-danger">
+                                    <input type="date" placeholder="Enter return date" id="returnDate"
+                                           name="returnDate" value="" required> </b>
                                 </p>
                                 <h3><b>Should you have any inquiry, please contact us via:</b></h3>
                                 <p>
@@ -249,15 +254,26 @@
                                     <button class="btn btn-secondary m-3" type="button" data-toggle="modal"
                                             id="ViewDraft" data-target="#ViewDraftModal" title="View Draft">View draft
                                     </button>
-                                    <button class="btn btn-primary m-3" type="submit"
-                                            name="btAction" value="Update Announcement">Save
-                                    </button>
+                                    <c:if test="${empty announcement_list}">
+                                        <button class="btn btn-primary m-3" type="submit"
+                                                name="btAction" value="Add Announcement">Save
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${not empty announcement_list}">
+                                        <c:forEach var="announcement" items="${announcement_list}">
+                                            <input type="hidden" value="${announcement.id}" name="txtAnnouncementID">
+                                            <button class="btn btn-primary m-3" type="submit"
+                                                    name="btAction" value="Update Announcement">Update
+                                            </button>
+                                        </c:forEach>
+                                    </c:if>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+
             <div class="modal fade" id="ViewDraftModal" tabindex="-1" role="dialog"
                  aria-labelledby="ariaViewDraftModal" style="display: none" aria-modal="true">
                 <div class="modal-dialog mt-4" role="document">
@@ -302,8 +318,9 @@
                                 <p>
                                     - Students must return old textbooks before borrow new textbooks; <br> -
                                     Students who don't borrow and get textbooks as schedule must take responsibility
-                                    of having no textbooks; <br> - Students can view infomartion of textbooks at
-                                    here
+                                    of having no textbooks; <br> - Students can view information of textbooks at
+                                    here; <br> - Students have to return their books before <b class="text-danger">
+                                    <span id="returnDateDraft"></span> </b>
                                 </p>
                                 <h3><b>Should you have any inquiry, please contact us via:</b></h3>
                                 <p>
@@ -313,9 +330,9 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" name="btAction" value="Update Announcement" class="btn btn-primary">
+                            <%--<button type="submit" name="btAction" value="Update Announcement" class="btn btn-primary">
                                 Save
-                            </button>
+                            </button>--%>
                             <button type="button" class="btn btn-outline-primary" data-dismiss="modal">
                                 Close
                             </button>
@@ -323,6 +340,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- content-wrapper ends -->
             <!-- partial:../../partials/_footer.html -->
             <footer class="footer">

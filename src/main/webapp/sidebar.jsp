@@ -80,6 +80,18 @@
                 <span class="menu-title">Import Log</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="ShowAnnouncementManagementServlet">
+                <i class="icon-bell menu-icon"></i>
+                <span class="menu-title">Announcement</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="ShowSubjectServlet">
+                <i class="fas fa-chalkboard menu-icon"></i>
+                <span class="menu-title">Subject</span>
+            </a>
+        </li>
     </ul>
 </nav>
 </body>

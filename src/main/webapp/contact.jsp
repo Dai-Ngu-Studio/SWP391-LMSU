@@ -50,20 +50,22 @@
             </div>
         </div>
         <div class="right-contact">
-            <form>
+            <form action="ContactServlet" enctype="multipart/form-data"
+                  method="POST">
                 <div class="form-group">
                     <label for="inputName"><b>Full Name <span class="required-field">*</span></b></label>
-                    <input type="text" class="form-control" id="inputName" placeholder="Enter full name">
+                    <input type="text" class="form-control" id="inputName" placeholder="Enter full name" name="txtFullName">
                 </div>
                 <div class="form-group">
                     <label for="inputEmail"><b>Email <span class="required-field">*</span></b></label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="Enter email">
+                    <input type="email" class="form-control" id="inputEmail" placeholder="Enter email" name="txtEmail">
                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                         else.</small>
                 </div>
                 <div class="form-group">
-                    <label for="inputPhoneNumber"><b>Phone Number <span class="required-field">*</span></b></label>
-                    <input type="tel" class="form-control" id="inputPhoneNumber" placeholder="Enter phone number">
+                    <label for="inputPhoneNumber"><b>Phone Number (10 numbers) <span class="required-field">*</span></b></label>
+                    <input type="tel" class="form-control" id="inputPhoneNumber"
+                           placeholder="Enter phone number" name="txtPhone" pattern="^[0-9]{1,10}$">
                 </div>
                 <div class="form-group">
                     <div>
@@ -130,6 +132,18 @@
                 </div>
                 <div class="form-group">
                     <script>
+                        function readURL(input, idImage) {
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    $('#' + idImage)
+                                        .attr('src', e.target.result)
+                                };
+
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
                         $('document').ready(function() {
                             var $file = $('#file-input'),
                                 $label = $file.next('label'),
@@ -160,7 +174,7 @@
                         })
                     </script>
                     <div class="wrapper">
-                        <input type="file" id="file-input">
+                        <input type="file" id="file-input" name="errorPicture" onchange="readURL(this, 'errorPicture');">
                         <label for="file-input" style="font-size: 1.2rem; color: rgb(110, 80, 195);">
                             <i class="fa fa-paperclip">
                                 <b style="font-family: Arial, Helvetica, sans-serif;">
@@ -173,7 +187,7 @@
                         <i class="fa fa-times-circle remove"></i>
                     </div>
                 </div>
-                <script>
+                <%--<script>
                     $(function() {
                         $("#message").keypress(function(e) {
                             var code = (e.keyCode ? e.keyCode : e.which);
@@ -182,10 +196,11 @@
                             }
                         });
                     });
-                </script>
+                </script>--%>
                 <div class="form-group">
                     <label for="inputMessage"><b>Message <span class="required-field">*</span></b></label>
-                    <textarea type="text" class="form-control" id="inputMessage" placeholder="Enter message"></textarea>
+                    <textarea type="text" class="form-control" id="inputMessage" placeholder="Enter message"
+                              name="txtFeedbackMsg"></textarea>
                 </div>
                 <div style="display: flex; justify-content: flex-end;">
                     <button type="submit" class="btn btn-send-message">Send Message</button>

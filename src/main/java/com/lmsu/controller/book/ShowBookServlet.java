@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,18 +40,21 @@ public class ShowBookServlet extends HttpServlet {
             List<AuthorBookMapDTO> list = authorBookMapDAO.getAuthorBookMaps();
             //First String is bookID
             Map<String, ArrayList<AuthorDTO>> bookAuthorMap = new HashMap<>();
-            for (AuthorBookMapDTO dto:list){
-                String bookID = dto.getBookDTO().getBookID();
+            if (list != null){
+                for (AuthorBookMapDTO dto:list){
+                    String bookID = dto.getBookDTO().getBookID();
 
-                if (bookAuthorMap.containsKey(bookID) == true){
-                    bookAuthorMap.get(bookID).add(dto.getAuthorDTO());
-                } else {
-                    ArrayList<AuthorDTO> newAuthorList = new ArrayList<>();
-                    newAuthorList.add(dto.getAuthorDTO());
-                    bookAuthorMap.put(bookID, newAuthorList);
+                    if (bookAuthorMap.containsKey(bookID) == true){
+                        bookAuthorMap.get(bookID).add(dto.getAuthorDTO());
+                    } else {
+                        ArrayList<AuthorDTO> newAuthorList = new ArrayList<>();
+                        newAuthorList.add(dto.getAuthorDTO());
+                        bookAuthorMap.put(bookID, newAuthorList);
+                    }
                 }
+                request.setAttribute("BOOK_AUTHOR_MAP", bookAuthorMap);
             }
-            request.setAttribute("BOOK_AUTHOR_MAP", bookAuthorMap);
+
             List<BookDTO> searchResultReceived = (List<BookDTO>) request.getAttribute("SEARCH_RESULT");
             if (searchResultReceived != null) {
                 request.setAttribute("BOOK_LIST", searchResultReceived);

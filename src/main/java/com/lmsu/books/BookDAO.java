@@ -734,7 +734,7 @@ public class BookDAO implements Serializable {
         return null;
     }
 
-    public int countBookByAuthorID(String authorID) throws SQLException, NamingException {
+    public int countBookBySubjectID(String subjectID) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -743,12 +743,12 @@ public class BookDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 String sql = "SELECT COUNT (*) AS countBooks " +
-                        "FROM AuthorBookMaps " +
-                        "RIGHT JOIN Books ON AuthorBookMaps.bookID = Books.id " +
-                        "WHERE AuthorBookMaps.authorID = ? AND deleteStatus = 0";
+                        "FROM Subjects " +
+                        "RIGHT JOIN Books ON Subjects.id = Books.subjectID " +
+                        "WHERE Subjects.id = ? AND Books.deleteStatus = 0";
 
                 stm = con.prepareStatement(sql);
-                stm.setString(1, authorID);
+                stm.setString(1, subjectID);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     return rs.getInt("countBooks");

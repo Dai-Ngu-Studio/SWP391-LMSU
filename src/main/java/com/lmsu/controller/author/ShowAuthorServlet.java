@@ -47,17 +47,19 @@ public class ShowAuthorServlet extends HttpServlet {
                 authorBookMapDAO.viewAuthorBookMapList();
                 List<AuthorBookMapDTO> authorBookMapList = authorBookMapDAO.getAuthorBookMaps();
 
-                for (AuthorBookMapDTO tmp: authorBookMapList
-                     ) {
-                    if (authorMap.containsKey(tmp.getAuthorDTO().getAuthorID())) {
-                        authorMap.get(tmp.getAuthorDTO().getAuthorID()).add(tmp);
-                    } else {
-                        List<AuthorBookMapDTO> newList = new ArrayList<>();
-                        newList.add(tmp);
-                        authorMap.put(tmp.getAuthorDTO().getAuthorID(), newList);
+                if (authorBookMapList != null){
+                    for (AuthorBookMapDTO tmp: authorBookMapList
+                    ) {
+                        if (authorMap.containsKey(tmp.getAuthorDTO().getAuthorID())) {
+                            authorMap.get(tmp.getAuthorDTO().getAuthorID()).add(tmp);
+                        } else {
+                            List<AuthorBookMapDTO> newList = new ArrayList<>();
+                            newList.add(tmp);
+                            authorMap.put(tmp.getAuthorDTO().getAuthorID(), newList);
+                        }
                     }
+                    request.setAttribute("AUTHOR_MAP", authorMap);
                 }
-                request.setAttribute("AUTHOR_MAP", authorMap);
 
             }
             AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();

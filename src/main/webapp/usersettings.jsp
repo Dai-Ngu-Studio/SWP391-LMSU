@@ -497,10 +497,7 @@
                                                                             console.log(dateRow);
                                                                             var xhttp;
                                                                             xhttp = new XMLHttpRequest();
-                                                                            xhttp.onreadystatechange = function () {
-                                                                                if (this.readyState === 4 && this.status === 200) {
-                                                                                    if (this.responseText.localeCompare('false') == 0) {
-                                                                                        let invalidText = `<div class="row">
+                                                                            let invalidText = `<div class="row" id="rowInvalidText">
                                                                                             <div class="col-12 text-left">
                                                                                                 <small class="text-danger">
                                                                                                     Please don't choose a date that's below your current deadline
@@ -508,10 +505,14 @@
                                                                                                 </small>
                                                                                             </div>
                                                                                         </div>`;
+                                                                            xhttp.onreadystatechange = function () {
+                                                                                if (this.readyState === 4 && this.status === 200) {
+                                                                                    if (this.responseText.localeCompare('false') == 0) {
                                                                                         $("#rowExtendDate" + itemid).append(invalidText);
                                                                                         $("#btnSave"+itemid).attr('disabled', '').addClass("btn-secondary").removeClass("btn-primary");
                                                                                     }
                                                                                     else {
+                                                                                        $("#rowInvalidText").remove();
                                                                                         $("#btnSave" + itemid).removeAttr('disabled').addClass("btn-primary").removeClass("btn-secondary");
                                                                                     }
                                                                                 }

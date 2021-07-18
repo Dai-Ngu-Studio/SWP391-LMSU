@@ -30,7 +30,6 @@ public class DispatchServlet extends HttpServlet {
     private static final String VIEW_BOOK_DETAILS_CONTROLLER = "ViewBookDetailsServlet";
     private static final String SEARCH_USER_CONTROLLER = "SearchUserServlet";
     private static final String ADD_USER_CONTROLLER = "AddUserServlet";
-    private static final String UPDATE_USER_CONTROLLER = "";
     private static final String DELETE_USER_CONTROLLER = "DeleteUserServlet";
     private static final String SEARCH_STAFF_CONTROLLER = "SearchStaffServlet";
     private static final String ADD_STAFF_CONTROLLER = "";
@@ -41,7 +40,13 @@ public class DispatchServlet extends HttpServlet {
     private static final String SEARCH_AUTHOR_CONTROLLER = "SearchAuthorNameServlet";
     private static final String ADD_AUTHOR_CONTROLLER = "AddAuthorServlet";
     private static final String RENEWAL_REQUEST_CONTROLLER = "RenewRequestServlet";
-    private static final String UDPATE_USER_CONTROLLER = "UpdateUserServlet";
+    private static final String UPDATE_USER_CONTROLLER = "UpdateUserServlet";
+    private static final String CREATE_ANNOUNCEMENT_CONTROLLER = "CreateAnnouncementServlet";
+    private static final String UPDATE_ANNOUNCEMENT_CONTROLLER = "EditAnnouncementServlet";
+    private static final String SEARCH_SUBJECT_CONTROLLER = "SearchSubjectNameServlet";
+    private static final String ADD_SUBJECT_CONTROLLER = "AddSubjectServlet";
+    private static final String UPDATE_SUBJECT_CONTROLLER = "UpdateSubjectServlet";
+    private static final String DELETE_SUBJECT_CONTROLLER = "DeleteSubjectServlet";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -97,7 +102,19 @@ public class DispatchServlet extends HttpServlet {
             } else if (button.equals("Renew Book")) {
                 url = RENEWAL_REQUEST_CONTROLLER;
             } else if (button.equals("Update User")) {
-                url = UDPATE_USER_CONTROLLER;
+                url = UPDATE_USER_CONTROLLER;
+            } else if (button.equals("Add Announcement")) {
+                url = CREATE_ANNOUNCEMENT_CONTROLLER;
+            } else if (button.equals("Update Announcement")) {
+                url = UPDATE_ANNOUNCEMENT_CONTROLLER;
+            } else if (button.equals("AddSubject")) {
+                url = ADD_SUBJECT_CONTROLLER;
+            } else if (button.equals("SearchSubject")) {
+                url = SEARCH_SUBJECT_CONTROLLER;
+            } else if (button.equals("Update Subject")) {
+                url = UPDATE_SUBJECT_CONTROLLER;
+            } else if (button.equals("Delete Subject")) {
+                url = DELETE_SUBJECT_CONTROLLER;
             }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);

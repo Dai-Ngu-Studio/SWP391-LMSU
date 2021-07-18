@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: NDungx
@@ -28,47 +29,68 @@
 <body>
 <jsp:include page="header.jsp"></jsp:include>
 <jsp:include page="navbar.html"></jsp:include>
-<div class="d-flex flex-column align-items-center p-10 bg-light">
-    <div class="announcement">
-        <div class="d-flex flex-column align-items-center mb-5">
-            <h6><b>INFORMATION AND LIBRARY CENTER</b></h6>
-            <h3><b>ANNOUNCEMENT</b></h3>
+<c:set value="${requestScope.ANNOUNCEMENT_LIST}" var="list"/>
+<c:if test="${empty list}">
+    <div class="row my-4">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="card mt-2">
+                <div class="card-body text-center">
+                    <div class="card-text">
+                        No announcement have been made yet.
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <p>Dear Library Users,</p>
-            <p>
-                Delivering textbook schedule for Summer 2021 semester at FPTU - Hoa Lac Library. Library users are
-                required to follow below schedule:
-            </p>
-            <p class="text-danger">
-                <b>
-                    Start: Tuesday 04/5/2021 to Friday 21/5/2021 at room no 108.
-                </b>
-            </p>
-            <p>
-                Textbook for subjects: ENT203, TRS401, TRS501, TRS601, JIT301 and Japanese subjects (JPD116, JPD126,
-                JPD216, JPD226, JPD316, JPD326) <b class="text-danger">from Monday 10/5/2021 to 21/5/2021at room no
-                107</b> .
-            </p>
-            <h4><b>Time:</b></h4>
-            <p>
-                - Morning: From 08:30 to 11:30 <br> - Afternoon: From 13:30 to 16:30
-            </p>
-            <h4><b>Notes:</b></h4>
-            <p>
-                - Students must return old textbooks before borrow new textbooks; <br> - Students who don't borrow and
-                get textbooks as schedule must take responsibility of having no textbooks; <br> - Students can view
-                infomartion of textbooks at
-                here
-            </p>
-            <h4><b>Should you have any inquiry, please contact us via:</b></h4>
-            <p>
-                <b>Phone No:</b> 024-6680 5912 <br>
-                <b>Email:</b> lmsu@gmail.com <br> <b>Fanpage:</b> https://www.facebook.com/lmsu
-            </p>
+        <div class="col-4"></div>
+    </div>
+</c:if>
+<c:if test="${not empty list}">
+    <div class="d-flex flex-column align-items-center p-10 bg-light">
+        <div class="announcement">
+            <c:forEach var="announcement" items="${list}">
+                ${announcement.announcementText}
+            </c:forEach>
+                <%--<div class="d-flex flex-column align-items-center mb-5">
+                    <h6><b>INFORMATION AND LIBRARY CENTER</b></h6>
+                    <h3><b>ANNOUNCEMENT</b></h3>
+                </div>
+                <div>
+                    <p>Dear Library Users,</p>
+                    <p>
+                        Delivering textbook schedule for Summer 2021 semester at FPTU - Hoa Lac Library. Library users are
+                        required to follow below schedule:
+                    </p>
+                    <p class="text-danger">
+                        <b>
+                            Start: Tuesday 04/5/2021 to Friday 21/5/2021 at room no 108.
+                        </b>
+                    </p>
+                    <p>
+                        Textbook for subjects: ENT203, TRS401, TRS501, TRS601, JIT301 and Japanese subjects (JPD116, JPD126,
+                        JPD216, JPD226, JPD316, JPD326) <b class="text-danger">from Monday 10/5/2021 to 21/5/2021at room no
+                        107</b> .
+                    </p>
+                    <h4><b>Time:</b></h4>
+                    <p>
+                        - Morning: From 08:30 to 11:30 <br> - Afternoon: From 13:30 to 16:30
+                    </p>
+                    <h4><b>Notes:</b></h4>
+                    <p>
+                        - Students must return old textbooks before borrow new textbooks; <br> - Students who don't borrow and
+                        get textbooks as schedule must take responsibility of having no textbooks; <br> - Students can view
+                        infomartion of textbooks at
+                        here
+                    </p>
+                    <h4><b>Should you have any inquiry, please contact us via:</b></h4>
+                    <p>
+                        <b>Phone No:</b> 024-6680 5912 <br>
+                        <b>Email:</b> lmsu@gmail.com <br> <b>Fanpage:</b> https://www.facebook.com/lmsu
+                    </p>
+                </div>--%>
         </div>
     </div>
-</div>
+</c:if>
 <jsp:include page="footer.html"></jsp:include>
 </body>
 </html>

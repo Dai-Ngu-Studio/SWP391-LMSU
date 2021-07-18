@@ -170,6 +170,8 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    <c:set var="bookAuthorMap"
+                                           value="${requestScope.BOOK_AUTHOR_MAP}"/>
                                     <c:set var="bookList" value="${requestScope.BOOK_LIST}"/>
                                     <c:forEach var="book" items="${bookList}" varStatus="counter">
                                         <!--Start: Book Item Row-->
@@ -195,10 +197,201 @@
                                                         <input type="hidden" value="${book.bookID}"
                                                                name="bookPk">
                                                         <div class="btn-group">
-                                                            <button type="submit" class="btn btn-light"
+                                                            <%--<button type="submit" class="btn btn-light"
                                                                     name="btAction" value="View Details">
                                                                 <i class="fa fa-eye text-primary"></i>
-                                                            </button>
+                                                            </button>--%>
+                                                                <%--Button and view modal--%>
+                                                                <button type="button" class="btn btn-light"
+                                                                        data-toggle="modal"
+                                                                        data-target="#viewModal${counter.count}"
+                                                                        title="View"
+                                                                        data-original-title="View">
+                                                                    <i class="fa fa-eye text-primary"></i>
+                                                                </button>
+                                                                <div class="modal fade"
+                                                                     id="viewModal${counter.count}"
+                                                                     tabindex="-1"
+                                                                     role="dialog"
+                                                                     aria-labelledby="exampleModalLongTitle"
+                                                                     aria-hidden="true">
+                                                                    <div class="modal-dialog modal-xl" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="modalTitle${counter.count}">
+                                                                                    Book Log</h5>
+                                                                                <button type="button" class="close"
+                                                                                        data-dismiss="modal"
+                                                                                        aria-label="Close">
+                                                                                        <span
+                                                                                                aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <fieldset disabled>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-1 col-form-label">Book
+                                                                                            Cover
+                                                                                        </label>
+
+                                                                                        <div class="col-sm-10">
+                                                                                            <img class="rounded float-right"
+                                                                                                 style="height: 280px; width: auto;"
+                                                                                                 src="${pageContext.request.contextPath}/image/${book.coverPath}"
+                                                                                                 id="coverPictureUpdate2${book.bookID}"
+                                                                                                 alt="Book cover"
+                                                                                                 onerror="this.onerror=null; this.src='images/imagenotfound.jpg';"
+                                                                                            />
+                                                                                            <input type="hidden"
+                                                                                                   name="txtCoverFile"
+                                                                                                   class="form-control"
+                                                                                                   value="${book.coverPath}">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-1 col-form-label">Title</label>
+                                                                                        <div class="col-sm-10">
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   name="txtUpdateTitle"
+                                                                                                   value="${book.title}">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-1 col-form-label">
+                                                                                            Subject ID
+                                                                                        </label>
+                                                                                        <div class="col-sm-10">
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   name="txtUpdateSubjectID"
+                                                                                                   value="${book.subjectID}">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-1 col-form-label">
+                                                                                            Publisher
+                                                                                        </label>
+                                                                                        <div class="col-sm-10">
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   name="txtUpdatePublisher"
+                                                                                                   value="${book.publisher}">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-1 col-form-label">
+                                                                                            Publication date
+                                                                                        </label>
+                                                                                        <div class="col-sm-10">
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   name="txtUpdatePubliDate"
+                                                                                                   value="${book.publicationDate}">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-1 col-form-label">
+                                                                                            Price
+                                                                                        </label>
+                                                                                        <div class="col-sm-10">
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   name="txtUpdatePrice"
+                                                                                                   value="${book.price}">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-1 col-form-label">
+                                                                                            Quantity
+                                                                                        </label>
+                                                                                        <div class="col-sm-10">
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   name="txtUpdateQuantity"
+                                                                                                   value="${book.quantity}">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-1 col-form-label">
+                                                                                            ISBN Ten
+                                                                                        </label>
+                                                                                        <div class="col-sm-10">
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   name="txtUpdateISBNTen"
+                                                                                                   value="${book.isbnTen}">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-1 col-form-label">
+                                                                                            ISBN Thirteen
+                                                                                        </label>
+                                                                                        <div class="col-sm-10">
+                                                                                            <input type="text"
+                                                                                                   class="form-control"
+                                                                                                   name="txtUpdateISBNThirteen"
+                                                                                                   value="${book.isbnThirteen}">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-1 col-form-label">Description
+                                                                                        </label>
+                                                                                        <div class="col-sm-10">
+                                                                        <textarea class="form-control"
+                                                                                  id="Textarea${book.bookID}"
+                                                                                  name="txtUpdateDescription"
+                                                                                  rows="5">${book.description}
+                                                                        </textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <div class="table-responsive">
+                                                                                            <table class="table table-hover">
+                                                                                                <thead>
+                                                                                                <tr>
+                                                                                                    <th scope="col">
+                                                                                                        Author ID
+                                                                                                    </th>
+                                                                                                    <th scope="col">
+                                                                                                        Author Name
+                                                                                                    </th>
+
+                                                                                                </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    <%--<c:set var="authorMap" value="${requestScope.AUTHOR_MAP}"/>
+                                                                                                    <c:set var="keyAuthorID" value="${authorMap.keySet()}"/> --%>
+                                                                                                <c:set var="authorBook"
+                                                                                                       value="${bookAuthorMap.get(book.bookID)}"/>
+                                                                                                <c:forEach
+                                                                                                        var="bookOfAuthor"
+                                                                                                        items="${authorBook}">
+                                                                                                    <tr>
+                                                                                                        <td>${bookOfAuthor.authorID} </td>
+                                                                                                        <td>${bookOfAuthor.authorName} </td>
+
+                                                                                                    </tr>
+                                                                                                </c:forEach>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                        class="btn btn-primary"
+                                                                                        data-dismiss="modal">Close
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                    <%--End button and view modal--%>
+
                                                                 <%--Button and update modal--%>
                                                             <button type="button" class="btn btn-light"
                                                                     data-toggle="modal"
@@ -282,8 +475,6 @@
                                                                                            onfocus="inputForAutoComplete(this);"
 
                                                                                     >
-                                                                                    <c:set var="bookAuthorMap"
-                                                                                           value="${requestScope.BOOK_AUTHOR_MAP}"/>
                                                                                     <c:set var="authors"
                                                                                            value="${bookAuthorMap.get(book.bookID)}"/>
                                                                                     <c:forEach var="author"

@@ -9,4 +9,5 @@ $("#ViewDraft").on("click", function () {
     $("#dayDraft").html($("#day").val());
     $("#dateFromDraft").html($("#dateFrom").val());
     $("#dateToDraft").html($("#dateTo").val());
+    $("#returnDateDraft").html($("#returnDate").val());
 });
