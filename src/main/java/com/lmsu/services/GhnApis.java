@@ -12,62 +12,62 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.sql.Date;
 
 public class GhnApis {
 
-//    //This function will return the amount of time needed to delivering in DAY(S)
-//    public static int calculateExpectedDeliveryTime(String to_district_id, String to_ward_code) {
-//        String output = "";
-//        try {
-//            URL url = new URL("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/leadtime");
-//            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//            conn.setRequestMethod("GET");
-//            conn.setRequestProperty("Content-Type", "application/json; utf-8");
-//            conn.setRequestProperty("Accept", "application/json");
-//            conn.addRequestProperty("ShopId", "***REMOVED***");
-//            conn.addRequestProperty("token", "***REMOVED***");
-//            conn.setDoOutput(true);
-//            // Quan 9 district code: 1451
-//
-//            String requestBody = "    {\"from_district_id\": 1451,\n" +
-//                    "    \"to_district_id\": "+to_district_id+",\n" +
-//                    "    \"to_ward_code\": \""+to_ward_code+"\",\n" +
-//                    "    \"service_id\":53320}";
-//            OutputStream os = conn.getOutputStream();
-//            os.write(requestBody.getBytes());
-//            os.flush();
-//
-//            if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-//                throw new RuntimeException("Failed : HTTP error code : "
-//                        + conn.getResponseCode());
-//            }
-//
-//            BufferedReader br = new BufferedReader(new InputStreamReader(
-//                    (conn.getInputStream()), "UTF-8"));
-//            String line;
-//            while ((line = br.readLine()) != null) {
-//                output += line;
-//            }
-//            conn.disconnect();
-//        } catch (ProtocolException e) {
-//            e.printStackTrace();
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (RuntimeException e) {
-//            e.printStackTrace();
-//        }
-//        JsonParser parser = new JsonParser();
-//        JsonObject outputObject = parser.parse(output).getAsJsonObject();
-//        JsonObject objData = outputObject.getAsJsonObject("data");
-//        String leadtime = objData.get("leadtime").getAsString();
-//        long expectedTimeInMillis = Long.parseLong(leadtime);
-//        int expectedTimeInDays = (int) expectedTimeInMillis / 86400000 + 1;
-//        return expectedTimeInDays;
-//        1593187200
-//        1626566399
-//    }
+    //This function will return the amount of time needed to delivering in DAY(S)
+    public static Date calculateExpectedDeliveryTime(String to_district_id, String to_ward_code) {
+        String output = "";
+        try {
+            URL url = new URL("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/leadtime");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.addRequestProperty("ShopId", "***REMOVED***");
+            conn.addRequestProperty("token", "***REMOVED***");
+            conn.setDoOutput(true);
+            // Quan 9 district code: 1451
+
+            String requestBody = "    {\"from_district_id\": 1451,\n" +
+                    "    \"to_district_id\": " + to_district_id + ",\n" +
+                    "    \"to_ward_code\": \"" + to_ward_code + "\",\n" +
+                    "    \"service_id\":53320}";
+            OutputStream os = conn.getOutputStream();
+            os.write(requestBody.getBytes());
+            os.flush();
+
+            if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + conn.getResponseCode());
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (conn.getInputStream()), "UTF-8"));
+            String line;
+            while ((line = br.readLine()) != null) {
+                output += line;
+            }
+            conn.disconnect();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+        JsonParser parser = new JsonParser();
+        JsonObject outputObject = parser.parse(output).getAsJsonObject();
+        JsonObject objData = outputObject.getAsJsonObject("data");
+        String leadtime = objData.get("leadtime").getAsString();
+        long expectedTimeInSeconds = Long.parseLong(leadtime);
+        //Because Date constructor only accept millis but we have second so we need to multiply 1000
+        Date expectedDate = new Date(expectedTimeInSeconds * 1000);
+        return expectedDate;
+    }
 
     public static String cancelOrder(String order_code) {
         String output = "";
