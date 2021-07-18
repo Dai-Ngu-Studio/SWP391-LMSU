@@ -228,7 +228,7 @@
                                                                                                          src="${pageContext.request.contextPath}/image/${member.profilePicturePath}"
                                                                                                          id="coverPictureView${member.id}"
                                                                                                          alt="Avatar"
-                                                                                                         onerror="this.onerror=null; this.src='images/default-user-icon.png';"
+                                                                                                         onerror="this.onerror=null; this.src='${member.profilePicturePath}';"
                                                                                                     />
                                                                                                     <input type="hidden"
                                                                                                            name="txtCoverFile"
@@ -347,7 +347,7 @@
                                                                                                      src="${pageContext.request.contextPath}/image/${member.profilePicturePath}"
                                                                                                      id="coverPictureUpdate${member.id}"
                                                                                                      alt="User avatar"
-                                                                                                     onerror="this.onerror=null; this.src='images/default-user-icon.png';"
+                                                                                                     onerror="this.onerror=null; this.src='${member.profilePicturePath}';"
                                                                                                 />
                                                                                                 <input type="hidden"
                                                                                                        name="txtCoverFile"
