@@ -19,6 +19,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -62,6 +63,10 @@ public class CheckoutDeliveryServlet extends HttpServlet {
     private final int ITEM_LOST = 9;
     private final int ITEM_RESERVED = 10;
     private final int ITEM_RESERVED_INACTIVE = 11;
+
+    private final int PENALTY_NONE = 0;
+    private final int PENALTY_UNPAID = 1;
+    private final int PENALTY_PAID = 2;
 
     private final String ATTR_MEMBER_CART = "MEMBER_CART";
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
@@ -117,17 +122,15 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                         OrderItemDTO orderItemDTO = new OrderItemDTO();
                                         orderItemDTO.setOrderID(orderID);
                                         orderItemDTO.setBookID(bookID);
-                                        //do lát present nên tui sửa tạm orderItemDTO.setLendStatus(0) thành
-                                        //orderItemDTO.setLendStatus(ITEM_RECEIVED) (T. Phuc)
+                                        orderItemDTO.setPenaltyStatus(PENALTY_NONE);
+                                        orderItemDTO.setPenaltyAmount(new BigDecimal(0));
                                         if (bookDAO.getBookById(bookID).getQuantity() > 0) {
-                                            orderItemDTO.setLendStatus(ITEM_RECEIVED);
+                                            orderItemDTO.setLendStatus(ITEM_PENDING);
                                             orderItemDTO.setReturnDeadline(returnDeadline);
                                         } else {
                                             orderItemDTO.setLendStatus(ITEM_RESERVED);
                                             orderItemDTO.setReturnDeadline(null);
                                         }
-                                        // default ▼
-                                        //orderItemDTO.setLendStatus(ITEM_PENDING);
                                         orderItemDTO.setReturnDate(null);
                                         orderItems.add(orderItemDTO);
                                     }// end traverse items in cart
@@ -139,7 +142,8 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                         DeliveryOrderDAO deliveryOrderDAO = new DeliveryOrderDAO(conn);
                                         boolean deliveryOrderAddResult = deliveryOrderDAO
                                                 .addDeliveryOrder(orderID, phoneNumber,
-                                                        deliveryAddressOne, deliveryAddressTwo, city, district, ward, DELIVERY_NOT_RETURN);
+                                                        deliveryAddressOne, deliveryAddressTwo, city, district, ward,
+                                                        receiverName, DELIVERY_NOT_RETURN);
                                         if (deliveryOrderAddResult) {
                                             conn.commit();
                                             session.removeAttribute(ATTR_MEMBER_CART);
@@ -179,6 +183,13 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                                 }
                                             }
                                             request.setAttribute(ATTR_CHECKOUT_SUCCESS, true);
+                                            session.removeAttribute(ATTR_CHECKOUT_RECEIVERNAME);
+                                            session.removeAttribute(ATTR_CHECKOUT_PHONENUMBER);
+                                            session.removeAttribute(ATTR_CHECKOUT_ADDRESSONE);
+                                            session.removeAttribute(ATTR_CHECKOUT_ADDRESSTWO);
+                                            session.removeAttribute(ATTR_CHECKOUT_CITY);
+                                            session.removeAttribute(ATTR_CHECKOUT_DISTRICT);
+                                            session.removeAttribute(ATTR_CHECKOUT_WARD);
                                             url = SHOW_BOOK_CATALOG_CONTROLLER; //W.I.P. temporary (to be changed)
                                         }// end if delivery order created successfully
                                     }// end if order items added successfully

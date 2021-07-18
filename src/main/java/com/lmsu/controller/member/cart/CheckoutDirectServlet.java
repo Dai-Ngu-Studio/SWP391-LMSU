@@ -19,6 +19,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -65,6 +66,10 @@ public class CheckoutDirectServlet extends HttpServlet {
     private final int ITEM_LOST = 9;
     private final int ITEM_RESERVED = 10;
     private final int ITEM_RESERVED_INACTIVE = 11;
+
+    private final int PENALTY_NONE = 0;
+    private final int PENALTY_UNPAID = 1;
+    private final int PENALTY_PAID = 2;
 
     private final String ATTR_MEMBER_CART = "MEMBER_CART";
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
@@ -114,6 +119,8 @@ public class CheckoutDirectServlet extends HttpServlet {
                                         OrderItemDTO orderItemDTO = new OrderItemDTO();
                                         orderItemDTO.setOrderID(orderID);
                                         orderItemDTO.setBookID(bookID);
+                                        orderItemDTO.setPenaltyStatus(PENALTY_NONE);
+                                        orderItemDTO.setPenaltyAmount(new BigDecimal(0));
                                         if (bookDAO.getBookById(bookID).getQuantity() > 0) {
                                             orderItemDTO.setLendStatus(ITEM_PENDING);
                                             orderItemDTO.setReturnDeadline(returnDeadline);
@@ -171,6 +178,8 @@ public class CheckoutDirectServlet extends HttpServlet {
                                                 }
                                             }
                                             request.setAttribute(ATTR_CHECKOUT_SUCCESS, true);
+                                            session.removeAttribute(ATTR_CHECKOUT_PICKUPDATE);
+                                            session.removeAttribute(ATTR_CHECKOUT_PICKUPTIME);
                                             url = SHOW_BOOK_CATALOG_CONTROLLER; //W.I.P. temporary (to be changed)
                                         }// end if direct order created successfully
                                     }// end if order items added successfully
