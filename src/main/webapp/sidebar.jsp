@@ -64,15 +64,23 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" href="ShowAuthorServlet">
-                <i class="fal fa-user-edit menu-icon"></i>
+                <i class="fal fa-user-edit menu-icon" style="margin-right: 0.8rem"></i>
                 <span class="menu-title">Authors</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="ShowOrdersServlet">
+            <a class="nav-link" data-toggle="collapse" href="#rental-management" aria-expanded="false"
+               aria-controls="ui-basic">
                 <i class="icon-archive menu-icon"></i>
                 <span class="menu-title">Book Rental</span>
+                <i class="menu-arrow"></i>
             </a>
+            <div class="collapse" id="rental-management">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"><a class="nav-link" href="ShowOrdersServlet">Orders</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ShowPenaltiesServlet">Penalties</a></li>
+                </ul>
+            </div>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="ShowLogServlet">
