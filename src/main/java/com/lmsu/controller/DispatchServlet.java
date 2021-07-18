@@ -41,7 +41,7 @@ public class DispatchServlet extends HttpServlet {
     private static final String SEARCH_AUTHOR_CONTROLLER = "SearchAuthorNameServlet";
     private static final String ADD_AUTHOR_CONTROLLER = "AddAuthorServlet";
     private static final String RENEWAL_REQUEST_CONTROLLER = "RenewRequestServlet";
-
+    private static final String UDPATE_USER_CONTROLLER = "UpdateUserServlet";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -96,6 +96,8 @@ public class DispatchServlet extends HttpServlet {
                 url = SEARCH_STAFF_CONTROLLER;
             } else if (button.equals("Renew Book")) {
                 url = RENEWAL_REQUEST_CONTROLLER;
+            } else if (button.equals("Update User")) {
+                url = UDPATE_USER_CONTROLLER;
             }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
