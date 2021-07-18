@@ -463,7 +463,7 @@
                                                                                                                 Manager
                                                                                                             </option>
                                                                                                         </c:if>
-                                                                                                        <c:if test="${staff.activeStatus eq '2'}">
+                                                                                                        <c:if test="${staff.roleID eq '2'}">
                                                                                                             <option value="3">
                                                                                                                 Librarian
                                                                                                             </option>
