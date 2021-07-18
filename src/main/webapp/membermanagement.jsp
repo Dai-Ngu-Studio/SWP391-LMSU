@@ -363,7 +363,7 @@
                                                                                                            class="custom-file-input"
                                                                                                            id="customFileUpdate${member.id}"
                                                                                                            name="coverPicture"
-                                                                                                           onchange="readURL(this, 'coverPictureUpdate${member.profilePicturePath}');"
+                                                                                                           onchange="readURL(this, 'coverPictureUpdate${member.id}');"
                                                                                                     >
                                                                                                     <label class="custom-file-label"
                                                                                                            for="customFileUpdate${member.id}">
