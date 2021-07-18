@@ -16,11 +16,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "SearchUserServlet", value = "/SearchUserServlet")
-public class SearchUserServlet extends HttpServlet {
+public class SearchMemberServlet extends HttpServlet {
 
     private static final String ERROR_PAGE = "membermanagement.jsp";
     private static final String SHOW_MEMBER_CONTROLLER = "ShowMemberServlet";
-    static final Logger LOGGER = Logger.getLogger(SearchUserServlet.class);
+    static final Logger LOGGER = Logger.getLogger(SearchMemberServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

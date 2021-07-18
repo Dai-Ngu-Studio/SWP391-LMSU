@@ -1,6 +1,6 @@
-package com.lmsu.controller.member;
+package com.lmsu.controller;
 
-import com.lmsu.controller.StartupServlet;import com.lmsu.users.UserDAO;
+import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
 import org.apache.log4j.Logger;
 
@@ -17,7 +17,7 @@ public class ShowMemberServlet extends HttpServlet {
 
     private static final String ERROR_PAGE = "error.jsp";
     private static final String MEMBER_MANAGEMENT_PAGE = "membermanagement.jsp";
-    static final Logger LOGGER = Logger.getLogger(StartupServlet.ShowMemberServlet.class);
+    static final Logger LOGGER = Logger.getLogger(ShowMemberServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
