@@ -136,7 +136,7 @@ GO
         lendDate date,
         returnDate date,
         penaltyAmount decimal,
-        penaltyStatus bit
+        penaltyStatus int
     );
 
 GO
@@ -162,6 +162,7 @@ GO
         managerID varchar(255) FOREIGN KEY REFERENCES Users(id),
         deliverer varchar(255),
         scheduledDeliveryTime date,
+		receiverName nvarchar(MAX),
         phoneNumber varchar(10),
         deliveryAddress1 nvarchar(MAX),
         deliveryAddress2 nvarchar(MAX),
@@ -328,7 +329,7 @@ ON their experience at Google, software engineers Titus Winters AND Hyrum Wright
         4.1,
         '439024713',
         '7749623681234',
-        'C:\b.png'
+        'book-1.jpg'
     );
 
 GO
@@ -364,7 +365,7 @@ values
         1.0,
         '581621217',
         '5157100231234',
-        'C:\b.png'
+        'book-2.jpg'
     );
 
 INSERT INTO
@@ -399,7 +400,7 @@ values
         0.1,
         '421605316',
         '3568879141234',
-        'C:\b.png'
+        'book-3.jpg'
     );
 
 INSERT INTO
@@ -435,7 +436,7 @@ FROM Google, Microsoft, AND Facebook, Bubble or Revolution cuts through the hype
         3.7,
         '404663114',
         '3665328051234',
-        'C:\b.png'
+        'book-4.jpg'
     );
 
 INSERT INTO
@@ -899,7 +900,7 @@ values
         '2020/09/05',
         'Maecenas IN pharetra nisl, nec laoreet purus. IN posuere mi nunc, IN porttitor odio maximus vel. Proin semper porttitor odio. Aliquam non nibh eu urna semper tincidunt. Morbi ac cursus eros. Praesent viverra non lorem nec malesuada. Sed commodo id nibh lobortis sodales. Maecenas rhoncus iaculis nisi, ac placerat diam.',
         15.66,
-        11,
+        0,
         0,
         '2021/01/16',
         1.4,
@@ -934,7 +935,7 @@ values
         '2021/02/01',
         'Quisque ligula lorem, dictum vitae ante in, pretium finibus ante. Sed sem mauris, convallis eget lectus non, vestibulum pharetra felis. Vivamus a metus neque. Duis sed est lorem. Duis imperdiet eu nisl vulputate scelerisque. Donec ut ligula neque. Proin nunc augue, pharetra quis vulputate quis, finibus a orci. Sed rutrum dapibus mattis. ',
         20.04,
-        6,
+        0,
         0,
         '2021/03/26',
         0.2,
@@ -969,7 +970,7 @@ values
         '2021/04/20',
         'Maecenas IN pharetra nisl, nec laoreet purus. IN posuere mi nunc, IN porttitor odio maximus vel. Proin semper porttitor odio. Aliquam non nibh eu urna semper tincidunt. Morbi ac cursus eros. Praesent viverra non lorem nec malesuada. Sed commodo id nibh lobortis sodales. Maecenas rhoncus iaculis nisi, ac placerat diam.',
         48.62,
-        4,
+        0,
         0,
         '2021/04/19',
         2.5,
@@ -1004,7 +1005,7 @@ values
         '2020/11/08',
         'Quisque ligula lorem, dictum vitae ante in, pretium finibus ante. Sed sem mauris, convallis eget lectus non, vestibulum pharetra felis. Vivamus a metus neque. Duis sed est lorem. Duis imperdiet eu nisl vulputate scelerisque. Donec ut ligula neque. Proin nunc augue, pharetra quis vulputate quis, finibus a orci. Sed rutrum dapibus mattis. ',
         13.32,
-        6,
+        0,
         0,
         '2020/08/11',
         0.3,
@@ -1147,7 +1148,7 @@ values
     (
         'SE151274',
         'Nguyen Gia Nguyen',
-        '4',
+        '2',
         5,
         'nguyenngse151274@fpt.edu.vn',
         '0901666918',
