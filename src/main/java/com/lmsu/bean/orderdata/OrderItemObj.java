@@ -1,9 +1,15 @@
 package com.lmsu.bean.orderdata;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Date;
+
+@AllArgsConstructor
+@NoArgsConstructor
 
 public @Data
 class OrderItemObj implements Serializable {
@@ -11,27 +17,13 @@ class OrderItemObj implements Serializable {
     private int orderID;
     private int returnOrderID;
     private String memberID;
+    private String memberName;
     private String bookID;
     private String title;
     private int lendStatus;
     private Date returnDeadline;
     private Date lendDate;
     private Date returnDate;
-
-    public OrderItemObj() {
-    }
-
-    public OrderItemObj(int id, int orderID, int returnOrderID, String memberID, String bookID, String title, int lendStatus,
-                        Date returnDeadline, Date lendDate, Date returnDate) {
-        this.id = id;
-        this.orderID = orderID;
-        this.returnOrderID = returnOrderID;
-        this.memberID = memberID;
-        this.bookID = bookID;
-        this.title = title;
-        this.lendStatus = lendStatus;
-        this.returnDeadline = returnDeadline;
-        this.lendDate = lendDate;
-        this.returnDate = returnDate;
-    }
+    private BigDecimal penaltyAmount;
+    private int penaltyStatus;
 }

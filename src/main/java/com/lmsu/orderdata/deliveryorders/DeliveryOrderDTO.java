@@ -16,11 +16,13 @@ class DeliveryOrderDTO implements Serializable {
     private String managerID;
     private String deliverer;
     private Timestamp scheduledDeliveryTime;
+    private String receiverName;
     private String phoneNumber;
     private String deliveryAddress1;
     private String deliveryAddress2;
     private String city;
     private String district;
     private String ward;
+    private String trackingCode;
     private boolean isReturnOrder;
 }

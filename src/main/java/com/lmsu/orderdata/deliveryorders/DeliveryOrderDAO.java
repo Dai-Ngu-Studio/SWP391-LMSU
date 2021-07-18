@@ -19,15 +19,15 @@ public class DeliveryOrderDAO implements Serializable {
     }
 
     public boolean addDeliveryOrder(int orderID, String phoneNumber, String deliveryAddress1, String deliveryAddress2,
-                                    String city, String district, String ward, boolean isReturnOrder)
+                                    String city, String district, String ward, String receiverName, boolean isReturnOrder)
             throws SQLException, NamingException {
         PreparedStatement stm = null;
         try {
             if (conn != null) {
                 String sql = "INSERT INTO [DeliveryOrder] " +
                         "([orderID], [phoneNumber], [deliveryAddress1], [deliveryAddress2], " +
-                        "[city], [district], [ward], [isReturnOrder]) " +
-                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?) ";
+                        "[city], [district], [ward], [receiverName], [isReturnOrder]) " +
+                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) ";
                 stm = conn.prepareStatement(sql);
                 stm.setInt(1, orderID);
                 stm.setString(2, phoneNumber);
@@ -36,7 +36,8 @@ public class DeliveryOrderDAO implements Serializable {
                 stm.setString(5, city);
                 stm.setString(6, district);
                 stm.setString(7, ward);
-                stm.setBoolean(8, isReturnOrder);
+                stm.setString(8, receiverName);
+                stm.setBoolean(9, isReturnOrder);
                 int row = stm.executeUpdate();
                 if (row > 0) {
                     return true;
