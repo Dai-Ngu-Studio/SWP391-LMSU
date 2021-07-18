@@ -12,6 +12,7 @@
           integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="js/orderform.js" defer="defer"></script>
 </head>
 
 <body>
@@ -239,73 +240,6 @@
                                                 letters, numbers and special characters.
                                             </small>
                                         </div>
-                                        <script>
-                                            $(document).ready(function () {
-                                                var cityData;
-                                                $.ajax({
-                                                    method: 'POST',
-                                                    url: 'data/city-data.json',
-                                                    dataType: 'json',
-                                                    success: function (responseJson) {
-                                                        cityData = responseJson;
-                                                        loadCities();
-                                                        console.log(cityData);
-                                                    }
-                                                });
-
-                                                function loadCities() {
-                                                    $.each(cityData, function (key, value) {
-                                                        $('<option>')
-                                                            .text(value['Name'])
-                                                            .val(value['Name'])
-                                                            .appendTo('#inputCity');
-                                                    });
-                                                }
-
-                                                var selectedCity;
-                                                var districts;
-                                                var selectedDistrict;
-                                                var wards;
-
-                                                $('#inputCity').on('change', function () {
-                                                    $('#inputDistrict').empty();
-                                                    $('<option>')
-                                                        .attr('selected', '')
-                                                        .attr('disabled', '')
-                                                        .text('Select a district...')
-                                                        .appendTo('#inputDistrict');
-                                                    selectedCity = cityData
-                                                        .filter(n => n.Name === $('#inputCity').val());
-                                                    districts = selectedCity[0]['Districts'];
-                                                    console.log(districts);
-                                                    $.each(districts, function (key, value) {
-                                                        $('<option>')
-                                                            .text(value['Name'])
-                                                            .val(value['Name'])
-                                                            .appendTo('#inputDistrict');
-                                                    });
-                                                });
-
-                                                $('#inputDistrict').on('change', function () {
-                                                    $('#inputWard').empty();
-                                                    $('<option>')
-                                                        .attr('selected', '')
-                                                        .attr('disabled', '')
-                                                        .text('Select a ward...')
-                                                        .appendTo('#inputWard');
-                                                    selectedDistrict = districts
-                                                        .filter(n => n.Name === $('#inputDistrict').val());
-                                                    wards = selectedDistrict[0]['Wards'];
-                                                    console.log(wards);
-                                                    $.each(wards, function (key, value) {
-                                                        $('<option>')
-                                                            .text(value['Name'])
-                                                            .val(value['Name'])
-                                                            .appendTo('#inputWard');
-                                                    });
-                                                });
-                                            });
-                                        </script>
                                         <div class="form-row">
                                             <div class="form-group col-md-4">
                                                 <label for="inputCity">City</label>

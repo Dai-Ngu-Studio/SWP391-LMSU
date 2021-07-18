@@ -31,6 +31,10 @@ public class OrderItemDAO implements Serializable {
     // because the old reserve status is no longer a valid fact, we shouldn't take it in account
     // remember to do this in CHECKOUT process by iterating over past orderItems of that book id
 
+    private final int PENALTY_NONE = 0;
+    private final int PENALTY_UNPAID = 1;
+    private final int PENALTY_PAID = 2;
+
     private final int DAYS_TO_DEADLINE = 14;
 
     public List<OrderItemDTO> getOrderItemList() {
@@ -56,8 +60,9 @@ public class OrderItemDAO implements Serializable {
         try {
             if (conn != null) {
                 String sql = "INSERT INTO [OrderItems] " +
-                        "([orderID], [bookID], [lendStatus], [returnDeadline], [lendDate]) " +
-                        "VALUES(?, ?, ?, ?, ?) ";
+                        "([orderID], [bookID], [lendStatus], [returnDeadline], [lendDate], " +
+                        "[penaltyAmount], [penaltyStatus]) " +
+                        "VALUES(?, ?, ?, ?, ?, ?, ?) ";
                 stm = conn.prepareStatement(sql);
                 for (OrderItemDTO orderItem : orderItems) {
                     stm.setInt(1, orderItem.getOrderID());
@@ -65,6 +70,8 @@ public class OrderItemDAO implements Serializable {
                     stm.setInt(3, orderItem.getLendStatus());
                     stm.setDate(4, orderItem.getReturnDeadline());
                     stm.setDate(5, orderItem.getLendDate());
+                    stm.setBigDecimal(6, orderItem.getPenaltyAmount());
+                    stm.setInt(7, orderItem.getPenaltyStatus());
                     stm.addBatch();
                     stm.clearParameters();
                 }
@@ -119,7 +126,8 @@ public class OrderItemDAO implements Serializable {
         try {
             con = DBHelpers.makeConnection();
             if (con != null) {
-                String sql = "SELECT [id], [orderID], [bookID], [lendStatus], [returnDeadline], [lendDate], [returnDate] " +
+                String sql = "SELECT [id], [orderID], [bookID], [lendStatus], [returnDeadline], [lendDate], [returnDate], " +
+                        "[penaltyAmount], [penaltyStatus] " +
                         "FROM [OrderItems] " +
                         "WHERE [id] = ?";
 
@@ -136,6 +144,8 @@ public class OrderItemDAO implements Serializable {
                     dto.setReturnDeadline(rs.getDate("returnDeadline"));
                     dto.setLendDate(rs.getDate("lendDate"));
                     dto.setReturnDate(rs.getDate("returnDate"));
+                    dto.setPenaltyAmount(rs.getBigDecimal("penaltyAmount"));
+                    dto.setPenaltyStatus(rs.getInt("penaltyStatus"));
                     return dto;
                 }
             }
@@ -159,7 +169,7 @@ public class OrderItemDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 String sql = "SELECT [id], [orderID], [bookID], [lendStatus], " +
-                        "[returnDeadline], [lendDate], [returnDate] " +
+                        "[returnDeadline], [lendDate], [returnDate], [penaltyAmount], [penaltyStatus] " +
                         "FROM [OrderItems] " +
                         "WHERE [bookID] = ? ";
 
@@ -190,6 +200,8 @@ public class OrderItemDAO implements Serializable {
                     dto.setReturnDeadline(rs.getDate("returnDeadline"));
                     dto.setLendDate(rs.getDate("lendDate"));
                     dto.setReturnDate(rs.getDate("returnDate"));
+                    dto.setPenaltyAmount(rs.getBigDecimal("penaltyAmount"));
+                    dto.setPenaltyStatus(rs.getInt("penaltyStatus"));
                     this.orderItemList.add(dto);
                 }
             }
@@ -210,7 +222,7 @@ public class OrderItemDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 String sql = "SELECT [id], [orderID], [bookID], [lendStatus], " +
-                        "[returnDeadline], [lendDate], [returnDate] " +
+                        "[returnDeadline], [lendDate], [returnDate], [penaltyAmount], [penaltyStatus] " +
                         "FROM [OrderItems] " +
                         "WHERE [orderID] = ? ";
                 stm = con.prepareStatement(sql);
@@ -228,6 +240,8 @@ public class OrderItemDAO implements Serializable {
                     dto.setReturnDeadline(rs.getDate("returnDeadline"));
                     dto.setLendDate(rs.getDate("lendDate"));
                     dto.setReturnDate(rs.getDate("returnDate"));
+                    dto.setPenaltyAmount(rs.getBigDecimal("penaltyAmount"));
+                    dto.setPenaltyStatus(rs.getInt("penaltyStatus"));
                     this.orderItemList.add(dto);
                 }
             }
@@ -391,6 +405,72 @@ public class OrderItemDAO implements Serializable {
             if (!useInBatch) {
                 if (con != null) con.close();
             }
+            if (stm != null) stm.close();
+        }
+        return false;
+    }
+
+    public void getPenalizedOrderItems()
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [id], [orderID], [bookID], [lendStatus], " +
+                        "[returnDeadline], [lendDate], [returnDate], [penaltyAmount], [penaltyStatus] " +
+                        "FROM [OrderItems] " +
+                        "WHERE ([penaltyStatus] = " + PENALTY_UNPAID + ") " +
+                        "OR ([penaltyStatus] = " + PENALTY_PAID + ") ";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    if (this.orderItemList == null) {
+                        this.orderItemList = new ArrayList<>();
+                    }
+                    OrderItemDTO dto = new OrderItemDTO();
+                    dto.setId(rs.getInt("id"));
+                    dto.setOrderID(rs.getInt("orderID"));
+                    dto.setBookID(rs.getString("bookID"));
+                    dto.setLendStatus(rs.getInt("lendStatus"));
+                    dto.setReturnDeadline(rs.getDate("returnDeadline"));
+                    dto.setLendDate(rs.getDate("lendDate"));
+                    dto.setReturnDate(rs.getDate("returnDate"));
+                    dto.setPenaltyAmount(rs.getBigDecimal("penaltyAmount"));
+                    dto.setPenaltyStatus(rs.getInt("penaltyStatus"));
+                    this.orderItemList.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
+
+    public boolean updateOrderItemPenaltyStatus(int id, int penaltyStatus)
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE [OrderItems] " +
+                        "SET [penaltyStatus] = ? " +
+                        "WHERE [id] = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, penaltyStatus);
+                stm.setInt(2, id);
+                int row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } finally {
+            if (con != null) con.close();
             if (stm != null) stm.close();
         }
         return false;

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @NoArgsConstructor
@@ -20,4 +21,6 @@ class OrderItemDTO implements Serializable {
     private Date returnDeadline;
     private Date lendDate;
     private Date returnDate;
+    private BigDecimal penaltyAmount;
+    private int penaltyStatus;
 }

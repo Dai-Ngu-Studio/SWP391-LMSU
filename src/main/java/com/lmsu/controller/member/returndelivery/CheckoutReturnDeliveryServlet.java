@@ -130,7 +130,8 @@ public class CheckoutReturnDeliveryServlet extends HttpServlet {
                                     DeliveryOrderDAO deliveryOrderDAO = new DeliveryOrderDAO(conn);
                                     boolean deliveryOrderAddResult = deliveryOrderDAO
                                             .addDeliveryOrder(orderID, phoneNumber,
-                                                    deliveryAddressOne, deliveryAddressTwo, city, district, ward, DELIVERY_RETURN);
+                                                    deliveryAddressOne, deliveryAddressTwo, city, district, ward,
+                                                    receiverName, DELIVERY_RETURN);
                                     if (deliveryOrderAddResult) {
                                         conn.commit();
                                         session.removeAttribute(ATTR_RETURN_CART);
