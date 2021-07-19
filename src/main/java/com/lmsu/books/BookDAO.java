@@ -196,7 +196,7 @@ public class BookDAO implements Serializable {
                 String sql = "SELECT [id], [title], [subjectID], [publisher], [publishDate], [description], " +
                         "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], [ISBN_thirteenDigits], [coverPicturePath] " +
                         "FROM [Books] " +
-                        "WHERE [id] = ? AND [deleteStatus] = 0";
+                        "WHERE [id] = ? ";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 stm.setString(1, bookID);
