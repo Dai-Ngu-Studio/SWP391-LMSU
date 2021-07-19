@@ -99,7 +99,7 @@ public class RenewalRequestDAO implements Serializable {
                     String librarianID = rs.getString("librarianID");
                     String reason = rs.getString("reason");
                     Date requestedExtendDate = rs.getDate("requestedExtendDate");
-                    boolean approvalStatus = rs.getBoolean("approvalStatus");
+                    int approvalStatus = rs.getInt("approvalStatus");
                     RenewalRequestDTO dto = new RenewalRequestDTO(renewalID, itemID, librarianID,
                             reason, requestedExtendDate, approvalStatus);
                     if (this.renewalList == null) {
