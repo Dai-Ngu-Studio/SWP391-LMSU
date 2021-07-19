@@ -1,10 +1,14 @@
-package com.lmsu.controller.bookrental.librarian.direct.ajax;
+package com.lmsu.controller.bookrental.order.ajax;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
+import com.lmsu.orderdata.deliveryorders.DeliveryOrderDAO;
+import com.lmsu.orderdata.deliveryorders.DeliveryOrderDTO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.orderdata.orders.OrderDAO;
 import com.lmsu.orderdata.orders.OrderDTO;
+import com.lmsu.services.GhnApis;
 import com.lmsu.users.UserDTO;
 import com.lmsu.utils.DBHelpers;
 import javafx.util.Pair;
@@ -19,10 +23,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "RejectDirectOrderServlet", value = "/RejectDirectOrderServlet")
-public class RejectDirectOrderServlet extends HttpServlet {
+@WebServlet(name = "ApproveOrderServlet", value = "/ApproveOrderServlet")
+public class ApproveOrderServlet extends HttpServlet {
 
-    static final Logger LOGGER = Logger.getLogger(RejectDirectOrderServlet.class);
+    static final Logger LOGGER = Logger.getLogger(ApproveOrderServlet.class);
 
     private final boolean CONNECTION_USE_BATCH = true;
 
@@ -64,9 +68,9 @@ public class RejectDirectOrderServlet extends HttpServlet {
             // 1. Check if session existed
             HttpSession session = request.getSession(false);
             if (session != null) {
-                // 2. Check if librarian existed
-                UserDTO librarian = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
-                if (librarian != null) {
+                // 2. Check if staff existed
+                UserDTO staff = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
+                if (staff != null) {
                     // 3. Create connection for rollback
                     conn = DBHelpers.makeConnection();
                     if (conn != null) {
@@ -76,22 +80,38 @@ public class RejectDirectOrderServlet extends HttpServlet {
                         OrderItemDAO orderItemDAO = new OrderItemDAO(conn);
                         // Check if order hadn't been cancelled or rejected
                         OrderDTO order = orderDAO.getOrderFromID(orderID);
-                        if ((order.getActiveStatus() != ORDER_CANCELLED) && (order.getActiveStatus() != ORDER_APPROVED)) {
+                        orderItemDAO.getOrderItemsFromOrderID(orderID);
+                        List<OrderItemDTO> orderItems = orderItemDAO.getOrderItemList();
+                        if ((order.getActiveStatus() != ORDER_CANCELLED) && (order.getActiveStatus() != ORDER_REJECTED)) {
                             boolean updateOrderResult = orderDAO
-                                    .updateOrder(orderID, ORDER_REJECTED, CONNECTION_USE_BATCH);
+                                    .updateOrder(orderID, ORDER_APPROVED, CONNECTION_USE_BATCH);
                             if (updateOrderResult) {
                                 boolean updateOrderItemResult = orderItemDAO
                                         .updateOrderItemStatusOfOrder(
-                                                orderID, ITEM_REJECTED, CONNECTION_USE_BATCH);
+                                                orderID, ITEM_APPROVED, CONNECTION_USE_BATCH);
                                 if (updateOrderItemResult) {
                                     conn.commit();
+                                    // If this is a direct order, call API and update tracking code
+                                    if (order.isLendMethod()) {
+                                        DeliveryOrderDAO deliveryOrderDAO = new DeliveryOrderDAO();
+                                        DeliveryOrderDTO deliveryOrder = deliveryOrderDAO.getDeliveryOrderFromOrderID(orderID);
+                                        String jsonOrderGHN = GhnApis.createOrder(deliveryOrder.getDistrict(), deliveryOrder.getWard(),
+                                                orderItems.size(), deliveryOrder.getReceiverName(),
+                                                deliveryOrder.getPhoneNumber(),
+                                                deliveryOrder.getDeliveryAddress1() + deliveryOrder.getDeliveryAddress2());
+                                        Object orderGHN = new Gson().fromJson(jsonOrderGHN, Object.class);
+                                        Object data = ((LinkedTreeMap) orderGHN).get("data");
+                                        String trackingCode = (String) ((LinkedTreeMap) data).get("order_code");
+                                        deliveryOrderDAO.updateManagerOfOrder(orderID, staff.getId());
+                                        deliveryOrderDAO.updateTrackingCodeOfOrder(orderID, trackingCode);
+                                    }
                                 }
                             }
                         }
                         order = orderDAO.getOrderFromID(orderID);
                         orderItemDAO.clearOrderItemList();
                         orderItemDAO.getOrderItemsFromOrderID(orderID);
-                        List<OrderItemDTO> orderItems = orderItemDAO.getOrderItemList();
+                        orderItems = orderItemDAO.getOrderItemList();
                         orderInformation = new Pair<>(order, orderItems);
                         if (conn != null) {
                             conn.setAutoCommit(true);
@@ -102,19 +122,19 @@ public class RejectDirectOrderServlet extends HttpServlet {
             }
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
-            log("RejectDirectOrderServlet _ SQL: " + ex.getMessage());
+            log("ApproveOrderServlet _ SQL: " + ex.getMessage());
             try {
                 conn.rollback();
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
-                log("RejectDirectOrderServlet _ SQL: " + exRollback.getMessage());
+                log("ApproveOrderServlet _ SQL: " + exRollback.getMessage());
             }
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
-            log("RejectDirectOrderServlet _ Naming: " + ex.getMessage());
+            log("ApproveOrderServlet _ Naming: " + ex.getMessage());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
-            log("RejectDirectOrderServlet _ Exception: " + ex.getMessage());
+            log("ApproveOrderServlet _ Exception: " + ex.getMessage());
         } finally {
             String json = new Gson().toJson(orderInformation);
             response.setContentType("application/json");

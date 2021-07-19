@@ -1,4 +1,4 @@
-package com.lmsu.controller.bookrental;
+package com.lmsu.controller.bookrental.order;
 
 import com.lmsu.bean.orderdata.DeliveryOrderObj;
 import com.lmsu.bean.orderdata.DirectOrderObj;
@@ -28,9 +28,9 @@ import java.sql.SQLException;
 import java.util.*;
 
 @WebServlet(name = "ShowOrdersServlet", value = "/ShowOrdersServlet")
-public class ShowDirectOrderServlet extends HttpServlet {
+public class ShowOrdersServlet extends HttpServlet {
 
-    static final Logger LOGGER = Logger.getLogger(ShowDirectOrderServlet.class);
+    static final Logger LOGGER = Logger.getLogger(ShowOrdersServlet.class);
     private final String BOOK_RENTAL_MANAGEMENT_PAGE = "bookrentalmanagement.jsp";
 
     private final int BOTH_METHOD = 5;
@@ -125,15 +125,16 @@ public class ShowDirectOrderServlet extends HttpServlet {
                             }
                             deliveryOrderObj.setOrderID(deliveryOrderDTO.getOrderID());
                             deliveryOrderObj.setManagerID(managerID);
-                            deliveryOrderObj.setDeliverer(deliveryOrderObj.getDeliverer());
-                            deliveryOrderObj.setScheduledDeliveryTime(deliveryOrderObj.getScheduledDeliveryTime());
-                            deliveryOrderObj.setPhoneNumber(deliveryOrderObj.getPhoneNumber());
-                            deliveryOrderObj.setDeliveryAddress1(deliveryOrderObj.getDeliveryAddress1());
-                            deliveryOrderObj.setDeliveryAddress2(deliveryOrderObj.getDeliveryAddress2());
-                            deliveryOrderObj.setCity(deliveryOrderObj.getCity());
-                            deliveryOrderObj.setDistrict(deliveryOrderObj.getDistrict());
-                            deliveryOrderObj.setWard(deliveryOrderObj.getWard());
-                            deliveryOrderObj.setReturnOrder(deliveryOrderObj.isReturnOrder());
+                            deliveryOrderObj.setDeliverer(deliveryOrderDTO.getDeliverer());
+                            deliveryOrderObj.setScheduledDeliveryTime(deliveryOrderDTO.getScheduledDeliveryTime());
+                            deliveryOrderObj.setReceiverName(deliveryOrderDTO.getReceiverName());
+                            deliveryOrderObj.setPhoneNumber(deliveryOrderDTO.getPhoneNumber());
+                            deliveryOrderObj.setDeliveryAddress1(deliveryOrderDTO.getDeliveryAddress1());
+                            deliveryOrderObj.setDeliveryAddress2(deliveryOrderDTO.getDeliveryAddress2());
+                            deliveryOrderObj.setCity(deliveryOrderDTO.getCity());
+                            deliveryOrderObj.setDistrict(deliveryOrderDTO.getDistrict());
+                            deliveryOrderObj.setWard(deliveryOrderDTO.getWard());
+                            deliveryOrderObj.setReturnOrder(deliveryOrderDTO.isReturnOrder());
                         }
                     }
                     Pair<DirectOrderObj, DeliveryOrderObj> orderType = new Pair<>(directOrderObj, deliveryOrderObj);

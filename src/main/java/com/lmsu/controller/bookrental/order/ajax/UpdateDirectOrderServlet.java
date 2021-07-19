@@ -1,4 +1,4 @@
-package com.lmsu.controller.bookrental.librarian.direct.ajax;
+package com.lmsu.controller.bookrental.order.ajax;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

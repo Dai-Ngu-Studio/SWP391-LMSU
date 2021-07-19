@@ -1,6 +1,8 @@
-package com.lmsu.controller.bookrental.librarian.direct.ajax;
+package com.lmsu.controller.bookrental.order.ajax;
 
 import com.google.gson.Gson;
+import com.lmsu.orderdata.deliveryorders.DeliveryOrderDAO;
+import com.lmsu.orderdata.deliveryorders.DeliveryOrderDTO;
 import com.lmsu.orderdata.directorders.DirectOrderDAO;
 import com.lmsu.orderdata.directorders.DirectOrderDTO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
@@ -22,10 +24,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "CheckDirectOrderStatusServlet", value = "/CheckDirectOrderStatusServlet")
-public class CheckDirectOrderStatusServlet extends HttpServlet {
+@WebServlet(name = "CheckOrderStatusServlet", value = "/CheckOrderStatusServlet")
+public class CheckOrderStatusServlet extends HttpServlet {
 
-    static final Logger LOGGER = Logger.getLogger(CheckDirectOrderStatusServlet.class);
+    static final Logger LOGGER = Logger.getLogger(CheckOrderStatusServlet.class);
 
     private final boolean CONNECTION_USE_BATCH = true;
 
@@ -102,18 +104,28 @@ public class CheckDirectOrderStatusServlet extends HttpServlet {
                     orderDAO.updateOrder(orderID, ORDER_RETURNED, CONNECTION_USE_BATCH);
                     conn.commit();
                 }
-                // Get Librarian who gave books
-                DirectOrderDAO directOrderDAO = new DirectOrderDAO();
-                DirectOrderDTO directOrder = directOrderDAO.getDirectOrderFromOrderID(orderID);
-                UserDAO userDAO = new UserDAO();
-                String librarianID = directOrder.getLibrarianID();
-                UserDTO librarian = null;
-                if ((librarianID != null) || (!librarianID.isEmpty())) {
-                    librarian = userDAO.getUserByID(librarianID);
-                }
                 // Get Order
                 OrderDTO order = orderDAO.getOrderFromID(orderID);
-                orderInformation = new Pair<OrderDTO, UserDTO>(order, librarian);
+                UserDTO staff = null;
+                UserDAO userDAO = new UserDAO();
+                if (!order.isLendMethod()) {
+                    // Get Librarian who gave books
+                    DirectOrderDAO directOrderDAO = new DirectOrderDAO();
+                    DirectOrderDTO directOrder = directOrderDAO.getDirectOrderFromOrderID(orderID);
+                    String librarianID = directOrder.getLibrarianID();
+                    if ((librarianID != null) || (!librarianID.isEmpty())) {
+                        staff = userDAO.getUserByID(librarianID);
+                    }
+                } else {
+                    // Get Manager who approved order
+                    DeliveryOrderDAO deliveryOrderDAO = new DeliveryOrderDAO();
+                    DeliveryOrderDTO deliveryOrder = deliveryOrderDAO.getDeliveryOrderFromOrderID(orderID);
+                    String managerID = deliveryOrder.getManagerID();
+                    if ((managerID != null) || (!managerID.isEmpty())) {
+                        staff = userDAO.getUserByID(managerID);
+                    }
+                }
+                orderInformation = new Pair<OrderDTO, UserDTO>(order, staff);
                 if (conn != null) {
                     conn.setAutoCommit(true);
                     conn.close();
@@ -121,19 +133,19 @@ public class CheckDirectOrderStatusServlet extends HttpServlet {
             }
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
-            log("CheckDirectOrderStatusServlet _ SQL: " + ex.getMessage());
+            log("CheckOrderStatusServlet _ SQL: " + ex.getMessage());
             try {
                 conn.rollback();
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
-                log("CheckDirectOrderStatusServlet _ SQL: " + exRollback.getMessage());
+                log("CheckOrderStatusServlet _ SQL: " + exRollback.getMessage());
             }
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
-            log("CheckDirectOrderStatusServlet _ Naming: " + ex.getMessage());
+            log("CheckOrderStatusServlet _ Naming: " + ex.getMessage());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
-            log("CheckDirectOrderStatusServlet _ Exception: " + ex.getMessage());
+            log("CheckOrderStatusServlet _ Exception: " + ex.getMessage());
         } finally {
             String json = new Gson().toJson(orderInformation);
             response.setContentType("application/json");

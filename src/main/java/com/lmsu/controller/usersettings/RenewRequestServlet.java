@@ -29,13 +29,8 @@ public class RenewRequestServlet extends HttpServlet {
 
         try {
             RenewalRequestDAO dao = new RenewalRequestDAO();
-            int renewalID = 0;
             int orderItemsIDVal = Integer.parseInt(orderItemsID);
-            do {
-                renewalID++;
-            } while (dao.checkRenewalId(String.valueOf(renewalID)));
-            String renewalIDtxt = String.valueOf(renewalID);
-            boolean result = dao.addRenewal(renewalIDtxt, orderItemsIDVal, reason.trim(), extendDate, RENEWAL_PENDING);
+            boolean result = dao.addRenewal(orderItemsIDVal, reason.trim(), extendDate, RENEWAL_PENDING);
             if(result){
                 url = USER_SETTING_CONTROLLER;
             }

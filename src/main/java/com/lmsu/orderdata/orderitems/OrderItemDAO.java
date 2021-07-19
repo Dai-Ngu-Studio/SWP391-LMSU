@@ -402,10 +402,10 @@ public class OrderItemDAO implements Serializable {
                 }
             }
         } finally {
+            if (stm != null) stm.close();
             if (!useInBatch) {
                 if (con != null) con.close();
             }
-            if (stm != null) stm.close();
         }
         return false;
     }

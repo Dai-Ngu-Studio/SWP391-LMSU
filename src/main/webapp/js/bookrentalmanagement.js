@@ -44,7 +44,7 @@ $(document).ready(function () {
                             }
                         },
                         {
-                            label: 'Returned',
+                            label: 'Closed',
                             value: function (rowData, rowIdx) {
                                 return $(rowData[4]).attr('activeStatus') === '3';
                             }
@@ -117,7 +117,7 @@ function loadItemStatOptions(itemStatusDirection, baseStats) {
 function checkDirectOrderStatus(orderID) {
     $.ajax({
         method: 'GET',
-        url: 'CheckDirectOrderStatusServlet',
+        url: 'CheckOrderStatusServlet',
         data: {
             txtOrderID: orderID
         },
@@ -215,7 +215,7 @@ $(document).ready(function () {
         let orderID = $buttonApprove.attr('orderid');
         $.ajax({
             method: 'POST',
-            url: 'ApproveDirectOrderServlet',
+            url: 'ApproveOrderServlet',
             data: {
                 txtOrderID: orderID
             },
@@ -271,7 +271,7 @@ $(document).ready(function () {
         let orderID = $buttonReject.attr('orderid');
         $.ajax({
             method: 'POST',
-            url: 'RejectDirectOrderServlet',
+            url: 'RejectOrderServlet',
             data: {
                 txtOrderID: orderID
             },

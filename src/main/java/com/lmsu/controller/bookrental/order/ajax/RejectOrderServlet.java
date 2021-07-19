@@ -1,4 +1,4 @@
-package com.lmsu.controller.bookrental.librarian.direct.ajax;
+package com.lmsu.controller.bookrental.order.ajax;
 
 import com.google.gson.Gson;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
@@ -19,10 +19,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "ApproveDirectOrderServlet", value = "/ApproveDirectOrderServlet")
-public class ApproveDirectOrderServlet extends HttpServlet {
+@WebServlet(name = "RejectOrderServlet", value = "/RejectOrderServlet")
+public class RejectOrderServlet extends HttpServlet {
 
-    static final Logger LOGGER = Logger.getLogger(ApproveDirectOrderServlet.class);
+    static final Logger LOGGER = Logger.getLogger(RejectOrderServlet.class);
 
     private final boolean CONNECTION_USE_BATCH = true;
 
@@ -64,9 +64,9 @@ public class ApproveDirectOrderServlet extends HttpServlet {
             // 1. Check if session existed
             HttpSession session = request.getSession(false);
             if (session != null) {
-                // 2. Check if librarian existed
-                UserDTO librarian = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
-                if (librarian != null) {
+                // 2. Check if staff existed
+                UserDTO staff = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
+                if (staff != null) {
                     // 3. Create connection for rollback
                     conn = DBHelpers.makeConnection();
                     if (conn != null) {
@@ -76,13 +76,13 @@ public class ApproveDirectOrderServlet extends HttpServlet {
                         OrderItemDAO orderItemDAO = new OrderItemDAO(conn);
                         // Check if order hadn't been cancelled or rejected
                         OrderDTO order = orderDAO.getOrderFromID(orderID);
-                        if ((order.getActiveStatus() != ORDER_CANCELLED) && (order.getActiveStatus() != ORDER_REJECTED)) {
+                        if ((order.getActiveStatus() != ORDER_CANCELLED) && (order.getActiveStatus() != ORDER_APPROVED)) {
                             boolean updateOrderResult = orderDAO
-                                    .updateOrder(orderID, ORDER_APPROVED, CONNECTION_USE_BATCH);
+                                    .updateOrder(orderID, ORDER_REJECTED, CONNECTION_USE_BATCH);
                             if (updateOrderResult) {
                                 boolean updateOrderItemResult = orderItemDAO
                                         .updateOrderItemStatusOfOrder(
-                                                orderID, ITEM_APPROVED, CONNECTION_USE_BATCH);
+                                                orderID, ITEM_REJECTED, CONNECTION_USE_BATCH);
                                 if (updateOrderItemResult) {
                                     conn.commit();
                                 }
@@ -102,19 +102,19 @@ public class ApproveDirectOrderServlet extends HttpServlet {
             }
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
-            log("ApproveDirectOrderServlet _ SQL: " + ex.getMessage());
+            log("RejectOrderServlet _ SQL: " + ex.getMessage());
             try {
                 conn.rollback();
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
-                log("ApproveDirectOrderServlet _ SQL: " + exRollback.getMessage());
+                log("RejectOrderServlet _ SQL: " + exRollback.getMessage());
             }
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
-            log("ApproveDirectOrderServlet _ Naming: " + ex.getMessage());
+            log("RejectOrderServlet _ Naming: " + ex.getMessage());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
-            log("ApproveDirectOrderServlet _ Exception: " + ex.getMessage());
+            log("RejectOrderServlet _ Exception: " + ex.getMessage());
         } finally {
             String json = new Gson().toJson(orderInformation);
             response.setContentType("application/json");
