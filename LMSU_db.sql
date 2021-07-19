@@ -141,7 +141,7 @@ GO
 
 GO
     CREATE TABLE RenewalRequests(
-        id varchar(255) NOT NULL PRIMARY KEY,
+        id int NOT NULL PRIMARY KEY IDENTITY(1, 1),
         itemID int NOT NULL FOREIGN KEY REFERENCES OrderItems(id),
         librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
         reason varchar(MAX),
