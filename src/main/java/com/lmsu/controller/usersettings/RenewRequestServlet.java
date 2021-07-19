@@ -34,7 +34,7 @@ public class RenewRequestServlet extends HttpServlet {
                 renewalID++;
             } while (dao.checkRenewalId(String.valueOf(renewalID)));
             String renewalIDtxt = String.valueOf(renewalID);
-            boolean result = dao.addRenewal(renewalIDtxt, orderItemsIDVal, reason, extendDate);
+            boolean result = dao.addRenewal(renewalIDtxt, orderItemsIDVal, reason.trim(), extendDate);
             if(result){
                 url = USER_SETTING_CONTROLLER;
             }
