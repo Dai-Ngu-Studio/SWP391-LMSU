@@ -35,21 +35,24 @@ public class ShowBookServlet extends HttpServlet {
 
         String url = BOOK_MANAGEMENT_PAGE;
         try {
-            AuthorBookMapDAO authorBookMapDAO= new AuthorBookMapDAO();
+            AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();
             authorBookMapDAO.viewAuthorBookMapList();
             List<AuthorBookMapDTO> list = authorBookMapDAO.getAuthorBookMaps();
             //First String is bookID
             Map<String, ArrayList<AuthorDTO>> bookAuthorMap = new HashMap<>();
-            if (list != null){
-                for (AuthorBookMapDTO dto:list){
-                    String bookID = dto.getBookDTO().getBookID();
-
-                    if (bookAuthorMap.containsKey(bookID) == true){
-                        bookAuthorMap.get(bookID).add(dto.getAuthorDTO());
-                    } else {
-                        ArrayList<AuthorDTO> newAuthorList = new ArrayList<>();
-                        newAuthorList.add(dto.getAuthorDTO());
-                        bookAuthorMap.put(bookID, newAuthorList);
+            if (list != null) {
+                for (AuthorBookMapDTO dto : list) {
+                    String bookID = null;
+                    BookDTO book = dto.getBookDTO();
+                    if (book != null) {
+                        bookID = book.getBookID();
+                        if (bookAuthorMap.containsKey(bookID) == true) {
+                            bookAuthorMap.get(bookID).add(dto.getAuthorDTO());
+                        } else {
+                            ArrayList<AuthorDTO> newAuthorList = new ArrayList<>();
+                            newAuthorList.add(dto.getAuthorDTO());
+                            bookAuthorMap.put(bookID, newAuthorList);
+                        }
                     }
                 }
                 request.setAttribute("BOOK_AUTHOR_MAP", bookAuthorMap);
