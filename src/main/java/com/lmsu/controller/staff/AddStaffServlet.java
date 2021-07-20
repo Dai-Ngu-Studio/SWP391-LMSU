@@ -29,7 +29,8 @@ public class AddStaffServlet extends HttpServlet {
         String searchValue = request.getParameter("txtSearchValue");
         String userID = request.getParameter("txtUserID");
         String userName = request.getParameter("txtUserName");
-        String semester = request.getParameter("txtSemester");
+        String roleID = request.getParameter("txtRoleID");
+        String semester = "0";
         String password = request.getParameter("txtPassword");
         String passwordHashed = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
         String email = request.getParameter("txtEmail");
@@ -41,9 +42,7 @@ public class AddStaffServlet extends HttpServlet {
             boolean result = dao.checkUserExisted(userID);
             if (!result) {
                 if (userID.substring(0, 3).equalsIgnoreCase("LIB")) {
-                    dao.addUser(userID, userName, "3", passwordHashed, email, phoneNumber, semester, profilePicturePath, false);
-                } else if (userID.substring(0, 3).equalsIgnoreCase("MNG")) {
-                    dao.addUser(userID, userName, "2", passwordHashed, email, phoneNumber, semester, profilePicturePath, false);
+                    dao.addUser(userID, userName, roleID, passwordHashed, email, phoneNumber, semester, profilePicturePath, false);
                 } else {
                     request.setAttribute("WRONG_ID_FORMAT", "Wrong format for userID (The prefix must be LIB or MNG)");
                 }
