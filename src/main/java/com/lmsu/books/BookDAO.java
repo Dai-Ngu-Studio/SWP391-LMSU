@@ -293,7 +293,7 @@ public class BookDAO implements Serializable {
     // 0 mean isbn existed and book not deleted
     // 1 mean isbn existed but book deleted
     // 2 mean isbn not existed
-    public int checkISBN(String isbnTen, String isbnThirteen)  throws SQLException, NamingException{
+    public int checkISBN(String isbnTen, String isbnThirteen) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -312,10 +312,10 @@ public class BookDAO implements Serializable {
                 //4. Execute Query and get ResultSet
                 rs = stm.executeQuery();
                 //5. Process ResultSet
-                if (rs.next()){
-                    if (rs.getBoolean("deleteStatus")==false){
+                if (rs.next()) {
+                    if (rs.getBoolean("deleteStatus") == false) {
                         return 0;
-                    } else{
+                    } else {
                         return 1;
                     }
                 } else {
@@ -329,6 +329,7 @@ public class BookDAO implements Serializable {
         }
         return 2;
     }
+
     // return true if ID is taken, false if ID is available
     public boolean checkBookId(String bookId) throws SQLException, NamingException {
         Connection con = null;
@@ -684,56 +685,6 @@ public class BookDAO implements Serializable {
         return null;
     }
 
-    public List<BookDTO> getPopularAuthorsFromMostFavoriteBooks() throws SQLException, NamingException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        List<BookDTO> list = null;
-
-        try {
-            //1. Connect DB using method built
-            con = DBHelpers.makeConnection();
-            if (con != null) {
-                //2. Create SQL String
-                String sql = "SELECT TOP 4 Books.id, Books.title, Books.coverPicturePath,\n" +
-                        "             Authors.id, Authors.name, Authors.profilePicturePath\n" +
-                        "FROM ImportLogs\n" +
-                        "         JOIN Books ON Books.id = ImportLogs.bookID\n" +
-                        "         JOIN AuthorBookMaps on AuthorBookMaps.bookID = ImportLogs.bookID\n" +
-                        "         JOIN Authors ON Authors.id = AuthorBookMaps.authorID\n" +
-                        "WHERE Books.deleteStatus = 0 AND Authors.deleteStatus = 0\n" +
-                        "ORDER BY Books.avgRating desc";
-                //3. Create Statement
-                stm = con.prepareStatement(sql);
-                //4. Execute Query and get ResultSet
-                rs = stm.executeQuery();
-                //5. Process ResultSet
-                while (rs.next()) {
-                    String bookID = rs.getString("id");
-                    String bookTitle = rs.getString("title");
-                    String bookCoverPath = rs.getString("coverPicturePath");
-                    String authorID = rs.getString("id");
-                    String authorName = rs.getString("name");
-                    String profilePicturePath = rs.getString("profilePicturePath");
-
-                    AuthorDTO authorDTO = new AuthorDTO(authorID, authorName, profilePicturePath);
-
-                    BookDTO dto = new BookDTO(bookID, bookTitle, bookCoverPath, authorDTO);
-                    if (list == null) {
-                        list = new ArrayList<>();
-                    } //end if bookList not existed
-                    list.add(dto);
-                } //end while traversing result
-                return list;
-            } //end if connection existed
-        } finally {
-            if (rs != null) rs.close();
-            if (stm != null) stm.close();
-            if (con != null) con.close();
-        }
-        return null;
-    }
-
     public int countBookBySubjectID(String subjectID) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -790,6 +741,7 @@ public class BookDAO implements Serializable {
         }
         return -1;
     }
+
     public boolean restoreBookDeleted(String isbnTen, String isbnThirteen) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;

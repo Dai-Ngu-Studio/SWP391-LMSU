@@ -1,5 +1,7 @@
 package com.lmsu.controller;
 
+import com.lmsu.authors.AuthorDAO;
+import com.lmsu.authors.AuthorDTO;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import org.apache.log4j.Logger;
@@ -30,18 +32,19 @@ public class IndexServlet extends HttpServlet {
         String url = ERROR_PAGE;
 
         try {
-            BookDAO dao = new BookDAO();
+            BookDAO bookDAO = new BookDAO();
+            AuthorDAO authorDAO = new AuthorDAO();
 
             //get Popular Books
-            List<BookDTO> mostFavoriteBookList = dao.getMostFavoriteBooks();
+            List<BookDTO> mostFavoriteBookList = bookDAO.getMostFavoriteBooks();
             request.setAttribute("MOST_FAVORITE_BOOKS_LIST", mostFavoriteBookList);
 
             //get New Arrival Books
-            List<BookDTO> newArrivalBookList = dao.getNewArrivalBooks();
+            List<BookDTO> newArrivalBookList = bookDAO.getNewArrivalBooks();
             request.setAttribute("NEW_ARRIVAL_BOOKS_LIST", newArrivalBookList);
 
             //get Popular Authors
-            List<BookDTO> popularAuthorsList = dao.getPopularAuthorsFromMostFavoriteBooks();
+            List<AuthorDTO> popularAuthorsList = authorDAO.getPopularAuthorsFromMostFavoriteBooks();
             request.setAttribute("POPULAR_AUTHORS_LIST", popularAuthorsList);
 
             url = INDEX_PAGE;
