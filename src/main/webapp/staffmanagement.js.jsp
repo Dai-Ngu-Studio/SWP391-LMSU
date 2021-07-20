@@ -134,7 +134,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary"
-                                    name="btAction" value="Add User"
+                                    name="btAction" value="Add Staff"
                             >
                                 Save
                             </button>

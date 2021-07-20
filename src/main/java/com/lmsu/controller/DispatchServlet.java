@@ -32,8 +32,8 @@ public class DispatchServlet extends HttpServlet {
     private static final String ADD_USER_CONTROLLER = "AddUserServlet";
     private static final String DELETE_USER_CONTROLLER = "DeleteUserServlet";
     private static final String SEARCH_STAFF_CONTROLLER = "SearchStaffServlet";
-    private static final String ADD_STAFF_CONTROLLER = "";
-    private static final String UPDATE_STAFF_CONTROLLER = "";
+    private static final String ADD_STAFF_CONTROLLER = "AddStaffServlet";
+    private static final String UPDATE_STAFF_CONTROLLER = "UpdateStaffServlet";
     private static final String DELETE_STAFF_CONTROLLER = "";
     private static final String UPDATE_AUTHOR_CONTROLLER = "UpdateAuthorServlet";
     private static final String DELETE_AUTHOR_CONTROLLER = "DeleteAuthorServlet";
@@ -115,6 +115,10 @@ public class DispatchServlet extends HttpServlet {
                 url = UPDATE_SUBJECT_CONTROLLER;
             } else if (button.equals("Delete Subject")) {
                 url = DELETE_SUBJECT_CONTROLLER;
+            } else if (button.equals("Update Staff")){
+                url = UPDATE_STAFF_CONTROLLER;
+            } else if (button.equals("Add Staff")){
+                url = ADD_STAFF_CONTROLLER;
             }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
