@@ -29,7 +29,6 @@ public class AddStaffServlet extends HttpServlet {
         String searchValue = request.getParameter("txtSearchValue");
         String userID = request.getParameter("txtUserID");
         String userName = request.getParameter("txtUserName");
-        String roleID = request.getParameter("txtRoleID");
         String semester = request.getParameter("txtSemester");
         String password = request.getParameter("txtPassword");
         String passwordHashed = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
@@ -39,25 +38,17 @@ public class AddStaffServlet extends HttpServlet {
 
         try {
             UserDAO dao = new UserDAO();
-            if (roleID.equalsIgnoreCase("3")) {
+            boolean result = dao.checkUserExisted(userID);
+            if (!result) {
                 if (userID.substring(0, 3).equalsIgnoreCase("LIB")) {
-                    boolean result = dao.checkUserExisted(userID);
-                    if (!result) {
-                        dao.addUser(userID, userName, roleID, passwordHashed, email, phoneNumber, semester, profilePicturePath, false);
-                    } else {
-                        request.setAttribute("ADD_DUPLICATE", "User have existed");
-                    }
+                    dao.addUser(userID, userName, "3", passwordHashed, email, phoneNumber, semester, profilePicturePath, false);
+                } else if (userID.substring(0, 3).equalsIgnoreCase("MNG")) {
+                    dao.addUser(userID, userName, "2", passwordHashed, email, phoneNumber, semester, profilePicturePath, false);
+                } else {
+                    request.setAttribute("WRONG_ID_FORMAT", "Wrong format for userID (The prefix must be LIB or MNG)");
                 }
-            }
-            if (roleID.equalsIgnoreCase("2")) {
-                if (userID.substring(0, 3).equalsIgnoreCase("MNG")) {
-                    boolean result = dao.checkUserExisted(userID);
-                    if (!result) {
-                        dao.addUser(userID, userName, roleID, passwordHashed, email, phoneNumber, semester, profilePicturePath, false);
-                    } else {
-                        request.setAttribute("ADD_DUPLICATE", "User have existed");
-                    }
-                }
+            } else {
+                request.setAttribute("ADD_DUPLICATE", "User have existed");
             }
             if (!(searchValue == null || searchValue.trim().isEmpty())) {
                 url = SEARCH_STAFF_CONTROLLER;
