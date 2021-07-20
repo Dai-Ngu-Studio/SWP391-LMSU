@@ -475,4 +475,30 @@ public class OrderItemDAO implements Serializable {
         }
         return false;
     }
+
+    public boolean updateOrderItemDeadline(int id, Date newDeadline)
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE [OrderItems] " +
+                        "SET [returnDeadline] = ? " +
+                        "WHERE [id] = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setDate(1, newDeadline);
+                stm.setInt(2, id);
+                int row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } finally {
+            if (con != null) con.close();
+            if (stm != null) stm.close();
+        }
+        return false;
+    }
 }

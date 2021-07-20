@@ -2,6 +2,8 @@ package com.lmsu.controller.bookrental.renewal.ajax;
 
 import com.google.gson.Gson;
 import com.lmsu.bean.renewal.RenewalRequestObj;
+import com.lmsu.orderdata.orderitems.OrderItemDAO;
+import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.renewalrequests.RenewalRequestDAO;
 import com.lmsu.renewalrequests.RenewalRequestDTO;
 import com.lmsu.users.UserDTO;
@@ -42,16 +44,21 @@ public class ApproveRenewalServlet extends HttpServlet {
                 if (staff != null) {
                     int renewalID = Integer.parseInt(txtRenewalID);
                     RenewalRequestDAO renewalRequestDAO = new RenewalRequestDAO();
-                    boolean approveRenewalResult = renewalRequestDAO.updateRenewalRequestStatus(renewalID, RENEWAL_APPROVED);
-                    if (approveRenewalResult) {
-                        boolean librarianResult = renewalRequestDAO.updateLibrarianOfRenewalRequest(renewalID, staff.getId());
-                        if (librarianResult) {
-                            LOGGER.log(Level.INFO, "Staff " + staff.getName() + " [" + staff.getId() +
-                                    "] has approved renewal of Request " + renewalID);
-                            RenewalRequestDTO renewal = renewalRequestDAO.getRenewalByID(renewalID);
-                            renewalObj = new RenewalRequestObj();
-                            renewalObj.setApprovalStatus(renewal.getApprovalStatus());
-                            renewalObj.setLibrarian(staff);
+                    RenewalRequestDTO renewal = renewalRequestDAO.getRenewalByID(renewalID);
+                    if ((renewal.getApprovalStatus() != RENEWAL_CANCELLED) && (renewal.getApprovalStatus() != RENEWAL_REJECTED)) {
+                        boolean approveRenewalResult = renewalRequestDAO.updateRenewalRequestStatus(renewalID, RENEWAL_APPROVED);
+                        if (approveRenewalResult) {
+                            boolean librarianResult = renewalRequestDAO.updateLibrarianOfRenewalRequest(renewalID, staff.getId());
+                            if (librarianResult) {
+                                renewal = renewalRequestDAO.getRenewalByID(renewalID);
+                                OrderItemDAO orderItemDAO = new OrderItemDAO();
+                                orderItemDAO.updateOrderItemDeadline(renewal.getItemID(), renewal.getRequestedExtendDate());
+                                LOGGER.log(Level.INFO, "Staff " + staff.getName() + " [" + staff.getId() +
+                                        "] has approved renewal of Request " + renewalID);
+                                renewalObj = new RenewalRequestObj();
+                                renewalObj.setApprovalStatus(renewal.getApprovalStatus());
+                                renewalObj.setLibrarian(staff);
+                            }
                         }
                     }
                 }

@@ -44,17 +44,20 @@ public class RejectRenewalServlet extends HttpServlet {
                 if (staff != null) {
                     int renewalID = Integer.parseInt(txtRenewalID);
                     RenewalRequestDAO renewalRequestDAO = new RenewalRequestDAO();
-                    boolean approveRenewalResult = renewalRequestDAO.updateRenewalRequestStatus(renewalID, RENEWAL_REJECTED);
-                    if (approveRenewalResult) {
-                        boolean librarianResult = renewalRequestDAO.updateLibrarianOfRenewalRequest(renewalID, staff.getId());
-                        if (librarianResult) {
-                            LOGGER.log(Level.INFO, "Staff " + staff.getName() + " [" + staff.getId() +
-                                    "] has rejected renewal of Request " + renewalID);
-                            RenewalRequestDTO renewal = renewalRequestDAO.getRenewalByID(renewalID);
-                            renewalObj = new RenewalRequestObj();
-                            UserDTO staffDTO = userDAO.getUserByID(renewal.getLibrarianID());
-                            renewalObj.setApprovalStatus(renewal.getApprovalStatus());
-                            renewalObj.setLibrarian(staffDTO);
+                    RenewalRequestDTO renewal = renewalRequestDAO.getRenewalByID(renewalID);
+                    if ((renewal.getApprovalStatus() != RENEWAL_APPROVED) && (renewal.getApprovalStatus() != RENEWAL_CANCELLED)) {
+                        boolean rejectRenewalResult = renewalRequestDAO.updateRenewalRequestStatus(renewalID, RENEWAL_REJECTED);
+                        if (rejectRenewalResult) {
+                            boolean librarianResult = renewalRequestDAO.updateLibrarianOfRenewalRequest(renewalID, staff.getId());
+                            if (librarianResult) {
+                                renewal = renewalRequestDAO.getRenewalByID(renewalID);
+                                LOGGER.log(Level.INFO, "Staff " + staff.getName() + " [" + staff.getId() +
+                                        "] has rejected renewal of Request " + renewalID);
+                                renewalObj = new RenewalRequestObj();
+                                UserDTO staffDTO = userDAO.getUserByID(renewal.getLibrarianID());
+                                renewalObj.setApprovalStatus(renewal.getApprovalStatus());
+                                renewalObj.setLibrarian(staffDTO);
+                            }
                         }
                     }
                 }

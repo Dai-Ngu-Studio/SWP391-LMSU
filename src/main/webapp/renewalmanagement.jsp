@@ -281,13 +281,22 @@
                                                                                disabled/>
                                                                     </div>
                                                                     <label class="col-lg-1 col-12 col-form-label">
-                                                                        Requested Extend Date
+                                                                        Extend Date
                                                                     </label>
                                                                     <div class="col-lg-5 col-12">
                                                                         <input type="text"
                                                                                class="form-control"
                                                                                value="${renewal.requestedExtendDate}"
                                                                                disabled/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-lg-1 col-12 col-form-label">
+                                                                        Reason
+                                                                    </label>
+                                                                    <div class="col-lg-11 col-12">
+                                                                        <textarea type="text" class="form-control"
+                                                                               disabled>${renewal.reason}</textarea>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row frmRenewalStat"
