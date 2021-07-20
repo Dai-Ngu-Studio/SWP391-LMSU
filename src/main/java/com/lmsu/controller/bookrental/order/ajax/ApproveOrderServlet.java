@@ -103,8 +103,8 @@ public class ApproveOrderServlet extends HttpServlet {
                                         String trackingCode = (String) ((LinkedTreeMap) data).get("order_code");
                                         deliveryOrderDAO.updateManagerOfOrder(orderID, staff.getId());
                                         deliveryOrderDAO.updateTrackingCodeOfOrder(orderID, trackingCode);
-                                        conn.commit();
                                     }
+                                    conn.commit();
                                 }
                             }
                         }
@@ -113,7 +113,6 @@ public class ApproveOrderServlet extends HttpServlet {
                         orderItemDAO.getOrderItemsFromOrderID(orderID);
                         orderItems = orderItemDAO.getOrderItemList();
                         orderInformation = new Pair<>(order, orderItems);
-
                     }
                 }
             }

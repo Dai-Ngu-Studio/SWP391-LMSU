@@ -134,6 +134,7 @@ public class UpdateDirectOrderServlet extends HttpServlet {
                                             .updateOrderItemDate(orderItemID, currentDate,
                                                     DATE_RETURN, CONNECTION_USE_BATCH);
                                 }
+                                conn.commit();
                                 // Update book quantity after returning item
                                 if ((lendStatus == ITEM_RETURNED)
                                         || (lendStatus == ITEM_OVERDUE_RETURNED)) {
@@ -142,7 +143,6 @@ public class UpdateDirectOrderServlet extends HttpServlet {
                                     BookDTO book = bookDAO.getBookById(bookID);
                                     bookDAO.updateQuantity(bookID, book.getQuantity() + 1);
                                 }
-                                conn.commit();
                                 OrderItemDTO orderItemDTO = orderItemDAO.getOrderItemByID(orderItemID);
                                 orderItems.add(orderItemDTO);
                             }
