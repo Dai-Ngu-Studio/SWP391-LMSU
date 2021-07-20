@@ -188,14 +188,14 @@
     <div class="section-child">
         <c:forEach var="popularAuthor" items="${requestScope.POPULAR_AUTHORS_LIST}">
             <c:url var="author" value="ShowAuthorBookServlet">
-                <c:param name="authorPk" value="${popularAuthor.author.authorID}"/>
+                <c:param name="authorPk" value="${popularAuthor.authorID}"/>
             </c:url>
             <a href="${author}">
                 <div>
                     <div class="author-image"
-                         style="background-image: url(${pageContext.request.contextPath}/image/${popularAuthor.author.coverPath}),
+                         style="background-image: url(${pageContext.request.contextPath}/image/${popularAuthor.coverPath}),
                                  url(images/default-user-icon.png);"></div>
-                    <p class="author-name my-2"><b>${popularAuthor.author.authorName}</b></p>
+                    <p class="author-name my-2"><b>${popularAuthor.authorName}</b></p>
                 </div>
             </a>
         </c:forEach>
