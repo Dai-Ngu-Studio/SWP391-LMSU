@@ -57,7 +57,9 @@ GO
         email varchar(255),
         phoneNumber varchar(10),
         profilePicturePath varchar(MAX),
-        activeStatus bit NOT NULL
+        activeStatus bit NOT NULL,
+		isNotifyArrival bit,
+		isNotifyPopular bit
     );
 
 GO
@@ -1047,7 +1049,9 @@ INSERT INTO
         email,
         phoneNumber,
         profilePicturePath,
-        activeStatus
+        activeStatus,
+		isNotifyArrival,
+		isNotifyPopular
     )
 values
     (
@@ -1059,7 +1063,9 @@ values
         'dat@fpt.edu.vn',
         '123456789',
         'images/default-user-icon.png',
-        0
+        0,
+		1,
+		1
     );
 
 INSERT INTO
@@ -1072,7 +1078,9 @@ INSERT INTO
         email,
         phoneNumber,
         profilePicturePath,
-        activeStatus
+        activeStatus,
+		isNotifyArrival,
+		isNotifyPopular
     )
 values
     (
@@ -1084,7 +1092,9 @@ values
         'nguyen@fpt.edu.vn',
         '123456789',
         'images/default-user-icon.png',
-        0
+        0,
+		1,
+		1
     );
 
 INSERT INTO
@@ -1097,7 +1107,9 @@ INSERT INTO
         email,
         phoneNumber,
         profilePicturePath,
-        activeStatus
+        activeStatus,
+		isNotifyArrival,
+		isNotifyPopular
     )
 values
     (
@@ -1109,7 +1121,9 @@ values
         'dung@fpt.edu.vn',
         '123456789',
         'images/default-user-icon.png',
-        0
+        0,
+		1,
+		1
     );
 
 INSERT INTO
@@ -1122,7 +1136,9 @@ INSERT INTO
         email,
         phoneNumber,
         profilePicturePath,
-        activeStatus
+        activeStatus,
+		isNotifyArrival,
+		isNotifyPopular
     )
 values
     (
@@ -1134,7 +1150,9 @@ values
         'phuc@fpt.edu.vn',
         '123456789',
         'images/default-user-icon.png',
-        0
+        0,
+		1,
+		1
     );
 
 INSERT INTO
@@ -1145,7 +1163,9 @@ INSERT INTO
         semester_no,
         email,
         phoneNumber,
-        activeStatus
+        activeStatus,
+		isNotifyArrival,
+		isNotifyPopular
     )
 values
     (
@@ -1155,7 +1175,9 @@ values
         5,
         'nguyenngse151274@fpt.edu.vn',
         '0901666918',
-        0
+        0,
+		1,
+		1
     );
 
 INSERT INTO
@@ -1166,7 +1188,9 @@ INSERT INTO
         semester_no,
         email,
         phoneNumber,
-        activeStatus
+        activeStatus,
+		isNotifyArrival,
+		isNotifyPopular
     )
 values
     (
@@ -1176,7 +1200,9 @@ values
         5,
         'dungnse151271@fpt.edu.vn',
         '1234567890',
-        0
+        0,
+		1,
+		1
     );
 
 INSERT INTO
@@ -1187,7 +1213,9 @@ INSERT INTO
         semester_no,
         email,
         phoneNumber,
-        activeStatus
+        activeStatus,
+		isNotifyArrival,
+		isNotifyPopular
     )
 values
     (
@@ -1197,7 +1225,9 @@ values
         5,
         'phucntse151261@fpt.edu.vn',
         '1234567890',
-        0
+        0,
+		1,
+		1
     );
 
 INSERT INTO
@@ -1208,7 +1238,9 @@ INSERT INTO
         semester_no,
         email,
         phoneNumber,
-        activeStatus
+        activeStatus,
+		isNotifyArrival,
+		isNotifyPopular
     )
 values
     (
@@ -1218,7 +1250,9 @@ values
         5,
         'dathtse151249@fpt.edu.vn',
         '1234567890',
-        0
+        0,
+		1,
+		1
     );
 
 INSERT INTO
