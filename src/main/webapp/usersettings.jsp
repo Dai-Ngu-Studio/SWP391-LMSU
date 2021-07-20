@@ -34,6 +34,7 @@
 <body>
 <jsp:include page="header.jsp"></jsp:include>
 <jsp:include page="navbar.html"></jsp:include>
+<c:set var="profile" value="${sessionScope.LOGIN_USER}"/>
 <div class="p-5 bg-light">
     <div class="row">
         <div class="col-lg-3 grid-margin">
@@ -46,9 +47,11 @@
                                data-toggle="list" href="#list-information" role="tab" aria-controls="information"><i
                                     class="ti-user"></i> Account
                                 Information</a>
-                            <a class="list-group-item list-group-item-action" id="list-security-list" data-toggle="list"
-                               href="#list-security" role="tab" aria-controls="security"><i class="ti-lock"></i>
-                                Security</a>
+                            <c:if test="${profile.roleID eq '1'}">
+                                <a class="list-group-item list-group-item-action" id="list-security-list" data-toggle="list"
+                                   href="#list-security" role="tab" aria-controls="security"><i class="ti-lock"></i>
+                                    Security</a>
+                            </c:if>
                             <a class="list-group-item list-group-item-action" id="list-notifications-list"
                                data-toggle="list" href="#list-notifications" role="tab" aria-controls="notifications"><i
                                     class="ti-announcement"></i> Notifications</a>
@@ -68,7 +71,6 @@
                 <div class="col-12">
                     <div class="tab-content" id="nav-tabContent" style="border:none">
                         <%--Account Information tab--%>
-                        <c:set var="profile" value="${sessionScope.LOGIN_USER}"/>
                         <c:set var="email_split" value="${fn:split(profile.email, '@')}"/>
                         <div class="tab-pane fade show active" id="list-information" role="tabpanel"
                              aria-labelledby="list-information-list">
@@ -132,7 +134,47 @@
                             <div class="card-body">
                                 <h4 class="card-title">Security</h4>
                                 <div class="input-group mb-3">
-                                    <form action="DispatchServlet" class="w-100">
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('.currentPassInput').on("input", function () {
+                                                $('.passwordError').removeClass('text-danger').addClass('text-muted');
+                                                $('.currentPassInput').removeClass('is-invalid').addClass('is-valid');
+                                                $.ajax({
+                                                    method: 'POST',
+                                                    url: 'ValidateChangePasswordServlet',
+                                                    data: {
+                                                        txtCurrentPassword: $('#inputCurrentPassword').val(),
+                                                        txtNewPassword: $('#currentInputNew').val(),
+                                                        txtConfirmPassword: $('#inputConfirmPassword').val()
+                                                    },
+                                                    dataType: 'json',
+                                                    success: function (responseJson) {
+                                                        $.each(responseJson, function (key, value) {
+                                                            $('#' + key)
+                                                                .removeClass('text-muted')
+                                                                .addClass('text-danger');
+                                                            $('#' + value)
+                                                                .removeClass('is-valid')
+                                                                .addClass('is-invalid');
+                                                        });
+
+                                                        if ($.isEmptyObject(responseJson)) {
+                                                            $('#btnChangePassword')
+                                                                .removeAttr('disabled')
+                                                                .removeClass('btn-secondary')
+                                                                .addClass('btn-primary');
+                                                        } else {
+                                                            $('#btnChangePassword')
+                                                                .attr('disabled', '')
+                                                                .removeClass('btn-primary')
+                                                                .addClass('btn-secondary');
+                                                        }
+                                                    }
+                                                });
+                                            });
+                                        });
+                                    </script>
+                                    <form action="DispatchServlet" class="w-100" method="post">
                                         <input type="hidden" value="${profile.id}" name="pk">
                                         <div class="px-3">
                                             <div class="row mb-1">
@@ -141,21 +183,25 @@
                                                     <span class="input-group-text" style="padding: 0 .8rem"
                                                           id="label-current-password">Current Password</span>
                                                     </div>
-                                                    <input type="password" class="form-control"
-                                                           placeholder="Current Password"
+                                                    <input type="password" class="form-control currentPassInput"
+                                                           placeholder="Current Password" id="inputCurrentPassword"
                                                            aria-label="Current Password"
                                                            aria-describedby="basic-addon1"
                                                            name="txtCurrentPassword" value=""/>
                                                 </div>
                                             </div>
+                                            <small id="errorCurrentPassword"
+                                                   class="form-text text-muted passwordError">
+                                                Password not match!
+                                            </small>
                                             <div class="row mb-1">
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text px-4"
                                                               id="label-new-password">New Password</span>
                                                     </div>
-                                                    <input type="password" class="form-control"
-                                                           placeholder="New Password"
+                                                    <input type="password" class="form-control currentPassInput"
+                                                           placeholder="New Password" id="currentInputNew"
                                                            aria-label="New Password"
                                                            aria-describedby="basic-addon1"
                                                            name="txtNewPassword" value=""/>
@@ -167,16 +213,20 @@
                                                     <span class="input-group-text"
                                                           id="label-confirm-password">Confirm Password</span>
                                                     </div>
-                                                    <input type="password" class="form-control"
-                                                           placeholder="Confirm Password"
+                                                    <input type="password" class="form-control currentPassInput"
+                                                           placeholder="Confirm Password" id="inputConfirmPassword"
                                                            aria-label="Confirm Password"
                                                            aria-describedby="basic-addon1"
                                                            name="txtConfirmPassword" value=""/>
                                                 </div>
                                             </div>
+                                            <small id="errorConfirmPassword"
+                                                   class="form-text text-muted passwordError">
+                                                Confirm password not match!
+                                            </small>
                                         </div>
                                         <button type="submit" class="btn btn-primary" name="btAction"
-                                                value="Change Password">
+                                                value="Change Password" id="btnChangePassword" disabled>
                                             Save changes
                                         </button>
                                     </form>

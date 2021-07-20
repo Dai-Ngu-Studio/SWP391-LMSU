@@ -215,7 +215,7 @@
                                                                      role="dialog"
                                                                      aria-labelledby="exampleModalLongTitle"
                                                                      aria-hidden="true">
-                                                                    <div class="modal-dialog modal-xl" role="document">
+                                                                    <div class="modal-dialog" role="document">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
                                                                                 <h5 class="modal-title"
@@ -231,11 +231,11 @@
                                                                             <div class="modal-body">
                                                                                 <fieldset disabled>
                                                                                     <div class="form-group row">
-                                                                                        <label class="col-sm-1 col-form-label">Book
+                                                                                        <label class="col-sm-3 col-form-label">Book
                                                                                             Cover
                                                                                         </label>
 
-                                                                                        <div class="col-sm-10">
+                                                                                        <div class="col-sm-9">
                                                                                             <img class="rounded float-right"
                                                                                                  style="height: 280px; width: auto;"
                                                                                                  src="${pageContext.request.contextPath}/image/${book.coverPath}"
@@ -249,9 +249,10 @@
                                                                                                    value="${book.coverPath}">
                                                                                         </div>
                                                                                     </div>
+
                                                                                     <div class="form-group row">
-                                                                                        <label class="col-sm-1 col-form-label">Title</label>
-                                                                                        <div class="col-sm-10">
+                                                                                        <label class="col-sm-3 col-form-label">Title</label>
+                                                                                        <div class="col-sm-9">
                                                                                             <input type="text"
                                                                                                    class="form-control"
                                                                                                    name="txtUpdateTitle"
@@ -259,10 +260,10 @@
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="form-group row">
-                                                                                        <label class="col-sm-1 col-form-label">
+                                                                                        <label class="col-sm-3 col-form-label">
                                                                                             Subject ID
                                                                                         </label>
-                                                                                        <div class="col-sm-10">
+                                                                                        <div class="col-sm-9">
                                                                                             <input type="text"
                                                                                                    class="form-control"
                                                                                                    name="txtUpdateSubjectID"
@@ -270,10 +271,10 @@
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="form-group row">
-                                                                                        <label class="col-sm-1 col-form-label">
+                                                                                        <label class="col-sm-3 col-form-label">
                                                                                             Publisher
                                                                                         </label>
-                                                                                        <div class="col-sm-10">
+                                                                                        <div class="col-sm-9">
                                                                                             <input type="text"
                                                                                                    class="form-control"
                                                                                                    name="txtUpdatePublisher"
@@ -281,10 +282,10 @@
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="form-group row">
-                                                                                        <label class="col-sm-1 col-form-label">
+                                                                                        <label class="col-sm-3 col-form-label">
                                                                                             Publication date
                                                                                         </label>
-                                                                                        <div class="col-sm-10">
+                                                                                        <div class="col-sm-9">
                                                                                             <input type="text"
                                                                                                    class="form-control"
                                                                                                    name="txtUpdatePubliDate"
@@ -292,10 +293,10 @@
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="form-group row">
-                                                                                        <label class="col-sm-1 col-form-label">
+                                                                                        <label class="col-sm-3 col-form-label">
                                                                                             Price
                                                                                         </label>
-                                                                                        <div class="col-sm-10">
+                                                                                        <div class="col-sm-9">
                                                                                             <input type="text"
                                                                                                    class="form-control"
                                                                                                    name="txtUpdatePrice"
@@ -303,10 +304,10 @@
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="form-group row">
-                                                                                        <label class="col-sm-1 col-form-label">
+                                                                                        <label class="col-sm-3 col-form-label">
                                                                                             Quantity
                                                                                         </label>
-                                                                                        <div class="col-sm-10">
+                                                                                        <div class="col-sm-9">
                                                                                             <input type="text"
                                                                                                    class="form-control"
                                                                                                    name="txtUpdateQuantity"
@@ -314,10 +315,10 @@
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="form-group row">
-                                                                                        <label class="col-sm-1 col-form-label">
+                                                                                        <label class="col-sm-3 col-form-label">
                                                                                             ISBN Ten
                                                                                         </label>
-                                                                                        <div class="col-sm-10">
+                                                                                        <div class="col-sm-9">
                                                                                             <input type="text"
                                                                                                    class="form-control"
                                                                                                    name="txtUpdateISBNTen"
@@ -325,10 +326,10 @@
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="form-group row">
-                                                                                        <label class="col-sm-1 col-form-label">
+                                                                                        <label class="col-sm-3 col-form-label">
                                                                                             ISBN Thirteen
                                                                                         </label>
-                                                                                        <div class="col-sm-10">
+                                                                                        <div class="col-sm-9">
                                                                                             <input type="text"
                                                                                                    class="form-control"
                                                                                                    name="txtUpdateISBNThirteen"
@@ -336,9 +337,9 @@
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="form-group row">
-                                                                                        <label class="col-sm-1 col-form-label">Description
+                                                                                        <label class="col-sm-3 col-form-label">Description
                                                                                         </label>
-                                                                                        <div class="col-sm-10">
+                                                                                        <div class="col-sm-9">
                                                                         <textarea class="form-control"
                                                                                   id="Textarea${book.bookID}"
                                                                                   name="txtUpdateDescription"

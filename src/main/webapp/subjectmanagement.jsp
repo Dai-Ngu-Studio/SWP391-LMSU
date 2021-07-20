@@ -400,7 +400,7 @@
                                                                                                     all
                                                                                                     the
                                                                                                     books from
-                                                                                                    this author
+                                                                                                    this subject
                                                                                                 </div>
 
                                                                                             </div>
@@ -417,7 +417,7 @@
                                                                                     .get(subject.id) eq null}">
                                                                                         <div class="modal-body">
                                                                                             Do you want to delete this
-                                                                                            author?
+                                                                                            subject?
                                                                                         </div>
                                                                                         <div class="modal-footer">
                                                                                             <button type="submit"
