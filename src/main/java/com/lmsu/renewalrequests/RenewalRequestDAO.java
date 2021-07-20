@@ -7,9 +7,8 @@ import javax.naming.NamingException;
 import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
-import java.util.ListIterator;
 
 public class RenewalRequestDAO implements Serializable {
 
