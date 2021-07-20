@@ -1,3 +1,52 @@
+$(document).ready(function () {
+    $('#rental-datatable').DataTable({
+        searchPanes: {
+            viewTotal: true,
+            columns: [3]
+        },
+        dom: 'Plfrtip',
+        columnDefs: [
+            {
+                searchPanes: {
+                    show: true,
+                    options: [
+                        {
+                            label: 'Cancelled',
+                            value: function (rowData, rowIdx) {
+                                return $(rowData[3]).attr('renewalStatus') === '-1';
+                            }
+                        },
+                        {
+                            label: 'Pending',
+                            value: function (rowData, rowIdx) {
+                                return $(rowData[3]).attr('renewalStatus') === '0';
+                            }
+                        },
+                        {
+                            label: 'Approved',
+                            value: function (rowData, rowIdx) {
+                                return $(rowData[3]).attr('renewalStatus') === '1';
+                            }
+                        },
+                        {
+                            label: 'Rejected',
+                            value: function (rowData, rowIdx) {
+                                return $(rowData[3]).attr('renewalStatus') === '2';
+                            }
+                        },
+                    ]
+                },
+                targets: [3]
+            }
+        ],
+        order: [[1, 'asc']]
+    });
+
+    $('.dtsp-panesContainer').addClass('col-3 mx-auto');
+    $('.dataTables_scrollBody').css('height', '80px');
+    $('#rental-datatable_wrapper').css('max-width', '81vw');
+});
+
 // Renewal Approval Interface
 $(document).ready(function () {
     const RENEWAL_CANCELLED = '-1';

@@ -155,7 +155,7 @@
                                                 <div class="row">
                                                     <a type="button"
                                                        class="col-4 btn btn-outline-secondary btn-block col-form-label mx-3"
-                                                       href="orderform.jsp" for="btnDirectOrder">
+                                                       href="OrderFormServlet" for="btnDirectOrder">
                                                         <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
                                                         Edit
                                                     </a>
@@ -245,6 +245,24 @@
                                             <div class="col-1"></div>
                                         </div>
                                         <div class="form-group row">
+                                            <label class="col-3 col-form-label" for="txtWard">Estimated Delivery Date</label>
+                                            <input class="text-black col-8" type="text"
+                                                   value="${sessionScope.CHECKOUT_EXPECTEDTIME}"
+                                                   id="txtDeliveryTime" name="txtDeliveryTime" disabled
+                                            />
+                                            <div class="col-1"></div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-3 col-form-label" for="txtWard">
+                                                Estimated Fee (Service Fee included)
+                                            </label>
+                                            <input class="text-black col-8" type="text"
+                                                   value="${sessionScope.CHECKOUT_FEE}"
+                                                   id="txtFee" name="txtFee" disabled
+                                            />
+                                            <div class="col-1"></div>
+                                        </div>
+                                        <div class="form-group row">
                                             <label class="col-3 col-form-label" for="cartTable">Your Items</label>
                                             <div class="col-8 px-0">
                                                 <c:set var="books" value="${sessionScope.MEMBER_CART.items}"/>
@@ -282,7 +300,7 @@
                                                 <div class="row">
                                                     <a type="button"
                                                        class="col-4 btn btn-outline-secondary btn-block col-form-label mx-3"
-                                                       href="orderform.jsp" for="btnDeliveryOrder">
+                                                       href="OrderFormServlet" for="btnDeliveryOrder">
                                                         <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
                                                         Edit
                                                     </a>

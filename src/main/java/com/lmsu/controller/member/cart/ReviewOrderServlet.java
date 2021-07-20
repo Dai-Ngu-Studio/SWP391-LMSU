@@ -1,8 +1,11 @@
 package com.lmsu.controller.member.cart;
 
+import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import com.lmsu.bean.book.BookObj;
 import com.lmsu.bean.member.CartObj;
 import com.lmsu.bean.member.ReturnCartObj;
+import com.lmsu.services.GhnApis;
 import com.lmsu.users.UserDTO;
 import org.apache.log4j.Logger;
 
@@ -10,6 +13,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.Map;
 
 @WebServlet(name = "ReviewOrderServlet", value = "/ReviewOrderServlet")
@@ -51,6 +55,8 @@ public class ReviewOrderServlet extends HttpServlet {
     private final String ATTR_CHECKOUT_CITY = "CHECKOUT_CITY";
     private final String ATTR_CHECKOUT_DISTRICT = "CHECKOUT_DISTRICT";
     private final String ATTR_CHECKOUT_WARD = "CHECKOUT_WARD";
+    private final String ATTR_CHECKOUT_EXPECTEDTIME = "CHECKOUT_EXPECTEDTIME";
+    private final String ATTR_CHECKOUT_FEE = "CHECKOUT_FEE";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -65,16 +71,16 @@ public class ReviewOrderServlet extends HttpServlet {
                 // 2. Check if cart existed
                 boolean returnBook = false;
                 Object tmp = session.getAttribute("RETURN_BOOK");
-                if (tmp != null){
+                if (tmp != null) {
                     returnBook = (boolean) tmp;
                 }
                 CartObj cartObj = (CartObj) session.getAttribute(ATTR_MEMBER_CART);
                 ReturnCartObj returnObj = (ReturnCartObj) session.getAttribute(ATTR_RETURN_CART);
-                if (returnBook){
-                    if (returnObj != null){
+                if (returnBook) {
+                    if (returnObj != null) {
                         // 3.1 Check if items existed
-                        if(returnObj.getReturnItems() != null){
-                            if (btMethod.equals(BTACTION_RETURN)){
+                        if (returnObj.getReturnItems() != null) {
+                            if (btMethod.equals(BTACTION_RETURN)) {
                                 String receiverName = request.getParameter(PARAM_RECEIVERNAME);
                                 String phoneNumber = request.getParameter(PARAM_PHONENUMBER);
                                 String deliveryAddressOne = request.getParameter(PARAM_ADDRESSONE);
@@ -125,6 +131,17 @@ public class ReviewOrderServlet extends HttpServlet {
                                     session.setAttribute(ATTR_CHECKOUT_DISTRICT, district);
                                     session.setAttribute(ATTR_CHECKOUT_WARD, ward);
                                     session.setAttribute(ATTR_CHECKOUT_METHOD, true);
+                                    Date expectedDeliveryTime = GhnApis.calculateExpectedDeliveryTime(district, ward);
+                                    String jsonFee = GhnApis.calculateFee(district, ward, cartObj.getCartQuantity());
+                                    Object fee = new Gson().fromJson(jsonFee, Object.class);
+                                    Object data = ((LinkedTreeMap) fee).get("data");
+                                    double totalFee = (double) ((LinkedTreeMap) data).get("total");
+                                    String txtTotalFee = String.valueOf(totalFee).split("\\.")[0];
+                                    String reversed = new StringBuilder().append(txtTotalFee).reverse().toString();
+                                    reversed = reversed.substring(0, 3) + "," + reversed.substring(3);
+                                    txtTotalFee = new StringBuilder().append(reversed).reverse().toString();
+                                    session.setAttribute(ATTR_CHECKOUT_EXPECTEDTIME, expectedDeliveryTime);
+                                    session.setAttribute(ATTR_CHECKOUT_FEE, txtTotalFee);
                                     url = REVIEW_ORDER_PAGE;
                                 }
                             }
@@ -132,6 +149,9 @@ public class ReviewOrderServlet extends HttpServlet {
                     }
                 }
             }
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+            log("ReviewOrderServlet _ Exception: " + ex.getMessage());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
