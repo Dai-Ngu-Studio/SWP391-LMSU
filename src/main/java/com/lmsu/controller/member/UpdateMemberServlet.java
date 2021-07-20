@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @WebServlet(name = "UpdateUserServlet", value = "/UpdateUserServlet")
-public class UpdateUserServlet extends HttpServlet {
+public class UpdateMemberServlet extends HttpServlet {
     private final String SEARCH_CONTROLLER = "SearchMemberServlet";
     private final String SHOW_MEMBER_CONTROLLER = "ShowMemberServlet";
     static final Logger LOGGER = Logger.getLogger(UpdateBookServlet.class);

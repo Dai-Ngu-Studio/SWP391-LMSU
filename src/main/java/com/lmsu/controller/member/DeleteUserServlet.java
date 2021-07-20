@@ -1,4 +1,4 @@
-package com.lmsu.controller;
+package com.lmsu.controller.member;
 
 import com.lmsu.users.UserDAO;
 import org.apache.log4j.Logger;

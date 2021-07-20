@@ -1,4 +1,4 @@
-package com.lmsu.controller;
+package com.lmsu.controller.staff;
 
 import com.google.common.hash.Hashing;
 import com.lmsu.users.UserDAO;

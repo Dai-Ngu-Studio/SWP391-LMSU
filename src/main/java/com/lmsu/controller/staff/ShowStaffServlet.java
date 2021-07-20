@@ -1,4 +1,4 @@
-package com.lmsu.controller;
+package com.lmsu.controller.staff;
 
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;

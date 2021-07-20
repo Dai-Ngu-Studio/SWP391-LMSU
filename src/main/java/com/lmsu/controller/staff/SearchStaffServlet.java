@@ -1,4 +1,4 @@
-package com.lmsu.controller;
+package com.lmsu.controller.staff;
 
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
@@ -15,12 +15,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "SearchUserServlet", value = "/SearchUserServlet")
-public class SearchMemberServlet extends HttpServlet {
+@WebServlet(name = "SearchStaffServlet", value = "/SearchStaffServlet")
+public class SearchStaffServlet extends HttpServlet {
 
-    private static final String ERROR_PAGE = "membermanagement.jsp";
-    private static final String SHOW_MEMBER_CONTROLLER = "ShowMemberServlet";
-    static final Logger LOGGER = Logger.getLogger(SearchMemberServlet.class);
+    private static final String ERROR_PAGE = "staffmanagement.jsp";
+    private static final String SHOW_STAFF_CONTROLLER = "ShowStaffServlet";
+    static final Logger LOGGER = Logger.getLogger(SearchStaffServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -33,19 +33,19 @@ public class SearchMemberServlet extends HttpServlet {
         try {
             if (searchValue.trim().length() > 0) {
                 UserDAO dao = new UserDAO();
-                dao.searchUserByName(searchValue);
+                dao.searchStaffByName(searchValue);
                 List<UserDTO> list = dao.getListAccount();
                 if (list != null && list.isEmpty() == false) {
                     request.setAttribute("SEARCH_RESULT", list);
-                    url = SHOW_MEMBER_CONTROLLER;
+                    url = SHOW_STAFF_CONTROLLER;
                 }
             }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-            log("SearchMemberServlet _ SQL: " + e.getMessage());
+            log("SearchStaffServlet _ SQL: " + e.getMessage());
         } catch (NamingException e) {
             LOGGER.error(e.getMessage());
-            log("SearchMemberServlet _ Naming: " + e.getMessage());
+            log("SearchStaffServlet _ Naming: " + e.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
