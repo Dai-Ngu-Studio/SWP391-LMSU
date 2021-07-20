@@ -29,6 +29,6 @@ input {
     /*margin-top: 30px;*/
 }
 
-span {
+.draft {
     font-style: italic;
 }

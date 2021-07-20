@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -49,23 +50,24 @@
                 <i class="fa fa-twitter-square"></i>
             </div>
         </div>
+        <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
         <div class="right-contact">
             <form action="ContactServlet" enctype="multipart/form-data"
                   method="POST">
                 <div class="form-group">
                     <label for="inputName"><b>Full Name <span class="required-field">*</span></b></label>
-                    <input type="text" class="form-control" id="inputName" placeholder="Enter full name" name="txtFullName">
+                    <input type="text" class="form-control" id="inputName" placeholder="Enter full name" name="txtFullName" value="${user.name}">
                 </div>
                 <div class="form-group">
                     <label for="inputEmail"><b>Email <span class="required-field">*</span></b></label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="Enter email" name="txtEmail">
+                    <input type="email" class="form-control" id="inputEmail" placeholder="Enter email" name="txtEmail" value="${user.email}">
                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                         else.</small>
                 </div>
                 <div class="form-group">
                     <label for="inputPhoneNumber"><b>Phone Number (10 numbers) <span class="required-field">*</span></b></label>
                     <input type="tel" class="form-control" id="inputPhoneNumber"
-                           placeholder="Enter phone number" name="txtPhone" pattern="^[0-9]{1,10}$">
+                           placeholder="Enter phone number" name="txtPhone" pattern="^[0-9]{10}$" value="${user.phoneNumber}">
                 </div>
                 <div class="form-group">
                     <div>
