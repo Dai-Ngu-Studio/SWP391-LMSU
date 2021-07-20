@@ -125,7 +125,7 @@ public class UserDAO implements Serializable {
             if (con != null) {
                 //2. Create SQL String
                 String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], " +
-                        "[phoneNumber], [profilePicturePath], [activeStatus] " +
+                        "[phoneNumber], [profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular] " +
                         "FROM [Users] " +
                         "WHERE roleID = 4";
                 //3. Create Statement
@@ -143,7 +143,10 @@ public class UserDAO implements Serializable {
                     String semester = rs.getString("semester_no");
                     String profilePicturePath = rs.getString("profilePicturePath");
                     boolean activeStatus = rs.getBoolean("activeStatus");
-                    UserDTO dto = new UserDTO(id, name, roleID, password, email, phoneNumber, semester, profilePicturePath, activeStatus);
+                    boolean isNotifyArrival = rs.getBoolean("isNotifyArrival");
+                    boolean isNotifyPopular = rs.getBoolean("isNotifyPopular");
+                    UserDTO dto = new UserDTO(id, name, roleID, password, email, phoneNumber, semester, profilePicturePath,
+                            activeStatus, isNotifyArrival, isNotifyPopular);
 
                     if (this.listAccount == null) {
                         this.listAccount = new ArrayList<UserDTO>();
@@ -169,7 +172,7 @@ public class UserDAO implements Serializable {
             if (con != null) {
                 //2. Create SQL String
                 String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], " +
-                        "[phoneNumber], [profilePicturePath], [activeStatus] " +
+                        "[phoneNumber], [profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular] " +
                         "FROM [Users] " +
                         "WHERE roleID = 1 OR roleID = 2 OR roleID = 3";
                 //3. Create Statement
@@ -187,7 +190,10 @@ public class UserDAO implements Serializable {
                     String semester = rs.getString("semester_no");
                     String profilePicturePath = rs.getString("profilePicturePath");
                     boolean activeStatus = rs.getBoolean("activeStatus");
-                    UserDTO dto = new UserDTO(id, name, roleID, password, email, phoneNumber, semester, profilePicturePath, activeStatus);
+                    boolean isNotifyArrival = rs.getBoolean("isNotifyArrival");
+                    boolean isNotifyPopular = rs.getBoolean("isNotifyPopular");
+                    UserDTO dto = new UserDTO(id, name, roleID, password, email, phoneNumber, semester, profilePicturePath,
+                            activeStatus, isNotifyArrival, isNotifyPopular);
 
                     if (this.listAccount == null) {
                         this.listAccount = new ArrayList<UserDTO>();
@@ -281,8 +287,10 @@ public class UserDAO implements Serializable {
                     String semester = rs.getString("semester_no");
                     String profilePicturePath = rs.getString("profilePicturePath");
                     boolean activeStatus = rs.getBoolean("activeStatus");
-                    UserDTO dto = new UserDTO(id, name, roleID, password,
-                            email, phoneNumber, semester, profilePicturePath, activeStatus);
+                    boolean isNotifyArrival = rs.getBoolean("isNotifyArrival");
+                    boolean isNotifyPopular = rs.getBoolean("isNotifyPopular");
+                    UserDTO dto = new UserDTO(id, name, roleID, password, email, phoneNumber, semester, profilePicturePath,
+                            activeStatus, isNotifyArrival, isNotifyPopular);
                     if (this.listAccount == null) {
                         this.listAccount = new ArrayList<UserDTO>();
                     } //end if book list not existed
@@ -326,8 +334,10 @@ public class UserDAO implements Serializable {
                     String semester = rs.getString("semester_no");
                     String profilePicturePath = rs.getString("profilePicturePath");
                     boolean activeStatus = rs.getBoolean("activeStatus");
-                    UserDTO dto = new UserDTO(id, name, roleID, password,
-                            email, phoneNumber, semester, profilePicturePath, activeStatus);
+                    boolean isNotifyArrival = rs.getBoolean("isNotifyArrival");
+                    boolean isNotifyPopular = rs.getBoolean("isNotifyPopular");
+                    UserDTO dto = new UserDTO(id, name, roleID, password, email, phoneNumber, semester, profilePicturePath,
+                            activeStatus, isNotifyArrival, isNotifyPopular);
                     if (this.listAccount == null) {
                         this.listAccount = new ArrayList<UserDTO>();
                     } //end if book list not existed
@@ -394,8 +404,10 @@ public class UserDAO implements Serializable {
                     String phoneNumber = rs.getString("phoneNumber");
                     String profilePicturePath = rs.getString("profilePicturePath");
                     boolean activeStatus = rs.getBoolean("activeStatus");
-                    UserDTO dto = new UserDTO(id, name, roleID, password,
-                            email, phoneNumber, semester, profilePicturePath, activeStatus);
+                    boolean isNotifyArrival = rs.getBoolean("isNotifyArrival");
+                    boolean isNotifyPopular = rs.getBoolean("isNotifyPopular");
+                    UserDTO dto = new UserDTO(id, name, roleID, password, email, phoneNumber, semester, profilePicturePath,
+                            activeStatus, isNotifyArrival, isNotifyPopular);
                     return dto;
                 } //end while traversing result set
             } //end if connection existed
