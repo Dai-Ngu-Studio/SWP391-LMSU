@@ -268,7 +268,7 @@ public class UserDAO implements Serializable {
             if (con != null) {
                 //2. Create SQL String
                 String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], " +
-                        "[phoneNumber], [profilePicturePath], [activeStatus] " +
+                        "[phoneNumber], [profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular]  " +
                         "FROM [Users] " +
                         "WHERE [name] LIKE ? AND roleID = 4";
                 //3. Create Statement
@@ -315,7 +315,7 @@ public class UserDAO implements Serializable {
             if (con != null) {
                 //2. Create SQL String
                 String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], " +
-                        "[phoneNumber], [profilePicturePath], [activeStatus] " +
+                        "[phoneNumber], [profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular]  " +
                         "FROM [Users] " +
                         "WHERE [name] LIKE ? AND (roleID = 1 OR roleID = 2 OR roleID = 3)";
                 //3. Create Statement
@@ -385,7 +385,7 @@ public class UserDAO implements Serializable {
             if (con != null) {
                 //2. Create SQL String
                 String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], " +
-                        "[phoneNumber], [profilePicturePath], [activeStatus] " +
+                        "[phoneNumber], [profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular]  " +
                         "FROM [Users] " +
                         "WHERE [id] = ?";
                 //3. Create Statement
