@@ -292,22 +292,22 @@
                             <div>
                                 <p>Dear Library Users,</p>
                                 <p>
-                                    Delivering textbook schedule for <span id="semesterDraft"></span> <span
+                                    Delivering textbook schedule for <span class="draft" id="semesterDraft"></span> <span class="draft"
                                         id="yearDraft"></span>
                                     semester at FPT University Library. Library users are required to follow below
                                     schedule:
                                 </p>
                                 <p class="text-danger">
                                     <b>
-                                        Start: <span id="defaultDayFromDraft"></span> <span
+                                        Start: <span class="draft" id="defaultDayFromDraft"></span> <span class="draft"
                                             id="defaultDateFromDraft"></span> to
-                                        <span id="defaultDayToDraft"></span> <span id="defaultDateToDraft"></span> at
+                                        <span class="draft" id="defaultDayToDraft"></span> <span class="draft" id="defaultDateToDraft"></span> at
                                         room no LB102.
                                     </b>
                                 </p>
                                 <p>
-                                    Textbook for subjects: <span id="subjectDraft"></span> <b class="text-danger">
-                                    from <span id="dayDraft"></span> <span id="dateFromDraft"></span> to <span
+                                    Textbook for subjects: <span class="draft" id="subjectDraft"></span> <b class="text-danger">
+                                    from <span class="draft" id="dayDraft"></span> <span class="draft" id="dateFromDraft"></span> to <span class="draft"
                                         id="dateToDraft"></span> at room no LB101</b> .
                                 </p>
                                 <h3><b>Time:</b></h3>
@@ -320,7 +320,7 @@
                                     Students who don't borrow and get textbooks as schedule must take responsibility
                                     of having no textbooks; <br> - Students can view information of textbooks at
                                     here; <br> - Students have to return their books before <b class="text-danger">
-                                    <span id="returnDateDraft"></span> </b>
+                                    <span class="draft" id="returnDateDraft"></span> </b>
                                 </p>
                                 <h3><b>Should you have any inquiry, please contact us via:</b></h3>
                                 <p>
