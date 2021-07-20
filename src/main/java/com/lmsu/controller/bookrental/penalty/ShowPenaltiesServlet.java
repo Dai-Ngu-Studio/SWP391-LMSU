@@ -1,4 +1,4 @@
-package com.lmsu.controller.penalty;
+package com.lmsu.controller.bookrental.penalty;
 
 import com.lmsu.bean.orderdata.OrderItemObj;
 import com.lmsu.books.BookDAO;
@@ -9,7 +9,6 @@ import com.lmsu.orderdata.orders.OrderDAO;
 import com.lmsu.orderdata.orders.OrderDTO;
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;

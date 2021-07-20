@@ -146,7 +146,6 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                                         receiverName, DELIVERY_NOT_RETURN);
                                         if (deliveryOrderAddResult) {
                                             conn.commit();
-                                            session.removeAttribute(ATTR_MEMBER_CART);
                                             // 10.a
                                             // Decrease quantity of books
                                             // 10.b
@@ -183,6 +182,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                                 }
                                             }
                                             request.setAttribute(ATTR_CHECKOUT_SUCCESS, true);
+                                            session.removeAttribute(ATTR_MEMBER_CART);
                                             session.removeAttribute(ATTR_CHECKOUT_RECEIVERNAME);
                                             session.removeAttribute(ATTR_CHECKOUT_PHONENUMBER);
                                             session.removeAttribute(ATTR_CHECKOUT_ADDRESSONE);

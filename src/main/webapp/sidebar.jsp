@@ -78,6 +78,7 @@
             <div class="collapse" id="rental-management">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"><a class="nav-link" href="ShowOrdersServlet">Orders</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ShowRenewalRequestsServlet">Renewals</a></li>
                     <li class="nav-item"><a class="nav-link" href="ShowPenaltiesServlet">Penalties</a></li>
                 </ul>
             </div>

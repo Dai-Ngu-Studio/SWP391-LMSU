@@ -17,7 +17,7 @@ public class EmailHelpers implements Serializable {
      * @param subject
      * @param body
      */
-    public static void sendEmail(Session session, String toEmail, String subject, String body)
+    public void sendEmail(Session session, String toEmail, String subject, String body)
             throws UnsupportedEncodingException, MessagingException {
         MimeMessage msg = new MimeMessage(session);
         //set message headers
@@ -38,6 +38,6 @@ public class EmailHelpers implements Serializable {
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
         Transport.send(msg);
 
-        System.out.println("Email Sent To " + toEmail + "Successfully!\n");
+        System.out.println("Email Sent To " + toEmail + " Successfully!\n");
     }
 }

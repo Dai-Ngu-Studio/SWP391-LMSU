@@ -141,7 +141,6 @@ public class CheckoutDirectServlet extends HttpServlet {
                                                 .addDirectOrder(orderID, schedule);
                                         if (directOrderAddResult) {
                                             conn.commit();
-                                            session.removeAttribute(ATTR_MEMBER_CART);
                                             // 10.a
                                             // Decrease quantity of books
                                             // 10.b
@@ -178,6 +177,7 @@ public class CheckoutDirectServlet extends HttpServlet {
                                                 }
                                             }
                                             request.setAttribute(ATTR_CHECKOUT_SUCCESS, true);
+                                            session.removeAttribute(ATTR_MEMBER_CART);
                                             session.removeAttribute(ATTR_CHECKOUT_PICKUPDATE);
                                             session.removeAttribute(ATTR_CHECKOUT_PICKUPTIME);
                                             url = SHOW_BOOK_CATALOG_CONTROLLER; //W.I.P. temporary (to be changed)

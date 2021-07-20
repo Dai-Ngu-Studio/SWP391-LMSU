@@ -141,12 +141,12 @@ GO
 
 GO
     CREATE TABLE RenewalRequests(
-        id varchar(255) NOT NULL PRIMARY KEY,
+        id int NOT NULL PRIMARY KEY IDENTITY(1, 1),
         itemID int NOT NULL FOREIGN KEY REFERENCES OrderItems(id),
         librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
         reason varchar(MAX),
         requestedExtendDate date,
-        approvalStatus bit
+        approvalStatus int
     );
 
 GO
@@ -167,8 +167,11 @@ GO
         deliveryAddress1 nvarchar(MAX),
         deliveryAddress2 nvarchar(MAX),
         city nvarchar(255),
+		cityName nvarchar(255),
         district nvarchar(255),
+		districtName nvarchar(255),
         ward nvarchar(255),
+		wardName nvarchar(255),
         trackingCode varchar(255),
         isReturnOrder bit NOT NULL
     );

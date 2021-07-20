@@ -455,7 +455,7 @@
                                                     </div>
                                                 </div>
 
-                                                <form action="DispatchServlet">
+                                                <form action="DispatchServlet" method="post">
                                                     <input type="hidden" name="orderItemPk" value="${orderItem.id}">
                                                     <div class="modal fade" id="renewModal${orderItem.id}"
                                                          tabindex="-1"

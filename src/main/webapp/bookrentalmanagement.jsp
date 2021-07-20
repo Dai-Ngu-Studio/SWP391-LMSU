@@ -161,7 +161,7 @@
                                                 </thead>
                                                 <tbody>
                                                 <%--Map<Pair<DirectOrderObj, DeliveryOrderObj>, Pair<OrderObj, List<OrderItemObj>>>--%>
-                                                <%--OLD (FOR REFERENCE): Map<Pair<OrderObj, DirectOrderObj>, List<OrderItemObj>>--%>
+                                                <div id="userRole" userRole="" hidden></div>
                                                 <c:set var="orderList" value="${requestScope.ORDER_LIST}"/>
                                                 <c:forEach var="order" items="${orderList}"
                                                            varStatus="counter">
@@ -265,13 +265,13 @@
                                                                                    disabled/>
                                                                         </div>
                                                                     </div>
-                                                                    <c:if test="${lendMethod}">
+                                                                    <c:if test="${not order.value.key.lendMethod}">
                                                                         <c:set var="staffID"
                                                                                value="${order.key.key.librarianID}"/>
                                                                         <c:set var="staffName"
                                                                                value="${order.key.key.librarianName}"/>
                                                                     </c:if>
-                                                                    <c:if test="${not lendMethod}">
+                                                                    <c:if test="${order.value.key.lendMethod}">
                                                                         <c:set var="staffID"
                                                                                value="${order.key.value.managerID}"/>
                                                                         <c:set var="staffName"
@@ -303,7 +303,7 @@
                                                                                    disabled/>
                                                                         </div>
                                                                     </div>
-                                                                    <c:if test="${not lendMethod}">
+                                                                    <c:if test="${not order.value.key.lendMethod}">
                                                                         <div class="form-group row">
                                                                             <label class="col-lg-1 col-12 col-form-label">
                                                                                 Scheduled Time
@@ -313,6 +313,90 @@
                                                                                 <input type="text"
                                                                                        class="form-control"
                                                                                        value="${order.key.key.scheduledTime}"
+                                                                                       disabled/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </c:if>
+                                                                    <c:if test="${order.value.key.lendMethod}">
+                                                                        <div class="form-group row">
+                                                                            <label class="col-lg-1 col-12 col-form-label">
+                                                                                Receiver Name
+                                                                            </label>
+                                                                            <div class="col-lg-5 col-12"
+                                                                                 orderid="${order.value.key.id}">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value="${order.key.value.receiverName}"
+                                                                                       disabled/>
+                                                                            </div>
+                                                                            <label class="col-lg-1 col-12 col-form-label">
+                                                                                Phone Number
+                                                                            </label>
+                                                                            <div class="col-lg-5 col-12"
+                                                                                 orderid="${order.value.key.id}">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value="${order.key.value.phoneNumber}"
+                                                                                       disabled/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-lg-1 col-12 col-form-label">
+                                                                                Street Address
+                                                                            </label>
+                                                                            <div class="col-lg-11 col-12"
+                                                                                 orderid="${order.value.key.id}">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value="${order.key.value.deliveryAddress1}"
+                                                                                       disabled/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <c:if test="${(not empty fn:trim(order.key.value.deliveryAddress2))}">
+                                                                            <div class="form-group row">
+                                                                                <label class="col-lg-1 col-12 col-form-label">
+                                                                                    Residence Address
+                                                                                </label>
+                                                                                <div class="col-lg-11 col-12"
+                                                                                     orderid="${order.value.key.id}">
+                                                                                    <input type="text"
+                                                                                           class="form-control"
+                                                                                           value="${order.key.value.deliveryAddress2}"
+                                                                                           disabled/>
+                                                                                </div>
+                                                                            </div>
+                                                                        </c:if>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-lg-1 col-12 col-form-label">
+                                                                                City
+                                                                            </label>
+                                                                            <div class="col-lg-11 col-12 txtCity"
+                                                                                 orderid="${order.value.key.id}">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value="${order.key.value.city}"
+                                                                                       disabled/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-lg-1 col-12 col-form-label">
+                                                                                District
+                                                                            </label>
+                                                                            <div class="col-lg-5 col-12 txtDistrict"
+                                                                                 orderid="${order.value.key.id}">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value="${order.key.value.district}"
+                                                                                       disabled/>
+                                                                            </div>
+                                                                            <label class="col-lg-1 col-12 col-form-label">
+                                                                                Ward
+                                                                            </label>
+                                                                            <div class="col-lg-5 col-12 txtWard"
+                                                                                 orderid="${order.value.key.id}">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value="${order.key.value.ward}"
                                                                                        disabled/>
                                                                             </div>
                                                                         </div>
@@ -360,11 +444,11 @@
                                                                                 </div>
                                                                             </c:when>
                                                                             <c:when test="${(order.value.key.activeStatus eq -1)
-                                                                            or (order.value.key.activeStatus eq 8)}">
+                                                                            or (order.value.key.activeStatus eq 5)}">
                                                                                 <div class="col-lg-5 col-12">
                                                                                     <div class="btn btn-block btn-outline-danger btn-sm bg-white"
                                                                                          disabled>
-                                                                                        <h3 class="fa fa-check-circle text-danger"></h3>
+                                                                                        <h3 class="fa fa-times-circle text-danger"></h3>
                                                                                     </div>
                                                                                 </div>
                                                                             </c:when>

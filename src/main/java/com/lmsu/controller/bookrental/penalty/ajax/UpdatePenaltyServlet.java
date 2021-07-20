@@ -1,10 +1,9 @@
-package com.lmsu.controller.penalty.ajax;
+package com.lmsu.controller.bookrental.penalty.ajax;
 
 import com.google.gson.Gson;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.users.UserDTO;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -14,8 +13,6 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 @WebServlet(name = "UpdatePenaltyServlet", value = "/UpdatePenaltyServlet")
 public class UpdatePenaltyServlet extends HttpServlet {

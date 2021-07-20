@@ -16,6 +16,7 @@ public class RenewRequestServlet extends HttpServlet {
     static final Logger LOGGER = Logger.getLogger(RenewRequestServlet.class);
     private static final String USER_SETTING_CONTROLLER = "ShowProfileServlet";
     private static final String USER_PAGE = "index.jsp";
+    private final int RENEWAL_PENDING = 0;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -28,13 +29,8 @@ public class RenewRequestServlet extends HttpServlet {
 
         try {
             RenewalRequestDAO dao = new RenewalRequestDAO();
-            int renewalID = 0;
             int orderItemsIDVal = Integer.parseInt(orderItemsID);
-            do {
-                renewalID++;
-            } while (dao.checkRenewalId(String.valueOf(renewalID)));
-            String renewalIDtxt = String.valueOf(renewalID);
-            boolean result = dao.addRenewal(renewalIDtxt, orderItemsIDVal, reason, extendDate);
+            boolean result = dao.addRenewal(orderItemsIDVal, reason.trim(), extendDate, RENEWAL_PENDING);
             if(result){
                 url = USER_SETTING_CONTROLLER;
             }
