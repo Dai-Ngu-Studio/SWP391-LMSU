@@ -20,7 +20,7 @@ public class GhnApis {
     public static Date calculateExpectedDeliveryTime(String to_district_id, String to_ward_code) {
         String output = "";
         try {
-            URL url = new URL("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/leadtime");
+            URL url = new URL("https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/leadtime");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
@@ -72,7 +72,7 @@ public class GhnApis {
     public static String cancelOrder(String order_code) {
         String output = "";
         try {
-            URL url = new URL("https://online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel");
+            URL url = new URL("https://dev-online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
@@ -210,7 +210,7 @@ public class GhnApis {
     public static String getWardList(String district_id) {
         String output = "";
         try {
-            URL url = new URL("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id\n");
+            URL url = new URL("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
