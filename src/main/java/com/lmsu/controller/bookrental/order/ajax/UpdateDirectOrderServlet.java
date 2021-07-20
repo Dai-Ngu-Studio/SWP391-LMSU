@@ -134,7 +134,6 @@ public class UpdateDirectOrderServlet extends HttpServlet {
                                             .updateOrderItemDate(orderItemID, currentDate,
                                                     DATE_RETURN, CONNECTION_USE_BATCH);
                                 }
-                                conn.commit();
                                 // Update book quantity after returning item
                                 if ((lendStatus == ITEM_RETURNED)
                                         || (lendStatus == ITEM_OVERDUE_RETURNED)) {
@@ -143,6 +142,7 @@ public class UpdateDirectOrderServlet extends HttpServlet {
                                     BookDTO book = bookDAO.getBookById(bookID);
                                     bookDAO.updateQuantity(bookID, book.getQuantity() + 1);
                                 }
+                                conn.commit();
                                 OrderItemDTO orderItemDTO = orderItemDAO.getOrderItemByID(orderItemID);
                                 orderItems.add(orderItemDTO);
                             }
@@ -166,10 +166,31 @@ public class UpdateDirectOrderServlet extends HttpServlet {
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
             log("UpdateDirectOrderServlet _ Naming: " + ex.getMessage());
+            try {
+                conn.rollback();
+            } catch (SQLException exRollback) {
+                LOGGER.error(exRollback.getMessage());
+                log("UpdateDirectOrderServlet _ SQL: " + exRollback.getMessage());
+            }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
             log("UpdateDirectOrderServlet _ Exception: " + ex.getMessage());
+            try {
+                conn.rollback();
+            } catch (SQLException exRollback) {
+                LOGGER.error(exRollback.getMessage());
+                log("UpdateDirectOrderServlet _ SQL: " + exRollback.getMessage());
+            }
         } finally {
+            try {
+                if ((conn != null) && (!conn.isClosed())) {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                LOGGER.error(ex.getMessage());
+                log("UpdateDirectOrderServlet _ SQL: " + ex.getMessage());
+            }
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
             String json = gson.toJson(orderItems);
             response.setContentType("application/json");

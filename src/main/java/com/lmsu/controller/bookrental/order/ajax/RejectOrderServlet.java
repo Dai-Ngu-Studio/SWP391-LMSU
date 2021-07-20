@@ -112,10 +112,31 @@ public class RejectOrderServlet extends HttpServlet {
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
             log("RejectOrderServlet _ Naming: " + ex.getMessage());
+            try {
+                conn.rollback();
+            } catch (SQLException exRollback) {
+                LOGGER.error(exRollback.getMessage());
+                log("RejectOrderServlet _ SQL: " + exRollback.getMessage());
+            }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
             log("RejectOrderServlet _ Exception: " + ex.getMessage());
+            try {
+                conn.rollback();
+            } catch (SQLException exRollback) {
+                LOGGER.error(exRollback.getMessage());
+                log("RejectOrderServlet _ SQL: " + exRollback.getMessage());
+            }
         } finally {
+            try {
+                if ((conn != null) && (!conn.isClosed())) {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                LOGGER.error(ex.getMessage());
+                log("RejectOrderServlet _ SQL: " + ex.getMessage());
+            }
             String json = new Gson().toJson(orderInformation);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
