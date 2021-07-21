@@ -844,4 +844,53 @@ public class BookDAO implements Serializable {
 //        }
 //    }
     // End: Test Paged List
+    public void searchInvalidBook() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT Books.* " +
+                        "FROM Books " +
+                        "LEFT JOIN AuthorBookMaps ON Books.id = AuthorBookMaps.bookID " +
+                        "WHERE AuthorBookMaps.bookID IS NULL AND Books.deleteStatus = 0";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                while (rs.next()) {
+                    String bookID = rs.getString("id");
+                    String title = rs.getString("title");
+                    String subjectID = rs.getString("subjectID");
+                    String publisher = rs.getString("publisher");
+                    String publication_date = rs.getString("publishDate");
+                    String description = rs.getString("description");
+                    BigDecimal price = rs.getBigDecimal("price");
+                    int quantity = rs.getInt("quantity");
+                    boolean deleteStatus = rs.getBoolean("deleteStatus");
+                    Date lastLentDate = rs.getDate("lastLentDate");
+                    float avg_rating = rs.getFloat("avgRating");
+                    String isbnTen = rs.getString("ISBN_tenDigits");
+                    String isbnThirteen = rs.getString("ISBN_thirteenDigits");
+                    String coverPath = rs.getString("coverPicturePath");
+                    BookDTO dto = new BookDTO(bookID, title, subjectID, publisher, publication_date,
+                            description, price, quantity, deleteStatus, lastLentDate,
+                            avg_rating, isbnTen, isbnThirteen, coverPath);
+                    if (this.bookList == null) {
+                        this.bookList = new ArrayList<BookDTO>();
+                    } //end if bookList not existed
+                    this.bookList.add(dto);
+                } //end while traversing result
+            } //end if connection existed
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
 }
