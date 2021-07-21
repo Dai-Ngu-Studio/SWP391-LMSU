@@ -30,6 +30,7 @@ import java.util.ArrayList;
         maxRequestSize = 1024 * 1024 * 5 * 5)
 public class AddBookServlet extends HttpServlet {
     private final String SEARCH_CONTROLLER = "SearchTitleServlet";
+    private final String SEARCH_INVALID_BOOK_CONTROLLER = "SearchInvalidBook";
     private final String SHOW_BOOK_CONTROLLER = "ShowBookServlet";
     //    private final String SEARCH_CONTROLLER = "SearchTitleServlet";
     static final Logger LOGGER = Logger.getLogger(AddBookServlet.class);
@@ -40,7 +41,7 @@ public class AddBookServlet extends HttpServlet {
         //                           String publisher, String publication_date, String description, BigDecimal price, int quantity,
         //                           boolean delete_status, Date last_lent_date, float avg_rating, String isbn_ten,
         //                           String isbn_thirteen
-
+        String isShowInvalid = request.getParameter("showInvalidList") != null ? request.getParameter("showInvalidList") : "";
         String searchVal = request.getParameter("txtSearchValue");
         String addFile = request.getParameter("isAddFile");
         String url = SHOW_BOOK_CONTROLLER;
@@ -83,7 +84,6 @@ public class AddBookServlet extends HttpServlet {
                                     break;
                                 }
                             }
-
                             if (readResult) {
                                 addBook(request, nextRecord[0], nextRecord[1], nextRecord[2], nextRecord[3], nextRecord[4],
                                         nextRecord[5], nextRecord[6], nextRecord[7], nextRecord[8], nextRecord[9], userDTO.getId(), null, false);
@@ -121,7 +121,9 @@ public class AddBookServlet extends HttpServlet {
                 }
             }
             if (result) {
-                if (searchVal == null || searchVal.trim().isEmpty()) {
+                if (isShowInvalid.equals("True")) {
+                    url = SEARCH_INVALID_BOOK_CONTROLLER;
+                } else if (searchVal == null || searchVal.trim().isEmpty()) {
                     url = SHOW_BOOK_CONTROLLER;
                 } else {
                     url = SEARCH_CONTROLLER;
@@ -187,7 +189,6 @@ public class AddBookServlet extends HttpServlet {
                     break;
                 }
             }
-
         // Import log
         java.sql.Date currentDate = DateHelpers.getCurrentDate();
         ImportLogDAO importLogDAO = new ImportLogDAO();
