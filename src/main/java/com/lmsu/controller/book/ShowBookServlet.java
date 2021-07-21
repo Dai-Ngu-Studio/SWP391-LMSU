@@ -32,7 +32,6 @@ public class ShowBookServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-
         String url = BOOK_MANAGEMENT_PAGE;
         try {
             AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();
@@ -57,7 +56,6 @@ public class ShowBookServlet extends HttpServlet {
                 }
                 request.setAttribute("BOOK_AUTHOR_MAP", bookAuthorMap);
             }
-
             List<BookDTO> searchResultReceived = (List<BookDTO>) request.getAttribute("SEARCH_RESULT");
             if (searchResultReceived != null) {
                 request.setAttribute("BOOK_LIST", searchResultReceived);
@@ -67,6 +65,7 @@ public class ShowBookServlet extends HttpServlet {
                 List<BookDTO> result = bookDAO.getBookList();
                 request.setAttribute("BOOK_LIST", result);
             }
+
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             log("ShowBookServlet _ SQL: " + e.getMessage());
