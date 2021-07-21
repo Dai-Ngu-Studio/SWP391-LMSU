@@ -47,18 +47,21 @@ public class DispatchServlet extends HttpServlet {
     private static final String ADD_SUBJECT_CONTROLLER = "AddSubjectServlet";
     private static final String UPDATE_SUBJECT_CONTROLLER = "UpdateSubjectServlet";
     private static final String DELETE_SUBJECT_CONTROLLER = "DeleteSubjectServlet";
+    private static final String SEARCH_INVALID_BOOK_CONTROLLER = "SearchInvalidBook";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
+        String buttonSearchInvalidBook = request.getParameter("btActionSearchInvalidBook") != null ? request.getParameter("btActionSearchInvalidBook") : "";
 
         String button = request.getParameter("btAction");
         String url = LOGIN_PAGE;
-
         try {
             if (button == null) {
                 url = STARTUP_CONTROLLER;
+            } else if (buttonSearchInvalidBook.equals("Search Invalid Book")) {
+                url = SEARCH_INVALID_BOOK_CONTROLLER;
             } else if (button.equals("Login")) {
                 url = LOGIN_CONTROLLER;
             } else if (button.equals("Logout")) {
@@ -115,9 +118,9 @@ public class DispatchServlet extends HttpServlet {
                 url = UPDATE_SUBJECT_CONTROLLER;
             } else if (button.equals("Delete Subject")) {
                 url = DELETE_SUBJECT_CONTROLLER;
-            } else if (button.equals("Update Staff")){
+            } else if (button.equals("Update Staff")) {
                 url = UPDATE_STAFF_CONTROLLER;
-            } else if (button.equals("Add Staff")){
+            } else if (button.equals("Add Staff")) {
                 url = ADD_STAFF_CONTROLLER;
             }
         } finally {
