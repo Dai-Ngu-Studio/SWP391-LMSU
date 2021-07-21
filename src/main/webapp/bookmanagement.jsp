@@ -181,11 +181,16 @@
                                                 <td style="text-align: left">${book.title}</td>
                                                 <td style="text-align: right">${book.quantity}</td>
                                                 <td style="text-align: center">
-                                                    <c:if test="${book.quantity > 0}">
-                                                        <label class="badge badge-success">Available</label>
+                                                    <c:if test="${not empty bookAuthorMap.get(book.bookID)}">
+                                                        <c:if test="${book.quantity > 0}">
+                                                            <label class="badge badge-success">Available</label>
+                                                        </c:if>
+                                                        <c:if test="${book.quantity == 0}">
+                                                            <label class="badge badge-warning">Unavailable</label>
+                                                        </c:if>
                                                     </c:if>
-                                                    <c:if test="${book.quantity == 0}">
-                                                        <label class="badge badge-danger">Unavailable</label>
+                                                    <c:if test="${empty bookAuthorMap.get(book.bookID)}">
+                                                        <label class="badge badge-danger">Invalid author</label>
                                                     </c:if>
                                                 </td>
                                                 <td style="text-align: center">
