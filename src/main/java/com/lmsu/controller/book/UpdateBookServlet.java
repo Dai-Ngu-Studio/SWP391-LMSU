@@ -18,11 +18,12 @@ import java.sql.SQLException;
 public class UpdateBookServlet extends HttpServlet {
     private final String SEARCH_CONTROLLER = "SearchTitleServlet";
     private final String SHOW_BOOK_CONTROLLER = "ShowBookServlet";
-    //private final String SEARCH_CONTROLLER = "SearchTitleServlet";
+    private final String SEARCH_INVALID_BOOK_CONTROLLER = "SearchInvalidBook";
     static final Logger LOGGER = Logger.getLogger(UpdateBookServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String isShowInvalid = request.getParameter("showInvalidList") != null ? request.getParameter("showInvalidList") : "";
 
         String url = SHOW_BOOK_CONTROLLER;
 
@@ -62,7 +63,9 @@ public class UpdateBookServlet extends HttpServlet {
             authorBookMapDAO.updateMap(authorIDs,bookID);
             boolean result = dao.updateBook(bookID, title, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, ISBN_ten, ISBN_thirteen, coverFile);
             if (result) {
-                if (searchVal == null || searchVal.trim().isEmpty()) {
+                if (isShowInvalid.equals("True")) {
+                    url = SEARCH_INVALID_BOOK_CONTROLLER;
+                } else if (searchVal == null || searchVal.trim().isEmpty()) {
                     url = SHOW_BOOK_CONTROLLER;
                 } else {
                     url = SEARCH_CONTROLLER;
