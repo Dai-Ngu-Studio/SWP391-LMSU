@@ -15,10 +15,14 @@ public class DeleteBookServlet extends HttpServlet {
     private final String SEARCH_PAGE = "bookmanagement.jsp";
     private final String SEARCH_CONTROLLER = "SearchTitleServlet";
     private final String SHOW_BOOK_CONTROLLER="ShowBookServlet";
+    private final String SEARCH_INVALID_BOOK_CONTROLLER = "SearchInvalidBook";
+
     static final Logger LOGGER = Logger.getLogger(DeleteBookServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
+        String isShowInvalid = request.getParameter("showInvalidList") != null ? request.getParameter("showInvalidList") : "";
+
         String url = SEARCH_PAGE;
 
         String id = request.getParameter("pk");
@@ -27,10 +31,12 @@ public class DeleteBookServlet extends HttpServlet {
             BookDAO dao = new BookDAO();
             boolean result = dao.deleteBook(id);
             if (result){
-                if (searchVal==null || searchVal.trim().isEmpty()){
-                    url=SHOW_BOOK_CONTROLLER;
-                } else{
-                    url=SEARCH_CONTROLLER;
+                if (isShowInvalid.equals("True")) {
+                    url = SEARCH_INVALID_BOOK_CONTROLLER;
+                } else if (searchVal == null || searchVal.trim().isEmpty()) {
+                    url = SHOW_BOOK_CONTROLLER;
+                } else {
+                    url = SEARCH_CONTROLLER;
                 }
             }
 //            if(result) {
