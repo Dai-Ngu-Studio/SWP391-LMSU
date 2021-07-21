@@ -20,19 +20,16 @@ public class SearchAuthorNameServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String search = request.getParameter("txtSearchValue");
-        System.out.println(search);
+        String search = request.getParameter("txtSearchValue") != null ? request.getParameter("txtSearchValue") : "";
         String url = ERROR_PAGE;
         try {
             if (search.trim().length() > 0) {
                 AuthorDAO dao = new AuthorDAO();
                 dao.searchAuthorByName(search);
                 List<AuthorDTO> list = dao.getAuthorList();
-                if (!list.isEmpty()) {
-                    request.setAttribute("SEARCH_RESULT", list);
-                    url = RESULT_PAGE;
-                }
+                request.setAttribute("SEARCH_RESULT", list);
             }
+            url = RESULT_PAGE;
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
             log("SearchTitleServlet _ SQL: " + ex.getMessage());
