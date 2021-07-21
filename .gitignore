@@ -112,3 +112,5 @@ fabric.properties
 # Context.xml contains user pass database which differenent from many contributors. Do not push it
 ../../../../webapp/META-INF/context.xml
 src/main/webapp/META-INF/context.xml
+
+images/
