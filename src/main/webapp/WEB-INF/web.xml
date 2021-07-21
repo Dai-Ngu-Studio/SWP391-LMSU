@@ -5,7 +5,7 @@
          version="4.0">
     <welcome-file-list>
         <welcome-file>
-            login.html
+            IndexServlet
         </welcome-file>
     </welcome-file-list>
     <listener>
@@ -36,4 +36,12 @@
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
+    <filter>
+        <filter-name>FilterController</filter-name>
+        <filter-class>com.lmsu.filter.FilterController</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FilterController</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>
