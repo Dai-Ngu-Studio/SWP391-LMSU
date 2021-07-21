@@ -252,6 +252,47 @@ public class OrderItemDAO implements Serializable {
         }
     }
 
+    public void getOrderItemsFromReturnOrderID(int returnOrderID)
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [id], [orderID], [bookID], [lendStatus], " +
+                        "[returnDeadline], [lendDate], [returnDate], [penaltyAmount], [penaltyStatus], [returnOrderID] " +
+                        "FROM [OrderItems] " +
+                        "WHERE [returnOrderID] = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, returnOrderID);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    if (this.orderItemList == null) {
+                        this.orderItemList = new ArrayList<>();
+                    }
+                    OrderItemDTO dto = new OrderItemDTO();
+                    dto.setId(rs.getInt("id"));
+                    dto.setOrderID(rs.getInt("orderID"));
+                    dto.setBookID(rs.getString("bookID"));
+                    dto.setLendStatus(rs.getInt("lendStatus"));
+                    dto.setReturnDeadline(rs.getDate("returnDeadline"));
+                    dto.setLendDate(rs.getDate("lendDate"));
+                    dto.setReturnDate(rs.getDate("returnDate"));
+                    dto.setPenaltyAmount(rs.getBigDecimal("penaltyAmount"));
+                    dto.setPenaltyStatus(rs.getInt("penaltyStatus"));
+                    dto.setReturnOrderID(rs.getInt("returnOrderID"));
+                    this.orderItemList.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
+
     /**
      * @param id         id of order item
      * @param lendStatus status of order item

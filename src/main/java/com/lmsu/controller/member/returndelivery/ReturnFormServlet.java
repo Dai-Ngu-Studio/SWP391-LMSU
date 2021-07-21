@@ -19,8 +19,6 @@ public class ReturnFormServlet extends HttpServlet {
     private final String ATTR_RETURN_CART = "RETURN_CART";
     private final String INDEX_CONTROLLER = "IndexServlet";
 
-    private final String ATTR_CHECKOUT_RESERVE = "CHECKOUT_RESERVE";
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 

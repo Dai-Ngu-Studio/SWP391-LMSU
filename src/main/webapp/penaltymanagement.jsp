@@ -24,7 +24,6 @@
     <%-- inject:css --%>
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
     <%-- endinject --%>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/1.3.0/css/searchPanes.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css">
     <link rel="shortcut icon" href="images/images/favicon.png"/>

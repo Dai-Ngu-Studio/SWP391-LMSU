@@ -143,7 +143,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                         boolean deliveryOrderAddResult = deliveryOrderDAO
                                                 .addDeliveryOrder(orderID, phoneNumber,
                                                         deliveryAddressOne, deliveryAddressTwo, city, district, ward,
-                                                        receiverName, DELIVERY_NOT_RETURN);
+                                                        receiverName);
                                         if (deliveryOrderAddResult) {
                                             conn.commit();
                                             // 10.a

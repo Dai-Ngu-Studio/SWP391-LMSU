@@ -81,21 +81,11 @@ public class ReviewOrderServlet extends HttpServlet {
                         // 3.1 Check if items existed
                         if (returnObj.getReturnItems() != null) {
                             if (btMethod.equals(BTACTION_RETURN)) {
-                                String receiverName = request.getParameter(PARAM_RECEIVERNAME);
-                                String phoneNumber = request.getParameter(PARAM_PHONENUMBER);
-                                String deliveryAddressOne = request.getParameter(PARAM_ADDRESSONE);
-                                String deliveryAddressTwo = request.getParameter(PARAM_ADDRESSTWO);
-                                String city = request.getParameter(PARAM_CITY);
-                                String district = request.getParameter(PARAM_DISTRICT);
-                                String ward = request.getParameter(PARAM_WARD);
-                                session.setAttribute(ATTR_CHECKOUT_RECEIVERNAME, receiverName);
-                                session.setAttribute(ATTR_CHECKOUT_PHONENUMBER, phoneNumber);
-                                session.setAttribute(ATTR_CHECKOUT_ADDRESSONE, deliveryAddressOne);
-                                session.setAttribute(ATTR_CHECKOUT_ADDRESSTWO, deliveryAddressTwo);
-                                session.setAttribute(ATTR_CHECKOUT_CITY, city);
-                                session.setAttribute(ATTR_CHECKOUT_DISTRICT, district);
-                                session.setAttribute(ATTR_CHECKOUT_WARD, ward);
-                                session.setAttribute(ATTR_CHECKOUT_METHOD, true);
+                                String txtPickupDate = request.getParameter(PARAM_PICKUPDATE);
+                                String txtPickupTime = request.getParameter(PARAM_PICKUPTIME);
+                                session.setAttribute(ATTR_CHECKOUT_PICKUPDATE, txtPickupDate);
+                                session.setAttribute(ATTR_CHECKOUT_PICKUPTIME, txtPickupTime);
+                                session.setAttribute(ATTR_CHECKOUT_METHOD, false);
                                 url = REVIEW_RETURN_ORDER_PAGE;
                                 session.removeAttribute("RETURN_BOOK");
                             }

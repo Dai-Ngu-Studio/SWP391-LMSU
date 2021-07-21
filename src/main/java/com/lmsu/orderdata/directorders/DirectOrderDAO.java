@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.sql.*;
 
 public class DirectOrderDAO implements Serializable {
+    //isReturnOrder - true: return to library; false: dỉrect method
     private Connection conn;
 
     public DirectOrderDAO() {
@@ -16,17 +17,18 @@ public class DirectOrderDAO implements Serializable {
         this.conn = conn;
     }
 
-    public boolean addDirectOrder(int orderID, Timestamp scheduledTime)
+    public boolean addDirectOrder(int orderID, Timestamp scheduledTime, boolean isReturnOrder)
             throws SQLException, NamingException {
         PreparedStatement stm = null;
         try {
             if (conn != null) {
                 String sql = "INSERT INTO [DirectOrder] " +
-                        "([orderID], [scheduledTime]) " +
-                        "VALUES(?, ?) ";
+                        "([orderID], [scheduledTime], [isReturnOrder]) " +
+                        "VALUES(?, ?, ?) ";
                 stm = conn.prepareStatement(sql);
                 stm.setInt(1, orderID);
                 stm.setTimestamp(2, scheduledTime);
+                stm.setBoolean(3, isReturnOrder);
                 int row = stm.executeUpdate();
                 if (row > 0) {
                     return true;
@@ -47,7 +49,7 @@ public class DirectOrderDAO implements Serializable {
         try {
             con = DBHelpers.makeConnection();
             if (con != null) {
-                String sql = "SELECT [orderID], [librarianID], [scheduledTime] " +
+                String sql = "SELECT [orderID], [librarianID], [scheduledTime], [isReturnOrder] " +
                         "FROM [DirectOrder] " +
                         "WHERE [orderID] = ? ";
                 stm = con.prepareStatement(sql);
@@ -57,10 +59,12 @@ public class DirectOrderDAO implements Serializable {
                     int orderIDVal = rs.getInt("orderID");
                     String librarianID = rs.getString("librarianID");
                     Timestamp scheduledTime = rs.getTimestamp("scheduledTime");
+                    boolean isReturnOrder = rs.getBoolean("isReturnOrder");
                     DirectOrderDTO dto = new DirectOrderDTO();
                     dto.setOrderID(orderIDVal);
                     dto.setLibrarianID(librarianID);
                     dto.setScheduledTime(scheduledTime);
+                    dto.setReturnOrder(isReturnOrder);
                     return dto;
                 }
             }

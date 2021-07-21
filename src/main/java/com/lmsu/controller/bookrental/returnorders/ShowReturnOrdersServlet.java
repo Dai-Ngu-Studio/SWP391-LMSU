@@ -1,4 +1,4 @@
-package com.lmsu.controller.bookrental.order;
+package com.lmsu.controller.bookrental.returnorders;
 
 import com.lmsu.bean.orderdata.DeliveryOrderObj;
 import com.lmsu.bean.orderdata.DirectOrderObj;
@@ -27,11 +27,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
-@WebServlet(name = "ShowOrdersServlet", value = "/ShowOrdersServlet")
-public class ShowOrdersServlet extends HttpServlet {
+@WebServlet(name = "ShowReturnOrdersServlet", value = "/ShowReturnOrdersServlet")
+public class ShowReturnOrdersServlet extends HttpServlet {
 
-    static final Logger LOGGER = Logger.getLogger(ShowOrdersServlet.class);
-    private final String BOOK_RENTAL_MANAGEMENT_PAGE = "bookrentalmanagement.jsp";
+    static final Logger LOGGER = Logger.getLogger(ShowReturnOrdersServlet.class);
+    private final String RETURN_MANAGEMENT_PAGE = "returnmanagement.jsp";
 
     private final int BOTH_METHOD = 5;
     private final int ORDER_CANCELLED = -1;
@@ -50,7 +50,7 @@ public class ShowOrdersServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String url = BOOK_RENTAL_MANAGEMENT_PAGE;
+        String url = RETURN_MANAGEMENT_PAGE;
         try {
             OrderDAO orderDAO = new OrderDAO();
             OrderItemDAO orderItemDAO = new OrderItemDAO();
@@ -65,9 +65,7 @@ public class ShowOrdersServlet extends HttpServlet {
                             BOTH_METHOD,
                             new ArrayList<Integer>(
                                     Arrays.asList(
-                                            ORDER_PENDING, ORDER_OVERDUE,
-                                            ORDER_APPROVED, ORDER_RECEIVED, ORDER_RETURNED,
-                                            ORDER_REJECTED, ORDER_CANCELLED, ORDER_RESERVE_ONLY
+                                            ORDER_RETURN_SCHEDULED, ORDER_RETURN_RETURNED
                                     )));
             //--------------------------------------------------
             List<OrderDTO> orders = orderDAO.getOrderList();
@@ -84,7 +82,7 @@ public class ShowOrdersServlet extends HttpServlet {
                     orderObj.setActiveStatus(orderDTO.getActiveStatus());
 
                     orderItemDAO.clearOrderItemList();
-                    orderItemDAO.getOrderItemsFromOrderID(orderDTO.getId());
+                    orderItemDAO.getOrderItemsFromReturnOrderID(orderDTO.getId());
                     List<OrderItemDTO> orderItems = orderItemDAO.getOrderItemList();
                     List<OrderItemObj> orderItemObjs = new ArrayList<>();
                     for (OrderItemDTO orderItemDTO : orderItems) {

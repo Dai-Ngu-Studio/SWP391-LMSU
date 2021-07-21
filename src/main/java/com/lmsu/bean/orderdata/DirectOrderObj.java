@@ -16,4 +16,5 @@ class DirectOrderObj implements Serializable {
     private String librarianID;
     private String librarianName;
     private Timestamp scheduledTime;
+    private boolean isReturnOrder;
 }

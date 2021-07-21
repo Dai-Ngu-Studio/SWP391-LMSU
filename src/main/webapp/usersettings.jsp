@@ -48,7 +48,8 @@
                                     class="ti-user"></i> Account
                                 Information</a>
                             <c:if test="${profile.roleID eq '1'}">
-                                <a class="list-group-item list-group-item-action" id="list-security-list" data-toggle="list"
+                                <a class="list-group-item list-group-item-action" id="list-security-list"
+                                   data-toggle="list"
                                    href="#list-security" role="tab" aria-controls="security"><i class="ti-lock"></i>
                                     Security</a>
                             </c:if>
@@ -540,39 +541,8 @@
                                                                              </textarea>
                                                                         </div>
                                                                     </div>
-
-                                                                    <script>
-                                                                        function validExtendDate(itemid) {
-                                                                            let dateRow = $("#txtDate" + itemid);
-                                                                            console.log(dateRow);
-                                                                            var xhttp;
-                                                                            xhttp = new XMLHttpRequest();
-                                                                            let invalidText = `<div class="row" id="rowInvalidText">
-                                                                                            <div class="col-12 text-left">
-                                                                                                <small class="text-danger">
-                                                                                                    Please don't choose a date that's below your current deadline
-                                                                                                    (Current Deadline: ${orderItem.returnDeadline.toLocalDate()})
-                                                                                                </small>
-                                                                                            </div>
-                                                                                        </div>`;
-                                                                            xhttp.onreadystatechange = function () {
-                                                                                if (this.readyState === 4 && this.status === 200) {
-                                                                                    if (this.responseText.localeCompare('false') == 0) {
-                                                                                        $("#rowExtendDate" + itemid).append(invalidText);
-                                                                                        $("#btnSave"+itemid).attr('disabled', '').addClass("btn-secondary").removeClass("btn-primary");
-                                                                                    }
-                                                                                    else {
-                                                                                        $("#rowInvalidText").remove();
-                                                                                        $("#btnSave" + itemid).removeAttr('disabled').addClass("btn-primary").removeClass("btn-secondary");
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                            xhttp.open("GET", 'RenewalTimeValidationServlet?orderItemID=' + itemid + '&txtExtendDate=' + dateRow.val(), true);
-                                                                            xhttp.send();
-                                                                        }
-                                                                    </script>
-
-                                                                    <div class="form-group row" id="rowExtendDate${orderItem.id}">
+                                                                    <div class="form-group row"
+                                                                         id="rowExtendDate${orderItem.id}">
                                                                         <label class="col-sm-3 col-form-label">
                                                                             Extend Date
                                                                         </label>
@@ -586,15 +556,47 @@
                                                                             >
                                                                         </div>
                                                                     </div>
+                                                                    <script>
+                                                                        $(document).ready(function () {
+                                                                            let $rowExtDate${orderItem.id} = $("#rowExtendDate" + ${orderItem.id});
+                                                                            let $contInvalid${orderItem.id} = $('<div>')
+                                                                                .attr('id', 'contInvalid${orderItem.id}')
+                                                                                .addClass('row contInvalid').appendTo($rowExtDate${orderItem.id});
+                                                                            let $colInvalid${orderItem.id} = $('<div>')
+                                                                                .addClass('col-12 text-left').appendTo($contInvalid${orderItem.id});
+                                                                            let $txtInvalid${orderItem.id} = $('<small>')
+                                                                                .addClass('text-danger')
+                                                                                .text('The date chosen is before your current deadline (${orderItem.returnDeadline.toLocalDate()}). Please choose a later date.')
+                                                                                .appendTo($colInvalid${orderItem.id});
+                                                                            $("#contInvalid" + ${orderItem.id}).hide();
+                                                                        });
 
+                                                                        function validExtendDate(itemid) {
+                                                                            let dateRow = $("#txtDate" + itemid);
+                                                                            var xhttp;
+                                                                            xhttp = new XMLHttpRequest();
+                                                                            xhttp.onreadystatechange = function () {
+                                                                                if (this.readyState === 4 && this.status === 200) {
+                                                                                    if (this.responseText.localeCompare('false') == 0) {
+                                                                                        $("#contInvalid" + itemid).show();
+                                                                                        $("#btnSave" + itemid).attr('disabled', '').addClass("btn-secondary").removeClass("btn-primary");
+                                                                                    } else {
+                                                                                        $("#contInvalid" + itemid).hide();
+                                                                                        $("#btnSave" + itemid).removeAttr('disabled').addClass("btn-primary").removeClass("btn-secondary");
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                            xhttp.open("GET", 'RenewalTimeValidationServlet?orderItemID=' + itemid + '&txtExtendDate=' + dateRow.val(), true);
+                                                                            xhttp.send();
+                                                                        }
+                                                                    </script>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="submit"
                                                                             class="btn btn-primary"
                                                                             name="btAction"
                                                                             value="Renew Book"
-                                                                            id="btnSave${orderItem.id}"
-                                                                    >
+                                                                            id="btnSave${orderItem.id}">
                                                                         Yes
                                                                     </button>
                                                                     <button type="button"

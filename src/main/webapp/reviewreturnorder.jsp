@@ -28,131 +28,82 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title text-dark">Review your Order</div>
-                        <c:if test="${not requestScope.CHECKOUT_RESERVE}">
-
-                            <%--Start: Delivery Method--%>
-                            <c:if test="${sessionScope.CHECKOUT_METHOD}">
-                                <form action="CheckoutReturnDeliveryServlet" method="POST">
-                                    <div class="card-text">
-                                        <div class="form-group row">
-                                            <label class="col-3 col-form-label" for="txtReceiverName">Receiver
-                                                Name</label>
-                                            <input class="text-black col-8" type="text"
-                                                   value="${sessionScope.CHECKOUT_RECEIVERNAME}"
-                                                   id="txtReceiverName" name="txtReceiverName" disabled
-                                            />
-                                            <div class="col-1"></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-3 col-form-label" for="txtPhoneNumber">Phone
-                                                Number</label>
-                                            <input class="text-black col-8" type="text"
-                                                   value="${sessionScope.CHECKOUT_PHONENUMBER}"
-                                                   id="txtPhoneNumber" name="txtPhoneNumber" disabled
-                                            />
-                                            <div class="col-1"></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-3 col-form-label" for="txtAddressOne">Street
-                                                Address</label>
-                                            <input class="text-black col-8" type="text"
-                                                   value="${sessionScope.CHECKOUT_ADDRESSONE}"
-                                                   id="txtAddressOne" name="txtAddressOne" disabled
-                                            />
-                                            <div class="col-1"></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-3 col-form-label" for="txtAddressTwo">Residence
-                                                Address</label>
-                                            <input class="text-black col-8" type="text"
-                                                   value="${sessionScope.CHECKOUT_ADDRESSTWO}"
-                                                   id="txtAddressTwo" name="txtAddressTwo" disabled
-                                            />
-                                            <div class="col-1"></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-3 col-form-label" for="txtCity">City</label>
-                                            <input class="text-black col-8" type="text"
-                                                   value="${sessionScope.CHECKOUT_CITY}"
-                                                   id="txtCity" name="txtCity" disabled
-                                            />
-                                            <div class="col-1"></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-3 col-form-label" for="txtDistrict">District</label>
-                                            <input class="text-black col-8" type="text"
-                                                   value="${sessionScope.CHECKOUT_DISTRICT}"
-                                                   id="txtDistrict" name="txtDistrict" disabled
-                                            />
-                                            <div class="col-1"></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-3 col-form-label" for="txtWard">Ward</label>
-                                            <input class="text-black col-8" type="text"
-                                                   value="${sessionScope.CHECKOUT_WARD}"
-                                                   id="txtWard" name="txtWard" disabled
-                                            />
-                                            <div class="col-1"></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-3 col-form-label" for="cartTable">Your Items</label>
-                                            <div class="col-8 px-0">
-                                                <c:set var="books" value="${sessionScope.RETURN_CART.returnItems}"/>
-                                                <table class="table table-striped table-bordered"
-                                                       id="cartTable" name="cartTable">
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="text-right">#</th>
-                                                        <th>Book Title</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <c:forEach var="book" items="${books}" varStatus="bookCounter">
-                                                        <tr>
-                                                            <td class="text-right">
-                                                                    ${bookCounter.count}
-                                                            </td>
-                                                            <td>
-                                                                    ${book.value.title}
-                                                            </td>
-                                                        </tr>
-                                                    </c:forEach>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div class="col-1"></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-3">
-                                                <div class="row">
-                                                    <a type="button"
-                                                       class="col-4 btn btn-outline-secondary btn-block col-form-label mx-3"
-                                                       href="returnform.jsp" for="btnReturnOrder">
-                                                        <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
-                                                        Edit
-                                                    </a>
-                                                    <div class="col-8"></div>
-                                                </div>
-                                            </div>
-                                            <div class="col-8">
-                                                <div class="row">
-                                                    <div class="col-3"></div>
-                                                    <button type="submit" class="col-6 btn btn-success btn-block"
-                                                            id="btnDeliveryOrder"
-                                                            name="btAction" value="ConfirmDeliveryOrder">
-                                                        <i class="ti-truck" aria-hidden="true"></i>
-                                                        Place Order
-                                                    </button>
-                                                    <div class="col-3"></div>
-                                                </div>
-                                            </div>
-                                            <div class="col-1"></div>
+                        <form action="CheckoutReturnDirectServlet" method="POST">
+                            <div class="card-text">
+                                <div class="form-group row">
+                                    <label class="col-3 col-form-label" for="txtPickupDate">Date of
+                                        Pick-up</label>
+                                    <input class="text-black-50 col-8" type="text"
+                                           value="${sessionScope.CHECKOUT_PICKUP_DATE}"
+                                           id="txtPickupDate" name="txtPickupDate" disabled
+                                    />
+                                    <div class="col-1"></div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-3 col-form-label" for="txtPickupTime">Time of
+                                        Pick-up</label>
+                                    <input class="text-black col-8" type="text"
+                                           value="${sessionScope.CHECKOUT_PICKUP_TIME}"
+                                           id="txtPickupTime" name="txtPickupDate" disabled
+                                    />
+                                    <div class="col-1"></div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-3 col-form-label" for="cartTable">Your Items</label>
+                                    <div class="col-8 px-0">
+                                        <c:set var="books" value="${sessionScope.RETURN_CART.returnItems}"/>
+                                        <table class="table table-striped table-bordered"
+                                               id="cartTable" name="cartTable">
+                                            <thead>
+                                            <tr>
+                                                <th class="text-right">#</th>
+                                                <th>Book Title</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <c:forEach var="book" items="${books}" varStatus="bookCounter">
+                                                <tr>
+                                                    <td class="text-right">
+                                                            ${bookCounter.count}
+                                                    </td>
+                                                    <td>
+                                                            ${book.value.title}
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-1"></div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-3">
+                                        <div class="row">
+                                            <a type="button"
+                                               class="col-4 btn btn-outline-secondary btn-block col-form-label mx-3"
+                                               href="OrderFormServlet" for="btnDirectOrder">
+                                                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+                                                Edit
+                                            </a>
+                                            <div class="col-8"></div>
                                         </div>
                                     </div>
-                                </form>
-                            </c:if>
-                            <%--End: Delivery Method--%>
-                        </c:if>
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <div class="col-3"></div>
+                                            <button type="submit" class="col-6 btn btn-success btn-block"
+                                                    id="btnDirectOrder"
+                                                    name="btAction" value="ConfirmDirectOrder">
+                                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                                Place Order
+                                            </button>
+                                            <div class="col-3"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-1"></div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
