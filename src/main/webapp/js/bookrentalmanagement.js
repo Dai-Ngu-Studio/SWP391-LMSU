@@ -123,25 +123,29 @@ function checkDirectOrderStatus(orderID) {
         },
         datatype: 'json',
         success: function (orderInformation) {
-            // Load order status
-            $('.lbOrderStat')
-                .filter(`[orderid='${orderID}']`)
-                .find('p, label')
-                .attr('activeStatus', orderInformation.key['activeStatus']);
-            // Load librarian ID
-            if ($('.frmStaffID').filter(`[orderid='${orderID}']`)
-                .find('input').val() === 'N/A') {
-                $('.frmStaffID')
+            if (orderInformation !== null) {
+                // Load order status
+                $('.lbOrderStat')
                     .filter(`[orderid='${orderID}']`)
-                    .find('input')
-                    .val(orderInformation.value['id']);
-                $('.frmStaffName')
-                    .filter(`[orderid='${orderID}']`)
-                    .find('input')
-                    .val(orderInformation.value['name']);
+                    .find('p, label')
+                    .attr('activeStatus', orderInformation.key['activeStatus']);
+                // Load librarian ID
+                if ($('.frmStaffID').filter(`[orderid='${orderID}']`)
+                    .find('input').val() === 'N/A') {
+                    $('.frmStaffID')
+                        .filter(`[orderid='${orderID}']`)
+                        .find('input')
+                        .val(orderInformation.value['id']);
+                    $('.frmStaffName')
+                        .filter(`[orderid='${orderID}']`)
+                        .find('input')
+                        .val(orderInformation.value['name']);
+                }
+                // Load edit buttons
+                loadButtons();
+            } else {
+                alert(`Error processing. Please refresh the page.`);
             }
-            // Load edit buttons
-            loadButtons();
         }
     });
 }
@@ -221,45 +225,49 @@ $(document).ready(function () {
             },
             datatype: 'json',
             success: function (orderInformation) {
-                // Load order status
-                $('.lbOrderStat')
-                    .filter(`[orderid='${orderID}']`)
-                    .find('p, label')
-                    .attr('activeStatus', orderInformation.key['activeStatus']);
-                // Load item status
-                $(orderInformation.value).each(function () {
-                    let orderItemID = this['id'];
-                    $(`#lbItemStat${orderItemID}`).attr('lendStatus', this['lendStatus']);
-                });
-                // Remove approval buttons
-                let orderStat = orderInformation.key['activeStatus'].toString();
-                if ((orderStat !== ORDER_PENDING)
-                    && (orderStat !== ORDER_CANCELLED)) {
-                    $('.contModalApprove').filter(`[orderid='${orderID}']`).remove();
-                    $('.contModalReject').filter(`[orderid='${orderID}']`).remove();
-                    let $frmOrderStat = $('.frmOrderStat').filter(`[orderid='${orderID}']`);
-                    let $contStat = $('<div>').addClass('col-lg-5 col-12').appendTo($frmOrderStat);
-                    let $statOrder = $('<div>')
-                        .addClass('btn btn-block btn-outline-success btn-sm bg-white')
-                        .attr('disabled', 'disabled')
-                        .appendTo($contStat);
-                    let $btnAppr = $('<h3>').appendTo($statOrder);
-                    if (orderStat === ORDER_APPROVED) {
-                        $btnAppr.addClass('fa fa-check-circle text-success')
-                    } else if (orderStat === ORDER_REJECTED) {
-                        $btnAppr.addClass('fa fa-times-circle text-danger')
-                        alert(`Order was rejected by another librarian.`);
+                if (orderInformation !== null) {
+                    // Load order status
+                    $('.lbOrderStat')
+                        .filter(`[orderid='${orderID}']`)
+                        .find('p, label')
+                        .attr('activeStatus', orderInformation.key['activeStatus']);
+                    // Load item status
+                    $(orderInformation.value).each(function () {
+                        let orderItemID = this['id'];
+                        $(`#lbItemStat${orderItemID}`).attr('lendStatus', this['lendStatus']);
+                    });
+                    // Remove approval buttons
+                    let orderStat = orderInformation.key['activeStatus'].toString();
+                    if ((orderStat !== ORDER_PENDING)
+                        && (orderStat !== ORDER_CANCELLED)) {
+                        $('.contModalApprove').filter(`[orderid='${orderID}']`).remove();
+                        $('.contModalReject').filter(`[orderid='${orderID}']`).remove();
+                        let $frmOrderStat = $('.frmOrderStat').filter(`[orderid='${orderID}']`);
+                        let $contStat = $('<div>').addClass('col-lg-5 col-12').appendTo($frmOrderStat);
+                        let $statOrder = $('<div>')
+                            .addClass('btn btn-block btn-outline-success btn-sm bg-white')
+                            .attr('disabled', 'disabled')
+                            .appendTo($contStat);
+                        let $btnAppr = $('<h3>').appendTo($statOrder);
+                        if (orderStat === ORDER_APPROVED) {
+                            $btnAppr.addClass('fa fa-check-circle text-success')
+                        } else if (orderStat === ORDER_REJECTED) {
+                            $btnAppr.addClass('fa fa-times-circle text-danger')
+                            alert(`Order was rejected by another librarian.`);
+                        }
+                    } else if (orderStat === ORDER_PENDING) {
+                        alert(`Order was not processed successfully. Please try again.`);
+                    } else if (orderStat === ORDER_CANCELLED) {
+                        alert(`Order had already been cancelled by the borrower.`);
                     }
-                } else if (orderStat === ORDER_PENDING) {
-                    alert(`Order was not processed successfully. Please try again.`);
-                } else if (orderStat === ORDER_CANCELLED) {
-                    alert(`Order had already been cancelled by the borrower.`);
-                }
-                // Toggle modal off
-                $(`#btnDismissAppr${orderID}`).click();
-                // Load edit buttons
-                if (orderStat === ORDER_APPROVED) {
-                    loadButtons();
+                    // Toggle modal off
+                    $(`#btnDismissAppr${orderID}`).click();
+                    // Load edit buttons
+                    if (orderStat === ORDER_APPROVED) {
+                        loadButtons();
+                    }
+                } else {
+                    alert(`Error processing. Please refresh the page.`);
                 }
             }
         });
@@ -277,45 +285,49 @@ $(document).ready(function () {
             },
             datatype: 'json',
             success: function (orderInformation) {
-                // Load order status
-                $('.lbOrderStat')
-                    .filter(`[orderid='${orderID}']`)
-                    .find('p, label')
-                    .attr('activeStatus', orderInformation.key['activeStatus']);
-                // Load item status
-                $(orderInformation.value).each(function () {
-                    let orderItemID = this['id'];
-                    $(`#lbItemStat${orderItemID}`).attr('lendStatus', this['lendStatus']);
-                });
-                // Remove approval buttons
-                let orderStat = orderInformation.key['activeStatus'].toString();
-                if ((orderStat !== ORDER_PENDING)
-                    && (orderStat !== ORDER_CANCELLED)) {
-                    $('.contModalApprove').filter(`[orderid='${orderID}']`).remove();
-                    $('.contModalReject').filter(`[orderid='${orderID}']`).remove();
-                    let $frmOrderStat = $('.frmOrderStat').filter(`[orderid='${orderID}']`);
-                    let $contStat = $('<div>').addClass('col-lg-5 col-12').appendTo($frmOrderStat);
-                    let $statOrder = $('<div>')
-                        .addClass('btn btn-block btn-outline-danger btn-sm bg-white')
-                        .attr('disabled', 'disabled')
-                        .appendTo($contStat);
-                    let $btnAppr = $('<h3>').appendTo($statOrder);
-                    if (orderStat === ORDER_APPROVED) {
-                        $btnAppr.addClass('fa fa-check-circle text-success')
-                        alert(`Order was approved by another librarian.`);
-                    } else if (orderStat === ORDER_REJECTED) {
-                        $btnAppr.addClass('fa fa-times-circle text-danger')
+                if (orderInformation !== null) {
+                    // Load order status
+                    $('.lbOrderStat')
+                        .filter(`[orderid='${orderID}']`)
+                        .find('p, label')
+                        .attr('activeStatus', orderInformation.key['activeStatus']);
+                    // Load item status
+                    $(orderInformation.value).each(function () {
+                        let orderItemID = this['id'];
+                        $(`#lbItemStat${orderItemID}`).attr('lendStatus', this['lendStatus']);
+                    });
+                    // Remove approval buttons
+                    let orderStat = orderInformation.key['activeStatus'].toString();
+                    if ((orderStat !== ORDER_PENDING)
+                        && (orderStat !== ORDER_CANCELLED)) {
+                        $('.contModalApprove').filter(`[orderid='${orderID}']`).remove();
+                        $('.contModalReject').filter(`[orderid='${orderID}']`).remove();
+                        let $frmOrderStat = $('.frmOrderStat').filter(`[orderid='${orderID}']`);
+                        let $contStat = $('<div>').addClass('col-lg-5 col-12').appendTo($frmOrderStat);
+                        let $statOrder = $('<div>')
+                            .addClass('btn btn-block btn-outline-danger btn-sm bg-white')
+                            .attr('disabled', 'disabled')
+                            .appendTo($contStat);
+                        let $btnAppr = $('<h3>').appendTo($statOrder);
+                        if (orderStat === ORDER_APPROVED) {
+                            $btnAppr.addClass('fa fa-check-circle text-success')
+                            alert(`Order was approved by another librarian.`);
+                        } else if (orderStat === ORDER_REJECTED) {
+                            $btnAppr.addClass('fa fa-times-circle text-danger')
+                        }
+                    } else if (orderStat === ORDER_PENDING) {
+                        alert(`Order was not processed successfully. Please try again.`);
+                    } else if (orderStat === ORDER_CANCELLED) {
+                        alert(`Order had already been cancelled by the borrower.`);
                     }
-                } else if (orderStat === ORDER_PENDING) {
-                    alert(`Order was not processed successfully. Please try again.`);
-                } else if (orderStat === ORDER_CANCELLED) {
-                    alert(`Order had already been cancelled by the borrower.`);
-                }
-                // Toggle modal off
-                $(`#btnDismissReject${orderID}`).click();
-                // Load edit buttons
-                if (orderStat === ORDER_APPROVED) {
-                    loadButtons();
+                    // Toggle modal off
+                    $(`#btnDismissReject${orderID}`).click();
+                    // Load edit buttons
+                    if (orderStat === ORDER_APPROVED) {
+                        loadButtons();
+                    }
+                } else {
+                    alert(`Error processing. Please refresh the page.`);
                 }
             }
         });
@@ -418,36 +430,40 @@ $(document).ready(function () {
             },
             datatype: 'json',
             success: function (orderItems) {
-                for (const item of orderItems) {
-                    // console.log($(item));
-                    let orderItemID = $(item).attr('id');
-                    let lendStatus = $(item).attr('lendStatus');
-                    let lendDate = $(item).attr('lendDate');
-                    let returnDate = $(item).attr('returnDate');
-                    $(`#lbItemStat${orderItemID}`).attr('lendStatus', lendStatus);
-                    if (lendDate) {
-                        $(`#dateLend${orderItemID}`).text(lendDate);
+                if (orderItems!== null) {
+                    for (const item of orderItems) {
+                        // console.log($(item));
+                        let orderItemID = $(item).attr('id');
+                        let lendStatus = $(item).attr('lendStatus');
+                        let lendDate = $(item).attr('lendDate');
+                        let returnDate = $(item).attr('returnDate');
+                        $(`#lbItemStat${orderItemID}`).attr('lendStatus', lendStatus);
+                        if (lendDate) {
+                            $(`#dateLend${orderItemID}`).text(lendDate);
+                        }
+                        if (returnDate) {
+                            $(`#dateReturn${orderItemID}`).text(returnDate);
+                        }
                     }
-                    if (returnDate) {
-                        $(`#dateReturn${orderItemID}`).text(returnDate);
-                    }
+                    let $groupBtn = $('.groupBtnEdit').filter(`[orderid='${orderID}']`);
+                    let $storageBtn = $('.storageBtn').filter(`[orderid='${orderID}']`);
+                    let $btnsEdit = $groupBtn.find(`[orderid='${orderID}']`);
+                    let $btnLoad = $storageBtn.find(`[orderid='${orderID}']`);
+                    $btnsEdit.appendTo($storageBtn);
+                    $btnLoad.appendTo($groupBtn);
+
+                    let $inputsStat = $('.contSlItemStat').filter(`[orderid='${orderID}']`);
+                    let $lbsStat = $('.contItemStat').filter(`[orderid='${orderID}']`);
+                    $inputsStat.hide();
+                    $lbsStat.show();
+
+                    // Check order status after updating lendStatus
+                    checkDirectOrderStatus(orderID);
+                    // Check if buttons should be hidden
+                    loadButtons();
+                } else {
+                    alert(`Error processing. Please refresh the page.`);
                 }
-                let $groupBtn = $('.groupBtnEdit').filter(`[orderid='${orderID}']`);
-                let $storageBtn = $('.storageBtn').filter(`[orderid='${orderID}']`);
-                let $btnsEdit = $groupBtn.find(`[orderid='${orderID}']`);
-                let $btnLoad = $storageBtn.find(`[orderid='${orderID}']`);
-                $btnsEdit.appendTo($storageBtn);
-                $btnLoad.appendTo($groupBtn);
-
-                let $inputsStat = $('.contSlItemStat').filter(`[orderid='${orderID}']`);
-                let $lbsStat = $('.contItemStat').filter(`[orderid='${orderID}']`);
-                $inputsStat.hide();
-                $lbsStat.show();
-
-                // Check order status after updating lendStatus
-                checkDirectOrderStatus(orderID);
-                // Check if buttons should be hidden
-                loadButtons();
             }
         });
     }

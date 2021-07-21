@@ -90,7 +90,6 @@ public class ApproveOrderServlet extends HttpServlet {
                                         .updateOrderItemStatusOfOrder(
                                                 orderID, ITEM_APPROVED, CONNECTION_USE_BATCH);
                                 if (updateOrderItemResult) {
-                                    conn.commit();
                                     // If this is a direct order, call API and update tracking code
                                     if (order.isLendMethod()) {
                                         DeliveryOrderDAO deliveryOrderDAO = new DeliveryOrderDAO();
@@ -105,6 +104,7 @@ public class ApproveOrderServlet extends HttpServlet {
                                         deliveryOrderDAO.updateManagerOfOrder(orderID, staff.getId());
                                         deliveryOrderDAO.updateTrackingCodeOfOrder(orderID, trackingCode);
                                     }
+                                    conn.commit();
                                 }
                             }
                         }
@@ -113,10 +113,6 @@ public class ApproveOrderServlet extends HttpServlet {
                         orderItemDAO.getOrderItemsFromOrderID(orderID);
                         orderItems = orderItemDAO.getOrderItemList();
                         orderInformation = new Pair<>(order, orderItems);
-                        if (conn != null) {
-                            conn.setAutoCommit(true);
-                            conn.close();
-                        }
                     }
                 }
             }
@@ -135,7 +131,22 @@ public class ApproveOrderServlet extends HttpServlet {
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
             log("ApproveOrderServlet _ Exception: " + ex.getMessage());
+            try {
+                conn.rollback();
+            } catch (SQLException exRollback) {
+                LOGGER.error(exRollback.getMessage());
+                log("ApproveOrderServlet _ SQL: " + exRollback.getMessage());
+            }
         } finally {
+            try {
+                if ((conn != null) && (!conn.isClosed())) {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                LOGGER.error(ex.getMessage());
+                log("ApproveOrderServlet _ SQL: " + ex.getMessage());
+            }
             String json = new Gson().toJson(orderInformation);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");

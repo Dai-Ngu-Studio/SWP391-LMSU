@@ -215,10 +215,31 @@ public class CheckoutDeliveryServlet extends HttpServlet {
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
             log("CheckoutDeliveryServlet _ Naming: " + ex.getMessage());
+            try {
+                conn.rollback();
+            } catch (SQLException exRollback) {
+                LOGGER.error(exRollback.getMessage());
+                log("CheckoutDeliveryServlet _ SQL: " + exRollback.getMessage());
+            }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
             log("CheckoutDeliveryServlet _ Exception: " + ex.getMessage());
+            try {
+                conn.rollback();
+            } catch (SQLException exRollback) {
+                LOGGER.error(exRollback.getMessage());
+                log("CheckoutDeliveryServlet _ SQL: " + exRollback.getMessage());
+            }
         } finally {
+            try {
+                if ((conn != null) && (!conn.isClosed())) {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                LOGGER.error(ex.getMessage());
+                log("CheckoutDeliveryServlet _ SQL: " + ex.getMessage());
+            }
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

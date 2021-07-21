@@ -205,10 +205,31 @@ public class CheckoutDirectServlet extends HttpServlet {
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
             log("CheckoutDirectServlet _ Naming: " + ex.getMessage());
+            try {
+                conn.rollback();
+            } catch (SQLException exRollback) {
+                LOGGER.error(exRollback.getMessage());
+                log("CheckoutDirectServlet _ SQL: " + exRollback.getMessage());
+            }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
             log("CheckoutDirectServlet _ Exception: " + ex.getMessage());
+            try {
+                conn.rollback();
+            } catch (SQLException exRollback) {
+                LOGGER.error(exRollback.getMessage());
+                log("CheckoutDirectServlet _ SQL: " + exRollback.getMessage());
+            }
         } finally {
+            try {
+                if ((conn != null) && (!conn.isClosed())) {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                LOGGER.error(ex.getMessage());
+                log("CheckoutDirectServlet _ SQL: " + ex.getMessage());
+            }
             request.getRequestDispatcher(url).forward(request, response);
         }
     }
