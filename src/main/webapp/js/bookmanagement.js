@@ -287,14 +287,14 @@ $(document).ready(function () {
                             <form action="DispatchServlet" enctype="multipart/form-data"
                                 method="POST">
                                 <input type="search" class="form-control"
-                                    style="float: left; width: 250px; border-radius: 0px"
+                                    style="float: left; width: 250px; border-radius: 5px 0 0 5px;"
                                     placeholder="Search"
                                     name="txtSearchValue" value=""
                                     aria-controls="order-listing"
                                     id="searchBox">
                                 <button class="btn btn-primary" type="submit"
                                         name="btAction" value="SearchBook"
-                                        style="border-radius: 0px"><i class="fa fa-search"></i>
+                                        style="border-radius: 0 5px 5px 0;"><i class="fa fa-search"></i>
                                 </button>
 
                                 <button class="btn btn-primary" type="button"
@@ -374,22 +374,40 @@ $(document).ready(function () {
                                 </div>
                             </form>
                             <!--End: Add Book Form-->
-                            <!-- Start: BUTTON AND ADD FILE-->
-                            <form action="DispatchServlet" enctype="multipart/form-data"
-                                method="POST">
+                            <!-- Start: BUTTON ADD FILE-->
+                            <form action="DispatchServlet" 
+                                enctype="multipart/form-data"
+                                method="POST"
+                                id="buttonAddFileNError">
                                 <input type="hidden" name="btAction" value="AddBook">
                                 <input type="hidden" name="isAddFile" value="True">
+                                <input type="hidden" name="showInvalidList" value="True">
                                 <label class="btn btn-primary" style="border-radius: 5px">
                                     <input type="file"
                                         hidden
                                         name="fileAdd"
                                         onchange="form.submit();"
                                     >
-                                    <i class="fas fa-file-plus"></i>
+                                    <i class="far fa-file-plus"></i>
                                 </label>
+<!--                                 <button class="btn btn-primary" type="submit"-->
+<!--                                        name="btAction" value="SearchBook"-->
+<!--                                        style="border-radius: 0px"><i class="far fa-exclamation-square"></i>-->
+<!--                                </button>-->
+                                
+
                             </form>
-                            <!--End: BUTTON AND ADD FILE-->
+                            <!--End: BUTTON ADD FILE-->
                         </div>`;
     $('#book-datatable_wrapper').children().eq(0).children().eq(1).append(fileSearchAdd);
-
+    if ($('#existedInvalidBook').val() == 'true') {
+        let errorButton =`    <button class="btn btn-danger" type="submit"
+                                        style="border-radius: 5px; 
+                                               display: inline-block;
+                                               margin-bottom: 7px;"
+                                        name="btActionSearchInvalidBook" value="Search Invalid Book">
+                                        <i class="fas fa-exclamation-square"></i>
+                                </button>`;
+        $('#buttonAddFileNError').append(errorButton);
+    }
 });
