@@ -18,13 +18,13 @@ $(document).ready(function (){
                                     method="POST">
                                 <input type="search" class="form-control"
                                         placeholder="Search"
-                                        style="float: left; width: 250px;"
+                                        style="float: left; width: 250px; border-radius: 5px 0 0 5px;"
                                         name="txtSearchValue" value=""
                                         aria-controls="order-listing"
                                         id="searchBox">
                                 <button class="btn btn-primary" type="submit"
                                         name="btAction" value="SearchAuthor"
-                                        style="border-radius: 5px"><i class="fa fa-search"></i>
+                                        style="border-radius: 0 5px 5px 0;"><i class="fa fa-search"></i>
                                 </button>
                                 <button class="btn btn-primary" type="button"
                                         style="border-radius: 5px"
