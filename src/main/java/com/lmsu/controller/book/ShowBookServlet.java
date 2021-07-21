@@ -65,7 +65,6 @@ public class ShowBookServlet extends HttpServlet {
                 List<BookDTO> result = bookDAO.getBookList();
                 request.setAttribute("BOOK_LIST", result);
             }
-
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             log("ShowBookServlet _ SQL: " + e.getMessage());
