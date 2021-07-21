@@ -24,5 +24,4 @@ class DeliveryOrderDTO implements Serializable {
     private String district;
     private String ward;
     private String trackingCode;
-    private boolean isReturnOrder;
 }

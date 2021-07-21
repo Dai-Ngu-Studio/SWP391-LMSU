@@ -91,13 +91,14 @@
                 <div class="collapse" id="rental-management">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"><a class="nav-link" href="ShowOrdersServlet">Orders</a></li>
+                        <li class="nav-item"><a class="nav-link" href="ShowReturnOrdersServlet">Returns</a></li>
                         <li class="nav-item"><a class="nav-link" href="ShowRenewalRequestsServlet">Renewals</a></li>
                         <li class="nav-item"><a class="nav-link" href="ShowPenaltiesServlet">Penalties</a></li>
                     </ul>
                 </div>
             </li>
         </c:if>
-        <c:if test="${(role == 1) || (role == 2)}">
+        <c:if test="${(role == 1)}">
 
             <li class="nav-item">
                 <a class="nav-link" href="ShowLogServlet">
@@ -124,7 +125,6 @@
                 </a>
             </li>
         </c:if>
-
     </ul>
 </nav>
 </body>

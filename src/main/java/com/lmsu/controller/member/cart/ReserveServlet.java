@@ -9,7 +9,6 @@ import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.orderdata.orders.OrderDAO;
 import com.lmsu.users.UserDTO;
 import com.lmsu.utils.DBHelpers;
-import com.lmsu.utils.DateHelpers;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -18,12 +17,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +30,7 @@ public class ReserveServlet extends HttpServlet {
     private final String INDEX_CONTROLLER = "IndexServlet"; //W.I.P. temporary (to be changed)
 
     private final boolean DIRECT_METHOD = false;
+    private final boolean DIRECT_NOT_RETURN = false;
 
     private final int ORDER_CANCELLED = -1;
     private final int ORDER_PENDING = 0;
@@ -107,7 +102,7 @@ public class ReserveServlet extends HttpServlet {
                                         // 8. Create Delivery Order
                                         DirectOrderDAO directOrderDAO = new DirectOrderDAO(conn);
                                         boolean directOrderAddResult = directOrderDAO
-                                                .addDirectOrder(orderID, null);
+                                                .addDirectOrder(orderID, null, DIRECT_NOT_RETURN);
                                         if (directOrderAddResult) {
                                             conn.commit();
                                             session.removeAttribute(ATTR_MEMBER_CART);

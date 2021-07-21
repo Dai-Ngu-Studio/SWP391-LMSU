@@ -156,6 +156,7 @@ GO
         orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
         librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
         scheduledTime datetime,
+        isReturnOrder bit NOT NULL		
     );
 
 GO
@@ -174,8 +175,7 @@ GO
 		districtName nvarchar(255),
         ward nvarchar(255),
 		wardName nvarchar(255),
-        trackingCode varchar(255),
-        isReturnOrder bit NOT NULL
+        trackingCode varchar(255)
     );
 
 GO

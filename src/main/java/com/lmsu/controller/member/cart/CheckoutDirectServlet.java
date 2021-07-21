@@ -40,6 +40,7 @@ public class CheckoutDirectServlet extends HttpServlet {
     private final String INDEX_CONTROLLER = "IndexServlet"; //W.I.P. temporary (to be changed)
 
     private final boolean DIRECT_METHOD = false;
+    private final boolean DIRECT_NOT_RETURN = false;
     private final boolean CONNECTION_NO_BATCH = false;
 
     private final int ORDER_CANCELLED = -1;
@@ -138,7 +139,7 @@ public class CheckoutDirectServlet extends HttpServlet {
                                         // 9. Create Delivery Order
                                         DirectOrderDAO directOrderDAO = new DirectOrderDAO(conn);
                                         boolean directOrderAddResult = directOrderDAO
-                                                .addDirectOrder(orderID, schedule);
+                                                .addDirectOrder(orderID, schedule, DIRECT_NOT_RETURN);
                                         if (directOrderAddResult) {
                                             conn.commit();
                                             // 10.a

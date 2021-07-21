@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.sql.*;
 
 public class DeliveryOrderDAO implements Serializable {
-    //isReturnOrder - true: return to library; false: delivery method
+
     private Connection conn;
 
     public DeliveryOrderDAO() {
@@ -19,15 +19,15 @@ public class DeliveryOrderDAO implements Serializable {
     }
 
     public boolean addDeliveryOrder(int orderID, String phoneNumber, String deliveryAddress1, String deliveryAddress2,
-                                    String city, String district, String ward, String receiverName, boolean isReturnOrder)
+                                    String city, String district, String ward, String receiverName)
             throws SQLException, NamingException {
         PreparedStatement stm = null;
         try {
             if (conn != null) {
                 String sql = "INSERT INTO [DeliveryOrder] " +
                         "([orderID], [phoneNumber], [deliveryAddress1], [deliveryAddress2], " +
-                        "[city], [district], [ward], [receiverName], [isReturnOrder]) " +
-                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+                        "[city], [district], [ward], [receiverName]) " +
+                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?) ";
                 stm = conn.prepareStatement(sql);
                 stm.setInt(1, orderID);
                 stm.setString(2, phoneNumber);
@@ -37,7 +37,6 @@ public class DeliveryOrderDAO implements Serializable {
                 stm.setString(6, district);
                 stm.setString(7, ward);
                 stm.setString(8, receiverName);
-                stm.setBoolean(9, isReturnOrder);
                 int row = stm.executeUpdate();
                 if (row > 0) {
                     return true;
@@ -59,7 +58,7 @@ public class DeliveryOrderDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 String sql = "SELECT [orderID], [managerID], [deliverer], [scheduledDeliveryTime], [receiverName], [phoneNumber]," +
-                        "[deliveryAddress1], [deliveryAddress2], [city], [district], [ward], [isReturnOrder] " +
+                        "[deliveryAddress1], [deliveryAddress2], [city], [district], [ward] " +
                         "FROM [DeliveryOrder] " +
                         "WHERE [orderID] = ? ";
                 stm = con.prepareStatement(sql);
@@ -77,7 +76,6 @@ public class DeliveryOrderDAO implements Serializable {
                     String city = rs.getString("city");
                     String district = rs.getString("district");
                     String ward = rs.getString("ward");
-                    boolean isReturnOrder = rs.getBoolean("isReturnOrder");
                     DeliveryOrderDTO dto = new DeliveryOrderDTO();
                     dto.setOrderID(orderIDVal);
                     dto.setManagerID(managerID);
@@ -90,7 +88,6 @@ public class DeliveryOrderDAO implements Serializable {
                     dto.setCity(city);
                     dto.setDistrict(district);
                     dto.setWard(ward);
-                    dto.setReturnOrder(isReturnOrder);
                     return dto;
                 }
             }

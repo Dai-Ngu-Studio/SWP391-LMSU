@@ -140,7 +140,7 @@
             <div class="content-wrapper">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Book Rental</h4>
+                        <h4 class="card-title">Trang nay` chua lam` xong</h4>
                         <div class="row">
                             <div class="table-responsive">
                                 <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
@@ -166,7 +166,7 @@
                                                            varStatus="counter">
                                                     <c:set var="lendMethod" value="${order.value.key.lendMethod}"/>
                                                     <%--Return orders are not shown in this page--%>
-                                                    <c:if test="${not order.key.key.returnOrder}">
+                                                    <c:if test="${order.key.key.returnOrder}">
                                                         <tr>
                                                             <td class="text-center">${counter.count}</td>
                                                             <td class="text-center">
@@ -405,7 +405,7 @@
                                                                         <label class="col-lg-1 col-12 col-form-label">
                                                                             Order Status
                                                                         </label>
-                                                                        <div class="col-lg-5 col-12 lbOrderStat"
+                                                                        <div class="col-lg-11 col-12 lbOrderStat"
                                                                              id="pOrderStat${order.value.key.id}"
                                                                              orderid="${order.value.key.id}">
                                                                             <p class="form-control"
@@ -413,111 +413,6 @@
                                                                                orderid="${order.value.key.id}">
                                                                             </p>
                                                                         </div>
-                                                                        <label class="col-lg-1 col-12 col-form-label">
-                                                                            Approval Status
-                                                                        </label>
-                                                                        <c:choose>
-                                                                            <c:when test="${order.value.key.activeStatus eq 0}">
-                                                                                <div class="col-3 pr-0 contModalApprove"
-                                                                                     orderid="${order.value.key.id}">
-                                                                                    <button type="button"
-                                                                                            class="btn btn-block btn-light btn-sm rounded-0"
-                                                                                            data-toggle="modal"
-                                                                                            data-target="#mdConfirmApprove${order.value.key.id}"
-                                                                                            style="border-top-left-radius: 1rem !important;
-                                                                                    border-bottom-left-radius: 1rem !important">
-                                                                                        <h3 class="fa fa-check-circle text-success"></h3>
-                                                                                    </button>
-                                                                                </div>
-
-                                                                                <div class="col-2 pl-0 contModalReject"
-                                                                                     orderid="${order.value.key.id}">
-                                                                                    <button type="button"
-                                                                                            class="btn btn-block btn-light btn-sm rounded-0"
-                                                                                            data-toggle="modal"
-                                                                                            data-target="#mdConfirmReject${order.value.key.id}"
-                                                                                            style="border-top-right-radius: 1rem !important;
-                                                                                    border-bottom-right-radius: 1rem !important">
-                                                                                        <h3 class="fa fa-times-circle text-danger"></h3>
-                                                                                    </button>
-                                                                                </div>
-                                                                            </c:when>
-                                                                            <c:when test="${(order.value.key.activeStatus eq -1)
-                                                                            or (order.value.key.activeStatus eq 5)}">
-                                                                                <div class="col-lg-5 col-12">
-                                                                                    <div class="btn btn-block btn-outline-danger btn-sm bg-white"
-                                                                                         disabled>
-                                                                                        <h3 class="fa fa-times-circle text-danger"></h3>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </c:when>
-                                                                            <c:otherwise>
-                                                                                <div class="col-lg-5 col-12">
-                                                                                    <div class="btn btn-block btn-outline-success btn-sm bg-white"
-                                                                                         disabled>
-                                                                                        <h3 class="fa fa-check-circle text-success"></h3>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </c:otherwise>
-                                                                        </c:choose>
-                                                                    </div>
-                                                                        <%--Documenting finished work:--%>
-                                                                        <%--Update status for order-%>
-                                                                        <%--update status for order item-%>
-                                                                        <%--AJAX checks if order has been cancelled, rejected or failed to be approved-%>
-                                                                        <%--Received uses SQL current timestamp--%>
-                                                                        <%--Update the dropdown update status after approving--%>
-                                                                        <%--Add Librarian ID, Name of Librarian who changed to received--%>
-                                                                        <%--Only allow update items when order status is not pending, cancelled or reserve only--%>
-                                                                        <%--Order Details Edit Button--%>
-                                                                        <%--Items that can be updated: ITEM_APPROVED, ITEM_RECEIVED, ITEM_OVERDUE, ITEM_LOST--%>
-                                                                        <%--Item Status direction:
-                                                                        PENDING -> APPROVED (using approve button),
-                                                                        APPROVED -> RECEIVED (using update button),
-                                                                        OVERDUE is determined by system (system check is to be implemented),
-                                                                        LOST is determined by system (~),
-                                                                        OVERDUE -> OVERDUE_RETURNED (opposite direction is a lot of coding overhead),
-                                                                        LOST -> OVERDUE_RETURNED (~)
-                                                                        --%>
-                                                                        <%--Overdue can only be updated to overdue returned--%>
-                                                                        <%--AJAX check if all items status
-                                                                        then update order status accordingly--%>
-                                                                        <%--ITEMs that are scheduled for return are not concerned by Librarian, not allow updating,
-                                                                        system will update when Manager received--%>
-                                                                        <%--Notify when cancelled, rejected--%>
-                                                                        <%--Librarian can't update item with status scheduled return,
-                                                                        only manager can update--%>
-                                                                        <%--Reserve only order can't be approved or updated--%>
-                                                                        <%--Some to-do: --%>
-                                                                        <%--Add Status Lock button to prevent accidental update--%>
-                                                                        <%--CANCELLED is either by member or system do 1 day after scheduled date--%>
-                                                                    <div class="row">
-                                                                        <div class="col-12 text-center">
-                                                                            <div class="btn-group groupBtnEdit"
-                                                                                 orderID="${order.value.key.id}">
-                                                                                <button type="button"
-                                                                                        class="btn btn-light"
-                                                                                        orderID="${order.value.key.id}">
-                                                                                    <h4 class="fa fa-pencil text-primary"></h4>
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                        <%--Place to swap buttons in and out of view--%>
-                                                                    <div class="row storageBtn"
-                                                                         id="hiddenBtnStorage${order.value.key.id}"
-                                                                         orderID="${order.value.key.id}"
-                                                                         hidden>
-                                                                        <button type="button" class="btn btn-light"
-                                                                                orderID="${order.value.key.id}"
-                                                                                role="confirmEdit">
-                                                                            <h4 class="fa fa-check text-success"></h4>
-                                                                        </button>
-                                                                        <button type="button" class="btn btn-light"
-                                                                                orderID="${order.value.key.id}"
-                                                                                role="cancelEdit">
-                                                                            <h4 class="fa fa-times text-danger"></h4>
-                                                                        </button>
                                                                     </div>
                                                                     <div class="row">
                                                                         <table class="table table-hover table-responsive w-100 d-block d-xl-table">
@@ -739,7 +634,6 @@
 <script src="js/template.js"></script>
 <script src="js/settings.js"></script>
 <script src="js/todolist.js"></script>
-<script src="js/bookrentalmanagement.js"></script>
 <%-- endinject --%>
 <%-- Custom js for this page--%>
 

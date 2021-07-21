@@ -1,16 +1,3 @@
-/*
-private final int ORDER_CANCELLED = -1;
-    private final int ORDER_PENDING = 0;
-    private final int ORDER_APPROVED = 1;
-    private final int ORDER_RECEIVED = 2;
-    private final int ORDER_RETURNED = 3;
-    private final int ORDER_OVERDUE = 4;
-    private final int ORDER_REJECTED = 5;
-    private final int ORDER_RESERVE_ONLY = 6;
-    private final int ORDER_RETURN_SCHEDULED = 7;
-    private final int ORDER_RETURN_RETURNED = 8;
- */
-
 // DataTable rendering
 $(document).ready(function () {
     $('#rental-datatable').DataTable({
@@ -76,6 +63,12 @@ $(document).ready(function () {
                     ]
                 },
                 targets: [4]
+            },
+            {
+                searchPanes: {
+                    show: true
+                },
+                targets: [1]
             }
         ],
         order: [[1, 'asc']]
@@ -357,6 +350,8 @@ $(document).ready(function () {
     ITEM_STATUS_DIRECTION.set(ITEM_RECEIVED, ITEM_RETURNED);
     ITEM_STATUS_DIRECTION.set(ITEM_OVERDUE, ITEM_OVERDUE_RETURNED);
     ITEM_STATUS_DIRECTION.set(ITEM_LOST, ITEM_OVERDUE_RETURNED);
+    ITEM_STATUS_DIRECTION.set(ITEM_RETURN_SCHEDULED, ITEM_RETURNED);
+    ITEM_STATUS_DIRECTION.set(ITEM_OVERDUE_RETURN_SCHEDULED, ITEM_OVERDUE_RETURNED);
     let baseStats = [...ITEM_STATUS_DIRECTION.keys()];
 
     // Load buttons for editing
@@ -430,7 +425,7 @@ $(document).ready(function () {
             },
             datatype: 'json',
             success: function (orderItems) {
-                if (orderItems!== null) {
+                if (orderItems !== null) {
                     for (const item of orderItems) {
                         // console.log($(item));
                         let orderItemID = $(item).attr('id');
@@ -643,6 +638,8 @@ $(document).ready(function () {
     ITEM_STATUS_DIRECTION.set(ITEM_RECEIVED, ITEM_RETURNED);
     ITEM_STATUS_DIRECTION.set(ITEM_OVERDUE, ITEM_OVERDUE_RETURNED);
     ITEM_STATUS_DIRECTION.set(ITEM_LOST, ITEM_OVERDUE_RETURNED);
+    ITEM_STATUS_DIRECTION.set(ITEM_RETURN_SCHEDULED, ITEM_RETURNED);
+    ITEM_STATUS_DIRECTION.set(ITEM_OVERDUE_RETURN_SCHEDULED, ITEM_OVERDUE_RETURNED);
     let baseStats = [...ITEM_STATUS_DIRECTION.keys()];
 
     const lbItemStat = $('.lbItemStat');

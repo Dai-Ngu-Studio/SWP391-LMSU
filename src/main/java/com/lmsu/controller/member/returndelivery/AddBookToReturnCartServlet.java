@@ -37,7 +37,7 @@ public class AddBookToReturnCartServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = VIEW_USER_SETTING_CONTROLLER;
         String bookID = request.getParameter(PARAM_BOOKID);
-        String orderItemsID = request.getParameter(PARAM_ITEMID);
+        String orderItemID = request.getParameter(PARAM_ITEMID);
 
         try {
             // 1. Check if session existed (default create one if not exist)
@@ -53,26 +53,25 @@ public class AddBookToReturnCartServlet extends HttpServlet {
             // Get BookDTO
             BookDTO bookDTO = bookDAO.getBookById(bookID);
             //get OrderItemDTO
-            OrderItemDTO orderItemDTO = orderItemDAO.getOrderItemByID(Integer.valueOf(orderItemsID));
+            OrderItemDTO orderItemDTO = orderItemDAO.getOrderItemByID(Integer.parseInt(orderItemID));
             if (bookDTO != null && orderItemDTO != null) {
                 // Create OrderItems Bean
                 OrderItemObj orderItemObj = new OrderItemObj();
-                orderItemObj.setId(Integer.valueOf(orderItemsID));
-                orderItemObj.setOrderID(orderItemObj.getOrderID());
-                orderItemObj.setReturnOrderID(orderItemObj.getReturnOrderID());
-                orderItemObj.setMemberID(orderItemObj.getMemberID());
+                orderItemObj.setId(Integer.parseInt(orderItemID));
+                orderItemObj.setOrderID(orderItemDTO.getOrderID());
+                orderItemObj.setReturnOrderID(orderItemDTO.getReturnOrderID());
                 orderItemObj.setBookID(bookID);
                 orderItemObj.setTitle(bookDTO.getTitle());
-                orderItemObj.setLendStatus(orderItemObj.getLendStatus());
-                orderItemObj.setReturnDeadline(orderItemObj.getReturnDeadline());
-                orderItemObj.setLendDate(orderItemObj.getLendDate());
-                orderItemObj.setReturnDate(orderItemObj.getReturnDate());
+                orderItemObj.setLendStatus(orderItemDTO.getLendStatus());
+                orderItemObj.setReturnDeadline(orderItemDTO.getReturnDeadline());
+                orderItemObj.setLendDate(orderItemDTO.getLendDate());
+                orderItemObj.setReturnDate(orderItemDTO.getReturnDate());
                 // 4. Add book to return cart
                 returnCartObj.addBookToReturnCart(orderItemObj);
                 // 5. Save cart on server
                 session.setAttribute(ATTR_RETURN_CART, returnCartObj);
                 // 6. Member continues checking book
-                url = VIEW_USER_SETTING_CONTROLLER + "?" + PARAM_ITEMID + "=" + orderItemsID;
+                url = VIEW_USER_SETTING_CONTROLLER + "?" + PARAM_ITEMID + "=" + orderItemID;
             }
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());

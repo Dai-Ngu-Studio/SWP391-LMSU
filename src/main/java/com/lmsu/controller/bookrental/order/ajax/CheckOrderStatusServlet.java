@@ -22,6 +22,8 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @WebServlet(name = "CheckOrderStatusServlet", value = "/CheckOrderStatusServlet")
@@ -71,6 +73,7 @@ public class CheckOrderStatusServlet extends HttpServlet {
                 int orderID = Integer.parseInt(txtOrderID);
                 OrderDAO orderDAO = new OrderDAO(conn);
                 OrderItemDAO orderItemDAO = new OrderItemDAO(conn);
+                List<Integer> returnOrderIDs = new ArrayList<Integer>();
                 int totalItemAmount = 0;
                 int receivedItemAmount = 0;
                 int returnedItemAmount = 0;
@@ -88,6 +91,9 @@ public class CheckOrderStatusServlet extends HttpServlet {
                         }
                         if ((lendStatus == ITEM_RETURNED) || (lendStatus == ITEM_OVERDUE_RETURNED)) {
                             returnedItemAmount++;
+                            if (orderItem.getReturnOrderID() != 0) {
+                                returnOrderIDs.add(orderItem.getReturnOrderID());
+                            }
                         }
                     }
                 }
@@ -123,6 +129,32 @@ public class CheckOrderStatusServlet extends HttpServlet {
                     String managerID = deliveryOrder.getManagerID();
                     if ((managerID != null) || (!managerID.isEmpty())) {
                         staff = userDAO.getUserByID(managerID);
+                    }
+                }
+
+                // Check return order
+                for (int returnOrderID : returnOrderIDs) {
+                    totalItemAmount = 0;
+                    receivedItemAmount = 0;
+                    returnedItemAmount = 0;
+                    orderItemDAO.clearOrderItemList();
+                    orderItemDAO.getOrderItemsFromReturnOrderID(returnOrderID);
+                    List<OrderItemDTO> returnOrderItems = orderItemDAO.getOrderItemList();
+                    for (OrderItemDTO returnOrderItem : returnOrderItems) {
+                        int lendStatus = returnOrderItem.getLendStatus();
+                        totalItemAmount++;
+                        if (lendStatus == ITEM_RECEIVED) {
+                            receivedItemAmount++;
+                        }
+                        if ((lendStatus == ITEM_RETURNED) || (lendStatus == ITEM_OVERDUE_RETURNED)) {
+                            returnedItemAmount++;
+                        }
+                    }
+                    // If all item status are returned (not counting RESERVED)
+                    // Order Status should be ORDER_RETURNED
+                    if (totalItemAmount == returnedItemAmount) {
+                        orderDAO.updateOrder(returnOrderID, ORDER_RETURNED, CONNECTION_USE_BATCH);
+                        conn.commit();
                     }
                 }
                 orderInformation = new Pair<OrderDTO, UserDTO>(order, staff);

@@ -8,6 +8,7 @@ import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import com.lmsu.controller.member.cart.CheckoutDeliveryServlet;
 import com.lmsu.orderdata.deliveryorders.DeliveryOrderDAO;
+import com.lmsu.orderdata.directorders.DirectOrderDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.orderdata.orders.OrderDAO;
@@ -24,20 +25,25 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "CheckoutReturnDeliveryServlet", value = "/CheckoutReturnDeliveryServlet")
+@WebServlet(name = "CheckoutReturnDirectServlet", value = "/CheckoutReturnDirectServlet")
 public class CheckoutReturnDeliveryServlet extends HttpServlet {
 
     static final Logger LOGGER = Logger.getLogger(CheckoutReturnDeliveryServlet.class);
     private final String SHOW_USER_SETTING_CONTROLLER = "ShowProfileServlet"; //W.I.P. temporary (to be changed)
     private final String INDEX_CONTROLLER = "IndexServlet"; //W.I.P. temporary (to be changed)
 
-    private final boolean DELIVERY_METHOD = true;
-    private final boolean DELIVERY_RETURN = true;
+    private final boolean DIRECT_METHOD = false;
+    private final boolean DIRECT_RETURN = true;
+    private final boolean CONNECTION_NO_BATCH = false;
 
     private final int ORDER_CANCELLED = -1;
     private final int ORDER_PENDING = 0;
@@ -48,6 +54,7 @@ public class CheckoutReturnDeliveryServlet extends HttpServlet {
     private final int ORDER_REJECTED = 5;
     private final int ORDER_RESERVE_ONLY = 6;
     private final int ORDER_RETURN_SCHEDULED = 7;
+    private final int ORDER_RETURN_RETURNED = 8;
 
     private final int ITEM_CANCELLED = -1;
     private final int ITEM_PENDING = 0;
@@ -63,17 +70,15 @@ public class CheckoutReturnDeliveryServlet extends HttpServlet {
     private final int ITEM_RESERVED = 10;
     private final int ITEM_RESERVED_INACTIVE = 11;
 
+    private final int PENALTY_NONE = 0;
+    private final int PENALTY_UNPAID = 1;
+    private final int PENALTY_PAID = 2;
+
     private final String ATTR_RETURN_CART = "RETURN_CART";
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
-    private final String ATTR_RETURN_SUCCESS = "RETURN_SUCCESS";
 
-    private final String ATTR_CHECKOUT_RECEIVERNAME = "CHECKOUT_RECEIVERNAME";
-    private final String ATTR_CHECKOUT_PHONENUMBER = "CHECKOUT_PHONENUMBER";
-    private final String ATTR_CHECKOUT_ADDRESSONE = "CHECKOUT_ADDRESSONE";
-    private final String ATTR_CHECKOUT_ADDRESSTWO = "CHECKOUT_ADDRESSTWO";
-    private final String ATTR_CHECKOUT_CITY = "CHECKOUT_CITY";
-    private final String ATTR_CHECKOUT_DISTRICT = "CHECKOUT_DISTRICT";
-    private final String ATTR_CHECKOUT_WARD = "CHECKOUT_WARD";
+    private final String ATTR_CHECKOUT_PICKUPDATE = "CHECKOUT_PICKUP_DATE";
+    private final String ATTR_CHECKOUT_PICKUPTIME = "CHECKOUT_PICKUP_TIME";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -85,13 +90,8 @@ public class CheckoutReturnDeliveryServlet extends HttpServlet {
             // 1. Check if session existed
             HttpSession session = request.getSession(false);
             if (session != null) {
-                String receiverName = (String) session.getAttribute(ATTR_CHECKOUT_RECEIVERNAME);
-                String phoneNumber = (String) session.getAttribute(ATTR_CHECKOUT_PHONENUMBER);
-                String deliveryAddressOne = (String) session.getAttribute(ATTR_CHECKOUT_ADDRESSONE);
-                String deliveryAddressTwo = (String) session.getAttribute(ATTR_CHECKOUT_ADDRESSTWO);
-                String city = (String) session.getAttribute(ATTR_CHECKOUT_CITY);
-                String district = (String) session.getAttribute(ATTR_CHECKOUT_DISTRICT);
-                String ward = (String) session.getAttribute(ATTR_CHECKOUT_WARD);
+                String txtPickupDate = (String) session.getAttribute(ATTR_CHECKOUT_PICKUPDATE);
+                String txtPickupTime = (String) session.getAttribute(ATTR_CHECKOUT_PICKUPTIME);
                 // 2. Check if cart existed
                 ReturnCartObj returnCartObj = (ReturnCartObj) session.getAttribute(ATTR_RETURN_CART);
                 if (returnCartObj != null) {
@@ -104,38 +104,36 @@ public class CheckoutReturnDeliveryServlet extends HttpServlet {
                             conn = DBHelpers.makeConnection();
                             if (conn != null) {
                                 conn.setAutoCommit(false);
-                                // 5. Get current date, get deadline
+                                // 5. Create Timestamp
+                                LocalDate pickupDate = LocalDate.parse(txtPickupDate);
+                                LocalTime pickupTime = LocalTime.parse(txtPickupTime);
+                                LocalDateTime pickupDateTime = LocalDateTime.of(pickupDate, pickupTime);
+                                Timestamp schedule = Timestamp.valueOf(pickupDateTime);
                                 // 6. Create new order
                                 OrderDAO orderDAO = new OrderDAO(conn);
-                                int orderID = orderDAO.addOrder(userDTO.getId(), DELIVERY_METHOD, ORDER_RETURN_SCHEDULED);
+                                int orderID = orderDAO.addOrder(userDTO.getId(), DIRECT_METHOD, ORDER_RETURN_SCHEDULED);
                                 if (orderID > 0) {
                                     // 7. Traverse items in cart and add to list
                                     OrderItemDAO orderItem_DAO = new OrderItemDAO(conn);
                                     List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
 
                                     for (Integer orderItemsID : cartReturnItems.keySet()) {
-                                        //OrderItemDTO orderItemDTO = new OrderItemDTO();
-                                        //orderItemDTO.setReturnOrderID(orderID);
-
                                         if (orderItem_DAO.getOrderItemByID(orderItemsID).getLendStatus() == ITEM_RECEIVED) {
                                             orderItem_DAO.updateOrderItemReturnOrderIDAndStatus(orderItemsID, orderID, ITEM_RETURN_SCHEDULED);
                                         } else if (orderItem_DAO.getOrderItemByID(orderItemsID).getLendStatus() == ITEM_OVERDUE) {
                                             orderItem_DAO.updateOrderItemReturnOrderIDAndStatus(orderItemsID, orderID, ITEM_OVERDUE_RETURN_SCHEDULED);
                                         }
-                                        //orderItems.add(orderItemDTO);
                                     }// end traverse items in cart
                                     // 8. Add order items
-
-                                    // 9. Create Delivery Order
-                                    DeliveryOrderDAO deliveryOrderDAO = new DeliveryOrderDAO(conn);
-                                    boolean deliveryOrderAddResult = deliveryOrderDAO
-                                            .addDeliveryOrder(orderID, phoneNumber,
-                                                    deliveryAddressOne, deliveryAddressTwo, city, district, ward,
-                                                    receiverName, DELIVERY_RETURN);
-                                    if (deliveryOrderAddResult) {
+                                    // 9. Create Direct Order
+                                    DirectOrderDAO directOrderDAO = new DirectOrderDAO(conn);
+                                    boolean directOrderAddResult = directOrderDAO
+                                            .addDirectOrder(orderID, schedule, DIRECT_RETURN);
+                                    if (directOrderAddResult) {
                                         conn.commit();
                                         session.removeAttribute(ATTR_RETURN_CART);
-
+                                        session.removeAttribute(ATTR_CHECKOUT_PICKUPDATE);
+                                        session.removeAttribute(ATTR_CHECKOUT_PICKUPTIME);
                                         //request.setAttribute(ATTR_RETURN_SUCCESS, true);
                                         url = SHOW_USER_SETTING_CONTROLLER; //W.I.P. temporary (to be changed)
                                     }// end if delivery order created successfully
@@ -151,20 +149,41 @@ public class CheckoutReturnDeliveryServlet extends HttpServlet {
             }// end if session existed
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
-            log("CheckoutReturnDeliveryServlet _ SQL: " + ex.getMessage());
+            log("CheckoutReturnDirectServlet _ SQL: " + ex.getMessage());
             try {
                 conn.rollback();
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
-                log("CheckoutReturnDeliveryServlet _ SQL: " + exRollback.getMessage());
+                log("CheckoutReturnDirectServlet _ SQL: " + exRollback.getMessage());
             }
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
-            log("CheckoutReturnDeliveryServlet _ Naming: " + ex.getMessage());
+            log("CheckoutReturnDirectServlet _ Naming: " + ex.getMessage());
+            try {
+                conn.rollback();
+            } catch (SQLException exRollback) {
+                LOGGER.error(exRollback.getMessage());
+                log("CheckoutReturnDirectServlet _ SQL: " + exRollback.getMessage());
+            }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
-            log("CheckoutReturnDeliveryServlet _ Exception: " + ex.getMessage());
+            log("CheckoutReturnDirectServlet _ Exception: " + ex.getMessage());
+            try {
+                conn.rollback();
+            } catch (SQLException exRollback) {
+                LOGGER.error(exRollback.getMessage());
+                log("CheckoutReturnDirectServlet _ SQL: " + exRollback.getMessage());
+            }
         } finally {
+            try {
+                if ((conn != null) && (!conn.isClosed())) {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                LOGGER.error(ex.getMessage());
+                log("CheckoutReturnDirectServlet _ SQL: " + ex.getMessage());
+            }
             request.getRequestDispatcher(url).forward(request, response);
         }
     }
