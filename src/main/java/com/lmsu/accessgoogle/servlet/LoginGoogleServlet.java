@@ -78,6 +78,7 @@ public class LoginGoogleServlet extends HttpServlet {
                         }
                     }
                 } else {
+                    dao.updateOnProfilePicture(email, profilePicture);
                     UserDTO dto = dao.checkLogin(email, passwordHashed);
                     if (dto != null) {
 //                        session.setAttribute("LOGIN_USER", dto);
