@@ -1,12 +1,9 @@
 package com.lmsu.announcement;
 
-
-import com.lmsu.feedback.FeedbackDTO;
 import com.lmsu.utils.DBHelpers;
 
 import javax.naming.NamingException;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +11,7 @@ import java.util.List;
 public class AnnouncementDAO implements Serializable {
     private List<AnnouncementDTO> announcementList;
 
-    public List<AnnouncementDTO> getAnnouncementList(){
+    public List<AnnouncementDTO> getAnnouncementList() {
         return this.announcementList;
     }
 
@@ -143,5 +140,30 @@ public class AnnouncementDAO implements Serializable {
             if (con != null) con.close();
         }
         return false;
+    }
+
+    public Date getReturnDate() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        Date returnDate = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT returnDeadline FROM Announcement";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    Date returnDeadline = rs.getDate("returnDeadline");
+                    returnDate = returnDeadline;
+                }
+            }
+            return returnDate;
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
     }
 }
