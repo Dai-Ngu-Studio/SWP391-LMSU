@@ -73,13 +73,22 @@ public class SecurityConfig {
         urlPatterns4.add("/dashboard.jsp");
         urlPatterns4.add("/ShowAnnouncementManagementServlet");
         urlPatterns4.add("/ShowRenewalRequestsServlet");
+        urlPatterns4.add("/ShowReturnOrdersServlet");
         urlPatterns4.add("/ShowPenaltiesServlet");
+        urlPatterns4.add("/ShowOrdersServlet");
         urlPatterns4.add("/ShowBookServlet");
         urlPatterns4.add("/ShowAuthorServlet");
         urlPatterns4.add("/ShowSubjectServlet");
         urlPatterns4.add("/ShowMemberServlet");
         urlPatterns4.add("/ShowStaffServlet");
         urlPatterns4.add("/ShowLogServlet");
+        urlPatterns4.add("/ApproveOrderServlet");
+        urlPatterns4.add("/RejectOrderServlet");
+        urlPatterns4.add("/CheckOrderStatusServlet");
+        urlPatterns4.add("/UpdateOrderServlet");
+        urlPatterns4.add("/UpdatePenaltyServlet");
+        urlPatterns4.add("/ApproveRenewalServlet");
+        urlPatterns4.add("/RejectRenewalServlet");
 
         mapConfig.put(ROLE_ADMIN, urlPatterns4);
     }
