@@ -21,9 +21,8 @@ public class ContextListener implements ServletContextListener {
         PropertyConfigurator.configure(fullPath);
 
         //System Handler
-        ScheduleHelper scheduleHelper = new ScheduleHelper();
-        scheduleHelper.dailyTask();
-        scheduleHelper.weeklyTask();
+        ScheduleHelper.dailyTask();
+        ScheduleHelper.weeklyTask();
     }
 
     @Override
