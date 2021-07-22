@@ -373,7 +373,7 @@
                                                                                  orderid="${order.value.key.id}">
                                                                                 <input type="text"
                                                                                        class="form-control"
-                                                                                       value="${order.key.value.city}"
+                                                                                       value="${order.key.value.cityName}"
                                                                                        disabled/>
                                                                             </div>
                                                                         </div>
@@ -385,7 +385,7 @@
                                                                                  orderid="${order.value.key.id}">
                                                                                 <input type="text"
                                                                                        class="form-control"
-                                                                                       value="${order.key.value.district}"
+                                                                                       value="${order.key.value.districtName}"
                                                                                        disabled/>
                                                                             </div>
                                                                             <label class="col-lg-1 col-12 col-form-label">
@@ -395,7 +395,7 @@
                                                                                  orderid="${order.value.key.id}">
                                                                                 <input type="text"
                                                                                        class="form-control"
-                                                                                       value="${order.key.value.ward}"
+                                                                                       value="${order.key.value.wardName}"
                                                                                        disabled/>
                                                                             </div>
                                                                         </div>

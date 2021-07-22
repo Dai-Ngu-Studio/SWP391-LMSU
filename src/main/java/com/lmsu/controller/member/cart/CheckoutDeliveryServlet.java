@@ -80,6 +80,10 @@ public class CheckoutDeliveryServlet extends HttpServlet {
     private final String ATTR_CHECKOUT_DISTRICT = "CHECKOUT_DISTRICT";
     private final String ATTR_CHECKOUT_WARD = "CHECKOUT_WARD";
 
+    private final String PARAM_CHECKOUT_CITYNAME = "txtCityName";
+    private final String PARAM_CHECKOUT_DISTRICTNAME = "txtDistrictName";
+    private final String PARAM_CHECKOUT_WARDNAME = "txtWardName";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -95,8 +99,11 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                 String deliveryAddressOne = (String) session.getAttribute(ATTR_CHECKOUT_ADDRESSONE);
                 String deliveryAddressTwo = (String) session.getAttribute(ATTR_CHECKOUT_ADDRESSTWO);
                 String city = (String) session.getAttribute(ATTR_CHECKOUT_CITY);
+                String cityName = request.getParameter(PARAM_CHECKOUT_CITYNAME);
                 String district = (String) session.getAttribute(ATTR_CHECKOUT_DISTRICT);
+                String districtName = request.getParameter(PARAM_CHECKOUT_DISTRICTNAME);
                 String ward = (String) session.getAttribute(ATTR_CHECKOUT_WARD);
+                String wardName = request.getParameter(PARAM_CHECKOUT_WARDNAME);
                 // 2. Check if cart existed
                 CartObj cartObj = (CartObj) session.getAttribute(ATTR_MEMBER_CART);
                 if (cartObj != null) {
@@ -143,7 +150,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                         boolean deliveryOrderAddResult = deliveryOrderDAO
                                                 .addDeliveryOrder(orderID, phoneNumber,
                                                         deliveryAddressOne, deliveryAddressTwo, city, district, ward,
-                                                        receiverName);
+                                                        receiverName, cityName, districtName, wardName);
                                         if (deliveryOrderAddResult) {
                                             conn.commit();
                                             // 10.a

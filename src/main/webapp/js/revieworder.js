@@ -54,6 +54,7 @@ $(document).ready(function () {
         })
             .attr('ProvinceName');
         $('#txtCity').val(cityName);
+        $('#txtCityName').attr('value', cityName);
     }
 
     function loadDistrict(districtList) {
@@ -63,6 +64,7 @@ $(document).ready(function () {
         })
             .attr('DistrictName');
         $('#txtDistrict').val(districtName);
+        $('#txtDistrictName').attr('value', districtName);
     }
 
     function loadWard(wardList) {
@@ -72,5 +74,6 @@ $(document).ready(function () {
         })
             .attr('WardName');
         $('#txtWard').val(wardName);
+        $('#txtWardName').attr('value', wardName);
     }
 });

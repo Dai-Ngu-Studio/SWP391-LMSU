@@ -22,7 +22,10 @@ class DeliveryOrderObj implements Serializable {
     private String deliveryAddress1;
     private String deliveryAddress2;
     private String city;
+    private String cityName;
     private String district;
+    private String districtName;
     private String ward;
+    private String wardName;
     private String trackingCode;
 }
