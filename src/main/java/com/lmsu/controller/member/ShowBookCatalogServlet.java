@@ -56,9 +56,10 @@ public class ShowBookCatalogServlet extends HttpServlet {
         AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();
         List<String> booksToHide = new ArrayList<>();
         for (BookDTO bookDTO : books) {
+            authorBookMapDAO.clearAuthorBookMaps();
             authorBookMapDAO.getAuthorsOfBook(bookDTO.getBookID());
             List<AuthorBookMapDTO> authorBookMaps = authorBookMapDAO.getAuthorBookMaps();
-            if (authorBookMaps == null) {
+            if ((authorBookMaps == null) || (authorBookMaps.isEmpty())) {
                 booksToHide.add(bookDTO.getBookID());
             }
         }
