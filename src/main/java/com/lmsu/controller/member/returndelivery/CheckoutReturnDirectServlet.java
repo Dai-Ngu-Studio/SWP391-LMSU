@@ -1,20 +1,13 @@
 package com.lmsu.controller.member.returndelivery;
 
-import com.lmsu.bean.book.BookObj;
-import com.lmsu.bean.member.CartObj;
 import com.lmsu.bean.member.ReturnCartObj;
 import com.lmsu.bean.orderdata.OrderItemObj;
-import com.lmsu.books.BookDAO;
-import com.lmsu.books.BookDTO;
-import com.lmsu.controller.member.cart.CheckoutDeliveryServlet;
-import com.lmsu.orderdata.deliveryorders.DeliveryOrderDAO;
 import com.lmsu.orderdata.directorders.DirectOrderDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.orderdata.orders.OrderDAO;
 import com.lmsu.users.UserDTO;
 import com.lmsu.utils.DBHelpers;
-import com.lmsu.utils.DateHelpers;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -23,21 +16,19 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 @WebServlet(name = "CheckoutReturnDirectServlet", value = "/CheckoutReturnDirectServlet")
-public class CheckoutReturnDeliveryServlet extends HttpServlet {
+public class CheckoutReturnDirectServlet extends HttpServlet {
 
-    static final Logger LOGGER = Logger.getLogger(CheckoutReturnDeliveryServlet.class);
+    static final Logger LOGGER = Logger.getLogger(CheckoutReturnDirectServlet.class);
     private final String SHOW_USER_SETTING_CONTROLLER = "ShowProfileServlet"; //W.I.P. temporary (to be changed)
     private final String INDEX_CONTROLLER = "IndexServlet"; //W.I.P. temporary (to be changed)
 

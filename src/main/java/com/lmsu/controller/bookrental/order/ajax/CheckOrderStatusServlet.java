@@ -151,9 +151,9 @@ public class CheckOrderStatusServlet extends HttpServlet {
                         }
                     }
                     // If all item status are returned (not counting RESERVED)
-                    // Order Status should be ORDER_RETURNED
+                    // Return Order Status should be ORDER_RETURN_RETURNED
                     if (totalItemAmount == returnedItemAmount) {
-                        orderDAO.updateOrder(returnOrderID, ORDER_RETURNED, CONNECTION_USE_BATCH);
+                        orderDAO.updateOrder(returnOrderID, ORDER_RETURN_RETURNED, CONNECTION_USE_BATCH);
                         conn.commit();
                     }
                 }

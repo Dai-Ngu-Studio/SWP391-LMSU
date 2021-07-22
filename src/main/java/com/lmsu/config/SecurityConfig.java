@@ -21,25 +21,41 @@ public class SecurityConfig {
         // Cấu hình cho vai trò "LIB".
         List<String> urlPatterns1 = new ArrayList<String>();
 
-        urlPatterns1.add("/ShowOrdersServlet");
-        urlPatterns1.add("/ShowProfileServlet");
         urlPatterns1.add("/dashboard.jsp");
+        urlPatterns1.add("/ShowProfileServlet");
         urlPatterns1.add("/ShowAnnouncementManagementServlet");
+        urlPatterns1.add("/ShowOrdersServlet");
+        urlPatterns1.add("/ShowReturnOrdersServlet");
         urlPatterns1.add("/ShowRenewalRequestsServlet");
         urlPatterns1.add("/ShowPenaltiesServlet");
+        urlPatterns1.add("/ApproveOrderServlet");
+        urlPatterns1.add("/RejectOrderServlet");
+        urlPatterns1.add("/CheckOrderStatusServlet");
+        urlPatterns1.add("/UpdateOrderServlet");
+        urlPatterns1.add("/UpdatePenaltyServlet");
+        urlPatterns1.add("/ApproveRenewalServlet");
+        urlPatterns1.add("/RejectRenewalServlet");
         mapConfig.put(ROLE_LIBRARIAN, urlPatterns1);
 
         // Cấu hình cho vai trò "MANAGER".
         List<String> urlPatterns2 = new ArrayList<String>();
 
-        urlPatterns2.add("/ShowBookServlet");
-        urlPatterns2.add("/ShowOrdersServlet");
-        urlPatterns2.add("/ShowProfileServlet");
         urlPatterns2.add("/dashboard.jsp");
+        urlPatterns2.add("/ShowProfileServlet");
+        urlPatterns2.add("/ShowBookServlet");
         urlPatterns2.add("/ShowAuthorServlet");
+        urlPatterns2.add("/ShowSubjectServlet");
+        urlPatterns2.add("/ShowOrdersServlet");
+        urlPatterns2.add("/ShowReturnOrdersServlet");
         urlPatterns2.add("/ShowRenewalRequestsServlet");
         urlPatterns2.add("/ShowPenaltiesServlet");
-        urlPatterns2.add("/ShowSubjectServlet");
+        urlPatterns2.add("/ApproveOrderServlet");
+        urlPatterns2.add("/RejectOrderServlet");
+        urlPatterns2.add("/CheckOrderStatusServlet");
+        urlPatterns2.add("/UpdateOrderServlet");
+        urlPatterns2.add("/UpdatePenaltyServlet");
+        urlPatterns2.add("/ApproveRenewalServlet");
+        urlPatterns2.add("/RejectRenewalServlet");
         mapConfig.put(ROLE_MANAGER, urlPatterns2);
 
         // Cấu hình cho vai trò "MEM".

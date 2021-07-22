@@ -225,7 +225,7 @@
                                                                 <div class="modal-body">
                                                                     <div class="form-group row">
                                                                         <label class="col-lg-1 col-12 col-form-label">
-                                                                            Order ID
+                                                                            Return ID
                                                                         </label>
                                                                         <div class="col-lg-5 col-12">
                                                                             <input type="text"
@@ -235,7 +235,7 @@
                                                                                    disabled/>
                                                                         </div>
                                                                         <label class="col-lg-1 col-12 col-form-label">
-                                                                            Order Date
+                                                                            Created Date
                                                                         </label>
                                                                         <div class="col-lg-5 col-12">
                                                                             <input type="text"
@@ -261,44 +261,6 @@
                                                                             <input type="text"
                                                                                    class="form-control"
                                                                                    value="${order.value.key.memberName}"
-                                                                                   disabled/>
-                                                                        </div>
-                                                                    </div>
-                                                                    <c:if test="${not order.value.key.lendMethod}">
-                                                                        <c:set var="staffID"
-                                                                               value="${order.key.key.librarianID}"/>
-                                                                        <c:set var="staffName"
-                                                                               value="${order.key.key.librarianName}"/>
-                                                                    </c:if>
-                                                                    <c:if test="${order.value.key.lendMethod}">
-                                                                        <c:set var="staffID"
-                                                                               value="${order.key.value.managerID}"/>
-                                                                        <c:set var="staffName"
-                                                                               value="${order.key.value.managerName}"/>
-                                                                    </c:if>
-                                                                    <c:if test="${empty staffID}">
-                                                                        <c:set var="staffID" value="N/A"/>
-                                                                        <c:set var="staffName" value="N/A"/>
-                                                                    </c:if>
-                                                                    <div class="form-group row">
-                                                                        <label class="col-lg-1 col-12 col-form-label">
-                                                                            Staff ID
-                                                                        </label>
-                                                                        <div class="col-lg-5 col-12 frmStaffID"
-                                                                             orderid="${order.value.key.id}">
-                                                                            <input type="text"
-                                                                                   class="form-control"
-                                                                                   value="${staffID}"
-                                                                                   disabled/>
-                                                                        </div>
-                                                                        <label class="col-lg-1 col-12 col-form-label">
-                                                                            Staff Name
-                                                                        </label>
-                                                                        <div class="col-lg-5 col-12 frmStaffName"
-                                                                             orderid="${order.value.key.id}">
-                                                                            <input type="text"
-                                                                                   class="form-control"
-                                                                                   value="${staffName}"
                                                                                    disabled/>
                                                                         </div>
                                                                     </div>
@@ -634,6 +596,7 @@
 <script src="js/template.js"></script>
 <script src="js/settings.js"></script>
 <script src="js/todolist.js"></script>
+<script src="js/returnmanagement.js"></script>
 <%-- endinject --%>
 <%-- Custom js for this page--%>
 

@@ -26,10 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "UpdateDirectOrderServlet", value = "/UpdateDirectOrderServlet")
-public class UpdateDirectOrderServlet extends HttpServlet {
+@WebServlet(name = "UpdateOrderServlet", value = "/UpdateOrderServlet")
+public class UpdateOrderServlet extends HttpServlet {
 
-    static final Logger LOGGER = Logger.getLogger(UpdateDirectOrderServlet.class);
+    static final Logger LOGGER = Logger.getLogger(UpdateOrderServlet.class);
 
     private final boolean CONNECTION_USE_BATCH = true;
 
@@ -156,30 +156,30 @@ public class UpdateDirectOrderServlet extends HttpServlet {
             }
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
-            log("UpdateDirectOrderServlet _ SQL: " + ex.getMessage());
+            log("UpdateOrderServlet _ SQL: " + ex.getMessage());
             try {
                 conn.rollback();
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
-                log("UpdateDirectOrderServlet _ SQL: " + exRollback.getMessage());
+                log("UpdateOrderServlet _ SQL: " + exRollback.getMessage());
             }
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
-            log("UpdateDirectOrderServlet _ Naming: " + ex.getMessage());
+            log("UpdateOrderServlet _ Naming: " + ex.getMessage());
             try {
                 conn.rollback();
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
-                log("UpdateDirectOrderServlet _ SQL: " + exRollback.getMessage());
+                log("UpdateOrderServlet _ SQL: " + exRollback.getMessage());
             }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
-            log("UpdateDirectOrderServlet _ Exception: " + ex.getMessage());
+            log("UpdateOrderServlet _ Exception: " + ex.getMessage());
             try {
                 conn.rollback();
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
-                log("UpdateDirectOrderServlet _ SQL: " + exRollback.getMessage());
+                log("UpdateOrderServlet _ SQL: " + exRollback.getMessage());
             }
         } finally {
             try {
@@ -189,7 +189,7 @@ public class UpdateDirectOrderServlet extends HttpServlet {
                 }
             } catch (SQLException ex) {
                 LOGGER.error(ex.getMessage());
-                log("UpdateDirectOrderServlet _ SQL: " + ex.getMessage());
+                log("UpdateOrderServlet _ SQL: " + ex.getMessage());
             }
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
             String json = gson.toJson(orderItems);
