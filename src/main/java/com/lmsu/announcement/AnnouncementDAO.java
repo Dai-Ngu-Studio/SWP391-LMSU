@@ -194,28 +194,4 @@ public class AnnouncementDAO implements Serializable {
         }
         return null;
     }
-
-    public Date getReturnDate() throws SQLException, NamingException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        Date returnDate = null;
-        try {
-            con = DBHelpers.makeConnection();
-            if (con != null) {
-                String sql = "SELECT returnDeadline FROM Announcement";
-                stm = con.prepareStatement(sql);
-                rs = stm.executeQuery();
-                if (rs.next()) {
-                    Date returnDeadline = rs.getDate("returnDeadline");
-                    returnDate = returnDeadline;
-                }
-            }
-            return returnDate;
-        } finally {
-            if (rs != null) rs.close();
-            if (stm != null) stm.close();
-            if (con != null) con.close();
-        }
-    }
 }
