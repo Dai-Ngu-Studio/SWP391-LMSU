@@ -5,6 +5,7 @@ import com.lmsu.accessgoogle.common.GooglePojo;
 import com.lmsu.accessgoogle.common.GoogleUtils;
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
+import com.lmsu.utils.AppUtils;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -79,7 +80,8 @@ public class LoginGoogleServlet extends HttpServlet {
                 } else {
                     UserDTO dto = dao.checkLogin(email, passwordHashed);
                     if (dto != null) {
-                        session.setAttribute("LOGIN_USER", dto);
+//                        session.setAttribute("LOGIN_USER", dto);
+                        AppUtils.storeLoginedUser(session, dto);
                         if (dto.getRoleID().equals("4")) {
                             url = INDEX_CONTROLLER;
                         }

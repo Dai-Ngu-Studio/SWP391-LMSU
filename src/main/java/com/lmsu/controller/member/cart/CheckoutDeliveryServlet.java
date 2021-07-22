@@ -1,5 +1,7 @@
 package com.lmsu.controller.member.cart;
 
+import com.lmsu.announcement.AnnouncementDAO;
+import com.lmsu.announcement.AnnouncementDTO;
 import com.lmsu.bean.book.BookObj;
 import com.lmsu.bean.member.CartObj;
 import com.lmsu.books.BookDAO;
@@ -80,6 +82,10 @@ public class CheckoutDeliveryServlet extends HttpServlet {
     private final String ATTR_CHECKOUT_DISTRICT = "CHECKOUT_DISTRICT";
     private final String ATTR_CHECKOUT_WARD = "CHECKOUT_WARD";
 
+    private final String PARAM_CHECKOUT_CITYNAME = "txtCityName";
+    private final String PARAM_CHECKOUT_DISTRICTNAME = "txtDistrictName";
+    private final String PARAM_CHECKOUT_WARDNAME = "txtWardName";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -95,8 +101,11 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                 String deliveryAddressOne = (String) session.getAttribute(ATTR_CHECKOUT_ADDRESSONE);
                 String deliveryAddressTwo = (String) session.getAttribute(ATTR_CHECKOUT_ADDRESSTWO);
                 String city = (String) session.getAttribute(ATTR_CHECKOUT_CITY);
+                String cityName = request.getParameter(PARAM_CHECKOUT_CITYNAME);
                 String district = (String) session.getAttribute(ATTR_CHECKOUT_DISTRICT);
+                String districtName = request.getParameter(PARAM_CHECKOUT_DISTRICTNAME);
                 String ward = (String) session.getAttribute(ATTR_CHECKOUT_WARD);
+                String wardName = request.getParameter(PARAM_CHECKOUT_WARDNAME);
                 // 2. Check if cart existed
                 CartObj cartObj = (CartObj) session.getAttribute(ATTR_MEMBER_CART);
                 if (cartObj != null) {
@@ -118,6 +127,14 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                     // 7. Traverse items in cart and add to list
                                     List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
                                     Date returnDeadline = DateHelpers.getDeadlineDate(DateHelpers.getCurrentDate(), 14);
+                                    AnnouncementDAO announcementDAO = new AnnouncementDAO();
+                                    AnnouncementDTO latestAnnouncement = announcementDAO.getLatestAnnouncement();
+                                    if (latestAnnouncement != null) {
+                                        Date announcementDeadline = latestAnnouncement.getReturnDeadline();
+                                        if (announcementDeadline != null) {
+                                            returnDeadline = announcementDeadline;
+                                        }
+                                    }
                                     for (String bookID : cartItems.keySet()) {
                                         OrderItemDTO orderItemDTO = new OrderItemDTO();
                                         orderItemDTO.setOrderID(orderID);
@@ -143,7 +160,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                         boolean deliveryOrderAddResult = deliveryOrderDAO
                                                 .addDeliveryOrder(orderID, phoneNumber,
                                                         deliveryAddressOne, deliveryAddressTwo, city, district, ward,
-                                                        receiverName);
+                                                        receiverName, cityName, districtName, wardName);
                                         if (deliveryOrderAddResult) {
                                             conn.commit();
                                             // 10.a

@@ -3,6 +3,7 @@ package com.lmsu.controller;
 import com.google.common.hash.Hashing;
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
+import com.lmsu.utils.AppUtils;
 import com.lmsu.utils.RandomStringHelpers;
 import org.apache.log4j.Logger;
 
@@ -56,11 +57,13 @@ public class LoginServlet extends HttpServlet {
 //            }
 
             if (dto != null) {
-                session.setAttribute("LOGIN_USER", dto);
+//                session.setAttribute("LOGIN_USER", dto);
+                AppUtils.storeLoginedUser(session, dto);
                 if (dto.getRoleID().equals("4")) {
                     url = INDEX_PAGE;
                 }
                 if (dto.getRoleID().equals("1") || dto.getRoleID().equals("2") || dto.getRoleID().equals("3")) {
+
                     url = DASHBOARD_PAGE;
                 }
             } else {

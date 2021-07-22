@@ -418,7 +418,7 @@ $(document).ready(function () {
         });
         $.ajax({
             method: 'POST',
-            url: 'UpdateDirectOrderServlet',
+            url: 'UpdateOrderServlet',
             data: {
                 txtOrderID: orderID,
                 jsonItemStats: JSON.stringify(itemStats)

@@ -222,7 +222,7 @@ public class OrderItemDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 String sql = "SELECT [id], [orderID], [bookID], [lendStatus], " +
-                        "[returnDeadline], [lendDate], [returnDate], [penaltyAmount], [penaltyStatus] " +
+                        "[returnDeadline], [lendDate], [returnDate], [penaltyAmount], [penaltyStatus], [returnOrderID] " +
                         "FROM [OrderItems] " +
                         "WHERE [orderID] = ? ";
                 stm = con.prepareStatement(sql);
@@ -242,6 +242,7 @@ public class OrderItemDAO implements Serializable {
                     dto.setReturnDate(rs.getDate("returnDate"));
                     dto.setPenaltyAmount(rs.getBigDecimal("penaltyAmount"));
                     dto.setPenaltyStatus(rs.getInt("penaltyStatus"));
+                    dto.setReturnOrderID(rs.getInt("returnOrderID"));
                     this.orderItemList.add(dto);
                 }
             }

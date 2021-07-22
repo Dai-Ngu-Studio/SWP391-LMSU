@@ -32,11 +32,6 @@ public class ShowLogServlet extends HttpServlet {
                 ImportLogDAO dao = new ImportLogDAO();
                 dao.viewImportList();
                 List<ImportLogDTO> result = dao.getImportList();
-                for (ImportLogDTO dto : result
-                ) {
-                    System.out.println(dto);
-                }
-                System.out.println();
                 LinkedHashMap<Date, List<ImportLogDTO>> logMap = new LinkedHashMap<>();
                 for (ImportLogDTO x : result) {
                     if (logMap.containsKey(x.getDateTaken())) {
@@ -47,10 +42,6 @@ public class ShowLogServlet extends HttpServlet {
                         logMap.put(x.getDateTaken(), newList);
                     }
 
-                }
-                System.out.println();
-                for (Date date : logMap.keySet()) {
-                    System.out.println("Key: " + date + " value: " + logMap.get(date));
                 }
                 request.setAttribute("LOG_MAP_LIST", logMap);
             }

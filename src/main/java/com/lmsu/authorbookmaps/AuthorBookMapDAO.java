@@ -23,6 +23,12 @@ public class AuthorBookMapDAO implements Serializable {
         return this.authorBookMaps;
     }
 
+    public void clearAuthorBookMaps() {
+        if (this.authorBookMaps != null) {
+            this.authorBookMaps.clear();
+        }
+    }
+
     public void viewAuthorBookMapList() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;

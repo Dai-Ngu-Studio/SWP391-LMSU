@@ -103,6 +103,7 @@ public class OrderDAO implements Serializable {
         }
         return false;
     }
+
     /**
      * @param lendMethod     0 to get direct orders;
      *                       1 to get delivery orders;
@@ -175,7 +176,7 @@ public class OrderDAO implements Serializable {
      * @throws SQLException
      * @throws NamingException
      */
-    public void getOrdersFromMember(int lendMethod, List<Integer> activeStatuses) throws SQLException, NamingException {
+    public void getOrdersFromMember(int lendMethod, String memberID, List<Integer> activeStatuses) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -207,7 +208,9 @@ public class OrderDAO implements Serializable {
                     }
                     sql += " ) ";
                 }
+                sql += " AND [memberID] = ? ";
                 stm = con.prepareStatement(sql);
+                stm.setString(1, memberID);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     if (this.orderList == null) {

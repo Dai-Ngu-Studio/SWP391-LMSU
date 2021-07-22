@@ -81,7 +81,7 @@ public class ShowProfileServlet extends HttpServlet {
                             ));
                     //----------------------------------------------------
                     // Get Order Items of Member
-                    orderDAO.getOrdersFromMember(ORDER_BOTH_METHOD, NO_ORDER_STATUS_SPECIFIED);
+                    orderDAO.getOrdersFromMember(ORDER_BOTH_METHOD, userDTO.getId(), NO_ORDER_STATUS_SPECIFIED);
                     List<OrderDTO> orders = orderDAO.getOrderList();
                     List<OrderItemObj> validOrderItems = new ArrayList<>();
                     List<OrderItemObj> reservedItems = new ArrayList<>();

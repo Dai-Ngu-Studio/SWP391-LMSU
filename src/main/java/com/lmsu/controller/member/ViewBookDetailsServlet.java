@@ -141,7 +141,7 @@ public class ViewBookDetailsServlet extends HttpServlet {
                                 ));
                         //----------------------------------------------------
                         // Get orders from member
-                        orderDAO.getOrdersFromMember(ORDER_BOTH_METHOD, NO_ORDER_STATUS_SPECIFIED);
+                        orderDAO.getOrdersFromMember(ORDER_BOTH_METHOD, userDTO.getId(), NO_ORDER_STATUS_SPECIFIED);
                         List<OrderDTO> orders = orderDAO.getOrderList();
                         //----------------------------------------------------
                         // Get the number of active borrowed books from member

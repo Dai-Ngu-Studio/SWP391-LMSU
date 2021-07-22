@@ -29,14 +29,14 @@
     <div class="col-lg-2"></div>
 
 </div>
-<div class="row mt-2">
-    <div class="col-lg-2"></div>
-    <div class="col-lg-4 text-center h5">Page 1 of 20</div>
-    <div class="col-lg-4 text-center h5">
-        < 1 2 3 4 5 6 7 ...>
-    </div>
-    <div class="col-lg-2"></div>
-</div>
+<%--<div class="row mt-2">--%>
+<%--    <div class="col-lg-2"></div>--%>
+<%--    <div class="col-lg-4 text-center h5">Page 1 of 20</div>--%>
+<%--    <div class="col-lg-4 text-center h5">--%>
+<%--        < 1 2 3 4 5 6 7 ...>--%>
+<%--    </div>--%>
+<%--    <div class="col-lg-2"></div>--%>
+<%--</div>--%>
 
 <c:set var="bookList" value="${requestScope.BOOK_LIST}"/>
 <c:set var="indexCount" value="${0}"/>

@@ -1,5 +1,7 @@
 package com.lmsu.controller.member;
 
+import com.lmsu.authorbookmaps.AuthorBookMapDAO;
+import com.lmsu.authorbookmaps.AuthorBookMapDTO;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import com.lmsu.controller.LoginServlet;
@@ -11,6 +13,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "ShowBookCatalogServlet", value = "/ShowBookCatalogServlet")
@@ -28,12 +31,13 @@ public class ShowBookCatalogServlet extends HttpServlet {
         try {
             List<BookDTO> searchResultReceived = (List<BookDTO>) request.getAttribute("SEARCH_RESULT");
             if (searchResultReceived != null) {
+                checkBookValidity(searchResultReceived);
                 request.setAttribute("BOOK_LIST", searchResultReceived);
             } else {
                 BookDAO dao = new BookDAO();
                 dao.viewBookList();
                 List<BookDTO> result = dao.getBookList();
-
+                checkBookValidity(result);
                 request.setAttribute("BOOK_LIST", result);
             }
         } catch (SQLException e) {
@@ -45,6 +49,22 @@ public class ShowBookCatalogServlet extends HttpServlet {
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
+        }
+    }
+
+    private void checkBookValidity(List<BookDTO> books) throws SQLException, NamingException {
+        AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();
+        List<String> booksToHide = new ArrayList<>();
+        for (BookDTO bookDTO : books) {
+            authorBookMapDAO.clearAuthorBookMaps();
+            authorBookMapDAO.getAuthorsOfBook(bookDTO.getBookID());
+            List<AuthorBookMapDTO> authorBookMaps = authorBookMapDAO.getAuthorBookMaps();
+            if ((authorBookMaps == null) || (authorBookMaps.isEmpty())) {
+                booksToHide.add(bookDTO.getBookID());
+            }
+        }
+        for (String bookID : booksToHide) {
+            books.removeIf(book -> (book.getBookID().equalsIgnoreCase(bookID)));
         }
     }
 

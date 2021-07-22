@@ -226,6 +226,8 @@
                                                    value="${sessionScope.CHECKOUT_CITY}"
                                                    id="txtCity" name="txtCity" disabled
                                             />
+                                            <input hidden id="txtCityName" name="txtCityName"
+                                                   value="${sessionScope.CHECKOUT_CITY}"/>
                                             <div class="col-1"></div>
                                         </div>
                                         <div class="form-group row">
@@ -234,6 +236,8 @@
                                                    value="${sessionScope.CHECKOUT_DISTRICT}"
                                                    id="txtDistrict" name="txtDistrict" disabled
                                             />
+                                            <input hidden id="txtDistrictName" name="txtDistrictName"
+                                                   value="${sessionScope.CHECKOUT_DISTRICT}"/>
                                             <div class="col-1"></div>
                                         </div>
                                         <div class="form-group row">
@@ -242,6 +246,9 @@
                                                    value="${sessionScope.CHECKOUT_WARD}"
                                                    id="txtWard" name="txtWard" disabled
                                             />
+                                            <input hidden id="txtWardName" name="txtWardName"
+                                                   value="${sessionScope.CHECKOUT_WARD}"/>
+
                                             <div class="col-1"></div>
                                         </div>
                                         <div class="form-group row">

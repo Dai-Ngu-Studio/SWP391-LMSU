@@ -82,7 +82,6 @@ public class AnnouncementDAO implements Serializable {
             throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
-        ResultSet rs = null;
 
         try {
             con = DBHelpers.makeConnection();
@@ -98,7 +97,6 @@ public class AnnouncementDAO implements Serializable {
                 if (row > 0) return true;
             }
         } finally {
-            if (rs != null) rs.close();
             if (stm != null) stm.close();
             if (con != null) con.close();
         }
@@ -147,7 +145,6 @@ public class AnnouncementDAO implements Serializable {
         PreparedStatement stm = null;
         ResultSet rs = null;
         Date returnDate = null;
-
         try {
             con = DBHelpers.makeConnection();
             if (con != null) {
@@ -165,5 +162,36 @@ public class AnnouncementDAO implements Serializable {
             if (stm != null) stm.close();
             if (con != null) con.close();
         }
+    }
+
+    public AnnouncementDTO getLatestAnnouncement() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [id], [creationDate], [announcementText], [writerId], [returnDeadline] " +
+                        "FROM Announcement " +
+                        "WHERE [id] = (SELECT MAX([id]) FROM [Announcement]) ";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    Date creationDate = rs.getDate("creationDate");
+                    String announcementText = rs.getString("announcementText");
+                    String writerId = rs.getString("writerId");
+                    Date returnDeadline = rs.getDate("returnDeadline");
+                    AnnouncementDTO dto = new AnnouncementDTO(id, creationDate, announcementText, writerId, returnDeadline);
+                    return dto;
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return null;
     }
 }
