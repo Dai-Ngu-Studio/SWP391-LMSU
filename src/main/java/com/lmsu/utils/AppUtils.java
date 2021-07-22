@@ -16,12 +16,12 @@ public class AppUtils {
     // Lưu trữ thông tin người dùng vào Session.
     public static void storeLoginedUser(HttpSession session, UserDTO loginedUser) {
         // Trên JSP có thể truy cập thông qua ${loginedUser}
-        session.setAttribute("loginedUser", loginedUser);
+        session.setAttribute("LOGIN_USER", loginedUser);
     }
 
     // Lấy thông tin người dùng lưu trữ trong Session.
     public static UserDTO getLoginedUser(HttpSession session) {
-        UserDTO loginedUser = (UserDTO) session.getAttribute("loginedUser");
+        UserDTO loginedUser = (UserDTO) session.getAttribute("LOGIN_USER");
         return loginedUser;
     }
 
