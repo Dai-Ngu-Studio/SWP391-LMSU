@@ -70,7 +70,7 @@
                 </a>
             </li>
         </c:if>
-        <c:if test="${(role == 2)}">
+        <c:if test="${(role == 1) || (role == 2)}">
 
             <li class="nav-item">
                 <a class="nav-link" href="ShowAuthorServlet">
