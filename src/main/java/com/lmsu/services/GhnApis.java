@@ -154,9 +154,9 @@ public class GhnApis {
             conn.setDoOutput(true);
             // Quan 9 district code: 1451
             int avgHeight = 4 * quantity;
-            int avgWidth = 15 * quantity;
-            int avgLength = 22 * quantity;
-            int avgWeight = 200 * quantity;
+            int avgWidth = 15;
+            int avgLength = 22;
+            int avgWeight = 50 * quantity;
             String requestBody = "{\n" +
                     "    \"payment_type_id\": 2,\n" +
                     "    \"required_note\": \"CHOTHUHANG\",\n" +
@@ -334,10 +334,10 @@ public class GhnApis {
             conn.addRequestProperty("token", "***REMOVED***");
             conn.addRequestProperty("ShopId", "***REMOVED***");
             conn.setDoOutput(true);
-            int avgHeight = 2 * quantity;
-            int avgWidth = 15 * quantity;
-            int avgLength = 22 * quantity;
-            int avgWeight = 200 * quantity;
+            int avgHeight = 4 * quantity;
+            int avgWidth = 15;
+            int avgLength = 22;
+            int avgWeight = 50 * quantity;
             // Quan 9 district code: 1451
             String requestBody = "{\"service_id\":null,\"service_type_id\": 2,\"insurance_value\":10000,"
                     + "\"coupon\":null,\"from_district_id\":1451,"
