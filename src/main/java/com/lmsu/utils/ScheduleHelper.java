@@ -10,7 +10,7 @@ import java.util.Timer;
 
 public class ScheduleHelper implements Serializable {
 
-    public void dailyTask() {
+    public static void dailyTask() {
         Timer timer = new Timer();
 
         Calendar calendar = Calendar.getInstance();
@@ -25,7 +25,7 @@ public class ScheduleHelper implements Serializable {
         timer.schedule(dailyTask, dateSchedule, period);  //repeat task at 8:00:00'00 everyday
     }
 
-    public void weeklyTask() {
+    public static void weeklyTask() {
         Timer timer = new Timer();
 
         Calendar calendar = Calendar.getInstance();
