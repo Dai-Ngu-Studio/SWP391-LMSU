@@ -1,5 +1,7 @@
 package com.lmsu.controller.member.cart;
 
+import com.lmsu.announcement.AnnouncementDAO;
+import com.lmsu.announcement.AnnouncementDTO;
 import com.lmsu.bean.book.BookObj;
 import com.lmsu.bean.member.CartObj;
 import com.lmsu.books.BookDAO;
@@ -125,6 +127,14 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                     // 7. Traverse items in cart and add to list
                                     List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
                                     Date returnDeadline = DateHelpers.getDeadlineDate(DateHelpers.getCurrentDate(), 14);
+                                    AnnouncementDAO announcementDAO = new AnnouncementDAO();
+                                    AnnouncementDTO latestAnnouncement = announcementDAO.getLatestAnnouncement();
+                                    if (latestAnnouncement != null) {
+                                        Date announcementDeadline = latestAnnouncement.getReturnDeadline();
+                                        if (announcementDeadline != null) {
+                                            returnDeadline = announcementDeadline;
+                                        }
+                                    }
                                     for (String bookID : cartItems.keySet()) {
                                         OrderItemDTO orderItemDTO = new OrderItemDTO();
                                         orderItemDTO.setOrderID(orderID);
