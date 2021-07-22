@@ -445,6 +445,31 @@ public class UserDAO implements Serializable {
         return false;
     }
 
+    public boolean updateOnProfilePicture(String email, String profilePicturePath) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE [Users] " +
+                        "SET [profilePicturePath] = ? " +
+                        "WHERE [email] = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, profilePicturePath);
+                stm.setString(2, email);
+
+                int row = stm.executeUpdate();
+                if (row > 0) return true;
+            }
+
+        } finally {
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
+
     public boolean isActive(String email) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
