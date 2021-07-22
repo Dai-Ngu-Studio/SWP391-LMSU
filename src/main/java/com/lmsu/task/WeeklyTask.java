@@ -103,7 +103,6 @@ public class WeeklyTask extends TimerTask implements Serializable {
 
             userDAO.getListUserNotifyHighestRatedBook();
             List<UserDTO> listUser = userDAO.getListAccount();
-            System.out.println(listUser);
 
             List<BookDTO> listMostHighestRatedBooks = bookDAO.getMostFavoriteBooks();
             StringBuilder listBook = new StringBuilder();
@@ -112,7 +111,6 @@ public class WeeklyTask extends TimerTask implements Serializable {
                 String getBook = "Top " + ++count + ": " + book.getTitle() + " with " + book.getAvgRating() + " stars<br>";
                 listBook.append(getBook);
             }
-            System.out.println(listBook);
 
             if (listUser != null) {
                 if (listMostHighestRatedBooks != null) {
