@@ -171,7 +171,7 @@ public class RenewalRequestDAO implements Serializable {
                 String sql = "SELECT COUNT (*) AS countRenewal " +
                         "FROM [RenewalRequests] " +
                         "WHERE [itemID] = ? " +
-                        "AND [approvalStatus] = 1 ";
+                        "AND (([approvalStatus] = 0) OR ([approvalStatus] = 1)) ";
 
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, itemID);
