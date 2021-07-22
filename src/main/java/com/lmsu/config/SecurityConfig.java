@@ -81,7 +81,7 @@ public class SecurityConfig {
         urlPatterns4.add("/ShowStaffServlet");
         urlPatterns4.add("/ShowLogServlet");
 
-        mapConfig.put(ROLE_MEMBER, urlPatterns4);
+        mapConfig.put(ROLE_ADMIN, urlPatterns4);
     }
 
     public static Set<String> getAllAppRoles() {
