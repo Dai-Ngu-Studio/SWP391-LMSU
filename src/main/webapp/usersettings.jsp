@@ -56,12 +56,14 @@
                             <a class="list-group-item list-group-item-action" id="list-notifications-list"
                                data-toggle="list" href="#list-notifications" role="tab" aria-controls="notifications"><i
                                     class="ti-announcement"></i> Notifications</a>
-                            <a class="list-group-item list-group-item-action" id="list-miscellaneous-list"
-                               data-toggle="list" href="#list-miscellaneous" role="tab" aria-controls="miscellaneous"><i
-                                    class="ti-agenda"></i> Book Borrowing</a>
-                            <a class="list-group-item list-group-item-action" id="list-reserve-list"
-                               data-toggle="list" href="#list-reserve" role="tab" aria-controls="miscellaneous"><i
-                                    class="ti-package"></i> Wishlist</a>
+                            <c:if test="${profile.roleID eq '4'}">
+                                <a class="list-group-item list-group-item-action" id="list-miscellaneous-list"
+                                   data-toggle="list" href="#list-miscellaneous" role="tab" aria-controls="miscellaneous"><i
+                                        class="ti-agenda"></i> Book Borrowing</a>
+                                <a class="list-group-item list-group-item-action" id="list-reserve-list"
+                                   data-toggle="list" href="#list-reserve" role="tab" aria-controls="miscellaneous"><i
+                                        class="ti-package"></i> Wishlist</a>
+                            </c:if>
                         </div>
                     </div>
                 </div>

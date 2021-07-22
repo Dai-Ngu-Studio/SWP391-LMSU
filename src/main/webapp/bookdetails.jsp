@@ -21,6 +21,7 @@
 <jsp:include page="header.jsp"></jsp:include>
 <jsp:include page="navbar.html"></jsp:include>
 <c:set var="session" value="${sessionScope}"/>
+<c:set var="user" value="${sessionScope.LOGIN_USER}"/>
 <%--Actual Body--%>
 <div class="bg-light">
     <%--Start: Book Section--%>
@@ -251,13 +252,15 @@
                                                                 <div class="col-8 text-center">
                                                                     <input type="hidden" name="bookPk"
                                                                            value="${bookObj.id}">
-                                                                    <button type="submit"
-                                                                            class="btn btn-primary btn-block"
-                                                                            name="btAction" value="AddToCart">
-                                                                        <i class="fa fa-cart-plus"
-                                                                           aria-hidden="true"></i>
-                                                                        Add to Cart
-                                                                    </button>
+                                                                    <c:if test="${user.roleID eq '4'}">
+                                                                        <button type="submit"
+                                                                                class="btn btn-primary btn-block"
+                                                                                name="btAction" value="AddToCart">
+                                                                            <i class="fa fa-cart-plus"
+                                                                               aria-hidden="true"></i>
+                                                                            Add to Cart
+                                                                        </button>
+                                                                    </c:if>
                                                                 </div>
                                                                 <div class="col-2"></div>
                                                             </div>
@@ -418,7 +421,6 @@
                                     </div>
                                     <div class="col-2" style="list-style-type: none;">
                                         <c:if test="${not empty session}">
-                                            <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
                                             <c:if test="${not empty user}">
                                                 <c:if test="${(user.roleID eq '1')
                                                 or (user.roleID eq '2')

@@ -157,6 +157,7 @@
     <!-- endinject -->
 </head>
 <body>
+<c:set var="user" value="${sessionScope.LOGIN_USER}"/>
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
         <a class="navbar-brand brand-logo mr-5" href="IndexServlet"><img src="images/LIBRARY LOGO.svg" class="mr-2"
@@ -202,19 +203,20 @@
                     <c:if test="${not empty sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS}">
                         <c:set var="memberTotalActiveBorrows" value="${sessionScope.MEMBER_TOTAL_ACTIVE_BORROWS}"/>
                     </c:if>
-                    <p class="mb-0 px-2">View Cart
-                        <c:if test="${not empty sessionScope.MEMBER_CART}">
-                            <c:out value=" (${sessionScope.MEMBER_CART.cartQuantity}/${10-memberTotalActiveBorrows})"/>
-                            <c:set var="numberOfReserved" value="${sessionScope.MEMBER_CART.cartReserved}"/>
-                            <c:if test="${numberOfReserved > 0}">
-                                <c:out value="+${numberOfReserved}"/>
+                    <c:if test="${user.roleID eq '4'}">
+                        <p class="mb-0 px-2">View Cart
+                            <c:if test="${not empty sessionScope.MEMBER_CART}">
+                                <c:out value=" (${sessionScope.MEMBER_CART.cartQuantity}/${10-memberTotalActiveBorrows})"/>
+                                <c:set var="numberOfReserved" value="${sessionScope.MEMBER_CART.cartReserved}"/>
+                                <c:if test="${numberOfReserved > 0}">
+                                    <c:out value="+${numberOfReserved}"/>
+                                </c:if>
                             </c:if>
-                        </c:if>
-                    </p>
-                    <i class="ti-shopping-cart"></i>
+                        </p>
+                        <i class="ti-shopping-cart"></i>
+                    </c:if>
                 </a>
             </li>
-            <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
             <c:if test="${not empty user}">
                 <li class="nav-item nav-profile dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="profileDropdown">
