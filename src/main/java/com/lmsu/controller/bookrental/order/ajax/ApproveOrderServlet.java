@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "ApproveOrderServlet", value = "/ApproveOrderServlet")
 public class ApproveOrderServlet extends HttpServlet {
@@ -92,10 +93,15 @@ public class ApproveOrderServlet extends HttpServlet {
                                 if (updateOrderItemResult) {
                                     // If this is a direct order, call API and update tracking code
                                     if (order.isLendMethod()) {
+                                        List<OrderItemDTO> validOrderItems = orderItems
+                                                .stream()
+                                                .filter(orderItemDTO -> orderItemDTO.getLendStatus() != ITEM_RESERVED)
+                                                .collect(Collectors.toList());
+
                                         DeliveryOrderDAO deliveryOrderDAO = new DeliveryOrderDAO();
                                         DeliveryOrderDTO deliveryOrder = deliveryOrderDAO.getDeliveryOrderFromOrderID(orderID);
                                         String jsonOrderGHN = GhnApis.createOrder(deliveryOrder.getDistrict(), deliveryOrder.getWard(),
-                                                orderItems.size(), deliveryOrder.getReceiverName(),
+                                                validOrderItems.size(), deliveryOrder.getReceiverName(),
                                                 deliveryOrder.getPhoneNumber(),
                                                 deliveryOrder.getDeliveryAddress1() + deliveryOrder.getDeliveryAddress2());
                                         Object orderGHN = new Gson().fromJson(jsonOrderGHN, Object.class);
