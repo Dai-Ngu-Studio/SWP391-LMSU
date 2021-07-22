@@ -34,7 +34,7 @@ public class SearchBookCatalogServlet extends HttpServlet {
                 if (criterion.equals("Books")) {
                     dao.searchBookByTitle(searchVal);
                     List<BookDTO> result = dao.getBookList();
-                    if (!result.isEmpty()) {
+                    if (result != null) {
                         request.setAttribute("SEARCH_RESULT", result);
                         url = RESULT_PAGE;
                     }
@@ -42,9 +42,9 @@ public class SearchBookCatalogServlet extends HttpServlet {
                     AuthorDAO author_dao = new AuthorDAO();
                     author_dao.searchAuthorByName(searchVal);
                     List<AuthorDTO> author_result = author_dao.getAuthorList();
-                    if(!author_result.isEmpty()) {
+                    if (author_result != null) {
                         request.setAttribute("SEARCH_RESULT", author_result);
-                        url =  RESULT_AUTHOR_PAGE;
+                        url = RESULT_AUTHOR_PAGE;
                     }
                 }
             }
