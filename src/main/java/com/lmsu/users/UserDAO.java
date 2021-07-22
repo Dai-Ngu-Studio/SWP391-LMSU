@@ -550,4 +550,80 @@ public class UserDAO implements Serializable {
         }
         return false;
     }
+
+    public void getListUserNotifyHighestRatedBook() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [name], email, isNotifyPopular " +
+                        "FROM Users " +
+                        "WHERE isNotifyPopular = 1";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    String name = rs.getString("name");
+                    String email = rs.getString("email");
+
+                    UserDTO dto = new UserDTO(name, email);
+                    if (this.listAccount == null){
+                        this.listAccount = new ArrayList<>();
+                    }
+                    this.listAccount.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+
+    public void getListUserNotifyNewArrivalBook() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [name], email, isNotifyPopular " +
+                        "FROM Users " +
+                        "WHERE isNotifyArrival = 1";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    String name = rs.getString("name");
+                    String email = rs.getString("email");
+
+                    UserDTO dto = new UserDTO(name, email);
+                    if (this.listAccount == null){
+                        this.listAccount = new ArrayList<>();
+                    }
+                    this.listAccount.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
 }
