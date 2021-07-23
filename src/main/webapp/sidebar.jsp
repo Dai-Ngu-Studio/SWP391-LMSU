@@ -74,8 +74,8 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="ShowAuthorServlet">
-                    <i class="fal fa-user-edit menu-icon" style="margin-right: 0.8rem"></i>
-                    <span class="menu-title">Authors</span>
+                    <i class="fal fa-user-edit menu-icon" style="margin-right: -.3rem"></i>
+                    <span class="menu-title" style="padding-left: 1rem">Authors</span>
                 </a>
             </li>
         </c:if>
