@@ -445,7 +445,7 @@ public class UserDAO implements Serializable {
         return false;
     }
 
-    public boolean updateOnProfilePicture(String email, String profilePicturePath) throws SQLException, NamingException {
+    public boolean updateProfilePictureOnLogin(String email, String profilePicturePath) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
 
@@ -544,6 +544,112 @@ public class UserDAO implements Serializable {
         return null;
     }
 
+    public List<String> getListUserBorrowingBooks() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<String> list = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT Users.id FROM [Users]\n" +
+                        "JOIN Orders ON Orders.memberID = Users.id\n" +
+                        "WHERE Orders.activeStatus = 2";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    String id = rs.getString("id");
+
+                    if (list == null) {
+                        list = new ArrayList<>();
+                    }
+                    list.add(id);
+                }
+                return list;
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return null;
+    }
+
+    public boolean changeBorrowedStatus(String id) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, id);
+                int row = stm.executeUpdate();
+                if (row > 0) return true;
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
+
+    public Map<String, List<String>> getUserOverdue() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        Map<String, List<String>> map = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT Users.id, Users.[name], Users.email, Books.title FROM Users\n"
+                        + "JOIN Orders ON Users.id = Orders.memberID\n"
+                        + "JOIN OrderItems ON Orders.id = OrderItems.orderID\n"
+                        + "JOIN Books ON OrderItems.bookID = Books.id\n"
+                        + "WHERE Orders.activeStatus = 5";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String id = rs.getString("id");
+                    String name = rs.getString("name");
+                    String email = rs.getString("email");
+                    String bookTitle = rs.getString("title");
+
+                    String userDTO = id + ", " + name + ", " + email;
+
+                    if (map == null) {
+                        map = new HashMap<>();
+                    }
+                    map.computeIfAbsent(userDTO, k -> new ArrayList<>()).add(bookTitle);
+                }
+                return map;
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return null;
+    }
+
     public boolean updateMember(String id,
                                 String profilePicturePath,
                                 String phoneNumber,
@@ -595,7 +701,7 @@ public class UserDAO implements Serializable {
                     String email = rs.getString("email");
 
                     UserDTO dto = new UserDTO(name, email);
-                    if (this.listAccount == null){
+                    if (this.listAccount == null) {
                         this.listAccount = new ArrayList<>();
                     }
                     this.listAccount.add(dto);
@@ -633,7 +739,7 @@ public class UserDAO implements Serializable {
                     String email = rs.getString("email");
 
                     UserDTO dto = new UserDTO(name, email);
-                    if (this.listAccount == null){
+                    if (this.listAccount == null) {
                         this.listAccount = new ArrayList<>();
                     }
                     this.listAccount.add(dto);
