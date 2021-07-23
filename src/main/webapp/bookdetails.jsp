@@ -590,78 +590,78 @@
     <%--End: Book Section--%>
     <%--Start: Related Books Section--%>
     <%--Section Title--%>
-    <div class="row mt-5">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-8">
-            <div class="text-center h2">You might also like...</div>
-        </div>
-        <div class="col-lg-2"></div>
-    </div>
+<%--    <div class="row mt-5">--%>
+<%--        <div class="col-lg-2"></div>--%>
+<%--        <div class="col-lg-8">--%>
+<%--            <div class="text-center h2">You might also like...</div>--%>
+<%--        </div>--%>
+<%--        <div class="col-lg-2"></div>--%>
+<%--    </div>--%>
     <%--Related Books--%>
-    <div class="row mt-5 pb-5">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-2">
-            <div class="card">
-                <img class="card-img-top img-thumbnail img-fluid" src="images/software-engineering.jpg"
-                     alt="software-engineering"/>
-                <div class="card-body">
-                    <h5 class="card-title text-center">
-                        Software Engineering 10th Edition
-                    </h5>
-                    <div class="text-center">
-                        <a href="#" class="btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i> More
-                            Info</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-2">
-            <div class="card">
-                <img class="card-img-top img-thumbnail img-fluid" src="images/software-engineering.jpg"
-                     alt="software-engineering"/>
-                <div class="card-body">
-                    <h5 class="card-title text-center">
-                        Software Engineering 10th Edition
-                    </h5>
-                    <div class="text-center">
-                        <a href="#" class="btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i> More
-                            Info</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-2">
-            <div class="card">
-                <img class="card-img-top img-thumbnail img-fluid" src="images/software-engineering.jpg"
-                     alt="software-engineering"/>
-                <div class="card-body">
-                    <h5 class="card-title text-center">
-                        Software Engineering 10th Edition
-                    </h5>
-                    <div class="text-center">
-                        <a href="#" class="btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i> More
-                            Info</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-2">
-            <div class="card">
-                <img class="card-img-top img-thumbnail img-fluid" src="images/software-engineering.jpg"
-                     alt="software-engineering"/>
-                <div class="card-body">
-                    <h5 class="card-title text-center">
-                        Software Engineering 10th Edition
-                    </h5>
-                    <div class="text-center">
-                        <a href="#" class="btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i> More
-                            Info</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-2"></div>
-    </div>
+<%--    <div class="row mt-5 pb-5">--%>
+<%--        <div class="col-lg-2"></div>--%>
+<%--        <div class="col-lg-2">--%>
+<%--            <div class="card">--%>
+<%--                <img class="card-img-top img-thumbnail img-fluid" src="images/software-engineering.jpg"--%>
+<%--                     alt="software-engineering"/>--%>
+<%--                <div class="card-body">--%>
+<%--                    <h5 class="card-title text-center">--%>
+<%--                        Software Engineering 10th Edition--%>
+<%--                    </h5>--%>
+<%--                    <div class="text-center">--%>
+<%--                        <a href="#" class="btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i> More--%>
+<%--                            Info</a>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="col-lg-2">--%>
+<%--            <div class="card">--%>
+<%--                <img class="card-img-top img-thumbnail img-fluid" src="images/software-engineering.jpg"--%>
+<%--                     alt="software-engineering"/>--%>
+<%--                <div class="card-body">--%>
+<%--                    <h5 class="card-title text-center">--%>
+<%--                        Software Engineering 10th Edition--%>
+<%--                    </h5>--%>
+<%--                    <div class="text-center">--%>
+<%--                        <a href="#" class="btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i> More--%>
+<%--                            Info</a>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="col-lg-2">--%>
+<%--            <div class="card">--%>
+<%--                <img class="card-img-top img-thumbnail img-fluid" src="images/software-engineering.jpg"--%>
+<%--                     alt="software-engineering"/>--%>
+<%--                <div class="card-body">--%>
+<%--                    <h5 class="card-title text-center">--%>
+<%--                        Software Engineering 10th Edition--%>
+<%--                    </h5>--%>
+<%--                    <div class="text-center">--%>
+<%--                        <a href="#" class="btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i> More--%>
+<%--                            Info</a>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="col-lg-2">--%>
+<%--            <div class="card">--%>
+<%--                <img class="card-img-top img-thumbnail img-fluid" src="images/software-engineering.jpg"--%>
+<%--                     alt="software-engineering"/>--%>
+<%--                <div class="card-body">--%>
+<%--                    <h5 class="card-title text-center">--%>
+<%--                        Software Engineering 10th Edition--%>
+<%--                    </h5>--%>
+<%--                    <div class="text-center">--%>
+<%--                        <a href="#" class="btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i> More--%>
+<%--                            Info</a>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="col-lg-2"></div>--%>
+<%--    </div>--%>
     <%--End: Related Books Section--%>
 </div>
 <%--Actual Body--%>
