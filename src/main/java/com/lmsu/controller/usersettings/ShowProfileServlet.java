@@ -3,12 +3,17 @@ package com.lmsu.controller.usersettings;
 import com.lmsu.bean.orderdata.OrderItemObj;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
+import com.lmsu.orderdata.deliveryorders.DeliveryOrderDAO;
+import com.lmsu.orderdata.deliveryorders.DeliveryOrderDTO;
+import com.lmsu.orderdata.directorders.DirectOrderDAO;
+import com.lmsu.orderdata.directorders.DirectOrderDTO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.orderdata.orders.OrderDAO;
 import com.lmsu.orderdata.orders.OrderDTO;
 import com.lmsu.renewalrequests.RenewalRequestDAO;
 import com.lmsu.users.UserDTO;
+import javafx.util.Pair;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -59,6 +64,7 @@ public class ShowProfileServlet extends HttpServlet {
     private final String ATTR_MEMBER_RESERVE_ITEMS = "MEMBER_RESERVE_ITEMS";
     private final String ATTR_RENEWAL_MAP_LIST = "RENEWAL_MAP_LIST";
     private final String ATTR_QUANTITY_MAP_LIST = "QUANTITY_MAP_LIST";
+    private final String ATTR_MEMBER_ORDER_LIST = "MEMBER_ORDER_LIST";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -71,6 +77,8 @@ public class ShowProfileServlet extends HttpServlet {
                     BookDAO bookDAO = new BookDAO();
                     OrderDAO orderDAO = new OrderDAO();
                     OrderItemDAO orderItemDAO = new OrderItemDAO();
+                    DeliveryOrderDAO deliveryOrderDAO = new DeliveryOrderDAO();
+                    DirectOrderDAO directOrderDAO = new DirectOrderDAO();
                     //----------------------------------------------------
                     // Order Item Statuses (not including cancelled, rejected or reserved)
                     List<Integer> activeItemStatuses = new ArrayList<Integer>(
@@ -85,9 +93,11 @@ public class ShowProfileServlet extends HttpServlet {
                     List<OrderDTO> orders = orderDAO.getOrderList();
                     List<OrderItemObj> validOrderItems = new ArrayList<>();
                     List<OrderItemObj> reservedItems = new ArrayList<>();
-
+                    Map<Pair<DirectOrderDTO, DeliveryOrderDTO>, Pair<OrderDTO, List<OrderItemObj>>> detailedOrders =
+                            new HashMap<Pair<DirectOrderDTO, DeliveryOrderDTO>, Pair<OrderDTO, List<OrderItemObj>>>();
                     if (orders != null) {
                         for (OrderDTO order : orders) {
+                            List<OrderItemObj> itemsOfOrder = new ArrayList<>();
                             orderItemDAO.clearOrderItemList();
                             orderItemDAO.getOrderItemsFromOrderID(order.getId());
                             List<OrderItemDTO> orderItems = orderItemDAO.getOrderItemList();
@@ -114,10 +124,23 @@ public class ShowProfileServlet extends HttpServlet {
                                     if (orderItem.getLendStatus() == ITEM_RESERVED) {
                                         reservedItems.add(orderitemObj);
                                     }
+                                    itemsOfOrder.add(orderitemObj);
+                                    int orderID = order.getId();
+                                    DirectOrderDTO directOrderDTO = new DirectOrderDTO();
+                                    DeliveryOrderDTO deliveryOrderDTO = new DeliveryOrderDTO();
+                                    if (!order.isLendMethod()) {
+                                        directOrderDTO = directOrderDAO.getDirectOrderFromOrderID(orderID);
+                                    } else {
+                                        deliveryOrderDTO = deliveryOrderDAO.getDeliveryOrderFromOrderID(orderID);
+                                    }
+                                    Pair<DirectOrderDTO, DeliveryOrderDTO> orderType = new Pair<>(directOrderDTO, deliveryOrderDTO);
+                                    Pair<OrderDTO, List<OrderItemObj>> orderInformation = new Pair<>(order, itemsOfOrder);
+                                    detailedOrders.put(orderType, orderInformation);
                                 } // end traverse items
                             }
                         } // end traverse orders
                     }
+                    request.setAttribute(ATTR_MEMBER_ORDER_LIST, detailedOrders);
                     request.setAttribute(ATTR_MEMBER_ORDER_ITEMS, validOrderItems);
                     //----------------------------------------------------
                     // Renewal

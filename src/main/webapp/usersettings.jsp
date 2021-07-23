@@ -20,14 +20,12 @@
     <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
     <%-- endinject --%>
-    <%-- Plugin css for this page --%>
-
-    <%-- End plugin css for this page --%>
     <%--Fontawsome CDN--%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <%--jquery CDN--%>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="js/usersettings.js"></script>
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
     <%-- endinject --%>
 </head>
@@ -44,25 +42,26 @@
                     <div class="col-12">
                         <div class="list-group" id="list-tab" role="tablist">
                             <a class="list-group-item list-group-item-action active" id="list-information-list"
-                               data-toggle="list" href="#list-information" role="tab" aria-controls="information"><i
-                                    class="ti-user"></i> Account
-                                Information</a>
+                               data-toggle="list" href="#list-information" role="tab"><i class="ti-user">
+                            </i> Account Information</a>
                             <c:if test="${profile.roleID eq '1'}">
                                 <a class="list-group-item list-group-item-action" id="list-security-list"
-                                   data-toggle="list"
-                                   href="#list-security" role="tab" aria-controls="security"><i class="ti-lock"></i>
-                                    Security</a>
+                                   data-toggle="list" href="#list-security" role="tab"><i class="ti-lock">
+                                </i>Security</a>
                             </c:if>
                             <a class="list-group-item list-group-item-action" id="list-notifications-list"
-                               data-toggle="list" href="#list-notifications" role="tab" aria-controls="notifications"><i
-                                    class="ti-announcement"></i> Notifications</a>
+                               data-toggle="list" href="#list-notifications" role="tab">
+                                <i class="ti-announcement"></i> Notifications</a>
                             <c:if test="${profile.roleID eq '4'}">
                                 <a class="list-group-item list-group-item-action" id="list-miscellaneous-list"
-                                   data-toggle="list" href="#list-miscellaneous" role="tab" aria-controls="miscellaneous"><i
-                                        class="ti-agenda"></i> Book Borrowing</a>
+                                   data-toggle="list" href="#list-miscellaneous" role="tab">
+                                    <i class="ti-agenda"></i> Book Borrowing</a>
                                 <a class="list-group-item list-group-item-action" id="list-reserve-list"
-                                   data-toggle="list" href="#list-reserve" role="tab" aria-controls="miscellaneous"><i
-                                        class="ti-package"></i> Wishlist</a>
+                                   data-toggle="list" href="#list-reserve" role="tab">
+                                    <i class="ti-package"></i> Wishlist</a>
+                                <a class="list-group-item list-group-item-action" id="list-order-list"
+                                   data-toggle="list" href="#list-orders" role="tab">
+                                    <i class="ti-shopping-cart-full"></i> Your Orders</a>
                             </c:if>
                         </div>
                     </div>
@@ -82,7 +81,7 @@
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" style="padding: 0 1.7rem;"
+                                        <span class="input-group-text" style="padding: 0 1.7rem; max-height: 2.4rem"
                                               id="basic-addon1">Member ID</span>
                                     </div>
                                     <input type="text" class="form-control" value="${profile.id}"
@@ -92,13 +91,13 @@
                                 <c:if test="${not empty email_split}">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text px-5">Email</span>
+                                            <span class="input-group-text px-5" style="max-height: 2.4rem">Email</span>
                                         </div>
                                         <input type="text" class="form-control" value="${email_split[0]}"
                                                aria-label="Email Address" aria-describedby="basic-addon2"
                                                style="background-color: #fff" readonly/>
                                         <div class="input-group-append">
-                                            <span class="input-group-text" style="padding: 0 1.3rem;"
+                                            <span class="input-group-text" style="padding: 0 1.3rem;  max-height: 2.4rem"
                                                   id="basic-addon2">@fpt.edu.vn</span>
                                         </div>
                                     </div>
@@ -108,14 +107,14 @@
                                     <input type="hidden" value="${profile.id}" name="pk">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text">Phone Number</span>
+                                            <span class="input-group-text" style=" max-height: 2.4rem">Phone Number</span>
                                         </div>
                                         <input type="text" class="form-control" aria-label="Phone Number"
                                                value="${profile.phoneNumber}" pattern="^[0-9]{1,10}$"
                                                name="txtPhone"/>
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="submit" name="btAction"
-                                                    value="Change Phone Number">
+                                                    value="Change Phone Number" style=" max-height: 2.4rem">
                                                 Edit <i class="ti ti-pencil"></i>
                                             </button>
                                         </div>
@@ -124,7 +123,7 @@
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" style="padding: 0 1.3rem;">Semester No</span>
+                                        <span class="input-group-text" style="padding: 0 1.3rem; max-height: 2.4rem">Semester No</span>
                                     </div>
                                     <input type="text" class="form-control" aria-label="Phone Number"
                                            value="${profile.semester}" readonly style="background-color: #fff"/>
@@ -294,7 +293,7 @@
                                         <thead>
                                         <tr role="row">
                                             <th class="text-right" style="width: 100px;">#</th>
-                                            <th class="text-left" style="width: 73%;">NAME</th>
+                                            <th class="text-left" style="width: 73%;">BOOK</th>
                                             <th class="text-center" style="width: 73%;">STATUS</th>
                                             <th class="text-center" style="width: 64px;">ACTIONS</th>
                                         </tr>
@@ -617,16 +616,14 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="tab-pane fade" id="list-reserve" role="tabpanel">
-
                             <div class="row">
                                 <div class="col-sm-12">
                                     <table id="reservedBookTable" class="table dataTable no-footer" role="grid">
                                         <thead>
                                         <tr role="row">
                                             <th class="text-right" style="width: 100px;">#</th>
-                                            <th class="text-left" style="width: 73%;">NAME</th>
+                                            <th class="text-left" style="width: 73%;">BOOK</th>
                                             <th class="text-center" style="width: 73%;">STATUS</th>
                                             <th class="text-center" style="width: 64px;">ACTIONS</th>
                                         </tr>
@@ -642,20 +639,6 @@
                                                     <td class="text-left">
                                                             ${reserveItem.title}
                                                     </td>
-                                                        <%--
-                                                            ITEM_CANCELLED = -1 ( does not show, only notify )
-                                                            ITEM_PENDING = 0
-                                                            ITEM_APPROVED = 1
-                                                            ITEM_RECEIVED = 2
-                                                            ITEM_RETURN_SCHEDULED = 3
-                                                            ITEM_RETURNED = 4
-                                                            ITEM_OVERDUE = 5
-                                                            ITEM_OVERDUE_RETURN_SCHEDULED = 6
-                                                            ITEM_OVERDUE_RETURNED = 7
-                                                            ITEM_REJECTED = 8 ( does not show, only notify )
-                                                            ITEM_LOST = 9
-                                                            ITEM_RESERVED = 10 ( different tab )
-                                                        --%>
                                                     <td class="text-center">
                                                         <c:if test="${quantityMap.get(reserveItem.id) eq 0}">
                                                             <label class="badge badge-secondary">Out of Stock</label>
@@ -793,6 +776,307 @@
                                         </c:forEach>
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                        <c:set var="orderList" value="${requestScope.MEMBER_ORDER_LIST}"/>
+                        <div class="tab-pane fade dataTables_wrapper dt-bootstrap4 no-footer" id="list-orders" role="tabpanel">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="ordersTable" class="table dataTable no-footer" role="grid">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 0px; text-align: center">#</th>
+                                            <th style="width: 0px; text-align: center">METHOD</th>
+                                            <th style="width: 0px; text-align: left">ORDERED ON</th>
+                                            <th style="width: 0px; text-align: center">STATUS</th>
+                                            <th style="width: 0px; text-align: center">ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach var="order" items="${orderList}" varStatus="orderCounter">
+                                            <c:set var="lendMethod" value="${order.value.key.lendMethod}"/>
+                                            <tr>
+                                                <td class="text-center">${orderCounter.count}</td>
+                                                <td class="text-center">
+                                                    <c:if test="${lendMethod}">
+                                                        Delivery
+                                                    </c:if>
+                                                    <c:if test="${not lendMethod}">
+                                                        Direct
+                                                    </c:if>
+                                                </td>
+                                                <td class="text-left">
+                                                        ${order.value.key.orderDate}
+                                                </td>
+                                                <td class="text-center lbOrderStat"
+                                                    id="lbOrderStat${order.value.key.id}"
+                                                    orderid="${order.value.key.id}">
+                                                    <label class="badge"
+                                                           activeStatus="${order.value.key.activeStatus}"
+                                                           value="${order.value.key.activeStatus}"></label>
+                                                </td>
+                                                <td class="text-center">
+                                                    <form action="DispatchServlet">
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-light"
+                                                                    data-toggle="modal"
+                                                                    data-target="#orderModal${order.value.key.id}">
+                                                                <i class="fa fa-eye text-primary"></i>
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                    <c:forEach var="order" items="${orderList}">
+                                        <%--Start: Order Details Form--%>
+                                            <div class="modal fade"
+                                                 id="orderModal${order.value.key.id}"
+                                                 tabindex="-1">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">
+                                                                Order Details
+                                                            </h5>
+                                                            <button type="button"
+                                                                    class="close"
+                                                                    data-dismiss="modal">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="form-group row">
+                                                                <label class="col-12 col-form-label">
+                                                                    Order ID
+                                                                </label>
+                                                                <div class=" col-12">
+                                                                    <input type="text"
+                                                                           id="txtOrderID${order.value.key.id}"
+                                                                           class="form-control"
+                                                                           value="${order.value.key.id}"
+                                                                           disabled/>
+                                                                </div>
+                                                                <label class=" col-12 col-form-label">
+                                                                    Order Date
+                                                                </label>
+                                                                <div class=" col-12">
+                                                                    <input type="text"
+                                                                           class="form-control"
+                                                                           value="${order.value.key.orderDate}"
+                                                                           disabled/>
+                                                                </div>
+                                                            </div>
+                                                            <c:if test="${not order.value.key.lendMethod}">
+                                                                <div class="form-group row">
+                                                                    <label class=" col-12 col-form-label">
+                                                                        Scheduled Time
+                                                                    </label>
+                                                                    <div class="1 col-12"
+                                                                         orderid="${order.value.key.id}">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               value="${order.key.key.scheduledTime}"
+                                                                               disabled/>
+                                                                    </div>
+                                                                </div>
+                                                            </c:if>
+                                                            <c:if test="${order.value.key.lendMethod}">
+                                                                <div class="form-group row">
+                                                                    <label class=" col-12 col-form-label">
+                                                                        Receiver Name
+                                                                    </label>
+                                                                    <div class=" col-12"
+                                                                         orderid="${order.value.key.id}">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               value="${order.key.value.receiverName}"
+                                                                               disabled/>
+                                                                    </div>
+                                                                    <label class=" col-12 col-form-label">
+                                                                        Phone Number
+                                                                    </label>
+                                                                    <div class=" col-12"
+                                                                         orderid="${order.value.key.id}">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               value="${order.key.value.phoneNumber}"
+                                                                               disabled/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class=" col-12 col-form-label">
+                                                                        Street Address
+                                                                    </label>
+                                                                    <div class="1 col-12"
+                                                                         orderid="${order.value.key.id}">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               value="${order.key.value.deliveryAddress1}"
+                                                                               disabled/>
+                                                                    </div>
+                                                                </div>
+                                                                <c:if test="${(not empty fn:trim(order.key.value.deliveryAddress2))}">
+                                                                    <div class="form-group row">
+                                                                        <label class=" col-12 col-form-label">
+                                                                            Residence Address
+                                                                        </label>
+                                                                        <div class=" col-12"
+                                                                             orderid="${order.value.key.id}">
+                                                                            <input type="text"
+                                                                                   class="form-control"
+                                                                                   value="${order.key.value.deliveryAddress2}"
+                                                                                   disabled/>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:if>
+                                                                <div class="form-group row">
+                                                                    <label class=" col-12 col-form-label">
+                                                                        City
+                                                                    </label>
+                                                                    <div class=" col-12 txtCity"
+                                                                         orderid="${order.value.key.id}">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               value="${order.key.value.cityName}"
+                                                                               disabled/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class=" col-12 col-form-label">
+                                                                        District
+                                                                    </label>
+                                                                    <div class=" col-12 txtDistrict"
+                                                                         orderid="${order.value.key.id}">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               value="${order.key.value.districtName}"
+                                                                               disabled/>
+                                                                    </div>
+                                                                    <label class=" col-12 col-form-label">
+                                                                        Ward
+                                                                    </label>
+                                                                    <div class=" col-12 txtWard"
+                                                                         orderid="${order.value.key.id}">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               value="${order.key.value.wardName}"
+                                                                               disabled/>
+                                                                    </div>
+                                                                </div>
+                                                            </c:if>
+                                                            <div class="form-group row frmOrderStat"
+                                                                 orderid="${order.value.key.id}">
+                                                                <label class=" col-12 col-form-label">
+                                                                    Order Status
+                                                                </label>
+                                                                <div class=" col-12 lbOrderStat"
+                                                                     id="pOrderStat${order.value.key.id}"
+                                                                     orderid="${order.value.key.id}">
+                                                                    <p class="form-control"
+                                                                       activeStatus="${order.value.key.activeStatus}"
+                                                                       orderid="${order.value.key.id}">
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                                <%--Place to swap buttons in and out of view--%>
+                                                            <div class="row">
+                                                                <table class="table table-hover table-responsive w-100 d-block d-xl-table">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th class="text-right">Item ID</th>
+                                                                        <th class="text-left">Book Title
+                                                                        </th>
+                                                                        <th class="text-center">Status</th>
+                                                                        <th class="text-left">Deadline</th>
+                                                                        <th class="text-left">Received on
+                                                                        </th>
+                                                                        <th class="text-left">Returned on
+                                                                        </th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <c:forEach var="orderItem"
+                                                                               items="${order.value.value}">
+                                                                        <tr>
+                                                                            <td class="text-right">${orderItem.id} </td>
+                                                                            <td class="text-left">${orderItem.title}</td>
+                                                                            <td class="text-center">
+                                                                                <c:set var="statOrderItem"
+                                                                                       value="${orderItem.lendStatus}"
+                                                                                />
+                                                                                <div class="contSlItemStat"
+                                                                                     orderid="${order.value.key.id}"
+                                                                                     orderitemid="${orderItem.id}"
+                                                                                     style="display: none">
+                                                                                    <select class="custom-select slItemStat"
+                                                                                            id="slItemStat${orderItem.id}"
+                                                                                            orderid="${order.value.key.id}"
+                                                                                            orderitemid="${orderItem.id}">
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="contItemStat"
+                                                                                     orderid="${order.value.key.id}"
+                                                                                     orderitemid="${orderItem.id}">
+                                                                                    <label class="badge lbItemStat"
+                                                                                           id="lbItemStat${orderItem.id}"
+                                                                                           orderid="${order.value.key.id}"
+                                                                                           orderitemid="${orderItem.id}"
+                                                                                           lendStatus="${statOrderItem}">
+                                                                                    </label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="text-left"
+                                                                                id="dateDeadline${orderItem.id}"
+                                                                                datevalue="${orderItem.returnDeadline}">
+                                                                                <c:if test="${empty orderItem.returnDeadline}">
+                                                                                    N/A
+                                                                                </c:if>
+                                                                                <c:if test="${not empty orderItem.returnDeadline}">
+                                                                                    ${orderItem.returnDeadline}
+                                                                                </c:if>
+                                                                            </td>
+                                                                            <td class="text-left"
+                                                                                id="dateLend${orderItem.id}"
+                                                                                datevalue="${orderItem.lendDate}">
+                                                                                <c:if test="${empty orderItem.lendDate}">
+                                                                                    N/A
+                                                                                </c:if>
+                                                                                <c:if test="${not empty orderItem.lendDate}">
+                                                                                    ${orderItem.lendDate}
+                                                                                </c:if>
+                                                                            </td>
+                                                                            <td class="text-left"
+                                                                                id="dateReturn${orderItem.id}"
+                                                                                datevalue="${orderItem.returnDate}">
+                                                                                <c:if test="${empty orderItem.returnDate}">
+                                                                                    N/A
+                                                                                </c:if>
+                                                                                <c:if test="${not empty orderItem.returnDate}">
+                                                                                    ${orderItem.returnDate}
+                                                                                </c:if>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </c:forEach>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button"
+                                                                    class="btn btn-outline-primary"
+                                                                    data-dismiss="modal">
+                                                                Close
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <%--End: Order Details Form--%>
+                                    </c:forEach>
                                 </div>
                             </div>
                         </div>
