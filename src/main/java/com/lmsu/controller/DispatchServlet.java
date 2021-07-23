@@ -15,7 +15,7 @@ import java.io.IOException;
         maxRequestSize = 1024 * 1024 * 5 * 5)
 public class DispatchServlet extends HttpServlet {
 
-    private static final String LOGIN_PAGE = "login.html";
+    private static final String LOGIN_PAGE = "login.jsp";
     private static final String LOGIN_CONTROLLER = "LoginServlet";
     private static final String LOGOUT_CONTROLLER = "LogoutServlet";
     private static final String UPDATE_BOOK_CONTROLLER = "UpdateBookServlet";
@@ -56,6 +56,7 @@ public class DispatchServlet extends HttpServlet {
 
         String button = request.getParameter("btAction");
         String url = LOGIN_PAGE;
+
         try {
             if (button == null) {
 

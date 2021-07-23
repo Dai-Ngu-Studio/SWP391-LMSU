@@ -237,7 +237,7 @@
             </c:if>
             <c:if test="${empty user}">
                 <div class="d-flex login-btn align-items-center">
-                    <a href="login.html">Login</a>
+                    <a href="login.jsp">Login</a>
                 </div>
             </c:if>
         </ul>

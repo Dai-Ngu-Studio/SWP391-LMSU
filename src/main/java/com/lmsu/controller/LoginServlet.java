@@ -17,8 +17,7 @@ import java.sql.SQLException;
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
 
-    private static final String ERROR_PAGE = "login.html";
-    private static final String LOGIN_FAIL = "loginfail.html";
+    private static final String LOGIN_FAIL = "login.jsp";
     private static final String INDEX_PAGE = "IndexServlet";
     private static final String DASHBOARD_PAGE = "dashboard.jsp";
     static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
@@ -32,7 +31,7 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("txtPassword");
         UserDAO dao = new UserDAO();
 
-        String url = ERROR_PAGE;
+        String url = LOGIN_FAIL;
 
         try {
             String passwordHashed = Hashing.sha256()
@@ -50,7 +49,7 @@ public class LoginServlet extends HttpServlet {
                     url = DASHBOARD_PAGE;
                 }
             } else {
-                url = LOGIN_FAIL;
+                request.setAttribute("WRONG_USER_LOGIN", "Wrong user name or password!");
             }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
