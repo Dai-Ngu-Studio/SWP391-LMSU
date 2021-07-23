@@ -20,15 +20,11 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
-//@WebServlet(name = "LoginGoogleServlet", urlPatterns = {"/login-google"})
 @WebServlet("/login-google")
 public class LoginGoogleServlet extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
-    private static final String ERROR_PAGE = "error.jsp";
-    private static final String LOGIN_FAIL_PAGE = "login.html";
-    private static final String INDEX_CONTROLLER = "IndexServlet";
-    private static final String DASHBOARD_PAGE = "dashboard.jsp";
+    private static final String LOGIN_PAGE = "login.jsp";
+    private static final String REDIRECT_LOGIN_GOOGLE_PAGE = "redirectlogingoogle.jsp";
     static final Logger LOGGER = Logger.getLogger(LoginGoogleServlet.class);
 
     public LoginGoogleServlet() {
@@ -39,12 +35,12 @@ public class LoginGoogleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String url = ERROR_PAGE;
+        String url = LOGIN_PAGE;
 
         String code = request.getParameter("code");
 
         if (code == null || code.isEmpty()) {
-            RequestDispatcher rd = request.getRequestDispatcher(LOGIN_FAIL_PAGE);
+            RequestDispatcher rd = request.getRequestDispatcher(LOGIN_PAGE);
             rd.forward(request, response);
         } else {
             String accessToken = GoogleUtils.getToken(code);
@@ -57,39 +53,34 @@ public class LoginGoogleServlet extends HttpServlet {
                     .hashString(id + hashCode, StandardCharsets.UTF_8).toString();
             String profilePicture = googlePojo.getPicture();
 
+            String isFPT = email.split("@")[1];
             try {
-                UserDAO dao = new UserDAO();
-                HttpSession session = request.getSession();
-                request.setAttribute("EMAIL", email);
-                request.setAttribute("PASSWORD", passwordHashed);
-                request.setAttribute("PROFILE_PICTURE", profilePicture);
+                if (isFPT.equalsIgnoreCase("fpt.edu.vn") || isFPT.equalsIgnoreCase("fe.edu.vn")) {
+                    UserDAO dao = new UserDAO();
+                    HttpSession session = request.getSession();
 
-                boolean isActive = dao.isActive(email);
-                if (!isActive) {
-                    dao.updateOnFirstLogin(email, passwordHashed, profilePicture);
-                    UserDTO dto = dao.checkLogin(email, passwordHashed);
-                    if (dto != null) {
-                        session.setAttribute("LOGIN_USER", dto);
-                        if (dto.getRoleID().equals("4")) {
-                            url = INDEX_CONTROLLER;
+                    boolean isActive = dao.isActive(email);
+                    if (!isActive) {
+                        dao.updateOnFirstLogin(email, passwordHashed, profilePicture);
+                        UserDTO dto = dao.checkLogin(email, passwordHashed);
+                        if (dto != null) {
+                            session.setAttribute("LOGIN_USER", dto);
+                            url = REDIRECT_LOGIN_GOOGLE_PAGE;
                         }
-                        if (dto.getRoleID().equals("1") || dto.getRoleID().equals("2") || dto.getRoleID().equals("3")) {
-                            url = DASHBOARD_PAGE;
+                    } else {
+                        dao.updateProfilePictureOnLogin(email, profilePicture);
+                        UserDTO dto = dao.checkLogin(email, passwordHashed);
+                        if (dto != null) {
+                            AppUtils.storeLoginedUser(session, dto);
+                            url = REDIRECT_LOGIN_GOOGLE_PAGE;
+                        } else {
+                            request.setAttribute("WRONG_USER_LOGIN", "Your account is not allowed to log into the system");
+                            url = LOGIN_PAGE;
                         }
                     }
                 } else {
-                    dao.updateProfilePictureOnLogin(email, profilePicture);
-                    UserDTO dto = dao.checkLogin(email, passwordHashed);
-                    if (dto != null) {
-//                        session.setAttribute("LOGIN_USER", dto);
-                        AppUtils.storeLoginedUser(session, dto);
-                        if (dto.getRoleID().equals("4")) {
-                            url = INDEX_CONTROLLER;
-                        }
-                        if (dto.getRoleID().equals("1") || dto.getRoleID().equals("2") || dto.getRoleID().equals("3")) {
-                            url = DASHBOARD_PAGE;
-                        }
-                    }
+                    request.setAttribute("WRONG_USER_LOGIN", "Your account is not allowed to log into the system");
+                    url = LOGIN_PAGE;
                 }
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
