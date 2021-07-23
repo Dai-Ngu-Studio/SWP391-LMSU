@@ -18,7 +18,6 @@ public class DispatchServlet extends HttpServlet {
     private static final String LOGIN_PAGE = "login.html";
     private static final String LOGIN_CONTROLLER = "LoginServlet";
     private static final String LOGOUT_CONTROLLER = "LogoutServlet";
-    private static final String STARTUP_CONTROLLER = "StartupServlet";
     private static final String UPDATE_BOOK_CONTROLLER = "UpdateBookServlet";
     private static final String DELETE_BOOK_CONTROLLER = "DeleteBookServlet";
     private static final String SEARCH_BOOK_CONTROLLER = "SearchTitleServlet";
@@ -59,7 +58,7 @@ public class DispatchServlet extends HttpServlet {
         String url = LOGIN_PAGE;
         try {
             if (button == null) {
-                url = STARTUP_CONTROLLER;
+
             } else if (buttonSearchInvalidBook.equals("Search Invalid Book")) {
                 url = SEARCH_INVALID_BOOK_CONTROLLER;
             } else if (button.equals("Login")) {
