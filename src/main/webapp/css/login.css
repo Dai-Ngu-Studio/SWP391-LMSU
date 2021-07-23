@@ -94,18 +94,6 @@ form {
     padding: 1.3rem;
 }
 
-.rem-and-for {
-    display: flex;
-    justify-content: space-between;
-    color: #5138EE;
-    align-items: center;
-}
-
-.rem-and-for a {
-    color: #5138EE;
-    text-decoration: none;
-}
-
 .btn-login {
     color: #fff !important;
     background-color: #5138EE !important;
