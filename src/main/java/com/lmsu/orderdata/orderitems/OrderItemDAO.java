@@ -4,6 +4,7 @@ import com.lmsu.utils.DBHelpers;
 
 import javax.naming.NamingException;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -518,6 +519,32 @@ public class OrderItemDAO implements Serializable {
         return false;
     }
 
+    public boolean updateOrderItemPenaltyAmount(int id, BigDecimal penaltyAmount)
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE [OrderItems] " +
+                        "SET [penaltyAmount] = ? " +
+                        "WHERE [id] = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setBigDecimal(1, penaltyAmount);
+                stm.setInt(2, id);
+                int row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } finally {
+            if (con != null) con.close();
+            if (stm != null) stm.close();
+        }
+        return false;
+    }
+
     public boolean updateOrderItemDeadline(int id, Date newDeadline)
             throws SQLException, NamingException {
         Connection con = null;
@@ -542,5 +569,43 @@ public class OrderItemDAO implements Serializable {
             if (stm != null) stm.close();
         }
         return false;
+    }
+
+    public void getReceivedAndOverdueOrderItems() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [id], [orderID], [bookID], [lendStatus], " +
+                        "[returnDeadline], [lendDate], [returnDate], [penaltyAmount], [penaltyStatus] " +
+                        "FROM [OrderItems] " +
+                        "WHERE ([lendStatus] = 2) OR ([lendStatus] = 5) ";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    if (this.orderItemList == null) {
+                        this.orderItemList = new ArrayList<>();
+                    }
+                    OrderItemDTO dto = new OrderItemDTO();
+                    dto.setId(rs.getInt("id"));
+                    dto.setOrderID(rs.getInt("orderID"));
+                    dto.setBookID(rs.getString("bookID"));
+                    dto.setLendStatus(rs.getInt("lendStatus"));
+                    dto.setReturnDeadline(rs.getDate("returnDeadline"));
+                    dto.setLendDate(rs.getDate("lendDate"));
+                    dto.setReturnDate(rs.getDate("returnDate"));
+                    dto.setPenaltyAmount(rs.getBigDecimal("penaltyAmount"));
+                    dto.setPenaltyStatus(rs.getInt("penaltyStatus"));
+                    this.orderItemList.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
     }
 }
