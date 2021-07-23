@@ -1,4 +1,4 @@
-package com.lmsu.accessgoogle.common;
+package com.lmsu.accessgoogle;
 
 public class Constants {
 	public static String GOOGLE_CLIENT_ID = "***REMOVED***";

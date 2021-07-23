@@ -1,4 +1,4 @@
-package com.lmsu.accessgoogle.common;
+package com.lmsu.accessgoogle;
 
 public class GooglePojo {
 

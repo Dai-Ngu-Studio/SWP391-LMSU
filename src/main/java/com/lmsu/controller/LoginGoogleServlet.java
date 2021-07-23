@@ -1,8 +1,8 @@
-package com.lmsu.accessgoogle.servlet;
+package com.lmsu.controller;
 
 import com.google.common.hash.Hashing;
-import com.lmsu.accessgoogle.common.GooglePojo;
-import com.lmsu.accessgoogle.common.GoogleUtils;
+import com.lmsu.accessgoogle.GooglePojo;
+import com.lmsu.accessgoogle.GoogleUtils;
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
 import com.lmsu.utils.AppUtils;
@@ -78,7 +78,7 @@ public class LoginGoogleServlet extends HttpServlet {
                         }
                     }
                 } else {
-                    dao.updateOnProfilePicture(email, profilePicture);
+                    dao.updateProfilePictureOnLogin(email, profilePicture);
                     UserDTO dto = dao.checkLogin(email, passwordHashed);
                     if (dto != null) {
 //                        session.setAttribute("LOGIN_USER", dto);

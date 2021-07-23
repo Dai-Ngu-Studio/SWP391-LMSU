@@ -1,4 +1,4 @@
-package com.lmsu.accessgoogle.common;
+package com.lmsu.accessgoogle;
 
 import java.io.IOException;
 
@@ -25,8 +25,6 @@ public class GoogleUtils {
         String link = Constants.GOOGLE_LINK_GET_USER_INFO + accessToken;
         String response = Request.Get(link).execute().returnContent().asString();
         GooglePojo googlePojo = new Gson().fromJson(response, GooglePojo.class);
-//        System.out.println(googlePojo);
         return googlePojo;
     }
-
 }
