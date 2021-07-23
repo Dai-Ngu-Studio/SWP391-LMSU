@@ -9,7 +9,7 @@ import java.io.IOException;
 @WebServlet(name = "LogoutServlet", value = "/LogoutServlet")
 public class LogoutServlet extends HttpServlet {
 
-    private static final String LOGIN_PAGE = "login.html";
+    private static final String INDEX_PAGE = "IndexServlet";
     private static final String ERROR_PAGE = "error.html";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -23,37 +23,8 @@ public class LogoutServlet extends HttpServlet {
             HttpSession session = request.getSession(false);
             if (session != null) {
                 session.invalidate();
-
-                url = "IndexServlet";
+                url = INDEX_PAGE;
             }
-
-//            Cookie[] cookies = request.getCookies();
-//            if (cookies != null) {
-//                String selector = "";
-//
-//                for (Cookie aCookie : cookies) {
-//                    if (aCookie.getName().equals("selector")) {
-//                        selector = aCookie.getValue();
-//                    }
-//                }
-//
-//                if (!selector.isEmpty()) {
-//                    // delete token from database
-//                    AuthencicateDAO dao = new AuthencicateDAO();
-//                    AuthencicateDTO dto = authDao.findBySelector(selector);
-//
-//                    if (dto != null) {
-//                        dao.removeCookie(token.getId());
-//
-//                        Cookie cookieSelector = new Cookie("selector", "");
-//                        cookieSelector.setMaxAge(0);
-//
-//                        Cookie cookieValidator = new Cookie("validator", "");
-//                        cookieValidator.setMaxAge(0);
-//                        response.addCookie(cookieSelector);
-//                        response.addCookie(cookieValidator);
-//                    }
-//                }
         } finally {
             response.sendRedirect(url);
         }
