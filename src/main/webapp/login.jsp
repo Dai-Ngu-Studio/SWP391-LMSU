@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -20,7 +19,6 @@
     <!--FAVICON-->
     <link rel="shortcut icon" href="images/images/favicon.png"/>
 </head>
-
 <body>
 <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
@@ -54,15 +52,8 @@
                                 <input type="password" class="form-control" id="inputPassword" required
                                        placeholder="Enter password" name="txtPassword">
                             </div>
-                            <div class="rem-and-for">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="cookie" id="remember-me">
-                                    <label class="form-check-label" for="remember-me"
-                                           style="font-size: 1rem; margin-left: .5rem;">
-                                        Remember Me
-                                    </label>
-                                </div>
-                                <a href="#" style="text-decoration: none;">Forget password?</a>
+                            <div>
+                                <p class="text-danger">${requestScope.WRONG_USER_LOGIN}</p>
                             </div>
                             <button class="btn btn-login" type="submit" style="font-size: 1rem !important;"
                                     value="Login" name="btAction">Log in
@@ -89,5 +80,4 @@
     <!-- page-body-wrapper ends -->
 </div>
 </body>
-
 </html>
