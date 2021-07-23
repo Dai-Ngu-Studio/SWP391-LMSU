@@ -83,12 +83,133 @@ public class DailyTask extends TimerTask implements Serializable {
                                     + "<br>"
                                     + "Thanks.<br>"
                                     + "Sincerely,<br>"
-                                    + "Information and Library center";
+                                    + "Information and Library center.";
 
                             emailHelpers.sendEmail(session, user[2], subject, body);
                         }//end for each user
-                    }
+                    }//end if exist list user with borrowed books
                 }//end if days between = 10
+            }//end if return date exist
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            System.err.println("DailyTask _ SQL: " + e.getMessage());
+        } catch (NamingException e) {
+            LOGGER.error(e.getMessage());
+            System.err.println("DailyTask _ Naming: " + e.getMessage());
+        } catch (UnsupportedEncodingException e) {
+            LOGGER.error(e.getMessage());
+            System.err.println("DailyTask _ UnsupportedEncoding: " + e.getMessage());
+        } catch (MessagingException e) {
+            LOGGER.error(e.getMessage());
+            System.err.println("DailyTask _ Messaging: " + e.getMessage());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            System.err.println("DailyTask _ Exception: " + e.getMessage() + " (Announcement have not initialize)");
+        }
+    }
+
+    public void changeStatusToOverdue() { //User overdue -> chuyển status sang overdue
+        try {
+            UserDAO userDAO = new UserDAO();
+            AnnouncementDAO announcementDAO = new AnnouncementDAO();
+
+            //get return date
+            Date returnDate = announcementDAO.getReturnDate();
+
+            if (returnDate != null) {
+                //get today
+                Date today = new Date(System.currentTimeMillis());
+
+                //get days between today -> return date
+                long daysBetween = ChronoUnit.DAYS.between(today.toLocalDate(), returnDate.toLocalDate());
+
+                if (daysBetween == -1) {
+                    List<String> list = userDAO.getListUserBorrowingBooks();
+                    if (list != null) {
+                        for (String userID : list) {
+                            userDAO.changeBorrowedStatus(userID);  //chỉnh lại query
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            System.err.println("DailyTask _ changeStatusToOverdue _ SQL: " + e.getMessage());
+        } catch (NamingException e) {
+            LOGGER.error(e.getMessage());
+            System.err.println("DailyTask _ changeStatusToOverdue _ Naming: " + e.getMessage());
+        }
+    }
+
+    public void calculatePenalty() {
+        //check days between <= -1
+        //++penalty amount
+        //nếu > 14 ngày -> mất sách
+    }
+
+    public void notifyPenalty() {
+        try {
+            System.out.println("===================== Notify Overdue =====================");
+            UserDAO userDAO = new UserDAO();
+            EmailHelpers emailHelpers = new EmailHelpers();
+            AnnouncementDAO announcementDAO = new AnnouncementDAO();
+
+            //get return date
+            Date returnDate = announcementDAO.getReturnDate();
+
+            if (returnDate != null) {
+                //get today
+                Date today = new Date(System.currentTimeMillis());
+
+                //get days between today -> return date
+                long daysBetween = ChronoUnit.DAYS.between(today.toLocalDate(), returnDate.toLocalDate());
+
+                if (daysBetween == -1) {
+                    Map<String, List<String>> map = userDAO.getUserOverdue();
+                    if (map != null) {
+                        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+                            /**
+                             * @user[0] id
+                             * @user[1] name
+                             * @user[2] email
+                             */
+                            String[] user = entry.getKey().split(", ");
+
+                            System.out.println("SSLEmail Start");
+                            Properties props = new Properties();
+                            props.put("mail.smtp.host", "smtp.gmail.com");
+                            props.put("mail.smtp.socketFactory.port", "465");
+                            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                            props.put("mail.smtp.auth", "true");
+                            props.put("mail.smtp.port", "465");
+
+                            Authenticator auth = new Authenticator() {
+                                protected PasswordAuthentication getPasswordAuthentication() {
+                                    return new PasswordAuthentication(EMAIL, PASSWORD);
+                                }
+                            };
+
+                            Session session = Session.getDefaultInstance(props, auth);
+                            System.out.println("Session created");
+
+                            String subject = "[INFORMATION AND LIBRARY CENTER]_NOTIFY OVERDUE BORROW BOOKS AND PAY PENALTY";
+
+                            String body = "Dear " + user[1] + "<br>"
+                                    + "<br>"
+                                    + "Information and Library center notify you to return books pay penalty" + "<br>"
+                                    + "<br>"
+                                    + String.join("<br>", entry.getValue()) + "<br>"
+                                    + "<br>"
+                                    + "Any mistake please reply this email.<br>"
+                                    + "<br>"
+                                    + "Thanks.<br>"
+                                    + "Sincerely,<br>"
+                                    + "Information and Library center.";
+
+                            emailHelpers.sendEmail(session, user[2], subject, body);
+                        }//end for each user
+                    }//end if exist list user with borrowed books
+                }//end if days between = -1
             }//end if return date exist
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -111,5 +232,7 @@ public class DailyTask extends TimerTask implements Serializable {
     @Override
     public void run() {
         notifyTenDaysLeft();
+        changeStatusToOverdue();
+        notifyPenalty();
     }
 }
