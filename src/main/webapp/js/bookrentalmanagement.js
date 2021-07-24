@@ -344,6 +344,9 @@ $(document).ready(function () {
     const ITEM_RESERVED = '10';
     const ITEM_RESERVED_INACTIVE = '11';
 
+    // Staff Role
+    const $staffRole = $('')
+
     // Item Status Direction
     const ITEM_STATUS_DIRECTION = new Map();
     ITEM_STATUS_DIRECTION.set(ITEM_APPROVED, ITEM_RECEIVED);
@@ -427,7 +430,7 @@ $(document).ready(function () {
             success: function (orderItems) {
                 if (orderItems !== null) {
                     for (const item of orderItems) {
-                        // console.log($(item));
+                        console.log($(item));
                         let orderItemID = $(item).attr('id');
                         let lendStatus = $(item).attr('lendStatus');
                         let lendDate = $(item).attr('lendDate');
@@ -707,7 +710,7 @@ $(document).ready(function () {
 
     const renderItemStatData = function (mutationsList, observer) {
         $(mutationsList).each(function () {
-            console.log('Order Item Status Mutation detected: ', this);
+            // console.log('Order Item Status Mutation detected: ', this);
             let $lbItemStat = $(this['target']);
             let lendStatus = $lbItemStat.get(0).attributes['lendStatus']['value'];
             // Temporarily stop observing to ignore rendering changes
@@ -820,7 +823,7 @@ $(document).ready(function () {
 
     const renderItemStatData = function (mutationsList, observer) {
         $(mutationsList).each(function () {
-            console.log('Order Item Status Select Mutation detected: ', this);
+            // console.log('Order Item Status Select Mutation detected: ', this);
             let $slItemStat = $(this['target']);
             let $optItemStat = $slItemStat.find('option');
             stopObserver();

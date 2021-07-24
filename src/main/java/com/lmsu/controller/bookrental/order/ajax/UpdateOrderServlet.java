@@ -67,6 +67,15 @@ public class UpdateOrderServlet extends HttpServlet {
         put(ITEM_OVERDUE_RETURNED, DATE_RETURN);
     }};
 
+    private final Map<Integer, Integer> ITEM_STATUS_DIRECTION = new HashMap<Integer, Integer>() {{
+        put(ITEM_APPROVED, ITEM_RECEIVED);
+        put(ITEM_RECEIVED, ITEM_RETURNED);
+        put(ITEM_OVERDUE, ITEM_OVERDUE_RETURNED);
+        put(ITEM_LOST, ITEM_OVERDUE_RETURNED);
+        put(ITEM_RETURN_SCHEDULED, ITEM_RETURNED);
+        put(ITEM_OVERDUE_RETURN_SCHEDULED, ITEM_OVERDUE_RETURNED);
+    }};
+
     private final String PARAM_TXT_ORDERID = "txtOrderID";
     private final String PARAM_TXT_ITEMSTATUSLIST = "jsonItemStats";
 
@@ -99,6 +108,7 @@ public class UpdateOrderServlet extends HttpServlet {
                         int orderID = Integer.parseInt(txtOrderID);
                         Object jsonOrderItemList = new Gson().fromJson(txtOrderItemList, Object.class);
                         OrderItemDAO orderItemDAO = new OrderItemDAO(conn);
+                        OrderItemDAO itemStatCheckDAO = new OrderItemDAO();
                         BookDAO bookDAO = new BookDAO();
                         // Updating items
                         for (Object orderItem : ((ArrayList) jsonOrderItemList)) {
@@ -110,42 +120,49 @@ public class UpdateOrderServlet extends HttpServlet {
                             int orderItemID = Integer.parseInt(txtOrderItemID);
                             int lendStatus = Integer.parseInt(txtLendStatus);
                             // Status update
-                            boolean updateStatusResult = orderItemDAO
-                                    .updateOrderItemStatus(orderItemID, lendStatus, CONNECTION_USE_BATCH);
-                            if (updateStatusResult) {
-                                // Date update
-                                Date currentDate = DateHelpers.getCurrentDate();
-                                if ((txtLendDate.equals("")) && (lendStatus == ITEM_RECEIVED)) {
-                                    boolean updateDateResult = orderItemDAO
-                                            .updateOrderItemDate(orderItemID, currentDate,
-                                                    DATE_RECEIVE, CONNECTION_USE_BATCH);
-                                    if (updateDateResult) {
-                                        // Update Librarian ID of Direct Order
-                                        if (lendStatus == ITEM_RECEIVED) {
-                                            DirectOrderDAO directOrderDAO = new DirectOrderDAO(conn);
-                                            directOrderDAO.updateLibrarianOfOrder(orderID, librarian.getId(),
-                                                    CONNECTION_USE_BATCH);
+                            OrderItemDTO orderItemGet = itemStatCheckDAO.getOrderItemByID(orderItemID);
+                            int itemCurrentStatus = orderItemGet.getLendStatus();
+                            Integer validNextStatus = ITEM_STATUS_DIRECTION.get(itemCurrentStatus);
+                            if (validNextStatus != null) {
+                                if (validNextStatus == lendStatus) {
+                                    boolean updateStatusResult = orderItemDAO
+                                            .updateOrderItemStatus(orderItemID, lendStatus, CONNECTION_USE_BATCH);
+                                    if (updateStatusResult) {
+                                        // Date update
+                                        Date currentDate = DateHelpers.getCurrentDate();
+                                        if ((txtLendDate.equals("")) && (lendStatus == ITEM_RECEIVED)) {
+                                            boolean updateDateResult = orderItemDAO
+                                                    .updateOrderItemDate(orderItemID, currentDate,
+                                                            DATE_RECEIVE, CONNECTION_USE_BATCH);
+                                            if (updateDateResult) {
+                                                // Update Librarian ID of Direct Order
+                                                if (lendStatus == ITEM_RECEIVED) {
+                                                    DirectOrderDAO directOrderDAO = new DirectOrderDAO(conn);
+                                                    directOrderDAO.updateLibrarianOfOrder(orderID, librarian.getId(),
+                                                            CONNECTION_USE_BATCH);
+                                                }
+                                            }
+                                        }
+                                        if ((txtReturnDate.equals(""))
+                                                && ((lendStatus == ITEM_RETURNED) || (lendStatus == ITEM_OVERDUE_RETURNED))) {
+                                            boolean updateDateResult = orderItemDAO
+                                                    .updateOrderItemDate(orderItemID, currentDate,
+                                                            DATE_RETURN, CONNECTION_USE_BATCH);
+                                        }
+                                        conn.commit();
+                                        // Update book quantity after returning item
+                                        if ((lendStatus == ITEM_RETURNED)
+                                                || (lendStatus == ITEM_OVERDUE_RETURNED)) {
+                                            OrderItemDTO orderItemDTO = orderItemDAO.getOrderItemByID(orderItemID);
+                                            String bookID = orderItemDTO.getBookID();
+                                            BookDTO book = bookDAO.getBookById(bookID);
+                                            bookDAO.updateQuantity(bookID, book.getQuantity() + 1);
                                         }
                                     }
-                                }
-                                if ((txtReturnDate.equals(""))
-                                        && ((lendStatus == ITEM_RETURNED) || (lendStatus == ITEM_OVERDUE_RETURNED))) {
-                                    boolean updateDateResult = orderItemDAO
-                                            .updateOrderItemDate(orderItemID, currentDate,
-                                                    DATE_RETURN, CONNECTION_USE_BATCH);
-                                }
-                                conn.commit();
-                                // Update book quantity after returning item
-                                if ((lendStatus == ITEM_RETURNED)
-                                        || (lendStatus == ITEM_OVERDUE_RETURNED)) {
-                                    OrderItemDTO orderItemDTO = orderItemDAO.getOrderItemByID(orderItemID);
-                                    String bookID = orderItemDTO.getBookID();
-                                    BookDTO book = bookDAO.getBookById(bookID);
-                                    bookDAO.updateQuantity(bookID, book.getQuantity() + 1);
-                                }
-                                OrderItemDTO orderItemDTO = orderItemDAO.getOrderItemByID(orderItemID);
-                                orderItems.add(orderItemDTO);
-                            }
+                                } // end check item status validity
+                            } // end check next status
+                            OrderItemDTO orderItemDTO = itemStatCheckDAO.getOrderItemByID(orderItemID);
+                            orderItems.add(orderItemDTO);
                         } // end traversing order items
                         if (conn != null) {
                             conn.setAutoCommit(true);
