@@ -22,97 +22,12 @@
 <body>
 <div class="container-scroller">
     <!-- partial:../../partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo mr-5" href="dashboard.jsp">
-                <img src="images/LMSU LOGO DASHBOARD.svg" class="mr-2" alt="logo" style="margin-left: 40px;"/>
-            </a>
-            <a class="navbar-brand brand-logo-mini" href="dashboard.jsp">
-                <img src="images/LMSU LOGO MINI DASHBOARD.svg" alt="logo"/>
-            </a>
-        </div>
-        <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-                <span class="icon-menu"></span>
-            </button>
-
-            <ul class="navbar-nav navbar-nav-right">
-                <li class="nav-item nav-profile dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                        <img src="${sessionScope.LOGIN_USER.profilePicturePath}" alt="profile picture"
-                             style="border-radius: 50%;"
-                             onerror="this.onerror=null; this.src='images/default-user-icon.png';"/>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item" href="ShowProfileServlet">
-                            <i class="ti-settings text-primary"></i> Profile
-                        </a>
-                        <a class="dropdown-item" href="LogoutServlet">
-                            <i class="ti-power-off text-primary"></i> Logout
-                        </a>
-                    </div>
-                </li>
-            </ul>
-            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                    data-toggle="offcanvas">
-                <span class="icon-menu"></span>
-            </button>
-        </div>
-    </nav>
+    <jsp:include page="adminheader.jsp"/>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
         <!-- partial -->
-        <!-- partial:../../partials/_sidebar.html -->
         <jsp:include page="sidebar.jsp"/>
-
-        <%--        <nav class="sidebar sidebar-offcanvas" id="sidebar">--%>
-        <%--            <ul class="nav">--%>
-        <%--                <li class="nav-item">--%>
-        <%--                    <a class="nav-link" href="dashboard.jsp">--%>
-        <%--                        <i class="icon-grid menu-icon"></i>--%>
-        <%--                        <span class="menu-title">Dashboard</span>--%>
-        <%--                    </a>--%>
-        <%--                </li>--%>
-        <%--                <li class="nav-item">--%>
-        <%--                    <a class="nav-link" href="IndexServlet">--%>
-        <%--                        <i class="icon-paper menu-icon"></i>--%>
-        <%--                        <span class="menu-title">Library</span>--%>
-        <%--                    </a>--%>
-        <%--                </li>--%>
-        <%--                <li class="nav-item">--%>
-        <%--                    <a class="nav-link" data-toggle="collapse" href="#user-management" aria-expanded="false"--%>
-        <%--                       aria-controls="ui-basic">--%>
-        <%--                        <i class="icon-head menu-icon"></i>--%>
-        <%--                        <span class="menu-title">Users</span>--%>
-        <%--                        <i class="menu-arrow"></i>--%>
-        <%--                    </a>--%>
-        <%--                    <div class="collapse" id="user-management">--%>
-        <%--                        <ul class="nav flex-column sub-menu">--%>
-        <%--                            <li class="nav-item"><a class="nav-link" href="ShowMemberServlet">Member</a></li>--%>
-        <%--                            <li class="nav-item"><a class="nav-link" href="ShowStaffServlet">Staff</a></li>--%>
-        <%--                        </ul>--%>
-        <%--                    </div>--%>
-        <%--                </li>--%>
-        <%--                <li class="nav-item">--%>
-        <%--                    <a class="nav-link" href="ShowBookServlet">--%>
-        <%--                        <i class="icon-book menu-icon"></i>--%>
-        <%--                        <span class="menu-title">Books</span>--%>
-        <%--                    </a>--%>
-        <%--                </li>--%>
-        <%--                <li class="nav-item">--%>
-        <%--                    <a class="nav-link" href="BookRentalManagement.html">--%>
-        <%--                        <i class="icon-archive menu-icon"></i>--%>
-        <%--                        <span class="menu-title">Book Rental</span>--%>
-        <%--                    </a>--%>
-        <%--                </li>--%>
-        <%--                <li class="nav-item">--%>
-        <%--                    <a class="nav-link" href="ShowLogServlet">--%>
-        <%--                        <i class="icon-file-subtract menu-icon"></i>--%>
-        <%--                        <span class="menu-title">Import Log</span>--%>
-        <%--                    </a>--%>
-        <%--                </li>--%>
-        <%--            </ul>--%>
-        <%--        </nav>--%>
+        <!-- partial:../../partials/_sidebar.html -->
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
