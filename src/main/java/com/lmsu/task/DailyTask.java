@@ -84,15 +84,15 @@ public class DailyTask extends TimerTask implements Serializable {
 
                             String body = "Dear " + user[1] + "<br>"
                                     + "<br>"
-                                    + "Information and Library center remind you to return books before " + returnDate + "<br>"
+                                    + "Information and Library Center remind you to return books before " + returnDate + "<br>"
                                     + "<br>"
                                     + String.join("<br>", entry.getValue()) + "<br>"
                                     + "<br>"
-                                    + "Any mistake please reply this email.<br>"
+                                    + "If you believe there are any mistakes, please reply to this email.<br>"
                                     + "<br>"
-                                    + "Thanks.<br>"
+                                    + "Thank you.<br>"
                                     + "Sincerely,<br>"
-                                    + "Information and Library center.";
+                                    + "Information and Library Center.";
 
                             emailHelpers.sendEmail(session, user[2], subject, body);
                         }//end for each user
@@ -308,15 +308,20 @@ public class DailyTask extends TimerTask implements Serializable {
 
                             String body = "Dear " + user[1] + "<br>"
                                     + "<br>"
-                                    + "Information and Library center notify you to return books pay penalty" + "<br>"
+                                    + "Information and Library Center are pleased that you had chosen our library service as a mean for learning resources." + "<br>"
+                                    + "<br>"
+                                    + "However, our system has detected that there are overdue books in your current book rental." +
+                                    "We regrettably have to inform you that you have been penalized for the late return of those books." + "<br>"
+                                    + "<br>"
+                                    + "Please return the overdue books to our library and settle the penalty as soon as your earliest possible date." + "<br>"
                                     + "<br>"
                                     + String.join("<br>", entry.getValue()) + "<br>"
                                     + "<br>"
-                                    + "Any mistake please reply this email.<br>"
+                                    + "If you believe there are any mistakes, please reply to this email.<br>"
                                     + "<br>"
-                                    + "Thanks.<br>"
+                                    + "Thank you.<br>"
                                     + "Sincerely,<br>"
-                                    + "Information and Library center.";
+                                    + "Information and Library Center.";
 
                             emailHelpers.sendEmail(session, user[2], subject, body);
                         }//end for each user
