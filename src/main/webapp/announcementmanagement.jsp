@@ -12,13 +12,23 @@
     <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
-
+    <style>
+        .error{
+            border-color: red;
+        }
+        label{
+            display: none !important;
+        }
+    </style>
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
     <!-- endinject -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <link rel="shortcut icon" href="images/images/favicon.png"/>
     <link rel="stylesheet" href="css/announcementmanagement.css">
+    <script src="js/jquery.validate.min.js"></script>
     <script src="js/iconpro.js"></script>
 </head>
 <body>
@@ -37,7 +47,7 @@
             <div class="content-wrapper">
                 <div class="card">
                     <div class="card-body">
-                        <form action="DispatchServlet">
+                        <form action="DispatchServlet" id="myForm">
                             <div class="d-flex flex-column align-items-center mb-5">
                                 <h6><b>INFORMATION AND LIBRARY CENTER</b></h6>
                                 <h3><b>ANNOUNCEMENT</b></h3>
@@ -53,8 +63,8 @@
                                         <option>Summer</option>
                                         <option>Fall</option>
                                     </select>
-                                    <input type="text" placeholder="Enter year" id="year" required
-                                           name="year" value=""> semester at FPT University Library.
+                                    <input type="text" placeholder="Enter year" id="year"
+                                           name="year" value="" class="yearField"> semester at FPT University Library.
                                     Library users are required to follow below schedule:
                                 </p>
                                 <p class="text-danger">
@@ -73,7 +83,7 @@
                                 </p>
                                 <p>
                                     Textbook for subjects: <input type="text" placeholder="Enter subject" id="subject"
-                                                                  name="subject" value="" required>
+                                                                  name="subject" value="" class="textField">
                                     <b class="text-danger">from <%--<input type="text" placeholder="Enter day" id="day"
                                                                        name="day" value="" required>--%>
                                         <input type="date" id="dateFrom" name="dateFrom" value="" required>
@@ -213,13 +223,13 @@
     </div>
     <!-- page-body-wrapper ends -->
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
 <script src="js/announcementmanagement.js"></script>
 <!-- container-scroller -->
 <!-- plugins:js -->
-<script src="vendors/js/vendor.bundle.base.js"></script>
+<%--<script src="vendors/js/vendor.bundle.base.js"></script>--%>
 <!-- endinject -->
 <!-- Plugin js for this page -->
 
