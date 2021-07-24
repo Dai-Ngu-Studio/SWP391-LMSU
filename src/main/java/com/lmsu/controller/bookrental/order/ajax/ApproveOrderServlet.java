@@ -12,6 +12,7 @@ import com.lmsu.services.GhnApis;
 import com.lmsu.users.UserDTO;
 import com.lmsu.utils.DBHelpers;
 import javafx.util.Pair;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -111,9 +112,11 @@ public class ApproveOrderServlet extends HttpServlet {
                                         deliveryOrderDAO.updateTrackingCodeOfOrder(orderID, trackingCode);
                                     }
                                     conn.commit();
-                                }
-                            }
-                        }
+                                    LOGGER.log(Level.INFO, "Staff " + staff.getName() + " [" + staff.getId() +
+                                            "] has approved order " + txtOrderID);
+                                } // end if order item status updated
+                            } // end if order status updated
+                        } // end if check status direction
                         order = orderDAO.getOrderFromID(orderID);
                         orderItemDAO.clearOrderItemList();
                         orderItemDAO.getOrderItemsFromOrderID(orderID);

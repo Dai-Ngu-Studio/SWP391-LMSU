@@ -8,6 +8,7 @@ import com.lmsu.orderdata.orders.OrderDTO;
 import com.lmsu.users.UserDTO;
 import com.lmsu.utils.DBHelpers;
 import javafx.util.Pair;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -85,6 +86,8 @@ public class RejectOrderServlet extends HttpServlet {
                                                 orderID, ITEM_REJECTED, CONNECTION_USE_BATCH);
                                 if (updateOrderItemResult) {
                                     conn.commit();
+                                    LOGGER.log(Level.INFO, "Staff " + staff.getName() + " [" + staff.getId() +
+                                            "] has rejected order " + txtOrderID);
                                 }
                             }
                         }
