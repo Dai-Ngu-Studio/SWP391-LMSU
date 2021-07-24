@@ -22,6 +22,10 @@ public class UpdatePenaltyServlet extends HttpServlet {
     private final String PARAM_TXT_ORDERITEMID = "txtOrderItemID";
     private final String PARAM_TXT_PENALTYSTATUS = "txtPenaltyStatus";
 
+    private final int PENALTY_NONE = 0;
+    private final int PENALTY_UNPAID = 1;
+    private final int PENALTY_PAID = 2;
+
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -41,13 +45,16 @@ public class UpdatePenaltyServlet extends HttpServlet {
                     int orderItemID = Integer.parseInt(txtOrderItemID);
                     int penaltyStatus = Integer.parseInt(txtPenaltyStatus);
                     OrderItemDAO orderItemDAO = new OrderItemDAO();
-                    boolean updatePenaltyResult = orderItemDAO.updateOrderItemPenaltyStatus(orderItemID, penaltyStatus);
-                    if (updatePenaltyResult) {
-                        LOGGER.log(Level.INFO, "Staff " + staff.getName() + " [" + staff.getId() +
-                                "] has updated penalty of Order Item " + orderItemID + " to " + penaltyStatus);
-                        orderItem = orderItemDAO.getOrderItemByID(orderItemID);
-                    }
-                }
+                    orderItem = orderItemDAO.getOrderItemByID(orderItemID);
+                    if (orderItem.getPenaltyStatus() != PENALTY_PAID) {
+                        boolean updatePenaltyResult = orderItemDAO.updateOrderItemPenaltyStatus(orderItemID, penaltyStatus);
+                        if (updatePenaltyResult) {
+                            LOGGER.log(Level.INFO, "Staff " + staff.getName() + " [" + staff.getId() +
+                                    "] has updated penalty of Order Item " + orderItemID + " to " + penaltyStatus);
+                            orderItem = orderItemDAO.getOrderItemByID(orderItemID);
+                        } // end update
+                    } // end check status validity
+                } // end check staff
             }
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
