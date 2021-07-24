@@ -17,7 +17,7 @@ public class DeleteStaffServlet extends HttpServlet {
 
     private static final String SHOW_STAFF_CONTROLLER = "ShowStaffServlet";
     private static final String SEARCH_STAFF_CONTROLLER = "SearchStaffServlet";
-    static final Logger LOGGER = Logger.getLogger(DeleteUserServlet.class);
+    static final Logger LOGGER = Logger.getLogger(DeleteStaffServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -38,7 +38,7 @@ public class DeleteStaffServlet extends HttpServlet {
                 loginUserID = loginUser.getId();
             }
 
-            if (!loginUserID.equals(userID)){
+            if (!loginUserID.equals(userID)) {
                 boolean result = dao.deleteUser(userID);
 
                 if (result) {
@@ -51,12 +51,12 @@ public class DeleteStaffServlet extends HttpServlet {
             } else {
                 request.setAttribute("LOGGING_IN_USER", "You're now logging into this account. Cannot delete it!");
             }
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
-            log("DeleteUserServlet _ SQL: " + ex.getMessage());
-        } catch (NamingException ex){
+            log("DeleteStaffServlet _ SQL: " + ex.getMessage());
+        } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
-            log("DeleteUserServlet _ Naming: " + ex.getMessage());
+            log("DeleteStaffServlet _ Naming: " + ex.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
@@ -65,11 +65,11 @@ public class DeleteStaffServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 }
