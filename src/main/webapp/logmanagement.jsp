@@ -36,142 +36,144 @@
                         <h4 class="card-title">Data table</h4>
                         <div class="row">
                             <div class="table-responsive">
-                                <table id="order-listing"
-                                       class="table table-hover dataTable no-footer"
-                                       role="grid"
-                                       aria-describedby="order-listing_info">
-                                    <thead>
-                                    <tr>
-                                        <th style="width: 54px;">Imported On</th>
-                                        <th style="width: 72px;">Total Quantity</th>
-                                        <th style="width: 110px;">Total Imported Times</th>
-                                        <th style="width: 64px;">Actions</th>
-                                    </tr>
-
-                                    </thead>
-                                    <tbody>
-                                    <c:set var="logMap" value="${requestScope.LOG_MAP_LIST}"/>
-                                    <c:forEach var="keyDate" items="${logMap.keySet()}"
-                                               varStatus="counter">
-                                        <c:set var="totalQuantity" value="${0}"/>
-                                        <c:set var="totalLog" value="${0}"/>
-                                        <c:forEach var="log" items="${logMap.get(keyDate)}">
-                                            <c:set var="totalQuantity"
-                                                   value="${totalQuantity+log.quantity}"/>
-                                            <c:set var="totalLog" value="${totalLog+1}"/>
-                                        </c:forEach>
+                                <div class="col-12">
+                                    <table id="order-listing"
+                                           class="table table-hover dataTable no-footer"
+                                           role="grid"
+                                           aria-describedby="order-listing_info">
+                                        <thead>
                                         <tr>
-                                            <td>${keyDate}</td>
-                                            <td>${totalQuantity}</td>
-                                            <td>${totalLog}</td>
-                                            <td>
-                                                <button class="btn btn-outline-primary"
-                                                        data-toggle="modal"
-                                                        data-target="#logModal${counter.count}">View
-                                                    Details
-                                                </button>
-                                                <div class="modal fade"
-                                                     id="logModal${counter.count}"
-                                                     tabindex="-1"
-                                                     role="dialog"
-                                                     aria-labelledby="exampleModalLongTitle"
-                                                     aria-hidden="true">
-                                                    <div class="modal-dialog modal-xl" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title"
-                                                                    id="modalTitle${counter.count}">
-                                                                    Import Log</h5>
-                                                                <button type="button" class="close"
-                                                                        data-dismiss="modal"
-                                                                        aria-label="Close">
+                                            <th style="width: 54px;">Imported On</th>
+                                            <th style="width: 72px;">Total Quantity</th>
+                                            <th style="width: 110px;">Total Imported Times</th>
+                                            <th style="width: 64px;">Actions</th>
+                                        </tr>
+
+                                        </thead>
+                                        <tbody>
+                                        <c:set var="logMap" value="${requestScope.LOG_MAP_LIST}"/>
+                                        <c:forEach var="keyDate" items="${logMap.keySet()}"
+                                                   varStatus="counter">
+                                            <c:set var="totalQuantity" value="${0}"/>
+                                            <c:set var="totalLog" value="${0}"/>
+                                            <c:forEach var="log" items="${logMap.get(keyDate)}">
+                                                <c:set var="totalQuantity"
+                                                       value="${totalQuantity+log.quantity}"/>
+                                                <c:set var="totalLog" value="${totalLog+1}"/>
+                                            </c:forEach>
+                                            <tr>
+                                                <td>${keyDate}</td>
+                                                <td>${totalQuantity}</td>
+                                                <td>${totalLog}</td>
+                                                <td>
+                                                    <button class="btn btn-outline-primary"
+                                                            data-toggle="modal"
+                                                            data-target="#logModal${counter.count}">View
+                                                        Details
+                                                    </button>
+                                                    <div class="modal fade"
+                                                         id="logModal${counter.count}"
+                                                         tabindex="-1"
+                                                         role="dialog"
+                                                         aria-labelledby="exampleModalLongTitle"
+                                                         aria-hidden="true">
+                                                        <div class="modal-dialog modal-xl" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title"
+                                                                        id="modalTitle${counter.count}">
+                                                                        Import Log</h5>
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal"
+                                                                            aria-label="Close">
                                                                                         <span
                                                                                                 aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <fieldset disabled>
-                                                                    <div class="form-group row">
-                                                                        <label class="col-sm-3 col-form-label">Imported
-                                                                            date</label>
-                                                                        <div class="col-sm-9">
-                                                                            <input type="text"
-                                                                                   class="form-control"
-                                                                                   value="${keyDate}">
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <fieldset disabled>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 col-form-label">Imported
+                                                                                date</label>
+                                                                            <div class="col-sm-9">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value="${keyDate}">
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <label class="col-sm-3 col-form-label">Total
-                                                                            Quantity</label>
-                                                                        <div class="col-sm-9">
-                                                                            <input type="text"
-                                                                                   class="form-control"
-                                                                                   value="${totalQuantity}">
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 col-form-label">Total
+                                                                                Quantity</label>
+                                                                            <div class="col-sm-9">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value="${totalQuantity}">
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <label class="col-sm-3 col-form-label">Total
-                                                                            Imports</label>
-                                                                        <div class="col-sm-9">
-                                                                            <input type="text"
-                                                                                   class="form-control"
-                                                                                   value="${totalLog}">
+                                                                        <div class="form-group row">
+                                                                            <label class="col-sm-3 col-form-label">Total
+                                                                                Imports</label>
+                                                                            <div class="col-sm-9">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value="${totalLog}">
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <div class="table-responsive">
-                                                                            <table class="table table-hover">
-                                                                                <thead>
-                                                                                <tr>
-                                                                                    <th scope="col">
-                                                                                        Log ID
-                                                                                    </th>
-                                                                                    <th scope="col">
-                                                                                        Book Title
-                                                                                    </th>
-                                                                                    <th scope="col">
-                                                                                        Manager Imported
-                                                                                    </th>
-                                                                                    <th scope="col">
-                                                                                        Supplier
-                                                                                    </th>
-                                                                                    <th scope="col">
-                                                                                        Quantity
-                                                                                    </th>
-                                                                                </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                <c:forEach var="log"
-                                                                                           items="${logMap.get(keyDate)}">
+                                                                        <div class="form-group row">
+                                                                            <div class="table-responsive">
+                                                                                <table class="table table-hover">
+                                                                                    <thead>
                                                                                     <tr>
-                                                                                        <td>${log.logID} </td>
-                                                                                        <td>${log.book.title}</td>
-                                                                                        <td>${log.manager.name}</td>
-                                                                                        <td>${log.supplier}</td>
-                                                                                        <td>${log.quantity}</td>
+                                                                                        <th scope="col">
+                                                                                            Log ID
+                                                                                        </th>
+                                                                                        <th scope="col">
+                                                                                            Book Title
+                                                                                        </th>
+                                                                                        <th scope="col">
+                                                                                            Manager Imported
+                                                                                        </th>
+                                                                                        <th scope="col">
+                                                                                            Supplier
+                                                                                        </th>
+                                                                                        <th scope="col">
+                                                                                            Quantity
+                                                                                        </th>
                                                                                     </tr>
-                                                                                </c:forEach>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                    <c:forEach var="log"
+                                                                                               items="${logMap.get(keyDate)}">
+                                                                                        <tr>
+                                                                                            <td>${log.logID} </td>
+                                                                                            <td>${log.book.title}</td>
+                                                                                            <td>${log.manager.name}</td>
+                                                                                            <td>${log.supplier}</td>
+                                                                                            <td>${log.quantity}</td>
+                                                                                        </tr>
+                                                                                    </c:forEach>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
 
-                                                                    </div>
-                                                                </fieldset>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button"
-                                                                        class="btn btn-primary"
-                                                                        data-dismiss="modal">Close
-                                                                </button>
+                                                                        </div>
+                                                                    </fieldset>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button"
+                                                                            class="btn btn-primary"
+                                                                            data-dismiss="modal">Close
+                                                                    </button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

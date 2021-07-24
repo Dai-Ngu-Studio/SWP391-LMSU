@@ -45,317 +45,321 @@
                             <div class="table-responsive">
                                 <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                     <div class="row">
-                                        <div class="col-sm-12">
-                                            <table id="rental-datatable" class="table dataTable no-footer" role="grid"
-                                                   aria-describedby="order-listing_info">
-                                                <thead>
-                                                <tr>
-                                                    <th style="width: 0px; text-align: center">#</th>
-                                                    <th style="width: 0px; text-align: left">BOOK</th>
-                                                    <th style="width: 0px; text-align: left">BORROWER</th>
-                                                    <th style="width: 0px; text-align: center">STATUS</th>
-                                                    <th style="width: 0px; text-align: center">ACTIONS</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <c:set var="renewalList" value="${requestScope.RENEWAL_LIST}"/>
-                                                <c:forEach var="renewal" items="${renewalList}"
-                                                           varStatus="counter">
+                                        <div class="table-responsive">
+                                            <div class="col-sm-12">
+                                                <table id="rental-datatable" class="table dataTable no-footer"
+                                                       role="grid"
+                                                       aria-describedby="order-listing_info">
+                                                    <thead>
                                                     <tr>
-                                                        <td class="text-center">${counter.count}</td>
-                                                        <td class="text-left">
-                                                                ${renewal.item.title}
-                                                        </td>
-                                                        <td class="text-left">${renewal.item.memberName}</td>
-                                                        <td class="text-center">
-                                                            <label class="badge lbRenewalStat"
-                                                                   id="lbRenewalStat${renewal.renewalID}"
-                                                                   renewalid="${renewal.renewalID}"
-                                                                   renewalStatus="${renewal.approvalStatus}"
-                                                                   value="${renewal.approvalStatus}"></label>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <div class="btn-group">
-                                                                <button type="button" class="btn btn-light"
-                                                                        data-toggle="modal"
-                                                                        data-target="#renewalModal${renewal.renewalID}">
-                                                                    <i class="fa fa-eye text-primary"></i>
-                                                                </button>
-                                                            </div>
-                                                        </td>
+                                                        <th style="width: 0px; text-align: center">#</th>
+                                                        <th style="width: 0px; text-align: left">BOOK</th>
+                                                        <th style="width: 0px; text-align: left">BORROWER</th>
+                                                        <th style="width: 0px; text-align: center">STATUS</th>
+                                                        <th style="width: 0px; text-align: center">ACTIONS</th>
                                                     </tr>
-                                                </c:forEach>
-                                                </tbody>
-                                            </table>
-                                            <c:forEach var="renewal" items="${renewalList}">
-                                                <div class="modal fade"
-                                                     id="renewalModal${renewal.renewalID}"
-                                                     tabindex="-1">
-                                                    <div class="modal-dialog modal-lg">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">
-                                                                    Renewal Request Details
-                                                                </h5>
-                                                                <button type="button"
-                                                                        class="close"
-                                                                        data-dismiss="modal">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="form-group row">
-                                                                    <label class="col-lg-1 col-12 col-form-label">
-                                                                        Request ID
-                                                                    </label>
-                                                                    <div class="col-lg-11 col-12">
-                                                                        <input type="text"
-                                                                               id="txtOrderID${renewal.renewalID}"
-                                                                               class="form-control"
-                                                                               value="${renewal.renewalID}"
-                                                                               disabled/>
-                                                                    </div>
+                                                    </thead>
+                                                    <tbody>
+                                                    <c:set var="renewalList" value="${requestScope.RENEWAL_LIST}"/>
+                                                    <c:forEach var="renewal" items="${renewalList}"
+                                                               varStatus="counter">
+                                                        <tr>
+                                                            <td class="text-center">${counter.count}</td>
+                                                            <td class="text-left">
+                                                                    ${renewal.item.title}
+                                                            </td>
+                                                            <td class="text-left">${renewal.item.memberName}</td>
+                                                            <td class="text-center">
+                                                                <label class="badge lbRenewalStat"
+                                                                       id="lbRenewalStat${renewal.renewalID}"
+                                                                       renewalid="${renewal.renewalID}"
+                                                                       renewalStatus="${renewal.approvalStatus}"
+                                                                       value="${renewal.approvalStatus}"></label>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div class="btn-group">
+                                                                    <button type="button" class="btn btn-light"
+                                                                            data-toggle="modal"
+                                                                            data-target="#renewalModal${renewal.renewalID}">
+                                                                        <i class="fa fa-eye text-primary"></i>
+                                                                    </button>
                                                                 </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-lg-1 col-12 col-form-label">
-                                                                        Member ID
-                                                                    </label>
-                                                                    <div class="col-lg-5 col-12">
-                                                                        <input type="text"
-                                                                               id="txtMemberID${renewal.item.memberID}"
-                                                                               class="form-control"
-                                                                               value="${renewal.item.memberID}"
-                                                                               disabled/>
-                                                                    </div>
-                                                                    <label class="col-lg-1 col-12 col-form-label">
-                                                                        Member Name
-                                                                    </label>
-                                                                    <div class="col-lg-5 col-12">
-                                                                        <input type="text"
-                                                                               id="txtMemberName${renewal.item.memberID}"
-                                                                               class="form-control"
-                                                                               value="${renewal.item.memberName}"
-                                                                               disabled/>
-                                                                    </div>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                                <c:forEach var="renewal" items="${renewalList}">
+                                                    <div class="modal fade"
+                                                         id="renewalModal${renewal.renewalID}"
+                                                         tabindex="-1">
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">
+                                                                        Renewal Request Details
+                                                                    </h5>
+                                                                    <button type="button"
+                                                                            class="close"
+                                                                            data-dismiss="modal">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
                                                                 </div>
-                                                                <c:set var="staffID" value="${renewal.librarian.id}"/>
-                                                                <c:set var="staffName"
-                                                                       value="${renewal.librarian.name}"/>
-                                                                <c:if test="${empty staffID}">
-                                                                    <c:set var="staffID" value="N/A"/>
-                                                                    <c:set var="staffName" value="N/A"/>
-                                                                </c:if>
-                                                                <div class="form-group row">
-                                                                    <label class="col-lg-1 col-12 col-form-label">
-                                                                        Staff ID
-                                                                    </label>
-                                                                    <div class="col-lg-5 col-12">
-                                                                        <input type="text"
-                                                                               id="txtStaffID${staffID}"
-                                                                               class="form-control frmStaffID"
-                                                                               renewalid="${renewal.renewalID}"
-                                                                               value="${staffID}"
-                                                                               disabled/>
+                                                                <div class="modal-body">
+                                                                    <div class="form-group row">
+                                                                        <label class="col-lg-1 col-12 col-form-label">
+                                                                            Request ID
+                                                                        </label>
+                                                                        <div class="col-lg-11 col-12">
+                                                                            <input type="text"
+                                                                                   id="txtOrderID${renewal.renewalID}"
+                                                                                   class="form-control"
+                                                                                   value="${renewal.renewalID}"
+                                                                                   disabled/>
+                                                                        </div>
                                                                     </div>
-                                                                    <label class="col-lg-1 col-12 col-form-label">
-                                                                        Staff Name
-                                                                    </label>
-                                                                    <div class="col-lg-5 col-12">
-                                                                        <input type="text"
-                                                                               id="txtStaffName${staffID}"
-                                                                               class="form-control frmStaffName"
-                                                                               renewalid="${renewal.renewalID}"
-                                                                               value="${staffName}"
-                                                                               disabled/>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-lg-1 col-12 col-form-label">
+                                                                            Member ID
+                                                                        </label>
+                                                                        <div class="col-lg-5 col-12">
+                                                                            <input type="text"
+                                                                                   id="txtMemberID${renewal.item.memberID}"
+                                                                                   class="form-control"
+                                                                                   value="${renewal.item.memberID}"
+                                                                                   disabled/>
+                                                                        </div>
+                                                                        <label class="col-lg-1 col-12 col-form-label">
+                                                                            Member Name
+                                                                        </label>
+                                                                        <div class="col-lg-5 col-12">
+                                                                            <input type="text"
+                                                                                   id="txtMemberName${renewal.item.memberID}"
+                                                                                   class="form-control"
+                                                                                   value="${renewal.item.memberName}"
+                                                                                   disabled/>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-lg-1 col-12 col-form-label">
-                                                                        Book
-                                                                    </label>
-                                                                    <div class="col-lg-5 col-12">
-                                                                        <input type="text"
-                                                                               id="txtBookID${renewal.item.title}"
-                                                                               class="form-control"
-                                                                               value="${renewal.item.title}"
-                                                                               disabled/>
+                                                                    <c:set var="staffID"
+                                                                           value="${renewal.librarian.id}"/>
+                                                                    <c:set var="staffName"
+                                                                           value="${renewal.librarian.name}"/>
+                                                                    <c:if test="${empty staffID}">
+                                                                        <c:set var="staffID" value="N/A"/>
+                                                                        <c:set var="staffName" value="N/A"/>
+                                                                    </c:if>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-lg-1 col-12 col-form-label">
+                                                                            Staff ID
+                                                                        </label>
+                                                                        <div class="col-lg-5 col-12">
+                                                                            <input type="text"
+                                                                                   id="txtStaffID${staffID}"
+                                                                                   class="form-control frmStaffID"
+                                                                                   renewalid="${renewal.renewalID}"
+                                                                                   value="${staffID}"
+                                                                                   disabled/>
+                                                                        </div>
+                                                                        <label class="col-lg-1 col-12 col-form-label">
+                                                                            Staff Name
+                                                                        </label>
+                                                                        <div class="col-lg-5 col-12">
+                                                                            <input type="text"
+                                                                                   id="txtStaffName${staffID}"
+                                                                                   class="form-control frmStaffName"
+                                                                                   renewalid="${renewal.renewalID}"
+                                                                                   value="${staffName}"
+                                                                                   disabled/>
+                                                                        </div>
                                                                     </div>
-                                                                    <label class="col-lg-1 col-12 col-form-label">
-                                                                        Extend Date
-                                                                    </label>
-                                                                    <div class="col-lg-5 col-12">
-                                                                        <input type="text"
-                                                                               class="form-control"
-                                                                               value="${renewal.requestedExtendDate}"
-                                                                               disabled/>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-lg-1 col-12 col-form-label">
+                                                                            Book
+                                                                        </label>
+                                                                        <div class="col-lg-5 col-12">
+                                                                            <input type="text"
+                                                                                   id="txtBookID${renewal.item.title}"
+                                                                                   class="form-control"
+                                                                                   value="${renewal.item.title}"
+                                                                                   disabled/>
+                                                                        </div>
+                                                                        <label class="col-lg-1 col-12 col-form-label">
+                                                                            Extend Date
+                                                                        </label>
+                                                                        <div class="col-lg-5 col-12">
+                                                                            <input type="text"
+                                                                                   class="form-control"
+                                                                                   value="${renewal.requestedExtendDate}"
+                                                                                   disabled/>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-lg-1 col-12 col-form-label">
-                                                                        Reason
-                                                                    </label>
-                                                                    <div class="col-lg-11 col-12">
+                                                                    <div class="form-group row">
+                                                                        <label class="col-lg-1 col-12 col-form-label">
+                                                                            Reason
+                                                                        </label>
+                                                                        <div class="col-lg-11 col-12">
                                                                         <textarea type="text" class="form-control"
                                                                                   disabled>${renewal.reason}</textarea>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="form-group row frmRenewalStat"
-                                                                     renewalid="${renewal.renewalID}">
-                                                                    <label class="col-lg-1 col-12 col-form-label">
-                                                                        Renewal Status
-                                                                    </label>
-                                                                    <div class="col-lg-5 col-12">
-                                                                        <input type="text"
-                                                                               class="form-control inpRenewalStat"
-                                                                               id="inpRenewalStat${renewal.renewalID}"
-                                                                               renewalid="${renewal.renewalID}"
-                                                                               renewalStatus="${renewal.approvalStatus}"
-                                                                               value="${renewal.approvalStatus}"
-                                                                               disabled/>
-                                                                    </div>
-                                                                    <label class="col-lg-1 col-12 col-form-label">
-                                                                        Approval Status
-                                                                    </label>
-                                                                    <c:choose>
-                                                                        <c:when test="${renewal.approvalStatus eq 0}">
-                                                                            <div class="col-lg-3 col-6 pr-0 contModalApprove"
-                                                                                 renewalid="${renewal.renewalID}">
-                                                                                <button type="button"
-                                                                                        class="btn btn-block btn-light btn-sm rounded-0"
-                                                                                        data-toggle="modal"
-                                                                                        data-target="#mdConfirmApprove${renewal.renewalID}"
-                                                                                        style="border-top-left-radius: 1rem !important;
+                                                                    <div class="form-group row frmRenewalStat"
+                                                                         renewalid="${renewal.renewalID}">
+                                                                        <label class="col-lg-1 col-12 col-form-label">
+                                                                            Renewal Status
+                                                                        </label>
+                                                                        <div class="col-lg-5 col-12">
+                                                                            <input type="text"
+                                                                                   class="form-control inpRenewalStat"
+                                                                                   id="inpRenewalStat${renewal.renewalID}"
+                                                                                   renewalid="${renewal.renewalID}"
+                                                                                   renewalStatus="${renewal.approvalStatus}"
+                                                                                   value="${renewal.approvalStatus}"
+                                                                                   disabled/>
+                                                                        </div>
+                                                                        <label class="col-lg-1 col-12 col-form-label">
+                                                                            Approval Status
+                                                                        </label>
+                                                                        <c:choose>
+                                                                            <c:when test="${renewal.approvalStatus eq 0}">
+                                                                                <div class="col-lg-3 col-6 pr-0 contModalApprove"
+                                                                                     renewalid="${renewal.renewalID}">
+                                                                                    <button type="button"
+                                                                                            class="btn btn-block btn-light btn-sm rounded-0"
+                                                                                            data-toggle="modal"
+                                                                                            data-target="#mdConfirmApprove${renewal.renewalID}"
+                                                                                            style="border-top-left-radius: 1rem !important;
                                                                                     border-bottom-left-radius: 1rem !important">
-                                                                                    <h3 class="fa fa-check-circle text-success"></h3>
-                                                                                </button>
-                                                                            </div>
-                                                                            <div class="col-lg-2 col-6 pl-0 contModalReject"
-                                                                                 renewalid="${renewal.renewalID}">
-                                                                                <button type="button"
-                                                                                        class="btn btn-block btn-light btn-sm rounded-0"
-                                                                                        data-toggle="modal"
-                                                                                        data-target="#mdConfirmReject${renewal.renewalID}"
-                                                                                        style="border-top-right-radius: 1rem !important;
+                                                                                        <h3 class="fa fa-check-circle text-success"></h3>
+                                                                                    </button>
+                                                                                </div>
+                                                                                <div class="col-lg-2 col-6 pl-0 contModalReject"
+                                                                                     renewalid="${renewal.renewalID}">
+                                                                                    <button type="button"
+                                                                                            class="btn btn-block btn-light btn-sm rounded-0"
+                                                                                            data-toggle="modal"
+                                                                                            data-target="#mdConfirmReject${renewal.renewalID}"
+                                                                                            style="border-top-right-radius: 1rem !important;
                                                                                     border-bottom-right-radius: 1rem !important">
-                                                                                    <h3 class="fa fa-times-circle text-danger"></h3>
-                                                                                </button>
-                                                                            </div>
-                                                                        </c:when>
-                                                                        <c:when test="${(renewal.approvalStatus eq -1)
+                                                                                        <h3 class="fa fa-times-circle text-danger"></h3>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </c:when>
+                                                                            <c:when test="${(renewal.approvalStatus eq -1)
                                                                             or (renewal.approvalStatus eq 2)}">
-                                                                            <div class="col-lg-5 col-12">
-                                                                                <div class="btn btn-block btn-outline-danger btn-sm bg-white"
-                                                                                     disabled>
-                                                                                    <h3 class="fa fa-times-circle text-danger"></h3>
+                                                                                <div class="col-lg-5 col-12">
+                                                                                    <div class="btn btn-block btn-outline-danger btn-sm bg-white"
+                                                                                         disabled>
+                                                                                        <h3 class="fa fa-times-circle text-danger"></h3>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            <div class="col-lg-5 col-12">
-                                                                                <div class="btn btn-block btn-outline-success btn-sm bg-white"
-                                                                                     disabled>
-                                                                                    <h3 class="fa fa-check-circle text-success"></h3>
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                <div class="col-lg-5 col-12">
+                                                                                    <div class="btn btn-block btn-outline-success btn-sm bg-white"
+                                                                                         disabled>
+                                                                                        <h3 class="fa fa-check-circle text-success"></h3>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                        </c:otherwise>
-                                                                    </c:choose>
+                                                                            </c:otherwise>
+                                                                        </c:choose>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button"
-                                                                        class="btn btn-outline-primary"
-                                                                        data-dismiss="modal">
-                                                                    Close
-                                                                </button>
+                                                                <div class="modal-footer">
+                                                                    <button type="button"
+                                                                            class="btn btn-outline-primary"
+                                                                            data-dismiss="modal">
+                                                                        Close
+                                                                    </button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="modal fade"
-                                                     id="mdConfirmApprove${renewal.renewalID}"
-                                                     tabindex="-1"
-                                                     style="overflow: hidden !important; ">
-                                                    <div class="modal-dialog modal-dialog-centered"
-                                                         style="margin-top: 0px !important;">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">
-                                                                    Approve this Request
-                                                                </h5>
-                                                                <button type="button"
-                                                                        class="close"
-                                                                        data-dismiss="modal">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                This action cannot be undone. Are you sure?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <div class="row">
-                                                                    <div class="col-12">
-                                                                        <button type="button"
-                                                                                class="btn btn-outline-primary float-right ml-3"
-                                                                                id="btnDismissAppr${renewal.renewalID}"
-                                                                                data-dismiss="modal">
-                                                                            Cancel
-                                                                        </button>
-                                                                        <button type="submit"
-                                                                                class="btn btn-primary float-right btnModalAppr"
-                                                                                id="btnApproveRenewal${renewal.renewalID}"
-                                                                                renewalid="${renewal.renewalID}"
-                                                                                role="approveRenewal">
-                                                                            Yes
-                                                                        </button>
+                                                    <div class="modal fade"
+                                                         id="mdConfirmApprove${renewal.renewalID}"
+                                                         tabindex="-1"
+                                                         style="overflow: hidden !important; ">
+                                                        <div class="modal-dialog modal-dialog-centered"
+                                                             style="margin-top: 0px !important;">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">
+                                                                        Approve this Request
+                                                                    </h5>
+                                                                    <button type="button"
+                                                                            class="close"
+                                                                            data-dismiss="modal">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    This action cannot be undone. Are you sure?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <button type="button"
+                                                                                    class="btn btn-outline-primary float-right ml-3"
+                                                                                    id="btnDismissAppr${renewal.renewalID}"
+                                                                                    data-dismiss="modal">
+                                                                                Cancel
+                                                                            </button>
+                                                                            <button type="submit"
+                                                                                    class="btn btn-primary float-right btnModalAppr"
+                                                                                    id="btnApproveRenewal${renewal.renewalID}"
+                                                                                    renewalid="${renewal.renewalID}"
+                                                                                    role="approveRenewal">
+                                                                                Yes
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="modal fade"
-                                                     id="mdConfirmReject${renewal.renewalID}"
-                                                     tabindex="-1"
-                                                     style="overflow: hidden !important; ">
-                                                    <div class="modal-dialog modal-dialog-centered"
-                                                         style="margin-top: 0px !important;">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">
-                                                                    Reject this Order
-                                                                </h5>
-                                                                <button type="button"
-                                                                        class="close"
-                                                                        data-dismiss="modal">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                This action cannot be undone. Are you sure?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <div class="row">
-                                                                    <div class="col-12">
-                                                                        <button type="button"
-                                                                                class="btn btn-outline-primary float-right ml-3"
-                                                                                id="btnDismissReject${renewal.renewalID}"
-                                                                                data-dismiss="modal">
-                                                                            Cancel
-                                                                        </button>
-                                                                        <button type="submit"
-                                                                                class="btn btn-primary float-right btnModalAppr"
-                                                                                id="btnRejectRenewal${renewal.renewalID}"
-                                                                                renewalid="${renewal.renewalID}"
-                                                                                role="rejectRenewal">
-                                                                            Yes
-                                                                        </button>
+                                                    <div class="modal fade"
+                                                         id="mdConfirmReject${renewal.renewalID}"
+                                                         tabindex="-1"
+                                                         style="overflow: hidden !important; ">
+                                                        <div class="modal-dialog modal-dialog-centered"
+                                                             style="margin-top: 0px !important;">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">
+                                                                        Reject this Order
+                                                                    </h5>
+                                                                    <button type="button"
+                                                                            class="close"
+                                                                            data-dismiss="modal">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    This action cannot be undone. Are you sure?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <button type="button"
+                                                                                    class="btn btn-outline-primary float-right ml-3"
+                                                                                    id="btnDismissReject${renewal.renewalID}"
+                                                                                    data-dismiss="modal">
+                                                                                Cancel
+                                                                            </button>
+                                                                            <button type="submit"
+                                                                                    class="btn btn-primary float-right btnModalAppr"
+                                                                                    id="btnRejectRenewal${renewal.renewalID}"
+                                                                                    renewalid="${renewal.renewalID}"
+                                                                                    role="rejectRenewal">
+                                                                                Yes
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </c:forEach>
+                                                </c:forEach>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

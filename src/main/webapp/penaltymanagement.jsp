@@ -45,191 +45,194 @@
                             <div class="table-responsive">
                                 <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                     <div class="row">
-                                        <div class="col-sm-12">
-                                            <table id="rental-datatable" class="table dataTable no-footer" role="grid"
-                                                   aria-describedby="order-listing_info">
-                                                <thead>
-                                                <tr>
-                                                    <th style="width: 0px; text-align: center">#</th>
-                                                    <th style="width: 0px; text-align: left">BOOK</th>
-                                                    <th style="width: 0px; text-align: left">BORROWER</th>
-                                                    <th style="width: 0px; text-align: center">STATUS</th>
-                                                    <th style="width: 0px; text-align: center">ACTIONS</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <%--Map<Pair<DirectOrderObj, DeliveryOrderObj>, Pair<OrderObj, List<OrderItemObj>>>--%>
-                                                <%--OLD (FOR REFERENCE): Map<Pair<OrderObj, DirectOrderObj>, List<OrderItemObj>>--%>
-                                                <c:set var="penaltyList" value="${requestScope.PENALTY_LIST}"/>
-                                                <c:forEach var="penalty" items="${penaltyList}"
-                                                           varStatus="counter">
+                                        <div class="table-responsive">
+                                            <div class="col-sm-12">
+                                                <table id="rental-datatable" class="table dataTable no-footer"
+                                                       role="grid"
+                                                       aria-describedby="order-listing_info">
+                                                    <thead>
                                                     <tr>
-                                                        <td class="text-center">${counter.count}</td>
-                                                        <td class="text-left">
-                                                                ${penalty.title}
-                                                        </td>
-                                                        <td class="text-left">${penalty.memberName}</td>
-                                                        <td class="text-center">
-                                                            <label class="badge lbPenaltyStat"
-                                                                   id="lbPenaltyStat${penalty.id}"
-                                                                   orderitemid="${penalty.id}"
-                                                                   penaltyStatus="${penalty.penaltyStatus}"
-                                                                   value="${penalty.penaltyStatus}"></label>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <div class="btn-group">
-                                                                <button type="button" class="btn btn-light"
-                                                                        data-toggle="modal"
-                                                                        data-target="#penaltyModal${penalty.id}">
-                                                                    <i class="fa fa-eye text-primary"></i>
-                                                                </button>
-                                                            </div>
-                                                        </td>
+                                                        <th style="width: 0px; text-align: center">#</th>
+                                                        <th style="width: 0px; text-align: left">BOOK</th>
+                                                        <th style="width: 0px; text-align: left">BORROWER</th>
+                                                        <th style="width: 0px; text-align: center">STATUS</th>
+                                                        <th style="width: 0px; text-align: center">ACTIONS</th>
                                                     </tr>
-                                                </c:forEach>
-                                                </tbody>
-                                            </table>
-                                            <c:forEach var="penalty" items="${penaltyList}">
-                                                <div class="modal fade"
-                                                     id="penaltyModal${penalty.id}"
-                                                     tabindex="-1">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">
-                                                                    Penalty Details
-                                                                </h5>
-                                                                <button type="button"
-                                                                        class="close"
-                                                                        data-dismiss="modal">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="form-group row">
-                                                                    <label class="col-12 col-form-label">
-                                                                        Order ID
-                                                                    </label>
-                                                                    <div class="col-12">
-                                                                        <input type="text"
-                                                                               id="txtOrderID${penalty.orderID}"
-                                                                               class="form-control"
-                                                                               value="${penalty.orderID}"
-                                                                               disabled/>
-                                                                    </div>
+                                                    </thead>
+                                                    <tbody>
+                                                    <%--Map<Pair<DirectOrderObj, DeliveryOrderObj>, Pair<OrderObj, List<OrderItemObj>>>--%>
+                                                    <%--OLD (FOR REFERENCE): Map<Pair<OrderObj, DirectOrderObj>, List<OrderItemObj>>--%>
+                                                    <c:set var="penaltyList" value="${requestScope.PENALTY_LIST}"/>
+                                                    <c:forEach var="penalty" items="${penaltyList}"
+                                                               varStatus="counter">
+                                                        <tr>
+                                                            <td class="text-center">${counter.count}</td>
+                                                            <td class="text-left">
+                                                                    ${penalty.title}
+                                                            </td>
+                                                            <td class="text-left">${penalty.memberName}</td>
+                                                            <td class="text-center">
+                                                                <label class="badge lbPenaltyStat"
+                                                                       id="lbPenaltyStat${penalty.id}"
+                                                                       orderitemid="${penalty.id}"
+                                                                       penaltyStatus="${penalty.penaltyStatus}"
+                                                                       value="${penalty.penaltyStatus}"></label>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div class="btn-group">
+                                                                    <button type="button" class="btn btn-light"
+                                                                            data-toggle="modal"
+                                                                            data-target="#penaltyModal${penalty.id}">
+                                                                        <i class="fa fa-eye text-primary"></i>
+                                                                    </button>
                                                                 </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-12 col-form-label">
-                                                                        Member ID
-                                                                    </label>
-                                                                    <div class="col-12">
-                                                                        <input type="text"
-                                                                               id="txtMemberID${penalty.memberID}"
-                                                                               class="form-control"
-                                                                               value="${penalty.memberID}"
-                                                                               disabled/>
-                                                                    </div>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                                <c:forEach var="penalty" items="${penaltyList}">
+                                                    <div class="modal fade"
+                                                         id="penaltyModal${penalty.id}"
+                                                         tabindex="-1">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">
+                                                                        Penalty Details
+                                                                    </h5>
+                                                                    <button type="button"
+                                                                            class="close"
+                                                                            data-dismiss="modal">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
                                                                 </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-12 col-form-label">
-                                                                        Member Name
-                                                                    </label>
-                                                                    <div class="col-12">
-                                                                        <input type="text"
-                                                                               id="txtMemberName${penalty.memberName}"
-                                                                               class="form-control"
-                                                                               value="${penalty.memberName}"
-                                                                               disabled/>
+                                                                <div class="modal-body">
+                                                                    <div class="form-group row">
+                                                                        <label class="col-12 col-form-label">
+                                                                            Order ID
+                                                                        </label>
+                                                                        <div class="col-12">
+                                                                            <input type="text"
+                                                                                   id="txtOrderID${penalty.orderID}"
+                                                                                   class="form-control"
+                                                                                   value="${penalty.orderID}"
+                                                                                   disabled/>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-12 col-form-label">
-                                                                        Book
-                                                                    </label>
-                                                                    <div class="col-12">
-                                                                        <input type="text"
-                                                                               id="txtBookID${penalty.bookID}"
-                                                                               class="form-control"
-                                                                               value="${penalty.title}"
-                                                                               disabled/>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-12 col-form-label">
+                                                                            Member ID
+                                                                        </label>
+                                                                        <div class="col-12">
+                                                                            <input type="text"
+                                                                                   id="txtMemberID${penalty.memberID}"
+                                                                                   class="form-control"
+                                                                                   value="${penalty.memberID}"
+                                                                                   disabled/>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <label class="col-12 col-form-label">
-                                                                        Penalty Amount
-                                                                    </label>
-                                                                    <div class="col-12">
-                                                                        <input type="text"
-                                                                               class="form-control"
-                                                                               value="${penalty.penaltyAmount}"
-                                                                               disabled/>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-12 col-form-label">
+                                                                            Member Name
+                                                                        </label>
+                                                                        <div class="col-12">
+                                                                            <input type="text"
+                                                                                   id="txtMemberName${penalty.memberName}"
+                                                                                   class="form-control"
+                                                                                   value="${penalty.memberName}"
+                                                                                   disabled/>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="form-group row"
-                                                                     orderitemid="${penalty.id}">
-                                                                    <label class="col-12 col-form-label">
-                                                                        Penalty Status
-                                                                    </label>
-                                                                    <div class="col-12">
-                                                                        <input type="text"
-                                                                               class="form-control inpPenaltyStat"
-                                                                               id="inpPenaltyStat${penalty.id}"
-                                                                               orderitemid="${penalty.id}"
-                                                                               penaltyStatus="${penalty.penaltyStatus}"
-                                                                               value="${penalty.penaltyStatus}"
-                                                                               disabled/>
-                                                                        <select class="form-control custom-select slPenaltyStat"
-                                                                                id="slPenaltyStat${penalty.id}"
-                                                                                orderitemid="${penalty.id}"
-                                                                                style="display: none">
-                                                                        </select>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-12 col-form-label">
+                                                                            Book
+                                                                        </label>
+                                                                        <div class="col-12">
+                                                                            <input type="text"
+                                                                                   id="txtBookID${penalty.bookID}"
+                                                                                   class="form-control"
+                                                                                   value="${penalty.title}"
+                                                                                   disabled/>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-12 text-center">
-                                                                        <div class="btn-group groupBtnEdit"
-                                                                             orderitemid="${penalty.id}">
-                                                                            <button type="button"
-                                                                                    class="btn btn-light"
-                                                                                    orderitemid="${penalty.id}">
-                                                                                <h4 class="fa fa-pencil text-primary"></h4>
-                                                                            </button>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-12 col-form-label">
+                                                                            Penalty Amount
+                                                                        </label>
+                                                                        <div class="col-12">
+                                                                            <input type="text"
+                                                                                   class="form-control"
+                                                                                   value="${penalty.penaltyAmount}"
+                                                                                   disabled/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row"
+                                                                         orderitemid="${penalty.id}">
+                                                                        <label class="col-12 col-form-label">
+                                                                            Penalty Status
+                                                                        </label>
+                                                                        <div class="col-12">
+                                                                            <input type="text"
+                                                                                   class="form-control inpPenaltyStat"
+                                                                                   id="inpPenaltyStat${penalty.id}"
+                                                                                   orderitemid="${penalty.id}"
+                                                                                   penaltyStatus="${penalty.penaltyStatus}"
+                                                                                   value="${penalty.penaltyStatus}"
+                                                                                   disabled/>
+                                                                            <select class="form-control custom-select slPenaltyStat"
+                                                                                    id="slPenaltyStat${penalty.id}"
+                                                                                    orderitemid="${penalty.id}"
+                                                                                    style="display: none">
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-12 text-center">
+                                                                            <div class="btn-group groupBtnEdit"
+                                                                                 orderitemid="${penalty.id}">
+                                                                                <button type="button"
+                                                                                        class="btn btn-light"
+                                                                                        orderitemid="${penalty.id}">
+                                                                                    <h4 class="fa fa-pencil text-primary"></h4>
+                                                                                </button>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="storageBtn"
-                                                                 id="hiddenBtnStorage${penalty.id}"
-                                                                 orderitemid="${penalty.id}"
-                                                                 hidden>
-                                                                <button type="button" class="btn btn-light"
-                                                                        orderitemid="${penalty.id}"
-                                                                        role="confirmEdit">
-                                                                    <h4 class="fa fa-check text-success"></h4>
-                                                                </button>
-                                                                <button type="button" class="btn btn-light"
-                                                                        orderitemid="${penalty.id}"
-                                                                        role="cancelEdit">
-                                                                    <h4 class="fa fa-times text-danger"></h4>
-                                                                </button>
-                                                            </div>
-                                                            <div class="storageSl"
-                                                                 id="hiddenSlStorage${penalty.id}"
-                                                                 orderitemid="${penalty.id}"
-                                                                 hidden>
+                                                                <div class="storageBtn"
+                                                                     id="hiddenBtnStorage${penalty.id}"
+                                                                     orderitemid="${penalty.id}"
+                                                                     hidden>
+                                                                    <button type="button" class="btn btn-light"
+                                                                            orderitemid="${penalty.id}"
+                                                                            role="confirmEdit">
+                                                                        <h4 class="fa fa-check text-success"></h4>
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-light"
+                                                                            orderitemid="${penalty.id}"
+                                                                            role="cancelEdit">
+                                                                        <h4 class="fa fa-times text-danger"></h4>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="storageSl"
+                                                                     id="hiddenSlStorage${penalty.id}"
+                                                                     orderitemid="${penalty.id}"
+                                                                     hidden>
 
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button"
-                                                                        class="btn btn-outline-primary"
-                                                                        data-dismiss="modal">
-                                                                    Close
-                                                                </button>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button"
+                                                                            class="btn btn-outline-primary"
+                                                                            data-dismiss="modal">
+                                                                        Close
+                                                                    </button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </c:forEach>
+                                                </c:forEach>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
