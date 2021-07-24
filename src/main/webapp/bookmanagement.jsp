@@ -616,7 +616,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <!--end: materializeJS -->
 <!-- plugins:js -->
-<script src="vendors/js/vendor.bundle.base.js"></script>
+<%--<script src="vendors/js/vendor.bundle.base.js"></script>--%>
 <!-- endinject -->
 <!-- Plugin js for this page -->
 <script src="vendors/datatables.net/jquery.dataTables.js"></script>
