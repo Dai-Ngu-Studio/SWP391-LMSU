@@ -89,7 +89,7 @@ public class RenewalRequestDAO implements Serializable {
         return null;
     }
 
-    public boolean checkRenewalId(int renewalId) throws SQLException, NamingException {
+    public RenewalRequestDTO getRenewalByItemID(int itemId) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -99,23 +99,33 @@ public class RenewalRequestDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id] " +
+                String sql = "SELECT [id], [itemID], [librarianID], [reason], [requestedExtendDate], [approvalStatus] " +
                         "FROM [RenewalRequests] " +
-                        "WHERE [id] LIKE ? ";
+                        "WHERE [itemID] LIKE ? " +
+                        "AND [approvalStatus] = 0";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, renewalId);
+                stm.setInt(1, itemId);
                 //4. Execute Query and get ResultSet
                 rs = stm.executeQuery();
                 //5. Process ResultSet
-                if (rs.next()) return true;
+                if (rs.next()) {
+                    RenewalRequestDTO dto = new RenewalRequestDTO();
+                    dto.setRenewalID(rs.getInt("id"));
+                    dto.setItemID(rs.getInt("itemID"));
+                    dto.setLibrarianID(rs.getString("librarianID"));
+                    dto.setReason(rs.getString("reason"));
+                    dto.setRequestedExtendDate(rs.getDate("requestedExtendDate"));
+                    dto.setApprovalStatus(rs.getInt("approvalStatus"));
+                    return dto;
+                }
             }
         } finally {
             if (rs != null) rs.close();
             if (stm != null) stm.close();
             if (con != null) con.close();
         }
-        return false;
+        return null;
     }
 
     public void viewRenewalRequests()

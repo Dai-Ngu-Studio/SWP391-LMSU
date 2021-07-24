@@ -14,10 +14,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "SearchBookCatalogServlet", value = "/SearchBookCatalogServlet")
-public class SearchBookCatalogServlet extends HttpServlet {
+@WebServlet(name = "SearchIndexServlet", value = "/SearchIndexServlet")
+public class SearchIndexServlet extends HttpServlet {
 
-    static final Logger LOGGER = Logger.getLogger(SearchBookCatalogServlet.class);
+    static final Logger LOGGER = Logger.getLogger(SearchIndexServlet.class);
     private final String ERROR_PAGE = "IndexServlet";
     private final String RESULT_PAGE = "ShowBookCatalogServlet";
     private final String RESULT_AUTHOR_PAGE = "ShowAuthorCatalogServlet";

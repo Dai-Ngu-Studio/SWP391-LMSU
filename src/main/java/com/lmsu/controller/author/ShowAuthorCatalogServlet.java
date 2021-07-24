@@ -1,9 +1,7 @@
-package com.lmsu.controller.member;
+package com.lmsu.controller.author;
 
 import com.lmsu.authors.AuthorDAO;
 import com.lmsu.authors.AuthorDTO;
-import com.lmsu.books.BookDAO;
-import com.lmsu.books.BookDTO;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -11,7 +9,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.List;
 

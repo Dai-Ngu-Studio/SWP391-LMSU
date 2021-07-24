@@ -183,7 +183,7 @@
                         </div>
                     </div>
                     <input type="text" placeholder="Search..." class="searchInput" name="txtBookCatalogSearchValue">
-                    <button class="btn btn-primary" type="submit" name="btAction" value="SearchBookCatalog">
+                    <button class="btn btn-primary" type="submit" name="btAction" value="SearchIndexCatalog">
                         <i class="fa fa-search"></i>
                     </button>
                 </div>

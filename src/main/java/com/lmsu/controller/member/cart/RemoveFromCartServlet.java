@@ -1,7 +1,6 @@
 package com.lmsu.controller.member.cart;
 
 import com.lmsu.bean.member.CartObj;
-import com.lmsu.controller.member.ViewBookDetailsServlet;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;

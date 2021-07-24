@@ -12,6 +12,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 @WebServlet(name = "CreateAnnouncementServlet", value = "/CreateAnnouncementServlet")
 public class CreateAnnouncementServlet extends HttpServlet {
@@ -39,6 +40,9 @@ public class CreateAnnouncementServlet extends HttpServlet {
 
         try {
             Date localDate = DateHelpers.getCurrentDate();
+            LocalDate localDayFrom = LocalDate.parse(defaultDateFrom);
+            LocalDate localDayTo = LocalDate.parse(defaultDateTo);
+            LocalDate localDay = LocalDate.parse(dateFrom);
             if (userDTO != null){
                 String announcementText = "<div class=\"d-flex flex-column align-items-center mb-5\">" +
                         "<h6><b>INFORMATION AND LIBRARY CENTER</b></h6><h3><b>ANNOUNCEMENT</b></h3>" +
@@ -47,11 +51,11 @@ public class CreateAnnouncementServlet extends HttpServlet {
                         " " + year +
                         " semester at FPT University Library. " +
                         "Library users are required to follow below schedule:</p><p class=\"text-danger\"> " +
-                        "<b> Start: " + defaultDayFrom + " " + defaultDateFrom +
-                        " to " + defaultDayTo + " " + defaultDateTo +
+                        "<b> Start: " + localDayFrom.getDayOfWeek() + " " + localDayFrom +
+                        " to " + localDayTo.getDayOfWeek() + " " + localDayTo +
                         " at room no LB102. " +
                         "</b></p><p> Textbook for subjects: " + subject +
-                        "<b class=\"text-danger\"> from " + day + " " + dateFrom + " " + dateTo +
+                        "<b class=\"text-danger\"> from " + localDay.getDayOfWeek() + " " + localDay + " to " + dateTo +
                         " at room no LB101</b> " +
                         ".</p><h3><b>Time:</b></h3><p> - Morning: From 08:30 to 11:30 <br> - Afternoon: From 13:30 to 16:30</p>" +
                         "<h3><b>Notes:</b></h3><p> - Students must return old textbooks before borrow new textbooks; " +

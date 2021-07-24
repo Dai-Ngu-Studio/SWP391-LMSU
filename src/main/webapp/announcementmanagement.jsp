@@ -81,23 +81,28 @@
                             <div>
                                 <p>Dear Library Users,</p>
                                 <p>
-                                    Delivering textbook schedule for <input type="text" placeholder="Enter semester"
+                                    Delivering textbook schedule for <%--<input type="text" placeholder="Enter semester"
                                                                             id="semester" name="semester" value=""
-                                                                            required>
+                                                                            required>--%>
+                                    <select id="semester" name="semester" required>
+                                        <option>Spring</option>
+                                        <option>Summer</option>
+                                        <option>Fall</option>
+                                    </select>
                                     <input type="text" placeholder="Enter year" id="year" required
                                            name="year" value=""> semester at FPT University Library.
                                     Library users are required to follow below schedule:
                                 </p>
                                 <p class="text-danger">
                                     <b>
-                                        Start: <input type="text" placeholder="Enter day from" id="defaultDayFrom"
-                                                      name="defaultDayFrom" value="" required> <input type="date"
+                                        Start: <%--<input type="text" placeholder="Enter day from" id="defaultDayFrom"
+                                                      name="defaultDayFrom" value="" required>--%> <input type="date"
                                                                                                       id="defaultDateFrom"
                                                                                                       name="defaultDateFrom"
                                                                                                       value="" required>
                                         to
-                                        <input type="text" placeholder="Enter day to" id="defaultDayTo" required
-                                               name="defaultDayTo" value=""> <input type="date" id="defaultDateTo"
+                                        <%--<input type="text" placeholder="Enter day to" id="defaultDayTo" required
+                                               name="defaultDayTo" value="">--%> <input type="date" id="defaultDateTo"
                                                                                     name="defaultDateTo" value=""
                                                                                     required> at room no LB102.
                                     </b>
@@ -105,8 +110,8 @@
                                 <p>
                                     Textbook for subjects: <input type="text" placeholder="Enter subject" id="subject"
                                                                   name="subject" value="" required>
-                                    <b class="text-danger">from <input type="text" placeholder="Enter day" id="day"
-                                                                       name="day" value="" required>
+                                    <b class="text-danger">from <%--<input type="text" placeholder="Enter day" id="day"
+                                                                       name="day" value="" required>--%>
                                         <input type="date" id="dateFrom" name="dateFrom" value="" required>
                                         to <input type="date" id="dateTo" name="dateTo" value="" required> at room no
                                         LB101</b> .

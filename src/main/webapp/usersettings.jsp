@@ -97,7 +97,8 @@
                                                aria-label="Email Address" aria-describedby="basic-addon2"
                                                style="background-color: #fff" readonly/>
                                         <div class="input-group-append">
-                                            <span class="input-group-text" style="padding: 0 1.3rem;  max-height: 2.4rem"
+                                            <span class="input-group-text"
+                                                  style="padding: 0 1.3rem;  max-height: 2.4rem"
                                                   id="basic-addon2">@fpt.edu.vn</span>
                                         </div>
                                     </div>
@@ -107,10 +108,11 @@
                                     <input type="hidden" value="${profile.id}" name="pk">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text" style=" max-height: 2.4rem">Phone Number</span>
+                                            <span class="input-group-text"
+                                                  style=" max-height: 2.4rem">Phone Number</span>
                                         </div>
                                         <input type="text" class="form-control" aria-label="Phone Number"
-                                               value="${profile.phoneNumber}" pattern="^[0-9]{1,10}$"
+                                               value="${profile.phoneNumber}" pattern="^[0-9]{10}$"
                                                name="txtPhone"/>
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="submit" name="btAction"
@@ -146,7 +148,7 @@
                                                     url: 'ValidateChangePasswordServlet',
                                                     data: {
                                                         txtCurrentPassword: $('#inputCurrentPassword').val(),
-                                                        txtNewPassword: $('#currentInputNew').val(),
+                                                        txtNewPassword: $('#inputPasswordPattern').val(),
                                                         txtConfirmPassword: $('#inputConfirmPassword').val()
                                                     },
                                                     dataType: 'json',
@@ -203,12 +205,16 @@
                                                               id="label-new-password">New Password</span>
                                                     </div>
                                                     <input type="password" class="form-control currentPassInput"
-                                                           placeholder="New Password" id="currentInputNew"
+                                                           placeholder="New Password" id="inputPasswordPattern"
                                                            aria-label="New Password"
                                                            aria-describedby="basic-addon1"
                                                            name="txtNewPassword" value=""/>
                                                 </div>
                                             </div>
+                                            <small id="errorPatternPassword"
+                                                   class="form-text text-muted passwordError">
+                                                Password pattern not valid!
+                                            </small>
                                             <div class="row mb-1">
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-prepend">
@@ -370,32 +376,19 @@
                                                                     --%>
                                                             <c:set var="renewalMap"
                                                                    value="${requestScope.RENEWAL_MAP_LIST}"/>
-
-                                                            <c:choose>
-                                                                <c:when test="${renewalMap.get(orderItem.id) <= 3}">
-                                                                    <c:if test="${(orderItem.lendStatus eq 2)
+                                                            <c:set var="statusMap"
+                                                                   value="${requestScope.RENEWAL_MAP_STATUS}"/>
+                                                            <c:if test="${(orderItem.lendStatus eq 2)
                                                                     or (orderItem.lendStatus eq 5)}">
-                                                                        <button type="button" class="btn btn-light"
-                                                                                data-toggle="modal"
-                                                                                data-target="#renewModal${orderItem.id}"
-                                                                                title="Renew"
-                                                                                data-original-title="Renew">
-                                                                            <i class="fa fa-refresh text-primary"
-                                                                               aria-hidden="true"></i>
-                                                                        </button>
-                                                                    </c:if>
-                                                                </c:when>
-                                                                <c:when test="${renewalMap.get(orderItem.id) == 4}">
-                                                                    <button type="button" class="btn btn-light"
-                                                                            data-toggle="modal"
-                                                                            data-target="#renewModal"
-                                                                            title="Renew"
-                                                                            data-original-title="Renew">
-                                                                        <i class="fa fa-refresh text-primary"
-                                                                           aria-hidden="true"></i>
-                                                                    </button>
-                                                                </c:when>
-                                                            </c:choose>
+                                                                <button type="button" class="btn btn-light"
+                                                                        data-toggle="modal"
+                                                                        data-target="#renewModal${orderItem.id}"
+                                                                        title="Renew"
+                                                                        data-original-title="Renew">
+                                                                    <i class="fa fa-refresh text-primary"
+                                                                       aria-hidden="true"></i>
+                                                                </button>
+                                                            </c:if>
                                                                 <%--
                                                                 Temporary return function,
                                                                 need to add form similar to checkout.
@@ -486,27 +479,6 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="modal fade" id="renewModal" tabindex="-1" role="dialog">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close"
-                                                                        data-dismiss="modal">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                You have reached the renewal limit for this item.
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                        data-dismiss="modal">Close
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
                                                 <form action="DispatchServlet" method="post">
                                                     <input type="hidden" name="orderItemPk" value="${orderItem.id}">
                                                     <div class="modal fade" id="renewModal${orderItem.id}"
@@ -519,7 +491,7 @@
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title" id="exampleModalLongTitle">
-                                                                        Request renew book
+                                                                        Request renewal book
                                                                     </h5>
                                                                     <button type="button" class="close"
                                                                             data-dismiss="modal" aria-label="Close">
@@ -528,83 +500,111 @@
                                                                                 </span>
                                                                     </button>
                                                                 </div>
-                                                                <div class="modal-body">
+                                                                <c:choose>
+                                                                    <c:when test="${renewalMap.get(orderItem.id) <= 3
+                                                                        and statusMap.get(orderItem.id) != 0}">
+                                                                        <div class="modal-body">
+                                                                            <div class="form-group row">
+                                                                                <label class="col-sm-3 col-form-label">
+                                                                                    Reason
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <textarea class="form-control"
+                                                                                              name="txtReason"
+                                                                                              rows="5" required>
+                                                                                    </textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row"
+                                                                                 id="rowExtendDate${orderItem.id}">
+                                                                                <label class="col-sm-3 col-form-label">
+                                                                                    Extend Date
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input class="form-control"
+                                                                                           type="date"
+                                                                                           id="txtDate${orderItem.id}"
+                                                                                           value=""
+                                                                                           onchange="validExtendDate(${orderItem.id})"
+                                                                                           name="txtExtendDate" required
+                                                                                    >
+                                                                                </div>
+                                                                            </div>
+                                                                            <script>
+                                                                                $(document).ready(function () {
+                                                                                    let $rowExtDate${orderItem.id} = $("#rowExtendDate" + ${orderItem.id});
+                                                                                    let $contInvalid${orderItem.id} = $('<div>')
+                                                                                        .attr('id', 'contInvalid${orderItem.id}')
+                                                                                        .addClass('row contInvalid').appendTo($rowExtDate${orderItem.id});
+                                                                                    let $colInvalid${orderItem.id} = $('<div>')
+                                                                                        .addClass('col-12 text-left').appendTo($contInvalid${orderItem.id});
+                                                                                    let $txtInvalid${orderItem.id} = $('<small>')
+                                                                                        .addClass('text-danger')
+                                                                                        .text('The date chosen is before your current deadline (${orderItem.returnDeadline.toLocalDate()}). Please choose a later date.')
+                                                                                        .appendTo($colInvalid${orderItem.id});
+                                                                                    $("#contInvalid" + ${orderItem.id}).hide();
+                                                                                });
 
-                                                                    <div class="form-group row">
-                                                                        <label class="col-sm-3 col-form-label">
-                                                                            Reason
-                                                                        </label>
-                                                                        <div class="col-sm-9">
-                                                                             <textarea
-                                                                                     class="form-control"
-                                                                                     name="txtReason"
-                                                                                     rows="5">
-                                                                             </textarea>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row"
-                                                                         id="rowExtendDate${orderItem.id}">
-                                                                        <label class="col-sm-3 col-form-label">
-                                                                            Extend Date
-                                                                        </label>
-                                                                        <div class="col-sm-9">
-                                                                            <input class="form-control"
-                                                                                   type="date"
-                                                                                   id="txtDate${orderItem.id}"
-                                                                                   value=""
-                                                                                   onchange="validExtendDate(${orderItem.id})"
-                                                                                   name="txtExtendDate"
-                                                                            >
-                                                                        </div>
-                                                                    </div>
-                                                                    <script>
-                                                                        $(document).ready(function () {
-                                                                            let $rowExtDate${orderItem.id} = $("#rowExtendDate" + ${orderItem.id});
-                                                                            let $contInvalid${orderItem.id} = $('<div>')
-                                                                                .attr('id', 'contInvalid${orderItem.id}')
-                                                                                .addClass('row contInvalid').appendTo($rowExtDate${orderItem.id});
-                                                                            let $colInvalid${orderItem.id} = $('<div>')
-                                                                                .addClass('col-12 text-left').appendTo($contInvalid${orderItem.id});
-                                                                            let $txtInvalid${orderItem.id} = $('<small>')
-                                                                                .addClass('text-danger')
-                                                                                .text('The date chosen is before your current deadline (${orderItem.returnDeadline.toLocalDate()}). Please choose a later date.')
-                                                                                .appendTo($colInvalid${orderItem.id});
-                                                                            $("#contInvalid" + ${orderItem.id}).hide();
-                                                                        });
-
-                                                                        function validExtendDate(itemid) {
-                                                                            let dateRow = $("#txtDate" + itemid);
-                                                                            var xhttp;
-                                                                            xhttp = new XMLHttpRequest();
-                                                                            xhttp.onreadystatechange = function () {
-                                                                                if (this.readyState === 4 && this.status === 200) {
-                                                                                    if (this.responseText.localeCompare('false') == 0) {
-                                                                                        $("#contInvalid" + itemid).show();
-                                                                                        $("#btnSave" + itemid).attr('disabled', '').addClass("btn-secondary").removeClass("btn-primary");
-                                                                                    } else {
-                                                                                        $("#contInvalid" + itemid).hide();
-                                                                                        $("#btnSave" + itemid).removeAttr('disabled').addClass("btn-primary").removeClass("btn-secondary");
+                                                                                function validExtendDate(itemid) {
+                                                                                    let dateRow = $("#txtDate" + itemid);
+                                                                                    var xhttp;
+                                                                                    xhttp = new XMLHttpRequest();
+                                                                                    xhttp.onreadystatechange = function () {
+                                                                                        if (this.readyState === 4 && this.status === 200) {
+                                                                                            if (this.responseText.localeCompare('false') == 0) {
+                                                                                                $("#contInvalid" + itemid).show();
+                                                                                                $("#btnSave" + itemid).attr('disabled', '').addClass("btn-secondary").removeClass("btn-primary");
+                                                                                            } else {
+                                                                                                $("#contInvalid" + itemid).hide();
+                                                                                                $("#btnSave" + itemid).removeAttr('disabled').addClass("btn-primary").removeClass("btn-secondary");
+                                                                                            }
+                                                                                        }
                                                                                     }
+                                                                                    xhttp.open("GET", 'RenewalTimeValidationServlet?orderItemID=' + itemid + '&txtExtendDate=' + dateRow.val(), true);
+                                                                                    xhttp.send();
                                                                                 }
-                                                                            }
-                                                                            xhttp.open("GET", 'RenewalTimeValidationServlet?orderItemID=' + itemid + '&txtExtendDate=' + dateRow.val(), true);
-                                                                            xhttp.send();
-                                                                        }
-                                                                    </script>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="submit"
-                                                                            class="btn btn-primary"
-                                                                            name="btAction"
-                                                                            value="Renew Book"
-                                                                            id="btnSave${orderItem.id}">
-                                                                        Yes
-                                                                    </button>
-                                                                    <button type="button"
-                                                                            class="btn btn-outline-primary"
-                                                                            data-dismiss="modal">Cancel
-                                                                    </button>
-                                                                </div>
+                                                                            </script>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="submit"
+                                                                                    class="btn btn-secondary"
+                                                                                    name="btAction"
+                                                                                    value="Renew Book" disabled
+                                                                                    id="btnSave${orderItem.id}">
+                                                                                Yes
+                                                                            </button>
+                                                                            <button type="button"
+                                                                                    class="btn btn-outline-primary"
+                                                                                    data-dismiss="modal">Cancel
+                                                                            </button>
+                                                                        </div>
+                                                                    </c:when>
+                                                                    <c:when test="${renewalMap.get(orderItem.id) == 4}">
+                                                                        <div class="modal-body">
+                                                                            You have reached the renewal limit for this
+                                                                            item.
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-dismiss="modal">Close
+                                                                            </button>
+                                                                        </div>
+                                                                    </c:when>
+                                                                    <c:when test="${statusMap.get(orderItem.id) == 0}">
+                                                                        <div class="modal-body">
+                                                                            The renewal request for this book is being
+                                                                            process.
+                                                                            Please wait patiently
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-dismiss="modal">Close
+                                                                            </button>
+                                                                        </div>
+                                                                    </c:when>
+                                                                </c:choose>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -780,7 +780,8 @@
                             </div>
                         </div>
                         <c:set var="orderList" value="${requestScope.MEMBER_ORDER_LIST}"/>
-                        <div class="tab-pane fade dataTables_wrapper dt-bootstrap4 no-footer" id="list-orders" role="tabpanel">
+                        <div class="tab-pane fade dataTables_wrapper dt-bootstrap4 no-footer" id="list-orders"
+                             role="tabpanel">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <table id="ordersTable" class="table dataTable no-footer" role="grid">
@@ -833,248 +834,248 @@
                                     </table>
                                     <c:forEach var="order" items="${orderList}">
                                         <%--Start: Order Details Form--%>
-                                            <div class="modal fade"
-                                                 id="orderModal${order.value.key.id}"
-                                                 tabindex="-1">
-                                                <div class="modal-dialog modal-lg">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">
-                                                                Order Details
-                                                            </h5>
-                                                            <button type="button"
-                                                                    class="close"
-                                                                    data-dismiss="modal">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
+                                        <div class="modal fade"
+                                             id="orderModal${order.value.key.id}"
+                                             tabindex="-1">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">
+                                                            Order Details
+                                                        </h5>
+                                                        <button type="button"
+                                                                class="close"
+                                                                data-dismiss="modal">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="form-group row">
+                                                            <label class="col-12 col-form-label">
+                                                                Order ID
+                                                            </label>
+                                                            <div class=" col-12">
+                                                                <input type="text"
+                                                                       id="txtOrderID${order.value.key.id}"
+                                                                       class="form-control"
+                                                                       value="${order.value.key.id}"
+                                                                       disabled/>
+                                                            </div>
+                                                            <label class=" col-12 col-form-label">
+                                                                Order Date
+                                                            </label>
+                                                            <div class=" col-12">
+                                                                <input type="text"
+                                                                       class="form-control"
+                                                                       value="${order.value.key.orderDate}"
+                                                                       disabled/>
+                                                            </div>
                                                         </div>
-                                                        <div class="modal-body">
+                                                        <c:if test="${not order.value.key.lendMethod}">
                                                             <div class="form-group row">
-                                                                <label class="col-12 col-form-label">
-                                                                    Order ID
-                                                                </label>
-                                                                <div class=" col-12">
-                                                                    <input type="text"
-                                                                           id="txtOrderID${order.value.key.id}"
-                                                                           class="form-control"
-                                                                           value="${order.value.key.id}"
-                                                                           disabled/>
-                                                                </div>
                                                                 <label class=" col-12 col-form-label">
-                                                                    Order Date
+                                                                    Scheduled Time
                                                                 </label>
-                                                                <div class=" col-12">
-                                                                    <input type="text"
-                                                                           class="form-control"
-                                                                           value="${order.value.key.orderDate}"
-                                                                           disabled/>
-                                                                </div>
-                                                            </div>
-                                                            <c:if test="${not order.value.key.lendMethod}">
-                                                                <div class="form-group row">
-                                                                    <label class=" col-12 col-form-label">
-                                                                        Scheduled Time
-                                                                    </label>
-                                                                    <div class="1 col-12"
-                                                                         orderid="${order.value.key.id}">
-                                                                        <input type="text"
-                                                                               class="form-control"
-                                                                               value="${order.key.key.scheduledTime}"
-                                                                               disabled/>
-                                                                    </div>
-                                                                </div>
-                                                            </c:if>
-                                                            <c:if test="${order.value.key.lendMethod}">
-                                                                <div class="form-group row">
-                                                                    <label class=" col-12 col-form-label">
-                                                                        Receiver Name
-                                                                    </label>
-                                                                    <div class=" col-12"
-                                                                         orderid="${order.value.key.id}">
-                                                                        <input type="text"
-                                                                               class="form-control"
-                                                                               value="${order.key.value.receiverName}"
-                                                                               disabled/>
-                                                                    </div>
-                                                                    <label class=" col-12 col-form-label">
-                                                                        Phone Number
-                                                                    </label>
-                                                                    <div class=" col-12"
-                                                                         orderid="${order.value.key.id}">
-                                                                        <input type="text"
-                                                                               class="form-control"
-                                                                               value="${order.key.value.phoneNumber}"
-                                                                               disabled/>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <label class=" col-12 col-form-label">
-                                                                        Street Address
-                                                                    </label>
-                                                                    <div class="1 col-12"
-                                                                         orderid="${order.value.key.id}">
-                                                                        <input type="text"
-                                                                               class="form-control"
-                                                                               value="${order.key.value.deliveryAddress1}"
-                                                                               disabled/>
-                                                                    </div>
-                                                                </div>
-                                                                <c:if test="${(not empty fn:trim(order.key.value.deliveryAddress2))}">
-                                                                    <div class="form-group row">
-                                                                        <label class=" col-12 col-form-label">
-                                                                            Residence Address
-                                                                        </label>
-                                                                        <div class=" col-12"
-                                                                             orderid="${order.value.key.id}">
-                                                                            <input type="text"
-                                                                                   class="form-control"
-                                                                                   value="${order.key.value.deliveryAddress2}"
-                                                                                   disabled/>
-                                                                        </div>
-                                                                    </div>
-                                                                </c:if>
-                                                                <div class="form-group row">
-                                                                    <label class=" col-12 col-form-label">
-                                                                        City
-                                                                    </label>
-                                                                    <div class=" col-12 txtCity"
-                                                                         orderid="${order.value.key.id}">
-                                                                        <input type="text"
-                                                                               class="form-control"
-                                                                               value="${order.key.value.cityName}"
-                                                                               disabled/>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <label class=" col-12 col-form-label">
-                                                                        District
-                                                                    </label>
-                                                                    <div class=" col-12 txtDistrict"
-                                                                         orderid="${order.value.key.id}">
-                                                                        <input type="text"
-                                                                               class="form-control"
-                                                                               value="${order.key.value.districtName}"
-                                                                               disabled/>
-                                                                    </div>
-                                                                    <label class=" col-12 col-form-label">
-                                                                        Ward
-                                                                    </label>
-                                                                    <div class=" col-12 txtWard"
-                                                                         orderid="${order.value.key.id}">
-                                                                        <input type="text"
-                                                                               class="form-control"
-                                                                               value="${order.key.value.wardName}"
-                                                                               disabled/>
-                                                                    </div>
-                                                                </div>
-                                                            </c:if>
-                                                            <div class="form-group row frmOrderStat"
-                                                                 orderid="${order.value.key.id}">
-                                                                <label class=" col-12 col-form-label">
-                                                                    Order Status
-                                                                </label>
-                                                                <div class=" col-12 lbOrderStat"
-                                                                     id="pOrderStat${order.value.key.id}"
+                                                                <div class="1 col-12"
                                                                      orderid="${order.value.key.id}">
-                                                                    <p class="form-control"
-                                                                       activeStatus="${order.value.key.activeStatus}"
-                                                                       orderid="${order.value.key.id}">
-                                                                    </p>
+                                                                    <input type="text"
+                                                                           class="form-control"
+                                                                           value="${order.key.key.scheduledTime}"
+                                                                           disabled/>
                                                                 </div>
                                                             </div>
-                                                                <%--Place to swap buttons in and out of view--%>
-                                                            <div class="row">
-                                                                <table class="table table-hover table-responsive w-100 d-block d-xl-table">
-                                                                    <thead>
-                                                                    <tr>
-                                                                        <th class="text-right">Item ID</th>
-                                                                        <th class="text-left">Book Title
-                                                                        </th>
-                                                                        <th class="text-center">Status</th>
-                                                                        <th class="text-left">Deadline</th>
-                                                                        <th class="text-left">Received on
-                                                                        </th>
-                                                                        <th class="text-left">Returned on
-                                                                        </th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    <c:forEach var="orderItem"
-                                                                               items="${order.value.value}">
-                                                                        <tr>
-                                                                            <td class="text-right">${orderItem.id} </td>
-                                                                            <td class="text-left">${orderItem.title}</td>
-                                                                            <td class="text-center">
-                                                                                <c:set var="statOrderItem"
-                                                                                       value="${orderItem.lendStatus}"
-                                                                                />
-                                                                                <div class="contSlItemStat"
-                                                                                     orderid="${order.value.key.id}"
-                                                                                     orderitemid="${orderItem.id}"
-                                                                                     style="display: none">
-                                                                                    <select class="custom-select slItemStat"
-                                                                                            id="slItemStat${orderItem.id}"
-                                                                                            orderid="${order.value.key.id}"
-                                                                                            orderitemid="${orderItem.id}">
-                                                                                    </select>
-                                                                                </div>
-                                                                                <div class="contItemStat"
-                                                                                     orderid="${order.value.key.id}"
-                                                                                     orderitemid="${orderItem.id}">
-                                                                                    <label class="badge lbItemStat"
-                                                                                           id="lbItemStat${orderItem.id}"
-                                                                                           orderid="${order.value.key.id}"
-                                                                                           orderitemid="${orderItem.id}"
-                                                                                           lendStatus="${statOrderItem}">
-                                                                                    </label>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td class="text-left"
-                                                                                id="dateDeadline${orderItem.id}"
-                                                                                datevalue="${orderItem.returnDeadline}">
-                                                                                <c:if test="${empty orderItem.returnDeadline}">
-                                                                                    N/A
-                                                                                </c:if>
-                                                                                <c:if test="${not empty orderItem.returnDeadline}">
-                                                                                    ${orderItem.returnDeadline}
-                                                                                </c:if>
-                                                                            </td>
-                                                                            <td class="text-left"
-                                                                                id="dateLend${orderItem.id}"
-                                                                                datevalue="${orderItem.lendDate}">
-                                                                                <c:if test="${empty orderItem.lendDate}">
-                                                                                    N/A
-                                                                                </c:if>
-                                                                                <c:if test="${not empty orderItem.lendDate}">
-                                                                                    ${orderItem.lendDate}
-                                                                                </c:if>
-                                                                            </td>
-                                                                            <td class="text-left"
-                                                                                id="dateReturn${orderItem.id}"
-                                                                                datevalue="${orderItem.returnDate}">
-                                                                                <c:if test="${empty orderItem.returnDate}">
-                                                                                    N/A
-                                                                                </c:if>
-                                                                                <c:if test="${not empty orderItem.returnDate}">
-                                                                                    ${orderItem.returnDate}
-                                                                                </c:if>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </c:forEach>
-                                                                    </tbody>
-                                                                </table>
+                                                        </c:if>
+                                                        <c:if test="${order.value.key.lendMethod}">
+                                                            <div class="form-group row">
+                                                                <label class=" col-12 col-form-label">
+                                                                    Receiver Name
+                                                                </label>
+                                                                <div class=" col-12"
+                                                                     orderid="${order.value.key.id}">
+                                                                    <input type="text"
+                                                                           class="form-control"
+                                                                           value="${order.key.value.receiverName}"
+                                                                           disabled/>
+                                                                </div>
+                                                                <label class=" col-12 col-form-label">
+                                                                    Phone Number
+                                                                </label>
+                                                                <div class=" col-12"
+                                                                     orderid="${order.value.key.id}">
+                                                                    <input type="text"
+                                                                           class="form-control"
+                                                                           value="${order.key.value.phoneNumber}"
+                                                                           disabled/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class=" col-12 col-form-label">
+                                                                    Street Address
+                                                                </label>
+                                                                <div class="1 col-12"
+                                                                     orderid="${order.value.key.id}">
+                                                                    <input type="text"
+                                                                           class="form-control"
+                                                                           value="${order.key.value.deliveryAddress1}"
+                                                                           disabled/>
+                                                                </div>
+                                                            </div>
+                                                            <c:if test="${(not empty fn:trim(order.key.value.deliveryAddress2))}">
+                                                                <div class="form-group row">
+                                                                    <label class=" col-12 col-form-label">
+                                                                        Residence Address
+                                                                    </label>
+                                                                    <div class=" col-12"
+                                                                         orderid="${order.value.key.id}">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               value="${order.key.value.deliveryAddress2}"
+                                                                               disabled/>
+                                                                    </div>
+                                                                </div>
+                                                            </c:if>
+                                                            <div class="form-group row">
+                                                                <label class=" col-12 col-form-label">
+                                                                    City
+                                                                </label>
+                                                                <div class=" col-12 txtCity"
+                                                                     orderid="${order.value.key.id}">
+                                                                    <input type="text"
+                                                                           class="form-control"
+                                                                           value="${order.key.value.cityName}"
+                                                                           disabled/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class=" col-12 col-form-label">
+                                                                    District
+                                                                </label>
+                                                                <div class=" col-12 txtDistrict"
+                                                                     orderid="${order.value.key.id}">
+                                                                    <input type="text"
+                                                                           class="form-control"
+                                                                           value="${order.key.value.districtName}"
+                                                                           disabled/>
+                                                                </div>
+                                                                <label class=" col-12 col-form-label">
+                                                                    Ward
+                                                                </label>
+                                                                <div class=" col-12 txtWard"
+                                                                     orderid="${order.value.key.id}">
+                                                                    <input type="text"
+                                                                           class="form-control"
+                                                                           value="${order.key.value.wardName}"
+                                                                           disabled/>
+                                                                </div>
+                                                            </div>
+                                                        </c:if>
+                                                        <div class="form-group row frmOrderStat"
+                                                             orderid="${order.value.key.id}">
+                                                            <label class=" col-12 col-form-label">
+                                                                Order Status
+                                                            </label>
+                                                            <div class=" col-12 lbOrderStat"
+                                                                 id="pOrderStat${order.value.key.id}"
+                                                                 orderid="${order.value.key.id}">
+                                                                <p class="form-control"
+                                                                   activeStatus="${order.value.key.activeStatus}"
+                                                                   orderid="${order.value.key.id}">
+                                                                </p>
                                                             </div>
                                                         </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button"
-                                                                    class="btn btn-outline-primary"
-                                                                    data-dismiss="modal">
-                                                                Close
-                                                            </button>
+                                                            <%--Place to swap buttons in and out of view--%>
+                                                        <div class="row">
+                                                            <table class="table table-hover table-responsive w-100 d-block d-xl-table">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th class="text-right">Item ID</th>
+                                                                    <th class="text-left">Book Title
+                                                                    </th>
+                                                                    <th class="text-center">Status</th>
+                                                                    <th class="text-left">Deadline</th>
+                                                                    <th class="text-left">Received on
+                                                                    </th>
+                                                                    <th class="text-left">Returned on
+                                                                    </th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <c:forEach var="orderItem"
+                                                                           items="${order.value.value}">
+                                                                    <tr>
+                                                                        <td class="text-right">${orderItem.id} </td>
+                                                                        <td class="text-left">${orderItem.title}</td>
+                                                                        <td class="text-center">
+                                                                            <c:set var="statOrderItem"
+                                                                                   value="${orderItem.lendStatus}"
+                                                                            />
+                                                                            <div class="contSlItemStat"
+                                                                                 orderid="${order.value.key.id}"
+                                                                                 orderitemid="${orderItem.id}"
+                                                                                 style="display: none">
+                                                                                <select class="custom-select slItemStat"
+                                                                                        id="slItemStat${orderItem.id}"
+                                                                                        orderid="${order.value.key.id}"
+                                                                                        orderitemid="${orderItem.id}">
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="contItemStat"
+                                                                                 orderid="${order.value.key.id}"
+                                                                                 orderitemid="${orderItem.id}">
+                                                                                <label class="badge lbItemStat"
+                                                                                       id="lbItemStat${orderItem.id}"
+                                                                                       orderid="${order.value.key.id}"
+                                                                                       orderitemid="${orderItem.id}"
+                                                                                       lendStatus="${statOrderItem}">
+                                                                                </label>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="text-left"
+                                                                            id="dateDeadline${orderItem.id}"
+                                                                            datevalue="${orderItem.returnDeadline}">
+                                                                            <c:if test="${empty orderItem.returnDeadline}">
+                                                                                N/A
+                                                                            </c:if>
+                                                                            <c:if test="${not empty orderItem.returnDeadline}">
+                                                                                ${orderItem.returnDeadline}
+                                                                            </c:if>
+                                                                        </td>
+                                                                        <td class="text-left"
+                                                                            id="dateLend${orderItem.id}"
+                                                                            datevalue="${orderItem.lendDate}">
+                                                                            <c:if test="${empty orderItem.lendDate}">
+                                                                                N/A
+                                                                            </c:if>
+                                                                            <c:if test="${not empty orderItem.lendDate}">
+                                                                                ${orderItem.lendDate}
+                                                                            </c:if>
+                                                                        </td>
+                                                                        <td class="text-left"
+                                                                            id="dateReturn${orderItem.id}"
+                                                                            datevalue="${orderItem.returnDate}">
+                                                                            <c:if test="${empty orderItem.returnDate}">
+                                                                                N/A
+                                                                            </c:if>
+                                                                            <c:if test="${not empty orderItem.returnDate}">
+                                                                                ${orderItem.returnDate}
+                                                                            </c:if>
+                                                                        </td>
+                                                                    </tr>
+                                                                </c:forEach>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button"
+                                                                class="btn btn-outline-primary"
+                                                                data-dismiss="modal">
+                                                            Close
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
                                         <%--End: Order Details Form--%>
                                     </c:forEach>
                                 </div>

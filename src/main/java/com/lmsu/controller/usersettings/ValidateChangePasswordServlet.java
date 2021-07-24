@@ -31,7 +31,7 @@ public class ValidateChangePasswordServlet extends HttpServlet {
             HttpSession session = request.getSession();
             UserDTO dto = (UserDTO) session.getAttribute("LOGIN_USER");
 
-            if (!currentPW.equals("")){
+            if (!currentPW.equals("")) {
                 String currentPasswordHashed = Hashing.sha256()
                         .hashString(currentPW, StandardCharsets.UTF_8).toString();
                 if (!currentPasswordHashed.equals(dto.getPassword())) {
@@ -41,21 +41,29 @@ public class ValidateChangePasswordServlet extends HttpServlet {
                 errors.put("errorCurrentPassword", "inputCurrentPassword");
             }
 
-            if (!(confirmPW.equals("") && newPW.equals(""))){
-                if (!confirmPW.trim().equals(newPW.trim())) {
+            if (!newPW.matches("^[a-z0-9A-Z]{1,50}$")) {
+                errors.put("errorPatternPassword", "inputPasswordPattern");
+            }
+
+            if (confirmPW != null) {
+                if (confirmPW.matches("^[a-z0-9A-Z]{1,50}$")) {
+                    if (!confirmPW.trim().equals(newPW.trim())) {
+                        errors.put("errorConfirmPassword", "inputConfirmPassword");
+                    }
+                } else {
                     errors.put("errorConfirmPassword", "inputConfirmPassword");
                 }
             } else {
                 errors.put("errorConfirmPassword", "inputConfirmPassword");
             }
 
-        } finally {
-            String json = new Gson().toJson(errors);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(json);
+            } finally{
+                String json = new Gson().toJson(errors);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(json);
+            }
         }
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

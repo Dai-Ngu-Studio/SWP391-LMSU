@@ -1,10 +1,9 @@
-package com.lmsu.controller.member;
+package com.lmsu.controller.book;
 
 import com.lmsu.authorbookmaps.AuthorBookMapDAO;
 import com.lmsu.authorbookmaps.AuthorBookMapDTO;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
-import com.lmsu.controller.LoginServlet;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;

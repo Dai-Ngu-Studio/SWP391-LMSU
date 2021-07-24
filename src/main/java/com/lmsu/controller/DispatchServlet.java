@@ -22,7 +22,7 @@ public class DispatchServlet extends HttpServlet {
     private static final String DELETE_BOOK_CONTROLLER = "DeleteBookServlet";
     private static final String SEARCH_BOOK_CONTROLLER = "SearchTitleServlet";
     private static final String ADD_BOOK_CONTROLLER = "AddBookServlet";
-    private static final String SEARCH_CATALOG_CONTROLLER = "SearchBookCatalogServlet";
+    private static final String SEARCH_CATALOG_CONTROLLER = "SearchIndexServlet";
     private static final String SHOW_AUTHOR_BOOK_CONTROLLER = "ShowAuthorBookServlet";
     private static final String CHANGE_PASSWORD_CONTROLLER = "ChangePasswordServlet";
     private static final String CHANGE_PHONE_CONTROLLER = "ChangePhoneServlet";
@@ -74,7 +74,7 @@ public class DispatchServlet extends HttpServlet {
                 url = SEARCH_BOOK_CONTROLLER;
             } else if (button.equals("AddBook")) {
                 url = ADD_BOOK_CONTROLLER;
-            } else if (button.equals("SearchBookCatalog")) {
+            } else if (button.equals("SearchIndexCatalog")) {
                 url = SEARCH_CATALOG_CONTROLLER;
             } else if (button.equals("See More Books of This Author")) {
                 url = SHOW_AUTHOR_BOOK_CONTROLLER;

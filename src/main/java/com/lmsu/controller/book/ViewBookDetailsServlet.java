@@ -1,10 +1,8 @@
-package com.lmsu.controller.member;
+package com.lmsu.controller.book;
 
 import com.lmsu.authorbookmaps.AuthorBookMapDAO;
 import com.lmsu.authorbookmaps.AuthorBookMapDTO;
-import com.lmsu.authors.AuthorDAO;
 import com.lmsu.authors.AuthorDTO;
-import com.lmsu.bean.author.AuthorObj;
 import com.lmsu.bean.book.BookObj;
 import com.lmsu.bean.comment.CommentObj;
 import com.lmsu.bean.member.CartObj;

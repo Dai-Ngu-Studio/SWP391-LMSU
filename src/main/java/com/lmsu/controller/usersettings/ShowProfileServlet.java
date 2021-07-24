@@ -12,6 +12,7 @@ import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.orderdata.orders.OrderDAO;
 import com.lmsu.orderdata.orders.OrderDTO;
 import com.lmsu.renewalrequests.RenewalRequestDAO;
+import com.lmsu.renewalrequests.RenewalRequestDTO;
 import com.lmsu.users.UserDTO;
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
@@ -63,6 +64,7 @@ public class ShowProfileServlet extends HttpServlet {
     private final String ATTR_MEMBER_ORDER_ITEMS = "MEMBER_ORDER_ITEMS";
     private final String ATTR_MEMBER_RESERVE_ITEMS = "MEMBER_RESERVE_ITEMS";
     private final String ATTR_RENEWAL_MAP_LIST = "RENEWAL_MAP_LIST";
+    private final String ATTR_RENEWAL_MAP_STATUS = "RENEWAL_MAP_STATUS";
     private final String ATTR_QUANTITY_MAP_LIST = "QUANTITY_MAP_LIST";
     private final String ATTR_MEMBER_ORDER_LIST = "MEMBER_ORDER_LIST";
 
@@ -77,6 +79,7 @@ public class ShowProfileServlet extends HttpServlet {
                     BookDAO bookDAO = new BookDAO();
                     OrderDAO orderDAO = new OrderDAO();
                     OrderItemDAO orderItemDAO = new OrderItemDAO();
+                    RenewalRequestDAO renewalRequestDAO = new RenewalRequestDAO();
                     DeliveryOrderDAO deliveryOrderDAO = new DeliveryOrderDAO();
                     DirectOrderDAO directOrderDAO = new DirectOrderDAO();
                     //----------------------------------------------------
@@ -93,6 +96,7 @@ public class ShowProfileServlet extends HttpServlet {
                     List<OrderDTO> orders = orderDAO.getOrderList();
                     List<OrderItemObj> validOrderItems = new ArrayList<>();
                     List<OrderItemObj> reservedItems = new ArrayList<>();
+                    Map<Integer, Integer> mapStatus = new HashMap<>();
                     Map<Pair<DirectOrderDTO, DeliveryOrderDTO>, Pair<OrderDTO, List<OrderItemObj>>> detailedOrders =
                             new HashMap<Pair<DirectOrderDTO, DeliveryOrderDTO>, Pair<OrderDTO, List<OrderItemObj>>>();
                     if (orders != null) {
@@ -104,6 +108,7 @@ public class ShowProfileServlet extends HttpServlet {
                             if (orderItems != null) {
                                 for (OrderItemDTO orderItem : orderItems) {
                                     BookDTO bookDTO = bookDAO.getBookById(orderItem.getBookID());
+                                    RenewalRequestDTO renewalRequestDTO = renewalRequestDAO.getRenewalByItemID(orderItem.getId());
                                     OrderItemObj orderitemObj = new OrderItemObj();
                                     orderitemObj.setId(orderItem.getId());
                                     orderitemObj.setOrderID(orderItem.getOrderID());
@@ -136,12 +141,20 @@ public class ShowProfileServlet extends HttpServlet {
                                     Pair<DirectOrderDTO, DeliveryOrderDTO> orderType = new Pair<>(directOrderDTO, deliveryOrderDTO);
                                     Pair<OrderDTO, List<OrderItemObj>> orderInformation = new Pair<>(order, itemsOfOrder);
                                     detailedOrders.put(orderType, orderInformation);
+
+                                    //check if item already send renewal
+                                    if (renewalRequestDTO != null) {
+                                        if (renewalRequestDTO.getApprovalStatus() == 0) {
+                                            mapStatus.put(orderItem.getId(), 0);
+                                        }
+                                    }
                                 } // end traverse items
                             }
                         } // end traverse orders
                     }
                     request.setAttribute(ATTR_MEMBER_ORDER_LIST, detailedOrders);
                     request.setAttribute(ATTR_MEMBER_ORDER_ITEMS, validOrderItems);
+                    request.setAttribute(ATTR_RENEWAL_MAP_STATUS, mapStatus);
                     //----------------------------------------------------
                     // Renewal
                     RenewalRequestDAO renewalDAO = new RenewalRequestDAO();

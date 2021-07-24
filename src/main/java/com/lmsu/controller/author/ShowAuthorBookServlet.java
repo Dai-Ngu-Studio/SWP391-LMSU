@@ -1,4 +1,4 @@
-package com.lmsu.controller;
+package com.lmsu.controller.author;
 
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
