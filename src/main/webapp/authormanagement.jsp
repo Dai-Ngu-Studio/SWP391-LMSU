@@ -18,9 +18,8 @@
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="images/images/favicon.png"/>
-    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
-    <script src="js/authormanagement.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
     <script src="js/iconpro.js"></script>
 </head>
 <body>
@@ -61,24 +60,24 @@
                                                 <c:forEach var="author" items="${authorList}"
                                                            varStatus="counter">
                                                     <tr>
-                                                        <form action="DispatchServlet"
-                                                              enctype="multipart/form-data"
-                                                              method="POST">
-                                                            <!--Start: Author Item Form-->
-                                                            <td class="sorting_1"
-                                                                style="text-align: center">${counter.count}</td>
-                                                            <td style="text-align: left">
-                                                                    ${author.authorName}
-                                                            </td>
-                                                            <c:set var="listOfCannotDeleteAuthor"
-                                                                   value="${requestScope.DO_NOT_DELETE_AUTHOR_LIST}"/>
-                                                            <input type="hidden" value="${author.authorID}"
-                                                                   name="pk">
-                                                            <input type="hidden" value="${author.authorID}"
-                                                                   name="authorPk">
-                                                            <input type="hidden" name="txtSearchValue"
-                                                                   value="${param.txtSearchValue}"/>
-                                                            <td style="text-align: center;">
+                                                        <td class="sorting_1"
+                                                            style="text-align: center">${counter.count}</td>
+                                                        <td style="text-align: left">
+                                                                ${author.authorName}
+                                                        </td>
+                                                        <c:set var="listOfCannotDeleteAuthor"
+                                                               value="${requestScope.DO_NOT_DELETE_AUTHOR_LIST}"/>
+
+                                                        <td style="text-align: center;">
+                                                            <form action="DispatchServlet"
+                                                                  enctype="multipart/form-data"
+                                                                  method="POST">
+                                                                <input type="hidden" value="${author.authorID}"
+                                                                       name="pk">
+                                                                <input type="hidden" value="${author.authorID}"
+                                                                       name="authorPk">
+                                                                <input type="hidden" name="txtSearchValue"
+                                                                       value="${param.txtSearchValue}"/>
                                                                 <div class="btn-group">
                                                                         <%--<button type="submit" class="btn btn-light"
                                                                                 name="btAction" value="View Authors"
@@ -153,7 +152,6 @@
                                                                                             <div class="col-sm-10">
                                                                                                 <input type="text"
                                                                                                        class="form-control"
-                                                                                                       name="txtUpdateAuthorName"
                                                                                                        value="${author.authorName}">
                                                                                             </div>
                                                                                         </div>
@@ -164,8 +162,7 @@
                                                                                             <div class="col-sm-10">
                                                                                         <textarea
                                                                                                 class="form-control"
-                                                                                                name="txtUpdateAuthorBio"
-                                                                                                id="${author.authorID}"
+
                                                                                                 rows="10"> ${author.authorBio}
                                                                                         </textarea>
                                                                                             </div>
@@ -295,7 +292,7 @@
                                                                                         <label class="col-sm-3 col-form-label">Name</label>
                                                                                         <div class="col-sm-9">
                                                                                             <input type="text"
-                                                                                                   class="form-control"
+                                                                                                   class="form-control textField"
                                                                                                    name="txtUpdateAuthorName"
                                                                                                    value="${author.authorName}">
                                                                                         </div>
@@ -306,9 +303,8 @@
                                                                                         </label>
                                                                                         <div class="col-sm-9">
                                                                                         <textarea
-                                                                                                class="form-control"
+                                                                                                class="form-control descriptionField"
                                                                                                 name="txtUpdateAuthorBio"
-                                                                                                id="${author.authorID}"
                                                                                                 rows="10"> ${author.authorBio}
                                                                                         </textarea>
                                                                                         </div>
@@ -409,8 +405,9 @@
                                                                     </div>
                                                                     <!--End: Delete Author Modal-->
                                                                 </div>
-                                                            </td>
-                                                        </form>
+                                                            </form>
+
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
@@ -442,11 +439,14 @@
 </div>
 <!-- container-scroller -->
 <!-- plugins:js -->
-<script src="vendors/js/vendor.bundle.base.js"></script>
+<%--<script src="vendors/js/vendor.bundle.base.js"></script>--%>
 <!-- endinject -->
 <!-- Plugin js for this page -->
 <script src="vendors/datatables.net/jquery.dataTables.js"></script>
 <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
 <!-- End plugin js for this page -->
 <!-- inject:js -->
 <script src="js/off-canvas.js"></script>
@@ -459,4 +459,5 @@
 
 <!-- End custom js for this page-->
 </body>
+<script src="js/authormanagement.js"></script>
 </html>
