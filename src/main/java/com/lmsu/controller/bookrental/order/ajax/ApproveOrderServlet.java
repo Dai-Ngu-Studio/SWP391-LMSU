@@ -92,7 +92,7 @@ public class ApproveOrderServlet extends HttpServlet {
                                         .updateOrderItemStatusOfOrder(
                                                 orderID, ITEM_APPROVED, CONNECTION_USE_BATCH);
                                 if (updateOrderItemResult) {
-                                    // If this is a direct order, call API and update tracking code
+                                    // If this is a delivery order, call API and update tracking code
                                     if (order.isLendMethod()) {
                                         List<OrderItemDTO> validOrderItems = orderItems
                                                 .stream()

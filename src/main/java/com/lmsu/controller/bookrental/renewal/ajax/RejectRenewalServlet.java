@@ -52,7 +52,7 @@ public class RejectRenewalServlet extends HttpServlet {
                             if (librarianResult) {
                                 renewal = renewalRequestDAO.getRenewalByID(renewalID);
                                 LOGGER.log(Level.INFO, "Staff " + staff.getName() + " [" + staff.getId() +
-                                        "] has rejected renewal of Request " + renewalID);
+                                        "] has rejected renewal request " + renewalID);
                                 renewalObj = new RenewalRequestObj();
                                 UserDTO staffDTO = userDAO.getUserByID(renewal.getLibrarianID());
                                 renewalObj.setApprovalStatus(renewal.getApprovalStatus());

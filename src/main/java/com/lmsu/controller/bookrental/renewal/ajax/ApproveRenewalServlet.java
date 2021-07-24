@@ -54,7 +54,7 @@ public class ApproveRenewalServlet extends HttpServlet {
                                 OrderItemDAO orderItemDAO = new OrderItemDAO();
                                 orderItemDAO.updateOrderItemDeadline(renewal.getItemID(), renewal.getRequestedExtendDate());
                                 LOGGER.log(Level.INFO, "Staff " + staff.getName() + " [" + staff.getId() +
-                                        "] has approved renewal of Request " + renewalID);
+                                        "] has approved renewal request " + renewalID);
                                 renewalObj = new RenewalRequestObj();
                                 renewalObj.setApprovalStatus(renewal.getApprovalStatus());
                                 renewalObj.setLibrarian(staff);
