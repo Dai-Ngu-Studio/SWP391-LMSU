@@ -59,7 +59,8 @@ GO
         profilePicturePath varchar(MAX),
         activeStatus bit NOT NULL,
 		isNotifyArrival bit,
-		isNotifyPopular bit
+		isNotifyPopular bit,
+		isDelete bit
     );
 
 GO
@@ -1051,7 +1052,8 @@ INSERT INTO
         profilePicturePath,
         activeStatus,
 		isNotifyArrival,
-		isNotifyPopular
+		isNotifyPopular,
+        isDelete
     )
 values
     (
@@ -1065,7 +1067,8 @@ values
         'images/default-user-icon.png',
         0,
 		1,
-		1
+		1,
+        0
     );
 
 INSERT INTO
@@ -1080,7 +1083,8 @@ INSERT INTO
         profilePicturePath,
         activeStatus,
 		isNotifyArrival,
-		isNotifyPopular
+		isNotifyPopular,
+        isDelete
     )
 values
     (
@@ -1094,7 +1098,8 @@ values
         'images/default-user-icon.png',
         0,
 		1,
-		1
+		1,
+        0
     );
 
 INSERT INTO
@@ -1109,7 +1114,8 @@ INSERT INTO
         profilePicturePath,
         activeStatus,
 		isNotifyArrival,
-		isNotifyPopular
+		isNotifyPopular,
+        isDelete
     )
 values
     (
@@ -1123,7 +1129,8 @@ values
         'images/default-user-icon.png',
         0,
 		1,
-		1
+		1,
+        0
     );
 
 INSERT INTO
@@ -1138,7 +1145,8 @@ INSERT INTO
         profilePicturePath,
         activeStatus,
 		isNotifyArrival,
-		isNotifyPopular
+		isNotifyPopular,
+        isDelete
     )
 values
     (
@@ -1152,7 +1160,8 @@ values
         'images/default-user-icon.png',
         0,
 		1,
-		1
+		1,
+        0
     );
 
 INSERT INTO
@@ -1165,7 +1174,8 @@ INSERT INTO
         phoneNumber,
         activeStatus,
 		isNotifyArrival,
-		isNotifyPopular
+		isNotifyPopular,
+        isDelete
     )
 values
     (
@@ -1177,7 +1187,8 @@ values
         '0901666918',
         0,
 		1,
-		1
+		1,
+        0
     );
 
 INSERT INTO
@@ -1190,7 +1201,8 @@ INSERT INTO
         phoneNumber,
         activeStatus,
 		isNotifyArrival,
-		isNotifyPopular
+		isNotifyPopular,
+        isDelete
     )
 values
     (
@@ -1202,7 +1214,8 @@ values
         '1234567890',
         0,
 		1,
-		1
+		1,
+        0
     );
 
 INSERT INTO
@@ -1215,7 +1228,8 @@ INSERT INTO
         phoneNumber,
         activeStatus,
 		isNotifyArrival,
-		isNotifyPopular
+		isNotifyPopular,
+        isDelete
     )
 values
     (
@@ -1227,7 +1241,8 @@ values
         '1234567890',
         0,
 		1,
-		1
+		1,
+        0
     );
 
 INSERT INTO
@@ -1240,7 +1255,8 @@ INSERT INTO
         phoneNumber,
         activeStatus,
 		isNotifyArrival,
-		isNotifyPopular
+		isNotifyPopular,
+        isDelete
     )
 values
     (
@@ -1252,7 +1268,8 @@ values
         '1234567890',
         0,
 		1,
-		1
+		1,
+        0
     );
 
 INSERT INTO
