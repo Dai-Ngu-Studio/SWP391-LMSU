@@ -31,11 +31,12 @@
     <%-- partial:../../partials/_navbar.html --%>
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo mr-5" href="dashboard.jsp"><img src="images/LMSU LOGO DASHBOARD.svg"
-                                                                              class="mr-2" alt="logo"
-                                                                              style="margin-left: 36px;"/></a>
-            <a class="navbar-brand brand-logo-mini" href="dashboard.jsp"><img src="images/LMSU LOGO MINI DASHBOARD.svg"
-                                                                              alt="logo"/></a>
+            <a class="navbar-brand brand-logo mr-5" href="dashboard.jsp">
+                <img src="images/LMSU LOGO DASHBOARD.svg" class="mr-2" alt="logo" style="margin-left: 40px;"/>
+            </a>
+            <a class="navbar-brand brand-logo-mini" href="dashboard.jsp">
+                <img src="images/LMSU LOGO MINI DASHBOARD.svg" alt="logo"/>
+            </a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -45,7 +46,9 @@
             <ul class="navbar-nav navbar-nav-right">
                 <li class="nav-item nav-profile dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                        <img src="images/images/faces/fn2.png" alt="profile" style="border-radius: 50%;"/>
+                        <img src="${sessionScope.LOGIN_USER.profilePicturePath}" alt="profile picture"
+                             style="border-radius: 50%;"
+                             onerror="this.onerror=null; this.src='images/default-user-icon.png';"/>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                         <a class="dropdown-item" href="ShowProfileServlet">
@@ -172,7 +175,8 @@
                                                                     </div>
                                                                 </div>
                                                                 <c:set var="staffID" value="${renewal.librarian.id}"/>
-                                                                <c:set var="staffName" value="${renewal.librarian.name}"/>
+                                                                <c:set var="staffName"
+                                                                       value="${renewal.librarian.name}"/>
                                                                 <c:if test="${empty staffID}">
                                                                     <c:set var="staffID" value="N/A"/>
                                                                     <c:set var="staffName" value="N/A"/>
@@ -228,7 +232,7 @@
                                                                     </label>
                                                                     <div class="col-lg-11 col-12">
                                                                         <textarea type="text" class="form-control"
-                                                                               disabled>${renewal.reason}</textarea>
+                                                                                  disabled>${renewal.reason}</textarea>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row frmRenewalStat"

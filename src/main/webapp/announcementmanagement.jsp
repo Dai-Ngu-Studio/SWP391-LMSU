@@ -26,11 +26,12 @@
     <!-- partial:../../partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo mr-5" href="dashboard.jsp"><img src="images/LMSU LOGO DASHBOARD.svg"
-                                                                              class="mr-2" alt="logo"
-                                                                              style="margin-left: 40px;"/></a>
-            <a class="navbar-brand brand-logo-mini" href="dashboard.jsp"><img src="images/LMSU LOGO MINI DASHBOARD.svg"
-                                                                              alt="logo"/></a>
+            <a class="navbar-brand brand-logo mr-5" href="dashboard.jsp">
+                <img src="images/LMSU LOGO DASHBOARD.svg" class="mr-2" alt="logo" style="margin-left: 40px;"/>
+            </a>
+            <a class="navbar-brand brand-logo-mini" href="dashboard.jsp">
+                <img src="images/LMSU LOGO MINI DASHBOARD.svg" alt="logo"/>
+            </a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -40,7 +41,9 @@
             <ul class="navbar-nav navbar-nav-right">
                 <li class="nav-item nav-profile dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                        <img src="images/images/faces/fn2.png" alt="profile" style="border-radius: 50%;"/>
+                        <img src="${sessionScope.LOGIN_USER.profilePicturePath}" alt="profile picture"
+                             style="border-radius: 50%;"
+                             onerror="this.onerror=null; this.src='images/default-user-icon.png';"/>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                         <a class="dropdown-item" href="ShowProfileServlet">
@@ -105,7 +108,8 @@
                                     <b class="text-danger">from <input type="text" placeholder="Enter day" id="day"
                                                                        name="day" value="" required>
                                         <input type="date" id="dateFrom" name="dateFrom" value="" required>
-                                        to <input type="date" id="dateTo" name="dateTo" value="" required> at room no LB101</b> .
+                                        to <input type="date" id="dateTo" name="dateTo" value="" required> at room no
+                                        LB101</b> .
                                 </p>
                                 <h3><b>Time:</b></h3>
                                 <p>
@@ -167,23 +171,30 @@
                             <div>
                                 <p>Dear Library Users,</p>
                                 <p>
-                                    Delivering textbook schedule for <span class="draft" id="semesterDraft"></span> <span class="draft"
-                                        id="yearDraft"></span>
+                                    Delivering textbook schedule for <span class="draft" id="semesterDraft"></span>
+                                    <span class="draft"
+                                          id="yearDraft"></span>
                                     semester at FPT University Library. Library users are required to follow below
                                     schedule:
                                 </p>
                                 <p class="text-danger">
                                     <b>
                                         Start: <span class="draft" id="defaultDayFromDraft"></span> <span class="draft"
-                                            id="defaultDateFromDraft"></span> to
-                                        <span class="draft" id="defaultDayToDraft"></span> <span class="draft" id="defaultDateToDraft"></span> at
+                                                                                                          id="defaultDateFromDraft"></span>
+                                        to
+                                        <span class="draft" id="defaultDayToDraft"></span> <span class="draft"
+                                                                                                 id="defaultDateToDraft"></span>
+                                        at
                                         room no LB102.
                                     </b>
                                 </p>
                                 <p>
-                                    Textbook for subjects: <span class="draft" id="subjectDraft"></span> <b class="text-danger">
-                                    from <span class="draft" id="dayDraft"></span> <span class="draft" id="dateFromDraft"></span> to <span class="draft"
-                                        id="dateToDraft"></span> at room no LB101</b> .
+                                    Textbook for subjects: <span class="draft" id="subjectDraft"></span> <b
+                                        class="text-danger">
+                                    from <span class="draft" id="dayDraft"></span> <span class="draft"
+                                                                                         id="dateFromDraft"></span> to
+                                    <span class="draft"
+                                          id="dateToDraft"></span> at room no LB101</b> .
                                 </p>
                                 <h3><b>Time:</b></h3>
                                 <p>
