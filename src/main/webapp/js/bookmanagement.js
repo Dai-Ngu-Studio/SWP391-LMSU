@@ -10,24 +10,26 @@ function readURL(input, idImage) {
         reader.readAsDataURL(input.files[0]);
     }
 }
-function inputForAutoComplete(input){
+
+function inputForAutoComplete(input) {
     let idInput = $(input).attr('id');
-    $('#'+idInput).devbridgeAutocomplete({
+    $('#' + idInput).devbridgeAutocomplete({
         serviceUrl: 'AutoSuggestAuthorServlet', //tell the script where to send requests
         width: "auto", //set width
         //add value to input field
         onSelect: function (suggestion) {
-            let chipTune='<div class="chip">'
-                +suggestion.authorName+
+            let chipTune = '<div class="chip">'
+                + suggestion.authorName +
                 '<i class="close fal fa-times"></i><' +
-                'input type="hidden" name="txtAuthorID" value="'+suggestion.authorID+'">' +
+                'input type="hidden" name="txtAuthorID" value="' + suggestion.authorID + '">' +
                 '</div>';
-            $('input[id='+idInput+']').parent().append(chipTune);
+            $('input[id=' + idInput + ']').parent().append(chipTune);
         },
         showNoSuggestionNotice: true,
         noSuggestionNotice: 'Sorry, no matching results',
     });
 }
+
 function checkISBN() {
     let inputTen = document.getElementById("txtISBNTen");
     let inputThirteen = document.getElementById("txtISBNThirteen");
@@ -75,7 +77,7 @@ function checkISBN() {
                                         </label>
                                         <div class="col-sm-9">
                                             <input type="text"
-                                                    class="form-control"
+                                                    class="form-control textField"
                                                     value=""
                                                     name="txtTitle"
                                             >
@@ -95,24 +97,7 @@ function checkISBN() {
                                                     value=""
                                             >
                                         </div>
-<!--                                        <script>-->
-<!--                                            $("#authorAutoComplete").devbridgeAutocomplete({-->
-<!--                                            serviceUrl: 'AutoSuggestAuthorServlet', //tell the script where to send requests-->
-<!--                                            width: "auto", //set width-->
-<!--                                            //add value to input field-->
-<!--                                            onSelect: function (suggestion) {-->
-<!--                                                let chipTune='<div class="chip">'-->
-<!--                                                +suggestion.authorName+-->
-<!--                                                '<i class="close fal fa-times"></i><' +-->
-<!--                                                 'input type="hidden" name="txtAuthorID" value="'+suggestion.authorID+'">' +-->
-<!--                                                 '</div>';-->
-<!--                                                // $('#authorAutoComplete').val(suggestion.authorName);-->
-<!--                                                $('input[id=authorAutoComplete]').parent().append(chipTune);-->
-<!--                                            },-->
-<!--                                            showNoSuggestionNotice: true,-->
-<!--                                            noSuggestionNotice: 'Sorry, no matching results',-->
-<!--                                            });-->
-<!--                                        </script>-->
+                                        
                                     </div>
                                     <div class="form-group row" id="rowSubject">
                                         <label class="col-sm-3 col-form-label">
@@ -123,6 +108,7 @@ function checkISBN() {
                                                     class="form-control"
                                                     value=""
                                                     name="txtSubjectID"
+                                                    required
                                             >
                                         </div>
                                     </div>
@@ -132,7 +118,7 @@ function checkISBN() {
                                         </label>
                                         <div class="col-sm-9">
                                             <input type="text"
-                                                    class="form-control"
+                                                    class="form-control textField"
                                                     value=""
                                                     name="txtPublisher"
                                             >
@@ -144,7 +130,7 @@ function checkISBN() {
                                         </label>
                                         <div class="col-sm-9">
                                             <input type="text"
-                                                    class="form-control"
+                                                    class="form-control textField"
                                                     value=""
                                                     name="txtSupplier"
                                             >
@@ -170,7 +156,7 @@ function checkISBN() {
                                         </label>
                                         <div class="col-sm-9">
                                             <input type="number"
-                                                    class="form-control"
+                                                    class="form-control priceField"
                                                     value=""
                                                     name="txtPrice"
                                             >
@@ -182,7 +168,7 @@ function checkISBN() {
                                         </label>
                                         <div class="col-sm-9">
                                             <input type="number"
-                                                    class="form-control"
+                                                    class="form-control quantityField"
                                                     value=""
                                                     name="txtQuantity"
                                             >
@@ -193,7 +179,7 @@ function checkISBN() {
                                         <label class="col-sm-3 col-form-label">Description
                                         </label>
                                         <div class="col-sm-9">
-                                            <textarea class="form-control"
+                                            <textarea class="form-control descriptionField"
                                                         rows="5"
                                                         name="txtDescription"> </textarea>
                                         </div>
@@ -219,7 +205,7 @@ function checkISBN() {
                                                 </label>
                                                 <div class="col-sm-9">
                                                     <input type="text"
-                                                        class="form-control"
+                                                        class="form-control textField"
                                                         value=""
                                                         name="txtSupplier"
                                                     >
@@ -234,7 +220,7 @@ function checkISBN() {
                                                     </label>
                                                     <div class="col-sm-9">
                                                         <input type="number"
-                                                            class="form-control"
+                                                            class="form-control quantityField"
                                                             value=""
                                                             name="txtQuantity"
                                                         >
@@ -242,7 +228,7 @@ function checkISBN() {
                                                 </div>`;
                         $('#addModalBody').append(rowHTMLQuantity);
                     }
-                } else if (this.responseText.localeCompare('1') == 0){
+                } else if (this.responseText.localeCompare('1') == 0) {
                     $('#rowCover').remove();
                     $('#rowInputCover').remove();
                     $('#rowTitle').remove();
@@ -333,7 +319,7 @@ $(document).ready(function () {
                                                     <div class="col-sm-9">
                                                         <input type="text"
                                                             id="txtISBNTen"
-                                                            class="form-control"
+                                                            class="form-control isbnTen"
                                                             value=""
                                                             name="txtISBNTen"
                                                             oninput="checkISBN();"
@@ -347,7 +333,7 @@ $(document).ready(function () {
                                                     <div class="col-sm-9">
                                                         <input type="text"
                                                             id="txtISBNThirteen"
-                                                            class="form-control"
+                                                            class="form-control isbnThirteen"
                                                             value=""
                                                             name="txtISBNThirteen"
                                                             oninput="checkISBN();"
@@ -401,7 +387,7 @@ $(document).ready(function () {
                         </div>`;
     $('#book-datatable_wrapper').children().eq(0).children().eq(1).append(fileSearchAdd);
     if ($('#existedInvalidBook').val() == 'true') {
-        let errorButton =`    <button class="btn btn-danger" type="submit"
+        let errorButton = `    <button class="btn btn-danger" type="submit"
                                         style="border-radius: 5px; 
                                                display: inline-block;
                                                margin-bottom: 7px;"
@@ -410,4 +396,59 @@ $(document).ready(function () {
                                 </button>`;
         $('#buttonAddFileNError').append(errorButton);
     }
+
+    //validation form
+    $.validator.setDefaults({
+        onkeyup: false,
+    });
+    $.validator.addClassRules({
+        textField: {
+            required: {
+                depends: function () {
+                    $(this).val($.trim($(this).val()));
+                    return true;
+                }
+            },
+            minlength: 3,
+            maxlength: 80,
+        },
+        priceField: {
+            required: true,
+            range: [1000, 1000000]
+        },
+        quantityField: {
+            required: true,
+            min: 0
+        },
+        isbnTen: {
+            required: {
+                depends: function () {
+                    $(this).val($.trim($(this).val()));
+                    return true;
+                }
+            },
+            rangelength: [10, 10]
+        },
+        isbnThirteen: {
+            required: {
+                depends: function () {
+                    $(this).val($.trim($(this).val()));
+                    return true;
+                }
+            },
+            rangelength: [13, 13]
+        },
+        descriptionField: {
+            required: {
+                depends: function () {
+                    $(this).val($.trim($(this).val()));
+                    return true;
+                }
+            },
+            minlength: 3
+        }
+    });
+    $('form').each(function () {
+        $(this).validate();
+    });
 });
