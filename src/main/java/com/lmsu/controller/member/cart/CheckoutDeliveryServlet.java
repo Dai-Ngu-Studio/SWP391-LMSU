@@ -106,119 +106,121 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                 String districtName = request.getParameter(PARAM_CHECKOUT_DISTRICTNAME);
                 String ward = (String) session.getAttribute(ATTR_CHECKOUT_WARD);
                 String wardName = request.getParameter(PARAM_CHECKOUT_WARDNAME);
-                // 2. Check if cart existed
-                CartObj cartObj = (CartObj) session.getAttribute(ATTR_MEMBER_CART);
-                if (cartObj != null) {
-                    // 3. Check if items existed
-                    if (cartObj.getItems() != null) {
-                        Map<String, BookObj> cartItems = cartObj.getItems();
-                        UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
-                        if (userDTO != null) {
-                            // 4. Create connection for rollback
-                            conn = DBHelpers.makeConnection();
-                            if (conn != null) {
-                                conn.setAutoCommit(false);
-                                // 5. Get current date, get deadline
-                                // 6. Create new order
-                                OrderDAO orderDAO = new OrderDAO(conn);
-                                BookDAO bookDAO = new BookDAO();
-                                int orderID = orderDAO.addOrder(userDTO.getId(), DELIVERY_METHOD, ORDER_PENDING);
-                                if (orderID > 0) {
-                                    // 7. Traverse items in cart and add to list
-                                    List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
-                                    Date returnDeadline = DateHelpers.getDeadlineDate(DateHelpers.getCurrentDate(), 14);
-                                    AnnouncementDAO announcementDAO = new AnnouncementDAO();
-                                    AnnouncementDTO latestAnnouncement = announcementDAO.getLatestAnnouncement();
-                                    if (latestAnnouncement != null) {
-                                        Date announcementDeadline = latestAnnouncement.getReturnDeadline();
-                                        if (announcementDeadline != null) {
-                                            returnDeadline = announcementDeadline;
+                if (!receiverName.isEmpty() && !phoneNumber.isEmpty() && !deliveryAddressOne.isEmpty() && !city.isEmpty() && !district.isEmpty() && !ward.isEmpty()) {
+                    // 2. Check if cart existed
+                    CartObj cartObj = (CartObj) session.getAttribute(ATTR_MEMBER_CART);
+                    if (cartObj != null) {
+                        // 3. Check if items existed
+                        if (cartObj.getItems() != null) {
+                            Map<String, BookObj> cartItems = cartObj.getItems();
+                            UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
+                            if (userDTO != null) {
+                                // 4. Create connection for rollback
+                                conn = DBHelpers.makeConnection();
+                                if (conn != null) {
+                                    conn.setAutoCommit(false);
+                                    // 5. Get current date, get deadline
+                                    // 6. Create new order
+                                    OrderDAO orderDAO = new OrderDAO(conn);
+                                    BookDAO bookDAO = new BookDAO();
+                                    int orderID = orderDAO.addOrder(userDTO.getId(), DELIVERY_METHOD, ORDER_PENDING);
+                                    if (orderID > 0) {
+                                        // 7. Traverse items in cart and add to list
+                                        List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
+                                        Date returnDeadline = DateHelpers.getDeadlineDate(DateHelpers.getCurrentDate(), 14);
+                                        AnnouncementDAO announcementDAO = new AnnouncementDAO();
+                                        AnnouncementDTO latestAnnouncement = announcementDAO.getLatestAnnouncement();
+                                        if (latestAnnouncement != null) {
+                                            Date announcementDeadline = latestAnnouncement.getReturnDeadline();
+                                            if (announcementDeadline != null) {
+                                                returnDeadline = announcementDeadline;
+                                            }
                                         }
-                                    }
-                                    for (String bookID : cartItems.keySet()) {
-                                        OrderItemDTO orderItemDTO = new OrderItemDTO();
-                                        orderItemDTO.setOrderID(orderID);
-                                        orderItemDTO.setBookID(bookID);
-                                        orderItemDTO.setPenaltyStatus(PENALTY_NONE);
-                                        orderItemDTO.setPenaltyAmount(new BigDecimal(0));
-                                        if (bookDAO.getBookById(bookID).getQuantity() > 0) {
-                                            orderItemDTO.setLendStatus(ITEM_PENDING);
-                                            orderItemDTO.setReturnDeadline(returnDeadline);
-                                        } else {
-                                            orderItemDTO.setLendStatus(ITEM_RESERVED);
-                                            orderItemDTO.setReturnDeadline(null);
-                                        }
-                                        orderItemDTO.setReturnDate(null);
-                                        orderItems.add(orderItemDTO);
-                                    }// end traverse items in cart
-                                    // 8. Add order items
-                                    OrderItemDAO orderItemDAO = new OrderItemDAO(conn);
-                                    boolean itemsAddResult = orderItemDAO.addOrderItems(orderItems);
-                                    if (itemsAddResult) {
-                                        // 9. Create Delivery Order
-                                        DeliveryOrderDAO deliveryOrderDAO = new DeliveryOrderDAO(conn);
-                                        boolean deliveryOrderAddResult = deliveryOrderDAO
-                                                .addDeliveryOrder(orderID, phoneNumber,
-                                                        deliveryAddressOne, deliveryAddressTwo, city, district, ward,
-                                                        receiverName, cityName, districtName, wardName);
-                                        if (deliveryOrderAddResult) {
-                                            conn.commit();
-                                            // 10.a
-                                            // Decrease quantity of books
-                                            // 10.b
-                                            // Check if books have been reserved in the past
-                                            // if yes, mark the old reserve status as inactive (ITEM_RESERVED_INACTIVE)
-                                            // avoid newest order by checking orderID
-                                            for (String bookID : cartItems.keySet()) {
-                                                BookDTO bookDTO = bookDAO.getBookById(bookID);
-                                                if (bookDTO.getQuantity() > 0) {
-                                                    bookDAO.updateQuantity(bookID, bookDTO.getQuantity() - 1);
-                                                }
-                                                orderItemDAO.clearOrderItemList();
-                                                // Get reserved items of this book (any user)
-                                                orderItemDAO.getItemsFromBookID(bookID,
-                                                        new ArrayList<Integer>(Arrays.asList(ITEM_RESERVED)));
-                                                List<OrderItemDTO> reservedItems = orderItemDAO.getOrderItemList();
-                                                if (reservedItems != null) {
-                                                    for (OrderItemDTO reservedItem : reservedItems) {
-                                                        // Avoid current Order ID
-                                                        if (reservedItem.getOrderID() != orderID) {
-                                                            // Get Order from Order ID
-                                                            OrderDTO orderOfItem =
-                                                                    orderDAO.getOrderFromID(reservedItem.getOrderID());
-                                                            if (orderOfItem != null) {
-                                                                // Check Member ID from Order
-                                                                if (orderOfItem.getMemberID().equals(userDTO.getId())) {
-                                                                    orderItemDAO.updateOrderItemStatus(
-                                                                            reservedItem.getId(),
-                                                                            ITEM_RESERVED_INACTIVE, CONNECTION_NO_BATCH);
+                                        for (String bookID : cartItems.keySet()) {
+                                            OrderItemDTO orderItemDTO = new OrderItemDTO();
+                                            orderItemDTO.setOrderID(orderID);
+                                            orderItemDTO.setBookID(bookID);
+                                            orderItemDTO.setPenaltyStatus(PENALTY_NONE);
+                                            orderItemDTO.setPenaltyAmount(new BigDecimal(0));
+                                            if (bookDAO.getBookById(bookID).getQuantity() > 0) {
+                                                orderItemDTO.setLendStatus(ITEM_PENDING);
+                                                orderItemDTO.setReturnDeadline(returnDeadline);
+                                            } else {
+                                                orderItemDTO.setLendStatus(ITEM_RESERVED);
+                                                orderItemDTO.setReturnDeadline(null);
+                                            }
+                                            orderItemDTO.setReturnDate(null);
+                                            orderItems.add(orderItemDTO);
+                                        }// end traverse items in cart
+                                        // 8. Add order items
+                                        OrderItemDAO orderItemDAO = new OrderItemDAO(conn);
+                                        boolean itemsAddResult = orderItemDAO.addOrderItems(orderItems);
+                                        if (itemsAddResult) {
+                                            // 9. Create Delivery Order
+                                            DeliveryOrderDAO deliveryOrderDAO = new DeliveryOrderDAO(conn);
+                                            boolean deliveryOrderAddResult = deliveryOrderDAO
+                                                    .addDeliveryOrder(orderID, phoneNumber,
+                                                            deliveryAddressOne, deliveryAddressTwo, city, district, ward,
+                                                            receiverName, cityName, districtName, wardName);
+                                            if (deliveryOrderAddResult) {
+                                                conn.commit();
+                                                // 10.a
+                                                // Decrease quantity of books
+                                                // 10.b
+                                                // Check if books have been reserved in the past
+                                                // if yes, mark the old reserve status as inactive (ITEM_RESERVED_INACTIVE)
+                                                // avoid newest order by checking orderID
+                                                for (String bookID : cartItems.keySet()) {
+                                                    BookDTO bookDTO = bookDAO.getBookById(bookID);
+                                                    if (bookDTO.getQuantity() > 0) {
+                                                        bookDAO.updateQuantity(bookID, bookDTO.getQuantity() - 1);
+                                                    }
+                                                    orderItemDAO.clearOrderItemList();
+                                                    // Get reserved items of this book (any user)
+                                                    orderItemDAO.getItemsFromBookID(bookID,
+                                                            new ArrayList<Integer>(Arrays.asList(ITEM_RESERVED)));
+                                                    List<OrderItemDTO> reservedItems = orderItemDAO.getOrderItemList();
+                                                    if (reservedItems != null) {
+                                                        for (OrderItemDTO reservedItem : reservedItems) {
+                                                            // Avoid current Order ID
+                                                            if (reservedItem.getOrderID() != orderID) {
+                                                                // Get Order from Order ID
+                                                                OrderDTO orderOfItem =
+                                                                        orderDAO.getOrderFromID(reservedItem.getOrderID());
+                                                                if (orderOfItem != null) {
+                                                                    // Check Member ID from Order
+                                                                    if (orderOfItem.getMemberID().equals(userDTO.getId())) {
+                                                                        orderItemDAO.updateOrderItemStatus(
+                                                                                reservedItem.getId(),
+                                                                                ITEM_RESERVED_INACTIVE, CONNECTION_NO_BATCH);
+                                                                    }
                                                                 }
                                                             }
-                                                        }
-                                                    } // end traverse reserved items
+                                                        } // end traverse reserved items
+                                                    }
                                                 }
-                                            }
-                                            request.setAttribute(ATTR_CHECKOUT_SUCCESS, true);
-                                            session.removeAttribute(ATTR_MEMBER_CART);
-                                            session.removeAttribute(ATTR_CHECKOUT_RECEIVERNAME);
-                                            session.removeAttribute(ATTR_CHECKOUT_PHONENUMBER);
-                                            session.removeAttribute(ATTR_CHECKOUT_ADDRESSONE);
-                                            session.removeAttribute(ATTR_CHECKOUT_ADDRESSTWO);
-                                            session.removeAttribute(ATTR_CHECKOUT_CITY);
-                                            session.removeAttribute(ATTR_CHECKOUT_DISTRICT);
-                                            session.removeAttribute(ATTR_CHECKOUT_WARD);
-                                            url = SHOW_BOOK_CATALOG_CONTROLLER; //W.I.P. temporary (to be changed)
-                                        }// end if delivery order created successfully
-                                    }// end if order items added successfully
-                                }// end if order created successfully
-                                if (conn != null) {
-                                    conn.setAutoCommit(true);
-                                    conn.close();
-                                } // end if connected existed and close connection
-                            }// end if connection existed
-                        }// end if user existed
-                    }// end if items existed
-                }// end if cart existed
+                                                request.setAttribute(ATTR_CHECKOUT_SUCCESS, true);
+                                                session.removeAttribute(ATTR_MEMBER_CART);
+                                                session.removeAttribute(ATTR_CHECKOUT_RECEIVERNAME);
+                                                session.removeAttribute(ATTR_CHECKOUT_PHONENUMBER);
+                                                session.removeAttribute(ATTR_CHECKOUT_ADDRESSONE);
+                                                session.removeAttribute(ATTR_CHECKOUT_ADDRESSTWO);
+                                                session.removeAttribute(ATTR_CHECKOUT_CITY);
+                                                session.removeAttribute(ATTR_CHECKOUT_DISTRICT);
+                                                session.removeAttribute(ATTR_CHECKOUT_WARD);
+                                                url = SHOW_BOOK_CATALOG_CONTROLLER; //W.I.P. temporary (to be changed)
+                                            }// end if delivery order created successfully
+                                        }// end if order items added successfully
+                                    }// end if order created successfully
+                                    if (conn != null) {
+                                        conn.setAutoCommit(true);
+                                        conn.close();
+                                    } // end if connected existed and close connection
+                                }// end if connection existed
+                            }// end if user existed
+                        }// end if items existed
+                    }// end if cart existed
+                } // end check if parameters are empty
             }// end if session existed
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
