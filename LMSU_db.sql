@@ -187,7 +187,8 @@ GO
         phone VARCHAR(10),
         feedbackType VARCHAR(255),
         attachment VARCHAR(MAX),
-        feedbackMessage nvarchar(MAX)
+        feedbackMessage nvarchar(MAX),
+        resolveStatus bit
     );
 
 GO
