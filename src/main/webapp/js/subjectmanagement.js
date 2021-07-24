@@ -1,4 +1,4 @@
-$(document).ready(function (){
+$(document).ready(function () {
     $('#author-datatable').DataTable({bFilter: false});
     let searchAddBar = `<div class="row float-right" style="padding-right: 50px;"> 
                             <form action="DispatchServlet"
@@ -52,7 +52,7 @@ $(document).ready(function (){
                                                     </label>
                                                     <div class="col-sm-9">
                                                         <input type="text"
-                                                                class="form-control"
+                                                                class="form-control textField"
                                                                 value=""
                                                                 name="txtSubjectName"
                                                         >
@@ -65,7 +65,7 @@ $(document).ready(function (){
                                                     </label>
                                                     <div class="col-sm-9">
                                                         <input type="text"
-                                                                class="form-control"
+                                                                class="form-control semesterField"
                                                                 value=""
                                                                 name="txtSubjectSemester"
                                                         >
@@ -93,4 +93,34 @@ $(document).ready(function (){
                             </form>
                         </div>`;
     $('#author-datatable_wrapper').children().eq(0).children().eq(1).append(searchAddBar);
+
+    //Validate form
+    $.validator.setDefaults({
+        onkeyup: false,
+    });
+    $.validator.addClassRules({
+        textField: {
+            required: {
+                depends: function () {
+                    $(this).val($.trim($(this).val()));
+                    return true;
+                }
+            },
+            minlength: 3,
+            maxlength: 80,
+        },
+        semesterField: {
+            required: {
+                depends: function () {
+                    $(this).val($.trim($(this).val()));
+                    return true;
+                }
+            },
+            number: true,
+            range: [1, 9]
+        }
+    });
+    $('form').each(function () {
+        $(this).validate();
+    });
 });
