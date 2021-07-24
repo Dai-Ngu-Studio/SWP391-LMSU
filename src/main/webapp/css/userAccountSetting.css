@@ -9,6 +9,10 @@
     border-color: #748DDB !important;
 }
 
+.currentPassInput {
+    padding: 1.3rem .75rem !important;
+}
+
 .row .btn {
     padding: 0 1.5rem !important;
     height: 44px !important;
