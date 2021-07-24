@@ -29,27 +29,30 @@ public class LoginServlet extends HttpServlet {
 
         String email = request.getParameter("txtUsername");
         String password = request.getParameter("txtPassword");
+        String passwordHashed = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
         UserDAO dao = new UserDAO();
 
         String url = LOGIN_FAIL;
 
         try {
-            String passwordHashed = Hashing.sha256()
-                    .hashString(password, StandardCharsets.UTF_8).toString();
+            if (!dao.isDelete(email)) {
+                UserDTO dto = dao.checkLogin(email, passwordHashed);
+                HttpSession session = request.getSession();
 
-            UserDTO dto = dao.checkLogin(email, passwordHashed);
-            HttpSession session = request.getSession();
-
-            if (dto != null) {
-                AppUtils.storeLoginedUser(session, dto);
-                if (dto.getRoleID().equals("4")) {
-                    url = INDEX_PAGE;
-                }
-                if (dto.getRoleID().equals("1") || dto.getRoleID().equals("2") || dto.getRoleID().equals("3")) {
-                    url = DASHBOARD_PAGE;
+                if (dto != null) {
+                    AppUtils.storeLoginedUser(session, dto);
+                    if (dto.getRoleID().equals("4")) {
+                        url = INDEX_PAGE;
+                    }
+                    if (dto.getRoleID().equals("1") || dto.getRoleID().equals("2") || dto.getRoleID().equals("3")) {
+                        url = DASHBOARD_PAGE;
+                    }
+                } else {
+                    request.setAttribute("WRONG_USER_LOGIN", "Wrong user name or password!");
                 }
             } else {
-                request.setAttribute("WRONG_USER_LOGIN", "Wrong user name or password!");
+                request.setAttribute("DELETED_ACCOUNT",
+                        "Your account have been removed from system. Any mistake please send us feedback.");
             }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());

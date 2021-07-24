@@ -15,7 +15,6 @@ import java.util.List;
 @WebServlet(name = "ShowStaffServlet", value = "/ShowStaffServlet")
 public class ShowStaffServlet extends HttpServlet {
 
-    private static final String ERROR_PAGE = "error.jsp";
     private static final String STAFF_MANAGEMENT_PAGE = "staffmanagement.jsp";
     static final Logger LOGGER = Logger.getLogger(ShowStaffServlet.class);
 
@@ -24,26 +23,17 @@ public class ShowStaffServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
 
-        String url = ERROR_PAGE;
+        String url = STAFF_MANAGEMENT_PAGE;
 
         try {
-//            UserDAO dao = new UserDAO();
-//            dao.viewUserList();
-//            List<UserDTO> list = dao.getListAccount();
-//            request.setAttribute("MEMBER_LIST", list);
-//            url = MEMBER_MANAGEMENT_PAGE;
-
             List<UserDTO> searchResultReceived = (List<UserDTO>) request.getAttribute("SEARCH_RESULT");
             if (searchResultReceived != null) {
                 request.setAttribute("STAFF_LIST", searchResultReceived);
-                url = STAFF_MANAGEMENT_PAGE;
             } else {
                 UserDAO dao = new UserDAO();
                 dao.viewStaffList();
                 List<UserDTO> list = dao.getListAccount();
-
                 request.setAttribute("STAFF_LIST", list);
-                url = STAFF_MANAGEMENT_PAGE;
             }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());

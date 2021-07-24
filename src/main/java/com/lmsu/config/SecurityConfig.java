@@ -89,6 +89,7 @@ public class SecurityConfig {
         urlPatterns4.add("/UpdatePenaltyServlet");
         urlPatterns4.add("/ApproveRenewalServlet");
         urlPatterns4.add("/RejectRenewalServlet");
+//        urlPatterns4.add("/DeleteStaffServlet");
 
         mapConfig.put(ROLE_ADMIN, urlPatterns4);
     }

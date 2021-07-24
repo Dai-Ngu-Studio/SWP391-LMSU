@@ -30,10 +30,10 @@ public class UserDAO implements Serializable {
         try {
             con = DBHelpers.makeConnection();
             if (con != null) {
-                String sql = "select [id], [name], [roleID],[semester_no], [password], [email], [phoneNumber], "
-                        + "[profilePicturePath], [isNotifyArrival], [isNotifyPopular] "
-                        + "from [Users] "
-                        + "where [email] = ? and [password] = ?";
+                String sql = "SELECT [id], [name], [roleID],[semester_no], [password], [email], [phoneNumber], "
+                        + "[profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular], [isDelete] "
+                        + "FROM [Users] "
+                        + "WHERE [email] = ? AND [password] = ? AND isDelete = 0";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, email);
                 stm.setString(2, password);
@@ -47,11 +47,12 @@ public class UserDAO implements Serializable {
                     String emailCol = rs.getString("email");
                     String phoneNumber = rs.getString("phoneNumber");
                     String profilePicturePath = rs.getString("profilePicturePath");
+                    boolean activeStatus = rs.getBoolean("activeStatus");
                     boolean isNotifyArrival = rs.getBoolean("isNotifyArrival");
                     boolean isNotifyPopular = rs.getBoolean("isNotifyPopular");
-                    user = new UserDTO(id, name, roleID, passwordCol, emailCol, phoneNumber, semester_no, profilePicturePath);
-                    user.setNotifyArrival(isNotifyArrival);
-                    user.setNotifyPopular(isNotifyPopular);
+                    boolean isDelete = rs.getBoolean("isDelete");
+                    user = new UserDTO(id, name, roleID, passwordCol, emailCol, phoneNumber, semester_no, profilePicturePath,
+                            activeStatus, isNotifyArrival, isNotifyPopular, isDelete);
                 }
             }
         } finally {
@@ -88,8 +89,9 @@ public class UserDAO implements Serializable {
         return false;
     }
 
-    public boolean addUser(String userID, String userName, String roleID, String password, String email,
-                           String phoneNumber, String semester, String profilePicture, boolean activeStatus) throws SQLException, NamingException {
+    public boolean addUser(String userID, String userName, String roleID, String password, String email, String phoneNumber,
+                           String semester, String profilePicture, boolean activeStatus, boolean isNotifyArrival,
+                           boolean isNotifyPopular, boolean isDelete) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
 
@@ -97,8 +99,8 @@ public class UserDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 String sql = "INSERT INTO Users([id], [name], [roleID], [semester_no], [password], [email], " +
-                        "[phoneNumber], [profilePicturePath], [activeStatus]) " +
-                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        "[phoneNumber], [profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular], [isDelete]) " +
+                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, userID);
                 stm.setString(2, userName);
@@ -109,6 +111,10 @@ public class UserDAO implements Serializable {
                 stm.setString(7, phoneNumber);
                 stm.setString(8, profilePicture);
                 stm.setBoolean(9, activeStatus);
+                stm.setBoolean(10, isNotifyArrival);
+                stm.setBoolean(11, isNotifyPopular);
+                stm.setBoolean(12, isDelete);
+
                 int row = stm.executeUpdate();
                 if (row > 0) return true;
             }
@@ -129,8 +135,8 @@ public class UserDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], " +
-                        "[phoneNumber], [profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular] " +
+                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], [phoneNumber], " +
+                        "[profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular], [isDelete] " +
                         "FROM [Users] " +
                         "WHERE roleID = 4";
                 //3. Create Statement
@@ -150,8 +156,10 @@ public class UserDAO implements Serializable {
                     boolean activeStatus = rs.getBoolean("activeStatus");
                     boolean isNotifyArrival = rs.getBoolean("isNotifyArrival");
                     boolean isNotifyPopular = rs.getBoolean("isNotifyPopular");
+                    boolean isDelete = rs.getBoolean("isDelete");
+
                     UserDTO dto = new UserDTO(id, name, roleID, password, email, phoneNumber, semester, profilePicturePath,
-                            activeStatus, isNotifyArrival, isNotifyPopular);
+                            activeStatus, isNotifyArrival, isNotifyPopular, isDelete);
 
                     if (this.listAccount == null) {
                         this.listAccount = new ArrayList<UserDTO>();
@@ -176,8 +184,8 @@ public class UserDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], " +
-                        "[phoneNumber], [profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular] " +
+                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], [phoneNumber], " +
+                        "[profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular], [isDelete] " +
                         "FROM [Users] " +
                         "WHERE roleID = 1 OR roleID = 2 OR roleID = 3";
                 //3. Create Statement
@@ -197,8 +205,10 @@ public class UserDAO implements Serializable {
                     boolean activeStatus = rs.getBoolean("activeStatus");
                     boolean isNotifyArrival = rs.getBoolean("isNotifyArrival");
                     boolean isNotifyPopular = rs.getBoolean("isNotifyPopular");
+                    boolean isDelete = rs.getBoolean("isDelete");
+
                     UserDTO dto = new UserDTO(id, name, roleID, password, email, phoneNumber, semester, profilePicturePath,
-                            activeStatus, isNotifyArrival, isNotifyPopular);
+                            activeStatus, isNotifyArrival, isNotifyPopular, isDelete);
 
                     if (this.listAccount == null) {
                         this.listAccount = new ArrayList<UserDTO>();
@@ -272,8 +282,8 @@ public class UserDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], " +
-                        "[phoneNumber], [profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular]  " +
+                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], [phoneNumber], " +
+                        "[profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular], [isDelete]  " +
                         "FROM [Users] " +
                         "WHERE [name] LIKE ? AND roleID = 4";
                 //3. Create Statement
@@ -294,8 +304,10 @@ public class UserDAO implements Serializable {
                     boolean activeStatus = rs.getBoolean("activeStatus");
                     boolean isNotifyArrival = rs.getBoolean("isNotifyArrival");
                     boolean isNotifyPopular = rs.getBoolean("isNotifyPopular");
+                    boolean isDelete = rs.getBoolean("isDelete");
+
                     UserDTO dto = new UserDTO(id, name, roleID, password, email, phoneNumber, semester, profilePicturePath,
-                            activeStatus, isNotifyArrival, isNotifyPopular);
+                            activeStatus, isNotifyArrival, isNotifyPopular, isDelete);
                     if (this.listAccount == null) {
                         this.listAccount = new ArrayList<UserDTO>();
                     } //end if book list not existed
@@ -319,8 +331,8 @@ public class UserDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], " +
-                        "[phoneNumber], [profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular]  " +
+                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], [phoneNumber], " +
+                        "[profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular], [isDelete]  " +
                         "FROM [Users] " +
                         "WHERE [name] LIKE ? AND (roleID = 1 OR roleID = 2 OR roleID = 3)";
                 //3. Create Statement
@@ -341,8 +353,10 @@ public class UserDAO implements Serializable {
                     boolean activeStatus = rs.getBoolean("activeStatus");
                     boolean isNotifyArrival = rs.getBoolean("isNotifyArrival");
                     boolean isNotifyPopular = rs.getBoolean("isNotifyPopular");
+                    boolean isDelete = rs.getBoolean("isDelete");
+
                     UserDTO dto = new UserDTO(id, name, roleID, password, email, phoneNumber, semester, profilePicturePath,
-                            activeStatus, isNotifyArrival, isNotifyPopular);
+                            activeStatus, isNotifyArrival, isNotifyPopular, isDelete);
                     if (this.listAccount == null) {
                         this.listAccount = new ArrayList<UserDTO>();
                     } //end if book list not existed
@@ -364,7 +378,7 @@ public class UserDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 String sql = "UPDATE [Users] " +
-                        "SET [activeStatus] = 0 " +
+                        "SET [isDelete] = 0 " +
                         "WHERE [id] = ?";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, id);
@@ -389,8 +403,8 @@ public class UserDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], " +
-                        "[phoneNumber], [profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular]  " +
+                String sql = "SELECT [id], [name], [roleID], [semester_no], [password], [email], [phoneNumber], " +
+                        "[profilePicturePath], [activeStatus], [isNotifyArrival], [isNotifyPopular], [isDelete]  " +
                         "FROM [Users] " +
                         "WHERE [id] = ?";
                 //3. Create Statement
@@ -411,8 +425,10 @@ public class UserDAO implements Serializable {
                     boolean activeStatus = rs.getBoolean("activeStatus");
                     boolean isNotifyArrival = rs.getBoolean("isNotifyArrival");
                     boolean isNotifyPopular = rs.getBoolean("isNotifyPopular");
+                    boolean isDelete = rs.getBoolean("isDelete");
+
                     UserDTO dto = new UserDTO(id, name, roleID, password, email, phoneNumber, semester, profilePicturePath,
-                            activeStatus, isNotifyArrival, isNotifyPopular);
+                            activeStatus, isNotifyArrival, isNotifyPopular, isDelete);
                     return dto;
                 } //end while traversing result set
             } //end if connection existed
@@ -491,6 +507,35 @@ public class UserDAO implements Serializable {
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     boolean isActive = rs.getBoolean("activeStatus");
+                    if (isActive) {
+                        return true;
+                    }
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
+
+    public boolean isDelete(String email) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [isDelete] "
+                        + "FROM [Users] "
+                        + "WHERE [email] = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, email);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    boolean isActive = rs.getBoolean("isDelete");
                     if (isActive) {
                         return true;
                     }

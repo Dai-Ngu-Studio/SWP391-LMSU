@@ -33,7 +33,7 @@ public class DispatchServlet extends HttpServlet {
     private static final String SEARCH_STAFF_CONTROLLER = "SearchStaffServlet";
     private static final String ADD_STAFF_CONTROLLER = "AddStaffServlet";
     private static final String UPDATE_STAFF_CONTROLLER = "UpdateStaffServlet";
-    private static final String DELETE_STAFF_CONTROLLER = "";
+    private static final String DELETE_STAFF_CONTROLLER = "DeleteStaffServlet";
     private static final String UPDATE_AUTHOR_CONTROLLER = "UpdateAuthorServlet";
     private static final String DELETE_AUTHOR_CONTROLLER = "DeleteAuthorServlet";
     private static final String SEARCH_AUTHOR_CONTROLLER = "SearchAuthorNameServlet";
@@ -100,8 +100,8 @@ public class DispatchServlet extends HttpServlet {
                 url = SEARCH_AUTHOR_CONTROLLER;
             } else if (button.equals("AddAuthor")) {
                 url = ADD_AUTHOR_CONTROLLER;
-            } else if (button.equals("SearchStaff")) {
-                url = SEARCH_STAFF_CONTROLLER;
+            } else if (button.equals("Delete Staff")) {
+                url = DELETE_STAFF_CONTROLLER;
             } else if (button.equals("Renew Book")) {
                 url = RENEWAL_REQUEST_CONTROLLER;
             } else if (button.equals("Update User")) {

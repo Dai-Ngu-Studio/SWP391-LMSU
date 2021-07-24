@@ -41,8 +41,9 @@ public class AddStaffServlet extends HttpServlet {
             UserDAO dao = new UserDAO();
             boolean result = dao.checkUserExisted(userID);
             if (!result) {
-                if (userID.substring(0, 3).equalsIgnoreCase("LIB")) {
-                    dao.addUser(userID, userName, roleID, passwordHashed, email, phoneNumber, semester, profilePicturePath, false);
+                if (userID.substring(0, 3).equalsIgnoreCase("LIB") || userID.substring(0, 3).equalsIgnoreCase("MNG")) {
+                    dao.addUser(userID, userName, roleID, passwordHashed, email, phoneNumber, semester, profilePicturePath,
+                            false, false, false, false);
                 } else {
                     request.setAttribute("WRONG_ID_FORMAT", "Wrong format for userID (The prefix must be LIB or MNG)");
                 }

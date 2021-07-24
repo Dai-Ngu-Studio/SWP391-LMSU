@@ -39,7 +39,7 @@ public class LoginGoogleServlet extends HttpServlet {
         String code = request.getParameter("code");
 
         if (code == null || code.isEmpty()) {
-            RequestDispatcher rd = request.getRequestDispatcher(REDIRECT_LOGIN_GOOGLE_PAGE);
+            RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         } else {
             String accessToken = GoogleUtils.getToken(code);
@@ -57,28 +57,30 @@ public class LoginGoogleServlet extends HttpServlet {
                 UserDAO dao = new UserDAO();
                 HttpSession session = request.getSession();
 
-                if (isFPT.equalsIgnoreCase("fpt.edu.vn") || isFPT.equalsIgnoreCase("fe.edu.vn")) {
-                    boolean isActive = dao.isActive(email);
-                    if (!isActive) {
-                        dao.updateOnFirstLogin(email, passwordHashed, profilePicture);
-                        UserDTO dto = dao.checkLogin(email, passwordHashed);
-                        if (dto != null) {
-                            session.setAttribute("LOGIN_USER", dto);
-                            url = REDIRECT_LOGIN_GOOGLE_PAGE;
+                if (!dao.isDelete(email)) {
+                    if (isFPT.equalsIgnoreCase("fpt.edu.vn") || isFPT.equalsIgnoreCase("fe.edu.vn")) {
+                        boolean isActive = dao.isActive(email);
+                        if (!isActive) {
+                            dao.updateOnFirstLogin(email, passwordHashed, profilePicture);
+                            UserDTO dto = dao.checkLogin(email, passwordHashed);
+                            if (dto != null) {
+                                session.setAttribute("LOGIN_USER", dto);
+                            }
+                        } else {
+                            dao.updateProfilePictureOnLogin(email, profilePicture);
+                            UserDTO dto = dao.checkLogin(email, passwordHashed);
+                            if (dto != null) {
+                                AppUtils.storeLoginedUser(session, dto);
+                            } else {
+                                session.setAttribute("WRONG_USER_LOGIN", "Your account is not allowed to log into the system");
+                            }
                         }
                     } else {
-                        dao.updateProfilePictureOnLogin(email, profilePicture);
-                        UserDTO dto = dao.checkLogin(email, passwordHashed);
-                        if (dto != null) {
-                            AppUtils.storeLoginedUser(session, dto);
-                        } else {
-                            session.setAttribute("WRONG_USER_LOGIN", "Your account is not allowed to log into the system");
-                        }
-                        url = REDIRECT_LOGIN_GOOGLE_PAGE;
+                        session.setAttribute("WRONG_USER_LOGIN", "Your account is not allowed to log into the system");
                     }
                 } else {
-                    session.setAttribute("WRONG_USER_LOGIN", "Your account is not allowed to log into the system");
-                    url = REDIRECT_LOGIN_GOOGLE_PAGE;
+                    session.setAttribute("DELETED_ACCOUNT",
+                            "Your account have been removed from system. Any mistake please send us feedback.");
                 }
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());

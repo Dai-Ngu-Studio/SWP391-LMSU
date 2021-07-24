@@ -41,7 +41,8 @@ public class AddUserServlet extends HttpServlet {
             UserDAO dao = new UserDAO();
             boolean result = dao.checkUserExisted(userID);
             if (!result) {
-                dao.addUser(userID, userName, roleID, passwordHashed, email, phoneNumber, semester, profilePicturePath, false);
+                dao.addUser(userID, userName, roleID, passwordHashed, email, phoneNumber, semester, profilePicturePath,
+                        false, false, false, false);
             } else {
                 request.setAttribute("ADD_DUPLICATE", "User have existed");
             }
