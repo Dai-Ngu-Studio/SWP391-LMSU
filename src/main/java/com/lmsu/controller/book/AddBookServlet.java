@@ -46,9 +46,6 @@ public class AddBookServlet extends HttpServlet {
         String addFile = request.getParameter("isAddFile");
         String url = SHOW_BOOK_CONTROLLER;
         UserDTO userDTO = (UserDTO) request.getSession(true).getAttribute("LOGIN_USER");
-        if (userDTO == null) {
-            System.out.println("You're not logged in yet. How dafuck I can logging when I don't know who you are >:(");
-        }
         try {
             boolean result = false;
             String authorID[];
@@ -107,15 +104,23 @@ public class AddBookServlet extends HttpServlet {
                 isbnTen = request.getParameter("txtISBNTen");
                 isbnThirteen = request.getParameter("txtISBNThirteen");
                 supplier = request.getParameter("txtSupplier");
+
+
                 if (title == null && supplier != null) {
+                    //import quantity
                     BookDAO bookDAO = new BookDAO();
                     BookDTO bookAddingExisted = bookDAO.getBookByISBN13(isbnThirteen);
                     result = bookDAO.updateQuantity(bookAddingExisted.getBookID(),
                             Integer.parseInt(quantity) + bookAddingExisted.getQuantity());
+                    java.sql.Date currentDate = DateHelpers.getCurrentDate();
+                    ImportLogDAO importLogDAO = new ImportLogDAO();
+                    importLogDAO.addLog(bookAddingExisted.getBookID(), userDTO.getId(), currentDate, supplier, Integer.parseInt(quantity));
                 } else if (supplier == null) {
+                    //Revive book
                     BookDAO bookDAO = new BookDAO();
                     result = bookDAO.restoreBookDeleted(isbnTen, isbnThirteen);
                 } else {
+                    // Add book
                     result = addBook(request, title, subjectID, publisher, publishDate,
                             description, price, quantity, isbnTen, isbnThirteen, supplier, userDTO.getId(), authorID, true);
                 }
