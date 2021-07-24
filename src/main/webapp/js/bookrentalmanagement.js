@@ -430,7 +430,7 @@ $(document).ready(function () {
             success: function (orderItems) {
                 if (orderItems !== null) {
                     for (const item of orderItems) {
-                        console.log($(item));
+                        // console.log($(item));
                         let orderItemID = $(item).attr('id');
                         let lendStatus = $(item).attr('lendStatus');
                         let lendDate = $(item).attr('lendDate');

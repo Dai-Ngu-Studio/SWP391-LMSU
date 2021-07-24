@@ -1,4 +1,4 @@
-package com.lmsu.controller.bookrental.order.ajax;
+package com.lmsu.controller.usersettings.ajax;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
@@ -16,19 +16,22 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "ApproveOrderServlet", value = "/ApproveOrderServlet")
-public class ApproveOrderServlet extends HttpServlet {
+@WebServlet(name = "CancelOrderServlet", value = "/CancelOrderServlet")
+public class CancelOrderServlet extends HttpServlet {
 
-    static final Logger LOGGER = Logger.getLogger(ApproveOrderServlet.class);
+    static final Logger LOGGER = Logger.getLogger(CancelOrderServlet.class);
 
     private final boolean CONNECTION_USE_BATCH = true;
 
@@ -70,9 +73,9 @@ public class ApproveOrderServlet extends HttpServlet {
             // 1. Check if session existed
             HttpSession session = request.getSession(false);
             if (session != null) {
-                // 2. Check if staff existed
-                UserDTO staff = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
-                if (staff != null) {
+                // 2. Check if user existed
+                UserDTO member = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
+                if (member != null) {
                     // 3. Create connection for rollback
                     conn = DBHelpers.makeConnection();
                     if (conn != null) {
@@ -84,36 +87,17 @@ public class ApproveOrderServlet extends HttpServlet {
                         OrderDTO order = orderDAO.getOrderFromID(orderID);
                         orderItemDAO.getOrderItemsFromOrderID(orderID);
                         List<OrderItemDTO> orderItems = orderItemDAO.getOrderItemList();
-                        if ((order.getActiveStatus() != ORDER_CANCELLED) && (order.getActiveStatus() != ORDER_REJECTED)) {
+                        if ((order.getActiveStatus() != ORDER_APPROVED) && (order.getActiveStatus() != ORDER_REJECTED)) {
                             boolean updateOrderResult = orderDAO
-                                    .updateOrder(orderID, ORDER_APPROVED, CONNECTION_USE_BATCH);
+                                    .updateOrder(orderID, ORDER_CANCELLED, CONNECTION_USE_BATCH);
                             if (updateOrderResult) {
                                 boolean updateOrderItemResult = orderItemDAO
                                         .updateOrderItemStatusOfOrder(
-                                                orderID, ITEM_APPROVED, CONNECTION_USE_BATCH);
+                                                orderID, ITEM_CANCELLED, CONNECTION_USE_BATCH);
                                 if (updateOrderItemResult) {
-                                    // If this is a delivery order, call API and update tracking code
-                                    if (order.isLendMethod()) {
-                                        List<OrderItemDTO> validOrderItems = orderItems
-                                                .stream()
-                                                .filter(orderItemDTO -> orderItemDTO.getLendStatus() != ITEM_RESERVED)
-                                                .collect(Collectors.toList());
-
-                                        DeliveryOrderDAO deliveryOrderDAO = new DeliveryOrderDAO();
-                                        DeliveryOrderDTO deliveryOrder = deliveryOrderDAO.getDeliveryOrderFromOrderID(orderID);
-                                        String jsonOrderGHN = GhnApis.createOrder(deliveryOrder.getDistrict(), deliveryOrder.getWard(),
-                                                validOrderItems.size(), deliveryOrder.getReceiverName(),
-                                                deliveryOrder.getPhoneNumber(),
-                                                deliveryOrder.getDeliveryAddress1() + deliveryOrder.getDeliveryAddress2());
-                                        Object orderGHN = new Gson().fromJson(jsonOrderGHN, Object.class);
-                                        Object data = ((LinkedTreeMap) orderGHN).get("data");
-                                        String trackingCode = (String) ((LinkedTreeMap) data).get("order_code");
-                                        deliveryOrderDAO.updateManagerOfOrder(orderID, staff.getId());
-                                        deliveryOrderDAO.updateTrackingCodeOfOrder(orderID, trackingCode);
-                                    }
                                     conn.commit();
-                                    LOGGER.log(Level.INFO, "Staff " + staff.getName() + " [" + staff.getId() +
-                                            "] has approved order " + txtOrderID);
+                                    LOGGER.log(Level.INFO, "Member " + member.getName() + " [" + member.getId() +
+                                            "] has cancelled order " + txtOrderID);
                                 } // end if order item status updated
                             } // end if order status updated
                         } // end if check status direction
@@ -127,24 +111,24 @@ public class ApproveOrderServlet extends HttpServlet {
             }
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
-            log("ApproveOrderServlet _ SQL: " + ex.getMessage());
+            log("CancelOrderServlet _ SQL: " + ex.getMessage());
             try {
                 conn.rollback();
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
-                log("ApproveOrderServlet _ SQL: " + exRollback.getMessage());
+                log("CancelOrderServlet _ SQL: " + exRollback.getMessage());
             }
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
-            log("ApproveOrderServlet _ Naming: " + ex.getMessage());
+            log("CancelOrderServlet _ Naming: " + ex.getMessage());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
-            log("ApproveOrderServlet _ Exception: " + ex.getMessage());
+            log("CancelOrderServlet _ Exception: " + ex.getMessage());
             try {
                 conn.rollback();
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
-                log("ApproveOrderServlet _ SQL: " + exRollback.getMessage());
+                log("CancelOrderServlet _ SQL: " + exRollback.getMessage());
             }
         } finally {
             try {
@@ -154,7 +138,7 @@ public class ApproveOrderServlet extends HttpServlet {
                 }
             } catch (SQLException ex) {
                 LOGGER.error(ex.getMessage());
-                log("ApproveOrderServlet _ SQL: " + ex.getMessage());
+                log("CancelOrderServlet _ SQL: " + ex.getMessage());
             }
             String json = new Gson().toJson(orderInformation);
             response.setContentType("application/json");

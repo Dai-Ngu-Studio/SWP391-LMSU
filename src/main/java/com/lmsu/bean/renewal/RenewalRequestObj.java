@@ -6,13 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
 
 public @Data
-class RenewalRequestObj {
+class RenewalRequestObj implements Serializable {
     private int renewalID;
     private OrderItemObj item;
     private UserDTO librarian;
