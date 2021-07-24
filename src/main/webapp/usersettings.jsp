@@ -1,10 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%--
-  Created by IntelliJ IDEA.
-  Date: 6/7/2021
-  Time: 12:01 PM
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -84,7 +79,7 @@
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" style="padding: 0 1.7rem; max-height: 2.4rem"
+                                        <span class="input-group-text" style="padding: 1.3rem 1.7rem; max-height: 2.4rem"
                                               id="basic-addon1">Member ID</span>
                                     </div>
                                     <input type="text" class="form-control" value="${profile.id}"
@@ -94,14 +89,14 @@
                                 <c:if test="${not empty email_split}">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text px-5" style="max-height: 2.4rem">Email</span>
+                                            <span class="input-group-text px-5" style="padding: 1.3rem 1.7rem; max-height: 2.4rem">Email</span>
                                         </div>
                                         <input type="text" class="form-control" value="${email_split[0]}"
                                                aria-label="Email Address" aria-describedby="basic-addon2"
                                                style="background-color: #fff" readonly/>
                                         <div class="input-group-append">
                                             <span class="input-group-text"
-                                                  style="padding: 0 1.3rem;  max-height: 2.4rem"
+                                                  style="padding: 1.3rem 1.3rem;  max-height: 2.4rem"
                                                   id="basic-addon2">@fpt.edu.vn</span>
                                         </div>
                                     </div>
@@ -112,14 +107,14 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"
-                                                  style=" max-height: 2.4rem">Phone Number</span>
+                                                  style="padding: 1.3rem .8rem; max-height: 2.4rem">Phone Number</span>
                                         </div>
                                         <input type="text" class="form-control" aria-label="Phone Number"
                                                value="${profile.phoneNumber}" pattern="^[0-9]{10}$"
                                                name="txtPhone"/>
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="submit" name="btAction"
-                                                    value="Change Phone Number" style=" max-height: 2.4rem">
+                                                    value="Change Phone Number" style="padding: .6rem 1.5rem 2rem 1.5rem !important; max-height: 2.4rem">
                                                 Edit <i class="ti ti-pencil"></i>
                                             </button>
                                         </div>
@@ -128,7 +123,7 @@
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" style="padding: 0 1.3rem; max-height: 2.4rem">Semester No</span>
+                                        <span class="input-group-text" style="padding: 1.3rem 1.3rem; max-height: 2.4rem">Semester No</span>
                                     </div>
                                     <input type="text" class="form-control" aria-label="Phone Number"
                                            value="${profile.semester}" readonly style="background-color: #fff"/>
