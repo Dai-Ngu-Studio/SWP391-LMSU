@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -54,6 +55,8 @@
                             </div>
                             <div>
                                 <p class="text-danger">${requestScope.WRONG_USER_LOGIN}</p>
+                                <p class="text-danger">${sessionScope.WRONG_USER_LOGIN}</p>
+                                <c:remove var="WRONG_USER_LOGIN"></c:remove>
                             </div>
                             <button class="btn btn-login" type="submit" style="font-size: 1rem !important;"
                                     value="Login" name="btAction">Log in

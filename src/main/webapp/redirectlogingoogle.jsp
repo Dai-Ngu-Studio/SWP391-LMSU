@@ -12,5 +12,8 @@
 <c:if test="${roleID eq 3 or roleID eq 2 or roleID eq 1}">
     <c:redirect url="dashboard.jsp"></c:redirect>
 </c:if>
+<c:if test="${empty roleID}">
+    <c:redirect url="login.jsp"></c:redirect>
+</c:if>
 </body>
 </html>

@@ -23,7 +23,6 @@ import java.sql.SQLException;
 @WebServlet("/login-google")
 public class LoginGoogleServlet extends HttpServlet {
 
-    private static final String LOGIN_PAGE = "login.jsp";
     private static final String REDIRECT_LOGIN_GOOGLE_PAGE = "redirectlogingoogle.jsp";
     static final Logger LOGGER = Logger.getLogger(LoginGoogleServlet.class);
 
@@ -35,12 +34,12 @@ public class LoginGoogleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String url = LOGIN_PAGE;
+        String url = REDIRECT_LOGIN_GOOGLE_PAGE;
 
         String code = request.getParameter("code");
 
         if (code == null || code.isEmpty()) {
-            RequestDispatcher rd = request.getRequestDispatcher(LOGIN_PAGE);
+            RequestDispatcher rd = request.getRequestDispatcher(REDIRECT_LOGIN_GOOGLE_PAGE);
             rd.forward(request, response);
         } else {
             String accessToken = GoogleUtils.getToken(code);
@@ -55,10 +54,10 @@ public class LoginGoogleServlet extends HttpServlet {
 
             String isFPT = email.split("@")[1];
             try {
-                if (isFPT.equalsIgnoreCase("fpt.edu.vn") || isFPT.equalsIgnoreCase("fe.edu.vn")) {
-                    UserDAO dao = new UserDAO();
-                    HttpSession session = request.getSession();
+                UserDAO dao = new UserDAO();
+                HttpSession session = request.getSession();
 
+                if (isFPT.equalsIgnoreCase("fpt.edu.vn") || isFPT.equalsIgnoreCase("fe.edu.vn")) {
                     boolean isActive = dao.isActive(email);
                     if (!isActive) {
                         dao.updateOnFirstLogin(email, passwordHashed, profilePicture);
@@ -72,15 +71,14 @@ public class LoginGoogleServlet extends HttpServlet {
                         UserDTO dto = dao.checkLogin(email, passwordHashed);
                         if (dto != null) {
                             AppUtils.storeLoginedUser(session, dto);
-                            url = REDIRECT_LOGIN_GOOGLE_PAGE;
                         } else {
-                            request.setAttribute("WRONG_USER_LOGIN", "Your account is not allowed to log into the system");
-                            url = LOGIN_PAGE;
+                            session.setAttribute("WRONG_USER_LOGIN", "Your account is not allowed to log into the system");
                         }
+                        url = REDIRECT_LOGIN_GOOGLE_PAGE;
                     }
                 } else {
-                    request.setAttribute("WRONG_USER_LOGIN", "Your account is not allowed to log into the system");
-                    url = LOGIN_PAGE;
+                    session.setAttribute("WRONG_USER_LOGIN", "Your account is not allowed to log into the system");
+                    url = REDIRECT_LOGIN_GOOGLE_PAGE;
                 }
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
