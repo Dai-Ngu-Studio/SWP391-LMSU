@@ -30,7 +30,8 @@ public class UserDAO implements Serializable {
         try {
             con = DBHelpers.makeConnection();
             if (con != null) {
-                String sql = "select [id], [name], [roleID],[semester_no], [password], [email], [phoneNumber], [profilePicturePath] "
+                String sql = "select [id], [name], [roleID],[semester_no], [password], [email], [phoneNumber], "
+                        + "[profilePicturePath], [isNotifyArrival], [isNotifyPopular] "
                         + "from [Users] "
                         + "where [email] = ? and [password] = ?";
                 stm = con.prepareStatement(sql);
@@ -46,7 +47,11 @@ public class UserDAO implements Serializable {
                     String emailCol = rs.getString("email");
                     String phoneNumber = rs.getString("phoneNumber");
                     String profilePicturePath = rs.getString("profilePicturePath");
+                    boolean isNotifyArrival = rs.getBoolean("isNotifyArrival");
+                    boolean isNotifyPopular = rs.getBoolean("isNotifyPopular");
                     user = new UserDTO(id, name, roleID, passwordCol, emailCol, phoneNumber, semester_no, profilePicturePath);
+                    user.setNotifyArrival(isNotifyArrival);
+                    user.setNotifyPopular(isNotifyPopular);
                 }
             }
         } finally {
@@ -682,6 +687,32 @@ public class UserDAO implements Serializable {
         return false;
     }
 
+    public boolean updateMemberNotificationSetting(String id, boolean isNotifyArrival, boolean isNotifyPopular)
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE [Users] " +
+                        "SET [isNotifyArrival] = ? , " +
+                        "[isNotifyPopular] = ? " +
+                        "WHERE [id] = ?";
+                stm = con.prepareStatement(sql);
+                stm.setBoolean(1, isNotifyArrival);
+                stm.setBoolean(2, isNotifyPopular);
+                stm.setString(3, id);
+                int row = stm.executeUpdate();
+                if (row > 0) return true;
+            }
+        } finally {
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
+
     public void getListUserNotifyHighestRatedBook() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -728,7 +759,7 @@ public class UserDAO implements Serializable {
         try {
             con = DBHelpers.makeConnection();
             if (con != null) {
-                String sql = "SELECT [name], email, isNotifyPopular " +
+                String sql = "SELECT [name], email, isNotifyArrival " +
                         "FROM Users " +
                         "WHERE isNotifyArrival = 1";
                 stm = con.prepareStatement(sql);
