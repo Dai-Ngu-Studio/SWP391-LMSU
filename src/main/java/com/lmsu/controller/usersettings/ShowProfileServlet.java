@@ -1,6 +1,7 @@
 package com.lmsu.controller.usersettings;
 
 import com.lmsu.bean.orderdata.OrderItemObj;
+import com.lmsu.bean.renewal.RenewalRequestObj;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import com.lmsu.orderdata.deliveryorders.DeliveryOrderDAO;
@@ -64,6 +65,7 @@ public class ShowProfileServlet extends HttpServlet {
     private final String ATTR_MEMBER_ORDER_ITEMS = "MEMBER_ORDER_ITEMS";
     private final String ATTR_MEMBER_RESERVE_ITEMS = "MEMBER_RESERVE_ITEMS";
     private final String ATTR_RENEWAL_MAP_LIST = "RENEWAL_MAP_LIST";
+    private final String ATTR_RENEWAL_LIST = "MEMBER_RENEWAL_LIST";
     private final String ATTR_RENEWAL_MAP_STATUS = "RENEWAL_MAP_STATUS";
     private final String ATTR_QUANTITY_MAP_LIST = "QUANTITY_MAP_LIST";
     private final String ATTR_MEMBER_ORDER_LIST = "MEMBER_ORDER_LIST";
@@ -156,7 +158,7 @@ public class ShowProfileServlet extends HttpServlet {
                     request.setAttribute(ATTR_MEMBER_ORDER_ITEMS, validOrderItems);
                     request.setAttribute(ATTR_RENEWAL_MAP_STATUS, mapStatus);
                     //----------------------------------------------------
-                    // Renewal
+                    // Renewal Limit
                     RenewalRequestDAO renewalDAO = new RenewalRequestDAO();
                     LinkedHashMap<Integer, Integer> renewalMap = new LinkedHashMap<>();
                     for (OrderItemObj orderitemObj : validOrderItems) {
@@ -164,6 +166,22 @@ public class ShowProfileServlet extends HttpServlet {
                                 renewalDAO.countRenewalRequestByItemID(orderitemObj.getId()));
                     }
                     request.setAttribute(ATTR_RENEWAL_MAP_LIST, renewalMap);
+                    //----------------------------------------------------
+                    // Renewal List
+                    List<RenewalRequestObj> renewals = new ArrayList<>();
+                    for (OrderItemObj orderItem : validOrderItems) {
+                        RenewalRequestDTO renewal = renewalDAO.getRenewalByItemID(orderItem.getId());
+                        if (renewal != null) {
+                            RenewalRequestObj renewalRequestObj = new RenewalRequestObj();
+                            renewalRequestObj.setItem(orderItem);
+                            renewalRequestObj.setRequestedExtendDate(renewal.getRequestedExtendDate());
+                            renewalRequestObj.setRenewalID(renewal.getRenewalID());
+                            renewalRequestObj.setReason(renewal.getReason());
+                            renewalRequestObj.setApprovalStatus(renewal.getApprovalStatus());
+                            renewals.add(renewalRequestObj);
+                        }
+                    }
+                    request.setAttribute(ATTR_RENEWAL_LIST, renewals);
                     //----------------------------------------------------
                     // Reserve
                     request.setAttribute(ATTR_MEMBER_RESERVE_ITEMS, reservedItems);

@@ -62,6 +62,9 @@
                                 <a class="list-group-item list-group-item-action" id="list-order-list"
                                    data-toggle="list" href="#list-orders" role="tab">
                                     <i class="ti-shopping-cart-full"></i> Your Orders</a>
+                                <a class="list-group-item list-group-item-action" id="list-order-list"
+                                   data-toggle="list" href="#list-renewals" role="tab">
+                                    <i class="ti-reload"></i> Renewal Requests</a>
                             </c:if>
                         </div>
                     </div>
@@ -245,42 +248,60 @@
                         <%--Notifications tab--%>
                         <div class="tab-pane fade" id="list-notifications" role="tabpanel"
                              aria-labelledby="list-notifications-list" style="color: black !important;">
-                            <div class="row mb-1 align-items-center">
-                                <div class="col-lg-5">
-                                    Notify me about newest arrivals
-                                </div>
-                                <div class="col-lg-5">
-                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                        <label class="btn btn-secondary active">
-                                            <input type="radio" name="options" id="offNewArrival"
-                                                   autocomplete="off" checked/>
-                                            Off
-                                        </label>
-                                        <label class="btn btn-secondary">
-                                            <input type="radio" name="options" id="onNewArrival"
-                                                   autocomplete="off"/>
-                                            On
-                                        </label>
+                            <c:set value="${profile.notifyArrival}" var="isNotifyArrival"/>
+                            <c:set value="${profile.notifyPopular}" var="isNotifyPopular"/>
+                            <form action="UpdateNotificationSettingServlet" method="POST" class="mx-0 my-0">
+                                <div class="row mb-1 align-items-center">
+                                    <div class="col-lg-5">
+                                        Notify me about newest arrivals
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                            <label class="btn btn-secondary">
+                                                <input type="radio" name="options" id="offNewArrival"
+                                                       autocomplete="off"
+                                                        <c:if test="${not isNotifyArrival}">
+                                                            checked="checked"
+                                                        </c:if>
+                                                />Off
+                                            </label>
+                                            <label class="btn btn-secondary">
+                                                <input type="radio" name="options" id="onNewArrival"
+                                                       autocomplete="off"
+                                                        <c:if test="${isNotifyArrival}">
+                                                            checked="checked"
+                                                        </c:if>
+                                                />On
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row mb-1 align-items-center">
-                                <div class="col-lg-5">
-                                    Notify me about highest rated book of the week
-                                </div>
-                                <div class="col-lg-5">
-                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                        <label class="btn btn-secondary active">
-                                            <input type="radio" name="options" id="offHighestRated"
-                                                   autocomplete="off" checked/>Off
-                                        </label>
-                                        <label class="btn btn-secondary">
-                                            <input type="radio" name="options" id="onHighestRated"
-                                                   autocomplete="off"/>On
-                                        </label>
+                                <div class="row mb-1 align-items-center">
+                                    <div class="col-lg-5">
+                                        Notify me about highest rated books of the week
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                            <label class="btn btn-secondary">
+                                                <input type="radio" name="options" id="offHighestRated"
+                                                       autocomplete="off"
+                                                        <c:if test="${not isNotifyPopular}">
+                                                            checked="checked"
+                                                        </c:if>
+                                                />Off
+                                            </label>
+                                            <label class="btn btn-secondary">
+                                                <input type="radio" name="options" id="onHighestRated"
+                                                       autocomplete="off"
+                                                        <c:if test="${isNotifyPopular}">
+                                                            checked="checked"
+                                                        </c:if>
+                                                />On
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
 
                         <div class="tab-pane fade" id="list-miscellaneous" role="tabpanel"
@@ -300,6 +321,7 @@
                                         <tr role="row">
                                             <th class="text-right" style="width: 100px;">#</th>
                                             <th class="text-left" style="width: 73%;">BOOK</th>
+                                            <th class="text-left" style="width: 73%;">DEADLINE</th>
                                             <th class="text-center" style="width: 73%;">STATUS</th>
                                             <th class="text-center" style="width: 64px;">ACTIONS</th>
                                         </tr>
@@ -314,20 +336,9 @@
                                                     <td class="text-left">
                                                             ${orderItem.title}
                                                     </td>
-                                                        <%--
-                                                            ITEM_CANCELLED = -1 ( does not show, only notify )
-                                                            ITEM_PENDING = 0
-                                                            ITEM_APPROVED = 1
-                                                            ITEM_RECEIVED = 2
-                                                            ITEM_RETURN_SCHEDULED = 3
-                                                            ITEM_RETURNED = 4
-                                                            ITEM_OVERDUE = 5
-                                                            ITEM_OVERDUE_RETURN_SCHEDULED = 6
-                                                            ITEM_OVERDUE_RETURNED = 7
-                                                            ITEM_REJECTED = 8 ( does not show, only notify )
-                                                            ITEM_LOST = 9
-                                                            ITEM_RESERVED = 10 ( different tab )
-                                                        --%>
+                                                    <td class="text-left">
+                                                            ${orderItem.returnDeadline}
+                                                    </td>
                                                     <td class="text-center">
                                                         <c:choose>
                                                             <c:when test="${orderItem.lendStatus eq 0}">
@@ -390,8 +401,6 @@
                                                                 </button>
                                                             </c:if>
                                                                 <%--
-                                                                Temporary return function,
-                                                                need to add form similar to checkout.
                                                                 Only allow to return item with status:
                                                                     ITEM_RECEIVED = 2
                                                                     ITEM_OVERDUE = 5
@@ -616,6 +625,7 @@
                                 </div>
                             </div>
                         </div>
+                        <%--Wishlist--%>
                         <div class="tab-pane fade" id="list-reserve" role="tabpanel">
                             <div class="row">
                                 <div class="col-sm-12">
@@ -779,6 +789,7 @@
                                 </div>
                             </div>
                         </div>
+                        <%--Order List--%>
                         <c:set var="orderList" value="${requestScope.MEMBER_ORDER_LIST}"/>
                         <div class="tab-pane fade dataTables_wrapper dt-bootstrap4 no-footer" id="list-orders"
                              role="tabpanel">
@@ -787,7 +798,7 @@
                                     <table id="ordersTable" class="table dataTable no-footer" role="grid">
                                         <thead>
                                         <tr>
-                                            <th style="width: 0px; text-align: center">#</th>
+                                            <th style="width: 0px; text-align: right">#</th>
                                             <th style="width: 0px; text-align: center">METHOD</th>
                                             <th style="width: 0px; text-align: left">ORDERED ON</th>
                                             <th style="width: 0px; text-align: center">STATUS</th>
@@ -798,7 +809,7 @@
                                         <c:forEach var="order" items="${orderList}" varStatus="orderCounter">
                                             <c:set var="lendMethod" value="${order.value.key.lendMethod}"/>
                                             <tr>
-                                                <td class="text-center">${orderCounter.count}</td>
+                                                <td class="text-right">${orderCounter.count}</td>
                                                 <td class="text-center">
                                                     <c:if test="${lendMethod}">
                                                         Delivery
@@ -814,19 +825,18 @@
                                                     id="lbOrderStat${order.value.key.id}"
                                                     orderid="${order.value.key.id}">
                                                     <label class="badge"
+                                                           style="font-weight: 700 !important; font-size: 75% !important;"
                                                            activeStatus="${order.value.key.activeStatus}"
                                                            value="${order.value.key.activeStatus}"></label>
                                                 </td>
                                                 <td class="text-center">
-                                                    <form action="DispatchServlet">
-                                                        <div class="btn-group">
-                                                            <button type="button" class="btn btn-light"
-                                                                    data-toggle="modal"
-                                                                    data-target="#orderModal${order.value.key.id}">
-                                                                <i class="fa fa-eye text-primary"></i>
-                                                            </button>
-                                                        </div>
-                                                    </form>
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-light"
+                                                                data-toggle="modal"
+                                                                data-target="#orderModal${order.value.key.id}">
+                                                            <i class="fa fa-eye text-primary"></i>
+                                                        </button>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -971,7 +981,7 @@
                                                         </c:if>
                                                         <div class="form-group row frmOrderStat"
                                                              orderid="${order.value.key.id}">
-                                                            <label class=" col-12 col-form-label">
+                                                            <label class="col-12 col-form-label">
                                                                 Order Status
                                                             </label>
                                                             <div class=" col-12 lbOrderStat"
@@ -982,8 +992,23 @@
                                                                    orderid="${order.value.key.id}">
                                                                 </p>
                                                             </div>
+                                                            <c:if test="${order.value.key.activeStatus eq 0}">
+                                                                <label class="col-12 col-form-label lbCancelOrder"
+                                                                       orderid="${order.value.key.id}">
+                                                                    Cancel the order?
+                                                                </label>
+                                                                <div class="col-12 contModalCancelOrder"
+                                                                     orderid="${order.value.key.id}">
+                                                                    <button type="button"
+                                                                            class="btn btn-block btn-light btn-sm rounded-0"
+                                                                            data-toggle="modal"
+                                                                            data-target="#mdConfirmCancelOrder${order.value.key.id}">
+                                                                        <i class="fa fa-times-circle text-dark"
+                                                                           style="font-size: 2rem !important;"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </c:if>
                                                         </div>
-                                                            <%--Place to swap buttons in and out of view--%>
                                                         <div class="row">
                                                             <table class="table table-hover table-responsive w-100 d-block d-xl-table">
                                                                 <thead>
@@ -1023,6 +1048,7 @@
                                                                                  orderid="${order.value.key.id}"
                                                                                  orderitemid="${orderItem.id}">
                                                                                 <label class="badge lbItemStat"
+                                                                                       style="font-weight: 700 !important; font-size: 75% !important;"
                                                                                        id="lbItemStat${orderItem.id}"
                                                                                        orderid="${order.value.key.id}"
                                                                                        orderitemid="${orderItem.id}"
@@ -1077,6 +1103,238 @@
                                             </div>
                                         </div>
                                         <%--End: Order Details Form--%>
+                                        <div class="modal fade"
+                                             id="mdConfirmCancelOrder${order.value.key.id}"
+                                             tabindex="-1"
+                                             style="overflow: hidden !important; ">
+                                            <div class="modal-dialog modal-dialog-centered"
+                                                 style="margin-top: 0px !important;">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">
+                                                            Cancel this Order
+                                                        </h5>
+                                                        <button type="button"
+                                                                class="close"
+                                                                data-dismiss="modal">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        This action cannot be undone. Are you sure?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <button type="button"
+                                                                        class="btn btn-outline-primary float-right ml-3"
+                                                                        id="btnDismissCnclOrder${order.value.key.id}"
+                                                                        data-dismiss="modal">
+                                                                    Cancel
+                                                                </button>
+                                                                <button type="submit"
+                                                                        class="btn btn-primary float-right btnModalCnclOrder"
+                                                                        id="btnCancelOrder${order.value.key.id}"
+                                                                        orderid="${order.value.key.id}"
+                                                                        ordermethod="${order.value.key.lendMethod}"
+                                                                        role="cancelOrder">
+                                                                    Yes
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade dataTables_wrapper dt-bootstrap4 no-footer" id="list-renewals"
+                             role="tabpanel">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="renewalTable" class="table dataTable no-footer" role="grid">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 0px; text-align: right">#</th>
+                                            <th style="width: 0px; text-align: left">BOOK</th>
+                                            <th style="width: 0px; text-align: left">EXTEND DATE</th>
+                                            <th style="width: 0px; text-align: center">STATUS</th>
+                                            <th style="width: 0px; text-align: center">ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:set var="renewalList" value="${requestScope.MEMBER_RENEWAL_LIST}"/>
+                                        <c:forEach var="renewal" items="${renewalList}" varStatus="renewalCounter">
+                                            <tr>
+                                                <td class="text-right">${renewalCounter.count}</td>
+                                                <td class="text-left">${renewal.item.title}</td>
+                                                <td class="text-left">${renewal.requestedExtendDate}</td>
+                                                <td class="text-center">
+                                                    <label class="badge lbRenewalStat"
+                                                           id="lbRenewalStat${renewal.renewalID}"
+                                                           style="font-weight: 700 !important; font-size: 75% !important;"
+                                                           renewalid="${renewal.renewalID}"
+                                                           renewalStatus="${renewal.approvalStatus}"
+                                                           value="${renewal.approvalStatus}"></label>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-light"
+                                                                data-toggle="modal"
+                                                                data-target="#renewalModal${renewal.renewalID}">
+                                                            <i class="fa fa-eye text-primary"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                    <c:forEach var="renewal" items="${renewalList}" varStatus="renewalCounter">
+                                        <div class="modal fade"
+                                             id="renewalModal${renewal.renewalID}"
+                                             tabindex="-1">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">
+                                                            Renewal Request Details
+                                                        </h5>
+                                                        <button type="button"
+                                                                class="close"
+                                                                data-dismiss="modal">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="form-group row">
+                                                            <label class="col-12 col-form-label">
+                                                                Request ID
+                                                            </label>
+                                                            <div class="col-12">
+                                                                <input type="text"
+                                                                       id="txtOrderID${renewal.renewalID}"
+                                                                       class="form-control"
+                                                                       value="${renewal.renewalID}"
+                                                                       disabled/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-12 col-form-label">
+                                                                Book
+                                                            </label>
+                                                            <div class="col-12">
+                                                                <input type="text"
+                                                                       id="txtBookID${renewal.item.title}"
+                                                                       class="form-control"
+                                                                       value="${renewal.item.title}"
+                                                                       disabled/>
+                                                            </div>
+                                                            <label class="col-12 col-form-label">
+                                                                Extend Date
+                                                            </label>
+                                                            <div class="col-12">
+                                                                <input type="text"
+                                                                       class="form-control"
+                                                                       value="${renewal.requestedExtendDate}"
+                                                                       disabled/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-12 col-form-label">
+                                                                Reason
+                                                            </label>
+                                                            <div class="col-12">
+                                                                        <textarea type="text" class="form-control"
+                                                                                  disabled>${renewal.reason}</textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row frmRenewalStat"
+                                                             renewalid="${renewal.renewalID}">
+                                                            <label class="col-12 col-form-label">
+                                                                Renewal Status
+                                                            </label>
+                                                            <div class="col-12">
+                                                                <input type="text"
+                                                                       class="form-control inpRenewalStat"
+                                                                       id="inpRenewalStat${renewal.renewalID}"
+                                                                       renewalid="${renewal.renewalID}"
+                                                                       renewalStatus="${renewal.approvalStatus}"
+                                                                       value="${renewal.approvalStatus}"
+                                                                       disabled/>
+                                                            </div>
+                                                            <c:if test="${renewal.approvalStatus eq 0}">
+                                                                <label class="col-12 col-form-label lbCancelRenewal"
+                                                                       renewalid="${renewal.renewalID}">
+                                                                    Cancel the request?
+                                                                </label>
+                                                                <div class="col-12 contModalCancelRenew"
+                                                                     renewalid="${renewal.renewalID}">
+                                                                    <button type="button"
+                                                                            class="btn btn-block btn-light btn-sm rounded-0"
+                                                                            data-toggle="modal"
+                                                                            data-target="#mdConfirmCancelRenew${renewal.renewalID}">
+                                                                        <i class="fa fa-times-circle text-dark"
+                                                                           style="font-size: 2rem !important;"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </c:if>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button"
+                                                                class="btn btn-outline-primary"
+                                                                data-dismiss="modal">
+                                                            Close
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade"
+                                             id="mdConfirmCancelRenew${renewal.renewalID}"
+                                             tabindex="-1"
+                                             style="overflow: hidden !important; ">
+                                            <div class="modal-dialog modal-dialog-centered"
+                                                 style="margin-top: 0px !important;">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">
+                                                            Cancel this Request
+                                                        </h5>
+                                                        <button type="button"
+                                                                class="close"
+                                                                data-dismiss="modal">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        This action cannot be undone. Are you sure?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <button type="button"
+                                                                        class="btn btn-outline-primary float-right ml-3"
+                                                                        id="btnDismissCnclRenew${renewal.renewalID}"
+                                                                        data-dismiss="modal">
+                                                                    Cancel
+                                                                </button>
+                                                                <button type="submit"
+                                                                        class="btn btn-primary float-right btnModalCnclRenew"
+                                                                        id="btnCancelRenewal${renewal.renewalID}"
+                                                                        renewalid="${renewal.renewalID}"
+                                                                        role="cancelRenewal">
+                                                                    Yes
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </c:forEach>
                                 </div>
                             </div>
