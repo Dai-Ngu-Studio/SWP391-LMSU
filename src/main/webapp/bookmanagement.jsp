@@ -30,43 +30,12 @@
     <script src="js/iconpro.js"></script>
     <!-- CSS Autocomplete -->
     <link rel="stylesheet" href="css/autocomplete.css">
+    <script src="js/jquery.validate.min.js"></script>
 </head>
 <body>
 <div class="container-scroller">
     <!-- partial:../../partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo mr-5" href="dashboard.jsp"><img src="images/LMSU LOGO DASHBOARD.svg"
-                                                                              class="mr-2" alt="logo"
-                                                                              style="margin-left: 36px;"/></a>
-            <a class="navbar-brand brand-logo-mini" href="dashboard.jsp"><img src="images/LMSU LOGO MINI DASHBOARD.svg"
-                                                                              alt="logo"/></a>
-        </div>
-        <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-                <span class="icon-menu"></span>
-            </button>
-            <ul class="navbar-nav navbar-nav-right">
-                <li class="nav-item nav-profile dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                        <img src="images/images/faces/fn2.png" alt="profile" style="border-radius: 50%;"/>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item" href="ShowProfileServlet">
-                            <i class="ti-settings text-primary"></i> Profile
-                        </a>
-                        <a class="dropdown-item" href="LogoutServlet">
-                            <i class="ti-power-off text-primary"></i> Logout
-                        </a>
-                    </div>
-                </li>
-            </ul>
-            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                    data-toggle="offcanvas">
-                <span class="icon-menu"></span>
-            </button>
-        </div>
-    </nav>
+    <jsp:include page="adminheader.jsp"/>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
         <!-- partial -->
@@ -212,7 +181,6 @@
                                                                                         <div class="col-sm-9">
                                                                                             <input type="text"
                                                                                                    class="form-control"
-                                                                                                   name="txtUpdateTitle"
                                                                                                    value="${book.title}">
                                                                                         </div>
                                                                                     </div>
@@ -223,7 +191,6 @@
                                                                                         <div class="col-sm-9">
                                                                                             <input type="text"
                                                                                                    class="form-control"
-                                                                                                   name="txtUpdateSubjectID"
                                                                                                    value="${book.subjectID}">
                                                                                         </div>
                                                                                     </div>
@@ -234,7 +201,6 @@
                                                                                         <div class="col-sm-9">
                                                                                             <input type="text"
                                                                                                    class="form-control"
-                                                                                                   name="txtUpdatePublisher"
                                                                                                    value="${book.publisher}">
                                                                                         </div>
                                                                                     </div>
@@ -245,7 +211,6 @@
                                                                                         <div class="col-sm-9">
                                                                                             <input type="text"
                                                                                                    class="form-control"
-                                                                                                   name="txtUpdatePubliDate"
                                                                                                    value="${book.publicationDate}">
                                                                                         </div>
                                                                                     </div>
@@ -256,7 +221,6 @@
                                                                                         <div class="col-sm-9">
                                                                                             <input type="text"
                                                                                                    class="form-control"
-                                                                                                   name="txtUpdatePrice"
                                                                                                    value="${book.price}">
                                                                                         </div>
                                                                                     </div>
@@ -267,7 +231,6 @@
                                                                                         <div class="col-sm-9">
                                                                                             <input type="text"
                                                                                                    class="form-control"
-                                                                                                   name="txtUpdateQuantity"
                                                                                                    value="${book.quantity}">
                                                                                         </div>
                                                                                     </div>
@@ -278,7 +241,6 @@
                                                                                         <div class="col-sm-9">
                                                                                             <input type="text"
                                                                                                    class="form-control"
-                                                                                                   name="txtUpdateISBNTen"
                                                                                                    value="${book.isbnTen}">
                                                                                         </div>
                                                                                     </div>
@@ -289,7 +251,6 @@
                                                                                         <div class="col-sm-9">
                                                                                             <input type="text"
                                                                                                    class="form-control"
-                                                                                                   name="txtUpdateISBNThirteen"
                                                                                                    value="${book.isbnThirteen}">
                                                                                         </div>
                                                                                     </div>
@@ -298,8 +259,6 @@
                                                                                         </label>
                                                                                         <div class="col-sm-9">
                                                                         <textarea class="form-control"
-                                                                                  id="Textarea${book.bookID}"
-                                                                                  name="txtUpdateDescription"
                                                                                   rows="5">${book.description}
                                                                         </textarea>
                                                                                         </div>
@@ -419,8 +378,8 @@
                                                                                     <label class="col-sm-3 col-form-label">Title</label>
                                                                                     <div class="col-sm-9">
                                                                                         <input type="text"
-                                                                                               class="form-control"
                                                                                                name="txtUpdateTitle"
+                                                                                               class="form-control textField"
                                                                                                value="${book.title}">
                                                                                     </div>
                                                                                 </div>
@@ -459,7 +418,8 @@
                                                                                         <input type="text"
                                                                                                class="form-control"
                                                                                                name="txtUpdateSubjectID"
-                                                                                               value="${book.subjectID}">
+                                                                                               value="${book.subjectID}"
+                                                                                               required>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">
@@ -468,7 +428,7 @@
                                                                                     </label>
                                                                                     <div class="col-sm-9">
                                                                                         <input type="text"
-                                                                                               class="form-control"
+                                                                                               class="form-control textField"
                                                                                                name="txtUpdatePublisher"
                                                                                                value="${book.publisher}">
                                                                                     </div>
@@ -478,7 +438,7 @@
                                                                                         Publication date
                                                                                     </label>
                                                                                     <div class="col-sm-9">
-                                                                                        <input type="text"
+                                                                                        <input type="date"
                                                                                                class="form-control"
                                                                                                name="txtUpdatePubliDate"
                                                                                                value="${book.publicationDate}">
@@ -486,11 +446,11 @@
                                                                                 </div>
                                                                                 <div class="form-group row">
                                                                                     <label class="col-sm-3 col-form-label">
-                                                                                        Price
+                                                                                        Price in VNĐ
                                                                                     </label>
                                                                                     <div class="col-sm-9">
-                                                                                        <input type="text"
-                                                                                               class="form-control"
+                                                                                        <input type="number"
+                                                                                               class="form-control priceField"
                                                                                                name="txtUpdatePrice"
                                                                                                value="${book.price}">
                                                                                     </div>
@@ -500,8 +460,8 @@
                                                                                         Quantity
                                                                                     </label>
                                                                                     <div class="col-sm-9">
-                                                                                        <input type="text"
-                                                                                               class="form-control"
+                                                                                        <input type="number"
+                                                                                               class="form-control quantityField"
                                                                                                name="txtUpdateQuantity"
                                                                                                value="${book.quantity}">
                                                                                     </div>
@@ -512,7 +472,7 @@
                                                                                     </label>
                                                                                     <div class="col-sm-9">
                                                                                         <input type="text"
-                                                                                               class="form-control"
+                                                                                               class="form-control isbnTen"
                                                                                                name="txtUpdateISBNTen"
                                                                                                value="${book.isbnTen}">
                                                                                     </div>
@@ -523,20 +483,20 @@
                                                                                     </label>
                                                                                     <div class="col-sm-9">
                                                                                         <input type="text"
-                                                                                               class="form-control"
+                                                                                               class="form-control isbnThirteen"
                                                                                                name="txtUpdateISBNThirteen"
                                                                                                value="${book.isbnThirteen}">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">
-                                                                                    <label class="col-sm-3 col-form-label">Description
+                                                                                    <label class="col-sm-3 col-form-label">
+                                                                                        Description
                                                                                     </label>
                                                                                     <div class="col-sm-9">
-                                                                        <textarea class="form-control"
-                                                                                  id="Textarea${book.bookID}"
-                                                                                  name="txtUpdateDescription"
-                                                                                  rows="5">${book.description}
-                                                                        </textarea>
+                                                                                        <textarea class="form-control descriptionField"
+                                                                                                  name="txtUpdateDescription"
+                                                                                                  rows="5">${book.description}
+                                                                                        </textarea>
                                                                                     </div>
                                                                                 </div>
 
@@ -609,7 +569,16 @@
                                                                     <%--End button and Delete modal--%>
                                                             </div>
                                                         </form>
-
+                                                        <script>
+                                                            $("#updateForm").validate({
+                                                                rules: {
+                                                                    field${book.bookID}: {
+                                                                        required: true,
+                                                                        minlength: 3
+                                                                    }
+                                                                }
+                                                            });
+                                                        </script>
                                                     </td>
                                                 </tr>
                                                 <!--End: Book Item Row-->
@@ -647,7 +616,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <!--end: materializeJS -->
 <!-- plugins:js -->
-<script src="vendors/js/vendor.bundle.base.js"></script>
+<%--<script src="vendors/js/vendor.bundle.base.js"></script>--%>
 <!-- endinject -->
 <!-- Plugin js for this page -->
 <script src="vendors/datatables.net/jquery.dataTables.js"></script>
