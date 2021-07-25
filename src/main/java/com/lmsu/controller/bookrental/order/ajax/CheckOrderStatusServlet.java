@@ -119,16 +119,20 @@ public class CheckOrderStatusServlet extends HttpServlet {
                     DirectOrderDAO directOrderDAO = new DirectOrderDAO();
                     DirectOrderDTO directOrder = directOrderDAO.getDirectOrderFromOrderID(orderID);
                     String librarianID = directOrder.getLibrarianID();
-                    if ((librarianID != null) || (!librarianID.isEmpty())) {
-                        staff = userDAO.getUserByID(librarianID);
+                    if (librarianID != null) {
+                        if (!librarianID.isEmpty()) {
+                            staff = userDAO.getUserByID(librarianID);
+                        }
                     }
                 } else {
                     // Get Manager who approved order
                     DeliveryOrderDAO deliveryOrderDAO = new DeliveryOrderDAO();
                     DeliveryOrderDTO deliveryOrder = deliveryOrderDAO.getDeliveryOrderFromOrderID(orderID);
                     String managerID = deliveryOrder.getManagerID();
-                    if ((managerID != null) || (!managerID.isEmpty())) {
-                        staff = userDAO.getUserByID(managerID);
+                    if ((managerID != null)) {
+                        if (!managerID.isEmpty()) {
+                            staff = userDAO.getUserByID(managerID);
+                        }
                     }
                 }
 
