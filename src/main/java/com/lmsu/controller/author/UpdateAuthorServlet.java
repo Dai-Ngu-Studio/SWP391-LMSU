@@ -32,7 +32,6 @@ public class UpdateAuthorServlet extends HttpServlet {
 
         String searchVal = request.getParameter("txtSearchValue");
         String coverFile = request.getParameter("txtCoverFile");
-        boolean check = false;
 
         try {
             AuthorDAO dao = new AuthorDAO();

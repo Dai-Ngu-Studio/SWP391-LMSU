@@ -94,7 +94,7 @@ $(document).ready(function (){
                                                     </label>
                                                     <div class="col-sm-9">
                                                         <input type="text"
-                                                                class="form-control"
+                                                                class="form-control textField"
                                                                 value=""
                                                                 name="txtAuthorName"
                                                         >
@@ -106,11 +106,11 @@ $(document).ready(function (){
                                                         Bio
                                                     </label>
                                                     <div class="col-sm-9">
-                                                        <input type="text"
-                                                                class="form-control"
+                                                        <textarea type="text"
+                                                                class="form-control descriptionField"
                                                                 value=""
                                                                 name="txtBio"
-                                                        >
+                                                        ></textarea>
                                                     </div>
                                                 </div>
 
@@ -135,4 +135,34 @@ $(document).ready(function (){
                             </form>
                         </div>`;
     $('#author-datatable_wrapper').children().eq(0).children().eq(1).append(searchAddBar);
+
+
+    //Validate form
+    $.validator.setDefaults({
+        onkeyup: false,
+    });
+    $.validator.addClassRules({
+        textField: {
+            required: {
+                depends: function () {
+                    $(this).val($.trim($(this).val()));
+                    return true;
+                }
+            },
+            minlength: 3,
+            maxlength: 80,
+        },
+        descriptionField: {
+            required: {
+                depends: function () {
+                    $(this).val($.trim($(this).val()));
+                    return true;
+                }
+            },
+            minlength: 3
+        }
+    });
+    $('form').each(function () {
+        $(this).validate();
+    });
 });

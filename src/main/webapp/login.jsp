@@ -54,9 +54,12 @@
                                        placeholder="Enter password" name="txtPassword">
                             </div>
                             <div>
+                                <p class="text-danger">${requestScope.DELETED_ACCOUNT}</p>
+                                <p class="text-danger">${sessionScope.DELETED_ACCOUNT}</p>
                                 <p class="text-danger">${requestScope.WRONG_USER_LOGIN}</p>
                                 <p class="text-danger">${sessionScope.WRONG_USER_LOGIN}</p>
                                 <c:remove var="WRONG_USER_LOGIN"></c:remove>
+                                <c:remove var="DELETED_ACCOUNT"></c:remove>
                             </div>
                             <button class="btn btn-login" type="submit" style="font-size: 1rem !important;"
                                     value="Login" name="btAction">Log in

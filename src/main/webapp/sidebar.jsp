@@ -125,6 +125,15 @@
                 </a>
             </li>
         </c:if>
+        <c:if test="${(role == 1) || (role == 2) || (role == 3)}">
+
+            <li class="nav-item">
+                <a class="nav-link" href="ShowFeedbackServlet">
+                    <i class="fas fa-comments menu-icon"></i>
+                    <span class="menu-title">Feedback</span>
+                </a>
+            </li>
+        </c:if>
     </ul>
 </nav>
 </body>

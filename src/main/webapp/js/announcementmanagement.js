@@ -11,3 +11,29 @@ $("#ViewDraft").on("click", function () {
     $("#dateToDraft").html($("#dateTo").val());
     $("#returnDateDraft").html($("#returnDate").val());
 });
+$(document).ready(function () {
+    //validation form
+    $.validator.setDefaults({
+        onkeyup: false
+    });
+    $.validator.addClassRules({
+        textField: {
+            required: {
+                depends: function () {
+                    $(this).val($.trim($(this).val()));
+                    return true;
+                }
+            },
+            minlength: 1,
+            maxlength: 20,
+        },
+        yearField: {
+            required: true,
+            number: true,
+            min: 2021
+        }
+    });
+    $('form').each(function () {
+        $(this).validate();
+    });
+});

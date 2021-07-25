@@ -1,7 +1,7 @@
-package com.lmsu.controller.staff;
+package com.lmsu.controller.contact;
 
-import com.lmsu.users.UserDAO;
-import com.lmsu.users.UserDTO;
+import com.lmsu.feedback.FeedbackDAO;
+import com.lmsu.feedback.FeedbackDTO;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -12,35 +12,34 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "ShowStaffServlet", value = "/ShowStaffServlet")
-public class ShowStaffServlet extends HttpServlet {
+@WebServlet(name = "UpdateFeedbackStatusServlet", value = "/UpdateFeedbackStatusServlet")
+public class UpdateFeedbackStatusServlet extends HttpServlet {
 
-    private static final String STAFF_MANAGEMENT_PAGE = "staffmanagement.jsp";
-    static final Logger LOGGER = Logger.getLogger(ShowStaffServlet.class);
+    static final Logger LOGGER = Logger.getLogger(ShowFeedbackServlet.class);
+    private final String FEEDBACK_MANAGEMENT_CONTROLLER = "ShowFeedbackServlet";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
 
-        String url = STAFF_MANAGEMENT_PAGE;
+        String pk = request.getParameter("feedbackID");
 
+        String url = FEEDBACK_MANAGEMENT_CONTROLLER;
         try {
-            List<UserDTO> searchResultReceived = (List<UserDTO>) request.getAttribute("SEARCH_RESULT");
-            if (searchResultReceived != null) {
-                request.setAttribute("STAFF_LIST", searchResultReceived);
-            } else {
-                UserDAO dao = new UserDAO();
-                dao.viewStaffList();
-                List<UserDTO> list = dao.getListAccount();
-                request.setAttribute("STAFF_LIST", list);
+
+            FeedbackDAO dao = new FeedbackDAO();
+            boolean result = dao.updateFeedbackStatus(Integer.parseInt(pk), true);
+            if (result){
+                url = FEEDBACK_MANAGEMENT_CONTROLLER;
             }
+
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-            log("ShowStaffServlet _ SQL: " + e.getMessage());
+            log("UpdateFeedbackStatusServlet _ SQL: " + e.getMessage());
         } catch (NamingException e) {
             LOGGER.error(e.getMessage());
-            log("ShowStaffServlet _ Naming: " + e.getMessage());
+            log("UpdateFeedbackStatusServlet _ Naming: " + e.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

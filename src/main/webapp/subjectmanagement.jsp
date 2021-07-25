@@ -20,6 +20,7 @@
     <link rel="shortcut icon" href="images/images/favicon.png"/>
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
     <script src="js/subjectmanagement.js"></script>
     <script src="js/iconpro.js"></script>
 </head>
@@ -62,24 +63,24 @@
                                                 <c:forEach var="subject" items="${subjectList}"
                                                            varStatus="counter">
                                                     <tr>
-                                                        <form action="DispatchServlet"
-                                                              enctype="multipart/form-data"
-                                                              method="POST">
-                                                            <!--Start: Author Item Form-->
-                                                            <td class="sorting_1"
-                                                                style="text-align: center">${counter.count}</td>
-                                                            <td style="text-align: left">
-                                                                    ${subject.name}
-                                                            </td>
-                                                            <td style="text-align: right">${subject.semester_no}</td>
+                                                        <td class="sorting_1"
+                                                            style="text-align: center">${counter.count}</td>
+                                                        <td style="text-align: left">
+                                                                ${subject.name}
+                                                        </td>
+                                                        <td style="text-align: right">${subject.semester_no}</td>
 
-                                                            <input type="hidden" value="${subject.id}"
-                                                                   name="pk">
-                                                            <input type="hidden" value="${subject.id}"
-                                                                   name="subjectPK">
-                                                            <input type="hidden" name="txtSearchValue"
-                                                                   value="${param.txtSearchValue}"/>
-                                                            <td style="text-align: center;">
+
+                                                        <td style="text-align: center;">
+                                                            <form action="DispatchServlet"
+                                                                  enctype="multipart/form-data"
+                                                                  method="POST">
+                                                                <input type="hidden" value="${subject.id}"
+                                                                       name="pk">
+                                                                <input type="hidden" value="${subject.id}"
+                                                                       name="subjectPK">
+                                                                <input type="hidden" name="txtSearchValue"
+                                                                       value="${param.txtSearchValue}"/>
                                                                 <div class="btn-group">
                                                                     <button type="button" class="btn btn-light"
                                                                             data-toggle="modal"
@@ -130,7 +131,7 @@
                                                                                                 Name</label>
                                                                                             <div class="col-sm-10">
                                                                                                 <input type="text"
-                                                                                                       class="form-control"
+                                                                                                       class="form-control textField"
                                                                                                        name="txtUpdateSubjectName"
                                                                                                        value="${subject.name}">
                                                                                             </div>
@@ -140,7 +141,7 @@
                                                                                                 No</label>
                                                                                             <div class="col-sm-10">
                                                                                                 <input type="text"
-                                                                                                       class="form-control"
+                                                                                                       class="form-control semesterField"
                                                                                                        name="txtUpdateSemester"
                                                                                                        value="${subject.semester_no}">
                                                                                             </div>
@@ -347,8 +348,9 @@
                                                                     </div>
                                                                     <!--End: Delete Author Modal-->
                                                                 </div>
-                                                            </td>
-                                                        </form>
+                                                            </form>
+
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
@@ -380,7 +382,10 @@
 </div>
 <!-- container-scroller -->
 <!-- plugins:js -->
-<script src="vendors/js/vendor.bundle.base.js"></script>
+<%--<script src="vendors/js/vendor.bundle.base.js"></script>--%>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
 <!-- endinject -->
 <!-- Plugin js for this page -->
 <script src="vendors/datatables.net/jquery.dataTables.js"></script>

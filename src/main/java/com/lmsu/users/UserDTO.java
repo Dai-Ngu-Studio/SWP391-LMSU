@@ -21,6 +21,7 @@ class UserDTO implements Serializable {
     private boolean activeStatus;
     private boolean isNotifyArrival;
     private boolean isNotifyPopular;
+    private boolean isDelete;
 
     public UserDTO(String id, String name, String roleID, String password, String email,
                    String phoneNumber, String semester, String profilePicturePath) {

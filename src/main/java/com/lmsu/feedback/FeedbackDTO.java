@@ -16,4 +16,5 @@ public class FeedbackDTO implements Serializable {
     private String feedbackType;
     private String attachment;
     private String feedbackMessage;
+    private boolean resolveStatus;
 }
