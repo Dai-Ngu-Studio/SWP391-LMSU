@@ -19,6 +19,7 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="images/images/favicon.png"/>
     <script src="js/iconpro.js"></script>
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
 <div class="container-scroller">
@@ -32,6 +33,69 @@
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
+                <div class="row" id="statisticGroup">
+                    <div class="col-md-3 col-sm-6" id="tBook">
+                        <a href="ShowBookServlet" style="text-decoration: none;">
+                            <div class="rectangle">
+                                <p class="totalNumber">${TOTAL_BOOKS}</p>
+                                <img src="images/v3_8.png">
+                                <p class="totalClass">Total books</p>
+                                <div class="blackBar">
+                                    <p>More info <i class="fas fa-arrow-circle-right"></i></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6" id="tStudent">
+                        <a href="ShowMemberServlet" style="text-decoration: none;">
+                            <div class="rectangle">
+                                <p class="totalNumber">${TOTAL_ACTIVE_USER}</p>
+                                <img src="images/v3_72.png">
+                                <p class="totalClass">Total active users</p>
+                                <div class="blackBar">
+                                    <p>More info <i class="fas fa-arrow-circle-right"></i></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6" id="tReturned">
+                        <a href="ShowReturnOrdersServlet" style="text-decoration: none;">
+                            <div class="rectangle">
+                                <c:if test="${empty TODAY_RETURNED}">
+                                    <p class="totalNumber" style="font-size: 30px">No data</p>
+                                </c:if>
+                                <c:if test="${not empty TODAY_RETURNED}">
+                                    <p class="totalNumber">${TODAY_RETURNED}</p>
+                                </c:if>
+
+                                <img src="images/v3_75.png" style="-webkit-filter: invert(0);">
+                                <p class="totalClass">Returned today</p>
+                                <div class="blackBar">
+                                    <p>More info <i class="fas fa-arrow-circle-right"></i></p>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="col-md-3 col-sm-6" id="tBorrowed">
+                        <a href="ShowOrdersServlet" style="text-decoration: none;">
+                            <div class="rectangle">
+                                <c:if test="${empty TODAY_BORROWED}">
+                                    <p class="totalNumber" style="font-size: 30px">No data</p>
+                                </c:if>
+                                <c:if test="${not empty TODAY_BORROWED}">
+                                    <p class="totalNumber">${TODAY_BORROWED}</p>
+                                </c:if>
+
+                                <img src="images/v3_76.png" style="-webkit-filter: invert(0);">
+                                <p class="totalClass">Borrowed today</p>
+                                <div class="blackBar">
+                                    <p>More info <i class="fas fa-arrow-circle-right"></i></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-lg-6 grid-margin stretch-card">
                         <div class="card">

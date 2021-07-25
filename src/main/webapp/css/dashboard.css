@@ -1,0 +1,83 @@
+/*#statisticGroup {*/
+/*    display: flex;*/
+/*    flex-wrap: wrap;*/
+/*}*/
+
+
+#statisticGroup{
+    padding-bottom: 50px;
+}
+#tBook .rectangle {
+    background-color: #00BEEE;
+
+    border-collapse: separate;
+    height: 150px;
+    padding-right: 20px;
+    border-radius: 15px;
+}
+
+#tStudent .rectangle {
+    background-color: #00A559;
+    border-collapse: separate;
+    height: 150px;
+    padding-right: 20px;
+    border-radius: 15px;
+}
+
+#tReturned .rectangle {
+    background-color: #F49A10;
+    border-collapse: separate;
+    height: 150px;
+    padding-right: 20px;
+    border-radius: 15px;
+}
+
+#tBorrowed .rectangle {
+    background-color: #DB4A37;
+    border-collapse: separate;
+    height: 150px;
+    padding-right: 20px;
+    border-radius: 15px;
+}
+
+
+.rectangle img {
+    position: absolute;
+    max-width: 100px;
+    height: auto;
+    top: 5px;
+    right: 30px;
+    -webkit-filter: invert(100%);
+    opacity: 30%;
+}
+
+.rectangle .totalNumber {
+    padding-left: 20px;
+    padding-top: 20px;
+    font-size: 50px;
+    color: white;
+    font-weight: bold;
+}
+.rectangle .totalClass{
+    font-size: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+    color: white;
+}
+.rectangle{
+    position: relative;
+}
+.rectangle .blackBar{
+    position: absolute;
+    background-color: black;
+    bottom: 0;
+    width: 100%;
+    border-radius: 0 0 15px 15px;
+    height: 30px;
+    opacity: 50%;
+}
+.rectangle .blackBar p{
+    padding-top: 5px;
+    color: white;
+    text-align: center;
+}
