@@ -3,6 +3,7 @@ package com.lmsu.controller.usersettings;
 import com.lmsu.controller.usersettings.ChangePasswordServlet;
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
+import com.lmsu.utils.AppUtils;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -18,6 +19,10 @@ public class ChangePhoneServlet extends HttpServlet {
     private static final String RESULT_PAGE = "usersettings.jsp";
     static final Logger LOGGER = Logger.getLogger(ChangePasswordServlet.class);
 
+    private final String ATTR_LOGIN_USER = "LOGIN_USER";
+    private final String ATTR_MEMBER_UPDATE_SETTING_SUCCESS = "MEMBER_UPDATE_SETTING_SUCCESS";
+    private final String ATTR_MEMBER_UPDATE_SETTING_MESSAGE = "MEMBER_UPDATE_SETTING_MESSAGE";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pk = request.getParameter("pk");
         String phone = request.getParameter("txtPhone");
@@ -26,12 +31,18 @@ public class ChangePhoneServlet extends HttpServlet {
         String url = RESULT_PAGE;
         try {
             UserDAO dao = new UserDAO();
-            UserDTO dto = (UserDTO) session.getAttribute("LOGIN_USER");
-            if(session != null){
-                if(!phone.equals("")){
-                    boolean result = dao.updatePhone(pk, phone);
-                    if(result){
-                        dto.setPhoneNumber(phone);
+            if (session != null) {
+                UserDTO dto = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
+                if (dto != null) {
+                    if (phone.trim().length() > 0) {
+                        boolean result = dao.updatePhone(pk, phone);
+                        if (result) {
+                            dto.setPhoneNumber(phone);
+                            UserDTO updatedUser = dao.getUserByID(dto.getId());
+                            AppUtils.storeLoginedUser(session, updatedUser);
+                            request.setAttribute(ATTR_MEMBER_UPDATE_SETTING_SUCCESS, true);
+                            request.setAttribute(ATTR_MEMBER_UPDATE_SETTING_MESSAGE, "Contact information updated successfully.");
+                        }
                     }
                 }
             }

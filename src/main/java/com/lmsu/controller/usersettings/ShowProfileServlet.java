@@ -61,6 +61,11 @@ public class ShowProfileServlet extends HttpServlet {
     private final int ITEM_RESERVED = 10;
     private final int ITEM_RESERVED_INACTIVE = 11;
 
+    private final int PENALTY_NONE = 0;
+    private final int PENALTY_UNPAID = 1;
+    private final int PENALTY_PAID = 2;
+
+
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
     private final String ATTR_MEMBER_ORDER_ITEMS = "MEMBER_ORDER_ITEMS";
     private final String ATTR_MEMBER_RESERVE_ITEMS = "MEMBER_RESERVE_ITEMS";
@@ -68,6 +73,7 @@ public class ShowProfileServlet extends HttpServlet {
     private final String ATTR_RENEWAL_LIST = "MEMBER_RENEWAL_LIST";
     private final String ATTR_RENEWAL_MAP_STATUS = "RENEWAL_MAP_STATUS";
     private final String ATTR_QUANTITY_MAP_LIST = "QUANTITY_MAP_LIST";
+    private final String ATTR_PENALTY_LIST = "MEMBER_PENALTY_LIST";
     private final String ATTR_MEMBER_ORDER_LIST = "MEMBER_ORDER_LIST";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -98,6 +104,7 @@ public class ShowProfileServlet extends HttpServlet {
                     List<OrderDTO> orders = orderDAO.getOrderList();
                     List<OrderItemObj> validOrderItems = new ArrayList<>();
                     List<OrderItemObj> reservedItems = new ArrayList<>();
+                    List<OrderItemObj> penalizedItems = new ArrayList<>();
                     Map<Integer, Integer> mapStatus = new HashMap<>();
                     Map<Pair<DirectOrderDTO, DeliveryOrderDTO>, Pair<OrderDTO, List<OrderItemObj>>> detailedOrders =
                             new HashMap<Pair<DirectOrderDTO, DeliveryOrderDTO>, Pair<OrderDTO, List<OrderItemObj>>>();
@@ -120,6 +127,8 @@ public class ShowProfileServlet extends HttpServlet {
                                     orderitemObj.setReturnDeadline(orderItem.getReturnDeadline());
                                     orderitemObj.setLendDate(orderItem.getLendDate());
                                     orderitemObj.setReturnDate(orderItem.getReturnDate());
+                                    orderitemObj.setPenaltyStatus(orderItem.getPenaltyStatus());
+                                    orderitemObj.setPenaltyAmount(orderItem.getPenaltyAmount());
                                     // check if item is not cancelled, rejected
                                     for (int activeItemStatus : activeItemStatuses) {
                                         if (orderItem.getLendStatus() == activeItemStatus) {
@@ -193,6 +202,15 @@ public class ShowProfileServlet extends HttpServlet {
                         );
                     }
                     request.setAttribute(ATTR_QUANTITY_MAP_LIST, quantityMap);
+                    //----------------------------------------------------
+                    // Penalty
+                    for (OrderItemObj orderItem : validOrderItems) {
+                        if ((orderItem.getPenaltyStatus() == PENALTY_UNPAID)
+                                || (orderItem.getPenaltyStatus() == PENALTY_PAID)) {
+                            penalizedItems.add(orderItem);
+                        }
+                    }
+                    request.setAttribute(ATTR_PENALTY_LIST, penalizedItems);
                 }
             }
             url = PROFILE_PAGE;

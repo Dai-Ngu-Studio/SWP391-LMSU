@@ -491,6 +491,104 @@ $(document).ready(function () {
     startObserver();
 });
 
+// Mutation Observer for Penalty Status
+$(document).ready(function () {
+    const PENALTY_NONE = '0';
+    const PENALTY_UNPAID = '1';
+    const PENALTY_PAID = '2';
+
+    // Penalty Status Direction
+    const PENALTY_STATUS_DIRECTION = new Map();
+    PENALTY_STATUS_DIRECTION.set(PENALTY_UNPAID, PENALTY_PAID);
+    let baseStats = [...PENALTY_STATUS_DIRECTION.keys()];
+
+    const lbPenaltyStat = $('.lbPenaltyStat');
+    const observerConfig = {attributes: true, subtree: true};
+
+    const penaltyStatColoring = function ($lbPenaltyStat, penaltyStat) {
+        let baseClass = 'badge lbPenaltyStat';
+        $lbPenaltyStat.removeClass();
+        $lbPenaltyStat.addClass(baseClass);
+        switch (penaltyStat) {
+            case PENALTY_UNPAID:
+                $lbPenaltyStat.addClass('bg-danger text-white');
+                $lbPenaltyStat.text('Unpaid');
+                break;
+            case PENALTY_PAID:
+                $lbPenaltyStat.addClass('bg-success text-white');
+                $lbPenaltyStat.text('Paid');
+                break;
+        }
+    }
+
+    const renderPenaltyStatData = function (mutationsList, observer) {
+        $(mutationsList).each(function () {
+            console.log('Penalty Status Mutation detected: ', this);
+            let $lbPenaltyStat = $(this['target']);
+            let penaltyStat = $lbPenaltyStat.get(0).attributes['penaltyStatus']['value'];
+            // Temporarily stop observing to ignore rendering changes
+            stopObserver();
+            penaltyStatColoring($lbPenaltyStat, penaltyStat);
+            startObserver();
+        });
+        // Load penalty status options after updating penaltyStatus
+        loadPenaltyStatOptions(PENALTY_STATUS_DIRECTION, baseStats);
+    };
+
+    const penaltyStatObs = new MutationObserver(renderPenaltyStatData);
+    const startObserver = function () {
+        lbPenaltyStat.each(function () {
+            penaltyStatObs.observe(this, observerConfig);
+        });
+    };
+    const stopObserver = function () {
+        penaltyStatObs.disconnect();
+    };
+
+    // Initial Rendering when page finished loading
+    lbPenaltyStat.each(function () {
+        let $lbPenaltyStat = $(this);
+        let penaltyStat = $lbPenaltyStat.get(0).attributes['penaltyStatus']['value'];
+        penaltyStatColoring($lbPenaltyStat, penaltyStat);
+    });
+
+    // Start observing changes
+    startObserver();
+
+});
+
+// Mutation Observer for Penalty Status in Details
+$(document).ready(function () {
+    const PENALTY_NONE = '0';
+    const PENALTY_UNPAID = '1';
+    const PENALTY_PAID = '2';
+
+    const inpPenaltyStat = $('.inpPenaltyStat');
+
+    const penaltyStatColoring = function ($inpPenaltyStat, penaltyStat) {
+        let baseClass = 'form-control inpPenaltyStat';
+        $inpPenaltyStat.removeClass();
+        $inpPenaltyStat.addClass(baseClass);
+        switch (penaltyStat) {
+            case PENALTY_UNPAID:
+                $inpPenaltyStat.addClass('bg-danger text-white');
+                $inpPenaltyStat.val('Unpaid');
+                break;
+            case PENALTY_PAID:
+                $inpPenaltyStat.addClass('bg-success text-white');
+                $inpPenaltyStat.val('Paid');
+                break;
+        }
+    }
+
+    // Initial Rendering when page finished loading
+    inpPenaltyStat.each(function () {
+        let $inpPenaltyStat = $(this);
+        let penaltyStat = $inpPenaltyStat.get(0).attributes['penaltyStatus']['value'];
+        penaltyStatColoring($inpPenaltyStat, penaltyStat);
+    });
+});
+
 // Bootstrap Multiple Modal Overlay Fix
 // https://stackoverflow.com/questions/19305821/multiple-modals-overlay
 $(document).on('show.bs.modal', '.modal', function () {
