@@ -83,60 +83,62 @@ public class CheckoutReturnDirectServlet extends HttpServlet {
             if (session != null) {
                 String txtPickupDate = (String) session.getAttribute(ATTR_CHECKOUT_PICKUPDATE);
                 String txtPickupTime = (String) session.getAttribute(ATTR_CHECKOUT_PICKUPTIME);
-                // 2. Check if cart existed
-                ReturnCartObj returnCartObj = (ReturnCartObj) session.getAttribute(ATTR_RETURN_CART);
-                if (returnCartObj != null) {
-                    // 3. Check if items existed
-                    if (returnCartObj.getReturnItems() != null) {
-                        Map<Integer, OrderItemObj> cartReturnItems = returnCartObj.getReturnItems();
-                        UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
-                        if (userDTO != null) {
-                            // 4. Create connection for rollback
-                            conn = DBHelpers.makeConnection();
-                            if (conn != null) {
-                                conn.setAutoCommit(false);
-                                // 5. Create Timestamp
-                                LocalDate pickupDate = LocalDate.parse(txtPickupDate);
-                                LocalTime pickupTime = LocalTime.parse(txtPickupTime);
-                                LocalDateTime pickupDateTime = LocalDateTime.of(pickupDate, pickupTime);
-                                Timestamp schedule = Timestamp.valueOf(pickupDateTime);
-                                // 6. Create new order
-                                OrderDAO orderDAO = new OrderDAO(conn);
-                                int orderID = orderDAO.addOrder(userDTO.getId(), DIRECT_METHOD, ORDER_RETURN_SCHEDULED);
-                                if (orderID > 0) {
-                                    // 7. Traverse items in cart and add to list
-                                    OrderItemDAO orderItem_DAO = new OrderItemDAO(conn);
-                                    List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
-
-                                    for (Integer orderItemsID : cartReturnItems.keySet()) {
-                                        if (orderItem_DAO.getOrderItemByID(orderItemsID).getLendStatus() == ITEM_RECEIVED) {
-                                            orderItem_DAO.updateOrderItemReturnOrderIDAndStatus(orderItemsID, orderID, ITEM_RETURN_SCHEDULED);
-                                        } else if (orderItem_DAO.getOrderItemByID(orderItemsID).getLendStatus() == ITEM_OVERDUE) {
-                                            orderItem_DAO.updateOrderItemReturnOrderIDAndStatus(orderItemsID, orderID, ITEM_OVERDUE_RETURN_SCHEDULED);
-                                        }
-                                    }// end traverse items in cart
-                                    // 8. Add order items
-                                    // 9. Create Direct Order
-                                    DirectOrderDAO directOrderDAO = new DirectOrderDAO(conn);
-                                    boolean directOrderAddResult = directOrderDAO
-                                            .addDirectOrder(orderID, schedule, DIRECT_RETURN);
-                                    if (directOrderAddResult) {
-                                        conn.commit();
-                                        session.removeAttribute(ATTR_RETURN_CART);
-                                        session.removeAttribute(ATTR_CHECKOUT_PICKUPDATE);
-                                        session.removeAttribute(ATTR_CHECKOUT_PICKUPTIME);
-                                        //request.setAttribute(ATTR_RETURN_SUCCESS, true);
-                                        url = SHOW_USER_SETTING_CONTROLLER; //W.I.P. temporary (to be changed)
-                                    }// end if delivery order created successfully
-                                }// end if order created successfully
+                if (!txtPickupDate.isEmpty() && !txtPickupTime.isEmpty()) {
+                    // 2. Check if cart existed
+                    ReturnCartObj returnCartObj = (ReturnCartObj) session.getAttribute(ATTR_RETURN_CART);
+                    if (returnCartObj != null) {
+                        // 3. Check if items existed
+                        if (returnCartObj.getReturnItems() != null) {
+                            Map<Integer, OrderItemObj> cartReturnItems = returnCartObj.getReturnItems();
+                            UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
+                            if (userDTO != null) {
+                                // 4. Create connection for rollback
+                                conn = DBHelpers.makeConnection();
                                 if (conn != null) {
-                                    conn.setAutoCommit(true);
-                                    conn.close();
-                                } // end if connected existed and close connection
-                            }// end if connection existed
-                        }// end if user existed
-                    }// end if items existed
-                }// end if cart existed
+                                    conn.setAutoCommit(false);
+                                    // 5. Create Timestamp
+                                    LocalDate pickupDate = LocalDate.parse(txtPickupDate);
+                                    LocalTime pickupTime = LocalTime.parse(txtPickupTime);
+                                    LocalDateTime pickupDateTime = LocalDateTime.of(pickupDate, pickupTime);
+                                    Timestamp schedule = Timestamp.valueOf(pickupDateTime);
+                                    // 6. Create new order
+                                    OrderDAO orderDAO = new OrderDAO(conn);
+                                    int orderID = orderDAO.addOrder(userDTO.getId(), DIRECT_METHOD, ORDER_RETURN_SCHEDULED);
+                                    if (orderID > 0) {
+                                        // 7. Traverse items in cart and add to list
+                                        OrderItemDAO orderItem_DAO = new OrderItemDAO(conn);
+                                        List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
+
+                                        for (Integer orderItemsID : cartReturnItems.keySet()) {
+                                            if (orderItem_DAO.getOrderItemByID(orderItemsID).getLendStatus() == ITEM_RECEIVED) {
+                                                orderItem_DAO.updateOrderItemReturnOrderIDAndStatus(orderItemsID, orderID, ITEM_RETURN_SCHEDULED);
+                                            } else if (orderItem_DAO.getOrderItemByID(orderItemsID).getLendStatus() == ITEM_OVERDUE) {
+                                                orderItem_DAO.updateOrderItemReturnOrderIDAndStatus(orderItemsID, orderID, ITEM_OVERDUE_RETURN_SCHEDULED);
+                                            }
+                                        }// end traverse items in cart
+                                        // 8. Add order items
+                                        // 9. Create Direct Order
+                                        DirectOrderDAO directOrderDAO = new DirectOrderDAO(conn);
+                                        boolean directOrderAddResult = directOrderDAO
+                                                .addDirectOrder(orderID, schedule, DIRECT_RETURN);
+                                        if (directOrderAddResult) {
+                                            conn.commit();
+                                            session.removeAttribute(ATTR_RETURN_CART);
+                                            session.removeAttribute(ATTR_CHECKOUT_PICKUPDATE);
+                                            session.removeAttribute(ATTR_CHECKOUT_PICKUPTIME);
+                                            //request.setAttribute(ATTR_RETURN_SUCCESS, true);
+                                            url = SHOW_USER_SETTING_CONTROLLER; //W.I.P. temporary (to be changed)
+                                        }// end if delivery order created successfully
+                                    }// end if order created successfully
+                                    if (conn != null) {
+                                        conn.setAutoCommit(true);
+                                        conn.close();
+                                    } // end if connected existed and close connection
+                                }// end if connection existed
+                            }// end if user existed
+                        }// end if items existed
+                    }// end if cart existed
+                } // end check if parameters are empty
             }// end if session existed
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());

@@ -59,13 +59,13 @@ public class AddFeedbackServlet extends HttpServlet {
             }
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
-            log("ContactServlet _ SQL: " + ex.getMessage());
+            log("AddFeedbackServlet _ SQL: " + ex.getMessage());
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
-            log("ContactServlet _ Naming: " + ex.getMessage());
+            log("AddFeedbackServlet _ Naming: " + ex.getMessage());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
-            log("ContactServlet _ Exception: " + ex.getMessage());
+            log("AddFeedbackServlet _ Exception: " + ex.getMessage());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
