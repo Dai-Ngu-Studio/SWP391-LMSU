@@ -77,6 +77,7 @@ public class CheckoutDirectServlet extends HttpServlet {
     private final String ATTR_MEMBER_CART = "MEMBER_CART";
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
     private final String ATTR_CHECKOUT_SUCCESS = "CHECKOUT_SUCCESS";
+    private final String ATTR_CHECKOUT_FAILED = "CHECKOUT_FAILED";
 
     private final String ATTR_CHECKOUT_PICKUPDATE = "CHECKOUT_PICKUP_DATE";
     private final String ATTR_CHECKOUT_PICKUPTIME = "CHECKOUT_PICKUP_TIME";
@@ -203,8 +204,17 @@ public class CheckoutDirectServlet extends HttpServlet {
                                                 session.removeAttribute(ATTR_CHECKOUT_PICKUPTIME);
                                                 url = SHOW_BOOK_CATALOG_CONTROLLER; //W.I.P. temporary (to be changed)
                                             }// end if direct order created successfully
+                                            else {
+                                                request.setAttribute(ATTR_CHECKOUT_FAILED, true);
+                                            }
                                         }// end if order items added successfully
+                                        else {
+                                            request.setAttribute(ATTR_CHECKOUT_FAILED, true);
+                                        }
                                     }// end if order created successfully
+                                    else {
+                                        request.setAttribute(ATTR_CHECKOUT_FAILED, true);
+                                    }
                                     if (conn != null) {
                                         conn.setAutoCommit(true);
                                         conn.close();
@@ -220,6 +230,7 @@ public class CheckoutDirectServlet extends HttpServlet {
             log("CheckoutDirectServlet _ SQL: " + ex.getMessage());
             try {
                 conn.rollback();
+                request.setAttribute(ATTR_CHECKOUT_FAILED, true);
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
                 log("CheckoutDirectServlet _ SQL: " + exRollback.getMessage());
@@ -229,6 +240,7 @@ public class CheckoutDirectServlet extends HttpServlet {
             log("CheckoutDirectServlet _ Naming: " + ex.getMessage());
             try {
                 conn.rollback();
+                request.setAttribute(ATTR_CHECKOUT_FAILED, true);
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
                 log("CheckoutDirectServlet _ SQL: " + exRollback.getMessage());
@@ -238,6 +250,7 @@ public class CheckoutDirectServlet extends HttpServlet {
             log("CheckoutDirectServlet _ Exception: " + ex.getMessage());
             try {
                 conn.rollback();
+                request.setAttribute(ATTR_CHECKOUT_FAILED, true);
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
                 log("CheckoutDirectServlet _ SQL: " + exRollback.getMessage());

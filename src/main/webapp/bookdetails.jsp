@@ -595,6 +595,7 @@
         <%--Start: Empty Column--%>
         <div class="col-lg-2"></div>
         <%--End: Empty Column--%>
+        <div class="col-12 my-4"></div>
     </div>
     <%--End: Book Section--%>
     <%--Start: Related Books Section--%>
