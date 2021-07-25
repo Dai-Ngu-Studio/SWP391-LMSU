@@ -867,8 +867,9 @@ public class UserDAO implements Serializable {
         try {
             con = DBHelpers.makeConnection();
             if (con != null) {
-                String sql = "SELECT COUNT(id) AS total\n" +
-                        "FROM Users";
+                String sql = "SELECT COUNT(id) AS total " +
+                        "FROM Users " +
+                        "WHERE activeStatus = 1";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 if (rs.next()) {

@@ -608,4 +608,61 @@ public class OrderItemDAO implements Serializable {
             if (con != null) con.close();
         }
     }
+
+    public int getTodayReturned() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT COUNT(OrderItems.id) as totalReturnToday " +
+                        "FROM [OrderItems] " +
+                        "WHERE OrderItems.returnDate = CAST(CURRENT_TIMESTAMP AS DATE);";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                if (rs.next())
+                    return rs.getInt("totalReturnToday");
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return -1;
+    }
+
+    public int getTodayBorrowed() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT COUNT(OrderItems.id) as totalLendToday " +
+                        "FROM [OrderItems] " +
+                        "WHERE OrderItems.lendDate = CAST(CURRENT_TIMESTAMP AS DATE);";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                if (rs.next())
+                    return rs.getInt("totalReturnToday");
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return -1;
+    }
+
 }
