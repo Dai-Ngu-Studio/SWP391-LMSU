@@ -39,16 +39,20 @@ public class LoginServlet extends HttpServlet {
                 UserDTO dto = dao.checkLogin(email, passwordHashed);
                 HttpSession session = request.getSession();
 
-                if (dto != null) {
-                    AppUtils.storeLoginedUser(session, dto);
-                    if (dto.getRoleID().equals("4")) {
-                        url = INDEX_PAGE;
+                boolean isActive = dao.isActive(email);
+                if (!isActive) {
+                    if (dto != null) {
+                        dao.updateOnFirstLogin(email);
+                        AppUtils.storeLoginedUser(session, dto);
+                        if (dto.getRoleID().equals("4")) {
+                            url = INDEX_PAGE;
+                        }
+                        if (dto.getRoleID().equals("1") || dto.getRoleID().equals("2") || dto.getRoleID().equals("3")) {
+                            url = DASHBOARD_PAGE;
+                        }
+                    } else {
+                        request.setAttribute("WRONG_USER_LOGIN", "Wrong user name or password!");
                     }
-                    if (dto.getRoleID().equals("1") || dto.getRoleID().equals("2") || dto.getRoleID().equals("3")) {
-                        url = DASHBOARD_PAGE;
-                    }
-                } else {
-                    request.setAttribute("WRONG_USER_LOGIN", "Wrong user name or password!");
                 }
             } else {
                 request.setAttribute("DELETED_ACCOUNT",
