@@ -1,6 +1,8 @@
 package com.lmsu.controller.member;
 
+import com.lmsu.users.AddUserErrorDTO;
 import com.lmsu.users.UserDAO;
+import com.lmsu.validation.Validation;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -32,13 +34,50 @@ public class AddUserServlet extends HttpServlet {
         String email = request.getParameter("txtEmail");
         String phoneNumber = request.getParameter("txtPhoneNumber");
         String profilePicturePath = "images/default-user-icon.png";
+        boolean foundErr = false;
 
         try {
             UserDAO dao = new UserDAO();
+            AddUserErrorDTO error = new AddUserErrorDTO();
+
             if (!dao.isDelete(userID) && !dao.isDelete(email)) {
                 if (!dao.checkUserExisted(userID) && !dao.checkUserExisted(email)) {
-                    dao.addUser(userID, userName, roleID, "", email, phoneNumber, semester, profilePicturePath,
-                            false, false, false, false);
+                    if (!Validation.isValidUserID(userID)) {
+                        foundErr = true;
+                        error.setIdError("User ID require input 8 characters or invalid user ID pattern");
+                    }
+                    if (userName.trim().length() < 2 || userName.trim().length() > 30) {
+                        foundErr = true;
+                        error.setNameError("User name require input 2 to 30 characters");
+                    }
+                    try {
+                        int semesterNo = Integer.parseInt(semester);
+
+                        if (semesterNo < 0 || semesterNo > 9) {
+                            foundErr = true;
+                            error.setSemesterError("Semester require input 0 to 9");
+                        }
+                    } catch (NumberFormatException ex) {
+                        foundErr = true;
+                        error.setSemesterError("Semester require input 0 to 9");
+                    }
+                    if (!Validation.isValidEmail(email.toLowerCase().trim())) {
+                        foundErr = true;
+                        error.setEmailError("Invalid email pattern");
+                    }
+                    if (!phoneNumber.isEmpty()) {
+                        if (!Validation.isValidPhoneNumber(phoneNumber.trim())) {
+                            foundErr = true;
+                            error.setPhoneNumberError("Phone number require 8 numbers");
+                        }
+                    }
+
+                    if (foundErr) {
+                        request.setAttribute("CREATE_ERROR", error);
+                    } else {
+                        dao.addUser(userID, userName, roleID, "", email, phoneNumber, semester, profilePicturePath,
+                                false, false, false, false);
+                    }
                 } else {
                     request.setAttribute("ADD_DUPLICATE", "User have existed! Please check again userID or email.");
                 }
