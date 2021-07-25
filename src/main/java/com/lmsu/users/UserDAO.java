@@ -63,7 +63,7 @@ public class UserDAO implements Serializable {
         return user;
     }
 
-    public boolean checkUserExisted(String id) throws SQLException, NamingException {
+    public boolean checkUserExisted(String idOrEmail) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -73,9 +73,10 @@ public class UserDAO implements Serializable {
             if (con != null) {
                 String sql = "select [id] "
                         + "from [Users] "
-                        + "where [id] LIKE ?";
+                        + "where [id] LIKE ? OR [email] LIKE ?";
                 stm = con.prepareStatement(sql);
-                stm.setString(1, id);
+                stm.setString(1, idOrEmail);
+                stm.setString(2, idOrEmail);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     return true;
@@ -378,6 +379,29 @@ public class UserDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 String sql = "UPDATE [Users] " +
+                        "SET [isDelete] = 1, [activeStatus] = 0 " +
+                        "WHERE [id] = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, id);
+
+                int row = stm.executeUpdate();
+                if (row > 0) return true;
+            }
+        } finally {
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
+
+    public boolean undeleteUser(String id) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE [Users] " +
                         "SET [isDelete] = 0 " +
                         "WHERE [id] = ?";
                 stm = con.prepareStatement(sql);
@@ -520,7 +544,7 @@ public class UserDAO implements Serializable {
         return false;
     }
 
-    public boolean isDelete(String email) throws SQLException, NamingException {
+    public boolean isDelete(String emailOrID) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -530,9 +554,10 @@ public class UserDAO implements Serializable {
             if (con != null) {
                 String sql = "SELECT [isDelete] "
                         + "FROM [Users] "
-                        + "WHERE [email] = ?";
+                        + "WHERE [email] = ? OR [id] = ?";
                 stm = con.prepareStatement(sql);
-                stm.setString(1, email);
+                stm.setString(1, emailOrID);
+                stm.setString(2, emailOrID);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     boolean isActive = rs.getBoolean("isDelete");
@@ -832,5 +857,36 @@ public class UserDAO implements Serializable {
                 con.close();
             }
         }
+    }
+
+    public int totalNumberOfUsers() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT COUNT(id) AS total\n" +
+                        "FROM Users";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    int total = rs.getInt("total");
+                    return total;
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return 0;
     }
 }
