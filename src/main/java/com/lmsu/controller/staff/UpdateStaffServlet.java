@@ -17,6 +17,9 @@ import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
 @WebServlet(name = "UpdateStaffServlet", value = "/UpdateStaffServlet")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 5,
+        maxRequestSize = 1024 * 1024 * 5 * 5)
 public class UpdateStaffServlet extends HttpServlet {
 
     private final String SEARCH_STAFF_CONTROLLER = "SearchStaffServlet";
@@ -63,7 +66,7 @@ public class UpdateStaffServlet extends HttpServlet {
             if (phoneNumber != "") {
                 if (!Validation.isValidPhoneNumber(phoneNumber)) {
                     foundErr = true;
-                    error.setPhoneNumberError("Phone number require 8 numbers");
+                    error.setPhoneNumberError("Phone number require 10 numbers");
                 }
             }
             if (!(roleID.equals("1") || roleID.equals("2") || roleID.equals("3"))) {
@@ -77,10 +80,10 @@ public class UpdateStaffServlet extends HttpServlet {
             if (foundErr) {
                 request.setAttribute("UPDATE_ERROR", error);
             } else {
-                if (password == "") {
+                if (password.isEmpty()) {
                     dao.updateMember(memberID, coverFile, phoneNumber, Boolean.parseBoolean(activeStatus), userName, roleID);
                 }
-                if (password != "") {
+                if (!password.isEmpty()) {
                     dao.updateMember(memberID, coverFile, phoneNumber, Boolean.parseBoolean(activeStatus), userName, roleID, passwordHashed);
                 }
             }
