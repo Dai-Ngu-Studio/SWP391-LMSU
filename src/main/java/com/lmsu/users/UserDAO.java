@@ -779,6 +779,38 @@ public class UserDAO implements Serializable {
         return false;
     }
 
+    public boolean updateMember(String id, String profilePicturePath, String phoneNumber,
+                                boolean activeStatus, String name, String roleID, String password)
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE [Users] " +
+                        "SET [profilePicturePath] = ? , [phoneNumber] = ?, [activeStatus] = ? , " +
+                        "[name] = ?, [roleID] = ?, [password] = ? " +
+                        "WHERE [id] = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, profilePicturePath);
+                stm.setString(2, phoneNumber);
+                stm.setBoolean(3, activeStatus);
+                stm.setString(4, name);
+                stm.setString(5, roleID);
+                stm.setString(5, password);
+                stm.setString(7, id);
+                int row = stm.executeUpdate();
+                if (row > 0) return true;
+            }
+
+        } finally {
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
+
     public boolean updateMemberNotificationSetting(String id, boolean isNotifyArrival, boolean isNotifyPopular)
             throws SQLException, NamingException {
         Connection con = null;
