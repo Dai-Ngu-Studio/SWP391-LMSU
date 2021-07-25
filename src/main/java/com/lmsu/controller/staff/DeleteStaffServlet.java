@@ -1,6 +1,5 @@
 package com.lmsu.controller.staff;
 
-import com.lmsu.controller.member.DeleteUserServlet;
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
 import org.apache.log4j.Logger;
