@@ -184,6 +184,58 @@ public class BookDAO implements Serializable {
         }
     }
 
+
+    public void searchBooksBySubject(String subjectID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT [id], [title], [subjectID], [publisher], [publishDate], [description], " +
+                        "[price], [quantity], [deleteStatus], [lastLentDate], [avgRating], [ISBN_tenDigits], " +
+                        "[ISBN_thirteenDigits], [coverPicturePath] " +
+                        "FROM [Books] " +
+                        "WHERE [subjectID] LIKE ? " +
+                        "AND [deleteStatus] = 0 ";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, subjectID);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                while (rs.next()) {
+                    if (this.bookList == null) {
+                        this.bookList = new ArrayList<BookDTO>();
+                    } //end if bookList not existed
+                    BookDTO bookDTO = new BookDTO();
+                    bookDTO.setBookID(rs.getString("id"));
+                    bookDTO.setTitle(rs.getString("title"));
+                    bookDTO.setSubjectID(rs.getString("subjectID"));
+                    bookDTO.setPublisher(rs.getString("publisher"));
+                    bookDTO.setPublicationDate(rs.getString("publishDate"));
+                    bookDTO.setDescription(rs.getString("description"));
+                    bookDTO.setPrice(rs.getBigDecimal("price"));
+                    bookDTO.setQuantity(rs.getInt("quantity"));
+                    bookDTO.setDeleteStatus(rs.getBoolean("deleteStatus"));
+                    bookDTO.setLastLentDate(rs.getDate("lastLentDate"));
+                    bookDTO.setAvgRating(rs.getFloat("avgRating"));
+                    bookDTO.setIsbnTen(rs.getString("ISBN_tenDigits"));
+                    bookDTO.setIsbnThirteen(rs.getString("ISBN_thirteenDigits"));
+                    bookDTO.setCoverPath(rs.getString("coverPicturePath"));
+                    this.bookList.add(bookDTO);
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
+
     public BookDTO getBookById(String bookID) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
