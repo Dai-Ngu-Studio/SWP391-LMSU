@@ -126,7 +126,7 @@
         </div>
         <div>
             <button class="btn seeMoreBtn">
-                <a href="#" style="color: #fff;">
+                <a href="ShowBookCatalogServlet" style="color: #fff;">
                     <b>See more</b>
                 </a>
             </button>
@@ -160,7 +160,7 @@
         </div>
         <div>
             <button class="btn seeMoreBtn">
-                <a href="#" style="color: #fff;">
+                <a href="ShowBookCatalogServlet" style="color: #fff;">
                     <b>See more</b>
                 </a>
             </button>
@@ -188,7 +188,7 @@
     </div>
     <div style="display: flex; justify-content: center;">
         <button class="btn seeMoreBtn">
-            <a href="#"><b>See more</b></a>
+            <a href="ShowAuthorCatalogServlet"><b>See more</b></a>
         </button>
     </div>
 </div>
