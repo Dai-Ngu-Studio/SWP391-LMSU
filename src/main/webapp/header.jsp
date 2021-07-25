@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -7,32 +8,12 @@
             font-size: 15px;
         }
 
-        .header {
-            background-color: #fff;
-            display: flex;
-            justify-content: space-around;
-            padding-top: .5rem;
-            padding-bottom: .5rem;
-            width: 100%;
-            height: 65px;
-            align-items: center;
-            position: fixed;
-            box-shadow: 0px 0px 18px rgba(0, 0, 0, 0.2);
-            z-index: 999;
-        }
-
-        .logo {
-            width: 10%;
-        }
-
         .logo img {
             width: 100%;
         }
 
         .search {
             display: flex;
-            /* height: 70%; */
-            /* margin-left: 35%; */
             transform: translateX(100px);
         }
 
@@ -65,19 +46,10 @@
             }
         }
 
-        .left {
-            display: flex;
-            align-items: center;
-        }
-
         .profile a {
             font-size: 1.2vw;
             color: #748DDB;
             text-decoration: none !important;
-        }
-
-        .logout {
-            margin-left: 10px;
         }
 
         .logout button {
@@ -136,6 +108,10 @@
         .login-btn a {
             color: #748DDB;
             text-decoration: none !important;
+        }
+
+        .nav-profile {
+            cursor: pointer;
         }
     </style>
     <!-- plugins:css -->
@@ -214,9 +190,17 @@
             <c:if test="${not empty user}">
                 <li class="nav-item nav-profile dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="profileDropdown">
-                        <img src="${user.profilePicturePath}" alt="profile picture"
-                             onerror="this.onerror=null; this.src='images/default-user-icon.png';"
-                             style="border-radius: 50%; cursor: pointer;"/>
+                        <c:set var="googleAvatar" value="${fn:substringBefore(sessionScope.LOGIN_USER.profilePicturePath, ':')}"/>
+                        <c:if test="${googleAvatar ne 'https'}">
+                            <img src="${pageContext.request.contextPath}/image/${sessionScope.LOGIN_USER.profilePicturePath}"
+                                 style="border-radius: 50%;" alt="profile picture"
+                                 onerror="this.onerror=null; this.src='images/default-user-icon.png';"/>
+                        </c:if>
+                        <c:if test="${googleAvatar eq 'https'}">
+                            <img src="${sessionScope.LOGIN_USER.profilePicturePath}"
+                                 style="border-radius: 50%;" alt="profile picture"
+                                 onerror="this.onerror=null; this.src='images/default-user-icon.png';"/>
+                        </c:if>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                         <c:if test="${user.roleID ne '4'}">

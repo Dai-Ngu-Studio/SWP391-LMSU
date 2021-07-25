@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -17,9 +19,17 @@
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                    <img src="${sessionScope.LOGIN_USER.profilePicturePath}" alt="profile picture"
-                         style="border-radius: 50%;"
-                         onerror="this.onerror=null; this.src='images/default-user-icon.png';"/>
+                    <c:set var="googleAvatar" value="${fn:substringBefore(sessionScope.LOGIN_USER.profilePicturePath, ':')}"/>
+                    <c:if test="${googleAvatar ne 'https'}">
+                        <img src="${pageContext.request.contextPath}/image/${sessionScope.LOGIN_USER.profilePicturePath}"
+                             style="border-radius: 50%;" alt="profile picture"
+                             onerror="this.onerror=null; this.src='images/default-user-icon.png';"/>
+                    </c:if>
+                    <c:if test="${googleAvatar eq 'https'}">
+                        <img src="${sessionScope.LOGIN_USER.profilePicturePath}"
+                             style="border-radius: 50%;" alt="profile picture"
+                             onerror="this.onerror=null; this.src='images/default-user-icon.png';"/>
+                    </c:if>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                     <a class="dropdown-item" href="ShowProfileServlet">
