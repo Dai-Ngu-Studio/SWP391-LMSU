@@ -29,14 +29,30 @@
     <div class="col-lg-2"></div>
 
 </div>
-<%--<div class="row mt-2">--%>
-<%--    <div class="col-lg-2"></div>--%>
-<%--    <div class="col-lg-4 text-center h5">Page 1 of 20</div>--%>
-<%--    <div class="col-lg-4 text-center h5">--%>
-<%--        < 1 2 3 4 5 6 7 ...>--%>
-<%--    </div>--%>
-<%--    <div class="col-lg-2"></div>--%>
-<%--</div>--%>
+<c:if test="${requestScope.CHECKOUT_SUCCESS}">
+    <div class="row mt-2">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 text-center">
+            <div class="alert alert-success h5">
+                Checkout successful. Thank you for using our service. <br>
+                Please wait for a staff to process your order.
+            </div>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+</c:if>
+<c:if test="${requestScope.CHECKOUT_FAILED}">
+    <div class="row mt-2">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 text-center">
+            <div class="alert alert-warning h5">
+                Checkout unsuccessful. Our system is under maintenance. <br>
+                Please try again later. Thank you for your understanding.
+            </div>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+</c:if>
 
 <c:set var="bookList" value="${requestScope.BOOK_LIST}"/>
 <c:set var="indexCount" value="${0}"/>

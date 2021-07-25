@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -73,6 +74,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
     private final String ATTR_MEMBER_CART = "MEMBER_CART";
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
     private final String ATTR_CHECKOUT_SUCCESS = "CHECKOUT_SUCCESS";
+    private final String ATTR_CHECKOUT_FAILED = "CHECKOUT_FAILED";
 
     private final String ATTR_CHECKOUT_RECEIVERNAME = "CHECKOUT_RECEIVERNAME";
     private final String ATTR_CHECKOUT_PHONENUMBER = "CHECKOUT_PHONENUMBER";
@@ -133,7 +135,16 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                         if (latestAnnouncement != null) {
                                             Date announcementDeadline = latestAnnouncement.getReturnDeadline();
                                             if (announcementDeadline != null) {
-                                                returnDeadline = announcementDeadline;
+                                                Date currentDate = DateHelpers.getCurrentDate();
+                                                LocalDate localAnnouncementDeadline = announcementDeadline.toLocalDate();
+                                                LocalDate localCurrentDate = currentDate.toLocalDate();
+                                                if (localAnnouncementDeadline != null) {
+                                                    if (localCurrentDate != null) {
+                                                        if (localAnnouncementDeadline.isAfter(localCurrentDate)) {
+                                                            returnDeadline = announcementDeadline;
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                         for (String bookID : cartItems.keySet()) {
@@ -210,8 +221,17 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                                 session.removeAttribute(ATTR_CHECKOUT_WARD);
                                                 url = SHOW_BOOK_CATALOG_CONTROLLER; //W.I.P. temporary (to be changed)
                                             }// end if delivery order created successfully
+                                            else {
+                                                request.setAttribute(ATTR_CHECKOUT_FAILED, true);
+                                            }
                                         }// end if order items added successfully
+                                        else {
+                                            request.setAttribute(ATTR_CHECKOUT_FAILED, true);
+                                        }
                                     }// end if order created successfully
+                                    else {
+                                        request.setAttribute(ATTR_CHECKOUT_FAILED, true);
+                                    }
                                     if (conn != null) {
                                         conn.setAutoCommit(true);
                                         conn.close();
@@ -227,6 +247,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
             log("CheckoutDeliveryServlet _ SQL: " + ex.getMessage());
             try {
                 conn.rollback();
+                request.setAttribute(ATTR_CHECKOUT_FAILED, true);
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
                 log("CheckoutDeliveryServlet _ SQL: " + exRollback.getMessage());
@@ -236,6 +257,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
             log("CheckoutDeliveryServlet _ Naming: " + ex.getMessage());
             try {
                 conn.rollback();
+                request.setAttribute(ATTR_CHECKOUT_FAILED, true);
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
                 log("CheckoutDeliveryServlet _ SQL: " + exRollback.getMessage());
@@ -245,6 +267,7 @@ public class CheckoutDeliveryServlet extends HttpServlet {
             log("CheckoutDeliveryServlet _ Exception: " + ex.getMessage());
             try {
                 conn.rollback();
+                request.setAttribute(ATTR_CHECKOUT_FAILED, true);
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
                 log("CheckoutDeliveryServlet _ SQL: " + exRollback.getMessage());

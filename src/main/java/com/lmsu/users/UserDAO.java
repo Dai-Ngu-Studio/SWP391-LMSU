@@ -490,7 +490,7 @@ public class UserDAO implements Serializable {
         return false;
     }
 
-    public boolean updateOnFirstLogin(String email) throws SQLException, NamingException {
+    public boolean updateActiveStatus(String email) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
 

@@ -28,6 +28,7 @@ public class EditCommentServlet extends HttpServlet {
     private final String PARAM_COMMENT_MEMBER_ID = "commentMemberID";
 
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
+    private final String ATTR_COMMENT_INVALID = "COMMENT_INVALID";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -42,15 +43,20 @@ public class EditCommentServlet extends HttpServlet {
             // 1. Check if session existed
             HttpSession session = request.getSession();
             // 2. Check if user is logged in
-            UserDTO userDTO = (UserDTO) session.getAttribute("LOGIN_USER");
+            UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
             if (userDTO != null) {
                 String userID = userDTO.getId();
                 BookDAO bookDAO = new BookDAO();
                 CommentDAO commentDAO = new CommentDAO();
                 CommentDTO commentDTO = commentDAO.getCommentOfBookFromUserID(memberID, bookID);
+                textEditComment = textEditComment.trim();
                 // isEdited: true
-                boolean result = commentDAO.editBookComment(memberID, bookID, textEditComment,
-                        commentDTO.getRating(), userID, COMMENT_EDITED, COMMENT_NOT_DELETED);
+                if (textEditComment.length() <= 255) {
+                    boolean result = commentDAO.editBookComment(memberID, bookID, textEditComment,
+                            commentDTO.getRating(), userID, COMMENT_EDITED, COMMENT_NOT_DELETED);
+                } else {
+                    request.setAttribute(ATTR_COMMENT_INVALID, "true");
+                }
                 int numberOfRatingsGiven = 0;
                 int avgRating = 0;
                 commentDAO.viewBookComments(bookID);
