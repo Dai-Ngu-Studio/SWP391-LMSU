@@ -50,20 +50,20 @@ public class AddStaffServlet extends HttpServlet {
                             foundErr = true;
                             error.setIdError("User ID require input 8 characters or invalid user ID pattern");
                         }
-                        if (userName.trim().length() < 2 || userName.trim().length() > 20) {
+                        if (userName.trim().length() < 2 || userName.trim().length() > 30) {
                             foundErr = true;
-                            error.setNameError("User name require input 2 to 20 characters");
+                            error.setNameError("User name require input 2 to 30 characters");
                         }
                         if (password.trim().length() < 8 || password.trim().length() > 16) {
                             foundErr = true;
                             error.setPasswordError("Password require input 8 to 16 characters");
                         }
-                        if (!Validation.isValidEmail(email.toLowerCase())) {
+                        if (!Validation.isValidEmail(email.toLowerCase().trim())) {
                             foundErr = true;
                             error.setEmailError("Invalid email pattern");
                         }
                         if (phoneNumber != "") {
-                            if (!Validation.isValidPhoneNumber(phoneNumber)) {
+                            if (!Validation.isValidPhoneNumber(phoneNumber.trim())) {
                                 foundErr = true;
                                 error.setPhoneNumberError("Phone number require 8 numbers");
                             }
@@ -93,9 +93,9 @@ public class AddStaffServlet extends HttpServlet {
                             foundErr = true;
                             error.setIdError("User ID require input 8 characters or invalid user ID pattern");
                         }
-                        if (userName.trim().length() < 2 || userName.trim().length() > 20) {
+                        if (userName.trim().length() < 2 || userName.trim().length() > 30) {
                             foundErr = true;
-                            error.setNameError("User name require input 2 to 20 characters");
+                            error.setNameError("User name require input 2 to 30 characters");
                         }
                         if (!Validation.isValidEmail(email.trim().toLowerCase())) {
                             foundErr = true;
