@@ -34824,5 +34824,9 @@ div.tagsinput span.tag a {
     }
 }
 
+.required-field {
+    color: red;
+}
+
 
 /*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */
