@@ -50,7 +50,7 @@
         <c:set var="subjects" value="${requestScope.INDEX_SUBJECT_LIST}"/>
         <c:if test="${not empty subjects}">
             <c:choose>
-                <c:when test="${subjects.size() lt 4}">
+                <c:when test="${subjects.size() le 4}">
                     <c:forEach var="subject" items="${subjects}">
                         <a href="SearchIndexServlet?txtBookCatalogSearchValue=${subject.id}&itemFilterOptions=Subjects">
                             <div>
@@ -85,11 +85,15 @@
             </c:forEach>
         </c:if>
     </div>
-    <div style="display: flex; justify-content: center;">
-        <button class="btn seeMoreBtn seeMoreCategory">
-            <b>See more</b>
-        </button>
-    </div>
+    <c:if test="${not empty subjects}">
+        <c:if test="${subjects.size() gt 4}">
+            <div style="display: flex; justify-content: center;">
+                <button class="btn seeMoreBtn seeMoreCategory">
+                    <b>See more</b>
+                </button>
+            </div>
+        </c:if>
+    </c:if>
 </div>
 <div class="anotherSection">
     <div class="smallSection">
