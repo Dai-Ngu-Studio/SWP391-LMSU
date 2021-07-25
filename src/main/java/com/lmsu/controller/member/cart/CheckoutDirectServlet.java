@@ -121,7 +121,16 @@ public class CheckoutDirectServlet extends HttpServlet {
                                     if (latestAnnouncement != null) {
                                         Date announcementDeadline = latestAnnouncement.getReturnDeadline();
                                         if (announcementDeadline != null) {
-                                            returnDeadline = announcementDeadline;
+                                            Date currentDate = DateHelpers.getCurrentDate();
+                                            LocalDate localAnnouncementDeadline = announcementDeadline.toLocalDate();
+                                            LocalDate localCurrentDate = currentDate.toLocalDate();
+                                            if (localAnnouncementDeadline != null) {
+                                                if (localCurrentDate != null) {
+                                                    if (localAnnouncementDeadline.isAfter(localCurrentDate)) {
+                                                        returnDeadline = announcementDeadline;
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                     if (orderID > 0) {

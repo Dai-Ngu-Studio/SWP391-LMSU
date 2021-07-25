@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -133,7 +134,16 @@ public class CheckoutDeliveryServlet extends HttpServlet {
                                         if (latestAnnouncement != null) {
                                             Date announcementDeadline = latestAnnouncement.getReturnDeadline();
                                             if (announcementDeadline != null) {
-                                                returnDeadline = announcementDeadline;
+                                                Date currentDate = DateHelpers.getCurrentDate();
+                                                LocalDate localAnnouncementDeadline = announcementDeadline.toLocalDate();
+                                                LocalDate localCurrentDate = currentDate.toLocalDate();
+                                                if (localAnnouncementDeadline != null) {
+                                                    if (localCurrentDate != null) {
+                                                        if (localAnnouncementDeadline.isAfter(localCurrentDate)) {
+                                                            returnDeadline = announcementDeadline;
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                         for (String bookID : cartItems.keySet()) {
