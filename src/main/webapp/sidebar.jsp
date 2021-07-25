@@ -129,7 +129,7 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="ShowFeedbackServlet">
-                    <i class="fas fa-comments menu-icon"></i>
+                    <i class="fa fa-comments-o menu-icon"></i>
                     <span class="menu-title">Feedback</span>
                 </a>
             </li>

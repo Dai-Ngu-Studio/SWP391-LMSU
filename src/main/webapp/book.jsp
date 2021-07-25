@@ -41,12 +41,6 @@
 <c:set var="bookList" value="${requestScope.BOOK_LIST}"/>
 <c:set var="indexCount" value="${0}"/>
 <c:set var="bookTotal" value="${0}"/>
-<script>
-    $(document).ready(function () {
-        $('#checkoutSuccessModal').modal('toggle');
-    });
-</script>
-
 <c:forEach var="book" items="${bookList}"
            varStatus="counter">
     <%--Book Row--%>
@@ -99,11 +93,9 @@
     <%--Start: Empty Column--%>
     <c:if test="${indexCount eq 1}">
         <div class="col-lg-2"></div>
-    </c:if>
-    <%--End: Empty Column--%>
-    <c:if test="${indexCount eq 1}">
         </div> <%--End: div class="row mt-2" --%>
     </c:if>
+    <%--End: Empty Column--%>
     <c:choose>
         <c:when test="${indexCount eq 0}">
             <c:set var="indexCount" value="${1}"/>

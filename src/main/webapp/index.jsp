@@ -44,65 +44,56 @@
 </div>
 <div class="section">
     <div class="sectionTitle">
-        <p><b>Books Category</b></p>
+        <p><b>Subjects</b></p>
     </div>
     <div class="section-child col-lg-12">
-        <a href="#">
-            <div>
-                <img src="images/computer-science.png">
-                <p><b>Computer Science</b></p>
-            </div>
-        </a>
-        <a href="#">
-            <div>
-                <img src="images/graphic-design.png">
-                <p><b>Graphic Design</b></p>
-            </div>
-        </a>
-        <a href="#">
-            <div>
-                <img src="images/business-administration.png">
-                <p><b>Business Administration</b></p>
-            </div>
-        </a>
-        <a href="#">
-            <div>
-                <img src="images/language-studies.png">
-                <p><b>Language Studies</b></p>
-            </div>
-        </a>
+        <c:set var="subjects" value="${requestScope.INDEX_SUBJECT_LIST}"/>
+        <c:if test="${not empty subjects}">
+            <c:choose>
+                <c:when test="${subjects.size() le 4}">
+                    <c:forEach var="subject" items="${subjects}">
+                        <a href="SearchIndexServlet?txtBookCatalogSearchValue=${subject.id}&itemFilterOptions=Subjects">
+                            <div>
+                                <img src="images/computer-science.png">
+                                <p><b class="text-center">${subject.name}</b></p>
+                            </div>
+                        </a>
+                    </c:forEach>
+                </c:when>
+                <c:when test="${subjects.size() ge 5}">
+                    <c:forEach var="subject" items="${subjects}" end="3">
+                        <a href="SearchIndexServlet?txtBookCatalogSearchValue=${subject.id}&itemFilterOptions=Subjects">
+                            <div>
+                                <img src="images/computer-science.png">
+                                <p><b class="text-center">${subject.name}</b></p>
+                            </div>
+                        </a>
+                    </c:forEach>
+                </c:when>
+            </c:choose>
+        </c:if>
     </div>
     <div class="section-child col-lg-12 moreCategory" style="display: none;">
-        <a href="#">
-            <div>
-                <img src="images/computer-science.png">
-                <p><b>Computer Science</b></p>
-            </div>
-        </a>
-        <a href="#">
-            <div>
-                <img src="images/graphic-design.png">
-                <p><b>Graphic Design</b></p>
-            </div>
-        </a>
-        <a href="#">
-            <div>
-                <img src="images/business-administration.png">
-                <p><b>Business Administration</b></p>
-            </div>
-        </a>
-        <a href="#">
-            <div>
-                <img src="images/language-studies.png">
-                <p><b>Language Studies</b></p>
-            </div>
-        </a>
+        <c:if test="${subjects.size() ge 5}">
+            <c:forEach var="subject" items="${subjects}" begin="4">
+                <a href="SearchIndexServlet?txtBookCatalogSearchValue=${subject.id}&itemFilterOptions=Subjects">
+                    <div>
+                        <img src="images/computer-science.png">
+                        <p><b class="text-center">${subject.name}</b></p>
+                    </div>
+                </a>
+            </c:forEach>
+        </c:if>
     </div>
-    <div style="display: flex; justify-content: center;">
-        <button class="btn seeMoreBtn seeMoreCategory">
-            <b>See more</b>
-        </button>
-    </div>
+    <c:if test="${not empty subjects}">
+        <c:if test="${subjects.size() gt 4}">
+            <div style="display: flex; justify-content: center;">
+                <button class="btn seeMoreBtn seeMoreCategory">
+                    <b>See more</b>
+                </button>
+            </div>
+        </c:if>
+    </c:if>
 </div>
 <div class="anotherSection">
     <div class="smallSection">

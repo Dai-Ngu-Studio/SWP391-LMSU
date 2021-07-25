@@ -19,6 +19,12 @@ public class SubjectDAO implements Serializable {
         return this.subjectList;
     }
 
+    public void clearSubjectList() {
+        if (this.subjectList != null) {
+            this.subjectList.clear();
+        }
+    }
+
     public void viewSubjectList() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -77,6 +83,39 @@ public class SubjectDAO implements Serializable {
                     if (this.subjectList == null) {
                         this.subjectList = new ArrayList<SubjectDTO>();
                     }
+                    this.subjectList.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
+
+    public void searchSubjectBySemester(int semester_no) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [id], [name], [semester_no], [deleteStatus] " +
+                        "FROM [Subjects] " +
+                        "WHERE [semester_no] LIKE ? AND [deleteStatus] = 0";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, semester_no);
+
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    if (this.subjectList == null) {
+                        this.subjectList = new ArrayList<SubjectDTO>();
+                    }
+                    String id = rs.getString("id");
+                    String name = rs.getString("name");
+                    int semester_noVal = rs.getInt("semester_no");
+                    boolean deleteStatus = rs.getBoolean("deleteStatus");
+                    SubjectDTO dto = new SubjectDTO(id, name, semester_no, deleteStatus);
                     this.subjectList.add(dto);
                 }
             }

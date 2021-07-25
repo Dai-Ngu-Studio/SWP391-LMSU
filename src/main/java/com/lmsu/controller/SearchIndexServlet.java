@@ -22,29 +22,44 @@ public class SearchIndexServlet extends HttpServlet {
     private final String RESULT_PAGE = "ShowBookCatalogServlet";
     private final String RESULT_AUTHOR_PAGE = "ShowAuthorCatalogServlet";
 
+    private final String PARAM_SEARCH_VALUE = "txtBookCatalogSearchValue";
+    private final String PARAM_CRITERION = "itemFilterOptions";
+
+    private final String CRITERION_BOOK = "Books";
+    private final String CRITERION_AUTHOR = "Authors";
+    private final String CRITERION_SUBJECT = "Subjects";
+
+    private final String ATTR_SEARCH_RESULT = "SEARCH_RESULT";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String searchVal = request.getParameter("txtBookCatalogSearchValue");
-        String criterion = request.getParameter("itemFilterOptions");
+        String searchVal = request.getParameter(PARAM_SEARCH_VALUE);
+        String criterion = request.getParameter(PARAM_CRITERION);
         String url = ERROR_PAGE;
         try {
             if (searchVal.trim().length() > 0) {
                 BookDAO dao = new BookDAO();
-                if (criterion.equals("Books")) {
+                if (criterion.equals(CRITERION_BOOK)) {
                     dao.searchBookByTitle(searchVal);
                     List<BookDTO> result = dao.getBookList();
                     if (result != null) {
-                        request.setAttribute("SEARCH_RESULT", result);
+                        request.setAttribute(ATTR_SEARCH_RESULT, result);
                         url = RESULT_PAGE;
                     }
-                } else if (criterion.equals("Authors")) {
+                } else if (criterion.equals(CRITERION_AUTHOR)) {
                     AuthorDAO author_dao = new AuthorDAO();
                     author_dao.searchAuthorByName(searchVal);
                     List<AuthorDTO> author_result = author_dao.getAuthorList();
                     if (author_result != null) {
-                        request.setAttribute("SEARCH_RESULT", author_result);
+                        request.setAttribute(ATTR_SEARCH_RESULT, author_result);
                         url = RESULT_AUTHOR_PAGE;
+                    }
+                } else if (criterion.equals(CRITERION_SUBJECT)) {
+                    dao.searchBooksBySubject(searchVal);
+                    List<BookDTO> result = dao.getBookList();
+                    if (result != null) {
+                        request.setAttribute(ATTR_SEARCH_RESULT, result);
+                        url = RESULT_PAGE;
                     }
                 }
             }

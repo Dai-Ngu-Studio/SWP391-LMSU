@@ -67,12 +67,20 @@ public class LoginGoogleServlet extends HttpServlet {
                                 session.setAttribute("LOGIN_USER", dto);
                             }
                         } else {
-                            dao.updateProfilePictureOnLogin(email, profilePicture);
                             UserDTO dto = dao.checkLogin(email, passwordHashed);
-                            if (dto != null) {
-                                AppUtils.storeLoginedUser(session, dto);
+                            if (dto.getProfilePicturePath().split(":")[0].equalsIgnoreCase("https")){
+                                if (dto != null) {
+                                    AppUtils.storeLoginedUser(session, dto);
+                                    dao.updateProfilePictureOnLogin(email, profilePicture);
+                                } else {
+                                    session.setAttribute("WRONG_USER_LOGIN", "Your account is not allowed to log into the system");
+                                }
                             } else {
-                                session.setAttribute("WRONG_USER_LOGIN", "Your account is not allowed to log into the system");
+                                if (dto != null) {
+                                    AppUtils.storeLoginedUser(session, dto);
+                                } else {
+                                    session.setAttribute("WRONG_USER_LOGIN", "Your account is not allowed to log into the system");
+                                }
                             }
                         }
                     } else {

@@ -1,7 +1,9 @@
 package com.lmsu.controller.staff;
 
 import com.google.common.hash.Hashing;
+import com.lmsu.users.AddUserErrorDTO;
 import com.lmsu.users.UserDAO;
+import com.lmsu.validation.Validation;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -30,7 +32,6 @@ public class AddStaffServlet extends HttpServlet {
         String userID = request.getParameter("txtUserID");
         String userName = request.getParameter("txtUserName");
         String roleID = request.getParameter("txtRoleID");
-        String semester = "0";
         String password = request.getParameter("txtPassword");
         String passwordHashed = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
         String email = request.getParameter("txtEmail");
@@ -39,18 +40,98 @@ public class AddStaffServlet extends HttpServlet {
 
         try {
             UserDAO dao = new UserDAO();
-            boolean result = dao.checkUserExisted(userID);
-            if (!result) {
-                if (userID.substring(0, 3).equalsIgnoreCase("LIB") || userID.substring(0, 3).equalsIgnoreCase("MNG")) {
-                    dao.addUser(userID, userName, roleID, passwordHashed, email, phoneNumber, semester, profilePicturePath,
-                            false, false, false, false);
+            AddUserErrorDTO error = new AddUserErrorDTO();
+            boolean foundErr = false;
+
+            if (roleID.equals("1") && password != "") {
+                if (!dao.isDelete(email) && !dao.isDelete(userID)) {
+                    if (!dao.checkUserExisted(userID) && !dao.checkUserExisted(email)) {
+                        if (!Validation.isValidUserID(userID)) {
+                            foundErr = true;
+                            error.setIdError("User ID require input 8 characters or invalid user ID pattern");
+                        }
+                        if (userName.trim().length() < 2 || userName.trim().length() > 20) {
+                            foundErr = true;
+                            error.setNameError("User name require input 2 to 20 characters");
+                        }
+                        if (password.trim().length() < 8 || password.trim().length() > 16) {
+                            foundErr = true;
+                            error.setPasswordError("Password require input 8 to 16 characters");
+                        }
+                        if (!Validation.isValidEmail(email.toLowerCase())) {
+                            foundErr = true;
+                            error.setEmailError("Invalid email pattern");
+                        }
+                        if (phoneNumber != "") {
+                            if (!Validation.isValidPhoneNumber(phoneNumber)) {
+                                foundErr = true;
+                                error.setPhoneNumberError("Phone number require 8 numbers");
+                            }
+                        }
+                        if (!(roleID.equals("1"))) {
+                            foundErr = true;
+                            error.setRoleIDError("Invalid role ID");
+                        }
+
+                        if (foundErr) {
+                            request.setAttribute("CREATE_ERROR", error);
+                        } else {
+                            dao.addUser(userID.toUpperCase().trim(), userName.trim(), roleID, passwordHashed.trim(),
+                                    email.toLowerCase().trim(), phoneNumber.trim(), "0", profilePicturePath,
+                                    false, false, false, false);
+                        }
+                    } else {
+                        request.setAttribute("ADD_DUPLICATE", "User have existed! Please check again userID or email.");
+                    }
                 } else {
-                    request.setAttribute("WRONG_ID_FORMAT", "Wrong format for userID (The prefix must be LIB or MNG)");
+                    request.setAttribute("DELETED_USER", "This staff have been deleted before. If you want to add again, please undelete it!");
+                }
+            } else if (roleID.equals("2") || roleID.equals("3")) {
+                if (!dao.isDelete(email) && !dao.isDelete(userID)) {
+                    if (!dao.checkUserExisted(userID) && !dao.checkUserExisted(email)) {
+                        if (!Validation.isValidUserID(userID.trim())) {
+                            foundErr = true;
+                            error.setIdError("User ID require input 8 characters or invalid user ID pattern");
+                        }
+                        if (userName.trim().length() < 2 || userName.trim().length() > 20) {
+                            foundErr = true;
+                            error.setNameError("User name require input 2 to 20 characters");
+                        }
+                        if (!Validation.isValidEmail(email.trim().toLowerCase())) {
+                            foundErr = true;
+                            error.setEmailError("Invalid email pattern");
+                        }
+                        if (phoneNumber != "") {
+                            if (!Validation.isValidPhoneNumber(phoneNumber.trim())) {
+                                foundErr = true;
+                                error.setPhoneNumberError("Phone number require 10 numbers");
+                            }
+                        }
+                        if (!(roleID.equals("2") || roleID.equals("3"))) {
+                            foundErr = true;
+                            error.setRoleIDError("Invalid role ID");
+                        }
+
+                        if (foundErr) {
+                            request.setAttribute("CREATE_ERROR", error);
+                        } else {
+                            dao.addUser(userID.toLowerCase().trim(), userName.trim(), roleID, "",
+                                    email.toLowerCase().trim(), phoneNumber.trim(), "0", profilePicturePath,
+                                    false, false, false, false);
+                        }
+                    } else {
+                        request.setAttribute("ADD_DUPLICATE", "User have existed! Please check again userID or email.");
+                    }
+                } else {
+                    request.setAttribute("DELETED_USER", "This staff have been deleted before. If you want to add again, please undelete it!");
                 }
             } else {
-                request.setAttribute("ADD_DUPLICATE", "User have existed");
+                request.setAttribute("PASSWORD_ADMIN", "Admin must have password!");
             }
-            if (!(searchValue == null || searchValue.trim().isEmpty())) {
+
+            if (searchValue == null || searchValue.trim().isEmpty()) {
+                url = SHOW_STAFF_CONTROLLER;
+            } else {
                 url = SEARCH_STAFF_CONTROLLER;
             }
         } catch (SQLException ex) {

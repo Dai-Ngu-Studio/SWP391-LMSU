@@ -6,6 +6,7 @@ function readURL(input, idImage) {
             $('#' + idImage)
                 .attr('src', e.target.result)
         };
+
         reader.readAsDataURL(input.files[0]);
     }
 }
