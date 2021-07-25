@@ -28,6 +28,8 @@ public class AddCommentServlet extends HttpServlet {
     private final String PARAM_TXTRATING = "bookRating";
 
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
+    private final String ATTR_COMMENT_INVALID = "COMMENT_INVALID";
+
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -52,12 +54,17 @@ public class AddCommentServlet extends HttpServlet {
                 CommentDTO userComment = commentDAO.getCommentOfBookFromUserID(userID, bookID);
                 // 4.1. User had already commented but deleted; update textComment, deleteStatus, isEdited, rating
                 // instead of adding new comment (because memberID, bookID are both PK for Comments)
-                if (userComment != null) {
-                    commentDAO.editBookComment(userID, bookID, txtComment, rating,
-                            "", COMMENT_NOT_EDITED, COMMENT_NOT_DELETED);
+                txtComment = txtComment.trim();
+                if (txtComment.length() <= 255) {
+                    if (userComment != null) {
+                        commentDAO.editBookComment(userID, bookID, txtComment, rating,
+                                "", COMMENT_NOT_EDITED, COMMENT_NOT_DELETED);
+                    } else {
+                        // 4.2. User hasn't commented before, add new comment
+                        boolean result = commentDAO.addCommentToBook(userID, bookID, txtComment, rating);
+                    }
                 } else {
-                    // 4.2. User hasn't commented before, add new comment
-                    boolean result = commentDAO.addCommentToBook(userID, bookID, txtComment, rating);
+                    request.setAttribute(ATTR_COMMENT_INVALID, "true");
                 }
                 int numberOfRatingsGiven = 0;
                 int avgRating = 0;

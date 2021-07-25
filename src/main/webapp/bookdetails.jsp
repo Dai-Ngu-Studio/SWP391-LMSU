@@ -46,10 +46,8 @@
                     <ul class="list-group">
                         <li class="list-group-item mt-0 mb-0">
                             <div class="row">
-                                <%--Not yet implemented: Physical or E-Book--%>
                                 <div class="col-lg-6"><strong>Format</strong></div>
                                 <div class="col-lg-6">Physical</div>
-                                <%--Not yet implemented: Physical or E-Book--%>
                             </div>
                         </li>
                         <li class="list-group-item mt-0 mb-0">
@@ -331,6 +329,9 @@
                 <div class="card-body">
                     <%--Start: Other Comments--%>
                     <div class="card-title">Comments (${requestScope.COMMENT_AMOUNT})</div>
+                    <c:if test="${requestScope.COMMENT_INVALID eq 'true'}">
+                        <div class="alert alert-warning">Comment must be 0-255 characters.</div>
+                    </c:if>
                     <c:if test="${not empty commentList}">
                         <c:forEach var="comment" items="${commentList}" varStatus="commentCounter">
                             <%--Start: Edit Comment Form--%>
@@ -372,38 +373,46 @@
                                                     $(function editToggle() {
                                                         $('#editSwitch${commentCounter.count}').bind('click', function () {
                                                             <%--Replace with editable comment box--%>
+                                                            let $textarea = $('<textarea>')
+                                                                .removeClass()
+                                                                .addClass('form-control')
+                                                                .attr('name', 'txtEditComment')
+                                                                .attr('id', 'commentNo${commentCounter.count}')
+                                                                .attr('rows', 3)
+                                                                .text('${comment.textComment}');
                                                             $('#commentNo${commentCounter.count}')
-                                                                .replaceWith('<textarea ' +
-                                                                    'class="form-control" ' +
-                                                                    'name="txtEditComment" ' +
-                                                                    'id="commentNo${commentCounter.count}"' +
-                                                                    'rows="3">' +
-                                                                    '<c:out value="${comment.textComment}"/>' +
-                                                                    '</textarea>');
+                                                                .replaceWith($textarea);
                                                             <%--Replace with Cancel Edit Button--%>
+                                                            let $cancelSwitch = $('<h6>')
+                                                                .removeClass()
+                                                                .addClass('preview-subject font-weight-normal mb-0')
+                                                                .attr('style', 'cursor: default')
+                                                                .attr('id', 'cancelEditSwitch${commentCounter.count}')
+                                                                .text('Cancel Edit')
                                                             $('#editSwitch${commentCounter.count}')
-                                                                .replaceWith('<h6 id="cancelEditSwitch${commentCounter.count}" ' +
-                                                                    'class="preview-subject font-weight-normal mb-0" ' +
-                                                                    'style="cursor: default">' +
-                                                                    'Cancel Edit' +
-                                                                    '</h6>')
+                                                                .replaceWith($cancelSwitch)
                                                             <%--Show Edit Submit Button--%>
                                                             $('#editBtAction${commentCounter.count}').toggle();
                                                             <%--Cancel Edit Button Function--%>
                                                             $('#cancelEditSwitch${commentCounter.count}')
                                                                 .bind('click', function () {
                                                                     <%--Replace with comment box--%>
+                                                                    let $commentBox = $('<div>')
+                                                                        .removeClass()
+                                                                        .addClass('card-text')
+                                                                        .attr('id', 'commentNo${commentCounter.count}')
+                                                                        .text('${comment.textComment}');
                                                                     $('#commentNo${commentCounter.count}')
-                                                                        .replaceWith('<div class="card-text" ' +
-                                                                            'id="commentNo${commentCounter.count}">' +
-                                                                            '<c:out value="${comment.textComment}"/></div>');
+                                                                        .replaceWith($commentBox);
                                                                     <%--Replace with Edit Button--%>
+                                                                    let $editSwitch = $('<h6>')
+                                                                        .removeClass()
+                                                                        .addClass('preview-subject font-weight-normal mb-0')
+                                                                        .attr('style', 'cursor: default')
+                                                                        .attr('id', 'editSwitch${commentCounter.count}')
+                                                                        .text('Edit Comment');
                                                                     $('#cancelEditSwitch${commentCounter.count}')
-                                                                        .replaceWith('<h6 id="editSwitch${commentCounter.count}" ' +
-                                                                            'class="preview-subject font-weight-normal mb-0" ' +
-                                                                            'style="cursor: default">' +
-                                                                            'Edit Comment' +
-                                                                            '</h6>');
+                                                                        .replaceWith($editSwitch);
                                                                     <%--Hide Edit Submit Button--%>
                                                                     $('#editBtAction${commentCounter.count}').toggle();
                                                                     editToggle();
@@ -590,78 +599,78 @@
     <%--End: Book Section--%>
     <%--Start: Related Books Section--%>
     <%--Section Title--%>
-<%--    <div class="row mt-5">--%>
-<%--        <div class="col-lg-2"></div>--%>
-<%--        <div class="col-lg-8">--%>
-<%--            <div class="text-center h2">You might also like...</div>--%>
-<%--        </div>--%>
-<%--        <div class="col-lg-2"></div>--%>
-<%--    </div>--%>
+    <%--    <div class="row mt-5">--%>
+    <%--        <div class="col-lg-2"></div>--%>
+    <%--        <div class="col-lg-8">--%>
+    <%--            <div class="text-center h2">You might also like...</div>--%>
+    <%--        </div>--%>
+    <%--        <div class="col-lg-2"></div>--%>
+    <%--    </div>--%>
     <%--Related Books--%>
-<%--    <div class="row mt-5 pb-5">--%>
-<%--        <div class="col-lg-2"></div>--%>
-<%--        <div class="col-lg-2">--%>
-<%--            <div class="card">--%>
-<%--                <img class="card-img-top img-thumbnail img-fluid" src="images/software-engineering.jpg"--%>
-<%--                     alt="software-engineering"/>--%>
-<%--                <div class="card-body">--%>
-<%--                    <h5 class="card-title text-center">--%>
-<%--                        Software Engineering 10th Edition--%>
-<%--                    </h5>--%>
-<%--                    <div class="text-center">--%>
-<%--                        <a href="#" class="btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i> More--%>
-<%--                            Info</a>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="col-lg-2">--%>
-<%--            <div class="card">--%>
-<%--                <img class="card-img-top img-thumbnail img-fluid" src="images/software-engineering.jpg"--%>
-<%--                     alt="software-engineering"/>--%>
-<%--                <div class="card-body">--%>
-<%--                    <h5 class="card-title text-center">--%>
-<%--                        Software Engineering 10th Edition--%>
-<%--                    </h5>--%>
-<%--                    <div class="text-center">--%>
-<%--                        <a href="#" class="btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i> More--%>
-<%--                            Info</a>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="col-lg-2">--%>
-<%--            <div class="card">--%>
-<%--                <img class="card-img-top img-thumbnail img-fluid" src="images/software-engineering.jpg"--%>
-<%--                     alt="software-engineering"/>--%>
-<%--                <div class="card-body">--%>
-<%--                    <h5 class="card-title text-center">--%>
-<%--                        Software Engineering 10th Edition--%>
-<%--                    </h5>--%>
-<%--                    <div class="text-center">--%>
-<%--                        <a href="#" class="btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i> More--%>
-<%--                            Info</a>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="col-lg-2">--%>
-<%--            <div class="card">--%>
-<%--                <img class="card-img-top img-thumbnail img-fluid" src="images/software-engineering.jpg"--%>
-<%--                     alt="software-engineering"/>--%>
-<%--                <div class="card-body">--%>
-<%--                    <h5 class="card-title text-center">--%>
-<%--                        Software Engineering 10th Edition--%>
-<%--                    </h5>--%>
-<%--                    <div class="text-center">--%>
-<%--                        <a href="#" class="btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i> More--%>
-<%--                            Info</a>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="col-lg-2"></div>--%>
-<%--    </div>--%>
+    <%--    <div class="row mt-5 pb-5">--%>
+    <%--        <div class="col-lg-2"></div>--%>
+    <%--        <div class="col-lg-2">--%>
+    <%--            <div class="card">--%>
+    <%--                <img class="card-img-top img-thumbnail img-fluid" src="images/software-engineering.jpg"--%>
+    <%--                     alt="software-engineering"/>--%>
+    <%--                <div class="card-body">--%>
+    <%--                    <h5 class="card-title text-center">--%>
+    <%--                        Software Engineering 10th Edition--%>
+    <%--                    </h5>--%>
+    <%--                    <div class="text-center">--%>
+    <%--                        <a href="#" class="btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i> More--%>
+    <%--                            Info</a>--%>
+    <%--                    </div>--%>
+    <%--                </div>--%>
+    <%--            </div>--%>
+    <%--        </div>--%>
+    <%--        <div class="col-lg-2">--%>
+    <%--            <div class="card">--%>
+    <%--                <img class="card-img-top img-thumbnail img-fluid" src="images/software-engineering.jpg"--%>
+    <%--                     alt="software-engineering"/>--%>
+    <%--                <div class="card-body">--%>
+    <%--                    <h5 class="card-title text-center">--%>
+    <%--                        Software Engineering 10th Edition--%>
+    <%--                    </h5>--%>
+    <%--                    <div class="text-center">--%>
+    <%--                        <a href="#" class="btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i> More--%>
+    <%--                            Info</a>--%>
+    <%--                    </div>--%>
+    <%--                </div>--%>
+    <%--            </div>--%>
+    <%--        </div>--%>
+    <%--        <div class="col-lg-2">--%>
+    <%--            <div class="card">--%>
+    <%--                <img class="card-img-top img-thumbnail img-fluid" src="images/software-engineering.jpg"--%>
+    <%--                     alt="software-engineering"/>--%>
+    <%--                <div class="card-body">--%>
+    <%--                    <h5 class="card-title text-center">--%>
+    <%--                        Software Engineering 10th Edition--%>
+    <%--                    </h5>--%>
+    <%--                    <div class="text-center">--%>
+    <%--                        <a href="#" class="btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i> More--%>
+    <%--                            Info</a>--%>
+    <%--                    </div>--%>
+    <%--                </div>--%>
+    <%--            </div>--%>
+    <%--        </div>--%>
+    <%--        <div class="col-lg-2">--%>
+    <%--            <div class="card">--%>
+    <%--                <img class="card-img-top img-thumbnail img-fluid" src="images/software-engineering.jpg"--%>
+    <%--                     alt="software-engineering"/>--%>
+    <%--                <div class="card-body">--%>
+    <%--                    <h5 class="card-title text-center">--%>
+    <%--                        Software Engineering 10th Edition--%>
+    <%--                    </h5>--%>
+    <%--                    <div class="text-center">--%>
+    <%--                        <a href="#" class="btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i> More--%>
+    <%--                            Info</a>--%>
+    <%--                    </div>--%>
+    <%--                </div>--%>
+    <%--            </div>--%>
+    <%--        </div>--%>
+    <%--        <div class="col-lg-2"></div>--%>
+    <%--    </div>--%>
     <%--End: Related Books Section--%>
 </div>
 <%--Actual Body--%>
