@@ -1,5 +1,6 @@
 package com.lmsu.controller.staff;
 
+import com.google.common.hash.Hashing;
 import com.lmsu.users.UpdateUserErrorDTO;
 import com.lmsu.users.UserDAO;
 import com.lmsu.utils.ImageHelpers;
@@ -12,6 +13,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
 @WebServlet(name = "UpdateStaffServlet", value = "/UpdateStaffServlet")
@@ -29,6 +31,8 @@ public class UpdateStaffServlet extends HttpServlet {
 
         String memberID = request.getParameter("userPk");
         String userName = request.getParameter("txtUpdateMemberName");
+        String password = request.getParameter("txtUpdateMemberPassword");
+        String passwordHashed = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
         String phoneNumber = request.getParameter("txtUpdatePhoneNumber");
         String roleID = request.getParameter("txtUpdateRoleID");
         String coverFile = request.getParameter("txtCoverFile");
@@ -73,7 +77,12 @@ public class UpdateStaffServlet extends HttpServlet {
             if (foundErr) {
                 request.setAttribute("UPDATE_ERROR", error);
             } else {
-                dao.updateMember(memberID, coverFile, phoneNumber, Boolean.parseBoolean(activeStatus), userName, roleID);
+                if (password == "") {
+                    dao.updateMember(memberID, coverFile, phoneNumber, Boolean.parseBoolean(activeStatus), userName, roleID);
+                }
+                if (password != "") {
+                    dao.updateMember(memberID, coverFile, phoneNumber, Boolean.parseBoolean(activeStatus), userName, roleID, passwordHashed);
+                }
             }
 
             if (searchVal == null || searchVal.trim().isEmpty()) {
