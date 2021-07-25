@@ -29,6 +29,23 @@
 <jsp:include page="navbar.html"></jsp:include>
 <c:set var="profile" value="${sessionScope.LOGIN_USER}"/>
 <div class="p-5 bg-light">
+    <c:if test="${requestScope.MEMBER_UPDATE_SETTING_SUCCESS}">
+        <div class="row txtUpdateSetting">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <div class="alert alert-success text-center">${requestScope.MEMBER_UPDATE_SETTING_MESSAGE}</div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $('.txtUpdateSetting').on('click', function () {
+                    $('.txtUpdateSetting').fadeOut(300, function () {
+                        $('.txtUpdateSetting').remove();
+                    });
+                });
+            });
+        </script>
+    </c:if>
     <div class="row">
         <div class="col-lg-3 grid-margin">
             <div class="card pb-3">
@@ -60,6 +77,9 @@
                                 <a class="list-group-item list-group-item-action" id="list-order-list"
                                    data-toggle="list" href="#list-renewals" role="tab">
                                     <i class="ti-reload"></i> Renewal Requests</a>
+                                <a class="list-group-item list-group-item-action" id="list-order-list"
+                                   data-toggle="list" href="#list-penalties" role="tab">
+                                    <i class="ti-flag-alt"></i> Penalties</a>
                             </c:if>
                         </div>
                     </div>
@@ -79,7 +99,8 @@
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" style="padding: 1.3rem 1.7rem; max-height: 2.4rem"
+                                        <span class="input-group-text"
+                                              style="padding: 1.3rem 1.7rem; max-height: 2.4rem"
                                               id="basic-addon1">Member ID</span>
                                     </div>
                                     <input type="text" class="form-control" value="${profile.id}"
@@ -89,7 +110,8 @@
                                 <c:if test="${not empty email_split}">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text px-5" style="padding: 1.3rem 1.7rem; max-height: 2.4rem">Email</span>
+                                            <span class="input-group-text px-5"
+                                                  style="padding: 1.3rem 1.7rem; max-height: 2.4rem">Email</span>
                                         </div>
                                         <input type="text" class="form-control" value="${email_split[0]}"
                                                aria-label="Email Address" aria-describedby="basic-addon2"
@@ -114,7 +136,8 @@
                                                name="txtPhone"/>
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="submit" name="btAction"
-                                                    value="Change Phone Number" style="padding: .6rem 1.5rem 2rem 1.5rem !important; max-height: 2.4rem">
+                                                    value="Change Phone Number"
+                                                    style="padding: .6rem 1.5rem 2rem 1.5rem !important; max-height: 2.4rem">
                                                 Edit <i class="ti ti-pencil"></i>
                                             </button>
                                         </div>
@@ -123,7 +146,8 @@
 
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" style="padding: 1.3rem 1.3rem; max-height: 2.4rem">Semester No</span>
+                                        <span class="input-group-text"
+                                              style="padding: 1.3rem 1.3rem; max-height: 2.4rem">Semester No</span>
                                     </div>
                                     <input type="text" class="form-control" aria-label="Phone Number"
                                            value="${profile.semester}" readonly style="background-color: #fff"/>
@@ -253,16 +277,16 @@
                                     <div class="col-lg-5">
                                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                             <label class="btn btn-secondary">
-                                                <input type="radio" name="options" id="offNewArrival"
-                                                       autocomplete="off"
+                                                <input type="radio" name="arrivalOpt" id="offNewArrival"
+                                                       value="off"
                                                         <c:if test="${not isNotifyArrival}">
                                                             checked="checked"
                                                         </c:if>
                                                 />Off
                                             </label>
                                             <label class="btn btn-secondary">
-                                                <input type="radio" name="options" id="onNewArrival"
-                                                       autocomplete="off"
+                                                <input type="radio" name="arrivalOpt" id="onNewArrival"
+                                                       value="on"
                                                         <c:if test="${isNotifyArrival}">
                                                             checked="checked"
                                                         </c:if>
@@ -278,22 +302,31 @@
                                     <div class="col-lg-5">
                                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                             <label class="btn btn-secondary">
-                                                <input type="radio" name="options" id="offHighestRated"
-                                                       autocomplete="off"
+                                                <input type="radio" name="popularOpt" id="offHighestRated"
+                                                       value="off"
                                                         <c:if test="${not isNotifyPopular}">
                                                             checked="checked"
                                                         </c:if>
                                                 />Off
                                             </label>
                                             <label class="btn btn-secondary">
-                                                <input type="radio" name="options" id="onHighestRated"
-                                                       autocomplete="off"
+                                                <input type="radio" name="popularOpt" id="onHighestRated"
+                                                       value="on"
                                                         <c:if test="${isNotifyPopular}">
                                                             checked="checked"
                                                         </c:if>
                                                 />On
                                             </label>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="row mb-1 float-right">
+                                        <button class="btn btn-primary" type="submit"
+                                                value="updateNotificationSetting"
+                                                name="btAction">
+                                            Save
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -314,11 +347,11 @@
                                     <table id="orderItemTable" class="table dataTable no-footer" role="grid">
                                         <thead>
                                         <tr role="row">
-                                            <th class="text-right" style="width: 100px;">#</th>
-                                            <th class="text-left" style="width: 73%;">BOOK</th>
-                                            <th class="text-left" style="width: 73%;">DEADLINE</th>
-                                            <th class="text-center" style="width: 73%;">STATUS</th>
-                                            <th class="text-center" style="width: 64px;">ACTIONS</th>
+                                            <th class="text-right">#</th>
+                                            <th class="text-left">BOOK</th>
+                                            <th class="text-left">DEADLINE</th>
+                                            <th class="text-center">STATUS</th>
+                                            <th class="text-center">ACTIONS</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -327,7 +360,7 @@
                                         <c:forEach var="orderItem" items="${orderItems}" varStatus="counter">
                                             <tr class="odd">
                                                 <form action="DispatchServlet">
-                                                    <td class="sorting_1 text-center">${counter.count}</td>
+                                                    <td class="text-right">${counter.count}</td>
                                                     <td class="text-left">
                                                             ${orderItem.title}
                                                     </td>
@@ -627,10 +660,10 @@
                                     <table id="reservedBookTable" class="table dataTable no-footer" role="grid">
                                         <thead>
                                         <tr role="row">
-                                            <th class="text-right" style="width: 100px;">#</th>
-                                            <th class="text-left" style="width: 73%;">BOOK</th>
-                                            <th class="text-center" style="width: 73%;">STATUS</th>
-                                            <th class="text-center" style="width: 64px;">ACTIONS</th>
+                                            <th class="text-right">#</th>
+                                            <th class="text-left">BOOK</th>
+                                            <th class="text-center">STATUS</th>
+                                            <th class="text-center">ACTIONS</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -640,7 +673,7 @@
                                         <c:forEach var="reserveItem" items="${reserveItems}" varStatus="counter">
                                             <tr class="odd">
                                                 <form action="DispatchServlet">
-                                                    <td class="sorting_1 text-center">${counter.count}</td>
+                                                    <td class="text-right">${counter.count}</td>
                                                     <td class="text-left">
                                                             ${reserveItem.title}
                                                     </td>
@@ -793,11 +826,11 @@
                                     <table id="ordersTable" class="table dataTable no-footer" role="grid">
                                         <thead>
                                         <tr>
-                                            <th style="width: 0px; text-align: right">#</th>
-                                            <th style="width: 0px; text-align: center">METHOD</th>
-                                            <th style="width: 0px; text-align: left">ORDERED ON</th>
-                                            <th style="width: 0px; text-align: center">STATUS</th>
-                                            <th style="width: 0px; text-align: center">ACTIONS</th>
+                                            <th class="text-right">#</th>
+                                            <th class="text-center">METHOD</th>
+                                            <th class="text-left">ORDERED ON</th>
+                                            <th class="text-center">STATUS</th>
+                                            <th class="text-center">ACTIONS</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -1145,6 +1178,7 @@
                                 </div>
                             </div>
                         </div>
+                        <%--Renewal List--%>
                         <div class="tab-pane fade dataTables_wrapper dt-bootstrap4 no-footer" id="list-renewals"
                              role="tabpanel">
                             <div class="row">
@@ -1152,11 +1186,11 @@
                                     <table id="renewalTable" class="table dataTable no-footer" role="grid">
                                         <thead>
                                         <tr>
-                                            <th style="width: 0px; text-align: right">#</th>
-                                            <th style="width: 0px; text-align: left">BOOK</th>
-                                            <th style="width: 0px; text-align: left">EXTEND DATE</th>
-                                            <th style="width: 0px; text-align: center">STATUS</th>
-                                            <th style="width: 0px; text-align: center">ACTIONS</th>
+                                            <th class="text-right">#</th>
+                                            <th class="text-left">BOOK</th>
+                                            <th class="text-left">EXTEND DATE</th>
+                                            <th class="text-center">STATUS</th>
+                                            <th class="text-center">ACTIONS</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -1326,6 +1360,141 @@
                                                                 </button>
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                        <%--Penalty List--%>
+                        <div class="tab-pane fade dataTables_wrapper dt-bootstrap4 no-footer" id="list-penalties"
+                             role="tabpanel">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="penaltyTable" class="table dataTable no-footer" role="grid">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-right">#</th>
+                                            <th class="text-left">BOOK</th>
+                                            <th class="text-left">DEADLINE</th>
+                                            <th class="text-center">STATUS</th>
+                                            <th class="text-center">ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:set var="penaltyList" value="${requestScope.MEMBER_PENALTY_LIST}"/>
+                                        <c:forEach var="penalty" items="${penaltyList}"
+                                                   varStatus="counter">
+                                            <tr>
+                                                <td class="text-right">${counter.count}</td>
+                                                <td class="text-left">
+                                                        ${penalty.title}
+                                                </td>
+                                                <td class="text-left">
+                                                        ${penalty.returnDeadline}
+                                                </td>
+                                                <td class="text-center">
+                                                    <label class="badge lbPenaltyStat"
+                                                           id="lbPenaltyStat${penalty.id}"
+                                                           orderitemid="${penalty.id}"
+                                                           penaltyStatus="${penalty.penaltyStatus}"
+                                                           value="${penalty.penaltyStatus}"
+                                                           style="font-weight: 700 !important; font-size: 75% !important;"></label>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-light"
+                                                                data-toggle="modal"
+                                                                data-target="#penaltyModal${penalty.id}">
+                                                            <i class="fa fa-eye text-primary"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                    <c:forEach var="penalty" items="${penaltyList}">
+                                        <div class="modal fade"
+                                             id="penaltyModal${penalty.id}"
+                                             tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">
+                                                            Penalty Details
+                                                        </h5>
+                                                        <button type="button"
+                                                                class="close"
+                                                                data-dismiss="modal">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="form-group row">
+                                                            <label class="col-12 col-form-label">
+                                                                Order ID
+                                                            </label>
+                                                            <div class="col-12">
+                                                                <input type="text"
+                                                                       id="txtOrderID${penalty.orderID}"
+                                                                       class="form-control"
+                                                                       value="${penalty.orderID}"
+                                                                       disabled/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-12 col-form-label">
+                                                                Book
+                                                            </label>
+                                                            <div class="col-12">
+                                                                <input type="text"
+                                                                       id="txtBookID${penalty.bookID}"
+                                                                       class="form-control"
+                                                                       value="${penalty.title}"
+                                                                       disabled/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-12 col-form-label">
+                                                                Penalty Amount
+                                                            </label>
+                                                            <div class="col-12">
+                                                                <input type="text"
+                                                                       class="form-control"
+                                                                       value="${penalty.penaltyAmount}"
+                                                                       disabled/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row"
+                                                             orderitemid="${penalty.id}">
+                                                            <label class="col-12 col-form-label">
+                                                                Penalty Status
+                                                            </label>
+                                                            <div class="col-12">
+                                                                <input type="text"
+                                                                       class="form-control inpPenaltyStat"
+                                                                       id="inpPenaltyStat${penalty.id}"
+                                                                       orderitemid="${penalty.id}"
+                                                                       penaltyStatus="${penalty.penaltyStatus}"
+                                                                       value="${penalty.penaltyStatus}"
+                                                                       disabled/>
+                                                                <select class="form-control custom-select slPenaltyStat"
+                                                                        id="slPenaltyStat${penalty.id}"
+                                                                        orderitemid="${penalty.id}"
+                                                                        style="display: none">
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button"
+                                                                class="btn btn-outline-primary"
+                                                                data-dismiss="modal">
+                                                            Close
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>

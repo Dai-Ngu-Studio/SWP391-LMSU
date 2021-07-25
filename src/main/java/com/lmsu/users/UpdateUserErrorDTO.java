@@ -13,5 +13,6 @@ class UpdateUserErrorDTO implements Serializable {
     private String nameError;
     private String phoneNumberError;
     private String roleIDError;
+    private String semesterError;
     private boolean activeStatusError;
 }

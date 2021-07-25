@@ -1,8 +1,5 @@
 package com.lmsu.feedback;
 
-
-
-import com.lmsu.authors.AuthorDTO;
 import com.lmsu.utils.DBHelpers;
 
 import javax.naming.NamingException;
@@ -17,7 +14,7 @@ import java.util.List;
 public class FeedbackDAO implements Serializable {
     private List<FeedbackDTO> feedbackList;
 
-    public List<FeedbackDTO> getFeedbackList(){
+    public List<FeedbackDTO> getFeedbackList() {
         return this.feedbackList;
     }
 
@@ -58,7 +55,7 @@ public class FeedbackDAO implements Serializable {
         }
     }
 
-    public boolean checkFeedbackId(int feedbackID) throws SQLException, NamingException {
+    public int getFeedbackID() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -68,23 +65,24 @@ public class FeedbackDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT [id] " +
-                        "FROM [Feedback] " +
-                        "WHERE [id] LIKE ? ";
+                String sql = "SELECT MAX([id]) + 1 AS id " +
+                        "FROM [Feedback]";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, feedbackID);
                 //4. Execute Query and get ResultSet
                 rs = stm.executeQuery();
                 //5. Process ResultSet
-                if (rs.next()) return true;
+                if (rs.next()) {
+                    int feedbackID = rs.getInt("id");
+                    return feedbackID;
+                }
             }
         } finally {
             if (rs != null) rs.close();
             if (stm != null) stm.close();
             if (con != null) con.close();
         }
-        return false;
+        return 0;
     }
 
     public boolean addFeedback(String fullName, String email, String phone, String feedbackType,

@@ -43,6 +43,75 @@
                                     ${requestScope.ADD_DUPLICATE}
                             </div>
                         </c:if>
+
+                        <c:if test="${not empty requestScope.PASSWORD_ADMIN or not empty requestScope.DELETED_USER or not empty requestScope.LOGGING_IN_USER or not empty requestScope.ADD_DUPLICATE}">
+                            <div class="alert alert-danger text-center">
+                                    ${requestScope.LOGGING_IN_USER}
+                                    ${requestScope.DELETED_USER}
+                                    ${requestScope.ADD_DUPLICATE}
+                                    ${requestScope.PASSWORD_ADMIN}
+                            </div>
+                        </c:if>
+
+                        <c:set var="error" value="${requestScope.CREATE_ERROR}"/>
+
+                        <c:if test="${not empty error.idError}">
+                            <div class="alert alert-danger text-center">
+                                    ${error.idError}
+                            </div>
+                        </c:if>
+                        <c:if test="${not empty error.nameError}">
+                            <div class="alert alert-danger text-center">
+                                    ${error.nameError}
+                            </div>
+                        </c:if>
+                        <c:if test="${not empty error.emailError}">
+                            <div class="alert alert-danger text-center">
+                                    ${error.emailError}
+                            </div>
+                        </c:if>
+                        <c:if test="${not empty error.phoneNumberError}">
+                            <div class="alert alert-danger text-center">
+                                    ${error.phoneNumberError}
+                            </div>
+                        </c:if>
+                        <c:if test="${not empty error.passwordError}">
+                            <div class="alert alert-danger text-center">
+                                    ${error.passwordError}
+                            </div>
+                        </c:if>
+                        <c:if test="${not empty error.roleIDError}">
+                            <div class="alert alert-danger text-center">
+                                    ${error.roleIDError}
+                            </div>
+                        </c:if>
+                        <c:if test="${not empty error.semesterError}">
+                            <div class="alert alert-danger text-center">
+                                    ${error.semesterError}
+                            </div>
+                        </c:if>
+
+                        <c:set var="updateError" value="${requestScope.UPDATE_ERROR}"/>
+                        <c:if test="${not empty updateError.nameError}">
+                            <div class="alert alert-danger text-center">
+                                    ${updateError.nameError}
+                            </div>
+                        </c:if>
+                        <c:if test="${not empty updateError.phoneNumberError}">
+                            <div class="alert alert-danger text-center">
+                                    ${updateError.phoneNumberError}
+                            </div>
+                        </c:if>
+                        <c:if test="${not empty updateError.semesterError}">
+                            <div class="alert alert-danger text-center">
+                                    ${updateError.semesterError}
+                            </div>
+                        </c:if>
+                        <c:if test="${not empty updateError.activeStatusError}">
+                            <div class="alert alert-danger text-center">
+                                    ${updateError.roleIDError}
+                            </div>
+                        </c:if>
                         <div class="row">
                             <div class="col-12">
                                 <div class="table-responsive">
@@ -70,11 +139,16 @@
                                                             <td class="text-left">${member.name}</td>
                                                             <td class="text-left">${member.email}</td>
                                                             <td class="text-center">
-                                                                <c:if test="${member.activeStatus eq 'false'}">
-                                                                    <span class="badge badge-warning text-center">Inactive</span>
+                                                                <c:if test="${member.delete eq 'false'}">
+                                                                    <c:if test="${member.activeStatus eq 'false'}">
+                                                                        <span class="badge badge-warning text-center">Inactive</span>
+                                                                    </c:if>
+                                                                    <c:if test="${member.activeStatus eq 'true'}">
+                                                                        <span class="badge badge-success text-center">Active</span>
+                                                                    </c:if>
                                                                 </c:if>
-                                                                <c:if test="${member.activeStatus eq 'true'}">
-                                                                    <span class="badge badge-success text-center">Active</span>
+                                                                <c:if test="${member.delete eq 'true'}">
+                                                                    <span class="badge badge-danger text-center">Deleted</span>
                                                                 </c:if>
                                                             </td>
                                                             <td class="text-center">
@@ -288,6 +362,8 @@
                                                                                             </label>
                                                                                             <div class="col-sm-9">
                                                                                                 <input type="text"
+                                                                                                       minlength="2"
+                                                                                                       maxlength="30"
                                                                                                        class="form-control"
                                                                                                        name="txtUpdateMemberName"
                                                                                                        value="${member.name}">
@@ -299,10 +375,9 @@
                                                                                             </label>
                                                                                             <div class="col-sm-9">
                                                                                                 <input type="number"
-                                                                                                       min="0"
-                                                                                                       max="9"
-                                                                                                       readonly
+                                                                                                       min="0" max="9"
                                                                                                        class="form-control"
+                                                                                                       name="txtUpdateMemberSemester"
                                                                                                        value="${member.semester}">
                                                                                             </div>
                                                                                         </div>
@@ -380,52 +455,101 @@
                                                                             <%--End button and update modal--%>
 
                                                                             <%--Button and Delete modal--%>
-                                                                        <button type="button" class="btn btn-light"
-                                                                                data-toggle="modal" title="Delete"
-                                                                                data-target="#deleteModal${member.id}"
-                                                                                data-original-title="Remove">
-                                                                            <i class="fa fa-times text-primary"></i>
-                                                                        </button>
-                                                                        <div class="modal fade"
-                                                                             id="deleteModal${member.id}"
-                                                                             tabindex="-1"
-                                                                             role="dialog"
-                                                                             aria-labelledby="ariaDeleteModal${member.id}"
-                                                                             aria-hidden="true">
-                                                                            <div class="modal-dialog"
-                                                                                 role="document">
-                                                                                <div class="modal-content">
-                                                                                    <div class="modal-header">
-                                                                                        <h5 class="modal-title">
-                                                                                            WARNING
-                                                                                        </h5>
-                                                                                        <button type="button"
-                                                                                                class="close"
-                                                                                                data-dismiss="modal"
-                                                                                                aria-label="Close">
-                                                                                            <span aria-hidden="true">&times;</span>
-                                                                                        </button>
-                                                                                    </div>
-                                                                                    <div class="modal-body">
-                                                                                        Do you want to delete this
-                                                                                        user?
-                                                                                    </div>
-                                                                                    <div class="modal-footer">
-                                                                                        <button type="submit"
-                                                                                                name="btAction"
-                                                                                                value="Delete User"
-                                                                                                class="btn btn-primary">
-                                                                                            Yes
-                                                                                        </button>
-                                                                                        <button type="button"
-                                                                                                class="btn btn-outline-primary"
-                                                                                                data-dismiss="modal">
-                                                                                            Cancel
-                                                                                        </button>
+                                                                        <c:if test="${member.delete eq 'false'}">
+                                                                            <button type="button" class="btn btn-light"
+                                                                                    data-toggle="modal" title="Delete"
+                                                                                    data-target="#deleteModal${member.id}"
+                                                                                    data-original-title="Remove">
+                                                                                <i class="fa fa-times text-primary"></i>
+                                                                            </button>
+                                                                            <div class="modal fade"
+                                                                                 id="deleteModal${member.id}"
+                                                                                 tabindex="-1"
+                                                                                 role="dialog"
+                                                                                 aria-labelledby="ariaDeleteModal${member.id}"
+                                                                                 aria-hidden="true">
+                                                                                <div class="modal-dialog"
+                                                                                     role="document">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title">
+                                                                                                WARNING
+                                                                                            </h5>
+                                                                                            <button type="button"
+                                                                                                    class="close"
+                                                                                                    data-dismiss="modal"
+                                                                                                    aria-label="Close">
+                                                                                                <span aria-hidden="true">&times;</span>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            Do you want to delete this
+                                                                                            user?
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="submit"
+                                                                                                    name="btAction"
+                                                                                                    value="Delete User"
+                                                                                                    class="btn btn-primary">
+                                                                                                Yes
+                                                                                            </button>
+                                                                                            <button type="button"
+                                                                                                    class="btn btn-outline-primary"
+                                                                                                    data-dismiss="modal">
+                                                                                                Cancel
+                                                                                            </button>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
+                                                                        </c:if>
+                                                                        <c:if test="${member.delete eq 'true'}">
+                                                                            <button type="button" class="btn btn-light"
+                                                                                    data-toggle="modal" title="Undelete"
+                                                                                    data-target="#undeleteModal${member.id}"
+                                                                                    data-original-title="Undelete">
+                                                                                <i class="fa fa-undo text-primary"></i>
+                                                                            </button>
+                                                                            <div class="modal fade"
+                                                                                 id="undeleteModal${member.id}"
+                                                                                 tabindex="-1" role="dialog"
+                                                                                 aria-labelledby="ariaUndeleteModal${member.id}"
+                                                                                 aria-hidden="true">
+                                                                                <div class="modal-dialog"
+                                                                                     role="document">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title">
+                                                                                                WARNING
+                                                                                            </h5>
+                                                                                            <button type="button"
+                                                                                                    class="close"
+                                                                                                    data-dismiss="modal"
+                                                                                                    aria-label="Close">
+                                                                                                <span aria-hidden="true">&times;</span>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            Do you want to undelete this
+                                                                                            user?
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="submit"
+                                                                                                    name="btAction"
+                                                                                                    value="Undelete User"
+                                                                                                    class="btn btn-primary">
+                                                                                                Yes
+                                                                                            </button>
+                                                                                            <button type="button"
+                                                                                                    class="btn btn-outline-primary"
+                                                                                                    data-dismiss="modal">
+                                                                                                Cancel
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </c:if>
                                                                             <%--End button and Delete modal--%>
                                                                     </div>
                                                                         <%-- End group button --%>
@@ -530,29 +654,32 @@
                             <div class="modal-body" id="addModalBody">
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">
-                                        User ID
+                                        User ID <span class="required-field"> *</span>
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text"
-                                               class="form-control" required
+                                        <input type="text" required
+                                               minlength="8" maxlength="8"
+                                               pattern="^[a-zA-Z]{2,3}[0-9]{5,6}$"
+                                               class="form-control"
                                                name="txtUserID" value=""
                                         >
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">
-                                        Name
+                                        Name <span class="required-field"> *</span>
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="text"
-                                               class="form-control" required
+                                        <input type="text" required
+                                               minlength="2" maxlength="30"
+                                               class="form-control"
                                                name="txtUserName" value=""
                                         >
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">
-                                        Semester No.
+                                        Semester No. <span class="required-field"> *</span>
                                     </label>
                                     <div class="col-sm-9">
                                         <input type="number"
@@ -564,10 +691,10 @@
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">
-                                        Email
+                                        Email <span class="required-field"> *</span>
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="email"
+                                        <input type="email" required
                                                class="form-control" required
                                                name="txtEmail" value=""
                                         >
@@ -578,8 +705,7 @@
                                         Phone number
                                     </label>
                                     <div class="col-sm-9">
-                                        <input type="number"
-                                               minlength="10" maxlength="12"
+                                        <input type="tel"
                                                class="form-control"
                                                name="txtPhoneNumber" value=""
                                         >

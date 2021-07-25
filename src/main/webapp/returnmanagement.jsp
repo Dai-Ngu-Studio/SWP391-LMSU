@@ -52,12 +52,12 @@
                                                        aria-describedby="order-listing_info">
                                                     <thead>
                                                     <tr>
-                                                        <th style="width: 0px; text-align: center">#</th>
-                                                        <th style="width: 0px; text-align: center">METHOD</th>
-                                                        <th style="width: 0px; text-align: left">ORDERED ON</th>
-                                                        <th style="width: 0px; text-align: left">BORROWER</th>
-                                                        <th style="width: 0px; text-align: center">STATUS</th>
-                                                        <th style="width: 0px; text-align: center">ACTIONS</th>
+                                                        <th class="text-right">#</th>
+                                                        <th class="text-center">METHOD</th>
+                                                        <th class="text-left">ORDERED ON</th>
+                                                        <th class="text-left">BORROWER</th>
+                                                        <th class="text-center">STATUS</th>
+                                                        <th class="text-center">ACTIONS</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -69,7 +69,7 @@
                                                         <%--Return orders are not shown in this page--%>
                                                         <c:if test="${order.key.key.returnOrder}">
                                                             <tr>
-                                                                <td class="text-center">${counter.count}</td>
+                                                                <td class="text-right">${counter.count}</td>
                                                                 <td class="text-center">
                                                                     <c:if test="${lendMethod}">
                                                                         Delivery

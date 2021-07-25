@@ -389,6 +389,8 @@
                                                                                                 </label>
                                                                                                 <div class="col-sm-9">
                                                                                                     <input type="text"
+                                                                                                           minlength="2"
+                                                                                                           maxlength="30"
                                                                                                            class="form-control"
                                                                                                            name="txtUpdateMemberName"
                                                                                                            value="${staff.name}">
@@ -551,7 +553,7 @@
                                                                                                              src="${pageContext.request.contextPath}/image/${staff.profilePicturePath}"
                                                                                                              id="coverPictureUpdate${staff.id}"
                                                                                                              alt="Avatar"
-                                                                                                             onerror="this.onerror=null; this.src='images/default-user-icon.png';"
+                                                                                                             onerror="this.onerror=null; this.src='${staff.profilePicturePath}';"
                                                                                                         />
                                                                                                     </c:if>
                                                                                                     <c:if test="${googleAvatar eq 'https'}">
@@ -560,7 +562,7 @@
                                                                                                              src="${staff.profilePicturePath}"
                                                                                                              id="coverPictureUpdate${staff.id}"
                                                                                                              alt="AvatarGoogle"
-                                                                                                             onerror="this.onerror=null; this.src='images/default-user-icon.png';"
+                                                                                                             onerror="this.onerror=null; this.src='${staff.profilePicturePath}';"
                                                                                                         />
 
                                                                                                     </c:if>
@@ -578,7 +580,7 @@
                                                                                                                class="custom-file-input"
                                                                                                                id="customFileUpdate${staff.id}"
                                                                                                                name="coverPicture"
-                                                                                                               onchange="readURL(this, 'coverPictureUpdate${member.profilePicturePath}');"
+                                                                                                               onchange="readURL(this, 'coverPictureUpdate${staff.id}');"
                                                                                                         >
                                                                                                         <label class="custom-file-label"
                                                                                                                for="customFileUpdate${staff.id}">
@@ -604,6 +606,8 @@
                                                                                                 </label>
                                                                                                 <div class="col-sm-9">
                                                                                                     <input type="text"
+                                                                                                           minlength="2"
+                                                                                                           maxlength="30"
                                                                                                            class="form-control"
                                                                                                            name="txtUpdateMemberName"
                                                                                                            value="${staff.name}">
@@ -955,7 +959,7 @@
                                 </label>
                                 <div class="col-sm-9">
                                     <input type="text"
-                                           minlength="2" maxlength="20"
+                                           minlength="2" maxlength="30"
                                            class="form-control" required
                                            name="txtUserName" value=""
                                     >
@@ -977,8 +981,8 @@
                                     Email <span class="required-field"> *</span>
                                 </label>
                                 <div class="col-sm-9">
-                                    <input type="email"
-                                           class="form-control" required
+                                    <input type="email" required
+                                           class="form-control"
                                            name="txtEmail" value=""
                                     >
                                 </div>

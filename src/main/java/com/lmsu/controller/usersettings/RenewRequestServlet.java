@@ -18,6 +18,9 @@ public class RenewRequestServlet extends HttpServlet {
     private static final String USER_PAGE = "index.jsp";
     private final int RENEWAL_PENDING = 0;
 
+    private final String ATTR_MEMBER_UPDATE_SETTING_SUCCESS = "MEMBER_UPDATE_SETTING_SUCCESS";
+    private final String ATTR_MEMBER_UPDATE_SETTING_MESSAGE = "MEMBER_UPDATE_SETTING_MESSAGE";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -31,8 +34,10 @@ public class RenewRequestServlet extends HttpServlet {
             RenewalRequestDAO dao = new RenewalRequestDAO();
             int orderItemsIDVal = Integer.parseInt(orderItemsID);
             boolean result = dao.addRenewal(orderItemsIDVal, reason.trim(), extendDate, RENEWAL_PENDING);
-            if(result){
+            if (result) {
                 url = USER_SETTING_CONTROLLER;
+                request.setAttribute(ATTR_MEMBER_UPDATE_SETTING_SUCCESS, true);
+                request.setAttribute(ATTR_MEMBER_UPDATE_SETTING_MESSAGE, "Renewal requested successfully.");
             }
 
         } catch (SQLException ex) {
@@ -41,7 +46,7 @@ public class RenewRequestServlet extends HttpServlet {
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
             log("RenewRequestServlet _ Naming: " + ex.getMessage());
-       } finally {
+        } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

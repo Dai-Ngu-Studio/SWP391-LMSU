@@ -30,6 +30,7 @@ public class DispatchServlet extends HttpServlet {
     private static final String SEARCH_USER_CONTROLLER = "SearchUserServlet";
     private static final String ADD_USER_CONTROLLER = "AddUserServlet";
     private static final String DELETE_USER_CONTROLLER = "DeleteUserServlet";
+    private static final String UNDELETE_USER_CONTROLLER = "UndeleteUserServlet";
     private static final String SEARCH_STAFF_CONTROLLER = "SearchStaffServlet";
     private static final String ADD_STAFF_CONTROLLER = "AddStaffServlet";
     private static final String UPDATE_STAFF_CONTROLLER = "UpdateStaffServlet";
@@ -92,6 +93,8 @@ public class DispatchServlet extends HttpServlet {
                 url = ADD_USER_CONTROLLER;
             } else if (button.equals("Delete User")) {
                 url = DELETE_USER_CONTROLLER;
+            } else if (button.equals("Undelete User")) {
+                url = UNDELETE_USER_CONTROLLER;
             } else if (button.equals("Search Staff")) {
                 url = SEARCH_STAFF_CONTROLLER;
             } else if (button.equals("Update Author")) {

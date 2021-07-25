@@ -52,11 +52,11 @@
                                                        aria-describedby="order-listing_info">
                                                     <thead>
                                                     <tr>
-                                                        <th style="width: 0px; text-align: center">#</th>
-                                                        <th style="width: 0px; text-align: left">BOOK</th>
-                                                        <th style="width: 0px; text-align: left">BORROWER</th>
-                                                        <th style="width: 0px; text-align: center">STATUS</th>
-                                                        <th style="width: 0px; text-align: center">ACTIONS</th>
+                                                        <th class="text-right">#</th>
+                                                        <th class="text-left">BOOK</th>
+                                                        <th class="text-left">BORROWER</th>
+                                                        <th class="text-center">STATUS</th>
+                                                        <th class="text-center">ACTIONS</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -64,7 +64,7 @@
                                                     <c:forEach var="renewal" items="${renewalList}"
                                                                varStatus="counter">
                                                         <tr>
-                                                            <td class="text-center">${counter.count}</td>
+                                                            <td class="text-right">${counter.count}</td>
                                                             <td class="text-left">
                                                                     ${renewal.item.title}
                                                             </td>

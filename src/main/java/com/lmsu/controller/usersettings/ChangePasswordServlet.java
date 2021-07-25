@@ -4,6 +4,7 @@ import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
+import com.lmsu.utils.AppUtils;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;
@@ -24,6 +25,9 @@ public class ChangePasswordServlet extends HttpServlet {
 
     static final Logger LOGGER = Logger.getLogger(ChangePasswordServlet.class);
 
+    private final String ATTR_MEMBER_UPDATE_SETTING_SUCCESS = "MEMBER_UPDATE_SETTING_SUCCESS";
+    private final String ATTR_MEMBER_UPDATE_SETTING_MESSAGE = "MEMBER_UPDATE_SETTING_MESSAGE";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pk = request.getParameter("pk");
         String currentPW = request.getParameter("txtCurrentPassword");
@@ -36,29 +40,15 @@ public class ChangePasswordServlet extends HttpServlet {
             HttpSession session = request.getSession();
             UserDAO dao = new UserDAO();
             UserDTO dto = (UserDTO) session.getAttribute("LOGIN_USER");
-//
-//            String currentPasswordHashed = Hashing.sha256()
-//                    .hashString(currentPW, StandardCharsets.UTF_8).toString();
-//            if (currentPasswordHashed.equals(dto.getPassword())) {
-//                if (confirmPW.trim().equals(newPW.trim())) {
-//                    String passwordHashed = Hashing.sha256()
-//                            .hashString(newPW, StandardCharsets.UTF_8).toString();
-//                    boolean result = dao.updatePassword(pk, passwordHashed);
-//                    if (result) {
-//                        dto.setPassword(passwordHashed);
-//                        url = RESULT_PAGE;
-//                    }
-//                } else {
-//                    errors.put("errorConfirmPassword", "inputConfirmPassword");
-//                }
-//            } else {
-//                errors.put("errorCurrentPassword", "inputCurrentPassword");
-//            }
             String passwordHashed = Hashing.sha256()
                             .hashString(newPW, StandardCharsets.UTF_8).toString();
             boolean result = dao.updatePassword(pk, passwordHashed);
             if (result) {
                 dto.setPassword(passwordHashed);
+                UserDTO updatedUser = dao.getUserByID(dto.getId());
+                AppUtils.storeLoginedUser(session, updatedUser);
+                request.setAttribute(ATTR_MEMBER_UPDATE_SETTING_SUCCESS, true);
+                request.setAttribute(ATTR_MEMBER_UPDATE_SETTING_MESSAGE, "Password updated successfully.");
                 url = RESULT_PAGE;
             }
         } catch (SQLException ex) {
