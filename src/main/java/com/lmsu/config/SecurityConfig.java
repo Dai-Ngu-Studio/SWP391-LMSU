@@ -35,6 +35,7 @@ public class SecurityConfig {
         urlPatterns1.add("/UpdatePenaltyServlet");
         urlPatterns1.add("/ApproveRenewalServlet");
         urlPatterns1.add("/RejectRenewalServlet");
+        urlPatterns1.add("/ShowFeedbackServlet");
         mapConfig.put(ROLE_LIBRARIAN, urlPatterns1);
 
         // Cấu hình cho vai trò "MANAGER".
@@ -56,6 +57,7 @@ public class SecurityConfig {
         urlPatterns2.add("/UpdatePenaltyServlet");
         urlPatterns2.add("/ApproveRenewalServlet");
         urlPatterns2.add("/RejectRenewalServlet");
+        urlPatterns2.add("/ShowFeedbackServlet");
         mapConfig.put(ROLE_MANAGER, urlPatterns2);
 
         // Cấu hình cho vai trò "MEM".
@@ -89,6 +91,7 @@ public class SecurityConfig {
         urlPatterns4.add("/UpdatePenaltyServlet");
         urlPatterns4.add("/ApproveRenewalServlet");
         urlPatterns4.add("/RejectRenewalServlet");
+        urlPatterns4.add("/ShowFeedbackServlet");
 //        urlPatterns4.add("/DeleteStaffServlet");
 
         mapConfig.put(ROLE_ADMIN, urlPatterns4);

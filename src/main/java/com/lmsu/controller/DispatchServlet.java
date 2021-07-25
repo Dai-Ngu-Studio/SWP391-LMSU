@@ -47,6 +47,7 @@ public class DispatchServlet extends HttpServlet {
     private static final String UPDATE_SUBJECT_CONTROLLER = "UpdateSubjectServlet";
     private static final String DELETE_SUBJECT_CONTROLLER = "DeleteSubjectServlet";
     private static final String SEARCH_INVALID_BOOK_CONTROLLER = "SearchInvalidBook";
+    private static final String UPDATE_FEEDBACK_STATUS_CONTROLLER = "UpdateFeedbackStatusServlet";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -122,6 +123,8 @@ public class DispatchServlet extends HttpServlet {
                 url = UPDATE_STAFF_CONTROLLER;
             } else if (button.equals("Add Staff")) {
                 url = ADD_STAFF_CONTROLLER;
+            } else if (button.equals("Resolve Feedback")) {
+                url = UPDATE_FEEDBACK_STATUS_CONTROLLER;
             }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);

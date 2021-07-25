@@ -1,7 +1,5 @@
-package com.lmsu.controller;
+package com.lmsu.controller.contact;
 
-import com.lmsu.authors.AuthorDAO;
-import com.lmsu.controller.author.AddAuthorServlet;
 import com.lmsu.feedback.FeedbackDAO;
 import com.lmsu.utils.ImageHelpers;
 import org.apache.commons.io.FilenameUtils;
@@ -14,14 +12,14 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "ContactServlet", value = "/ContactServlet")
+@WebServlet(name = "AddFeedbackServlet", value = "/AddFeedbackServlet")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,
         maxRequestSize = 1024 * 1024 * 5 * 5)
-public class ContactServlet extends HttpServlet {
+public class AddFeedbackServlet extends HttpServlet {
 
     private final String CONTACT_PAGE = "contact.jsp";
-    static final Logger LOGGER = Logger.getLogger(ContactServlet.class);
+    static final Logger LOGGER = Logger.getLogger(AddFeedbackServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -52,7 +50,7 @@ public class ContactServlet extends HttpServlet {
                     break;
                 }
             }
-            boolean result = dao.addFeedback(fullName, email, phone, feedbackType, fileName, feedbackMsg);
+            boolean result = dao.addFeedback(fullName, email, phone, feedbackType, fileName, feedbackMsg.trim(), false);
             if (result) {
                 url = CONTACT_PAGE;
             }

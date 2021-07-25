@@ -28,7 +28,7 @@ public class FeedbackDAO implements Serializable {
         try {
             con = DBHelpers.makeConnection();
             if (con != null) {
-                String sql = "SELECT [id], [fullName], [email], [phone], [feedbackType], [attachment], [feedbackMessage] " +
+                String sql = "SELECT [id], [fullName], [email], [phone], [feedbackType], [attachment], [feedbackMessage], [resolveStatus] " +
                         "FROM Feedback ";
                 stm = con.prepareStatement(sql);
 
@@ -41,8 +41,9 @@ public class FeedbackDAO implements Serializable {
                     String feedbackType = rs.getString("feedbackType");
                     String attachment = rs.getString("attachment");
                     String feedbackMsg = rs.getNString("feedbackMessage");
+                    boolean resolveStatus = rs.getBoolean("resolveStatus");
 
-                    FeedbackDTO dto = new FeedbackDTO(id, name, email, phone, feedbackType, attachment, feedbackMsg);
+                    FeedbackDTO dto = new FeedbackDTO(id, name, email, phone, feedbackType, attachment, feedbackMsg, resolveStatus);
                     if (this.feedbackList == null) {
                         this.feedbackList = new ArrayList<FeedbackDTO>();
                     }
@@ -87,7 +88,7 @@ public class FeedbackDAO implements Serializable {
     }
 
     public boolean addFeedback(String fullName, String email, String phone, String feedbackType,
-                               String attachment, String feedbackMsg) throws SQLException, NamingException {
+                               String attachment, String feedbackMsg, boolean resolveStatus) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -95,8 +96,8 @@ public class FeedbackDAO implements Serializable {
         try {
             con = DBHelpers.makeConnection();
             if (con != null) {
-                String sql = "INSERT INTO Feedback([fullName], [email], [phone], [feedbackType], [attachment], [feedbackMessage]) " +
-                        "VALUES(?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO Feedback([fullName], [email], [phone], [feedbackType], [attachment], [feedbackMessage], [resolveStatus]) " +
+                        "VALUES(?, ?, ?, ?, ?, ?, ?)";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, fullName);
                 stm.setString(2, email);
@@ -104,11 +105,37 @@ public class FeedbackDAO implements Serializable {
                 stm.setString(4, feedbackType);
                 stm.setString(5, attachment);
                 stm.setString(6, feedbackMsg);
+                stm.setBoolean(7, resolveStatus);
                 int row = stm.executeUpdate();
                 if (row > 0) return true;
             }
         } finally {
             if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return false;
+    }
+
+    public boolean updateFeedbackStatus(int feedbackID, boolean resolveStatus) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE [Feedback] " +
+                        "SET [resolveStatus] = ? " +
+                        "WHERE [id] = ?";
+                stm = con.prepareStatement(sql);
+
+                stm.setBoolean(1, resolveStatus);
+                stm.setInt(2, feedbackID);
+
+                int row = stm.executeUpdate();
+                if (row > 0) return true;
+            }
+        } finally {
             if (stm != null) stm.close();
             if (con != null) con.close();
         }

@@ -32,7 +32,7 @@
     <div class="contact">
         <div class="left-contact">
             <img src="images/contact-illustration.svg">
-            <h5><b>Contact Infomation</b></h5>
+            <h5><b>Contact Information</b></h5>
             <p style="margin-bottom: 1rem; text-align: center;">
                 Fill up a form to help us improve quality.
             </p>
@@ -52,7 +52,7 @@
         </div>
         <c:set var="user" value="${sessionScope.LOGIN_USER}"/>
         <div class="right-contact">
-            <form action="ContactServlet" enctype="multipart/form-data"
+            <form action="AddFeedbackServlet" enctype="multipart/form-data"
                   method="POST">
                 <div class="form-group">
                     <label for="inputName"><b>Full Name <span class="required-field">*</span></b></label>
