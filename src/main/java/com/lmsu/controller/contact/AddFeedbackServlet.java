@@ -44,13 +44,10 @@ public class AddFeedbackServlet extends HttpServlet {
             FeedbackDAO dao = new FeedbackDAO();
             EmailHelpers emailHelpers = new EmailHelpers();
 
-            int feedbackID = 0;
-            do {
-                feedbackID++;
-            } while (dao.checkFeedbackId(feedbackID));
+            int feedbackID = dao.getFeedbackID();
 
             //Start to add img to server process
-            String uploadPath = ImageHelpers.getPathImgFolder(getServletContext().getRealPath(""));
+            String uploadPath = ImageHelpers.getPathFeedbackImgFolder(getServletContext().getRealPath(""));
             String fileName = "";
             for (Part part : request.getParts()) {
                 fileName = part.getSubmittedFileName();
@@ -83,7 +80,7 @@ public class AddFeedbackServlet extends HttpServlet {
 
                 String body = "Dear " + fullName + "<br>"
                         + "<br>"
-                        + "Information and Library Center have receive your feedback with message:"+ "<br>"
+                        + "Information and Library Center have receive your feedback with message:" + "<br>"
                         + feedbackMsg + "<br>"
                         + "<br>"
                         + "We will response soon.<br>"
@@ -92,8 +89,13 @@ public class AddFeedbackServlet extends HttpServlet {
                         + "Sincerely,<br>"
                         + "Information and Library Center.";
 
-                emailHelpers.sendEmail(mailSession, email, subject, body);
+                if (fileName == null) {
+                    emailHelpers.sendEmail(mailSession, email, subject, body);
+                } else {
+                    emailHelpers.sendAttachmentEmail(mailSession, email, subject, body, uploadPath + fileName, fileName);
+                }
 
+                request.setAttribute("RECEIVED_MESSAGE", "Message have been sent! We wil response soon");
                 session.setAttribute("ALREADY_FEEDBACK", true);
                 url = USER_CONTACT_CONTROLLER;
             }
@@ -112,7 +114,7 @@ public class AddFeedbackServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
