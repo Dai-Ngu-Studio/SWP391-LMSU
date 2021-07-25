@@ -618,7 +618,7 @@ public class OrderItemDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT COUNT(OrderItems.id) as totalReturnToday " +
+                String sql = "SELECT COUNT(OrderItems.id) " +
                         "FROM [OrderItems] " +
                         "WHERE OrderItems.returnDate = CAST(CURRENT_TIMESTAMP AS DATE);";
                 //3. Create Statement
@@ -627,7 +627,7 @@ public class OrderItemDAO implements Serializable {
                 rs = stm.executeQuery();
                 //5. Process ResultSet
                 if (rs.next())
-                    return rs.getInt("totalReturnToday");
+                    return rs.getInt(1);
             }
         } finally {
             if (rs != null) rs.close();
@@ -646,7 +646,7 @@ public class OrderItemDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 //2. Create SQL String
-                String sql = "SELECT COUNT(OrderItems.id) as totalLendToday " +
+                String sql = "SELECT COUNT(OrderItems.id)" +
                         "FROM [OrderItems] " +
                         "WHERE OrderItems.lendDate = CAST(CURRENT_TIMESTAMP AS DATE);";
                 //3. Create Statement
@@ -655,7 +655,7 @@ public class OrderItemDAO implements Serializable {
                 rs = stm.executeQuery();
                 //5. Process ResultSet
                 if (rs.next())
-                    return rs.getInt("totalReturnToday");
+                    return rs.getInt(1);
             }
         } finally {
             if (rs != null) rs.close();
