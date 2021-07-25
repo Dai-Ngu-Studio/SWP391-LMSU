@@ -19,7 +19,7 @@ public class LoginServlet extends HttpServlet {
 
     private static final String LOGIN_FAIL = "login.jsp";
     private static final String INDEX_PAGE = "IndexServlet";
-    private static final String DASHBOARD_PAGE = "dashboard.jsp";
+    private static final String DASHBOARD_PAGE = "ShowDashboardServlet";
     static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
