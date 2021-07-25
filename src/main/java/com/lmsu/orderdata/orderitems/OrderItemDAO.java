@@ -6,9 +6,8 @@ import javax.naming.NamingException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
+import java.sql.Date;
+import java.util.*;
 
 public class OrderItemDAO implements Serializable {
 
@@ -664,5 +663,70 @@ public class OrderItemDAO implements Serializable {
         }
         return -1;
     }
+    public Map<String, String> getBorrowedLastYear() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        Map<String, String> map = new HashMap<>();
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT MONTH(lendDate) MONTH, COUNT(*) COUNT " +
+                        "FROM [OrderItems] " +
+                        "WHERE YEAR(OrderItems.lendDate) = YEAR(GETDATE()) AND OrderItems.lendStatus = 2 " +
+                        "GROUP BY MONTH(lendDate);";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
 
+                while (rs.next()){
+                    Integer month = rs.getInt("MONTH");
+                    Integer count = rs.getInt("COUNT");
+                    map.put(month.toString(),count.toString());
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return map;
+    }
+    public Map<String, String> getReturnedLastYear() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        Map<String, String> map = new HashMap<>();
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT MONTH(lendDate) MONTH, COUNT(*) COUNT " +
+                        "FROM [OrderItems] " +
+                        "WHERE YEAR(OrderItems.lendDate) = YEAR(GETDATE()) AND OrderItems.lendStatus = 4 " +
+                        "GROUP BY MONTH(lendDate);";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+
+                while (rs.next()){
+                    Integer month = rs.getInt("MONTH");
+                    Integer count = rs.getInt("COUNT");
+                    map.put(month.toString(),count.toString());
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return map;
+    }
 }

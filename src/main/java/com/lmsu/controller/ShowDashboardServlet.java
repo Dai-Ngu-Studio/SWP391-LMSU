@@ -1,4 +1,5 @@
 package com.lmsu.controller;
+
 import com.lmsu.books.BookDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.users.UserDAO;
@@ -10,6 +11,8 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(name = "ShowDashboardServlet", value = "/ShowDashboardServlet")
 public class ShowDashboardServlet extends HttpServlet {
@@ -29,6 +32,19 @@ public class ShowDashboardServlet extends HttpServlet {
             request.setAttribute("TODAY_RETURNED", orderItemDAO.getTodayReturned());
             request.setAttribute("TODAY_BORROWED", orderItemDAO.getTodayBorrowed());
             request.setAttribute("TOTAL_ACTIVE_USER", userDAO.totalNumberOfUsers());
+            Map<String, String> mapBorrowed = orderItemDAO.getBorrowedLastYear();
+            Map<String, String> mapReturned = orderItemDAO.getReturnedLastYear();
+            for (int i = 1; i <= 12; i++) {
+                if (mapBorrowed.containsKey(Integer.toString(i)) == false) {
+                    mapBorrowed.put(Integer.toString(i), "0");
+                }
+                if (mapReturned.containsKey(Integer.toString(i)) == false) {
+                    mapReturned.put(Integer.toString(i), "0");
+                }
+            }
+            request.setAttribute("MAP_BORROWED", mapBorrowed);
+            request.setAttribute("MAP_RETURNED", mapReturned);
+
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
             log("ContactServlet _ SQL: " + ex.getMessage());
@@ -44,7 +60,7 @@ public class ShowDashboardServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 

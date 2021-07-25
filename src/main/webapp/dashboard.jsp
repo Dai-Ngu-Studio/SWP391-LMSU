@@ -20,6 +20,11 @@
     <link rel="shortcut icon" href="images/images/favicon.png"/>
     <script src="js/iconpro.js"></script>
     <link rel="stylesheet" href="css/dashboard.css">
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.min.js"
+            integrity="sha512-5vwN8yor2fFT9pgPS9p9R7AszYaNn0LkQElTXIsZFCL7ucT8zDCAqlQXDdaqgA1mZP47hdvztBMsIoFxq/FyyQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
 <div class="container-scroller">
@@ -97,59 +102,64 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Line chart</h4>
-                                <canvas id="lineChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Bar chart</h4>
-                                <canvas id="barChart"></canvas>
-                            </div>
-                        </div>
+                    <div class="col-lg-11">
+
+                        <canvas id="myChart" height="100" style="padding-left: 50px"></canvas>
+                        <c:set var="mapBorrowed" value="${requestScope.MAP_BORROWED}"/>
+                        <c:set var="mapReturned" value="${requestScope.MAP_RETURNED}"/>
+                        <script>
+                            var ctx = document.getElementById('myChart');
+                            var myChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                                    datasets: [{
+                                        label: 'Borrowed',
+                                        data: [${mapBorrowed.get("1")},
+                                            ${mapBorrowed.get("2")},
+                                            ${mapBorrowed.get("3")},
+                                            ${mapBorrowed.get("4")},
+                                            ${mapBorrowed.get("5")},
+                                            ${mapBorrowed.get("6")},
+                                            ${mapBorrowed.get("7")},
+                                            ${mapBorrowed.get("8")},
+                                            ${mapBorrowed.get("9")},
+                                            ${mapBorrowed.get("10")},
+                                            ${mapBorrowed.get("11")},
+                                            ${mapBorrowed.get("12")},
+                                        ],
+                                        backgroundColor: ['#C4C4C4']
+                                    },{
+                                        label: 'Returned ',
+                                        data: [${mapReturned.get("1")},
+                                            ${mapReturned.get("2")},
+                                            ${mapReturned.get("3")},
+                                            ${mapReturned.get("4")},
+                                            ${mapReturned.get("5")},
+                                            ${mapReturned.get("6")},
+                                            ${mapReturned.get("7")},
+                                            ${mapReturned.get("8")},
+                                            ${mapReturned.get("9")},
+                                            ${mapReturned.get("10")},
+                                            ${mapReturned.get("11")},
+                                            ${mapReturned.get("12")},
+                                        ],
+                                        backgroundColor: ['#00A559']
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                    }
+                                }
+                            });
+                        </script>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-6 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Area chart</h4>
-                                <canvas id="areaChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Doughnut chart</h4>
-                                <canvas id="doughnutChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Pie chart</h4>
-                                <canvas id="pieChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Scatter chart</h4>
-                                <canvas id="scatterChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+
             </div>
             <!-- content-wrapper ends -->
             <!-- partial:../../partials/_footer.html -->
@@ -170,7 +180,10 @@
 </div>
 <!-- container-scroller -->
 <!-- plugins:js -->
-<script src="vendors/js/vendor.bundle.base.js"></script>
+<%--<script src="vendors/js/vendor.bundle.base.js"></script>--%>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
 <!-- endinject -->
 <!-- Plugin js for this page -->
 <script src="vendors/chart.js/Chart.min.js"></script>
