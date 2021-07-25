@@ -1,23 +1,6 @@
 package com.lmsu.controller.member;
 
-import com.lmsu.authorbookmaps.AuthorBookMapDAO;
-import com.lmsu.authorbookmaps.AuthorBookMapDTO;
-import com.lmsu.authors.AuthorDAO;
-import com.lmsu.authors.AuthorDTO;
-import com.lmsu.bean.book.BookObj;
-import com.lmsu.bean.comment.CommentObj;
-import com.lmsu.bean.member.CartObj;
-import com.lmsu.books.BookDAO;
-import com.lmsu.books.BookDTO;
-import com.lmsu.comments.CommentDAO;
-import com.lmsu.comments.CommentDTO;
-import com.lmsu.controller.book.UpdateBookServlet;
-import com.lmsu.orderdata.orderitems.OrderItemDAO;
-import com.lmsu.orderdata.orderitems.OrderItemDTO;
-import com.lmsu.orderdata.orders.OrderDAO;
-import com.lmsu.orderdata.orders.OrderDTO;
 import com.lmsu.users.UserDAO;
-import com.lmsu.users.UserDTO;
 import com.lmsu.utils.ImageHelpers;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
@@ -28,16 +11,13 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 @WebServlet(name = "UpdateUserServlet", value = "/UpdateUserServlet")
 public class UpdateMemberServlet extends HttpServlet {
-    private final String SEARCH_CONTROLLER = "SearchMemberServlet";
+
+    private final String SEARCH_MEMBER_CONTROLLER = "SearchMemberServlet";
     private final String SHOW_MEMBER_CONTROLLER = "ShowMemberServlet";
-    static final Logger LOGGER = Logger.getLogger(UpdateBookServlet.class);
+    static final Logger LOGGER = Logger.getLogger(UpdateMemberServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -64,12 +44,12 @@ public class UpdateMemberServlet extends HttpServlet {
                     break;
                 }
             }
-            boolean result = dao.updateMember(memberID, coverFile, memberPhone, activeStatus, memberName);
+            boolean result = dao.updateMember(memberID, coverFile, memberPhone, activeStatus, memberName, "4");
             if (result) {
                 if (searchVal == null || searchVal.trim().isEmpty()) {
                     url = SHOW_MEMBER_CONTROLLER;
                 } else {
-                    url = SEARCH_CONTROLLER;
+                    url = SEARCH_MEMBER_CONTROLLER;
                 }
             }
         } catch (SQLException ex) {

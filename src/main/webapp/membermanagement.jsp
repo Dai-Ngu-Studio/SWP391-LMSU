@@ -37,21 +37,16 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">User Management</h4>
+                        <c:if test="${not empty requestScope.DELETED_USER or not empty requestScope.ADD_DUPLICATE}">
+                            <div class="alert alert-danger text-center">
+                                    ${requestScope.DELETED_USER}
+                                    ${requestScope.ADD_DUPLICATE}
+                            </div>
+                        </c:if>
                         <div class="row">
                             <div class="col-12">
                                 <div class="table-responsive">
                                     <div class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-6">
-                                                <div id="order-listing_filter" class="dataTables_filter">
-                                                    <c:if test="${requestScope.ADD_DUPLICATE}">
-                                                        <div class="alert alert-danger">
-                                                                ${requestScope.ADD_DUPLICATE}
-                                                        </div>
-                                                    </c:if>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="row">
                                             <div class="table-responsive">
                                                 <table id="user-datatable"
@@ -68,8 +63,7 @@
                                                     </thead>
                                                     <tbody>
                                                     <c:set var="memberList" value="${requestScope.MEMBER_LIST}"/>
-                                                    <c:forEach var="member" items="${memberList}"
-                                                               varStatus="counter">
+                                                    <c:forEach var="member" items="${memberList}" varStatus="counter">
                                                         <tr>
                                                             <td class="text-right">${counter.count}</td>
                                                             <td class="text-left">${member.id}</td>
@@ -484,7 +478,137 @@
 <script src="js/todolist.js"></script>
 <%-- endinject --%>
 <%-- Custom js for this page--%>
-<jsp:include page="membermanagement.js.jsp"></jsp:include>
+<script src="js/membermanagement.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#user-datatable').DataTable({bFilter: false});
+
+        let SearchAdd = `
+        <div class="d-flex justify-content-end">
+            <form action="DispatchServlet" class="d-flex">
+                <input type="search" class="form-control"
+                       id="searchBox" placeholder="Search"
+                       name="txtSearchValue" value="${param.txtSearchValue}"
+                       aria-controls="order-listing"
+                       style="border-radius: 5px 0 0 5px"
+                >
+                    <button class="btn btn-primary mr-2" type="submit"
+                            name="btAction" value="Search User" title="Search user"
+                            style="border-radius: 0 5px 5px 0">
+                        <i class="fa fa-search"></i>
+                    </button>
+            </form>
+
+            <form action="DispatchServlet" method="POST">
+                <button class="btn btn-primary" type="button"
+                        style="border-radius: 5px"
+                        data-toggle="modal"
+                        data-target="#AddUserModal"
+                        title="Add user">
+                    <i class="fa fa-plus"></i>
+                </button>
+                <div class="modal fade" id="AddUserModal"
+                     tabindex="-1"
+                     role="dialog"
+                     aria-labelledby="AddBookModalLongTitle"
+                     aria-hidden="true">
+                    <div class="modal-dialog"
+                         style="margin-top: 30px" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title"
+                                    id="AddBookModalLongTitle">
+                                    Add user
+                                </h5>
+                                <button type="button"
+                                        class="close"
+                                        data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" id="addModalBody">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">
+                                        User ID
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="text"
+                                               class="form-control" required
+                                               name="txtUserID" value=""
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">
+                                        Name
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="text"
+                                               class="form-control" required
+                                               name="txtUserName" value=""
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">
+                                        Semester No.
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="number"
+                                               min="0" max="9"
+                                               class="form-control" required
+                                               name="txtSemester" value=""
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">
+                                        Email
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="email"
+                                               class="form-control" required
+                                               name="txtEmail" value=""
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">
+                                        Phone number
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="number"
+                                               minlength="10" maxlength="12"
+                                               class="form-control"
+                                               name="txtPhoneNumber" value=""
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary"
+                                        name="btAction" value="Add User"
+                                >
+                                    Save
+                                </button>
+                                <button type="button"
+                                        class="btn btn-outline-primary"
+                                        data-dismiss="modal">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    `;
+
+        $('#user-datatable_wrapper').children().eq(0).children().eq(1).append(SearchAdd);
+
+    });
+</script>
 <%-- End custom js for this page--%>
 </body>
 </html>

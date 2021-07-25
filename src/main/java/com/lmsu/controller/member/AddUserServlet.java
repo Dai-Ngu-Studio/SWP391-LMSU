@@ -1,6 +1,5 @@
 package com.lmsu.controller.member;
 
-import com.google.common.hash.Hashing;
 import com.lmsu.users.UserDAO;
 import org.apache.log4j.Logger;
 
@@ -9,7 +8,6 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.*;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
 @WebServlet(name = "AddUserServlet", value = "/AddUserServlet")
@@ -31,27 +29,27 @@ public class AddUserServlet extends HttpServlet {
         String userName = request.getParameter("txtUserName");
         String roleID = "4";
         String semester = request.getParameter("txtSemester");
-        String password = request.getParameter("txtPassword");
-        String passwordHashed = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
         String email = request.getParameter("txtEmail");
         String phoneNumber = request.getParameter("txtPhoneNumber");
         String profilePicturePath = "images/default-user-icon.png";
 
         try {
             UserDAO dao = new UserDAO();
-            boolean result = dao.checkUserExisted(userID);
-            if (!result) {
-                dao.addUser(userID, userName, roleID, passwordHashed, email, phoneNumber, semester, profilePicturePath,
-                        false, false, false, false);
-            } else {
-                request.setAttribute("ADD_DUPLICATE", "User have existed");
-            }
-            if (!result) {
-                if (searchValue == null || searchValue.trim().isEmpty()) {
-                    url = SHOW_USER_CONTROLLER;
+            if (!dao.isDelete(userID) && !dao.isDelete(email)) {
+                if (!dao.checkUserExisted(userID) && !dao.checkUserExisted(email)) {
+                    dao.addUser(userID, userName, roleID, "", email, phoneNumber, semester, profilePicturePath,
+                            false, false, false, false);
                 } else {
-                    url = SEARCH_USER_CONTROLLER;
+                    request.setAttribute("ADD_DUPLICATE", "User have existed! Please check again userID or email.");
                 }
+            } else {
+                request.setAttribute("DELETED_USER", "This user have been deleted before. If you want to add again, please undelete it!");
+            }
+
+            if (searchValue == null || searchValue.trim().isEmpty()) {
+                url = SHOW_USER_CONTROLLER;
+            } else {
+                url = SEARCH_USER_CONTROLLER;
             }
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
