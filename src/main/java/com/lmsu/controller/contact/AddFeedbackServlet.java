@@ -1,17 +1,21 @@
 package com.lmsu.controller.contact;
 
 import com.lmsu.feedback.FeedbackDAO;
+import com.lmsu.utils.EmailHelpers;
 import com.lmsu.utils.ImageHelpers;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.http.HttpRequest;
 import org.apache.log4j.Logger;
 
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
 import javax.naming.NamingException;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Properties;
 
 @WebServlet(name = "AddFeedbackServlet", value = "/AddFeedbackServlet")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
@@ -20,6 +24,8 @@ import java.sql.SQLException;
 public class AddFeedbackServlet extends HttpServlet {
 
     private final String USER_CONTACT_CONTROLLER = "ShowUserContactServlet";
+    private static final String EMAIL = "***REMOVED***";
+    private static final String PASSWORD = "***REMOVED***";
     static final Logger LOGGER = Logger.getLogger(AddFeedbackServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -36,6 +42,8 @@ public class AddFeedbackServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             FeedbackDAO dao = new FeedbackDAO();
+            EmailHelpers emailHelpers = new EmailHelpers();
+
             int feedbackID = 0;
             do {
                 feedbackID++;
@@ -54,6 +62,38 @@ public class AddFeedbackServlet extends HttpServlet {
             }
             boolean result = dao.addFeedback(fullName, email, phone, feedbackType, fileName, feedbackMsg.trim(), false);
             if (result) {
+                System.out.println("SSLEmail Start");
+                Properties props = new Properties();
+                props.put("mail.smtp.host", "smtp.gmail.com");
+                props.put("mail.smtp.socketFactory.port", "465");
+                props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.port", "465");
+
+                Authenticator auth = new Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(EMAIL, PASSWORD);
+                    }
+                };
+
+                Session mailSession = Session.getDefaultInstance(props, auth);
+                System.out.println("Session created");
+
+                String subject = "[INFORMATION AND LIBRARY CENTER]_FEED BACK";
+
+                String body = "Dear " + fullName + "<br>"
+                        + "<br>"
+                        + "Information and Library Center have receive your feedback with message:"+ "<br>"
+                        + feedbackMsg + "<br>"
+                        + "<br>"
+                        + "We will response soon.<br>"
+                        + "<br>"
+                        + "Thank you.<br>"
+                        + "Sincerely,<br>"
+                        + "Information and Library Center.";
+
+                emailHelpers.sendEmail(mailSession, email, subject, body);
+
                 session.setAttribute("ALREADY_FEEDBACK", true);
                 url = USER_CONTACT_CONTROLLER;
             }
