@@ -29,6 +29,9 @@
         <h2><b>Contact Us</b></h2>
         <p>Any question or report a bug? Just write us a message.</p>
     </div>
+    <c:if test="${not empty requestScope.RECEIVED_MESSAGE}">
+        <div class="alert alert-success text-center w-100">${requestScope.RECEIVED_MESSAGE}</div>
+    </c:if>
     <div class="contact">
         <div class="left-contact">
             <img src="images/contact-illustration.svg">
