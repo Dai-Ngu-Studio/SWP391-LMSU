@@ -423,7 +423,7 @@
                                                                                         >
                                                                                         <input type="hidden"
                                                                                                name="txtUpdateSubjectID"
-                                                                                               value=""/>
+                                                                                               value="${book.subject.id}"/>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">
@@ -501,6 +501,7 @@
                                                                                                 class="form-control descriptionField"
                                                                                                 name="txtUpdateDescription"
                                                                                                 rows="5">${book.description}
+
                                                                                         </textarea>
                                                                                     </div>
                                                                                 </div>
