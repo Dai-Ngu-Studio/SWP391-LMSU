@@ -25,336 +25,352 @@
     <script src="js/iconpro.js"></script>
 </head>
 <body>
-<div class="container-scroller">
-    <!-- partial:../../partials/_navbar.html -->
-    <jsp:include page="adminheader.jsp"/>
-    <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
+<c:set var="role" value="${sessionScope.LOGIN_USER.roleID}"/>
+<c:if test="${role eq '4' or role eq 'null'}">
+    <c:redirect url="IndexServlet"></c:redirect>
+</c:if>
+
+<c:if test="${role eq '3'}">
+    <c:redirect url="ShowDashboardServlet"></c:redirect>
+</c:if>
+
+<c:if test="${role eq '1' or role eq '2'}">
+    <div class="container-scroller">
+        <!-- partial:../../partials/_navbar.html -->
+        <jsp:include page="adminheader.jsp"/>
         <!-- partial -->
-        <jsp:include page="sidebar.jsp"/>
-        <!-- partial:../../partials/_sidebar.html -->
-        <!-- partial -->
-        <div class="main-panel">
-            <div class="content-wrapper">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Data table</h4>
-                        <div class="table-responsive">
-                            <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                <div class="row">
-                                    <div class="table-responsive">
-                                        <div class="col-sm-12">
-                                            <table id="author-datatable" class="table dataTable no-footer my-2"
-                                                   role="grid"
-                                                   aria-describedby="order-listing_info">
-                                                <thead>
-                                                <tr>
-                                                    <th style="width: 0px; text-align: center">#</th>
-                                                    <th style="width: 96px; text-align: left">NAME</th>
-                                                    <th style="width: 96px; text-align: right">SEMESTER NO</th>
-                                                    <%--<th style="width: 67px; text-align: left"></th>--%>
-                                                    <th style="width: 64px; text-align: center">Actions</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <c:set var="subjectList" value="${requestScope.SUBJECT_LIST}"/>
-                                                <c:set var="subjectMap" value="${requestScope.SUBJECT_MAP}"/>
-                                                <c:set var="countSubject" value="${requestScope.COUNT_SUBJECT}"/>
-                                                <c:forEach var="subject" items="${subjectList}"
-                                                           varStatus="counter">
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial -->
+            <jsp:include page="sidebar.jsp"/>
+            <!-- partial:../../partials/_sidebar.html -->
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Data table</h4>
+                            <div class="table-responsive">
+                                <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                            <div class="col-sm-12">
+                                                <table id="author-datatable" class="table dataTable no-footer my-2"
+                                                       role="grid"
+                                                       aria-describedby="order-listing_info">
+                                                    <thead>
                                                     <tr>
-                                                        <td class="sorting_1"
-                                                            style="text-align: center">${counter.count}</td>
-                                                        <td style="text-align: left">
-                                                                ${subject.name}
-                                                        </td>
-                                                        <td style="text-align: right">${subject.semester_no}</td>
+                                                        <th style="width: 0px; text-align: center">#</th>
+                                                        <th style="width: 96px; text-align: left">NAME</th>
+                                                        <th style="width: 96px; text-align: right">SEMESTER NO</th>
+                                                            <%--<th style="width: 67px; text-align: left"></th>--%>
+                                                        <th style="width: 64px; text-align: center">Actions</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <c:set var="subjectList" value="${requestScope.SUBJECT_LIST}"/>
+                                                    <c:set var="subjectMap" value="${requestScope.SUBJECT_MAP}"/>
+                                                    <c:set var="countSubject" value="${requestScope.COUNT_SUBJECT}"/>
+                                                    <c:forEach var="subject" items="${subjectList}"
+                                                               varStatus="counter">
+                                                        <tr>
+                                                            <td class="sorting_1"
+                                                                style="text-align: center">${counter.count}</td>
+                                                            <td style="text-align: left">
+                                                                    ${subject.name}
+                                                            </td>
+                                                            <td style="text-align: right">${subject.semester_no}</td>
 
 
-                                                        <td style="text-align: center;">
-                                                            <form action="DispatchServlet"
-                                                                  enctype="multipart/form-data"
-                                                                  method="POST">
-                                                                <input type="hidden" value="${subject.id}"
-                                                                       name="pk">
-                                                                <input type="hidden" value="${subject.id}"
-                                                                       name="subjectPK">
-                                                                <input type="hidden" name="txtSearchValue"
-                                                                       value="${param.txtSearchValue}"/>
-                                                                <div class="btn-group">
-                                                                    <button type="button" class="btn btn-light"
-                                                                            data-toggle="modal"
-                                                                            data-target="#viewModal${counter.count}"
-                                                                            title="View"
-                                                                            data-original-title="View">
-                                                                        <i class="fa fa-eye text-primary"></i>
-                                                                    </button>
-                                                                    <button type="button" class="btn btn-light"
-                                                                            data-toggle="modal"
-                                                                            data-target="#updateModal${subject.id}"
-                                                                            title="Update"
-                                                                            data-original-title="Edit">
-                                                                        <i class="fa fa-pencil text-primary"></i>
-                                                                    </button>
-                                                                    <button type="button" class="btn btn-light"
-                                                                            data-toggle="modal"
-                                                                            data-target="#deleteModal${subject.id}"
-                                                                            title="Delete"
-                                                                            data-original-title="Remove">
-                                                                        <i class="fa fa-times text-primary"></i>
-                                                                    </button>
-                                                                    <!--Start: View Subject Modal-->
-                                                                    <div class="modal fade"
-                                                                         id="viewModal${counter.count}"
-                                                                         tabindex="-1"
-                                                                         role="dialog"
-                                                                         aria-labelledby="exampleModalLongTitle"
-                                                                         aria-hidden="true">
-                                                                        <div class="modal-dialog modal-xl"
-                                                                             role="document">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title"
-                                                                                        id="modalTitle${counter.count}">
-                                                                                        Subject Log</h5>
-                                                                                    <button type="button" class="close"
-                                                                                            data-dismiss="modal"
-                                                                                            aria-label="Close">
+                                                            <td style="text-align: center;">
+                                                                <form action="DispatchServlet"
+                                                                      enctype="multipart/form-data"
+                                                                      method="POST">
+                                                                    <input type="hidden" value="${subject.id}"
+                                                                           name="pk">
+                                                                    <input type="hidden" value="${subject.id}"
+                                                                           name="subjectPK">
+                                                                    <input type="hidden" name="txtSearchValue"
+                                                                           value="${param.txtSearchValue}"/>
+                                                                    <div class="btn-group">
+                                                                        <button type="button" class="btn btn-light"
+                                                                                data-toggle="modal"
+                                                                                data-target="#viewModal${counter.count}"
+                                                                                title="View"
+                                                                                data-original-title="View">
+                                                                            <i class="fa fa-eye text-primary"></i>
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-light"
+                                                                                data-toggle="modal"
+                                                                                data-target="#updateModal${subject.id}"
+                                                                                title="Update"
+                                                                                data-original-title="Edit">
+                                                                            <i class="fa fa-pencil text-primary"></i>
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-light"
+                                                                                data-toggle="modal"
+                                                                                data-target="#deleteModal${subject.id}"
+                                                                                title="Delete"
+                                                                                data-original-title="Remove">
+                                                                            <i class="fa fa-times text-primary"></i>
+                                                                        </button>
+                                                                        <!--Start: View Subject Modal-->
+                                                                        <div class="modal fade"
+                                                                             id="viewModal${counter.count}"
+                                                                             tabindex="-1"
+                                                                             role="dialog"
+                                                                             aria-labelledby="exampleModalLongTitle"
+                                                                             aria-hidden="true">
+                                                                            <div class="modal-dialog modal-xl"
+                                                                                 role="document">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title"
+                                                                                            id="modalTitle${counter.count}">
+                                                                                            Subject Log</h5>
+                                                                                        <button type="button"
+                                                                                                class="close"
+                                                                                                data-dismiss="modal"
+                                                                                                aria-label="Close">
                                                                                         <span
                                                                                                 aria-hidden="true">&times;</span>
-                                                                                    </button>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <fieldset disabled>
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-1 col-form-label">Subject
+                                                                                                    Name</label>
+                                                                                                <div class="col-sm-10">
+                                                                                                    <input type="text"
+                                                                                                           class="form-control textField"
+                                                                                                           name="txtUpdateSubjectName"
+                                                                                                           value="${subject.name}">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-1 col-form-label">Semester
+                                                                                                    No</label>
+                                                                                                <div class="col-sm-10">
+                                                                                                    <input type="text"
+                                                                                                           class="form-control semesterField"
+                                                                                                           name="txtUpdateSemester"
+                                                                                                           value="${subject.semester_no}">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group row">
+                                                                                                <div class="table-responsive">
+                                                                                                    <table class="table table-hover">
+                                                                                                        <thead>
+                                                                                                        <tr>
+                                                                                                            <th scope="col">
+                                                                                                                Book ID
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Book
+                                                                                                                Title
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Publisher
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Publish
+                                                                                                                Date
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Price
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Quantity
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Rating
+                                                                                                            </th>
+                                                                                                        </tr>
+                                                                                                        </thead>
+                                                                                                        <tbody>
+                                                                                                            <%--<c:set var="authorMap" value="${requestScope.AUTHOR_MAP}"/>
+                                                                                                            <c:set var="keyAuthorID" value="${authorMap.keySet()}"/> --%>
+                                                                                                        <c:set var="subjectBook"
+                                                                                                               value="${subjectMap.get(subject.id)}"/>
+                                                                                                        <c:forEach
+                                                                                                                var="bookOfSubject"
+                                                                                                                items="${subjectBook}">
+                                                                                                            <tr>
+                                                                                                                <td>${bookOfSubject.bookID} </td>
+                                                                                                                <td>${bookOfSubject.title} </td>
+                                                                                                                <td>${bookOfSubject.publisher} </td>
+                                                                                                                <td>${bookOfSubject.publicationDate} </td>
+                                                                                                                <td>${bookOfSubject.price} </td>
+                                                                                                                <td>${bookOfSubject.quantity} </td>
+                                                                                                                <td>${bookOfSubject.avgRating} </td>
+                                                                                                            </tr>
+                                                                                                        </c:forEach>
+                                                                                                        </tbody>
+                                                                                                    </table>
+                                                                                                </div>
+
+                                                                                            </div>
+                                                                                        </fieldset>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button"
+                                                                                                class="btn btn-primary"
+                                                                                                data-dismiss="modal">
+                                                                                            Close
+                                                                                        </button>
+                                                                                    </div>
                                                                                 </div>
-                                                                                <div class="modal-body">
-                                                                                    <fieldset disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!--End: View Subject Modal-->
+
+                                                                        <!--Start: Update Subject Modal-->
+                                                                        <div class="modal fade"
+                                                                             id="updateModal${subject.id}"
+                                                                             tabindex="-1"
+                                                                             role="dialog"
+                                                                             aria-labelledby="ariaUpdateModal${subject.id}"
+                                                                             aria-hidden="true">
+                                                                            <div class="modal-dialog" role="document">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title"
+                                                                                            id="exampleModalLongTitle3">
+                                                                                            Edit Subject Details
+                                                                                        </h5>
+                                                                                        <button type="button"
+                                                                                                class="close"
+                                                                                                data-dismiss="modal"
+                                                                                                aria-label="Close">
+                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+
                                                                                         <div class="form-group row">
-                                                                                            <label class="col-sm-1 col-form-label">Subject
+                                                                                            <label class="col-sm-3 col-form-label">Subject
                                                                                                 Name</label>
-                                                                                            <div class="col-sm-10">
+                                                                                            <div class="col-sm-9">
                                                                                                 <input type="text"
-                                                                                                       class="form-control textField"
+                                                                                                       class="form-control"
                                                                                                        name="txtUpdateSubjectName"
                                                                                                        value="${subject.name}">
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="form-group row">
-                                                                                            <label class="col-sm-1 col-form-label">Semester
+                                                                                            <label class="col-sm-3 col-form-label">Semester
                                                                                                 No</label>
-                                                                                            <div class="col-sm-10">
+                                                                                            <div class="col-sm-9">
                                                                                                 <input type="text"
-                                                                                                       class="form-control semesterField"
+                                                                                                       class="form-control"
                                                                                                        name="txtUpdateSemester"
                                                                                                        value="${subject.semester_no}">
                                                                                             </div>
                                                                                         </div>
-                                                                                        <div class="form-group row">
-                                                                                            <div class="table-responsive">
-                                                                                                <table class="table table-hover">
-                                                                                                    <thead>
-                                                                                                    <tr>
-                                                                                                        <th scope="col">
-                                                                                                            Book ID
-                                                                                                        </th>
-                                                                                                        <th scope="col">
-                                                                                                            Book Title
-                                                                                                        </th>
-                                                                                                        <th scope="col">
-                                                                                                            Publisher
-                                                                                                        </th>
-                                                                                                        <th scope="col">
-                                                                                                            Publish Date
-                                                                                                        </th>
-                                                                                                        <th scope="col">
-                                                                                                            Price
-                                                                                                        </th>
-                                                                                                        <th scope="col">
-                                                                                                            Quantity
-                                                                                                        </th>
-                                                                                                        <th scope="col">
-                                                                                                            Rating
-                                                                                                        </th>
-                                                                                                    </tr>
-                                                                                                    </thead>
-                                                                                                    <tbody>
-                                                                                                        <%--<c:set var="authorMap" value="${requestScope.AUTHOR_MAP}"/>
-                                                                                                        <c:set var="keyAuthorID" value="${authorMap.keySet()}"/> --%>
-                                                                                                    <c:set var="subjectBook"
-                                                                                                           value="${subjectMap.get(subject.id)}"/>
-                                                                                                    <c:forEach
-                                                                                                            var="bookOfSubject"
-                                                                                                            items="${subjectBook}">
-                                                                                                        <tr>
-                                                                                                            <td>${bookOfSubject.bookID} </td>
-                                                                                                            <td>${bookOfSubject.title} </td>
-                                                                                                            <td>${bookOfSubject.publisher} </td>
-                                                                                                            <td>${bookOfSubject.publicationDate} </td>
-                                                                                                            <td>${bookOfSubject.price} </td>
-                                                                                                            <td>${bookOfSubject.quantity} </td>
-                                                                                                            <td>${bookOfSubject.avgRating} </td>
-                                                                                                        </tr>
-                                                                                                    </c:forEach>
-                                                                                                    </tbody>
-                                                                                                </table>
-                                                                                            </div>
-
-                                                                                        </div>
-                                                                                    </fieldset>
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button"
-                                                                                            class="btn btn-primary"
-                                                                                            data-dismiss="modal">Close
-                                                                                    </button>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="submit"
+                                                                                                name="btAction"
+                                                                                                value="Update Subject"
+                                                                                                class="btn btn-primary"
+                                                                                        >
+                                                                                            Save
+                                                                                        </button>
+                                                                                        <button type="button"
+                                                                                                class="btn btn-outline-primary"
+                                                                                                data-dismiss="modal">
+                                                                                            Close
+                                                                                        </button>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <!--End: View Subject Modal-->
+                                                                        <!--End: Update Subject Modal-->
 
-                                                                    <!--Start: Update Subject Modal-->
-                                                                    <div class="modal fade"
-                                                                         id="updateModal${subject.id}"
-                                                                         tabindex="-1"
-                                                                         role="dialog"
-                                                                         aria-labelledby="ariaUpdateModal${subject.id}"
-                                                                         aria-hidden="true">
-                                                                        <div class="modal-dialog" role="document">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title"
-                                                                                        id="exampleModalLongTitle3">
-                                                                                        Edit Subject Details
-                                                                                    </h5>
-                                                                                    <button type="button"
-                                                                                            class="close"
-                                                                                            data-dismiss="modal"
-                                                                                            aria-label="Close">
-                                                                                        <span aria-hidden="true">&times;</span>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-
-                                                                                    <div class="form-group row">
-                                                                                        <label class="col-sm-3 col-form-label">Subject
-                                                                                            Name</label>
-                                                                                        <div class="col-sm-9">
-                                                                                            <input type="text"
-                                                                                                   class="form-control"
-                                                                                                   name="txtUpdateSubjectName"
-                                                                                                   value="${subject.name}">
-                                                                                        </div>
+                                                                        <!--Start: Delete Subject Modal-->
+                                                                        <div class="modal fade"
+                                                                             id="deleteModal${subject.id}"
+                                                                             tabindex="-1"
+                                                                             role="dialog"
+                                                                             aria-labelledby="ariaDeleteModal${subject.id}"
+                                                                             aria-hidden="true">
+                                                                            <div class="modal-dialog" role="document">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title"
+                                                                                            id="exampleModalLongTitle2">
+                                                                                            WARNING
+                                                                                        </h5>
+                                                                                        <button type="button"
+                                                                                                class="close"
+                                                                                                data-dismiss="modal"
+                                                                                                aria-label="Close">
+                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                        </button>
                                                                                     </div>
-                                                                                    <div class="form-group row">
-                                                                                        <label class="col-sm-3 col-form-label">Semester
-                                                                                            No</label>
-                                                                                        <div class="col-sm-9">
-                                                                                            <input type="text"
-                                                                                                   class="form-control"
-                                                                                                   name="txtUpdateSemester"
-                                                                                                   value="${subject.semester_no}">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="submit"
-                                                                                            name="btAction"
-                                                                                            value="Update Subject"
-                                                                                            class="btn btn-primary"
-                                                                                    >
-                                                                                        Save
-                                                                                    </button>
-                                                                                    <button type="button"
-                                                                                            class="btn btn-outline-primary"
-                                                                                            data-dismiss="modal">
-                                                                                        Close
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!--End: Update Subject Modal-->
-
-                                                                    <!--Start: Delete Subject Modal-->
-                                                                    <div class="modal fade"
-                                                                         id="deleteModal${subject.id}"
-                                                                         tabindex="-1"
-                                                                         role="dialog"
-                                                                         aria-labelledby="ariaDeleteModal${subject.id}"
-                                                                         aria-hidden="true">
-                                                                        <div class="modal-dialog" role="document">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title"
-                                                                                        id="exampleModalLongTitle2">
-                                                                                        WARNING
-                                                                                    </h5>
-                                                                                    <button type="button"
-                                                                                            class="close"
-                                                                                            data-dismiss="modal"
-                                                                                            aria-label="Close">
-                                                                                        <span aria-hidden="true">&times;</span>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <c:if test="${countSubject!=null}">
-                                                                                    <c:choose>
-                                                                                        <c:when test="${countSubject
+                                                                                    <c:if test="${countSubject!=null}">
+                                                                                        <c:choose>
+                                                                                            <c:when test="${countSubject
                                                                                     .get(subject.id) > 0}">
-                                                                                            <div class="modal-body">
-                                                                                                <div class="row">
-                                                                                                    <div class="col-12 text-center">
-                                                                                                        You haven't
-                                                                                                        deleted
-                                                                                                        all
-                                                                                                        the
-                                                                                                        books from
-                                                                                                        this subject
-                                                                                                    </div>
+                                                                                                <div class="modal-body">
+                                                                                                    <div class="row">
+                                                                                                        <div class="col-12 text-center">
+                                                                                                            You haven't
+                                                                                                            deleted
+                                                                                                            all
+                                                                                                            the
+                                                                                                            books from
+                                                                                                            this subject
+                                                                                                        </div>
 
+                                                                                                    </div>
                                                                                                 </div>
-                                                                                            </div>
-                                                                                            <div class="modal-footer">
-                                                                                                <button type="button"
-                                                                                                        class="btn btn-outline-primary"
-                                                                                                        data-dismiss="modal">
-                                                                                                    Close
-                                                                                                </button>
-                                                                                            </div>
-                                                                                        </c:when>
-                                                                                        <c:when test="${countSubject
+                                                                                                <div class="modal-footer">
+                                                                                                    <button type="button"
+                                                                                                            class="btn btn-outline-primary"
+                                                                                                            data-dismiss="modal">
+                                                                                                        Close
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </c:when>
+                                                                                            <c:when test="${countSubject
                                                                                     .get(subject.id) eq null}">
-                                                                                            <div class="modal-body">
-                                                                                                Do you want to delete
-                                                                                                this
-                                                                                                subject?
-                                                                                            </div>
-                                                                                            <div class="modal-footer">
-                                                                                                <button type="submit"
-                                                                                                        name="btAction"
-                                                                                                        value="Delete Subject"
-                                                                                                        class="btn btn-primary"
-                                                                                                >
-                                                                                                    Save
-                                                                                                </button>
-                                                                                                <button type="button"
-                                                                                                        class="btn btn-outline-primary"
-                                                                                                        data-dismiss="modal">
-                                                                                                    Close
-                                                                                                </button>
-                                                                                            </div>
-                                                                                        </c:when>
-                                                                                    </c:choose>
-                                                                                </c:if>
+                                                                                                <div class="modal-body">
+                                                                                                    Do you want to
+                                                                                                    delete
+                                                                                                    this
+                                                                                                    subject?
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <button type="submit"
+                                                                                                            name="btAction"
+                                                                                                            value="Delete Subject"
+                                                                                                            class="btn btn-primary"
+                                                                                                    >
+                                                                                                        Save
+                                                                                                    </button>
+                                                                                                    <button type="button"
+                                                                                                            class="btn btn-outline-primary"
+                                                                                                            data-dismiss="modal">
+                                                                                                        Close
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </c:when>
+                                                                                        </c:choose>
+                                                                                    </c:if>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
+                                                                        <!--End: Delete Author Modal-->
                                                                     </div>
-                                                                    <!--End: Delete Author Modal-->
-                                                                </div>
-                                                            </form>
+                                                                </form>
 
-                                                        </td>
-                                                    </tr>
-                                                </c:forEach>
-                                                </tbody>
-                                            </table>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -362,45 +378,45 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- content-wrapper ends -->
-            <!-- partial:../../partials/_footer.html -->
-            <footer class="footer">
-                <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <!-- content-wrapper ends -->
+                <!-- partial:../../partials/_footer.html -->
+                <footer class="footer">
+                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
                         <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.
                             Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin
                                 template</a> from BootstrapDash. All rights reserved.</span>
-                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made
                             with <i class="ti-heart text-danger ml-1"></i></span>
-                </div>
-            </footer>
-            <!-- partial -->
+                    </div>
+                </footer>
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
         </div>
-        <!-- main-panel ends -->
+        <!-- page-body-wrapper ends -->
     </div>
-    <!-- page-body-wrapper ends -->
-</div>
-<!-- container-scroller -->
-<!-- plugins:js -->
-<%--<script src="vendors/js/vendor.bundle.base.js"></script>--%>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-        crossorigin="anonymous"></script>
-<!-- endinject -->
-<!-- Plugin js for this page -->
-<script src="vendors/datatables.net/jquery.dataTables.js"></script>
-<script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-<!-- End plugin js for this page -->
-<!-- inject:js -->
-<script src="js/off-canvas.js"></script>
-<script src="js/hoverable-collapse.js"></script>
-<script src="js/template.js"></script>
-<script src="js/settings.js"></script>
-<script src="js/todolist.js"></script>
-<!-- endinject -->
-<!-- Custom js for this page-->
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <%--<script src="vendors/js/vendor.bundle.base.js"></script>--%>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+            crossorigin="anonymous"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="js/off-canvas.js"></script>
+    <script src="js/hoverable-collapse.js"></script>
+    <script src="js/template.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
 
-<!-- End custom js for this page-->
+    <!-- End custom js for this page-->
+</c:if>
 </body>
 </html>
 
