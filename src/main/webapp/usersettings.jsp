@@ -884,7 +884,7 @@
                                         <div class="modal fade"
                                              id="orderModal${order.value.key.id}"
                                              tabindex="-1">
-                                            <div class="modal-dialog modal-lg">
+                                            <div class="modal-dialog modal-xl">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title">
@@ -1234,7 +1234,7 @@
                                         <div class="modal fade"
                                              id="renewalModal${renewal.renewalID}"
                                              tabindex="-1">
-                                            <div class="modal-dialog modal-lg">
+                                            <div class="modal-dialog modal-xl">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title">
