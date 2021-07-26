@@ -44,7 +44,6 @@
             <div class="col-lg-8 text-center">
                 <div class="alert alert-success h6">
                     Return successful. Thank you for using our service. <br>
-                    Please wait for a staff to process your order.
                 </div>
             </div>
             <div class="col-lg-2"></div>
