@@ -412,14 +412,18 @@
                                                                                 </div>
                                                                                 <div class="form-group row">
                                                                                     <label class="col-sm-3 col-form-label">
-                                                                                        Subject ID
+                                                                                        Subject
                                                                                     </label>
                                                                                     <div class="col-sm-9">
                                                                                         <input type="text"
                                                                                                class="form-control"
+                                                                                               id="subjectAutoComplete${book.bookID}"
+                                                                                               value="${book.subject.name}"
+                                                                                               onfocus="inputForAutoCompleteSubject(this);"
+                                                                                        >
+                                                                                        <input type="hidden"
                                                                                                name="txtUpdateSubjectID"
-                                                                                               value="${book.subjectID}"
-                                                                                               required>
+                                                                                               value=""/>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">
@@ -493,9 +497,10 @@
                                                                                         Description
                                                                                     </label>
                                                                                     <div class="col-sm-9">
-                                                                                        <textarea class="form-control descriptionField"
-                                                                                                  name="txtUpdateDescription"
-                                                                                                  rows="5">${book.description}
+                                                                                        <textarea
+                                                                                                class="form-control descriptionField"
+                                                                                                name="txtUpdateDescription"
+                                                                                                rows="5">${book.description}
                                                                                         </textarea>
                                                                                     </div>
                                                                                 </div>
@@ -632,6 +637,7 @@
 <script src="js/settings.js"></script>
 <script src="js/todolist.js"></script>
 <!-- endinject -->
+<script type="text/javascript" src="src/jquery.autocomplete.subject.js"></script>
 <script type="text/javascript" src="src/jquery.autocomplete.js"></script>
 
 </body>

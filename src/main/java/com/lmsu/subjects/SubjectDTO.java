@@ -15,4 +15,10 @@ class SubjectDTO implements Serializable {
     private String name;
     private int semester_no;
     private boolean deleteStatus;
+
+    public SubjectDTO(String subjectID, String subjectName) {
+        this.id = subjectID;
+        this.name = subjectName;
+    }
 }
+

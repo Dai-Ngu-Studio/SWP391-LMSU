@@ -3,16 +3,21 @@ package com.lmsu.books;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.SQLException;
 
 import com.lmsu.authors.AuthorDTO;
 import com.lmsu.importlog.ImportLogDTO;
+import com.lmsu.subjects.SubjectDAO;
+import com.lmsu.subjects.SubjectDTO;
 import lombok.*;
+
+import javax.naming.NamingException;
 
 public @Data
 class BookDTO implements Serializable {
     private String bookID;
     private String title;
-    private String subjectID;
+    private SubjectDTO subject;
     private String publisher;
     private String publicationDate;
     private String description;
@@ -32,10 +37,10 @@ class BookDTO implements Serializable {
 
     public BookDTO(String bookID, String title, String subjectID, String publisher,
                    String publicationDate, String description, BigDecimal price, int quantity, boolean deleteStatus,
-                   Date lastLentDate, float avgRating, String isbnTen, String isbnThirteen, String coverPath) {
+                   Date lastLentDate, float avgRating, String isbnTen, String isbnThirteen, String coverPath) throws SQLException, NamingException {
         this.bookID = bookID;
         this.title = title;
-        this.subjectID = subjectID;
+        this.subject = new SubjectDAO().getById(subjectID);
         this.publisher = publisher;
         this.publicationDate = publicationDate;
         this.description = description;
@@ -62,5 +67,11 @@ class BookDTO implements Serializable {
         this.title = title;
         this.coverPath = coverPath;
         this.author = author;
+    }
+    public String getSubjectID(){
+        return subject.getId();
+    }
+    public void setSubjectID(String subjectID) throws SQLException, NamingException {
+        this.subject = new SubjectDAO().getById(subjectID);
     }
 }

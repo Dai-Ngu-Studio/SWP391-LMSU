@@ -1,14 +1,13 @@
 package com.lmsu.subjects;
 
 import com.lmsu.authors.AuthorDTO;
+import com.lmsu.books.BookDTO;
 import com.lmsu.utils.DBHelpers;
 
 import javax.naming.NamingException;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.math.BigDecimal;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +23,46 @@ public class SubjectDAO implements Serializable {
             this.subjectList.clear();
         }
     }
+    public ArrayList<SubjectDTO> getListSubject(String name) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        ArrayList<SubjectDTO> list = new ArrayList<>();
 
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT [id], [name] "
+                        + "FROM [Subjects] "
+                        + "WHERE [name] LIKE ? AND [deleteStatus] = 0";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, "%" + name + "%");
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet then returns author name
+                while (rs.next()) {
+                    String id = rs.getString("id");
+                    String nameCol = rs.getString("name");
+                    SubjectDTO dto = new SubjectDTO(id, nameCol);
+                    list.add(dto);
+                }
+            } //end if connection existed
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return list;
+    }
     public void viewSubjectList() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -238,5 +276,36 @@ public class SubjectDAO implements Serializable {
             if (con != null) con.close();
         }
         return false;
+    }
+    public SubjectDTO getById(String id) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            //1. Connect DB using method built
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                //2. Create SQL String
+                String sql = "SELECT * " +
+                        "FROM [Subjects] " +
+                        "WHERE [id] = ?";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, id);
+                //4. Execute Query and get ResultSet
+                rs = stm.executeQuery();
+                //5. Process ResultSet
+                if (rs.next()) {
+                    String nameCol = rs.getString("name");
+                    SubjectDTO dto = new SubjectDTO(id, nameCol);
+                    return dto;
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+        return null;
     }
 }

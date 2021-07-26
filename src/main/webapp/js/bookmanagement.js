@@ -13,7 +13,7 @@ function readURL(input, idImage) {
 
 function inputForAutoComplete(input) {
     let idInput = $(input).attr('id');
-    $('#' + idInput).devbridgeAutocomplete({
+    $('#' + idInput).autocomplete({
         serviceUrl: 'AutoSuggestAuthorServlet', //tell the script where to send requests
         width: "auto", //set width
         //add value to input field
@@ -29,7 +29,24 @@ function inputForAutoComplete(input) {
         noSuggestionNotice: 'Sorry, no matching results',
     });
 }
+function inputForAutoCompleteSubject(input) {
+    let idInput = $(input).attr('id');
 
+    $('#' + idInput).autocompletesubject({
+        serviceUrl: 'AutoSuggestSubjectServlet', //tell the script where to send requests
+        width: "auto", //set width
+        //add value to input field
+        onSelect: function (suggestion) {
+            // $('#authorAutoComplete').val(suggestion.id);
+            // $('input[id=authorIDAutocomplete]').val((suggestion.name));
+            $(input).val(suggestion.name);
+            $(input).parent().children().eq(1).val(suggestion.id);
+            console.log(suggestion.id)
+        },
+        showNoSuggestionNotice: true,
+        noSuggestionNotice: 'Sorry, no matching results',
+    });
+}
 function checkISBN() {
     let inputTen = document.getElementById("txtISBNTen");
     let inputThirteen = document.getElementById("txtISBNThirteen");
