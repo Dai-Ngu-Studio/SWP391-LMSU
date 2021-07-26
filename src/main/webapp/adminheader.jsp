@@ -4,10 +4,10 @@
 
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="dashboard.jsp">
+        <a class="navbar-brand brand-logo mr-5" href="ShowDashboardServlet">
             <img src="images/LMSU LOGO DASHBOARD.svg" class="mr-2" alt="logo" style="margin-left: 40px;"/>
         </a>
-        <a class="navbar-brand brand-logo-mini" href="dashboard.jsp">
+        <a class="navbar-brand brand-logo-mini" href="ShowDashboardServlet">
             <img src="images/LMSU LOGO MINI DASHBOARD.svg" alt="logo"/>
         </a>
     </div>
