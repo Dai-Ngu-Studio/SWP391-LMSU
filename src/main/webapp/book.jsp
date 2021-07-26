@@ -30,7 +30,7 @@
 
 </div>
 <c:if test="${requestScope.CHECKOUT_SUCCESS}">
-    <div class="row mt-2">
+    <div class="row mt-2 txtCheckout">
         <div class="col-lg-2"></div>
         <div class="col-lg-8 text-center">
             <div class="alert alert-success h5">
@@ -42,7 +42,7 @@
     </div>
 </c:if>
 <c:if test="${requestScope.CHECKOUT_FAILED}">
-    <div class="row mt-2">
+    <div class="row mt-2 txtCheckout">
         <div class="col-lg-2"></div>
         <div class="col-lg-8 text-center">
             <div class="alert alert-warning h5">
@@ -53,6 +53,16 @@
         <div class="col-lg-2"></div>
     </div>
 </c:if>
+
+<script>
+    $(document).ready(function () {
+        $('.txtCheckout').on('click', function () {
+            $('.txtCheckout').fadeOut(300, function () {
+                $('.txtCheckout').remove();
+            });
+        });
+    });
+</script>
 
 <c:set var="bookList" value="${requestScope.BOOK_LIST}"/>
 <c:set var="indexCount" value="${0}"/>

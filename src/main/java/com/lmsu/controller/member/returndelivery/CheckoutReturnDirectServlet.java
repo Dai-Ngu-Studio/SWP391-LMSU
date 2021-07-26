@@ -70,6 +70,8 @@ public class CheckoutReturnDirectServlet extends HttpServlet {
 
     private final String ATTR_CHECKOUT_PICKUPDATE = "CHECKOUT_PICKUP_DATE";
     private final String ATTR_CHECKOUT_PICKUPTIME = "CHECKOUT_PICKUP_TIME";
+    private final String ATTR_RETURN_SUCCESS = "RETURN_SUCCESS";
+    private final String ATTR_RETURN_FAILED = "RETURN_FAILED";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -126,10 +128,16 @@ public class CheckoutReturnDirectServlet extends HttpServlet {
                                             session.removeAttribute(ATTR_RETURN_CART);
                                             session.removeAttribute(ATTR_CHECKOUT_PICKUPDATE);
                                             session.removeAttribute(ATTR_CHECKOUT_PICKUPTIME);
-                                            //request.setAttribute(ATTR_RETURN_SUCCESS, true);
+                                            request.setAttribute(ATTR_RETURN_SUCCESS, true);
                                             url = SHOW_USER_SETTING_CONTROLLER; //W.I.P. temporary (to be changed)
-                                        }// end if delivery order created successfully
+                                        } // end if delivery order created successfully
+                                        else {
+                                            request.setAttribute(ATTR_RETURN_FAILED, true);
+                                        }
                                     }// end if order created successfully
+                                    else {
+                                        request.setAttribute(ATTR_RETURN_FAILED, true);
+                                    }
                                     if (conn != null) {
                                         conn.setAutoCommit(true);
                                         conn.close();
@@ -145,6 +153,7 @@ public class CheckoutReturnDirectServlet extends HttpServlet {
             log("CheckoutReturnDirectServlet _ SQL: " + ex.getMessage());
             try {
                 conn.rollback();
+                request.setAttribute(ATTR_RETURN_FAILED, true);
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
                 log("CheckoutReturnDirectServlet _ SQL: " + exRollback.getMessage());
@@ -154,6 +163,7 @@ public class CheckoutReturnDirectServlet extends HttpServlet {
             log("CheckoutReturnDirectServlet _ Naming: " + ex.getMessage());
             try {
                 conn.rollback();
+                request.setAttribute(ATTR_RETURN_FAILED, true);
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
                 log("CheckoutReturnDirectServlet _ SQL: " + exRollback.getMessage());
@@ -163,6 +173,7 @@ public class CheckoutReturnDirectServlet extends HttpServlet {
             log("CheckoutReturnDirectServlet _ Exception: " + ex.getMessage());
             try {
                 conn.rollback();
+                request.setAttribute(ATTR_RETURN_FAILED, true);
             } catch (SQLException exRollback) {
                 LOGGER.error(exRollback.getMessage());
                 log("CheckoutReturnDirectServlet _ SQL: " + exRollback.getMessage());

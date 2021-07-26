@@ -36,16 +36,42 @@
                 <div class="alert alert-success text-center">${requestScope.MEMBER_UPDATE_SETTING_MESSAGE}</div>
             </div>
         </div>
-        <script>
-            $(document).ready(function () {
-                $('.txtUpdateSetting').on('click', function () {
-                    $('.txtUpdateSetting').fadeOut(300, function () {
-                        $('.txtUpdateSetting').remove();
-                    });
+    </c:if>
+
+    <c:if test="${requestScope.RETURN_SUCCESS}">
+        <div class="row mt-2 txtUpdateSetting">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8 text-center">
+                <div class="alert alert-success h6">
+                    Return successful. Thank you for using our service. <br>
+                    Please wait for a staff to process your order.
+                </div>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+    </c:if>
+    <c:if test="${requestScope.RETURN_FAILED}">
+        <div class="row mt-2 txtUpdateSetting">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8 text-center">
+                <div class="alert alert-warning h6">
+                    Return unsuccessful. Our system is under maintenance. <br>
+                    Please try again later. Thank you for your understanding.
+                </div>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+    </c:if>
+    <script>
+        $(document).ready(function () {
+            $('.txtUpdateSetting').on('click', function () {
+                $('.txtUpdateSetting').fadeOut(300, function () {
+                    $('.txtUpdateSetting').remove();
                 });
             });
-        </script>
-    </c:if>
+        });
+    </script>
+
     <div class="row">
         <div class="col-lg-3 grid-margin">
             <div class="card pb-3">
