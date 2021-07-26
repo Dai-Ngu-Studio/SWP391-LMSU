@@ -130,7 +130,7 @@
                                     </div>
                                     <input type="text" class="form-control" value="${profile.id}"
                                            aria-label="User ID" aria-describedby="basic-addon1"
-                                           style="background-color: #fff" readonly/>
+                                           style="background-color: #fff; padding: 1.3rem 1.7rem" readonly/>
                                 </div>
                                 <c:if test="${not empty email_split}">
                                     <div class="input-group mb-3">
@@ -140,7 +140,7 @@
                                         </div>
                                         <input type="text" class="form-control" value="${email_split[0]}"
                                                aria-label="Email Address" aria-describedby="basic-addon2"
-                                               style="background-color: #fff" readonly/>
+                                               style="background-color: #fff; padding: 1.3rem 1.7rem" readonly/>
                                         <div class="input-group-append">
                                             <span class="input-group-text"
                                                   style="padding: 1.3rem 1.3rem;  max-height: 2.4rem"
@@ -158,7 +158,7 @@
                                         </div>
                                         <input type="text" class="form-control" aria-label="Phone Number"
                                                value="${profile.phoneNumber}" pattern="^[0-9]{10}$"
-                                               name="txtPhone"/>
+                                               name="txtPhone" style="padding: 1.3rem 1.7rem"/>
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="submit" name="btAction"
                                                     value="Change Phone Number"
@@ -175,7 +175,8 @@
                                               style="padding: 1.3rem 1.3rem; max-height: 2.4rem">Semester No</span>
                                     </div>
                                     <input type="text" class="form-control" aria-label="Phone Number"
-                                           value="${profile.semester}" readonly style="background-color: #fff"/>
+                                           value="${profile.semester}" readonly
+                                           style="background-color: #fff; padding: 1.3rem 1.7rem"/>
                                 </div>
                             </div>
                         </div>
