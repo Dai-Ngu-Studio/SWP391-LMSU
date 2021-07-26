@@ -608,6 +608,44 @@ public class OrderItemDAO implements Serializable {
         }
     }
 
+    public void getReservedOrderItems() throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [id], [orderID], [bookID], [lendStatus], " +
+                        "[returnDeadline], [lendDate], [returnDate], [penaltyAmount], [penaltyStatus] " +
+                        "FROM [OrderItems] " +
+                        "WHERE ([lendStatus] = 10) ";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    if (this.orderItemList == null) {
+                        this.orderItemList = new ArrayList<>();
+                    }
+                    OrderItemDTO dto = new OrderItemDTO();
+                    dto.setId(rs.getInt("id"));
+                    dto.setOrderID(rs.getInt("orderID"));
+                    dto.setBookID(rs.getString("bookID"));
+                    dto.setLendStatus(rs.getInt("lendStatus"));
+                    dto.setReturnDeadline(rs.getDate("returnDeadline"));
+                    dto.setLendDate(rs.getDate("lendDate"));
+                    dto.setReturnDate(rs.getDate("returnDate"));
+                    dto.setPenaltyAmount(rs.getBigDecimal("penaltyAmount"));
+                    dto.setPenaltyStatus(rs.getInt("penaltyStatus"));
+                    this.orderItemList.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (con != null) con.close();
+        }
+    }
+
     public int getTodayReturned() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
