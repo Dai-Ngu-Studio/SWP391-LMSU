@@ -37,7 +37,6 @@ public class RenewalTimeValidationServlet extends HttpServlet {
         try {
             String q = request.getParameter("orderItemID");
             OrderItemDTO orderItemDTO = orderItemDAO.getOrderItemByID(Integer.parseInt(q));
-//            Date currentDate = Date.valueOf(extendDate);
             LocalDate currentDate = LocalDate.parse(extendDate);
             LocalDate itemDeadline = orderItemDTO.getReturnDeadline().toLocalDate();
 
@@ -45,13 +44,11 @@ public class RenewalTimeValidationServlet extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             if (currentDate != null){
                 if (currentDate.compareTo(itemDeadline) >= 0) {
-                    LocalDate maxDate = orderItemDTO.getReturnDeadline().toLocalDate().plusDays(7);
                     if (ChronoUnit.DAYS.between(itemDeadline, currentDate) > 7) {
                         response.getWriter().write("invalid");
                     } else {
                         response.getWriter().write("true");
                     }
-                    System.out.println(ChronoUnit.DAYS.between(itemDeadline, currentDate));
                 }
                 else {
                     response.getWriter().write("false");
