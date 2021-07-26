@@ -30,7 +30,7 @@
         <div class="alert alert-danger text-center w-100">${requestScope.SEND_FAIL}</div>
     </c:if>
     <c:if test="${not empty requestScope.RECEIVED_MESSAGE}">
-        <div class="alert alert-danger text-center w-100">${requestScope.SEND_FAIL}</div>
+        <div class="alert alert-success text-center w-100">${requestScope.RECEIVED_MESSAGE}</div>
     </c:if>
     <div class="contact">
         <div class="left-contact">
