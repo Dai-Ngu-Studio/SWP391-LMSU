@@ -122,11 +122,13 @@ function checkISBN() {
                                         </label>
                                         <div class="col-sm-9">
                                             <input type="text"
-                                                    class="form-control"
-                                                    value=""
-                                                    name="txtSubjectID"
-                                                    required
-                                            >
+                                                class="form-control"
+                                                id="subjectAutoComplete"
+                                                value=""
+                                                onfocus="inputForAutoCompleteSubject(this);">
+                                            <input type="hidden"
+                                                name="txtSubjectID"
+                                                value=""/>
                                         </div>
                                     </div>
                                     <div class="form-group row" id="rowPublisher">
