@@ -11,8 +11,12 @@ import javax.mail.internet.MimeMultipart;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.Properties;
 
 public class EmailHelpers implements Serializable {
+
+    private static final String EMAIL = "***REMOVED***";
+    private static final String PASSWORD = "***REMOVED***";
 
     /**
      * Utility method to send simple email
@@ -93,5 +97,28 @@ public class EmailHelpers implements Serializable {
         } catch (UnsupportedEncodingException | MessagingException e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    public Session createEmailSession() throws UnsupportedEncodingException, MessagingException {
+        System.out.println("SSLEmail Start");
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+
+        Authenticator auth = new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(EMAIL, PASSWORD);
+            }
+        };
+
+        Session session = Session.getDefaultInstance(props, auth);
+        System.out.println("Session created");
+        if (session != null) {
+            return session;
+        }
+        return null;
     }
 }
