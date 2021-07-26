@@ -18,43 +18,39 @@ public class UpdateNotificationSettingServlet extends HttpServlet {
     static final Logger LOGGER = Logger.getLogger(UpdateNotificationSettingServlet.class);
     private static final String USER_SETTING_CONTROLLER = "ShowProfileServlet";
 
-    private final String PARAM_ARRIVAL_OPTION = "arrivalOpt";
-    private final String PARAM_POPULAR_OPTION = "popularOpt";
-
-    private final String OPTION_ON = "on";
-    private final String OPTION_OFF = "off";
-
-    private final String ATTR_LOGIN_USER = "LOGIN_USER";
-    private final String ATTR_MEMBER_UPDATE_SETTING_SUCCESS = "MEMBER_UPDATE_SETTING_SUCCESS";
-    private final String ATTR_MEMBER_UPDATE_SETTING_MESSAGE = "MEMBER_UPDATE_SETTING_MESSAGE";
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+
+        String newArrival = request.getParameter("newArrival");
+        String highestRated = request.getParameter("highestRated");
+
         String url = USER_SETTING_CONTROLLER;
-        String txtArrivalOpt = request.getParameter(PARAM_ARRIVAL_OPTION);
-        String txtPopularOpt = request.getParameter(PARAM_POPULAR_OPTION);
+
         try {
+            UserDAO userDAO = new UserDAO();
             HttpSession session = request.getSession();
-            if (session != null) {
-                UserDTO user = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
-                if (user != null) {
-                    boolean arrivalOpt = true;
-                    boolean popularOpt = true;
-                    UserDAO userDAO = new UserDAO();
-                    if (txtArrivalOpt.equalsIgnoreCase(OPTION_OFF)) {
-                        arrivalOpt = false;
-                    }
-                    if (txtPopularOpt.equalsIgnoreCase(OPTION_OFF)) {
-                        popularOpt = false;
-                    }
-                    boolean updateResult = userDAO.updateMemberNotificationSetting(user.getId(), arrivalOpt, popularOpt);
-                    if (updateResult) {
-                        UserDTO updatedUser = userDAO.getUserByID(user.getId());
-                        AppUtils.storeLoginedUser(session, updatedUser);
-                        request.setAttribute(ATTR_MEMBER_UPDATE_SETTING_SUCCESS, true);
-                        request.setAttribute(ATTR_MEMBER_UPDATE_SETTING_MESSAGE, "Notification settings updated successfully.");
-                    }
-                }
+
+            UserDTO loginUser = (UserDTO) session.getAttribute("LOGIN_USER");
+
+            boolean newArrivalB = false;
+            if (newArrival != null) {
+                newArrivalB = true;
+            }
+
+            boolean highestRatedB = false;
+            if (highestRated != null) {
+                highestRatedB = true;
+            }
+
+            boolean updateResult = userDAO.updateMemberNotificationSetting(loginUser.getId(), newArrivalB, highestRatedB);
+
+            if (updateResult) {
+                loginUser.setNotifyArrival(newArrivalB);
+                loginUser.setNotifyPopular(highestRatedB);
+                session.setAttribute("LOGIN_USER", loginUser);
+                request.setAttribute("MEMBER_UPDATE_SETTING_MESSAGE", "Notification settings updated successfully.");
             }
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
