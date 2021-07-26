@@ -12,7 +12,7 @@
           integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <link rel="shortcut icon" href="../../../../LMSU-FE/LMSU-FE/images/images/favicon.png"/>
+    <link rel="shortcut icon" href="images/images/favicon.png"/>
 </head>
 
 <body>
@@ -60,12 +60,13 @@
                                         <div class="card-body">
                                             <div class="card-title">
                                                 <a href="<c:url value='ViewBookDetailsServlet?bookPk=${book.key}'/>"
-                                                   class="link text-info">
+                                                   class="link" style="color: #748DDB">
                                                         ${book.value.title}</a>
                                                 <a href="<c:url value='ViewBookDetailsServlet?bookPk=${book.key}'/>"
-                                                   class="link"><i
-                                                        class="fa fa-arrow-circle-right text-info"
-                                                        aria-hidden="true"></i></a>
+                                                   class="link">
+                                                    <i class="fa fa-arrow-circle-right "
+                                                        style="color: #748DDB" aria-hidden="true"></i>
+                                                </a>
                                                 <c:if test="${book.value.quantity eq 0}">
                                                     <label class="badge badge-secondary text-white
                                                     float-right font-weight-light">

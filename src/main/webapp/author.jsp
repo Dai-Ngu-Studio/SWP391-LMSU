@@ -29,15 +29,6 @@
         </div>
         <div class="col-lg-2"></div>
     </div>
-<%--    <div class="row mt-2">--%>
-<%--        <div class="col-lg-2"></div>--%>
-<%--        <div class="col-lg-4 text-center h5">Page 1 of 20</div>--%>
-<%--        <div class="col-lg-4 text-center h5">--%>
-<%--            < 1 2 3 4 5 6 7 ...>--%>
-<%--        </div>--%>
-<%--        <div class="col-lg-2"></div>--%>
-<%--    </div>--%>
-
     <c:set var="authorList" value="${requestScope.AUTHOR_LIST}"/>
     <c:set var="authorTotal" value="${0}"/>
 
@@ -69,7 +60,8 @@
                                         <div class="col-lg-8">
                                             <form action="ShowAuthorBookServlet" class="mb-0">
                                                 <input type="hidden" name="authorPk" value="${author.authorID}">
-                                                <button type="submit" class="btn btn-info">
+                                                <button type="submit" class="btn btn-info"
+                                                        style="background-color: #748DDB; border-color: #748DDB">
                                                     <i class="fa fa-book" aria-hidden="true"></i>
                                                     See More Books of this Author
                                                 </button>

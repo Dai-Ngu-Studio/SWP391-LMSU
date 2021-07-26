@@ -13,6 +13,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="js/orderform.js" defer="defer"></script>
+    <link rel="shortcut icon" href="images/images/favicon.png"/>
 </head>
 
 <body>
@@ -86,13 +87,14 @@
                                             </small>
                                         </div>
                                         <div class="form-group">
-                                            <small class="text-info">
+                                            <small>
                                                 Please present your ID card to the librarian when you are to receive
                                                 your books.
                                             </small>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-primary" id="btnDirectOrder"
+                                            <button type="submit" class="btn" id="btnDirectOrder"
+                                                    style="background-color: #748DDB; border-color: #748DDB; color: white"
                                                     name="btAction" value="DirectOrder" disabled>
                                                 Schedule your pick-up
                                             </button>
@@ -191,7 +193,7 @@
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-primary"
-                                                    id="btnDeliveryOrder"
+                                                    id="btnDeliveryOrder" style="background-color: #748DDB; border-color: #748DDB"
                                                     name="btAction" value="DeliveryOrder"
                                                     disabled>
                                                 Checkout

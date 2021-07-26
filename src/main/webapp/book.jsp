@@ -80,7 +80,7 @@
     <%--End: Empty Column--%>
     <%--Start: Book Item--%>
 
-    <div class="col-lg-4 text-center">
+    <div class="col-lg-4 text-center d-flex justify-content-center py-4">
         <div class="card h-100 mh-100" style="max-width: 540px">
             <div class="row">
                 <div class="col-lg-4">
@@ -88,7 +88,7 @@
                          class="img-fluid"
                          onerror="this.onerror=null; this.src='images/NotAvailable.jpg';"/>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-8 px-4">
                     <div class="card-body">
                         <h5 class="card-title text-center">${book.title}</h5>
                         <div class="card-text">
@@ -101,8 +101,9 @@
                                 <div class="col-lg-8">
                                     <form action="ViewBookDetailsServlet" class="mb-0">
                                         <input type="hidden" name="bookPk" value="${book.bookID}">
-                                        <button type="submit" class="btn btn-info"><i class="fa fa-info-circle"
-                                                                                      aria-hidden="true"></i> More Info
+                                        <button type="submit" class="btn btn-info"
+                                                style="background-color: #748DDB; border-color: #748DDB">
+                                            <i class="fa fa-info-circle" aria-hidden="true"></i> More Info
                                         </button>
                                     </form>
                                 </div>

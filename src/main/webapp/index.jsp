@@ -79,7 +79,7 @@
                 <a href="SearchIndexServlet?txtBookCatalogSearchValue=${subject.id}&itemFilterOptions=Subjects">
                     <div>
                         <img src="images/computer-science.png">
-                        <p><b class="text-center">${subject.name}</b></p>
+                        <p style="padding: 0 0.7rem;"><b class="text-center">${subject.name}</b></p>
                     </div>
                 </a>
             </c:forEach>

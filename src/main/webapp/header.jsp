@@ -209,11 +209,11 @@
                             </a>
                         </c:if>
                         <a class="dropdown-item" href="ShowProfileServlet">
-                            <i class="ti-settings text-primary"></i> Profile
+                            <i class="ti-settings" style="color: #748DDB"></i> Profile
                         </a>
                         <form action="DispatchServlet" class="my-0">
                             <button class="dropdown-item" name="btAction" value="Logout">
-                                <i class="ti-power-off text-primary"></i> Logout
+                                <i class="ti-power-off" style="color: #748DDB"></i> Logout
                             </button>
                         </form>
                     </div>

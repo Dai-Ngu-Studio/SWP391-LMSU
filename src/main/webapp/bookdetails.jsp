@@ -56,7 +56,7 @@
                                 <div class="col-lg-6">
                                     <c:forEach var="author" items="${bookObj.authors}" varStatus="authorCounter">
                                         <a href="<c:url value='ShowAuthorBookServlet?authorPk=${author.key}'/>"
-                                           class="text-info">
+                                           style="color: #748DDB">
                                                 ${author.value}
                                         </a>
                                         <c:if test="${not authorCounter.last}">
@@ -102,7 +102,7 @@
                 <div class="card-body">
                     <span class="card-title mb-0 pr-2">${bookObj.title}</span>
                     <%--Start: Book Rating--%>
-                    <span class="card-text text-primary">
+                    <span class="card-text" style="color: #748CDA;">
                         <c:set var="bookAvgRating" value="${bookObj.avgRating}"/>
                         <c:if test="${bookAvgRating gt 5}">
                             <c:set var="bookAvgRating" value="${5}"/>
@@ -252,7 +252,8 @@
                                                                            value="${bookObj.id}">
                                                                     <c:if test="${user.roleID eq '4'}">
                                                                         <button type="submit"
-                                                                                class="btn btn-primary btn-block"
+                                                                                class="btn btn-block"
+                                                                                style="background-color: #748DDB; border-color: #748DDB; color: #fff"
                                                                                 name="btAction" value="AddToCart">
                                                                             <i class="fa fa-cart-plus"
                                                                                aria-hidden="true"></i>
@@ -347,7 +348,7 @@
                                             <div class="card-body pt-1 pb-3">
                                                 <div class="card-title my-1">
                                                     <span class="card-text mr-2">${comment.memberName}</span>
-                                                    <small class="card-text text-info font-weight-light">
+                                                    <small class="card-text font-weight-light" style="color: #748DDB">
                                                         <c:set var="memberRating"
                                                                value="${fn:substringBefore(comment.rating,'.')}"/>
                                                         <c:if test="${memberRating eq 0}">
@@ -576,8 +577,9 @@
                                         </div>
                                         <div class="col-2">
                                             <input type="hidden" name="bookPk" value="${bookObj.id}"/>
-                                            <button type="submit" class="btn btn-info btn-block"
-                                                    name="btAction" value="AddComment">
+                                            <button type="submit" class="btn btn-block"
+                                                    name="btAction" value="AddComment"
+                                            style="background-color: #748DDB; border-color: #748DDB; color: #fff">
                                                 <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit
                                             </button>
                                         </div>
