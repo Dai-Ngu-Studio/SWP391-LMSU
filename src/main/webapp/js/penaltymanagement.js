@@ -235,7 +235,7 @@ $(document).ready(function () {
     PENALTY_STATUS_DIRECTION.set(PENALTY_UNPAID, PENALTY_PAID);
     let baseStats = [...PENALTY_STATUS_DIRECTION.keys()];
 
-    const lbPenaltyStat = $('.lbPenaltyStat');
+    const lbPenaltyStat = $('#rental-datatable').DataTable().rows().nodes().to$();
     const observerConfig = {attributes: true, subtree: true};
 
     const penaltyStatColoring = function ($lbPenaltyStat, penaltyStat) {
@@ -256,7 +256,7 @@ $(document).ready(function () {
 
     const renderPenaltyStatData = function (mutationsList, observer) {
         $(mutationsList).each(function () {
-            console.log('Penalty Status Mutation detected: ', this);
+            // console.log('Penalty Status Mutation detected: ', this);
             let $lbPenaltyStat = $(this['target']);
             let penaltyStat = $lbPenaltyStat.get(0).attributes['penaltyStatus']['value'];
             // Temporarily stop observing to ignore rendering changes
@@ -271,7 +271,7 @@ $(document).ready(function () {
     const penaltyStatObs = new MutationObserver(renderPenaltyStatData);
     const startObserver = function () {
         lbPenaltyStat.each(function () {
-            penaltyStatObs.observe(this, observerConfig);
+            penaltyStatObs.observe($(this.cells[3]).find('label').get(0), observerConfig);
         });
     };
     const stopObserver = function () {
@@ -280,7 +280,7 @@ $(document).ready(function () {
 
     // Initial Rendering when page finished loading
     lbPenaltyStat.each(function () {
-        let $lbPenaltyStat = $(this);
+        let $lbPenaltyStat = $(this.cells[3]).find('label');
         let penaltyStat = $lbPenaltyStat.get(0).attributes['penaltyStatus']['value'];
         penaltyStatColoring($lbPenaltyStat, penaltyStat);
     });
@@ -322,7 +322,7 @@ $(document).ready(function () {
 
     const renderPenaltyStatData = function (mutationsList, observer) {
         $(mutationsList).each(function () {
-            console.log('Penalty Status Details Mutation detected: ', this);
+            // console.log('Penalty Status Details Mutation detected: ', this);
             let $inpPenaltyStat = $(this['target']);
             let penaltyStat = $inpPenaltyStat.get(0).attributes['penaltyStatus']['value'];
             // Temporarily stop observing to ignore rendering changes
@@ -381,7 +381,7 @@ $(document).ready(function () {
 
     const renderPenaltyStatData = function (mutationsList, observer) {
         $(mutationsList).each(function () {
-            console.log('Penalty Status Select Mutation detected: ', this);
+            // console.log('Penalty Status Select Mutation detected: ', this);
             let $slPenaltyStat = $(this['target']);
             let $optPenaltyStat = $slPenaltyStat.find('option');
             stopObserver();

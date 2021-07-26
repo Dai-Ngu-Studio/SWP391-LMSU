@@ -92,15 +92,13 @@
                                                                            value="${order.value.key.activeStatus}"></label>
                                                                 </td>
                                                                 <td class="text-center">
-                                                                    <form action="DispatchServlet">
-                                                                        <div class="btn-group">
-                                                                            <button type="button" class="btn btn-light"
-                                                                                    data-toggle="modal"
-                                                                                    data-target="#orderModal${order.value.key.id}">
-                                                                                <i class="fa fa-eye text-primary"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                    </form>
+                                                                    <div class="btn-group">
+                                                                        <button type="button" class="btn btn-light"
+                                                                                data-toggle="modal"
+                                                                                data-target="#orderModal${order.value.key.id}">
+                                                                            <i class="fa fa-eye text-primary"></i>
+                                                                        </button>
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                         </c:if>

@@ -93,15 +93,13 @@
                                                                        value="${order.value.key.activeStatus}"></label>
                                                             </td>
                                                             <td class="text-center">
-                                                                <form action="DispatchServlet">
-                                                                    <div class="btn-group">
-                                                                        <button type="button" class="btn btn-light"
-                                                                                data-toggle="modal"
-                                                                                data-target="#orderModal${order.value.key.id}">
-                                                                            <i class="fa fa-eye text-primary"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                </form>
+                                                                <div class="btn-group">
+                                                                    <button type="button" class="btn btn-light"
+                                                                            data-toggle="modal"
+                                                                            data-target="#orderModal${order.value.key.id}">
+                                                                        <i class="fa fa-eye text-primary"></i>
+                                                                    </button>
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     </c:if>
@@ -110,429 +108,427 @@
                                             </table>
                                             <c:forEach var="order" items="${orderList}">
                                                 <%--Start: Order Details Form--%>
-                                                <form action="DispatchServlet">
-                                                    <div class="modal fade"
-                                                         id="orderModal${order.value.key.id}"
-                                                         tabindex="-1">
-                                                        <div class="modal-dialog modal-lg">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title">
-                                                                        Order Details
-                                                                    </h5>
-                                                                    <button type="button"
-                                                                            class="close"
-                                                                            data-dismiss="modal">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
+                                                <div class="modal fade"
+                                                     id="orderModal${order.value.key.id}"
+                                                     tabindex="-1">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">
+                                                                    Order Details
+                                                                </h5>
+                                                                <button type="button"
+                                                                        class="close"
+                                                                        data-dismiss="modal">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group row">
+                                                                    <label class="col-lg-1 col-12 col-form-label">
+                                                                        Order ID
+                                                                    </label>
+                                                                    <div class="col-lg-5 col-12">
+                                                                        <input type="text"
+                                                                               id="txtOrderID${order.value.key.id}"
+                                                                               class="form-control"
+                                                                               value="${order.value.key.id}"
+                                                                               disabled/>
+                                                                    </div>
+                                                                    <label class="col-lg-1 col-12 col-form-label">
+                                                                        Order Date
+                                                                    </label>
+                                                                    <div class="col-lg-5 col-12">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               value="${order.value.key.orderDate}"
+                                                                               disabled/>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="modal-body">
-                                                                    <div class="form-group row">
-                                                                        <label class="col-lg-1 col-12 col-form-label">
-                                                                            Order ID
-                                                                        </label>
-                                                                        <div class="col-lg-5 col-12">
-                                                                            <input type="text"
-                                                                                   id="txtOrderID${order.value.key.id}"
-                                                                                   class="form-control"
-                                                                                   value="${order.value.key.id}"
-                                                                                   disabled/>
-                                                                        </div>
-                                                                        <label class="col-lg-1 col-12 col-form-label">
-                                                                            Order Date
-                                                                        </label>
-                                                                        <div class="col-lg-5 col-12">
-                                                                            <input type="text"
-                                                                                   class="form-control"
-                                                                                   value="${order.value.key.orderDate}"
-                                                                                   disabled/>
-                                                                        </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-lg-1 col-12 col-form-label">
+                                                                        Member ID
+                                                                    </label>
+                                                                    <div class="col-lg-5 col-12">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               value="${order.value.key.memberID}"
+                                                                               disabled/>
                                                                     </div>
-                                                                    <div class="form-group row">
-                                                                        <label class="col-lg-1 col-12 col-form-label">
-                                                                            Member ID
-                                                                        </label>
-                                                                        <div class="col-lg-5 col-12">
-                                                                            <input type="text"
-                                                                                   class="form-control"
-                                                                                   value="${order.value.key.memberID}"
-                                                                                   disabled/>
-                                                                        </div>
-                                                                        <label class="col-lg-1 col-12 col-form-label">
-                                                                            Member Name
-                                                                        </label>
-                                                                        <div class="col-lg-5 col-12">
-                                                                            <input type="text"
-                                                                                   class="form-control"
-                                                                                   value="${order.value.key.memberName}"
-                                                                                   disabled/>
-                                                                        </div>
+                                                                    <label class="col-lg-1 col-12 col-form-label">
+                                                                        Member Name
+                                                                    </label>
+                                                                    <div class="col-lg-5 col-12">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               value="${order.value.key.memberName}"
+                                                                               disabled/>
                                                                     </div>
-                                                                    <c:if test="${not order.value.key.lendMethod}">
-                                                                        <c:set var="staffID"
-                                                                               value="${order.key.key.librarianID}"/>
-                                                                        <c:set var="staffName"
-                                                                               value="${order.key.key.librarianName}"/>
-                                                                    </c:if>
-                                                                    <c:if test="${order.value.key.lendMethod}">
-                                                                        <c:set var="staffID"
-                                                                               value="${order.key.value.managerID}"/>
-                                                                        <c:set var="staffName"
-                                                                               value="${order.key.value.managerName}"/>
-                                                                    </c:if>
-                                                                    <c:if test="${empty staffID}">
-                                                                        <c:set var="staffID" value="N/A"/>
-                                                                        <c:set var="staffName" value="N/A"/>
-                                                                    </c:if>
-                                                                    <div class="form-group row">
-                                                                        <label class="col-lg-1 col-12 col-form-label">
-                                                                            Staff ID
-                                                                        </label>
-                                                                        <div class="col-lg-5 col-12 frmStaffID"
-                                                                             orderid="${order.value.key.id}">
-                                                                            <input type="text"
-                                                                                   class="form-control"
-                                                                                   value="${staffID}"
-                                                                                   disabled/>
-                                                                        </div>
-                                                                        <label class="col-lg-1 col-12 col-form-label">
-                                                                            Staff Name
-                                                                        </label>
-                                                                        <div class="col-lg-5 col-12 frmStaffName"
-                                                                             orderid="${order.value.key.id}">
-                                                                            <input type="text"
-                                                                                   class="form-control"
-                                                                                   value="${staffName}"
-                                                                                   disabled/>
-                                                                        </div>
-                                                                    </div>
-                                                                    <c:if test="${not order.value.key.lendMethod}">
-                                                                        <div class="form-group row">
-                                                                            <label class="col-lg-1 col-12 col-form-label">
-                                                                                Scheduled Time
-                                                                            </label>
-                                                                            <div class="col-lg-11 col-12"
-                                                                                 orderid="${order.value.key.id}">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value="${order.key.key.scheduledTime}"
-                                                                                       disabled/>
-                                                                            </div>
-                                                                        </div>
-                                                                    </c:if>
-                                                                    <c:if test="${order.value.key.lendMethod}">
-                                                                        <div class="form-group row">
-                                                                            <label class="col-lg-1 col-12 col-form-label">
-                                                                                Receiver Name
-                                                                            </label>
-                                                                            <div class="col-lg-5 col-12"
-                                                                                 orderid="${order.value.key.id}">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value="${order.key.value.receiverName}"
-                                                                                       disabled/>
-                                                                            </div>
-                                                                            <label class="col-lg-1 col-12 col-form-label">
-                                                                                Phone Number
-                                                                            </label>
-                                                                            <div class="col-lg-5 col-12"
-                                                                                 orderid="${order.value.key.id}">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value="${order.key.value.phoneNumber}"
-                                                                                       disabled/>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-lg-1 col-12 col-form-label">
-                                                                                Street Address
-                                                                            </label>
-                                                                            <div class="col-lg-11 col-12"
-                                                                                 orderid="${order.value.key.id}">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value="${order.key.value.deliveryAddress1}"
-                                                                                       disabled/>
-                                                                            </div>
-                                                                        </div>
-                                                                        <c:if test="${(not empty fn:trim(order.key.value.deliveryAddress2))}">
-                                                                            <div class="form-group row">
-                                                                                <label class="col-lg-1 col-12 col-form-label">
-                                                                                    Residence Address
-                                                                                </label>
-                                                                                <div class="col-lg-11 col-12"
-                                                                                     orderid="${order.value.key.id}">
-                                                                                    <input type="text"
-                                                                                           class="form-control"
-                                                                                           value="${order.key.value.deliveryAddress2}"
-                                                                                           disabled/>
-                                                                                </div>
-                                                                            </div>
-                                                                        </c:if>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-lg-1 col-12 col-form-label">
-                                                                                City
-                                                                            </label>
-                                                                            <div class="col-lg-11 col-12 txtCity"
-                                                                                 orderid="${order.value.key.id}">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value="${order.key.value.cityName}"
-                                                                                       disabled/>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-lg-1 col-12 col-form-label">
-                                                                                District
-                                                                            </label>
-                                                                            <div class="col-lg-5 col-12 txtDistrict"
-                                                                                 orderid="${order.value.key.id}">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value="${order.key.value.districtName}"
-                                                                                       disabled/>
-                                                                            </div>
-                                                                            <label class="col-lg-1 col-12 col-form-label">
-                                                                                Ward
-                                                                            </label>
-                                                                            <div class="col-lg-5 col-12 txtWard"
-                                                                                 orderid="${order.value.key.id}">
-                                                                                <input type="text"
-                                                                                       class="form-control"
-                                                                                       value="${order.key.value.wardName}"
-                                                                                       disabled/>
-                                                                            </div>
-                                                                        </div>
-                                                                    </c:if>
-                                                                    <div class="form-group row frmOrderStat"
+                                                                </div>
+                                                                <c:if test="${not order.value.key.lendMethod}">
+                                                                    <c:set var="staffID"
+                                                                           value="${order.key.key.librarianID}"/>
+                                                                    <c:set var="staffName"
+                                                                           value="${order.key.key.librarianName}"/>
+                                                                </c:if>
+                                                                <c:if test="${order.value.key.lendMethod}">
+                                                                    <c:set var="staffID"
+                                                                           value="${order.key.value.managerID}"/>
+                                                                    <c:set var="staffName"
+                                                                           value="${order.key.value.managerName}"/>
+                                                                </c:if>
+                                                                <c:if test="${empty staffID}">
+                                                                    <c:set var="staffID" value="N/A"/>
+                                                                    <c:set var="staffName" value="N/A"/>
+                                                                </c:if>
+                                                                <div class="form-group row">
+                                                                    <label class="col-lg-1 col-12 col-form-label">
+                                                                        Staff ID
+                                                                    </label>
+                                                                    <div class="col-lg-5 col-12 frmStaffID"
                                                                          orderid="${order.value.key.id}">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               value="${staffID}"
+                                                                               disabled/>
+                                                                    </div>
+                                                                    <label class="col-lg-1 col-12 col-form-label">
+                                                                        Staff Name
+                                                                    </label>
+                                                                    <div class="col-lg-5 col-12 frmStaffName"
+                                                                         orderid="${order.value.key.id}">
+                                                                        <input type="text"
+                                                                               class="form-control"
+                                                                               value="${staffName}"
+                                                                               disabled/>
+                                                                    </div>
+                                                                </div>
+                                                                <c:if test="${not order.value.key.lendMethod}">
+                                                                    <div class="form-group row">
                                                                         <label class="col-lg-1 col-12 col-form-label">
-                                                                            Order Status
+                                                                            Scheduled Time
                                                                         </label>
-                                                                        <div class="col-lg-5 col-12 lbOrderStat"
-                                                                             id="pOrderStat${order.value.key.id}"
+                                                                        <div class="col-lg-11 col-12"
                                                                              orderid="${order.value.key.id}">
-                                                                            <p class="form-control"
-                                                                               activeStatus="${order.value.key.activeStatus}"
-                                                                               orderid="${order.value.key.id}">
-                                                                            </p>
+                                                                            <input type="text"
+                                                                                   class="form-control"
+                                                                                   value="${order.key.key.scheduledTime}"
+                                                                                   disabled/>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:if>
+                                                                <c:if test="${order.value.key.lendMethod}">
+                                                                    <div class="form-group row">
+                                                                        <label class="col-lg-1 col-12 col-form-label">
+                                                                            Receiver Name
+                                                                        </label>
+                                                                        <div class="col-lg-5 col-12"
+                                                                             orderid="${order.value.key.id}">
+                                                                            <input type="text"
+                                                                                   class="form-control"
+                                                                                   value="${order.key.value.receiverName}"
+                                                                                   disabled/>
                                                                         </div>
                                                                         <label class="col-lg-1 col-12 col-form-label">
-                                                                            Approval Status
+                                                                            Phone Number
                                                                         </label>
-
-                                                                        <c:choose>
-                                                                            <c:when test="${order.value.key.activeStatus eq 0}">
-                                                                                <%--isManager&Delivery || isLibrarian&Direct--%>
-                                                                                <c:if test="${((order.value.key.lendMethod eq true) and (jspUserRole eq '2'))
-                                                                                or ((order.value.key.lendMethod eq false) and (jspUserRole eq '3'))}">
-                                                                                    <div class="col-3 pr-0 contModalApprove"
-                                                                                         orderid="${order.value.key.id}">
-                                                                                        <button type="button"
-                                                                                                class="btn btn-block btn-light btn-sm rounded-0"
-                                                                                                data-toggle="modal"
-                                                                                                data-target="#mdConfirmApprove${order.value.key.id}"
-                                                                                                style="border-top-left-radius: 1rem !important;
-                                                                                    border-bottom-left-radius: 1rem !important">
-                                                                                            <h3 class="fa fa-check-circle text-success"></h3>
-                                                                                        </button>
-                                                                                    </div>
-                                                                                    <div class="col-2 pl-0 contModalReject"
-                                                                                         orderid="${order.value.key.id}">
-                                                                                        <button type="button"
-                                                                                                class="btn btn-block btn-light btn-sm rounded-0"
-                                                                                                data-toggle="modal"
-                                                                                                data-target="#mdConfirmReject${order.value.key.id}"
-                                                                                                style="border-top-right-radius: 1rem !important;
-                                                                                    border-bottom-right-radius: 1rem !important">
-                                                                                            <h3 class="fa fa-times-circle text-danger"></h3>
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </c:if>
-                                                                                <c:if test="${((order.value.key.lendMethod eq false) and (jspUserRole eq '2'))
-                                                                                or ((order.value.key.lendMethod eq true) and (jspUserRole eq '3'))}">
-                                                                                    <div class="col-lg-5 col-12">
-                                                                                        <div class="btn btn-block btn-outline-secondary btn-sm bg-white"
-                                                                                             disabled>
-                                                                                            <h3 class="fa fa-pause-circle text-secondary"></h3>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </c:if>
-                                                                            </c:when>
-                                                                            <c:when test="${(order.value.key.activeStatus eq -1)
-                                                                            or (order.value.key.activeStatus eq 5)}">
-                                                                                <div class="col-lg-5 col-12">
-                                                                                    <div class="btn btn-block btn-outline-danger btn-sm bg-white"
-                                                                                         disabled>
-                                                                                        <h3 class="fa fa-times-circle text-danger"></h3>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </c:when>
-                                                                            <c:otherwise>
-                                                                                <div class="col-lg-5 col-12">
-                                                                                    <div class="btn btn-block btn-outline-success btn-sm bg-white"
-                                                                                         disabled>
-                                                                                        <h3 class="fa fa-check-circle text-success"></h3>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </c:otherwise>
-                                                                        </c:choose>
+                                                                        <div class="col-lg-5 col-12"
+                                                                             orderid="${order.value.key.id}">
+                                                                            <input type="text"
+                                                                                   class="form-control"
+                                                                                   value="${order.key.value.phoneNumber}"
+                                                                                   disabled/>
+                                                                        </div>
                                                                     </div>
-                                                                        <%--Documenting finished work:--%>
-                                                                        <%--Update status for order-%>
-                                                                        <%--update status for order item-%>
-                                                                        <%--AJAX checks if order has been cancelled, rejected or failed to be approved-%>
-                                                                        <%--Received uses SQL current timestamp--%>
-                                                                        <%--Update the dropdown update status after approving--%>
-                                                                        <%--Add Librarian ID, Name of Librarian who changed to received--%>
-                                                                        <%--Only allow update items when order status is not pending, cancelled or reserve only--%>
-                                                                        <%--Order Details Edit Button--%>
-                                                                        <%--Items that can be updated: ITEM_APPROVED, ITEM_RECEIVED, ITEM_OVERDUE, ITEM_LOST--%>
-                                                                        <%--Item Status direction:
-                                                                        PENDING -> APPROVED (using approve button),
-                                                                        APPROVED -> RECEIVED (using update button),
-                                                                        OVERDUE is determined by system (system check is to be implemented),
-                                                                        LOST is determined by system (~),
-                                                                        OVERDUE -> OVERDUE_RETURNED (opposite direction is a lot of coding overhead),
-                                                                        LOST -> OVERDUE_RETURNED (~)
-                                                                        --%>
-                                                                        <%--Overdue can only be updated to overdue returned--%>
-                                                                        <%--AJAX check if all items status
-                                                                        then update order status accordingly--%>
-                                                                        <%--ITEMs that are scheduled for return are not concerned by Librarian, not allow updating,
-                                                                        system will update when Manager received--%>
-                                                                        <%--Notify when cancelled, rejected--%>
-                                                                        <%--Librarian can't update item with status scheduled return,
-                                                                        only manager can update--%>
-                                                                        <%--Reserve only order can't be approved or updated--%>
-                                                                        <%--CANCELLED is either by member or system do 1 day after scheduled date--%>
-                                                                        <%--Some to-do: --%>
-                                                                        <%--Add Status Lock button to prevent accidental update--%>
-                                                                    <c:if test="${((order.value.key.lendMethod eq true) and (jspUserRole eq '2'))
-                                                                                or ((order.value.key.lendMethod eq false) and (jspUserRole eq '3'))
-                                                                                or ((order.value.key.activeStatus eq 2) or (order.value.key.activeStatus eq 4))}">
-                                                                        <div class="row">
-                                                                            <div class="col-12 text-center">
-                                                                                <div class="btn-group groupBtnEdit"
-                                                                                     orderID="${order.value.key.id}">
+                                                                    <div class="form-group row">
+                                                                        <label class="col-lg-1 col-12 col-form-label">
+                                                                            Street Address
+                                                                        </label>
+                                                                        <div class="col-lg-11 col-12"
+                                                                             orderid="${order.value.key.id}">
+                                                                            <input type="text"
+                                                                                   class="form-control"
+                                                                                   value="${order.key.value.deliveryAddress1}"
+                                                                                   disabled/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <c:if test="${(not empty fn:trim(order.key.value.deliveryAddress2))}">
+                                                                        <div class="form-group row">
+                                                                            <label class="col-lg-1 col-12 col-form-label">
+                                                                                Residence Address
+                                                                            </label>
+                                                                            <div class="col-lg-11 col-12"
+                                                                                 orderid="${order.value.key.id}">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value="${order.key.value.deliveryAddress2}"
+                                                                                       disabled/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </c:if>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-lg-1 col-12 col-form-label">
+                                                                            City
+                                                                        </label>
+                                                                        <div class="col-lg-11 col-12 txtCity"
+                                                                             orderid="${order.value.key.id}">
+                                                                            <input type="text"
+                                                                                   class="form-control"
+                                                                                   value="${order.key.value.cityName}"
+                                                                                   disabled/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-lg-1 col-12 col-form-label">
+                                                                            District
+                                                                        </label>
+                                                                        <div class="col-lg-5 col-12 txtDistrict"
+                                                                             orderid="${order.value.key.id}">
+                                                                            <input type="text"
+                                                                                   class="form-control"
+                                                                                   value="${order.key.value.districtName}"
+                                                                                   disabled/>
+                                                                        </div>
+                                                                        <label class="col-lg-1 col-12 col-form-label">
+                                                                            Ward
+                                                                        </label>
+                                                                        <div class="col-lg-5 col-12 txtWard"
+                                                                             orderid="${order.value.key.id}">
+                                                                            <input type="text"
+                                                                                   class="form-control"
+                                                                                   value="${order.key.value.wardName}"
+                                                                                   disabled/>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:if>
+                                                                <div class="form-group row frmOrderStat"
+                                                                     orderid="${order.value.key.id}">
+                                                                    <label class="col-lg-1 col-12 col-form-label">
+                                                                        Order Status
+                                                                    </label>
+                                                                    <div class="col-lg-5 col-12 lbOrderStat"
+                                                                         id="pOrderStat${order.value.key.id}"
+                                                                         orderid="${order.value.key.id}">
+                                                                        <p class="form-control"
+                                                                           activeStatus="${order.value.key.activeStatus}"
+                                                                           orderid="${order.value.key.id}">
+                                                                        </p>
+                                                                    </div>
+                                                                    <label class="col-lg-1 col-12 col-form-label">
+                                                                        Approval Status
+                                                                    </label>
+
+                                                                    <c:choose>
+                                                                        <c:when test="${order.value.key.activeStatus eq 0}">
+                                                                            <%--isManager&Delivery || isLibrarian&Direct--%>
+                                                                            <c:if test="${((order.value.key.lendMethod eq true) and (jspUserRole eq '2'))
+                                                                                or ((order.value.key.lendMethod eq false) and (jspUserRole eq '3'))}">
+                                                                                <div class="col-3 pr-0 contModalApprove"
+                                                                                     orderid="${order.value.key.id}">
                                                                                     <button type="button"
-                                                                                            class="btn btn-light"
-                                                                                            orderID="${order.value.key.id}">
-                                                                                        <h4 class="fa fa-pencil text-primary"></h4>
+                                                                                            class="btn btn-block btn-light btn-sm rounded-0"
+                                                                                            data-toggle="modal"
+                                                                                            data-target="#mdConfirmApprove${order.value.key.id}"
+                                                                                            style="border-top-left-radius: 1rem !important;
+                                                                                    border-bottom-left-radius: 1rem !important">
+                                                                                        <h3 class="fa fa-check-circle text-success"></h3>
                                                                                     </button>
                                                                                 </div>
+                                                                                <div class="col-2 pl-0 contModalReject"
+                                                                                     orderid="${order.value.key.id}">
+                                                                                    <button type="button"
+                                                                                            class="btn btn-block btn-light btn-sm rounded-0"
+                                                                                            data-toggle="modal"
+                                                                                            data-target="#mdConfirmReject${order.value.key.id}"
+                                                                                            style="border-top-right-radius: 1rem !important;
+                                                                                    border-bottom-right-radius: 1rem !important">
+                                                                                        <h3 class="fa fa-times-circle text-danger"></h3>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </c:if>
+                                                                            <c:if test="${((order.value.key.lendMethod eq false) and (jspUserRole eq '2'))
+                                                                                or ((order.value.key.lendMethod eq true) and (jspUserRole eq '3'))}">
+                                                                                <div class="col-lg-5 col-12">
+                                                                                    <div class="btn btn-block btn-outline-secondary btn-sm bg-white"
+                                                                                         disabled>
+                                                                                        <h3 class="fa fa-pause-circle text-secondary"></h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </c:if>
+                                                                        </c:when>
+                                                                        <c:when test="${(order.value.key.activeStatus eq -1)
+                                                                            or (order.value.key.activeStatus eq 5)}">
+                                                                            <div class="col-lg-5 col-12">
+                                                                                <div class="btn btn-block btn-outline-danger btn-sm bg-white"
+                                                                                     disabled>
+                                                                                    <h3 class="fa fa-times-circle text-danger"></h3>
+                                                                                </div>
+                                                                            </div>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <div class="col-lg-5 col-12">
+                                                                                <div class="btn btn-block btn-outline-success btn-sm bg-white"
+                                                                                     disabled>
+                                                                                    <h3 class="fa fa-check-circle text-success"></h3>
+                                                                                </div>
+                                                                            </div>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </div>
+                                                                    <%--Documenting finished work:--%>
+                                                                    <%--Update status for order-%>
+                                                                    <%--update status for order item-%>
+                                                                    <%--AJAX checks if order has been cancelled, rejected or failed to be approved-%>
+                                                                    <%--Received uses SQL current timestamp--%>
+                                                                    <%--Update the dropdown update status after approving--%>
+                                                                    <%--Add Librarian ID, Name of Librarian who changed to received--%>
+                                                                    <%--Only allow update items when order status is not pending, cancelled or reserve only--%>
+                                                                    <%--Order Details Edit Button--%>
+                                                                    <%--Items that can be updated: ITEM_APPROVED, ITEM_RECEIVED, ITEM_OVERDUE, ITEM_LOST--%>
+                                                                    <%--Item Status direction:
+                                                                    PENDING -> APPROVED (using approve button),
+                                                                    APPROVED -> RECEIVED (using update button),
+                                                                    OVERDUE is determined by system (system check is to be implemented),
+                                                                    LOST is determined by system (~),
+                                                                    OVERDUE -> OVERDUE_RETURNED (opposite direction is a lot of coding overhead),
+                                                                    LOST -> OVERDUE_RETURNED (~)
+                                                                    --%>
+                                                                    <%--Overdue can only be updated to overdue returned--%>
+                                                                    <%--AJAX check if all items status
+                                                                    then update order status accordingly--%>
+                                                                    <%--ITEMs that are scheduled for return are not concerned by Librarian, not allow updating,
+                                                                    system will update when Manager received--%>
+                                                                    <%--Notify when cancelled, rejected--%>
+                                                                    <%--Librarian can't update item with status scheduled return,
+                                                                    only manager can update--%>
+                                                                    <%--Reserve only order can't be approved or updated--%>
+                                                                    <%--CANCELLED is either by member or system do 1 day after scheduled date--%>
+                                                                    <%--Some to-do: --%>
+                                                                    <%--Add Status Lock button to prevent accidental update--%>
+                                                                <c:if test="${((order.value.key.lendMethod eq true) and (jspUserRole eq '2'))
+                                                                                or ((order.value.key.lendMethod eq false) and (jspUserRole eq '3'))
+                                                                                or ((order.value.key.activeStatus eq 2) or (order.value.key.activeStatus eq 4))}">
+                                                                    <div class="row">
+                                                                        <div class="col-12 text-center">
+                                                                            <div class="btn-group groupBtnEdit"
+                                                                                 orderID="${order.value.key.id}">
+                                                                                <button type="button"
+                                                                                        class="btn btn-light"
+                                                                                        orderID="${order.value.key.id}">
+                                                                                    <h4 class="fa fa-pencil text-primary"></h4>
+                                                                                </button>
                                                                             </div>
                                                                         </div>
-                                                                        <%--Place to swap buttons in and out of view--%>
-                                                                        <div class="row storageBtn"
-                                                                             id="hiddenBtnStorage${order.value.key.id}"
-                                                                             orderID="${order.value.key.id}"
-                                                                             hidden>
-                                                                            <button type="button" class="btn btn-light"
-                                                                                    orderID="${order.value.key.id}"
-                                                                                    role="confirmEdit">
-                                                                                <h4 class="fa fa-check text-success"></h4>
-                                                                            </button>
-                                                                            <button type="button" class="btn btn-light"
-                                                                                    orderID="${order.value.key.id}"
-                                                                                    role="cancelEdit">
-                                                                                <h4 class="fa fa-times text-danger"></h4>
-                                                                            </button>
-                                                                        </div>
-                                                                    </c:if>
-                                                                    <div class="row">
-                                                                        <table class="table table-hover table-responsive w-100 d-block d-xl-table">
-                                                                            <thead>
-                                                                            <tr>
-                                                                                <th class="text-right">Item ID</th>
-                                                                                <th class="text-left">Book Title
-                                                                                </th>
-                                                                                <th class="text-center">Status</th>
-                                                                                <th class="text-left">Deadline</th>
-                                                                                <th class="text-left">Received on
-                                                                                </th>
-                                                                                <th class="text-left">Returned on
-                                                                                </th>
-                                                                            </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                            <c:forEach var="orderItem"
-                                                                                       items="${order.value.value}">
-                                                                                <tr>
-                                                                                    <td class="text-right">${orderItem.id} </td>
-                                                                                    <td class="text-left">${orderItem.title}</td>
-                                                                                    <td class="text-center">
-                                                                                        <c:set var="statOrderItem"
-                                                                                               value="${orderItem.lendStatus}"
-                                                                                        />
-                                                                                        <div class="contSlItemStat"
-                                                                                             orderid="${order.value.key.id}"
-                                                                                             orderitemid="${orderItem.id}"
-                                                                                             style="display: none">
-                                                                                            <select class="custom-select slItemStat"
-                                                                                                    id="slItemStat${orderItem.id}"
-                                                                                                    orderid="${order.value.key.id}"
-                                                                                                    orderitemid="${orderItem.id}">
-                                                                                            </select>
-                                                                                        </div>
-                                                                                        <div class="contItemStat"
-                                                                                             orderid="${order.value.key.id}"
-                                                                                             orderitemid="${orderItem.id}">
-                                                                                            <label class="badge lbItemStat"
-                                                                                                   id="lbItemStat${orderItem.id}"
-                                                                                                   orderid="${order.value.key.id}"
-                                                                                                   orderitemid="${orderItem.id}"
-                                                                                                   lendStatus="${statOrderItem}">
-                                                                                            </label>
-                                                                                        </div>
-                                                                                    </td>
-                                                                                    <td class="text-left"
-                                                                                        id="dateDeadline${orderItem.id}"
-                                                                                        datevalue="${orderItem.returnDeadline}">
-                                                                                        <c:if test="${empty orderItem.returnDeadline}">
-                                                                                            N/A
-                                                                                        </c:if>
-                                                                                        <c:if test="${not empty orderItem.returnDeadline}">
-                                                                                            ${orderItem.returnDeadline}
-                                                                                        </c:if>
-                                                                                    </td>
-                                                                                    <td class="text-left"
-                                                                                        id="dateLend${orderItem.id}"
-                                                                                        datevalue="${orderItem.lendDate}">
-                                                                                        <c:if test="${empty orderItem.lendDate}">
-                                                                                            N/A
-                                                                                        </c:if>
-                                                                                        <c:if test="${not empty orderItem.lendDate}">
-                                                                                            ${orderItem.lendDate}
-                                                                                        </c:if>
-                                                                                    </td>
-                                                                                    <td class="text-left"
-                                                                                        id="dateReturn${orderItem.id}"
-                                                                                        datevalue="${orderItem.returnDate}">
-                                                                                        <c:if test="${empty orderItem.returnDate}">
-                                                                                            N/A
-                                                                                        </c:if>
-                                                                                        <c:if test="${not empty orderItem.returnDate}">
-                                                                                            ${orderItem.returnDate}
-                                                                                        </c:if>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </c:forEach>
-                                                                            </tbody>
-                                                                        </table>
                                                                     </div>
+                                                                    <%--Place to swap buttons in and out of view--%>
+                                                                    <div class="row storageBtn"
+                                                                         id="hiddenBtnStorage${order.value.key.id}"
+                                                                         orderID="${order.value.key.id}"
+                                                                         hidden>
+                                                                        <button type="button" class="btn btn-light"
+                                                                                orderID="${order.value.key.id}"
+                                                                                role="confirmEdit">
+                                                                            <h4 class="fa fa-check text-success"></h4>
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-light"
+                                                                                orderID="${order.value.key.id}"
+                                                                                role="cancelEdit">
+                                                                            <h4 class="fa fa-times text-danger"></h4>
+                                                                        </button>
+                                                                    </div>
+                                                                </c:if>
+                                                                <div class="row">
+                                                                    <table class="table table-hover table-responsive w-100 d-block d-xl-table">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th class="text-right">Item ID</th>
+                                                                            <th class="text-left">Book Title
+                                                                            </th>
+                                                                            <th class="text-center">Status</th>
+                                                                            <th class="text-left">Deadline</th>
+                                                                            <th class="text-left">Received on
+                                                                            </th>
+                                                                            <th class="text-left">Returned on
+                                                                            </th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <c:forEach var="orderItem"
+                                                                                   items="${order.value.value}">
+                                                                            <tr>
+                                                                                <td class="text-right">${orderItem.id} </td>
+                                                                                <td class="text-left">${orderItem.title}</td>
+                                                                                <td class="text-center">
+                                                                                    <c:set var="statOrderItem"
+                                                                                           value="${orderItem.lendStatus}"
+                                                                                    />
+                                                                                    <div class="contSlItemStat"
+                                                                                         orderid="${order.value.key.id}"
+                                                                                         orderitemid="${orderItem.id}"
+                                                                                         style="display: none">
+                                                                                        <select class="custom-select slItemStat"
+                                                                                                id="slItemStat${orderItem.id}"
+                                                                                                orderid="${order.value.key.id}"
+                                                                                                orderitemid="${orderItem.id}">
+                                                                                        </select>
+                                                                                    </div>
+                                                                                    <div class="contItemStat"
+                                                                                         orderid="${order.value.key.id}"
+                                                                                         orderitemid="${orderItem.id}">
+                                                                                        <label class="badge lbItemStat"
+                                                                                               id="lbItemStat${orderItem.id}"
+                                                                                               orderid="${order.value.key.id}"
+                                                                                               orderitemid="${orderItem.id}"
+                                                                                               lendStatus="${statOrderItem}">
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="text-left"
+                                                                                    id="dateDeadline${orderItem.id}"
+                                                                                    datevalue="${orderItem.returnDeadline}">
+                                                                                    <c:if test="${empty orderItem.returnDeadline}">
+                                                                                        N/A
+                                                                                    </c:if>
+                                                                                    <c:if test="${not empty orderItem.returnDeadline}">
+                                                                                        ${orderItem.returnDeadline}
+                                                                                    </c:if>
+                                                                                </td>
+                                                                                <td class="text-left"
+                                                                                    id="dateLend${orderItem.id}"
+                                                                                    datevalue="${orderItem.lendDate}">
+                                                                                    <c:if test="${empty orderItem.lendDate}">
+                                                                                        N/A
+                                                                                    </c:if>
+                                                                                    <c:if test="${not empty orderItem.lendDate}">
+                                                                                        ${orderItem.lendDate}
+                                                                                    </c:if>
+                                                                                </td>
+                                                                                <td class="text-left"
+                                                                                    id="dateReturn${orderItem.id}"
+                                                                                    datevalue="${orderItem.returnDate}">
+                                                                                    <c:if test="${empty orderItem.returnDate}">
+                                                                                        N/A
+                                                                                    </c:if>
+                                                                                    <c:if test="${not empty orderItem.returnDate}">
+                                                                                        ${orderItem.returnDate}
+                                                                                    </c:if>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </c:forEach>
+                                                                        </tbody>
+                                                                    </table>
                                                                 </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button"
-                                                                            class="btn btn-outline-primary"
-                                                                            data-dismiss="modal">
-                                                                        Close
-                                                                    </button>
-                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button"
+                                                                        class="btn btn-outline-primary"
+                                                                        data-dismiss="modal">
+                                                                    Close
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </form>
+                                                </div>
                                                 <%--End: Order Details Form--%>
                                                 <c:if test="${((order.value.key.lendMethod eq true) and (jspUserRole eq '2'))
                                                                                 or ((order.value.key.lendMethod eq false) and (jspUserRole eq '3'))}">
@@ -553,7 +549,8 @@
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
-                                                                <div class="modal-body">
+                                                                <div class="modal-body"
+                                                                     id="txtModalApprove${order.value.key.id}">
                                                                     This action cannot be undone. Are you sure?
                                                                 </div>
                                                                 <div class="modal-footer">
@@ -596,7 +593,8 @@
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
-                                                                <div class="modal-body">
+                                                                <div class="modal-body"
+                                                                     id="txtModalReject${order.value.key.id}">
                                                                     This action cannot be undone. Are you sure?
                                                                 </div>
                                                                 <div class="modal-footer">
@@ -665,7 +663,7 @@
 <script src="js/template.js"></script>
 <script src="js/settings.js"></script>
 <script src="js/todolist.js"></script>
-<script src="js/bookrentalmanagement.js"></script>
+<script defer="defer" src="js/bookrentalmanagement.js"></script>
 <%-- endinject --%>
 <%-- Custom js for this page--%>
 

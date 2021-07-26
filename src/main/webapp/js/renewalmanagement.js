@@ -139,7 +139,6 @@ $(document).ready(function () {
             datatype: 'json',
             success: function (renewalInfo) {
                 if (renewalInfo !== null) {
-                    console.log(renewalInfo);
                     // Load renewal status
                     $('.lbRenewalStat')
                         .filter(`[renewalid='${renewalID}']`)
@@ -187,14 +186,14 @@ $(document).ready(function () {
     }
 });
 
-// Mutation Observer for Renewal Status
+// Mutation Observer for Renewal Status in Table
 $(document).ready(function () {
     const RENEWAL_CANCELLED = '-1';
     const RENEWAL_PENDING = '0';
     const RENEWAL_APPROVED = '1';
     const RENEWAL_REJECTED = '2';
 
-    const lbRenewalStat = $('.lbRenewalStat');
+    const lbRenewalStat = $('#rental-datatable').DataTable().rows().nodes().to$();
     const observerConfig = {attributes: true, subtree: true};
 
     const renewalStatColoring = function ($lbRenewalStat, renewalStat) {
@@ -223,7 +222,7 @@ $(document).ready(function () {
 
     const renderRenewalStatData = function (mutationsList, observer) {
         $(mutationsList).each(function () {
-            console.log('Renewal Status Mutation detected: ', this);
+            // console.log('Renewal Status Mutation detected: ', this);
             let $lbRenewalStat = $(this['target']);
             let renewalStat = $lbRenewalStat.get(0).attributes['renewalStatus']['value'];
             // Temporarily stop observing to ignore rendering changes
@@ -236,7 +235,7 @@ $(document).ready(function () {
     const renewalStatObs = new MutationObserver(renderRenewalStatData);
     const startObserver = function () {
         lbRenewalStat.each(function () {
-            renewalStatObs.observe(this, observerConfig);
+            renewalStatObs.observe($(this.cells[3]).find('label').get(0), observerConfig);
         });
     };
     const stopObserver = function () {
@@ -245,7 +244,7 @@ $(document).ready(function () {
 
     // Initial Rendering when page finished loading
     lbRenewalStat.each(function () {
-        let $lbRenewalStat = $(this);
+        let $lbRenewalStat = $(this.cells[3]).find('label');
         let renewalStat = $lbRenewalStat.get(0).attributes['renewalStatus']['value'];
         renewalStatColoring($lbRenewalStat, renewalStat);
     });
@@ -290,7 +289,7 @@ $(document).ready(function () {
 
     const renderRenewalStatData = function (mutationsList, observer) {
         $(mutationsList).each(function () {
-            console.log('Renewal Status Details Mutation detected: ', this);
+            // console.log('Renewal Status Details Mutation detected: ', this);
             let $inpRenewalStat = $(this['target']);
             let renewalStat = $inpRenewalStat.get(0).attributes['renewalStatus']['value'];
             // Temporarily stop observing to ignore rendering changes

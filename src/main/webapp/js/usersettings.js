@@ -523,7 +523,7 @@ $(document).ready(function () {
 
     const renderPenaltyStatData = function (mutationsList, observer) {
         $(mutationsList).each(function () {
-            console.log('Penalty Status Mutation detected: ', this);
+            // console.log('Penalty Status Mutation detected: ', this);
             let $lbPenaltyStat = $(this['target']);
             let penaltyStat = $lbPenaltyStat.get(0).attributes['penaltyStatus']['value'];
             // Temporarily stop observing to ignore rendering changes

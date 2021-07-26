@@ -8,7 +8,6 @@ $(document).ready(function () {
         dom: 'Plfrtip',
         columnDefs: [
             {
-                className: 'lbOrderStatDt',
                 searchPanes: {
                     show: true,
                     options: [
@@ -210,6 +209,9 @@ $(document).ready(function () {
     function approveOrder() {
         let $buttonApprove = $(this);
         let orderID = $buttonApprove.attr('orderid');
+        $(`#txtModalApprove${orderID}`).text('Please wait for order to be processed...');
+        $(`#btnDismissAppr${orderID}`).attr('disabled', 'disabled');
+        $buttonApprove.attr('disabled', 'disabled');
         $.ajax({
             method: 'POST',
             url: 'ApproveOrderServlet',
@@ -253,6 +255,8 @@ $(document).ready(function () {
                     } else if (orderStat === ORDER_CANCELLED) {
                         alert(`Order had already been cancelled by the borrower.`);
                     }
+                    $buttonApprove.removeAttr('disabled');
+                    $(`#btnDismissAppr${orderID}`).removeAttr('disabled');
                     // Toggle modal off
                     $(`#btnDismissAppr${orderID}`).click();
                     // Load edit buttons
@@ -270,6 +274,9 @@ $(document).ready(function () {
     function rejectOrder() {
         let $buttonReject = $(this);
         let orderID = $buttonReject.attr('orderid');
+        $(`#txtModalReject${orderID}`).text('Please wait for order to be processed...');
+        $(`#btnDismissReject${orderID}`).attr('disabled', 'disabled');
+        $buttonReject.attr('disabled', 'disabled');
         $.ajax({
             method: 'POST',
             url: 'RejectOrderServlet',
@@ -313,6 +320,8 @@ $(document).ready(function () {
                     } else if (orderStat === ORDER_CANCELLED) {
                         alert(`Order had already been cancelled by the borrower.`);
                     }
+                    $buttonReject.removeAttr('disabled');
+                    $(`#btnDismissReject${orderID}`).removeAttr('disabled');
                     // Toggle modal off
                     $(`#btnDismissReject${orderID}`).click();
                     // Load edit buttons
@@ -531,7 +540,7 @@ $(document).ready(function () {
     const ORDER_RETURN_SCHEDULED = '7';
     const ORDER_RETURN_RETURNED = '8';
 
-    const orderStatContainers = $('.lbOrderStat');
+    const orderStatContainers = $('.lbOrderStat').filter('div');
     const observerConfig = {attributes: true, subtree: true};
 
     const orderStatColoring = function ($lbOrderStat, activeStatus) {
@@ -611,6 +620,107 @@ $(document).ready(function () {
     // Initial Rendering when page finished loading
     orderStatContainers.each(function () {
         let $lbOrderStat = $(this.firstElementChild);
+        let activeStatus = $lbOrderStat.get(0).attributes['activeStatus']['value'];
+        orderStatColoring($lbOrderStat, activeStatus);
+    });
+
+    // Start observing changes
+    startObserver();
+});
+
+// Mutation Observer for Order Status in Table
+$(document).ready(function () {
+    const ORDER_CANCELLED = '-1';
+    const ORDER_PENDING = '0';
+    const ORDER_APPROVED = '1';
+    const ORDER_RECEIVED = '2';
+    const ORDER_RETURNED = '3';
+    const ORDER_OVERDUE = '4';
+    const ORDER_REJECTED = '5';
+    const ORDER_RESERVE_ONLY = '6';
+    const ORDER_RETURN_SCHEDULED = '7';
+    const ORDER_RETURN_RETURNED = '8';
+
+    const orderStatContainers = $('#rental-datatable').DataTable().rows().nodes().to$();
+    const observerConfig = {attributes: true, subtree: true};
+
+    const orderStatColoring = function ($lbOrderStat, activeStatus) {
+        let baseClass = 'btn';
+        if ($lbOrderStat.hasClass('form-control')) {
+            baseClass = 'form-control';
+        } else if ($lbOrderStat.hasClass('badge')) {
+            baseClass = 'badge';
+        }
+        $lbOrderStat.removeClass();
+        $lbOrderStat.addClass(baseClass);
+        switch (activeStatus) {
+            case ORDER_CANCELLED:
+                $lbOrderStat.addClass('bg-secondary text-white');
+                $lbOrderStat.text('Cancelled');
+                break;
+            case ORDER_PENDING:
+                $lbOrderStat.addClass('bg-warning text-dark');
+                $lbOrderStat.text('Pending');
+                break;
+            case ORDER_APPROVED:
+                $lbOrderStat.addClass('bg-info text-white');
+                $lbOrderStat.text('Approved');
+                break;
+            case ORDER_RECEIVED:
+                $lbOrderStat.addClass('bg-primary text-white');
+                $lbOrderStat.text('Received');
+                break;
+            case ORDER_RETURNED:
+                $lbOrderStat.addClass('bg-success text-white');
+                $lbOrderStat.text('Closed');
+                break;
+            case ORDER_OVERDUE:
+                $lbOrderStat.addClass('bg-danger text-white');
+                $lbOrderStat.text('Overdue');
+                break;
+            case ORDER_REJECTED:
+                $lbOrderStat.addClass('bg-dark text-white');
+                $lbOrderStat.text('Rejected');
+                break;
+            case ORDER_RESERVE_ONLY:
+                $lbOrderStat.addClass('bg-secondary text-white');
+                $lbOrderStat.text('Reserve');
+                break;
+            case ORDER_RETURN_SCHEDULED:
+                $lbOrderStat.addClass('bg-primary text-white');
+                $lbOrderStat.text('Scheduled');
+                break;
+            case ORDER_RETURN_RETURNED:
+                $lbOrderStat.addClass('bg-success text-white');
+                $lbOrderStat.text('Closed');
+                break;
+        }
+    };
+
+    const renderStatData = function (mutationsList, observer) {
+        $(mutationsList).each(function () {
+            let $pOrderStat = $(this['target']);
+            let activeStatus = $pOrderStat.get(0).attributes['activeStatus']['value'];
+            // Temporarily stop observing to ignore rendering changes
+            stopObserver();
+            orderStatColoring($pOrderStat, activeStatus);
+            startObserver();
+        });
+    };
+
+    const orderStatObs = new MutationObserver(renderStatData);
+    const startObserver = function () {
+        orderStatContainers.each(function () {
+            orderStatObs.observe(this.cells[4], observerConfig);
+        });
+    };
+    const stopObserver = function () {
+        orderStatObs.disconnect();
+    };
+
+    // Initial Rendering when page finished loading
+    orderStatContainers.each(function () {
+        let $lbOrderStat = $(this.cells[4].firstElementChild);
         let activeStatus = $lbOrderStat.get(0).attributes['activeStatus']['value'];
         orderStatColoring($lbOrderStat, activeStatus);
     });
