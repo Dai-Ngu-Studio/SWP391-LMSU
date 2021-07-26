@@ -95,19 +95,24 @@ public class AddFeedbackServlet extends HttpServlet {
                     emailHelpers.sendAttachmentEmail(mailSession, email, subject, body, uploadPath + fileName, fileName);
                 }
 
-                request.setAttribute("RECEIVED_MESSAGE", "Message have been sent! We wil response soon");
+                request.setAttribute("RECEIVED_MESSAGE", "Message have been sent! We will response soon");
                 session.setAttribute("ALREADY_FEEDBACK", true);
                 url = USER_CONTACT_CONTROLLER;
+            } else {
+                request.setAttribute("SEND_FAIL", "There was an error during processing. Please send again!");
             }
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
             log("AddFeedbackServlet _ SQL: " + ex.getMessage());
+            request.setAttribute("SEND_FAIL", "There was an error during processing. Please send again!");
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
             log("AddFeedbackServlet _ Naming: " + ex.getMessage());
+            request.setAttribute("SEND_FAIL", "There was an error during processing. Please send again!");
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
             log("AddFeedbackServlet _ Exception: " + ex.getMessage());
+            request.setAttribute("SEND_FAIL", "There was an error during processing. Please send again!");
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
