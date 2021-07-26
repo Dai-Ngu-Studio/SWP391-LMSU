@@ -9,15 +9,12 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/contact.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <%--Fontawsome CDN--%>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <%--Bootstrap CDN--%>
-<%--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">--%>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <%--Fontawsome CDN--%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <%--FAVICON--%>
-    <link rel="shortcut icon" href="images/images/favicon.png" />
+    <link rel="shortcut icon" href="images/images/favicon.png"/>
 </head>
 
 <body>
@@ -29,8 +26,11 @@
         <h2><b>Contact Us</b></h2>
         <p>Any question or report a bug? Just write us a message.</p>
     </div>
+    <c:if test="${not empty requestScope.SEND_FAIL}">
+        <div class="alert alert-danger text-center w-100">${requestScope.SEND_FAIL}</div>
+    </c:if>
     <c:if test="${not empty requestScope.RECEIVED_MESSAGE}">
-        <div class="alert alert-success text-center w-100">${requestScope.RECEIVED_MESSAGE}</div>
+        <div class="alert alert-danger text-center w-100">${requestScope.SEND_FAIL}</div>
     </c:if>
     <div class="contact">
         <div class="left-contact">
@@ -60,18 +60,21 @@
                   method="POST">
                 <div class="form-group">
                     <label for="inputName"><b>Full Name <span class="required-field">*</span></b></label>
-                    <input type="text" required class="form-control" id="inputName" placeholder="Enter full name" name="txtFullName" value="${user.name}">
+                    <input type="text" required class="form-control" id="inputName" placeholder="Enter full name"
+                           name="txtFullName" value="${user.name}">
                 </div>
                 <div class="form-group">
                     <label for="inputEmail"><b>Email <span class="required-field">*</span></b></label>
-                    <input type="email" required class="form-control" id="inputEmail" placeholder="Enter email" name="txtEmail" value="${user.email}">
+                    <input type="email" required class="form-control" id="inputEmail" placeholder="Enter email"
+                           name="txtEmail" value="${user.email}">
                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                         else.</small>
                 </div>
                 <div class="form-group">
                     <label for="inputPhoneNumber"><b>Phone Number (10 numbers) <span class="required-field">*</span></b></label>
                     <input type="tel" class="form-control" id="inputPhoneNumber" required
-                           placeholder="Enter phone number" name="txtPhone" pattern="^[0-9]{10}$" value="${user.phoneNumber}">
+                           placeholder="Enter phone number" name="txtPhone" pattern="^[0-9]{10}$"
+                           value="${user.phoneNumber}">
                 </div>
                 <div class="form-group">
                     <div>
@@ -84,7 +87,8 @@
                             <tr>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="question" id="radio1" name="typeOfFeedback">
+                                        <input class="form-check-input" type="radio" value="question" id="radio1"
+                                               name="typeOfFeedback">
                                         <label class="form-check-label" for="radio1">
                                             Question
                                         </label>
@@ -92,7 +96,8 @@
                                 </td>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="compliment" id="radio2" name="typeOfFeedback">
+                                        <input class="form-check-input" type="radio" value="compliment" id="radio2"
+                                               name="typeOfFeedback">
                                         <label class="form-check-label" for="radio2">
                                             Compliment
                                         </label>
@@ -100,7 +105,8 @@
                                 </td>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="bug" id="radio3" name="typeOfFeedback">
+                                        <input class="form-check-input" type="radio" value="bug" id="radio3"
+                                               name="typeOfFeedback">
                                         <label class="form-check-label" for="radio3">
                                             Bug
                                         </label>
@@ -110,7 +116,8 @@
                             <tr>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="content" id="radio4" name="typeOfFeedback">
+                                        <input class="form-check-input" type="radio" value="content" id="radio4"
+                                               name="typeOfFeedback">
                                         <label class="form-check-label" for="radio4">
                                             Content
                                         </label>
@@ -118,7 +125,8 @@
                                 </td>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="suggestion" id="radio5" name="typeOfFeedback">
+                                        <input class="form-check-input" type="radio" value="suggestion" id="radio5"
+                                               name="typeOfFeedback">
                                         <label class="form-check-label" for="radio5">
                                             Suggestion
                                         </label>
@@ -126,7 +134,8 @@
                                 </td>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="other" id="radio6" name="typeOfFeedback">
+                                        <input class="form-check-input" type="radio" value="other" id="radio6"
+                                               name="typeOfFeedback">
                                         <label class="form-check-label" for="radio6">
                                             Other
                                         </label>
@@ -150,7 +159,8 @@
                                 reader.readAsDataURL(input.files[0]);
                             }
                         }
-                        $('document').ready(function() {
+
+                        $('document').ready(function () {
                             var $file = $('#file-input'),
                                 $label = $file.next('label'),
                                 $labelText = $label.find('span'),
@@ -158,7 +168,7 @@
                                 labelDefault = $labelText.text();
 
                             // on file change
-                            $file.on('change', function(event) {
+                            $file.on('change', function (event) {
                                 var fileName = $file.val().split('\\').pop();
                                 if (fileName) {
                                     console.log($file)
@@ -171,7 +181,7 @@
                             });
 
                             // Remove file
-                            $labelRemove.on('click', function(event) {
+                            $labelRemove.on('click', function (event) {
                                 $file.val("");
                                 $labelText.text(labelDefault);
                                 $labelRemove.hide();
@@ -180,29 +190,19 @@
                         })
                     </script>
                     <div class="wrapper">
-                        <input type="file" id="file-input" name="errorPicture" onchange="readURL(this, 'errorPicture');">
+                        <input type="file" id="file-input" name="errorPicture"
+                               onchange="readURL(this, 'errorPicture');">
                         <label for="file-input" style="font-size: 1.2rem; color: rgb(110, 80, 195);">
                             <i class="fa fa-paperclip">
                                 <b style="font-family: Arial, Helvetica, sans-serif;">
                                     &nbsp;Upload your attachment
                                 </b>
                             </i>
-                            <!-- <p style="width: 100%;"></p> -->
                             <span style="color: #000; font-weight: 500;"></span>
                         </label>
                         <i class="fa fa-times-circle remove"></i>
                     </div>
                 </div>
-                <%--<script>
-                    $(function() {
-                        $("#message").keypress(function(e) {
-                            var code = (e.keyCode ? e.keyCode : e.which);
-                            if (code == 13) {
-                                $("#form1").submit();
-                            }
-                        });
-                    });
-                </script>--%>
                 <div class="form-group">
                     <label for="inputMessage"><b>Message <span class="required-field">*</span></b></label>
                     <textarea type="text" class="form-control" id="inputMessage" placeholder="Enter message"
