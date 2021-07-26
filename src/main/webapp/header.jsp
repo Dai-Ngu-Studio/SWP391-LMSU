@@ -204,7 +204,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                         <c:if test="${user.roleID ne '4'}">
-                            <a class="dropdown-item" href="dashboard.jsp">
+                            <a class="dropdown-item" href="ShowDashboardServlet">
                                 <i class="icon-grid text-primary"></i> Dashboard
                             </a>
                         </c:if>
