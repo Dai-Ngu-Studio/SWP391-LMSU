@@ -10,6 +10,7 @@ import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.orderdata.orders.OrderDAO;
 import com.lmsu.orderdata.orders.OrderDTO;
 import com.lmsu.users.UserDAO;
+import com.lmsu.users.UserDTO;
 import com.lmsu.utils.DateHelpers;
 import com.lmsu.utils.EmailHelpers;
 import org.apache.log4j.Logger;
@@ -28,6 +29,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DailyTask extends TimerTask implements Serializable {
 
@@ -82,7 +84,7 @@ public class DailyTask extends TimerTask implements Serializable {
 
                             String subject = "[INFORMATION AND LIBRARY CENTER]_NOTIFY DUE DATE TO RETURN BOOKS";
 
-                            String body = "Dear " + user[1] + "<br>"
+                            String body = "Dear " + user[1] + ",<br>"
                                     + "<br>"
                                     + "Information and Library Center remind you to return books before " + returnDate + "<br>"
                                     + "<br>"
@@ -126,6 +128,7 @@ public class DailyTask extends TimerTask implements Serializable {
         final int PENALTY_UNPAID = 1;
         final BigDecimal MONEY_PENALTY_BASE = new BigDecimal(5000);
         try {
+            System.out.println("===================== Check Overdue Status ===================");
             // Get current date
             Date currentDateSQL = DateHelpers.getCurrentDate();
             LocalDate currentDate = currentDateSQL.toLocalDate();
@@ -173,6 +176,9 @@ public class DailyTask extends TimerTask implements Serializable {
         } catch (NamingException e) {
             LOGGER.error(e.getMessage());
             System.err.println("DailyTask _ changeStatusToOverdue _ Naming: " + e.getMessage());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            System.err.println("DailyTask _ changeStatusToOverdue _ Exception: " + e.getMessage());
         }
     }
 
@@ -190,6 +196,8 @@ public class DailyTask extends TimerTask implements Serializable {
         final int ITEM_OVERDUE = 5;
         final int ITEM_OVERDUE_RETURN_SCHEDULED = 6;
         try {
+            System.out.println("===================== Cancelling Orders ===================");
+
             // Get current date
             Date currentDateSQL = DateHelpers.getCurrentDate();
             LocalDate currentDate = currentDateSQL.toLocalDate();
@@ -251,12 +259,106 @@ public class DailyTask extends TimerTask implements Serializable {
         } catch (NamingException e) {
             LOGGER.error(e.getMessage());
             System.err.println("DailyTask _ cancelDirectOrder _ Naming: " + e.getMessage());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            System.err.println("DailyTask _ cancelDirectOrder _ Exception: " + e.getMessage());
         }
     }
 
     // Check if any reserved books are now available in stock and notify users
     public void checkQuantityForReservedBooks() {
-        // to-do
+        try {
+            System.out.println("===================== Notify Reserved Books ===================");
+            EmailHelpers emailHelpers = new EmailHelpers();
+            // Instantiate DAOs
+            UserDAO userDAO = new UserDAO();
+            BookDAO bookDAO = new BookDAO();
+            OrderDAO orderDAO = new OrderDAO();
+            OrderItemDAO orderItemDAO = new OrderItemDAO();
+            // Map members and books to email
+            Map<String, List<BookDTO>> memberReservedBooks = new HashMap<String, List<BookDTO>>();
+            // Get reserved order items
+            orderItemDAO.clearOrderItemList();
+            orderItemDAO.getReservedOrderItems();
+            List<OrderItemDTO> orderItems = orderItemDAO.getOrderItemList();
+            if (orderItems != null) {
+                for (OrderItemDTO orderItem : orderItems) {
+                    String bookID = orderItem.getBookID();
+                    BookDTO book = bookDAO.getBookById(bookID);
+                    if (book != null) {
+                        if (!book.isDeleteStatus()) {
+                            int quantity = book.getQuantity();
+                            if (quantity > 0) {
+                                OrderDTO order = orderDAO.getOrderFromID(orderItem.getOrderID());
+                                if (order != null) {
+                                    String memberID = order.getMemberID();
+                                    List<BookDTO> reservedBooks = memberReservedBooks.get(memberID);
+                                    if (reservedBooks == null) {
+                                        reservedBooks = new ArrayList<>();
+                                    }
+                                    reservedBooks.add(book);
+                                    memberReservedBooks.put(memberID, reservedBooks);
+                                } // order existed
+                            } // there are books in stock
+                        } // book is not deleted
+                    } // book exists
+                } // traverse order items
+                for (Map.Entry<String, List<BookDTO>> reserveEntry : memberReservedBooks.entrySet()) {
+                    List<BookDTO> books = reserveEntry.getValue();
+                    if (reserveEntry.getValue().size() > 0) {
+                        UserDTO member = userDAO.getUserByID(reserveEntry.getKey());
+                        String listBook = String.join("<br>", books.stream()
+                                .map(BookDTO::getTitle)
+                                .collect(Collectors.joining("<br>")));
+                        System.out.println("SSLEmail Start");
+                        Properties props = new Properties();
+                        props.put("mail.smtp.host", "smtp.gmail.com");
+                        props.put("mail.smtp.socketFactory.port", "465");
+                        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                        props.put("mail.smtp.auth", "true");
+                        props.put("mail.smtp.port", "465");
+
+                        Authenticator auth = new Authenticator() {
+                            protected PasswordAuthentication getPasswordAuthentication() {
+                                return new PasswordAuthentication(EMAIL, PASSWORD);
+                            }
+                        };
+
+                        Session session = Session.getDefaultInstance(props, auth);
+                        System.out.println("Session created");
+
+                        String subject = "[INFORMATION AND LIBRARY CENTER]_NOTIFY RESERVED BOOKS NOW AVAILABLE";
+
+                        String body = "Dear " + member.getName() + ",<br>" +
+                                "<br>" +
+                                "Information and Library Center would like to inform you " +
+                                "that the following books which you have reserved are now available: <br>" +
+                                listBook + "<br>" +
+                                "<br>" +
+                                "Have a nice week! Thank you for using our service.<br>" +
+                                "Sincerely,<br>" +
+                                "Information and Library Center";
+
+                        emailHelpers.sendEmail(session, member.getEmail(), subject, body);
+                    } // there are reserved books
+                } // traverse map
+            } // order items exist
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            System.err.println("DailyTask _ checkQuantityForReservedBooks _ SQL: " + e.getMessage());
+        } catch (NamingException e) {
+            LOGGER.error(e.getMessage());
+            System.err.println("DailyTask _ checkQuantityForReservedBooks _ Naming: " + e.getMessage());
+        } catch (MessagingException e) {
+            LOGGER.error(e.getMessage());
+            System.err.println("DailyTask _ checkQuantityForReservedBooks _ Messaging: " + e.getMessage());
+        } catch (UnsupportedEncodingException e) {
+            LOGGER.error(e.getMessage());
+            System.err.println("DailyTask _ checkQuantityForReservedBooks _ UnsupportedEncoding: " + e.getMessage());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            System.err.println("DailyTask _ checkQuantityForReservedBooks _ Exception: " + e.getMessage());
+        }
     }
 
     public void notifyPenalty() {
@@ -306,12 +408,12 @@ public class DailyTask extends TimerTask implements Serializable {
 
                             String subject = "[INFORMATION AND LIBRARY CENTER]_NOTIFY OVERDUE BORROW BOOKS AND PAY PENALTY";
 
-                            String body = "Dear " + user[1] + "<br>"
+                            String body = "Dear " + user[1] + ",<br>"
                                     + "<br>"
                                     + "Information and Library Center are pleased that you had chosen our library service as a mean for learning resources." + "<br>"
                                     + "<br>"
                                     + "However, our system has detected that there are overdue books in your current book rental." +
-                                    "We regrettably have to inform you that you have been penalized for the late return of those books." + "<br>"
+                                    "We regrettably have to inform that you have been penalized for the late return of those books." + "<br>"
                                     + "<br>"
                                     + "Please return the overdue books to our library and settle the penalty as soon as your earliest possible date." + "<br>"
                                     + "<br>"
@@ -351,6 +453,7 @@ public class DailyTask extends TimerTask implements Serializable {
         notifyTenDaysLeft();
         cancelDirectOrder();
         changeStatusToOverdue();
+        checkQuantityForReservedBooks();
         notifyPenalty();
     }
 }
