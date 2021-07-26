@@ -226,7 +226,6 @@
         </c:if>
     </div>
     <!--Actual Body-->
-    <jsp:include page="scrolltotop.html"></jsp:include>
     <jsp:include page="footer.html"></jsp:include>
 </c:if>
 </body>
