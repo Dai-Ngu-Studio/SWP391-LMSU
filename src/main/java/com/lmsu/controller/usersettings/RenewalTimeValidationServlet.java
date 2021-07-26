@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,16 +37,24 @@ public class RenewalTimeValidationServlet extends HttpServlet {
         try {
             String q = request.getParameter("orderItemID");
             OrderItemDTO orderItemDTO = orderItemDAO.getOrderItemByID(Integer.parseInt(q));
-            Date currentDate = Date.valueOf(extendDate);
+//            Date currentDate = Date.valueOf(extendDate);
+            LocalDate currentDate = LocalDate.parse(extendDate);
+            LocalDate itemDeadline = orderItemDTO.getReturnDeadline().toLocalDate();
 
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             if (currentDate != null){
-                if (currentDate.compareTo(orderItemDTO.getReturnDeadline()) <= 0){
-                    response.getWriter().write("false");
+                if (currentDate.compareTo(itemDeadline) >= 0) {
+                    LocalDate maxDate = orderItemDTO.getReturnDeadline().toLocalDate().plusDays(7);
+                    if (ChronoUnit.DAYS.between(itemDeadline, currentDate) > 7) {
+                        response.getWriter().write("invalid");
+                    } else {
+                        response.getWriter().write("true");
+                    }
+                    System.out.println(ChronoUnit.DAYS.between(itemDeadline, currentDate));
                 }
                 else {
-                    response.getWriter().write("true");
+                    response.getWriter().write("false");
                 }
             }
 

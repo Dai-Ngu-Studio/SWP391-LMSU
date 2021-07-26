@@ -571,6 +571,17 @@
                                                                                         .text('The date chosen is before your current deadline (${orderItem.returnDeadline.toLocalDate()}). Please choose a later date.')
                                                                                         .appendTo($colInvalid${orderItem.id});
                                                                                     $("#contInvalid" + ${orderItem.id}).hide();
+
+                                                                                    let $dateInvalid${orderItem.id} = $('<div>')
+                                                                                        .attr('id', 'dateInvalid${orderItem.id}')
+                                                                                        .addClass('row dateInvalid').appendTo($rowExtDate${orderItem.id});
+                                                                                    let $colInvalid2${orderItem.id} = $('<div>')
+                                                                                        .addClass('col-12 text-left').appendTo($dateInvalid${orderItem.id});
+                                                                                    let $txtInvalid2${orderItem.id} = $('<small>')
+                                                                                        .addClass('text-danger')
+                                                                                        .text('Your renewal date must be within 7 days from your current deadline (${orderItem.returnDeadline.toLocalDate()}).')
+                                                                                        .appendTo($colInvalid2${orderItem.id});
+                                                                                    $("#dateInvalid" + ${orderItem.id}).hide();
                                                                                 });
 
                                                                                 function validExtendDate(itemid) {
@@ -579,10 +590,17 @@
                                                                                     xhttp = new XMLHttpRequest();
                                                                                     xhttp.onreadystatechange = function () {
                                                                                         if (this.readyState === 4 && this.status === 200) {
-                                                                                            if (this.responseText.localeCompare('false') == 0) {
+                                                                                            if (this.responseText.localeCompare('invalid') == 0) {
+                                                                                                $("#dateInvalid" + itemid).show();
+                                                                                                $("#contInvalid" + itemid).hide();
+                                                                                                $("#btnSave" + itemid).attr('disabled', '').addClass("btn-secondary").removeClass("btn-primary");
+                                                                                            }
+                                                                                            else if (this.responseText.localeCompare('false') == 0) {
                                                                                                 $("#contInvalid" + itemid).show();
+                                                                                                $("#dateInvalid" + itemid).hide();
                                                                                                 $("#btnSave" + itemid).attr('disabled', '').addClass("btn-secondary").removeClass("btn-primary");
                                                                                             } else {
+                                                                                                $("#dateInvalid" + itemid).hide();
                                                                                                 $("#contInvalid" + itemid).hide();
                                                                                                 $("#btnSave" + itemid).removeAttr('disabled').addClass("btn-primary").removeClass("btn-secondary");
                                                                                             }
