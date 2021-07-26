@@ -33,6 +33,16 @@
     <script src="js/jquery.validate.min.js"></script>
 </head>
 <body>
+<c:set var="role" value="${sessionScope.LOGIN_USER.roleID}"/>
+<c:if test="${role eq '4' or role eq 'null'}">
+    <c:redirect url="IndexServlet"></c:redirect>
+</c:if>
+
+<c:if test="${role eq '3'}">
+    <c:redirect url="ShowDashboardServlet"></c:redirect>
+</c:if>
+
+<c:if test="${role eq '1' or role eq '2'}">
 <div class="container-scroller">
     <!-- partial:../../partials/_navbar.html -->
     <jsp:include page="adminheader.jsp"/>
@@ -640,7 +650,7 @@
 <!-- endinject -->
 <script type="text/javascript" src="src/jquery.autocomplete.subject.js"></script>
 <script type="text/javascript" src="src/jquery.autocomplete.js"></script>
-
+</c:if>
 </body>
 <script src="js/bookmanagement.js"></script>
 </html>
