@@ -29,7 +29,7 @@
 <jsp:include page="navbar.html"></jsp:include>
 <c:set var="profile" value="${sessionScope.LOGIN_USER}"/>
 <div class="p-5 bg-light">
-    <c:if test="${requestScope.MEMBER_UPDATE_SETTING_SUCCESS}">
+    <c:if test="${not empty requestScope.MEMBER_UPDATE_SETTING_MESSAGE}">
         <div class="row txtUpdateSetting">
             <div class="col-4"></div>
             <div class="col-4">
@@ -292,66 +292,31 @@
                         <%--Notifications tab--%>
                         <div class="tab-pane fade" id="list-notifications" role="tabpanel"
                              aria-labelledby="list-notifications-list" style="color: black !important;">
-                            <c:set value="${profile.notifyArrival}" var="isNotifyArrival"/>
-                            <c:set value="${profile.notifyPopular}" var="isNotifyPopular"/>
                             <form action="UpdateNotificationSettingServlet" method="POST" class="mx-0 my-0">
-                                <div class="row mb-1 align-items-center">
-                                    <div class="col-lg-5">
+                                <div class="notificationButtons d-flex pb-4">
+                                    <div class="col-4">
                                         Notify me about newest arrivals
                                     </div>
-                                    <div class="col-lg-5">
-                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                            <label class="btn btn-secondary">
-                                                <input type="radio" name="arrivalOpt" id="offNewArrival"
-                                                       value="off"
-                                                        <c:if test="${not isNotifyArrival}">
-                                                            checked="checked"
-                                                        </c:if>
-                                                />Off
-                                            </label>
-                                            <label class="btn btn-secondary">
-                                                <input type="radio" name="arrivalOpt" id="onNewArrival"
-                                                       value="on"
-                                                        <c:if test="${isNotifyArrival}">
-                                                            checked="checked"
-                                                        </c:if>
-                                                />On
-                                            </label>
-                                        </div>
+                                    <div>
+                                        <input type="checkbox" id="toggly1"
+                                        <c:if test="${profile.notifyArrival eq 'true'}">
+                                               checked
+                                        </c:if>
+                                               name="newArrival" onchange='this.form.submit();'>
+                                        <label for="toggly1"><i></i></label>
                                     </div>
                                 </div>
-                                <div class="row mb-1 align-items-center">
-                                    <div class="col-lg-5">
+                                <div class="notificationButtons d-flex pb-4">
+                                    <div class="col-4">
                                         Notify me about highest rated books of the week
                                     </div>
-                                    <div class="col-lg-5">
-                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                            <label class="btn btn-secondary">
-                                                <input type="radio" name="popularOpt" id="offHighestRated"
-                                                       value="off"
-                                                        <c:if test="${not isNotifyPopular}">
-                                                            checked="checked"
-                                                        </c:if>
-                                                />Off
-                                            </label>
-                                            <label class="btn btn-secondary">
-                                                <input type="radio" name="popularOpt" id="onHighestRated"
-                                                       value="on"
-                                                        <c:if test="${isNotifyPopular}">
-                                                            checked="checked"
-                                                        </c:if>
-                                                />On
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="row mb-1 float-right">
-                                        <button class="btn btn-primary" type="submit"
-                                                value="updateNotificationSetting"
-                                                name="btAction">
-                                            Save
-                                        </button>
+                                    <div>
+                                        <input type="checkbox" id="toggly2"
+                                        <c:if test="${profile.notifyPopular eq 'true'}">
+                                               checked
+                                        </c:if>
+                                               name="highestRated" onchange='this.form.submit();'>
+                                        <label for="toggly2"><i></i></label>
                                     </div>
                                 </div>
                             </form>
