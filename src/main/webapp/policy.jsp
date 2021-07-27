@@ -55,11 +55,6 @@
                         Items can be renewed at most 4 times if you have acceptable reasons.
                     </p>
                 </li>
-                <li>
-                    <p>
-
-                    </p>
-                </li>
             </ul>
         </div>
 
@@ -81,7 +76,7 @@
                     <p>
                         Books can only be renewed if they are not overdue.
                         Please keep track of your book rental status on your profile.
-                        The library will send you an email when it is about 10 days until the deadline of your item.
+                        The library will send you an email when it is about 10 days before the deadline of your item.
                     </p>
                 </li>
                 <li>
@@ -115,12 +110,13 @@
                     <p>
                         Your lost book would still be counted as a currently borrowed item unless you paid for the penalty.
                         Meaning, your total number of books which you can borrow will be limited.
-                        Please settle your penalty as soon as your earliest possible date.
+                        Please settle your penalty as soon as your earliest possible date for your convenience.
                     </p>
                 </li>
                 <li>
                     <p>
                         If the penalty is higher than the book price, the maximum penalty will be the cost of the book.
+                        Meaning, you would pay an amount as much as the price of the book.
                     </p>
                 </li>
             </ul>
