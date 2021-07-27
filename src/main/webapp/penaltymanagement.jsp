@@ -166,6 +166,18 @@
                                                                         </div>
                                                                         <div class="form-group row">
                                                                             <label class="col-12 col-form-label">
+                                                                                Return Deadline
+                                                                            </label>
+                                                                            <div class="col-12">
+                                                                                <input type="text"
+                                                                                       id="txtDeadline${penalty.bookID}"
+                                                                                       class="form-control"
+                                                                                       value="${penalty.returnDeadline}"
+                                                                                       disabled/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-12 col-form-label">
                                                                                 Penalty Amount
                                                                             </label>
                                                                             <div class="col-12">
