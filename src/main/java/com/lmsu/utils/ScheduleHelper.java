@@ -15,7 +15,7 @@ public class ScheduleHelper implements Serializable {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 9);      //9h
-        calendar.set(Calendar.MINUTE, 30);          //30m
+        calendar.set(Calendar.MINUTE, 40);          //40m
         calendar.set(Calendar.SECOND, 0);           //00s
         calendar.set(Calendar.MILLISECOND, 0);      //00ms
         Date dateSchedule = calendar.getTime();
@@ -31,7 +31,7 @@ public class ScheduleHelper implements Serializable {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);        //Monday
         calendar.set(Calendar.HOUR_OF_DAY, 9);                      //9h
-        calendar.set(Calendar.MINUTE, 30);                          //30m
+        calendar.set(Calendar.MINUTE, 40);                          //40m
         calendar.set(Calendar.SECOND, 0);                           //00s
         calendar.set(Calendar.MILLISECOND, 0);                      //00ms
         Date dateSchedule = calendar.getTime();
