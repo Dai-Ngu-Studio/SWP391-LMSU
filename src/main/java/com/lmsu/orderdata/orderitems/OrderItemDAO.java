@@ -657,7 +657,7 @@ public class OrderItemDAO implements Serializable {
                 //2. Create SQL String
                 String sql = "SELECT COUNT(OrderItems.id) " +
                         "FROM [OrderItems] " +
-                        "WHERE OrderItems.returnDate = CAST(CURRENT_TIMESTAMP AS DATE);";
+                        "WHERE OrderItems.returnDate = CAST(CURRENT_TIMESTAMP AS DATE) AND lendStatus = 4";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 //4. Execute Query and get ResultSet
@@ -685,7 +685,7 @@ public class OrderItemDAO implements Serializable {
                 //2. Create SQL String
                 String sql = "SELECT COUNT(OrderItems.id)" +
                         "FROM [OrderItems] " +
-                        "WHERE OrderItems.lendDate = CAST(CURRENT_TIMESTAMP AS DATE);";
+                        "WHERE OrderItems.lendDate = CAST(CURRENT_TIMESTAMP AS DATE) AND lendStatus = 2";
                 //3. Create Statement
                 stm = con.prepareStatement(sql);
                 //4. Execute Query and get ResultSet
