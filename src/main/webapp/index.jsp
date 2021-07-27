@@ -124,16 +124,9 @@
                 </a>
             </c:forEach>
         </div>
-        <div>
-            <button class="btn seeMoreBtn">
-                <a href="ShowBookCatalogServlet" style="color: #fff;">
-                    <b>See more</b>
-                </a>
-            </button>
-        </div>
     </div>
     <div class="smallSection">
-        <div class="title">
+        <div class="title pt-5">
             <img src="images/book-icon.png">
             <p><b>New Arrival</b></p>
         </div>
@@ -161,7 +154,7 @@
         <div>
             <button class="btn seeMoreBtn">
                 <a href="ShowBookCatalogServlet" style="color: #fff;">
-                    <b>See more</b>
+                    <b>See more books</b>
                 </a>
             </button>
         </div>
@@ -188,7 +181,7 @@
     </div>
     <div style="display: flex; justify-content: center;">
         <button class="btn seeMoreBtn">
-            <a href="ShowAuthorCatalogServlet"><b>See more</b></a>
+            <a href="ShowAuthorCatalogServlet"><b>See more authors</b></a>
         </button>
     </div>
 </div>
