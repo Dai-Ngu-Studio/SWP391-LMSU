@@ -234,7 +234,7 @@
                                                                                  orderid="${order.value.key.id}">
                                                                                 <input type="text"
                                                                                        class="form-control"
-                                                                                       value="${scheduledTime}"
+                                                                                       value="${order.key.key.scheduledTime}"
                                                                                        disabled/>
                                                                             </div>
                                                                         </div>
