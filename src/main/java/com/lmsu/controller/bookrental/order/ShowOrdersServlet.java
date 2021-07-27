@@ -141,6 +141,7 @@ public class ShowOrdersServlet extends HttpServlet {
                                 deliveryOrderObj.setCityName(deliveryOrderDTO.getCityName());
                                 deliveryOrderObj.setDistrictName(deliveryOrderDTO.getDistrictName());
                                 deliveryOrderObj.setWardName(deliveryOrderDTO.getWardName());
+                                deliveryOrderObj.setTrackingCode(deliveryOrderDTO.getTrackingCode());
                             }
                         }
                         Pair<DirectOrderObj, DeliveryOrderObj> orderType = new Pair<>(directOrderObj, deliveryOrderObj);
