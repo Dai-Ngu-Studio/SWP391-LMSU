@@ -126,10 +126,6 @@
                                                                                              alt="Feedback attachment"
                                                                                              onerror="this.onerror=null; this.src='images/imagenotfound.jpg';"
                                                                                         />
-                                                                                            <%--<input type="hidden"
-                                                                                                   name="txtCoverFile"
-                                                                                                   class="form-control"
-                                                                                                   value="${author.coverPath}">--%>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group row">

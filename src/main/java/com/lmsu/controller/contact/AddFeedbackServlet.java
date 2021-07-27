@@ -47,7 +47,7 @@ public class AddFeedbackServlet extends HttpServlet {
             int feedbackID = dao.getFeedbackID();
 
             //Start to add img to server process
-            String uploadPath = ImageHelpers.getPathFeedbackImgFolder(getServletContext().getRealPath(""));
+            String uploadPath = ImageHelpers.getPathImgFolder(getServletContext().getRealPath(""));
             String fileName = "";
             for (Part part : request.getParts()) {
                 fileName = part.getSubmittedFileName();
