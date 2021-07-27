@@ -164,8 +164,15 @@ public class DailyTask extends TimerTask implements Serializable {
                                 orderDAO.updateOrder(orderItemId, ORDER_OVERDUE, CONNECTION_NO_BATCH);
                                 BigDecimal decimalDaysBetween = new BigDecimal(daysBetween);
                                 BigDecimal penaltyAmount = decimalDaysBetween.multiply(MONEY_PENALTY_BASE);
-                                orderItemDAO.updateOrderItemPenaltyStatus(orderItemId, PENALTY_UNPAID);
-                                orderItemDAO.updateOrderItemPenaltyAmount(orderItemId, penaltyAmount);
+                                BigDecimal bookPrice = bookDAO.getBookById(orderItem.getBookID()).getPrice();
+                                if (penaltyAmount.compareTo(bookPrice) <= 0) {
+                                    orderItemDAO.updateOrderItemPenaltyStatus(orderItemId, PENALTY_UNPAID);
+                                    orderItemDAO.updateOrderItemPenaltyAmount(orderItemId, penaltyAmount);
+                                } else {
+                                    penaltyAmount = bookPrice;
+                                    orderItemDAO.updateOrderItemPenaltyStatus(orderItemId, PENALTY_UNPAID);
+                                    orderItemDAO.updateOrderItemPenaltyAmount(orderItemId, penaltyAmount);
+                                }
                             } // more than X days
                     } // returnDeadline exists
                 } // traverse orderItems
