@@ -58,7 +58,7 @@
                 </li>
                 <li>
                     <p>
-                        Items can be renewed at most 4 times if you have acceptable reasons.
+                        Items can be renewed at most 4 times and up to 1 week if you have acceptable reasons.
                         To renew books through the web, navigate to your Book Borrowing tab inside your profile and request a renewal.
                     </p>
                 </li>
