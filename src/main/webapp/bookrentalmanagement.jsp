@@ -100,6 +100,10 @@
                                                                                value="${order.key.key.scheduledTime}"/>
                                                                     </c:if>
                                                                 </c:if>
+                                                                <c:if test="${empty scheduledTime}">
+                                                                    <c:set var="scheduledTime"
+                                                                           value="None"/>
+                                                                </c:if>
                                                                 <td class="text-left">
                                                                         ${scheduledTime}
                                                                 </td>
@@ -230,7 +234,7 @@
                                                                                  orderid="${order.value.key.id}">
                                                                                 <input type="text"
                                                                                        class="form-control"
-                                                                                       value="${order.key.key.scheduledTime}"
+                                                                                       value="${scheduledTime}"
                                                                                        disabled/>
                                                                             </div>
                                                                         </div>
