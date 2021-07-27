@@ -3,7 +3,7 @@ $(document).ready(function () {
     $('#rental-datatable').DataTable({
         searchPanes: {
             viewTotal: true,
-            columns: [1, 4]
+            columns: [1, 5]
         },
         dom: 'Plfrtip',
         columnDefs: [
@@ -14,54 +14,54 @@ $(document).ready(function () {
                         {
                             label: 'Pending',
                             value: function (rowData, rowIdx) {
-                                return $(rowData[4]).attr('activeStatus') === '0';
+                                return $(rowData[5]).attr('activeStatus') === '0';
                             }
                         },
                         {
                             label: 'Approved',
                             value: function (rowData, rowIdx) {
-                                return $(rowData[4]).attr('activeStatus') === '1';
+                                return $(rowData[5]).attr('activeStatus') === '1';
                             }
                         },
                         {
                             label: 'Received',
                             value: function (rowData, rowIdx) {
-                                return $(rowData[4]).attr('activeStatus') === '2';
+                                return $(rowData[5]).attr('activeStatus') === '2';
                             }
                         },
                         {
                             label: 'Closed',
                             value: function (rowData, rowIdx) {
-                                return $(rowData[4]).attr('activeStatus') === '3';
+                                return $(rowData[5]).attr('activeStatus') === '3';
                             }
                         },
                         {
                             label: 'Overdue',
                             value: function (rowData, rowIdx) {
-                                return $(rowData[4]).attr('activeStatus') === '4';
+                                return $(rowData[5]).attr('activeStatus') === '4';
                             }
                         },
                         {
                             label: 'Rejected',
                             value: function (rowData, rowIdx) {
-                                return $(rowData[4]).attr('activeStatus') === '5';
+                                return $(rowData[5]).attr('activeStatus') === '5';
                             }
                         },
                         {
                             label: 'Reserve',
                             value: function (rowData, rowIdx) {
-                                return $(rowData[4]).attr('activeStatus') === '6';
+                                return $(rowData[5]).attr('activeStatus') === '6';
                             }
                         },
                         {
                             label: 'Cancelled',
                             value: function (rowData, rowIdx) {
-                                return $(rowData[4]).attr('activeStatus') === '-1';
+                                return $(rowData[5]).attr('activeStatus') === '-1';
                             }
                         }
                     ]
                 },
-                targets: [4]
+                targets: [5]
             },
             {
                 searchPanes: {

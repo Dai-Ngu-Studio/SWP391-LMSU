@@ -3,7 +3,7 @@ $(document).ready(function () {
     $('#rental-datatable').DataTable({
         searchPanes: {
             viewTotal: true,
-            columns: [1, 4]
+            columns: [1, 5]
         },
         dom: 'Plfrtip',
         columnDefs: [
@@ -15,18 +15,18 @@ $(document).ready(function () {
                         {
                             label: 'Scheduled',
                             value: function (rowData, rowIdx) {
-                                return $(rowData[4]).attr('activeStatus') === '7';
+                                return $(rowData[5]).attr('activeStatus') === '7';
                             }
                         },
                         {
                             label: 'Closed',
                             value: function (rowData, rowIdx) {
-                                return $(rowData[4]).attr('activeStatus') === '8';
+                                return $(rowData[5]).attr('activeStatus') === '8';
                             }
                         }
                     ]
                 },
-                targets: [4]
+                targets: [5]
             },
             {
                 searchPanes: {
