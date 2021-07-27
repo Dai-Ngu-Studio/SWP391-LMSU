@@ -24,6 +24,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -111,6 +112,10 @@ public class ApproveOrderServlet extends HttpServlet {
                                         Object orderGHN = new Gson().fromJson(jsonOrderGHN, Object.class);
                                         Object data = ((LinkedTreeMap) orderGHN).get("data");
                                         String trackingCode = (String) ((LinkedTreeMap) data).get("order_code");
+                                        Date expectedDeliveryTime = GhnApis.calculateExpectedDeliveryTime(deliveryOrder.getDistrict(), deliveryOrder.getWard());
+                                        if (expectedDeliveryTime != null) {
+                                            deliveryOrderDAO.updateExpectedTimeOfOrder(orderID, expectedDeliveryTime);
+                                        }
                                         deliveryOrderDAO.updateManagerOfOrder(orderID, staff.getId());
                                         deliveryOrderDAO.updateTrackingCodeOfOrder(orderID, trackingCode);
                                     }
