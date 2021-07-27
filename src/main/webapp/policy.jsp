@@ -35,43 +35,29 @@
         </div>
         <div class="introduction">
             <p>
-                - PRESENT YOUR VALID CARD (STUDENT/STAFF CARD) TO BORROW OR RETURN BOOKS
+                - PRESENT YOUR VALID CARD TO THE LIBRARIAN TO BORROW OR RETURN BOOKS AT THE LIBRARY
             </p>
         </div>
         <div class="descriptionTitle">
             <p>
-                <b>a - REFERENCE BOOKS</b>
+                <b>a - BOOK RENTAL</b>
             </p>
         </div>
-        <div class="descriptionTxt">
-            <p>
-                - Users can borrow up to 10 items (Vietnamese: 7 days; Foreign Language: 14 days) and you can renew up
-                to 4 times.
-            </p>
-        </div>
-        <div class="descriptionTitle">
-            <p>
-                <b>b - TEXTBOOKS</b>
-            </p>
-        </div>
-
         <div class="descriptionTxt">
             <ul>
                 <li>
                     <p>
-                        Student: Collect textbooks at the beginning of block and return by the end of block before
-                        borrow textbook of new block.
+                        Members can borrow up to 10 items.
                     </p>
                 </li>
                 <li>
                     <p>
-                        Lecturer: Collect textbooks at the beginning semester and return before the next semester/or
-                        complete teaching.
+                        Items can be renewed at most 4 times if you have acceptable reasons.
                     </p>
                 </li>
                 <li>
                     <p>
-                        Textbooks can only be renewed up to 1 week when you having suitable reasons.
+
                     </p>
                 </li>
             </ul>
@@ -79,7 +65,7 @@
 
         <div class="descriptionTitle">
             <p>
-                <b>c - NOTE FOR RENTAL TEXTBOOK COLLECTION</b>
+                <b>b - BOOK COLLECTION</b>
             </p>
         </div>
 
@@ -87,26 +73,20 @@
             <ul>
                 <li>
                     <p>
-                        Make sure book condition notes at the end of your borrowed books are updated. You are
-                        responsible for the condition of everything while it is on loan to you. Please take good care of
-                        books or you pay for the damage according to the regulation;
+                        Please keep the book in a well condition while you are borrowing it.
+                        You are responsible for any visible damage to the book while it is being loaned to you.
                     </p>
                 </li>
                 <li>
                     <p>
-                        Books and references can only be renewed if not overdue;
+                        Books can only be renewed if they are not overdue.
+                        Please keep track of your book rental status on your profile.
+                        The library will send you an email when it is about 10 days until the deadline of your item.
                     </p>
                 </li>
                 <li>
                     <p>
-                        To renew books, you can contact us by making phone call, sending email or in person.
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        If you find any damage when you first receive your book, notify the ILC staff to exchange the
-                        book during the first week of semester. Any damage is found by the end of semester will be
-                        fined.
+                        To renew books through the web, navigate to your Book Borrowing tab inside your profile and request a renewal.
                     </p>
                 </li>
             </ul>
@@ -114,7 +94,7 @@
 
         <div class="descriptionTitle">
             <p>
-                <b>d - FINES & PENALTY</b>
+                <b>c - FINES & PENALTY</b>
             </p>
         </div>
 
@@ -122,39 +102,25 @@
             <ul>
                 <li>
                     <p>
-                        Overdue books will befined 5,000 VND/item/day
+                        Overdue books will be penalized at a rate of 5,000 VND/item/day.
                     </p>
                 </li>
                 <li>
                     <p>
-                        Damaged items which can be used will occur an amount depend on how serious of damage
+                        Books that have been overdue for more than 13 days will be marked as lost.
+                        If such is the case, you are instead to pay the full price of the book for the penalty.
                     </p>
                 </li>
                 <li>
                     <p>
-                        For broken items/overdue 30 days or lost items will be charged as:
+                        Your lost book would still be counted as a currently borrowed item unless you paid for the penalty.
+                        Meaning, your total number of books which you can borrow will be limited.
+                        Please settle your penalty as soon as your earliest possible date.
                     </p>
                 </li>
                 <li>
                     <p>
-                        ReplacementFine = Book Cover Price (double price for reference books) + Overdue Fine.
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        Note: If the overdue fine is higher than the book price, the maximum fine will be the cost of
-                        the book.
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        E.g. An, Nguyen Van borrowed SUMMIT 1 textbook which costs 128,000 and was overdue 60 days
-                        (Overdue Fine = 300,000 > book price).
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        There placement fine for An, Nguyen Van: 128,000 + 128,000 = 256,000 VND
+                        If the penalty is higher than the book price, the maximum penalty will be the cost of the book.
                     </p>
                 </li>
             </ul>
