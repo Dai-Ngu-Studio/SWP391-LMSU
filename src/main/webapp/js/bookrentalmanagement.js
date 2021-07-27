@@ -142,6 +142,35 @@ function checkDirectOrderStatus(orderID) {
     });
 }
 
+// For loading expected delivery time after approving delivery order
+function checkExpectedDeliveryTime(orderID) {
+    $.ajax({
+        method: 'GET',
+        url: 'CheckDeliveryInformationServlet',
+        data: {
+            txtOrderID: orderID
+        },
+        datatype: 'json',
+        success: function (deliveryOrderInformation) {
+            if (deliveryOrderInformation != null) {
+                let expectedDeliveryTime = deliveryOrderInformation.value['scheduledDeliveryTime'];
+                let trackingCode = deliveryOrderInformation.value['trackingCode'];
+                let manager = deliveryOrderInformation.value['manager'];
+                let managerID = manager['id'];
+                let managerName = manager['name'];
+                let txtExpectedDelivery = $('.txtExpectedTime').filter(`[orderid='${orderID}']`).find('input');
+                let txtTrackingCode = $('.txtTrackingCode').filter(`[orderid='${orderID}']`).find('input');
+                let frmStaffID = $('.frmStaffID').filter(`[orderid='${orderID}']`).find('input');
+                let frmStaffName = $('.frmStaffName').filter(`[orderid='${orderID}']`).find('input');
+                txtExpectedDelivery.attr('value', expectedDeliveryTime);
+                txtTrackingCode.attr('value', trackingCode);
+                frmStaffID.attr('value', managerID);
+                frmStaffName.attr('value', managerName);
+            }
+        }
+    });
+}
+
 // For loading/ hiding editing buttons
 function loadButtons() {
     const ORDER_CANCELLED = '-1';
@@ -246,6 +275,12 @@ $(document).ready(function () {
                         let $btnAppr = $('<h3>').appendTo($statOrder);
                         if (orderStat === ORDER_APPROVED) {
                             $btnAppr.addClass('fa fa-check-circle text-success')
+                            let lendMethod = orderInformation.key['lendMethod'];
+                            console.log(lendMethod);
+                            if (lendMethod) {
+                                checkExpectedDeliveryTime(orderID);
+                                console.log('ran');
+                            }
                         } else if (orderStat === ORDER_REJECTED) {
                             $btnAppr.addClass('fa fa-times-circle text-danger')
                             alert(`Order was rejected by another librarian.`);

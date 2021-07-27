@@ -95,10 +95,13 @@
                                                                 </td>
                                                                 <c:set var="scheduledTime" value="None"/>
                                                                 <c:if test="${order.value.key.lendMethod eq false}">
-                                                                    <c:set var="scheduledTime" value="${order.key.key.scheduledTime}"/>
+                                                                    <c:if test="${order.key.key.returnOrder eq false}">
+                                                                        <c:set var="scheduledTime"
+                                                                               value="${order.key.key.scheduledTime}"/>
+                                                                    </c:if>
                                                                 </c:if>
                                                                 <td class="text-left">
-                                                                    ${scheduledTime}
+                                                                        ${scheduledTime}
                                                                 </td>
                                                                 <td class="text-center lbOrderStat"
                                                                     id="lbOrderStat${order.value.key.id}"
@@ -312,6 +315,38 @@
                                                                                 <input type="text"
                                                                                        class="form-control"
                                                                                        value="${order.key.value.wardName}"
+                                                                                       disabled/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <c:set var="expectedTime"
+                                                                               value="${order.key.value.scheduledDeliveryTime}"/>
+                                                                        <c:if test="${empty expectedTime}">
+                                                                            <c:set var="expectedTime" value="N/A"/>
+                                                                        </c:if>
+                                                                        <c:set var="trackingCode"
+                                                                               value="${order.key.value.trackingCode}"/>
+                                                                        <c:if test="${empty trackingCode}">
+                                                                            <c:set var="trackingCode" value="N/A"/>
+                                                                        </c:if>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-lg-1 col-12 col-form-label">
+                                                                                Expected Delivery Time
+                                                                            </label>
+                                                                            <div class="col-lg-5 col-12 txtExpectedTime"
+                                                                                 orderid="${order.value.key.id}">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value="${expectedTime}"
+                                                                                       disabled/>
+                                                                            </div>
+                                                                            <label class="col-lg-1 col-12 col-form-label">
+                                                                                Tracking Code
+                                                                            </label>
+                                                                            <div class="col-lg-5 col-12 txtTrackingCode"
+                                                                                 orderid="${order.value.key.id}">
+                                                                                <input type="text"
+                                                                                       class="form-control"
+                                                                                       value="${trackingCode}"
                                                                                        disabled/>
                                                                             </div>
                                                                         </div>
