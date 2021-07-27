@@ -52,7 +52,25 @@
                 </li>
                 <li>
                     <p>
+                        Book rental orders must be approved before you can receive your books.
+                        Approval or rejection of your order will be shown on your profile and notified through email.
+                    </p>
+                </li>
+                <li>
+                    <p>
                         Items can be renewed at most 4 times if you have acceptable reasons.
+                        To renew books through the web, navigate to your Book Borrowing tab inside your profile and request a renewal.
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        Renewal requests must be approved for the deadline of your item to be extended.
+                        Approval of your request will be shown on your profile.
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        The library will send you an email if any book you have in your wishlist is now available in stock.
                     </p>
                 </li>
             </ul>
@@ -81,7 +99,7 @@
                 </li>
                 <li>
                     <p>
-                        To renew books through the web, navigate to your Book Borrowing tab inside your profile and request a renewal.
+                        You can keep track of your penalties on your profile.
                     </p>
                 </li>
             </ul>
