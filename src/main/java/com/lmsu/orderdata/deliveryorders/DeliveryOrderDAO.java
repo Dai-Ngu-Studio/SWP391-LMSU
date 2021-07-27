@@ -61,7 +61,8 @@ public class DeliveryOrderDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 String sql = "SELECT [orderID], [managerID], [deliverer], [scheduledDeliveryTime], [receiverName], [phoneNumber]," +
-                        "[deliveryAddress1], [deliveryAddress2], [city], [district], [ward], [cityName], [districtName], [wardName] " +
+                        "[deliveryAddress1], [deliveryAddress2], [city], [district], [ward], [cityName], [districtName], [wardName], " +
+                        "[trackingCode] " +
                         "FROM [DeliveryOrder] " +
                         "WHERE [orderID] = ? ";
                 stm = con.prepareStatement(sql);
@@ -82,6 +83,7 @@ public class DeliveryOrderDAO implements Serializable {
                     String cityName = rs.getString("cityName");
                     String districtName = rs.getString("districtName");
                     String wardName = rs.getString("wardName");
+                    String trackingCode = rs.getString("trackingCode");
                     DeliveryOrderDTO dto = new DeliveryOrderDTO();
                     dto.setOrderID(orderIDVal);
                     dto.setManagerID(managerID);
@@ -97,6 +99,7 @@ public class DeliveryOrderDAO implements Serializable {
                     dto.setCityName(cityName);
                     dto.setDistrictName(districtName);
                     dto.setWardName(wardName);
+                    dto.setTrackingCode(trackingCode);
                     return dto;
                 }
             }
@@ -145,6 +148,31 @@ public class DeliveryOrderDAO implements Serializable {
                         "WHERE [orderID] = ? ";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, trackingCode);
+                stm.setInt(2, orderID);
+                int row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } finally {
+            if (con != null) con.close();
+            if (stm != null) stm.close();
+        }
+        return false;
+    }
+
+    public boolean updateExpectedTimeOfOrder(int orderID, Date expectedTime)
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE [DeliveryOrder] " +
+                        "SET [scheduledDeliveryTime] = ? " +
+                        "WHERE [orderID] = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setDate(1, expectedTime);
                 stm.setInt(2, orderID);
                 int row = stm.executeUpdate();
                 if (row > 0) {
