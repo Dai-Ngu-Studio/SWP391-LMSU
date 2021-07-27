@@ -1,5 +1,6 @@
 package com.lmsu.orderdata.deliveryorders;
 
+import com.lmsu.users.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ public @Data
 class DeliveryOrderDTO implements Serializable {
     private int orderID;
     private String managerID;
+    private UserDTO manager;
     private String deliverer;
     private Timestamp scheduledDeliveryTime;
     private String receiverName;
