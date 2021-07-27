@@ -61,6 +61,7 @@
                                                         <th class="text-center">METHOD</th>
                                                         <th class="text-left">ORDERED ON</th>
                                                         <th class="text-left">BORROWER</th>
+                                                        <th class="text-left">SCHEDULED TIME</th>
                                                         <th class="text-center">STATUS</th>
                                                         <th class="text-center">ACTIONS</th>
                                                     </tr>
@@ -91,6 +92,13 @@
                                                                 </td>
                                                                 <td class="text-left">${order.value.key.memberName}
                                                                     (${order.value.key.memberID})
+                                                                </td>
+                                                                <c:set var="scheduledTime" value="None"/>
+                                                                <c:if test="${order.value.key.lendMethod eq false}">
+                                                                    <c:set var="scheduledTime" value="${order.key.key.scheduledTime}"/>
+                                                                </c:if>
+                                                                <td class="text-left">
+                                                                    ${scheduledTime}
                                                                 </td>
                                                                 <td class="text-center lbOrderStat"
                                                                     id="lbOrderStat${order.value.key.id}"

@@ -711,7 +711,7 @@ $(document).ready(function () {
     const orderStatObs = new MutationObserver(renderStatData);
     const startObserver = function () {
         orderStatContainers.each(function () {
-            orderStatObs.observe(this.cells[4], observerConfig);
+            orderStatObs.observe(this.cells[5], observerConfig);
         });
     };
     const stopObserver = function () {
@@ -720,7 +720,7 @@ $(document).ready(function () {
 
     // Initial Rendering when page finished loading
     orderStatContainers.each(function () {
-        let $lbOrderStat = $(this.cells[4].firstElementChild);
+        let $lbOrderStat = $(this.cells[5].firstElementChild);
         let activeStatus = $lbOrderStat.get(0).attributes['activeStatus']['value'];
         orderStatColoring($lbOrderStat, activeStatus);
     });
