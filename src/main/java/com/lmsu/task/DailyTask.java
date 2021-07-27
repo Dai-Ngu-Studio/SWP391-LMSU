@@ -457,10 +457,10 @@ public class DailyTask extends TimerTask implements Serializable {
 
     @Override
     public void run() {
-        notifyTenDaysLeft();
         cancelDirectOrder();
         changeStatusToOverdue();
         checkQuantityForReservedBooks();
         notifyPenalty();
+        notifyTenDaysLeft();
     }
 }
