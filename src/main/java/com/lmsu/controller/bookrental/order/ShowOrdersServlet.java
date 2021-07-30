@@ -76,8 +76,8 @@ public class ShowOrdersServlet extends HttpServlet {
                     orderItemDAO.getOrderItemsFromOrderID(order.getId());
                     List<OrderItemDTO> orderItems = orderItemDAO.getOrderItemList();
                     if (orderItems != null) {
-                        for (OrderItemDTO orderItemDTO : orderItems) {
-                            orderItemDTO.setBook(bookDAO.getBookById(orderItemDTO.getBookID()));
+                        for (OrderItemDTO orderItem : orderItems) {
+                            orderItem.setBook(bookDAO.getBookById(orderItem.getBookID()));
                         }
                         int orderID = order.getId();
                         DirectOrderDTO directOrder = new DirectOrderDTO();

@@ -276,8 +276,10 @@ $(document).ready(function () {
                         if (orderStat === ORDER_APPROVED) {
                             $btnAppr.addClass('fa fa-check-circle text-success')
                             let lendMethod = orderInformation.key['lendMethod'];
+                            console.log(lendMethod);
                             if (lendMethod) {
                                 checkExpectedDeliveryTime(orderID);
+                                console.log('ran');
                             }
                         } else if (orderStat === ORDER_REJECTED) {
                             $btnAppr.addClass('fa fa-times-circle text-danger')
@@ -792,8 +794,6 @@ $(document).ready(function () {
     const observerConfig = {attributes: true, subtree: true};
 
     const orderItemStatColoring = function ($lbItemStat, lendStatus) {
-        console.log($lbItemStat);
-        console.log(lendStatus);
         let baseClass = 'badge lbItemStat';
         $lbItemStat.removeClass();
         $lbItemStat.addClass(baseClass);
@@ -855,11 +855,9 @@ $(document).ready(function () {
 
     const renderItemStatData = function (mutationsList, observer) {
         $(mutationsList).each(function () {
-            console.log('Order Item Status Mutation detected: ', this);
+            // console.log('Order Item Status Mutation detected: ', this);
             let $lbItemStat = $(this['target']);
-            console.log($lbItemStat);
             let lendStatus = $lbItemStat.get(0).attributes['lendStatus']['value'];
-            console.log(lendStatus);
             // Temporarily stop observing to ignore rendering changes
             stopObserver();
             orderItemStatColoring($lbItemStat, lendStatus);
