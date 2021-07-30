@@ -4,21 +4,14 @@
 <jsp:directive.page contentType="text/html; charset=UTF-8" language="java"/>
 <html>
 <head>
-    <%-- Required meta tags --%>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>LMSU Dashboard</title>
-    <%-- plugins:css --%>
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
-    <%-- endinject --%>
-    <%-- Plugin css for this page --%>
     <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <%-- End plugin css for this page --%>
-    <%-- inject:css --%>
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
-    <%-- endinject --%>
     <link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/1.3.0/css/searchPanes.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css">
     <link rel="shortcut icon" href="images/images/favicon.png"/>
@@ -34,14 +27,9 @@
 
 <c:if test="${role eq '1' or role eq '2' or role eq '3'}">
     <div class="container-scroller">
-            <%-- partial:../../partials/_navbar.html --%>
         <jsp:include page="adminheader.jsp"/>
-            <%-- partial --%>
         <div class="container-fluid page-body-wrapper">
-                <%-- partial --%>
             <jsp:include page="sidebar.jsp"></jsp:include>
-                <%-- partial:../../partials/_sidebar.html --%>
-                <%-- partial --%>
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="card">
@@ -67,7 +55,7 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <%--Map<Pair<DirectOrderObj, DeliveryOrderObj>, Pair<OrderObj, List<OrderItemObj>>>--%>
+                                                        <%--Map<Pair<DirectOrder, DeliveryOrder>, Pair<Order, List<OrderItem>>>--%>
                                                     <b id="userRole" userRole="${sessionScope.LOGIN_USER.roleID}"
                                                        hidden></b>
                                                     <c:set var="jspUserRole" value="${sessionScope.LOGIN_USER.roleID}"/>
@@ -90,7 +78,7 @@
                                                                 <td class="text-left">
                                                                         ${order.value.key.orderDate}
                                                                 </td>
-                                                                <td class="text-left">${order.value.key.memberName}
+                                                                <td class="text-left">${order.value.key.member.name}
                                                                     (${order.value.key.memberID})
                                                                 </td>
                                                                 <c:set var="scheduledTime" value="None"/>
@@ -183,7 +171,7 @@
                                                                         <div class="col-lg-5 col-12">
                                                                             <input type="text"
                                                                                    class="form-control"
-                                                                                   value="${order.value.key.memberName}"
+                                                                                   value="${order.value.key.member.name}"
                                                                                    disabled/>
                                                                         </div>
                                                                     </div>
@@ -191,13 +179,13 @@
                                                                         <c:set var="staffID"
                                                                                value="${order.key.key.librarianID}"/>
                                                                         <c:set var="staffName"
-                                                                               value="${order.key.key.librarianName}"/>
+                                                                               value="${order.key.key.librarian.name}"/>
                                                                     </c:if>
                                                                     <c:if test="${order.value.key.lendMethod}">
                                                                         <c:set var="staffID"
                                                                                value="${order.key.value.managerID}"/>
                                                                         <c:set var="staffName"
-                                                                               value="${order.key.value.managerName}"/>
+                                                                               value="${order.key.value.manager.name}"/>
                                                                     </c:if>
                                                                     <c:if test="${empty staffID}">
                                                                         <c:set var="staffID" value="N/A"/>
@@ -429,36 +417,6 @@
                                                                             </c:otherwise>
                                                                         </c:choose>
                                                                     </div>
-                                                                        <%--Documenting finished work:--%>
-                                                                        <%--Update status for order-%>
-                                                                        <%--update status for order item-%>
-                                                                        <%--AJAX checks if order has been cancelled, rejected or failed to be approved-%>
-                                                                        <%--Received uses SQL current timestamp--%>
-                                                                        <%--Update the dropdown update status after approving--%>
-                                                                        <%--Add Librarian ID, Name of Librarian who changed to received--%>
-                                                                        <%--Only allow update items when order status is not pending, cancelled or reserve only--%>
-                                                                        <%--Order Details Edit Button--%>
-                                                                        <%--Items that can be updated: ITEM_APPROVED, ITEM_RECEIVED, ITEM_OVERDUE, ITEM_LOST--%>
-                                                                        <%--Item Status direction:
-                                                                        PENDING -> APPROVED (using approve button),
-                                                                        APPROVED -> RECEIVED (using update button),
-                                                                        OVERDUE is determined by system (system check is to be implemented),
-                                                                        LOST is determined by system (~),
-                                                                        OVERDUE -> OVERDUE_RETURNED (opposite direction is a lot of coding overhead),
-                                                                        LOST -> OVERDUE_RETURNED (~)
-                                                                        --%>
-                                                                        <%--Overdue can only be updated to overdue returned--%>
-                                                                        <%--AJAX check if all items status
-                                                                        then update order status accordingly--%>
-                                                                        <%--ITEMs that are scheduled for return are not concerned by Librarian, not allow updating,
-                                                                        system will update when Manager received--%>
-                                                                        <%--Notify when cancelled, rejected--%>
-                                                                        <%--Librarian can't update item with status scheduled return,
-                                                                        only manager can update--%>
-                                                                        <%--Reserve only order can't be approved or updated--%>
-                                                                        <%--CANCELLED is either by member or system do 1 day after scheduled date--%>
-                                                                        <%--Some to-do: --%>
-                                                                        <%--Add Status Lock button to prevent accidental update--%>
                                                                     <c:if test="${((order.value.key.lendMethod eq true) and (jspUserRole eq '2'))
                                                                                 or ((order.value.key.lendMethod eq false) and (jspUserRole eq '3'))
                                                                                 or ((order.value.key.activeStatus eq 2) or (order.value.key.activeStatus eq 4))}">
@@ -511,7 +469,7 @@
                                                                                        items="${order.value.value}">
                                                                                 <tr>
                                                                                     <td class="text-right">${orderItem.id} </td>
-                                                                                    <td class="text-left">${orderItem.title}</td>
+                                                                                    <td class="text-left">${orderItem.book.title}</td>
                                                                                     <td class="text-center">
                                                                                         <c:set var="statOrderItem"
                                                                                                value="${orderItem.lendStatus}"
@@ -684,8 +642,6 @@
                         </div>
                     </div>
                 </div>
-                    <%-- content-wrapper ends --%>
-                    <%-- partial:../../partials/_footer.html --%>
                 <footer class="footer">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
                         <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.
@@ -695,33 +651,20 @@
                             with <i class="ti-heart text-danger ml-1"></i></span>
                     </div>
                 </footer>
-                    <%-- partial --%>
             </div>
-                <%-- main-panel ends --%>
         </div>
-            <%-- page-body-wrapper ends --%>
     </div>
-    <%-- container-scroller --%>
-    <%-- plugins:js --%>
     <script src="vendors/js/vendor.bundle.base.js"></script>
-    <%-- endinject --%>
-    <%-- Plugin js for this page --%>
     <script src="vendors/datatables.net/jquery.dataTables.js"></script>
     <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
     <script src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
-    <%-- End plugin js for this page --%>
-    <%-- inject:js --%>
     <script src="js/off-canvas.js"></script>
     <script src="js/hoverable-collapse.js"></script>
     <script src="js/template.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/todolist.js"></script>
     <script defer="defer" src="js/bookrentalmanagement.js"></script>
-    <%-- endinject --%>
-    <%-- Custom js for this page--%>
-
-    <%-- End custom js for this page--%>
 </c:if>
 </body>
 </html>

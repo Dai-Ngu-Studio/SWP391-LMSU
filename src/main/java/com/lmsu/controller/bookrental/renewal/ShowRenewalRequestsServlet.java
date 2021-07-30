@@ -1,7 +1,5 @@
 package com.lmsu.controller.bookrental.renewal;
 
-import com.lmsu.bean.orderdata.OrderItemObj;
-import com.lmsu.bean.renewal.RenewalRequestObj;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
@@ -45,36 +43,22 @@ public class ShowRenewalRequestsServlet extends HttpServlet {
             RenewalRequestDAO renewalRequestDAO = new RenewalRequestDAO();
             renewalRequestDAO.viewRenewalRequests();
             List<RenewalRequestDTO> renewals = renewalRequestDAO.getRenewalList();
-            List<RenewalRequestObj> renewalObjs = new ArrayList<>();
             if (renewals != null) {
                 BookDAO bookDAO = new BookDAO();
                 OrderDAO orderDAO = new OrderDAO();
                 OrderItemDAO orderItemDAO = new OrderItemDAO();
                 UserDAO userDAO = new UserDAO();
                 for (RenewalRequestDTO renewal : renewals) {
-                    RenewalRequestObj renewalRequestObj = new RenewalRequestObj();
-                    renewalRequestObj.setRenewalID(renewal.getRenewalID());
-                    renewalRequestObj.setReason(renewal.getReason());
-                    renewalRequestObj.setRequestedExtendDate(renewal.getRequestedExtendDate());
-                    renewalRequestObj.setApprovalStatus(renewal.getApprovalStatus());
                     OrderItemDTO orderItem = orderItemDAO.getOrderItemByID(renewal.getItemID());
                     OrderDTO order = orderDAO.getOrderFromID(orderItem.getOrderID());
-                    OrderItemObj orderItemObj = new OrderItemObj();
-                    UserDTO member = userDAO.getUserByID(order.getMemberID());
-                    UserDTO librarian = userDAO.getUserByID(renewal.getLibrarianID());
-                    BookDTO book = bookDAO.getBookById(orderItem.getBookID());
-                    orderItemObj.setMemberID(order.getMemberID());
-                    orderItemObj.setMemberName(member.getName());
-                    orderItemObj.setBookID(orderItem.getBookID());
-                    orderItemObj.setTitle(book.getTitle());
-                    renewalRequestObj.setItem(orderItemObj);
-                    if (librarian != null) {
-                        renewalRequestObj.setLibrarian(librarian);
-                    }
-                    renewalObjs.add(renewalRequestObj);
+                    order.setMember(userDAO.getUserByID(order.getMemberID()));
+                    orderItem.setOrder(order);
+                    orderItem.setBook(bookDAO.getBookById(orderItem.getBookID()));
+                    renewal.setOrderItem(orderItem);
+                    renewal.setLibrarian(userDAO.getUserByID(renewal.getLibrarianID()));
                 }
             }
-            request.setAttribute(ATTR_RENEWAL_LIST, renewalObjs);
+            request.setAttribute(ATTR_RENEWAL_LIST, renewals);
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
             log("ShowOrdersServlet _ SQL: " + ex.getMessage());

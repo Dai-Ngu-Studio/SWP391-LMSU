@@ -1,7 +1,6 @@
 package com.lmsu.controller.member.returndelivery;
 
 import com.lmsu.bean.member.ReturnCartObj;
-import com.lmsu.bean.orderdata.OrderItemObj;
 import com.lmsu.orderdata.directorders.DirectOrderDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
@@ -91,7 +90,7 @@ public class CheckoutReturnDirectServlet extends HttpServlet {
                     if (returnCartObj != null) {
                         // 3. Check if items existed
                         if (returnCartObj.getReturnItems() != null) {
-                            Map<Integer, OrderItemObj> cartReturnItems = returnCartObj.getReturnItems();
+                            Map<Integer, OrderItemDTO> cartReturnItems = returnCartObj.getReturnItems();
                             UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
                             if (userDTO != null) {
                                 // 4. Create connection for rollback

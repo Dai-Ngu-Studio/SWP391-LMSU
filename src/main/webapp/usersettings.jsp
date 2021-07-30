@@ -353,7 +353,7 @@
                                                 <form action="DispatchServlet">
                                                     <td class="text-right">${counter.count}</td>
                                                     <td class="text-left">
-                                                            ${orderItem.title}
+                                                            ${orderItem.book.title}
                                                     </td>
                                                     <td class="text-left">
                                                             ${orderItem.returnDeadline}
@@ -424,7 +424,6 @@
                                                                     ITEM_RECEIVED = 2
                                                                     ITEM_OVERDUE = 5
                                                                 --%>
-
                                                             <c:if test="${(orderItem.lendStatus eq 2)
                                                                 or (orderItem.lendStatus eq 5)}">
                                                                 <button type="button" class="btn btn-light"
@@ -594,8 +593,7 @@
                                                                                                 $("#dateInvalid" + itemid).show();
                                                                                                 $("#contInvalid" + itemid).hide();
                                                                                                 $("#btnSave" + itemid).attr('disabled', '').addClass("btn-secondary").removeClass("btn-primary");
-                                                                                            }
-                                                                                            else if (this.responseText.localeCompare('false') == 0) {
+                                                                                            } else if (this.responseText.localeCompare('false') == 0) {
                                                                                                 $("#contInvalid" + itemid).show();
                                                                                                 $("#dateInvalid" + itemid).hide();
                                                                                                 $("#btnSave" + itemid).attr('disabled', '').addClass("btn-secondary").removeClass("btn-primary");
@@ -676,7 +674,6 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <%--Need to add row to show status of item--%>
                                         <c:set var="reserveItems" value="${requestScope.MEMBER_RESERVE_ITEMS}"/>
                                         <c:set var="quantityMap" value="${requestScope.QUANTITY_MAP_LIST}"/>
                                         <c:forEach var="reserveItem" items="${reserveItems}" varStatus="counter">
@@ -684,7 +681,7 @@
                                                 <form action="DispatchServlet">
                                                     <td class="text-right">${counter.count}</td>
                                                     <td class="text-left">
-                                                            ${reserveItem.title}
+                                                            ${reserveItem.book.title}
                                                     </td>
                                                     <td class="text-center">
                                                         <c:if test="${quantityMap.get(reserveItem.id) eq 0}">
@@ -1066,7 +1063,7 @@
                                                                            items="${order.value.value}">
                                                                     <tr>
                                                                         <td class="text-right">${orderItem.id} </td>
-                                                                        <td class="text-left">${orderItem.title}</td>
+                                                                        <td class="text-left">${orderItem.book.title}</td>
                                                                         <td class="text-center">
                                                                             <c:set var="statOrderItem"
                                                                                    value="${orderItem.lendStatus}"
@@ -1207,7 +1204,7 @@
                                         <c:forEach var="renewal" items="${renewalList}" varStatus="renewalCounter">
                                             <tr>
                                                 <td class="text-right">${renewalCounter.count}</td>
-                                                <td class="text-left">${renewal.item.title}</td>
+                                                <td class="text-left">${renewal.orderItem.book.title}</td>
                                                 <td class="text-left">${renewal.requestedExtendDate}</td>
                                                 <td class="text-center">
                                                     <label class="badge lbRenewalStat"
@@ -1265,9 +1262,9 @@
                                                             </label>
                                                             <div class="col-12">
                                                                 <input type="text"
-                                                                       id="txtBookID${renewal.item.title}"
+                                                                       id="txtBookID${renewal.orderItem.book.title}"
                                                                        class="form-control"
-                                                                       value="${renewal.item.title}"
+                                                                       value="${renewal.orderItem.book.title}"
                                                                        disabled/>
                                                             </div>
                                                             <label class="col-12 col-form-label">
@@ -1399,7 +1396,7 @@
                                             <tr>
                                                 <td class="text-right">${counter.count}</td>
                                                 <td class="text-left">
-                                                        ${penalty.title}
+                                                        ${penalty.book.title}
                                                 </td>
                                                 <td class="text-left">
                                                         ${penalty.returnDeadline}
@@ -1462,7 +1459,7 @@
                                                                 <input type="text"
                                                                        id="txtBookID${penalty.bookID}"
                                                                        class="form-control"
-                                                                       value="${penalty.title}"
+                                                                       value="${penalty.book.title}"
                                                                        disabled/>
                                                             </div>
                                                         </div>

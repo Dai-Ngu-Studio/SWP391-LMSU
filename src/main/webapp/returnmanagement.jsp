@@ -4,21 +4,14 @@
 <jsp:directive.page contentType="text/html; charset=UTF-8" language="java"/>
 <html>
 <head>
-    <%-- Required meta tags --%>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>LMSU Dashboard</title>
-    <%-- plugins:css --%>
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
-    <%-- endinject --%>
-    <%-- Plugin css for this page --%>
     <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <%-- End plugin css for this page --%>
-    <%-- inject:css --%>
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
-    <%-- endinject --%>
     <link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/1.3.0/css/searchPanes.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css">
     <link rel="shortcut icon" href="images/images/favicon.png"/>
@@ -28,14 +21,9 @@
 </head>
 <body>
 <div class="container-scroller">
-    <%-- partial:../../partials/_navbar.html --%>
     <jsp:include page="adminheader.jsp"/>
-    <%-- partial --%>
     <div class="container-fluid page-body-wrapper">
-        <%-- partial --%>
         <jsp:include page="sidebar.jsp"></jsp:include>
-        <%-- partial:../../partials/_sidebar.html --%>
-        <%-- partial --%>
         <div class="main-panel">
             <div class="content-wrapper">
                 <div class="card">
@@ -62,12 +50,11 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <%--Map<Pair<DirectOrderObj, DeliveryOrderObj>, Pair<OrderObj, List<OrderItemObj>>>--%>
+                                                    <%--Map<Pair<DirectOrder, DeliveryOrder>, Pair<Order, List<OrderItem>>>--%>
                                                     <div id="userRole" userRole="" hidden></div>
                                                     <c:set var="orderList" value="${requestScope.ORDER_LIST}"/>
                                                     <c:forEach var="order" items="${orderList}" varStatus="counter">
                                                         <c:set var="lendMethod" value="${order.value.key.lendMethod}"/>
-                                                        <%--Return orders are not shown in this page--%>
                                                         <c:if test="${order.key.key.returnOrder}">
                                                             <tr>
                                                                 <td class="text-right">${counter.count}</td>
@@ -82,12 +69,13 @@
                                                                 <td class="text-left">
                                                                         ${order.value.key.orderDate}
                                                                 </td>
-                                                                <td class="text-left">${order.value.key.memberName}
+                                                                <td class="text-left">${order.value.key.member.name}
                                                                     (${order.value.key.memberID})
                                                                 </td>
                                                                 <c:set var="scheduledTime" value="None"/>
                                                                 <c:if test="${order.value.key.lendMethod eq false}">
-                                                                    <c:set var="scheduledTime" value="${order.key.key.scheduledTime}"/>
+                                                                    <c:set var="scheduledTime"
+                                                                           value="${order.key.key.scheduledTime}"/>
                                                                 </c:if>
                                                                 <td class="text-left">
                                                                         ${scheduledTime}
@@ -169,7 +157,7 @@
                                                                             <div class="col-lg-5 col-12">
                                                                                 <input type="text"
                                                                                        class="form-control"
-                                                                                       value="${order.value.key.memberName}"
+                                                                                       value="${order.value.key.member.name}"
                                                                                        disabled/>
                                                                             </div>
                                                                         </div>
@@ -305,7 +293,7 @@
                                                                                            items="${order.value.value}">
                                                                                     <tr>
                                                                                         <td class="text-right">${orderItem.id} </td>
-                                                                                        <td class="text-left">${orderItem.title}</td>
+                                                                                        <td class="text-left">${orderItem.book.title}</td>
                                                                                         <td class="text-center">
                                                                                             <c:set var="statOrderItem"
                                                                                                    value="${orderItem.lendStatus}"
@@ -473,8 +461,6 @@
                     </div>
                 </div>
             </div>
-            <%-- content-wrapper ends --%>
-            <%-- partial:../../partials/_footer.html --%>
             <footer class="footer">
                 <div class="d-sm-flex justify-content-center justify-content-sm-between">
                         <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.
@@ -484,32 +470,19 @@
                             with <i class="ti-heart text-danger ml-1"></i></span>
                 </div>
             </footer>
-            <%-- partial --%>
         </div>
-        <%-- main-panel ends --%>
     </div>
-    <%-- page-body-wrapper ends --%>
 </div>
-<%-- container-scroller --%>
-<%-- plugins:js --%>
 <script src="vendors/js/vendor.bundle.base.js"></script>
-<%-- endinject --%>
-<%-- Plugin js for this page --%>
 <script src="vendors/datatables.net/jquery.dataTables.js"></script>
 <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
 <script src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
 <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
-<%-- End plugin js for this page --%>
-<%-- inject:js --%>
 <script src="js/off-canvas.js"></script>
 <script src="js/hoverable-collapse.js"></script>
 <script src="js/template.js"></script>
 <script src="js/settings.js"></script>
 <script src="js/todolist.js"></script>
 <script src="js/returnmanagement.js"></script>
-<%-- endinject --%>
-<%-- Custom js for this page--%>
-
-<%-- End custom js for this page--%>
 </body>
 </html>

@@ -1,7 +1,6 @@
 package com.lmsu.controller.bookrental.renewal.ajax;
 
 import com.google.gson.Gson;
-import com.lmsu.bean.renewal.RenewalRequestObj;
 import com.lmsu.renewalrequests.RenewalRequestDAO;
 import com.lmsu.renewalrequests.RenewalRequestDTO;
 import com.lmsu.users.UserDAO;
@@ -32,7 +31,7 @@ public class RejectRenewalServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String txtRenewalID = request.getParameter(PARAM_TXT_RENEWALID);
-        RenewalRequestObj renewalObj = null;
+        RenewalRequestDTO renewal = null;
 
         try {
             // 1. Check if session existed
@@ -44,7 +43,7 @@ public class RejectRenewalServlet extends HttpServlet {
                 if (staff != null) {
                     int renewalID = Integer.parseInt(txtRenewalID);
                     RenewalRequestDAO renewalRequestDAO = new RenewalRequestDAO();
-                    RenewalRequestDTO renewal = renewalRequestDAO.getRenewalByID(renewalID);
+                    renewal = renewalRequestDAO.getRenewalByID(renewalID);
                     if ((renewal.getApprovalStatus() != RENEWAL_APPROVED) && (renewal.getApprovalStatus() != RENEWAL_CANCELLED)) {
                         boolean rejectRenewalResult = renewalRequestDAO.updateRenewalRequestStatus(renewalID, RENEWAL_REJECTED);
                         if (rejectRenewalResult) {
@@ -53,10 +52,9 @@ public class RejectRenewalServlet extends HttpServlet {
                                 renewal = renewalRequestDAO.getRenewalByID(renewalID);
                                 LOGGER.log(Level.INFO, "Staff " + staff.getName() + " [" + staff.getId() +
                                         "] has rejected renewal request " + renewalID);
-                                renewalObj = new RenewalRequestObj();
                                 UserDTO staffDTO = userDAO.getUserByID(renewal.getLibrarianID());
-                                renewalObj.setApprovalStatus(renewal.getApprovalStatus());
-                                renewalObj.setLibrarian(staffDTO);
+                                renewal.setApprovalStatus(renewal.getApprovalStatus());
+                                renewal.setLibrarian(staffDTO);
                             }
                         }
                     }
@@ -69,7 +67,7 @@ public class RejectRenewalServlet extends HttpServlet {
             LOGGER.error(ex.getMessage());
             log("RejectRenewalServlet _ Naming: " + ex.getMessage());
         } finally {
-            String json = new Gson().toJson(renewalObj);
+            String json = new Gson().toJson(renewal);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);

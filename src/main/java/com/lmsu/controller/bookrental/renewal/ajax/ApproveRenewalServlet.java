@@ -1,9 +1,7 @@
 package com.lmsu.controller.bookrental.renewal.ajax;
 
 import com.google.gson.Gson;
-import com.lmsu.bean.renewal.RenewalRequestObj;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
-import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.renewalrequests.RenewalRequestDAO;
 import com.lmsu.renewalrequests.RenewalRequestDTO;
 import com.lmsu.users.UserDTO;
@@ -33,7 +31,7 @@ public class ApproveRenewalServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String txtRenewalID = request.getParameter(PARAM_TXT_RENEWALID);
-        RenewalRequestObj renewalObj = null;
+        RenewalRequestDTO renewal = null;
 
         try {
             // 1. Check if session existed
@@ -44,8 +42,9 @@ public class ApproveRenewalServlet extends HttpServlet {
                 if (staff != null) {
                     int renewalID = Integer.parseInt(txtRenewalID);
                     RenewalRequestDAO renewalRequestDAO = new RenewalRequestDAO();
-                    RenewalRequestDTO renewal = renewalRequestDAO.getRenewalByID(renewalID);
-                    if ((renewal.getApprovalStatus() != RENEWAL_CANCELLED) && (renewal.getApprovalStatus() != RENEWAL_REJECTED)) {
+                    renewal = renewalRequestDAO.getRenewalByID(renewalID);
+                    if ((renewal.getApprovalStatus() != RENEWAL_CANCELLED)
+                            && (renewal.getApprovalStatus() != RENEWAL_REJECTED)) {
                         boolean approveRenewalResult = renewalRequestDAO.updateRenewalRequestStatus(renewalID, RENEWAL_APPROVED);
                         if (approveRenewalResult) {
                             boolean librarianResult = renewalRequestDAO.updateLibrarianOfRenewalRequest(renewalID, staff.getId());
@@ -55,9 +54,7 @@ public class ApproveRenewalServlet extends HttpServlet {
                                 orderItemDAO.updateOrderItemDeadline(renewal.getItemID(), renewal.getRequestedExtendDate());
                                 LOGGER.log(Level.INFO, "Staff " + staff.getName() + " [" + staff.getId() +
                                         "] has approved renewal request " + renewalID);
-                                renewalObj = new RenewalRequestObj();
-                                renewalObj.setApprovalStatus(renewal.getApprovalStatus());
-                                renewalObj.setLibrarian(staff);
+                                renewal.setLibrarian(staff);
                             }
                         }
                     }
@@ -70,7 +67,7 @@ public class ApproveRenewalServlet extends HttpServlet {
             LOGGER.error(ex.getMessage());
             log("ApproveRenewalServlet _ Naming: " + ex.getMessage());
         } finally {
-            String json = new Gson().toJson(renewalObj);
+            String json = new Gson().toJson(renewal);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);

@@ -2,17 +2,14 @@ package com.lmsu.controller.usersettings;
 
 import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
-import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
 import org.apache.log4j.Logger;
 
-import javax.naming.NamingException;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,8 +1,6 @@
 package com.lmsu.controller.usersettings.ajax;
 
 import com.google.gson.Gson;
-import com.lmsu.bean.renewal.RenewalRequestObj;
-import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.renewalrequests.RenewalRequestDAO;
 import com.lmsu.renewalrequests.RenewalRequestDTO;
 import com.lmsu.users.UserDTO;
@@ -35,7 +33,7 @@ public class CancelRenewalServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String txtRenewalID = request.getParameter(PARAM_TXT_RENEWALID);
-        RenewalRequestObj renewalObj = null;
+        RenewalRequestDTO renewal = null;
 
         try {
             // 1. Check if session existed
@@ -46,15 +44,14 @@ public class CancelRenewalServlet extends HttpServlet {
                 if (member != null) {
                     int renewalID = Integer.parseInt(txtRenewalID);
                     RenewalRequestDAO renewalRequestDAO = new RenewalRequestDAO();
-                    RenewalRequestDTO renewal = renewalRequestDAO.getRenewalByID(renewalID);
-                    if ((renewal.getApprovalStatus() != RENEWAL_APPROVED) && (renewal.getApprovalStatus() != RENEWAL_REJECTED)) {
+                    renewal = renewalRequestDAO.getRenewalByID(renewalID);
+                    if ((renewal.getApprovalStatus() != RENEWAL_APPROVED)
+                            && (renewal.getApprovalStatus() != RENEWAL_REJECTED)) {
                         boolean cancelRenewalResult = renewalRequestDAO.updateRenewalRequestStatus(renewalID, RENEWAL_CANCELLED);
                         if (cancelRenewalResult) {
                             renewal = renewalRequestDAO.getRenewalByID(renewalID);
                             LOGGER.log(Level.INFO, "Member " + member.getName() + " [" + member.getId() +
                                     "] has cancelled renewal request " + renewalID);
-                            renewalObj = new RenewalRequestObj();
-                            renewalObj.setApprovalStatus(renewal.getApprovalStatus());
                         }
                     }
                 }
@@ -66,7 +63,7 @@ public class CancelRenewalServlet extends HttpServlet {
             LOGGER.error(ex.getMessage());
             log("CancelRenewalServlet _ Naming: " + ex.getMessage());
         } finally {
-            String json = new Gson().toJson(renewalObj);
+            String json = new Gson().toJson(renewal);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);

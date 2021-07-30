@@ -1,11 +1,6 @@
 package com.lmsu.controller.bookrental.returnorders;
 
-import com.lmsu.bean.orderdata.DeliveryOrderObj;
-import com.lmsu.bean.orderdata.DirectOrderObj;
-import com.lmsu.bean.orderdata.OrderItemObj;
-import com.lmsu.bean.orderdata.OrderObj;
 import com.lmsu.books.BookDAO;
-import com.lmsu.books.BookDTO;
 import com.lmsu.orderdata.deliveryorders.DeliveryOrderDAO;
 import com.lmsu.orderdata.deliveryorders.DeliveryOrderDTO;
 import com.lmsu.orderdata.directorders.DirectOrderDAO;
@@ -69,77 +64,41 @@ public class ShowReturnOrdersServlet extends HttpServlet {
                                     )));
             //--------------------------------------------------
             List<OrderDTO> orders = orderDAO.getOrderList();
-            Map<Pair<DirectOrderObj, DeliveryOrderObj>, Pair<OrderObj, List<OrderItemObj>>> detailedOrders = new HashMap<Pair<DirectOrderObj, DeliveryOrderObj>, Pair<OrderObj, List<OrderItemObj>>>();
+            Map<Pair<DirectOrderDTO, DeliveryOrderDTO>, Pair<OrderDTO, List<OrderItemDTO>>> detailedOrders = new HashMap<Pair<DirectOrderDTO, DeliveryOrderDTO>, Pair<OrderDTO, List<OrderItemDTO>>>();
             if (orders != null) {
-                for (OrderDTO orderDTO : orders) {
-                    UserDTO userDTO = userDAO.getUserByID(orderDTO.getMemberID());
-                    OrderObj orderObj = new OrderObj();
-                    orderObj.setId(orderDTO.getId());
-                    orderObj.setMemberID(orderDTO.getMemberID());
-                    orderObj.setMemberName(userDTO.getName());
-                    orderObj.setOrderDate(orderDTO.getOrderDate());
-                    orderObj.setLendMethod((orderDTO.isLendMethod()));
-                    orderObj.setActiveStatus(orderDTO.getActiveStatus());
+                for (OrderDTO order : orders) {
+                    order.setMember(userDAO.getUserByID(order.getMemberID()));
 
                     orderItemDAO.clearOrderItemList();
-                    orderItemDAO.getOrderItemsFromReturnOrderID(orderDTO.getId());
+                    orderItemDAO.getOrderItemsFromOrderID(order.getId());
                     List<OrderItemDTO> orderItems = orderItemDAO.getOrderItemList();
-                    List<OrderItemObj> orderItemObjs = new ArrayList<>();
-                    for (OrderItemDTO orderItemDTO : orderItems) {
-                        BookDTO bookDTO = bookDAO.getBookById(orderItemDTO.getBookID());
-                        OrderItemObj orderItemObj = new OrderItemObj();
-                        orderItemObj.setId(orderItemDTO.getId());
-                        orderItemObj.setOrderID(orderItemDTO.getOrderID());
-                        orderItemObj.setBookID(orderItemDTO.getBookID());
-                        orderItemObj.setTitle(bookDTO.getTitle());
-                        orderItemObj.setLendStatus(orderItemDTO.getLendStatus());
-                        orderItemObj.setReturnDeadline(orderItemDTO.getReturnDeadline());
-                        orderItemObj.setLendDate(orderItemDTO.getLendDate());
-                        orderItemObj.setReturnDate(orderItemDTO.getReturnDate());
-
-                        orderItemObjs.add(orderItemObj);
-                    }
-                    int orderID = orderDTO.getId();
-                    DirectOrderObj directOrderObj = new DirectOrderObj();
-                    DeliveryOrderObj deliveryOrderObj = new DeliveryOrderObj();
-                    directOrderObj.setReturnOrder(false);
-                    if (orderDTO.isLendMethod() == false) {
-                        DirectOrderDTO directOrderDTO = directOrderDAO.getDirectOrderFromOrderID(orderID);
-                        if (directOrderDTO != null) {
-                            String librarianID = directOrderDTO.getLibrarianID();
+                    if (orderItems != null) {
+                        for (OrderItemDTO orderItemDTO : orderItems) {
+                            orderItemDTO.setBook(bookDAO.getBookById(orderItemDTO.getBookID()));
+                        }
+                        int orderID = order.getId();
+                        DirectOrderDTO directOrder = new DirectOrderDTO();
+                        DeliveryOrderDTO deliveryOrder = new DeliveryOrderDTO();
+                        directOrder.setReturnOrder(false);
+                        if (order.isLendMethod() == false) {
+                            directOrder = directOrderDAO.getDirectOrderFromOrderID(orderID);
+                            String librarianID = (directOrder != null) ? directOrder.getLibrarianID() : null;
                             if (librarianID != null) {
-                                UserDTO librarianDTO = userDAO.getUserByID(librarianID);
-                                directOrderObj.setLibrarianName(librarianDTO.getName());
+                                UserDTO librarian = userDAO.getUserByID(librarianID);
+                                directOrder.setLibrarian(librarian);
                             }
-                            directOrderObj.setOrderID(directOrderDTO.getOrderID());
-                            directOrderObj.setLibrarianID(librarianID);
-                            directOrderObj.setScheduledTime(directOrderDTO.getScheduledTime());
-                            directOrderObj.setReturnOrder(directOrderDTO.isReturnOrder());
-                        }
-                    } else {
-                        DeliveryOrderDTO deliveryOrderDTO = deliveryOrderDAO.getDeliveryOrderFromOrderID(orderID);
-                        if (deliveryOrderDTO != null) {
-                            String managerID = deliveryOrderDTO.getManagerID();
+                        } else {
+                            deliveryOrder = deliveryOrderDAO.getDeliveryOrderFromOrderID(orderID);
+                            String managerID = (deliveryOrder != null) ? deliveryOrder.getManagerID() : null;
                             if (managerID != null) {
-                                UserDTO managerDTO = userDAO.getUserByID(managerID);
-                                deliveryOrderObj.setManagerName(managerDTO.getName());
+                                UserDTO manager = userDAO.getUserByID(managerID);
+                                deliveryOrder.setManager(manager);
                             }
-                            deliveryOrderObj.setOrderID(deliveryOrderDTO.getOrderID());
-                            deliveryOrderObj.setManagerID(managerID);
-                            deliveryOrderObj.setDeliverer(deliveryOrderDTO.getDeliverer());
-                            deliveryOrderObj.setScheduledDeliveryTime(deliveryOrderDTO.getScheduledDeliveryTime());
-                            deliveryOrderObj.setReceiverName(deliveryOrderDTO.getReceiverName());
-                            deliveryOrderObj.setPhoneNumber(deliveryOrderDTO.getPhoneNumber());
-                            deliveryOrderObj.setDeliveryAddress1(deliveryOrderDTO.getDeliveryAddress1());
-                            deliveryOrderObj.setDeliveryAddress2(deliveryOrderDTO.getDeliveryAddress2());
-                            deliveryOrderObj.setCity(deliveryOrderDTO.getCity());
-                            deliveryOrderObj.setDistrict(deliveryOrderDTO.getDistrict());
-                            deliveryOrderObj.setWard(deliveryOrderDTO.getWard());
                         }
+                        Pair<DirectOrderDTO, DeliveryOrderDTO> orderType = new Pair<>(directOrder, deliveryOrder);
+                        Pair<OrderDTO, List<OrderItemDTO>> orderInformation = new Pair<>(order, orderItems);
+                        detailedOrders.put(orderType, orderInformation);
                     }
-                    Pair<DirectOrderObj, DeliveryOrderObj> orderType = new Pair<>(directOrderObj, deliveryOrderObj);
-                    Pair<OrderObj, List<OrderItemObj>> orderInformation = new Pair<>(orderObj, orderItemObjs);
-                    detailedOrders.put(orderType, orderInformation);
                 }
             }
             request.setAttribute(ATTR_ORDER_LIST, detailedOrders);

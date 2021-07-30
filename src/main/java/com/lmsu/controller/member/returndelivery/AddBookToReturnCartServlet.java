@@ -1,15 +1,8 @@
 package com.lmsu.controller.member.returndelivery;
 
-import com.lmsu.authorbookmaps.AuthorBookMapDAO;
-import com.lmsu.authorbookmaps.AuthorBookMapDTO;
-import com.lmsu.authors.AuthorDTO;
-import com.lmsu.bean.book.BookObj;
-import com.lmsu.bean.member.CartObj;
 import com.lmsu.bean.member.ReturnCartObj;
-import com.lmsu.bean.orderdata.OrderItemObj;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
-import com.lmsu.controller.member.cart.AddBookToCartServlet;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import org.apache.log4j.Logger;
@@ -20,8 +13,6 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
 
 @WebServlet(name = "AddBookToReturnCartServlet", value = "/AddBookToReturnCartServlet")
 public class AddBookToReturnCartServlet extends HttpServlet {
@@ -51,23 +42,13 @@ public class AddBookToReturnCartServlet extends HttpServlet {
             BookDAO bookDAO = new BookDAO();
             OrderItemDAO orderItemDAO = new OrderItemDAO();
             // Get BookDTO
-            BookDTO bookDTO = bookDAO.getBookById(bookID);
+            BookDTO book = bookDAO.getBookById(bookID);
             //get OrderItemDTO
-            OrderItemDTO orderItemDTO = orderItemDAO.getOrderItemByID(Integer.parseInt(orderItemID));
-            if (bookDTO != null && orderItemDTO != null) {
+            OrderItemDTO orderItem = orderItemDAO.getOrderItemByID(Integer.parseInt(orderItemID));
+            if (book != null && orderItem != null) {
                 // Create OrderItems Bean
-                OrderItemObj orderItemObj = new OrderItemObj();
-                orderItemObj.setId(Integer.parseInt(orderItemID));
-                orderItemObj.setOrderID(orderItemDTO.getOrderID());
-                orderItemObj.setReturnOrderID(orderItemDTO.getReturnOrderID());
-                orderItemObj.setBookID(bookID);
-                orderItemObj.setTitle(bookDTO.getTitle());
-                orderItemObj.setLendStatus(orderItemDTO.getLendStatus());
-                orderItemObj.setReturnDeadline(orderItemDTO.getReturnDeadline());
-                orderItemObj.setLendDate(orderItemDTO.getLendDate());
-                orderItemObj.setReturnDate(orderItemDTO.getReturnDate());
                 // 4. Add book to return cart
-                returnCartObj.addBookToReturnCart(orderItemObj);
+                returnCartObj.addBookToReturnCart(orderItem);
                 // 5. Save cart on server
                 session.setAttribute(ATTR_RETURN_CART, returnCartObj);
                 // 6. Member continues checking book

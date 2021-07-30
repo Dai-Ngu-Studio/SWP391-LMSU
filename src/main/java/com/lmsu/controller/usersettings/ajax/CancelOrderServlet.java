@@ -1,14 +1,10 @@
 package com.lmsu.controller.usersettings.ajax;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
-import com.lmsu.orderdata.deliveryorders.DeliveryOrderDAO;
-import com.lmsu.orderdata.deliveryorders.DeliveryOrderDTO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
 import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.orderdata.orders.OrderDAO;
 import com.lmsu.orderdata.orders.OrderDTO;
-import com.lmsu.services.GhnApis;
 import com.lmsu.users.UserDTO;
 import com.lmsu.utils.DBHelpers;
 import javafx.util.Pair;
@@ -26,7 +22,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @WebServlet(name = "CancelOrderServlet", value = "/CancelOrderServlet")
 public class CancelOrderServlet extends HttpServlet {

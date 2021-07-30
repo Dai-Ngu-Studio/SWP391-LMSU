@@ -122,27 +122,6 @@ public class ApproveOrderServlet extends HttpServlet {
                                     conn.commit();
                                     LOGGER.log(Level.INFO, "Staff " + staff.getName() + " [" + staff.getId() +
                                             "] has approved order " + txtOrderID);
-                                    EmailHelpers emailHelpers = new EmailHelpers();
-                                    Session emailSession = emailHelpers.createEmailSession();
-                                    if (emailSession != null) {
-                                        UserDAO userDAO = new UserDAO();
-                                        UserDTO member = userDAO.getUserByID(order.getMemberID());
-                                        if (member != null) {
-                                            String subject = "[INFORMATION AND LIBRARY CENTER]_NOTIFY APPROVAL OF YOUR ORDER";
-                                            String body = "Dear " + member.getName() + ",<br>"
-                                                    + "<br>"
-                                                    + "Information and Library Center would like to inform that your order placed on "
-                                                    + order.getOrderDate() + " has been approved.<br>"
-                                                    + "Please make sure to be available for your items pick-up.<br>"
-                                                    + "<br>"
-                                                    + "If you believe there are any mistakes, please reply to this email.<br>"
-                                                    + "<br>"
-                                                    + "Have a nice week! Thank you for using our service.<br>"
-                                                    + "Sincerely,<br>"
-                                                    + "Information and Library Center.";
-                                            emailHelpers.sendEmail(emailSession, member.getEmail(), subject, body);
-                                        } // end if member existed
-                                    } // end if email session created
                                 } // end if order item status updated
                             } // end if order status updated
                         } // end if check status direction

@@ -1,7 +1,6 @@
 package com.lmsu.controller.usersettings;
 
 import com.google.common.hash.Hashing;
-import com.google.gson.Gson;
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
 import com.lmsu.utils.AppUtils;

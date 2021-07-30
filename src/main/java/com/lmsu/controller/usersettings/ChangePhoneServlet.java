@@ -1,6 +1,5 @@
 package com.lmsu.controller.usersettings;
 
-import com.lmsu.controller.usersettings.ChangePasswordServlet;
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
 import com.lmsu.utils.AppUtils;

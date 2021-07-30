@@ -1,7 +1,5 @@
 package com.lmsu.controller.usersettings;
 
-import com.lmsu.bean.orderdata.OrderItemObj;
-import com.lmsu.bean.renewal.RenewalRequestObj;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import com.lmsu.orderdata.deliveryorders.DeliveryOrderDAO;
@@ -14,6 +12,7 @@ import com.lmsu.orderdata.orders.OrderDAO;
 import com.lmsu.orderdata.orders.OrderDTO;
 import com.lmsu.renewalrequests.RenewalRequestDAO;
 import com.lmsu.renewalrequests.RenewalRequestDTO;
+import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
@@ -84,6 +83,7 @@ public class ShowProfileServlet extends HttpServlet {
             if (session != null) {
                 UserDTO userDTO = (UserDTO) session.getAttribute(ATTR_LOGIN_USER);
                 if (userDTO != null) {
+                    UserDAO userDAO = new UserDAO();
                     BookDAO bookDAO = new BookDAO();
                     OrderDAO orderDAO = new OrderDAO();
                     OrderItemDAO orderItemDAO = new OrderItemDAO();
@@ -102,55 +102,55 @@ public class ShowProfileServlet extends HttpServlet {
                     // Get Order Items of Member
                     orderDAO.getOrdersFromMember(ORDER_BOTH_METHOD, userDTO.getId(), NO_ORDER_STATUS_SPECIFIED);
                     List<OrderDTO> orders = orderDAO.getOrderList();
-                    List<OrderItemObj> validOrderItems = new ArrayList<>();
-                    List<OrderItemObj> reservedItems = new ArrayList<>();
-                    List<OrderItemObj> penalizedItems = new ArrayList<>();
+                    List<OrderItemDTO> validOrderItems = new ArrayList<>();
+                    List<OrderItemDTO> reservedItems = new ArrayList<>();
+                    List<OrderItemDTO> penalizedItems = new ArrayList<>();
                     Map<Integer, Integer> mapStatus = new HashMap<>();
-                    Map<Pair<DirectOrderDTO, DeliveryOrderDTO>, Pair<OrderDTO, List<OrderItemObj>>> detailedOrders =
-                            new HashMap<Pair<DirectOrderDTO, DeliveryOrderDTO>, Pair<OrderDTO, List<OrderItemObj>>>();
+                    Map<Pair<DirectOrderDTO, DeliveryOrderDTO>, Pair<OrderDTO, List<OrderItemDTO>>> detailedOrders =
+                            new HashMap<Pair<DirectOrderDTO, DeliveryOrderDTO>, Pair<OrderDTO, List<OrderItemDTO>>>();
                     if (orders != null) {
                         for (OrderDTO order : orders) {
-                            List<OrderItemObj> itemsOfOrder = new ArrayList<>();
+                            order.setMember(userDAO.getUserByID(order.getMemberID()));
+                            List<OrderItemDTO> itemsOfOrder = new ArrayList<>();
                             orderItemDAO.clearOrderItemList();
                             orderItemDAO.getOrderItemsFromOrderID(order.getId());
                             List<OrderItemDTO> orderItems = orderItemDAO.getOrderItemList();
                             if (orderItems != null) {
                                 for (OrderItemDTO orderItem : orderItems) {
-                                    BookDTO bookDTO = bookDAO.getBookById(orderItem.getBookID());
+                                    BookDTO book = bookDAO.getBookById(orderItem.getBookID());
                                     RenewalRequestDTO renewalRequestDTO = renewalRequestDAO.getRenewalByItemID(orderItem.getId());
-                                    OrderItemObj orderitemObj = new OrderItemObj();
-                                    orderitemObj.setId(orderItem.getId());
-                                    orderitemObj.setOrderID(orderItem.getOrderID());
-                                    orderitemObj.setBookID(orderItem.getBookID());
-                                    orderitemObj.setTitle(bookDTO.getTitle());
-                                    orderitemObj.setLendStatus(orderItem.getLendStatus());
-                                    orderitemObj.setReturnDeadline(orderItem.getReturnDeadline());
-                                    orderitemObj.setLendDate(orderItem.getLendDate());
-                                    orderitemObj.setReturnDate(orderItem.getReturnDate());
-                                    orderitemObj.setPenaltyStatus(orderItem.getPenaltyStatus());
-                                    orderitemObj.setPenaltyAmount(orderItem.getPenaltyAmount());
+                                    orderItem.setOrder(order);
+                                    orderItem.setBook(book);
+                                    OrderDTO returnOrder = (orderItem.getReturnOrderID() != 0) ?
+                                            orderDAO.getOrderFromID(orderItem.getReturnOrderID()) : null;
+                                    if (returnOrder != null) {
+                                        returnOrder.setMember(userDAO.getUserByID(returnOrder.getMemberID()));
+                                        orderItem.setReturnOrder(returnOrder);
+                                    }
                                     // check if item is not cancelled, rejected
                                     for (int activeItemStatus : activeItemStatuses) {
                                         if (orderItem.getLendStatus() == activeItemStatus) {
-                                            validOrderItems.add(orderitemObj);
+                                            validOrderItems.add(orderItem);
                                             break;
                                         }
                                     } // end traverse statuses
                                     // check if item is reserved
                                     if (orderItem.getLendStatus() == ITEM_RESERVED) {
-                                        reservedItems.add(orderitemObj);
+                                        reservedItems.add(orderItem);
                                     }
-                                    itemsOfOrder.add(orderitemObj);
+                                    itemsOfOrder.add(orderItem);
                                     int orderID = order.getId();
                                     DirectOrderDTO directOrderDTO = new DirectOrderDTO();
                                     DeliveryOrderDTO deliveryOrderDTO = new DeliveryOrderDTO();
                                     if (!order.isLendMethod()) {
                                         directOrderDTO = directOrderDAO.getDirectOrderFromOrderID(orderID);
+                                        directOrderDTO.setOrder(order);
                                     } else {
                                         deliveryOrderDTO = deliveryOrderDAO.getDeliveryOrderFromOrderID(orderID);
+                                        deliveryOrderDTO.setOrder(order);
                                     }
                                     Pair<DirectOrderDTO, DeliveryOrderDTO> orderType = new Pair<>(directOrderDTO, deliveryOrderDTO);
-                                    Pair<OrderDTO, List<OrderItemObj>> orderInformation = new Pair<>(order, itemsOfOrder);
+                                    Pair<OrderDTO, List<OrderItemDTO>> orderInformation = new Pair<>(order, itemsOfOrder);
                                     detailedOrders.put(orderType, orderInformation);
 
                                     //check if item already send renewal
@@ -170,24 +170,19 @@ public class ShowProfileServlet extends HttpServlet {
                     // Renewal Limit
                     RenewalRequestDAO renewalDAO = new RenewalRequestDAO();
                     LinkedHashMap<Integer, Integer> renewalMap = new LinkedHashMap<>();
-                    for (OrderItemObj orderitemObj : validOrderItems) {
-                        renewalMap.put(orderitemObj.getId(),
-                                renewalDAO.countRenewalRequestByItemID(orderitemObj.getId()));
+                    for (OrderItemDTO orderItem : validOrderItems) {
+                        renewalMap.put(orderItem.getId(),
+                                renewalDAO.countRenewalRequestByItemID(orderItem.getId()));
                     }
                     request.setAttribute(ATTR_RENEWAL_MAP_LIST, renewalMap);
                     //----------------------------------------------------
                     // Renewal List
-                    List<RenewalRequestObj> renewals = new ArrayList<>();
-                    for (OrderItemObj orderItem : validOrderItems) {
+                    List<RenewalRequestDTO> renewals = new ArrayList<>();
+                    for (OrderItemDTO orderItem : validOrderItems) {
                         RenewalRequestDTO renewal = renewalDAO.getRenewalByItemID(orderItem.getId());
                         if (renewal != null) {
-                            RenewalRequestObj renewalRequestObj = new RenewalRequestObj();
-                            renewalRequestObj.setItem(orderItem);
-                            renewalRequestObj.setRequestedExtendDate(renewal.getRequestedExtendDate());
-                            renewalRequestObj.setRenewalID(renewal.getRenewalID());
-                            renewalRequestObj.setReason(renewal.getReason());
-                            renewalRequestObj.setApprovalStatus(renewal.getApprovalStatus());
-                            renewals.add(renewalRequestObj);
+                            renewal.setOrderItem(orderItem);
+                            renewals.add(renewal);
                         }
                     }
                     request.setAttribute(ATTR_RENEWAL_LIST, renewals);
@@ -195,19 +190,19 @@ public class ShowProfileServlet extends HttpServlet {
                     // Reserve
                     request.setAttribute(ATTR_MEMBER_RESERVE_ITEMS, reservedItems);
                     LinkedHashMap<Integer, Integer> quantityMap = new LinkedHashMap<>();
-                    for (OrderItemObj orderitemObj : reservedItems) {
+                    for (OrderItemDTO reservedItem : reservedItems) {
                         quantityMap.put(
-                                orderitemObj.getId(),
-                                bookDAO.getQuantityByBookID(orderitemObj.getBookID())
+                                reservedItem.getId(),
+                                bookDAO.getQuantityByBookID(reservedItem.getBookID())
                         );
                     }
                     request.setAttribute(ATTR_QUANTITY_MAP_LIST, quantityMap);
                     //----------------------------------------------------
                     // Penalty
-                    for (OrderItemObj orderItem : validOrderItems) {
-                        if ((orderItem.getPenaltyStatus() == PENALTY_UNPAID)
-                                || (orderItem.getPenaltyStatus() == PENALTY_PAID)) {
-                            penalizedItems.add(orderItem);
+                    for (OrderItemDTO penalizedItem : validOrderItems) {
+                        if ((penalizedItem.getPenaltyStatus() == PENALTY_UNPAID)
+                                || (penalizedItem.getPenaltyStatus() == PENALTY_PAID)) {
+                            penalizedItems.add(penalizedItem);
                         }
                     }
                     request.setAttribute(ATTR_PENALTY_LIST, penalizedItems);

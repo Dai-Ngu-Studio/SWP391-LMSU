@@ -1,9 +1,15 @@
 package com.lmsu.orderdata.orders;
 
+import com.lmsu.users.UserDTO;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.sql.Date;
+
+@AllArgsConstructor
+@NoArgsConstructor
 
 public @Data
 class OrderDTO implements Serializable {
@@ -12,18 +18,8 @@ class OrderDTO implements Serializable {
      */
     private int id;
     private String memberID;
+    private UserDTO member;
     private Date orderDate;
     private boolean lendMethod;
     private int activeStatus;
-
-    public OrderDTO() {
-    }
-
-    public OrderDTO(int id, String memberID, Date orderDate, boolean lendMethod, int activeStatus) {
-        this.id = id;
-        this.memberID = memberID;
-        this.orderDate = orderDate;
-        this.lendMethod = lendMethod;
-        this.activeStatus = activeStatus;
-    }
 }

@@ -2,7 +2,6 @@ package com.lmsu.controller.usersettings;
 
 import com.lmsu.users.UserDAO;
 import com.lmsu.users.UserDTO;
-import com.lmsu.utils.AppUtils;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingException;

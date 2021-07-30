@@ -1,6 +1,5 @@
 package com.lmsu.controller.bookrental.penalty;
 
-import com.lmsu.bean.orderdata.OrderItemObj;
 import com.lmsu.books.BookDAO;
 import com.lmsu.books.BookDTO;
 import com.lmsu.orderdata.orderitems.OrderItemDAO;
@@ -17,7 +16,6 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "ShowPenaltiesServlet", value = "/ShowPenaltiesServlet")
@@ -38,30 +36,16 @@ public class ShowPenaltiesServlet extends HttpServlet {
             UserDAO userDAO = new UserDAO();
             orderItemDAO.getPenalizedOrderItems();
             List<OrderItemDTO> penalizedItems = orderItemDAO.getOrderItemList();
-            List<OrderItemObj> penalizedItemObjs = new ArrayList<OrderItemObj>();
-            if (penalizedItems!=null) {
+            if (penalizedItems != null) {
                 for (OrderItemDTO penalizedItem : penalizedItems) {
                     BookDTO book = bookDAO.getBookById(penalizedItem.getBookID());
                     OrderDTO order = orderDAO.getOrderFromID(penalizedItem.getOrderID());
-                    UserDTO user = userDAO.getUserByID(order.getMemberID());
-                    OrderItemObj penalizedItemObj = new OrderItemObj();
-
-                    penalizedItemObj.setId(penalizedItem.getId());
-                    penalizedItemObj.setOrderID(penalizedItem.getOrderID());
-                    penalizedItemObj.setMemberID(user.getId());
-                    penalizedItemObj.setMemberName(user.getName());
-                    penalizedItemObj.setBookID(penalizedItem.getBookID());
-                    penalizedItemObj.setTitle(book.getTitle());
-                    penalizedItemObj.setLendStatus(penalizedItem.getLendStatus());
-                    penalizedItemObj.setReturnDeadline(penalizedItem.getReturnDeadline());
-                    penalizedItemObj.setLendDate(penalizedItem.getLendDate());
-                    penalizedItemObj.setReturnDate(penalizedItem.getReturnDate());
-                    penalizedItemObj.setPenaltyAmount(penalizedItem.getPenaltyAmount());
-                    penalizedItemObj.setPenaltyStatus(penalizedItem.getPenaltyStatus());
-                    penalizedItemObjs.add(penalizedItemObj);
+                    order.setMember(userDAO.getUserByID(order.getMemberID()));
+                    penalizedItem.setBook(book);
+                    penalizedItem.setOrder(order);
                 }
             }
-            request.setAttribute(ATTR_PENALTY_LIST, penalizedItemObjs);
+            request.setAttribute(ATTR_PENALTY_LIST, penalizedItems);
             url = SHOW_PENALTY_PAGE;
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());

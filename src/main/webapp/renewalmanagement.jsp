@@ -4,21 +4,14 @@
 <jsp:directive.page contentType="text/html; charset=UTF-8" language="java"/>
 <html>
 <head>
-    <%-- Required meta tags --%>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>LMSU Dashboard</title>
-    <%-- plugins:css --%>
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
-    <%-- endinject --%>
-    <%-- Plugin css for this page --%>
     <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <%-- End plugin css for this page --%>
-    <%-- inject:css --%>
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
-    <%-- endinject --%>
     <link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/1.3.0/css/searchPanes.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css">
     <link rel="shortcut icon" href="images/images/favicon.png"/>
@@ -34,14 +27,9 @@
 
 <c:if test="${role eq '1' or role eq '2' or role eq '3'}">
     <div class="container-scroller">
-            <%-- partial:../../partials/_navbar.html --%>
         <jsp:include page="adminheader.jsp"/>
-            <%-- partial --%>
         <div class="container-fluid page-body-wrapper">
-                <%-- partial --%>
             <jsp:include page="sidebar.jsp"></jsp:include>
-                <%-- partial:../../partials/_sidebar.html --%>
-                <%-- partial --%>
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="card">
@@ -72,9 +60,9 @@
                                                             <tr>
                                                                 <td class="text-right">${counter.count}</td>
                                                                 <td class="text-left">
-                                                                        ${renewal.item.title}
+                                                                        ${renewal.orderItem.book.title}
                                                                 </td>
-                                                                <td class="text-left">${renewal.item.memberName}</td>
+                                                                <td class="text-left">${renewal.orderItem.order.member.name}</td>
                                                                 <td class="text-center">
                                                                     <label class="badge lbRenewalStat"
                                                                            id="lbRenewalStat${renewal.renewalID}"
@@ -130,9 +118,9 @@
                                                                             </label>
                                                                             <div class="col-lg-5 col-12">
                                                                                 <input type="text"
-                                                                                       id="txtMemberID${renewal.item.memberID}"
+                                                                                       id="txtMemberID${renewal.orderItem.order.memberID}"
                                                                                        class="form-control"
-                                                                                       value="${renewal.item.memberID}"
+                                                                                       value="${renewal.orderItem.order.memberID}"
                                                                                        disabled/>
                                                                             </div>
                                                                             <label class="col-lg-1 col-12 col-form-label">
@@ -140,9 +128,9 @@
                                                                             </label>
                                                                             <div class="col-lg-5 col-12">
                                                                                 <input type="text"
-                                                                                       id="txtMemberName${renewal.item.memberID}"
+                                                                                       id="txtMemberName${renewal.orderItem.order.memberID}"
                                                                                        class="form-control"
-                                                                                       value="${renewal.item.memberName}"
+                                                                                       value="${renewal.orderItem.order.member.name}"
                                                                                        disabled/>
                                                                             </div>
                                                                         </div>
@@ -184,9 +172,9 @@
                                                                             </label>
                                                                             <div class="col-lg-5 col-12">
                                                                                 <input type="text"
-                                                                                       id="txtBookID${renewal.item.title}"
+                                                                                       id="txtBookID${renewal.orderItem.bookID}"
                                                                                        class="form-control"
-                                                                                       value="${renewal.item.title}"
+                                                                                       value="${renewal.orderItem.book.title}"
                                                                                        disabled/>
                                                                             </div>
                                                                             <label class="col-lg-1 col-12 col-form-label">
@@ -374,8 +362,6 @@
                         </div>
                     </div>
                 </div>
-                    <%-- content-wrapper ends --%>
-                    <%-- partial:../../partials/_footer.html --%>
                 <footer class="footer">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
                         <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.
@@ -385,33 +371,20 @@
                             with <i class="ti-heart text-danger ml-1"></i></span>
                     </div>
                 </footer>
-                    <%-- partial --%>
             </div>
-                <%-- main-panel ends --%>
         </div>
-            <%-- page-body-wrapper ends --%>
     </div>
-    <%-- container-scroller --%>
-    <%-- plugins:js --%>
     <script src="vendors/js/vendor.bundle.base.js"></script>
-    <%-- endinject --%>
-    <%-- Plugin js for this page --%>
     <script src="vendors/datatables.net/jquery.dataTables.js"></script>
     <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
     <script src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
-    <%-- End plugin js for this page --%>
-    <%-- inject:js --%>
     <script src="js/off-canvas.js"></script>
     <script src="js/hoverable-collapse.js"></script>
     <script src="js/template.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/todolist.js"></script>
     <script src="js/renewalmanagement.js"></script>
-    <%-- endinject --%>
-    <%-- Custom js for this page--%>
-
-    <%-- End custom js for this page--%>
 </c:if>
 </body>
 </html>

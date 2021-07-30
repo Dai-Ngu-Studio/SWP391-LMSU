@@ -91,26 +91,6 @@ public class RejectOrderServlet extends HttpServlet {
                                     conn.commit();
                                     LOGGER.log(Level.INFO, "Staff " + staff.getName() + " [" + staff.getId() +
                                             "] has rejected order " + txtOrderID);
-                                    EmailHelpers emailHelpers = new EmailHelpers();
-                                    Session emailSession = emailHelpers.createEmailSession();
-                                    if (emailSession != null) {
-                                        UserDAO userDAO = new UserDAO();
-                                        UserDTO member = userDAO.getUserByID(order.getMemberID());
-                                        if (member != null) {
-                                            String subject = "[INFORMATION AND LIBRARY CENTER]_NOTIFY REJECTION OF YOUR ORDER";
-                                            String body = "Dear " + member.getName() + ",<br>"
-                                                    + "<br>"
-                                                    + "Information and Library Center regrets to inform that your order placed on "
-                                                    + order.getOrderDate() + " has been rejected.<br>"
-                                                    + "<br>"
-                                                    + "If you believe there are any mistakes, please reply to this email.<br>"
-                                                    + "<br>"
-                                                    + "Thank you for using our service.<br>"
-                                                    + "Sincerely,<br>"
-                                                    + "Information and Library Center.";
-                                            emailHelpers.sendEmail(emailSession, member.getEmail(), subject, body);
-                                        } // end if member existed
-                                    } // end if email session created
                                 }
                             }
                         }
