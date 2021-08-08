@@ -15,7 +15,8 @@ import java.net.URL;
 import java.sql.Date;
 
 public class GhnApis {
-
+    private static String token = "***REMOVED***";
+    private static String shopId="***REMOVED***";
     //This function will return the amount of time needed to delivering in DAY(S)
     public static Date calculateExpectedDeliveryTime(String to_district_id, String to_ward_code) {
         String output = "";
@@ -25,8 +26,8 @@ public class GhnApis {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
             conn.setRequestProperty("Accept", "application/json");
-            conn.addRequestProperty("ShopId", "***REMOVED***");
-            conn.addRequestProperty("token", "***REMOVED***");
+            conn.addRequestProperty("ShopId", shopId);
+            conn.addRequestProperty("token", token);
             conn.setDoOutput(true);
             // Quan 9 district code: 1451
 
@@ -77,8 +78,8 @@ public class GhnApis {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
             conn.setRequestProperty("Accept", "application/json");
-            conn.addRequestProperty("ShopId", "***REMOVED***");
-            conn.addRequestProperty("token", "***REMOVED***");
+            conn.addRequestProperty("ShopId", shopId);
+            conn.addRequestProperty("token", token);
             conn.setDoOutput(true);
             String requestBody = "{\"order_codes\":[\"" + order_code + "\"]}";
             OutputStream os = conn.getOutputStream();
@@ -149,8 +150,8 @@ public class GhnApis {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
             conn.setRequestProperty("Accept", "application/json");
-            conn.addRequestProperty("ShopId", "***REMOVED***");
-            conn.addRequestProperty("token", "***REMOVED***");
+            conn.addRequestProperty("ShopId", shopId);
+            conn.addRequestProperty("token", token);
             conn.setDoOutput(true);
             // Quan 9 district code: 1451
             int avgHeight = 4 * quantity;
@@ -215,7 +216,7 @@ public class GhnApis {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
             conn.setRequestProperty("Accept", "application/json");
-            conn.addRequestProperty("token", "***REMOVED***");
+            conn.addRequestProperty("token", token);
             conn.setDoOutput(true);
             // Quan 9 district code: 1451
             String requestBody = "{\"district_id\":" + district_id + "}";
@@ -255,7 +256,7 @@ public class GhnApis {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
             conn.setRequestProperty("Accept", "application/json");
-            conn.addRequestProperty("token", "***REMOVED***");
+            conn.addRequestProperty("token", token);
             conn.setDoOutput(true);
             // Quan 9 district code: 1451
             String requestBody = "{\"province_id\":" + province_id + "}";
@@ -295,7 +296,7 @@ public class GhnApis {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
             conn.setRequestProperty("Accept", "application/json");
-            conn.addRequestProperty("token", "***REMOVED***");
+            conn.addRequestProperty("token", token);
 
             conn.setDoOutput(true);
 
@@ -331,8 +332,8 @@ public class GhnApis {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
             conn.setRequestProperty("Accept", "application/json");
-            conn.addRequestProperty("token", "***REMOVED***");
-            conn.addRequestProperty("ShopId", "***REMOVED***");
+            conn.addRequestProperty("token", token);
+            conn.addRequestProperty("ShopId", shopId);
             conn.setDoOutput(true);
             int avgHeight = 4 * quantity;
             int avgWidth = 15;

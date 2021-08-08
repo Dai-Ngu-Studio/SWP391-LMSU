@@ -60,7 +60,7 @@ public class EmailHelpers implements Serializable {
 
             msg.setFrom(new InternetAddress("***REMOVED***", "LMSU"));
 
-            msg.setReplyTo(InternetAddress.parse("swp.lmsu@example.com", false));
+            msg.setReplyTo(InternetAddress.parse("***REMOVED***", false));
 
             msg.setSubject(subject, "UTF-8");
 
