@@ -1,12 +1,12 @@
 package com.lmsu.utils;
 
-import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.SQLException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /*
  * @author NDungx

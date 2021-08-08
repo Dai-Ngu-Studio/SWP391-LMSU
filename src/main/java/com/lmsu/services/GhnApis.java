@@ -2,7 +2,6 @@ package com.lmsu.services;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.lmsu.users.UserDTO;
 
 import java.io.BufferedReader;
 import java.io.IOException;

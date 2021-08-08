@@ -1,17 +1,16 @@
 package com.lmsu.books;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.SQLException;
-
 import com.lmsu.authors.AuthorDTO;
 import com.lmsu.importlog.ImportLogDTO;
 import com.lmsu.subjects.SubjectDAO;
 import com.lmsu.subjects.SubjectDTO;
-import lombok.*;
+import lombok.Data;
 
 import javax.naming.NamingException;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.SQLException;
 
 public @Data
 class BookDTO implements Serializable {

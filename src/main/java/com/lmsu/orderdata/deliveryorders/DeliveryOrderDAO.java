@@ -1,6 +1,5 @@
 package com.lmsu.orderdata.deliveryorders;
 
-import com.lmsu.orderdata.directorders.DirectOrderDTO;
 import com.lmsu.utils.DBHelpers;
 
 import javax.naming.NamingException;

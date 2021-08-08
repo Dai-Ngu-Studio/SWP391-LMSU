@@ -6,12 +6,8 @@ import com.lmsu.utils.DBHelpers;
 import javax.naming.NamingException;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 
 public class BookDAO implements Serializable {

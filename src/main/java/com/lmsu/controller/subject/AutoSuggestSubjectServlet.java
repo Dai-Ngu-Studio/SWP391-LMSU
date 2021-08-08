@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.lmsu.subjects.SubjectDAO;
 import com.lmsu.subjects.SubjectDTO;
 
-
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

@@ -1,13 +1,11 @@
 package com.lmsu.importlog;
 
 import com.lmsu.books.BookDAO;
-import com.lmsu.books.BookDTO;
 import com.lmsu.users.UserDAO;
 import com.lmsu.utils.DBHelpers;
 
 import javax.naming.NamingException;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

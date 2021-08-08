@@ -1,16 +1,12 @@
 package com.lmsu.controller.contact;
 
-import com.lmsu.feedback.FeedbackDAO;
-import com.lmsu.utils.ImageHelpers;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.Logger;
-
-import javax.naming.NamingException;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 
 @WebServlet(name = "ShowUserContactServlet", value = "/ShowUserContactServlet")
 public class ShowUserContactServlet extends HttpServlet {

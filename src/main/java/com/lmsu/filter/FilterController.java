@@ -6,12 +6,10 @@ import com.lmsu.utils.AppUtils;
 import com.lmsu.utils.SecurityUtils;
 
 import javax.servlet.*;
-import javax.servlet.annotation.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 
 @WebFilter(filterName = "FilterController")
 public class FilterController implements Filter {

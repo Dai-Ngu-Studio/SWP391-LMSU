@@ -1,13 +1,11 @@
 package com.lmsu.renewalrequests;
 
-import com.lmsu.orderdata.orderitems.OrderItemDTO;
 import com.lmsu.utils.DBHelpers;
 
 import javax.naming.NamingException;
 import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 
 public class RenewalRequestDAO implements Serializable {
