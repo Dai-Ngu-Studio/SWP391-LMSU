@@ -5,7 +5,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/ndungx/SWP391-LMSU">
-    <img src="https://github.com/ndungx/SWP391-LMSU/blob/main/src/main/webapp/images/LIBRARY%20LOGO%20MINI.svg" alt="Logo" width="80" height="80">
+    <img src="https://github.com/ndungx/SWP391-LMSU/blob/main/src/main/webapp/images/images/favicon.png" alt="Logo" width="80" height="80">
   </a>
 
   <h1 align="center">SWP391 - LMSU</h1>
