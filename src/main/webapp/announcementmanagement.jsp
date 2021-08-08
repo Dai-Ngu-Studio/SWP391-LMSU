@@ -13,10 +13,6 @@
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <style>
-        .error {
-            border-color: red;
-        }
-
         label {
             display: none !important;
         }

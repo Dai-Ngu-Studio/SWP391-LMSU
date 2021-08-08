@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<jsp:directive.page pageEncoding="UTF-8"/>
+<jsp:directive.page contentType="text/html; charset=UTF-8"/>
 <html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -15,8 +17,6 @@
     <script src="js/revieworder.js" defer="defer"></script>
 </head>
 <body>
-<jsp:directive.page pageEncoding="UTF-8"/>
-<jsp:directive.page contentType="text/html; charset=UTF-8"/>
 <jsp:include page="header.jsp"></jsp:include>
 <jsp:include page="navbar.html"></jsp:include>
 <!--Actual Body-->
