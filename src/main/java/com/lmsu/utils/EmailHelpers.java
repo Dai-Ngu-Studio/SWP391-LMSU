@@ -83,9 +83,9 @@ public class EmailHelpers implements Serializable {
         msg.addHeader("format", "flowed");
         msg.addHeader("Content-Transfer-Encoding", "8bit");
 
-        msg.setFrom(new InternetAddress("***REMOVED***", "LMSU"));
+        msg.setFrom(new InternetAddress("swp.lmsu@gmail.com", "LMSU"));
 
-        msg.setReplyTo(InternetAddress.parse("***REMOVED***", false));
+        msg.setReplyTo(InternetAddress.parse("swp.lmsu@gmail.com", false));
 
         msg.setSubject(subject, "UTF-8");
 

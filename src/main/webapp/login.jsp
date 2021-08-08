@@ -30,7 +30,7 @@
                         <p style="font-size: 1.8rem"><b>Sign In</b></p>
                         <div class="btn-google">
                             <a class="button btn d-flex"
-                               href="https://accounts.google.com/o/oauth2/auth?scope=profile email&redirect_uri=http://localhost:8084/SWP391-LMSU/login-google&response_type=code&client_id=***REMOVED***&approval_prompt=force"
+                               href="https://accounts.google.com/o/oauth2/auth?scope=profile email&redirect_uri=http://localhost:8084/SWP391-LMSU/login-google&response_type=code&client_id=981682774153-sfufdg7q80dvt2rl5iqt714b7q5di332.apps.googleusercontent.com&approval_prompt=force"
                                class="fb-btn" style="text-decoration: none">
                                 <img src="images/google-icon.svg" class="mx-2"/> <b>Sign in with @fpt.edu.vn</b>
                             </a>
