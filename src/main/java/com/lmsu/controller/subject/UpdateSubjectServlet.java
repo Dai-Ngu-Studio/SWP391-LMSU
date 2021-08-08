@@ -15,10 +15,9 @@ import java.sql.SQLException;
 @WebServlet(name = "UpdateSubjectServlet", value = "/UpdateSubjectServlet")
 public class UpdateSubjectServlet extends HttpServlet {
 
+    static final Logger LOGGER = Logger.getLogger(UpdateSubjectServlet.class);
     private final String SEARCH_CONTROLLER = "SearchSubjectNameServlet";
     private final String SHOW_SUBJECT_CONTROLLER = "ShowSubjectServlet";
-
-    static final Logger LOGGER = Logger.getLogger(UpdateSubjectServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

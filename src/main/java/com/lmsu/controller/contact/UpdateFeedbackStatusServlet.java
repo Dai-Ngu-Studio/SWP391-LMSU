@@ -31,7 +31,7 @@ public class UpdateFeedbackStatusServlet extends HttpServlet {
 
             FeedbackDAO dao = new FeedbackDAO();
             boolean result = dao.updateFeedbackStatus(Integer.parseInt(pk), true);
-            if (result){
+            if (result) {
                 url = FEEDBACK_MANAGEMENT_CONTROLLER;
             }
 

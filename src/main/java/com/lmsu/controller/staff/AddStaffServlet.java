@@ -20,9 +20,9 @@ import java.sql.SQLException;
 @WebServlet(name = "AddStaffServlet", value = "/AddStaffServlet")
 public class AddStaffServlet extends HttpServlet {
 
+    static final Logger LOGGER = Logger.getLogger(AddStaffServlet.class);
     private static final String SHOW_STAFF_CONTROLLER = "ShowStaffServlet";
     private static final String SEARCH_STAFF_CONTROLLER = "SearchStaffServlet";
-    static final Logger LOGGER = Logger.getLogger(AddStaffServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

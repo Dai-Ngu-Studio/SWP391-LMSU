@@ -19,7 +19,8 @@
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                    <c:set var="googleAvatar" value="${fn:substringBefore(sessionScope.LOGIN_USER.profilePicturePath, ':')}"/>
+                    <c:set var="googleAvatar"
+                           value="${fn:substringBefore(sessionScope.LOGIN_USER.profilePicturePath, ':')}"/>
                     <c:if test="${googleAvatar ne 'https'}">
                         <img src="${pageContext.request.contextPath}/image/${sessionScope.LOGIN_USER.profilePicturePath}"
                              style="border-radius: 50%;" alt="profile picture"

@@ -21,8 +21,8 @@ import java.util.List;
 @WebServlet(name = "ShowBookCatalogServlet", value = "/ShowBookCatalogServlet")
 public class ShowBookCatalogServlet extends HttpServlet {
 
-    private final String BOOK_CATALOG_PAGE = "book.jsp";
     static final Logger LOGGER = Logger.getLogger(ShowBookCatalogServlet.class);
+    private final String BOOK_CATALOG_PAGE = "book.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

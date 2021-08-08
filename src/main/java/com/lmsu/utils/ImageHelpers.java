@@ -3,7 +3,7 @@ package com.lmsu.utils;
 import java.io.File;
 
 public class ImageHelpers {
-    public static String getPathImgFolder(String MeoMeoPath){
+    public static String getPathImgFolder(String MeoMeoPath) {
 //        String MeoMeoPath = getServletContext().getRealPath("");
         String partOfPath[] = MeoMeoPath.split("\\\\");
         String uploadPath = "";

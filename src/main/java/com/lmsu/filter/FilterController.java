@@ -16,6 +16,7 @@ public class FilterController implements Filter {
     private final String LOGOUT_PAGE = "logout.jsp";
     private final String ERROR_PAGE = "internalservererror.html";
     private final String DISPATCH_CONTROLLER = "DispatchServlet";
+
     public void init(FilterConfig config) throws ServletException {
         System.out.println("Filter init");
     }

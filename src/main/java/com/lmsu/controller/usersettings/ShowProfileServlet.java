@@ -31,9 +31,8 @@ import java.util.*;
 @WebServlet(name = "ShowProfileServlet", value = "/ShowProfileServlet")
 public class ShowProfileServlet extends HttpServlet {
 
-    private static final String PROFILE_PAGE = "usersettings.jsp";
     static final Logger LOGGER = Logger.getLogger(ShowProfileServlet.class);
-
+    private static final String PROFILE_PAGE = "usersettings.jsp";
     private final List<Integer> NO_ORDER_STATUS_SPECIFIED = null;
 
     private final int ORDER_CANCELLED = -1;

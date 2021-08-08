@@ -23,6 +23,7 @@ public class SubjectDAO implements Serializable {
             this.subjectList.clear();
         }
     }
+
     public ArrayList<SubjectDTO> getListSubject(String name) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -63,6 +64,7 @@ public class SubjectDAO implements Serializable {
         }
         return list;
     }
+
     public void viewSubjectList() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -277,6 +279,7 @@ public class SubjectDAO implements Serializable {
         }
         return false;
     }
+
     public SubjectDTO getById(String id) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;

@@ -10,7 +10,8 @@ function readURL(input, idImage) {
         reader.readAsDataURL(input.files[0]);
     }
 }
-$(document).ready(function (){
+
+$(document).ready(function () {
     $('#author-datatable').DataTable({bFilter: false});
     let searchAddBar = `<div class="row float-right" style="padding-right: 50px;"> 
                             <form action="DispatchServlet"

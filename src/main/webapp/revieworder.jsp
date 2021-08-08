@@ -252,7 +252,8 @@
                                             <div class="col-1"></div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-3 col-form-label" for="txtWard">Estimated Delivery Date</label>
+                                            <label class="col-3 col-form-label" for="txtWard">Estimated Delivery
+                                                Date</label>
                                             <input class="text-black col-8" type="text"
                                                    value="${sessionScope.CHECKOUT_EXPECTEDTIME}"
                                                    id="txtDeliveryTime" name="txtDeliveryTime" disabled

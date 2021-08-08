@@ -15,7 +15,8 @@ import java.sql.Date;
 
 public class GhnApis {
     private static String token = "***REMOVED***";
-    private static String shopId="***REMOVED***";
+    private static String shopId = "***REMOVED***";
+
     //This function will return the amount of time needed to delivering in DAY(S)
     public static Date calculateExpectedDeliveryTime(String to_district_id, String to_ward_code) {
         String output = "";

@@ -20,11 +20,11 @@ import java.time.LocalDate;
 @WebServlet(name = "EditAnnouncementServlet", value = "/EditAnnouncementServlet")
 public class EditAnnouncementServlet extends HttpServlet {
 
-    private final String ANNOUNCEMENT_MANAGEMENT_CONTROLLER = "ShowAnnouncementManagementServlet";
     static final Logger LOGGER = Logger.getLogger(EditAnnouncementServlet.class);
+    private final String ANNOUNCEMENT_MANAGEMENT_CONTROLLER = "ShowAnnouncementManagementServlet";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
 
         String pk = request.getParameter("txtAnnouncementID");
         String semester = request.getParameter("semester");
@@ -48,7 +48,7 @@ public class EditAnnouncementServlet extends HttpServlet {
             LocalDate localDayFrom = LocalDate.parse(defaultDateFrom);
             LocalDate localDayTo = LocalDate.parse(defaultDateTo);
             LocalDate localDay = LocalDate.parse(dateFrom);
-            if (userDTO != null){
+            if (userDTO != null) {
                 String announcementText = "<div class=\"d-flex flex-column align-items-center mb-5\">" +
                         "<h6><b>INFORMATION AND LIBRARY CENTER</b></h6><h3><b>ANNOUNCEMENT</b></h3>" +
                         "</div><div><p>Dear Library Users," +
@@ -71,7 +71,7 @@ public class EditAnnouncementServlet extends HttpServlet {
                         "please contact us via:</b></h3><p> <b>Phone No:</b> 024-6680 5912 <br> <b>Email:</b> lmsu@gmail.com <br> <b>Fanpage:</b> https://www.facebook.com/lmsu</p>";
                 AnnouncementDAO dao = new AnnouncementDAO();
                 boolean result = dao.updateAnnouncement(Integer.parseInt(pk), localDate, announcementText, userDTO.getId(), Date.valueOf(returnDeadline));
-                if (result){
+                if (result) {
                     url = ANNOUNCEMENT_MANAGEMENT_CONTROLLER;
                 }
             }

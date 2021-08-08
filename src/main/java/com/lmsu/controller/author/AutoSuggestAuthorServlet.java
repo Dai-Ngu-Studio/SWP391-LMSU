@@ -33,7 +33,7 @@ public class AutoSuggestAuthorServlet extends HttpServlet {
             String json = gson.toJson(o);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().write("{\"suggestions\":"+json+"}");
+            response.getWriter().write("{\"suggestions\":" + json + "}");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NamingException ex) {

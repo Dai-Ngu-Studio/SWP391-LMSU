@@ -817,6 +817,7 @@ public class BookDAO implements Serializable {
         }
         return false;
     }
+
     public int getTotalBooksQuantity() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -843,6 +844,7 @@ public class BookDAO implements Serializable {
         }
         return -1;
     }
+
     // Start: Test Paged List
 //    public void viewPagedBookList() throws SQLException, NamingException {
 //        Connection con = null;

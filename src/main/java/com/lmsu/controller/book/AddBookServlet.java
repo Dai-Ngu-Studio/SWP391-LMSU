@@ -32,11 +32,11 @@ import java.util.ArrayList;
         maxFileSize = 1024 * 1024 * 5,
         maxRequestSize = 1024 * 1024 * 5 * 5)
 public class AddBookServlet extends HttpServlet {
+    //    private final String SEARCH_CONTROLLER = "SearchTitleServlet";
+    static final Logger LOGGER = Logger.getLogger(AddBookServlet.class);
     private final String SEARCH_CONTROLLER = "SearchTitleServlet";
     private final String SEARCH_INVALID_BOOK_CONTROLLER = "SearchInvalidBook";
     private final String SHOW_BOOK_CONTROLLER = "ShowBookServlet";
-    //    private final String SEARCH_CONTROLLER = "SearchTitleServlet";
-    static final Logger LOGGER = Logger.getLogger(AddBookServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

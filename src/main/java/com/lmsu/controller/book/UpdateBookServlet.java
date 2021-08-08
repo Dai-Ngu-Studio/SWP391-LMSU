@@ -19,10 +19,10 @@ import java.sql.SQLException;
 
 @WebServlet(name = "UpdateBookServlet", value = "/UpdateBookServlet")
 public class UpdateBookServlet extends HttpServlet {
+    static final Logger LOGGER = Logger.getLogger(UpdateBookServlet.class);
     private final String SEARCH_CONTROLLER = "SearchTitleServlet";
     private final String SHOW_BOOK_CONTROLLER = "ShowBookServlet";
     private final String SEARCH_INVALID_BOOK_CONTROLLER = "SearchInvalidBook";
-    static final Logger LOGGER = Logger.getLogger(UpdateBookServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -63,7 +63,7 @@ public class UpdateBookServlet extends HttpServlet {
                 }
             }
             AuthorBookMapDAO authorBookMapDAO = new AuthorBookMapDAO();
-            authorBookMapDAO.updateMap(authorIDs,bookID);
+            authorBookMapDAO.updateMap(authorIDs, bookID);
             boolean result = dao.updateBook(bookID, title, subjectID, publisher, publishDate, description, priceDecimal, quantityNum, ISBN_ten, ISBN_thirteen, coverFile);
             if (result) {
                 if (isShowInvalid.equals("True")) {

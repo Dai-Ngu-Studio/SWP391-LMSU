@@ -14,7 +14,8 @@ class CommentDTO implements Serializable {
     private boolean isEdited;
     private boolean deleteStatus;
 
-    public CommentDTO() { }
+    public CommentDTO() {
+    }
 
     public CommentDTO(String memberID, String bookID, String textComment, float rating,
                       String editorID, boolean isEdited, boolean deleteStatus) {

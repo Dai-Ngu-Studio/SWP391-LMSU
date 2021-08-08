@@ -18,9 +18,9 @@ import java.sql.SQLException;
 @WebServlet(name = "AddUserServlet", value = "/AddUserServlet")
 public class AddUserServlet extends HttpServlet {
 
+    static final Logger LOGGER = Logger.getLogger(AddUserServlet.class);
     private static final String SHOW_USER_CONTROLLER = "ShowMemberServlet";
     private static final String SEARCH_USER_CONTROLLER = "SearchUserServlet";
-    static final Logger LOGGER = Logger.getLogger(AddUserServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

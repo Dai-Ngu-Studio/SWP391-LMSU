@@ -18,9 +18,8 @@ import java.sql.SQLException;
 @WebServlet(name = "ChangePhoneServlet", value = "/ChangePhoneServlet")
 public class ChangePhoneServlet extends HttpServlet {
 
-    private static final String RESULT_PAGE = "usersettings.jsp";
     static final Logger LOGGER = Logger.getLogger(ChangePasswordServlet.class);
-
+    private static final String RESULT_PAGE = "usersettings.jsp";
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
     private final String ATTR_MEMBER_UPDATE_SETTING_SUCCESS = "MEMBER_UPDATE_SETTING_SUCCESS";
     private final String ATTR_MEMBER_UPDATE_SETTING_MESSAGE = "MEMBER_UPDATE_SETTING_MESSAGE";

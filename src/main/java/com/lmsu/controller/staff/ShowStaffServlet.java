@@ -18,8 +18,8 @@ import java.util.List;
 @WebServlet(name = "ShowStaffServlet", value = "/ShowStaffServlet")
 public class ShowStaffServlet extends HttpServlet {
 
-    private static final String STAFF_MANAGEMENT_PAGE = "staffmanagement.jsp";
     static final Logger LOGGER = Logger.getLogger(ShowStaffServlet.class);
+    private static final String STAFF_MANAGEMENT_PAGE = "staffmanagement.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

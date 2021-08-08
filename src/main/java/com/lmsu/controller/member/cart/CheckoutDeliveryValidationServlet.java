@@ -80,8 +80,7 @@ public class CheckoutDeliveryValidationServlet extends HttpServlet {
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
             log("CheckoutDeliveryValidationServlet _ Exception: " + ex.getMessage());
-        }
-        finally {
+        } finally {
             String json = new Gson().toJson(errors);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");

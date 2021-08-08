@@ -34,15 +34,14 @@ public class RenewalTimeValidationServlet extends HttpServlet {
 
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            if (currentDate != null){
+            if (currentDate != null) {
                 if (currentDate.compareTo(itemDeadline) >= 0) {
                     if (ChronoUnit.DAYS.between(itemDeadline, currentDate) > 7) {
                         response.getWriter().write("invalid");
                     } else {
                         response.getWriter().write("true");
                     }
-                }
-                else {
+                } else {
                     response.getWriter().write("false");
                 }
             }

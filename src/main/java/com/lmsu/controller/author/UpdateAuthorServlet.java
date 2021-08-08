@@ -19,10 +19,10 @@ import java.sql.SQLException;
 @WebServlet(name = "UpdateAuthorServlet", value = "/UpdateAuthorServlet")
 public class UpdateAuthorServlet extends HttpServlet {
 
-    private final String SEARCH_CONTROLLER = "SearchAuthorNameServlet";
-    private final String SHOW_AUTHOR_CONTROLLER = "ShowAuthorServlet";
     //private final String SEARCH_CONTROLLER = "SearchTitleServlet";
     static final Logger LOGGER = Logger.getLogger(UpdateBookServlet.class);
+    private final String SEARCH_CONTROLLER = "SearchAuthorNameServlet";
+    private final String SHOW_AUTHOR_CONTROLLER = "ShowAuthorServlet";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

@@ -14,10 +14,9 @@ import java.sql.SQLException;
 
 @WebServlet(name = "AddSubjectServlet", value = "/AddSubjectServlet")
 public class AddSubjectServlet extends HttpServlet {
+    static final Logger LOGGER = Logger.getLogger(AddSubjectServlet.class);
     private final String SEARCH_CONTROLLER = "SearchSubjectNameServlet";
     private final String SHOW_SUBJECT_CONTROLLER = "ShowSubjectServlet";
-
-    static final Logger LOGGER = Logger.getLogger(AddSubjectServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,7 +31,7 @@ public class AddSubjectServlet extends HttpServlet {
         try {
             SubjectDAO dao = new SubjectDAO();
             int subjectID = 0;
-            do{
+            do {
                 subjectID++;
             } while (dao.checkSubjectExisted(String.valueOf(subjectID)));
             String subjectIDtxt = String.valueOf(subjectID);

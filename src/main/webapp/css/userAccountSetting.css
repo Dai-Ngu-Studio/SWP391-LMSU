@@ -71,12 +71,12 @@
     box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
 }
 
-.notificationButtons label:hover>i {
+.notificationButtons label:hover > i {
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.20);
     transform: scale(1.01);
 }
 
-.notificationButtons input:checked+label>i {
+.notificationButtons input:checked + label > i {
     margin-left: 24px;
 }
 
@@ -84,15 +84,15 @@
     background-color: #A6B9CB;
 }
 
-.notificationButtons label:active>i {
+.notificationButtons label:active > i {
     width: 34px;
     box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.20);
 }
 
-.notificationButtons input:checked+label:active>i {
+.notificationButtons input:checked + label:active > i {
     margin-left: 18px;
 }
 
-.notificationButtons input:checked+label {
+.notificationButtons input:checked + label {
     background-color: #748DDB;
 }

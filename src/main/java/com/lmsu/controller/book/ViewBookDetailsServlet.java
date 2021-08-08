@@ -36,10 +36,9 @@ import java.util.List;
 @WebServlet(name = "ViewBookDetailsServlet", value = "/ViewBookDetailsServlet")
 public class ViewBookDetailsServlet extends HttpServlet {
 
+    static final Logger LOGGER = Logger.getLogger(ViewBookDetailsServlet.class);
     private final String BOOK_CATALOG_CONTROLLER = "ShowBookCatalogServlet";
     private final String BOOK_DETAILS_PAGE = "bookdetails.jsp";
-    static final Logger LOGGER = Logger.getLogger(ViewBookDetailsServlet.class);
-
     private final List<Integer> NO_ORDER_STATUS_SPECIFIED = null;
 
     private final int ORDER_CANCELLED = -1;

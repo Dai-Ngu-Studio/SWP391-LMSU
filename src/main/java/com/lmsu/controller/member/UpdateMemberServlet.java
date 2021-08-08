@@ -20,9 +20,9 @@ import java.sql.SQLException;
 @WebServlet(name = "UpdateUserServlet", value = "/UpdateUserServlet")
 public class UpdateMemberServlet extends HttpServlet {
 
+    static final Logger LOGGER = Logger.getLogger(UpdateMemberServlet.class);
     private final String SEARCH_MEMBER_CONTROLLER = "SearchMemberServlet";
     private final String SHOW_MEMBER_CONTROLLER = "ShowMemberServlet";
-    static final Logger LOGGER = Logger.getLogger(UpdateMemberServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -76,7 +76,7 @@ public class UpdateMemberServlet extends HttpServlet {
                     foundErr = true;
                     error.setSemesterError("Semester require input 0 to 9");
                 }
-            } catch (NumberFormatException ex){
+            } catch (NumberFormatException ex) {
                 foundErr = true;
                 error.setSemesterError("Semester require input 0 to 9");
             }

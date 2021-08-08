@@ -35,7 +35,7 @@ class UserDTO implements Serializable {
         this.profilePicturePath = profilePicturePath;
     }
 
-    public UserDTO(String name, String email){
+    public UserDTO(String name, String email) {
         this.name = name;
         this.email = email;
     }

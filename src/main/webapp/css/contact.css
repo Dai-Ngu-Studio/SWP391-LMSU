@@ -161,7 +161,7 @@ tr {
     background-color: transparent;
 }
 
-.form-check input[type=radio]:checked+label:after {
+.form-check input[type=radio]:checked + label:after {
     border-radius: 11px;
     width: 12px;
     height: 12px;

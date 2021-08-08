@@ -65,8 +65,10 @@
                                                     <div class="col-6">
                                                         <div class="row">
                                                             <div class="col-12">
-                                                                <input type="hidden" name="orderItemPk" value="${book.key}">
-                                                                <input type="hidden" name="bookPk" value="${book.value.bookID}">
+                                                                <input type="hidden" name="orderItemPk"
+                                                                       value="${book.key}">
+                                                                <input type="hidden" name="bookPk"
+                                                                       value="${book.value.bookID}">
                                                                 <button type="submit" name="btAction"
                                                                         value="RemoveFromCart"
                                                                         class="btn btn-outline-danger btn-block">

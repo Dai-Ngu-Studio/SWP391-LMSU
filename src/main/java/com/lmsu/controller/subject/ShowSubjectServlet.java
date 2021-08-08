@@ -22,9 +22,9 @@ import java.util.List;
 @WebServlet(name = "ShowSubjectServlet", value = "/ShowSubjectServlet")
 public class ShowSubjectServlet extends HttpServlet {
 
+    static final Logger LOGGER = Logger.getLogger(ShowSubjectServlet.class);
     private static final String ERROR_PAGE = "error.jsp";
     private static final String SUBJECT_MANAGEMENT_PAGE = "subjectmanagement.jsp";
-    static final Logger LOGGER = Logger.getLogger(ShowSubjectServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -49,8 +49,8 @@ public class ShowSubjectServlet extends HttpServlet {
                 bookDAO.viewBookList();
                 List<BookDTO> bookMapList = bookDAO.getBookList();
 
-                if (bookMapList != null){
-                    for (BookDTO tmp: bookMapList
+                if (bookMapList != null) {
+                    for (BookDTO tmp : bookMapList
                     ) {
                         if (subjectMap.containsKey(tmp.getSubjectID())) {
                             subjectMap.get(tmp.getSubjectID()).add(tmp);

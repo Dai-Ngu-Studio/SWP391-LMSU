@@ -17,8 +17,8 @@ import java.util.Map;
 
 @WebServlet(name = "ShowDashboardServlet", value = "/ShowDashboardServlet")
 public class ShowDashboardServlet extends HttpServlet {
-    private final String DASHBOARD_PAGE = "dashboard.jsp";
     static final Logger LOGGER = Logger.getLogger(ShowDashboardServlet.class);
+    private final String DASHBOARD_PAGE = "dashboard.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

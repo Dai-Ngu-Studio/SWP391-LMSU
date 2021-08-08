@@ -28,15 +28,15 @@ public class OrderDAO implements Serializable {
     private Connection conn;
     private List<OrderDTO> orderList;
 
-    public List<OrderDTO> getOrderList() {
-        return this.orderList;
-    }
-
     public OrderDAO() {
     }
 
     public OrderDAO(Connection conn) {
         this.conn = conn;
+    }
+
+    public List<OrderDTO> getOrderList() {
+        return this.orderList;
     }
 
     public void clearOrderList() {

@@ -33,9 +33,9 @@ import java.util.stream.Collectors;
 
 public class DailyTask extends TimerTask implements Serializable {
 
+    static final Logger LOGGER = Logger.getLogger(DailyTask.class);
     private static final String EMAIL = "***REMOVED***";
     private static final String PASSWORD = "***REMOVED***";
-    static final Logger LOGGER = Logger.getLogger(DailyTask.class);
 
     public void notifyTenDaysLeft() {
         try {

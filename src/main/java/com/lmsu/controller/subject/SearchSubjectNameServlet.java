@@ -17,9 +17,9 @@ import java.util.List;
 
 @WebServlet(name = "SearchSubjectNameServlet", value = "/SearchSubjectNameServlet")
 public class SearchSubjectNameServlet extends HttpServlet {
+    static final Logger LOGGER = Logger.getLogger(SearchSubjectNameServlet.class);
     private static final String ERROR_PAGE = "subjectmanagement.jsp";
     private static final String SHOW_SUBJECT_CONTROLLER = "ShowSubjectServlet";
-    static final Logger LOGGER = Logger.getLogger(SearchSubjectNameServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

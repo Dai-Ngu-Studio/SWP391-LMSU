@@ -26,9 +26,9 @@ import java.sql.SQLException;
         maxRequestSize = 1024 * 1024 * 5 * 5)
 public class UpdateStaffServlet extends HttpServlet {
 
+    static final Logger LOGGER = Logger.getLogger(UpdateStaffServlet.class);
     private final String SEARCH_STAFF_CONTROLLER = "SearchStaffServlet";
     private final String SHOW_STAFF_CONTROLLER = "ShowStaffServlet";
-    static final Logger LOGGER = Logger.getLogger(UpdateStaffServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

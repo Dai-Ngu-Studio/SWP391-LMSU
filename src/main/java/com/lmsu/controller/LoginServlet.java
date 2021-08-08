@@ -21,10 +21,10 @@ import java.sql.SQLException;
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
 
+    static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
     private static final String LOGIN_FAIL = "login.jsp";
     private static final String INDEX_PAGE = "IndexServlet";
     private static final String DASHBOARD_PAGE = "ShowDashboardServlet";
-    static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

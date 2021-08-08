@@ -2,61 +2,65 @@
 --GO
 --    CREATE DATABASE LMSU_database
 GO
-    DROP TABLE IF EXISTS Announcement
-GO
-    DROP TABLE IF EXISTS Feedback
-GO
-    DROP TABLE IF EXISTS DeliveryOrder
-GO
-    DROP TABLE IF EXISTS DirectOrder
-GO
-    DROP TABLE IF EXISTS RenewalRequests
-GO
-    DROP TABLE IF EXISTS OrderItems
-GO
-    DROP TABLE IF EXISTS Orders
-GO
-    DROP TABLE IF EXISTS Comments
-GO
-    DROP TABLE IF EXISTS ImportLogs
-GO
-    DROP TABLE IF EXISTS AuthorBookMaps
-GO
-    DROP TABLE IF EXISTS Books
-GO
-    DROP TABLE IF EXISTS Authors
-GO
-    DROP TABLE IF EXISTS Users
-GO
-    DROP TABLE IF EXISTS Subjects
-GO
-    DROP TABLE IF EXISTS Roles
-GO
+DROP TABLE IF EXISTS Announcement
+    GO
+DROP TABLE IF EXISTS Feedback
+    GO
+DROP TABLE IF EXISTS DeliveryOrder
+    GO
+DROP TABLE IF EXISTS DirectOrder
+    GO
+DROP TABLE IF EXISTS RenewalRequests
+    GO
+DROP TABLE IF EXISTS OrderItems
+    GO
+DROP TABLE IF EXISTS Orders
+    GO
+DROP TABLE IF EXISTS Comments
+    GO
+DROP TABLE IF EXISTS ImportLogs
+    GO
+DROP TABLE IF EXISTS AuthorBookMaps
+    GO
+DROP TABLE IF EXISTS Books
+    GO
+DROP TABLE IF EXISTS Authors
+    GO
+DROP TABLE IF EXISTS Users
+    GO
+DROP TABLE IF EXISTS Subjects
+    GO
+DROP TABLE IF EXISTS Roles
+    GO
     USE [LMSU_database]
-GO
-    CREATE TABLE Roles(
-        id varchar(255) NOT NULL PRIMARY KEY,
-        name varchar(255)
-    );
+    GO
+CREATE TABLE Roles
+(
+    id   varchar(255) NOT NULL PRIMARY KEY,
+    name varchar(255)
+);
 
 GO
-    CREATE TABLE Subjects(
-        id varchar(255) NOT NULL PRIMARY KEY,
-        name varchar(255) NOT NULL,
-        semester_no int NOT NULL,
-        deleteStatus bit NOT NULL
-    );
+CREATE TABLE Subjects
+(
+    id           varchar(255) NOT NULL PRIMARY KEY,
+    name         varchar(255) NOT NULL,
+    semester_no  int          NOT NULL,
+    deleteStatus bit          NOT NULL
+);
 
 GO
-    CREATE TABLE Users(
-        id varchar(255) NOT NULL PRIMARY KEY,
-        name varchar(255) NOT NULL,
-        roleID varchar(255) NOT NULL FOREIGN KEY REFERENCES Roles(id),
-        semester_no int NOT NULL,
-        password varchar(255),
-        email varchar(255),
-        phoneNumber varchar(10),
-        profilePicturePath varchar(MAX),
+CREATE TABLE Users
+(
+    id                 varchar(255) NOT NULL PRIMARY KEY,
+    name               varchar(255) NOT NULL,
+    roleID             varchar(255) NOT NULL FOREIGN KEY REFERENCES Roles(id),
+    semester_no        int          NOT NULL,
+    password           varchar(255),
+    email              varchar(255),
+    phoneNumber        varchar(10),
+    profilePicturePath varchar(MAX
+) ,
         activeStatus bit NOT NULL,
 		isNotifyArrival bit,
 		isNotifyPopular bit,
@@ -64,22 +68,26 @@ GO
     );
 
 GO
-    CREATE TABLE Authors(
-        id varchar(255) NOT NULL PRIMARY KEY,
-        name varchar(255) NOT NULL,
-        bio varchar(MAX) NOT NULL,
+CREATE TABLE Authors
+(
+    id   varchar(255) NOT NULL PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    bio  varchar(MAX
+) NOT NULL,
         profilePicturePath varchar(MAX),
         deleteStatus bit NOT NULL
     );
 
 GO
-    CREATE TABLE Books(
-        id varchar(255) NOT NULL PRIMARY KEY,
-        title varchar(255) NOT NULL,
-        subjectID varchar(255) NOT NULL FOREIGN KEY REFERENCES Subjects(id),
-        publisher varchar(255) NOT NULL,
-        publishDate date,
-        description varchar(MAX) NOT NULL,
+CREATE TABLE Books
+(
+    id          varchar(255) NOT NULL PRIMARY KEY,
+    title       varchar(255) NOT NULL,
+    subjectID   varchar(255) NOT NULL FOREIGN KEY REFERENCES Subjects(id),
+    publisher   varchar(255) NOT NULL,
+    publishDate date,
+    description varchar(MAX
+) NOT NULL,
         price decimal NOT NULL,
         quantity int NOT NULL,
         deleteStatus bit NOT NULL,
@@ -91,114 +99,126 @@ GO
     );
 
 GO
-    CREATE TABLE AuthorBookMaps(
-        id int NOT NULL PRIMARY KEY IDENTITY(1, 1),
-        authorID varchar(255) NOT NULL FOREIGN KEY REFERENCES Authors(id),
-        bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
-    );
+CREATE TABLE AuthorBookMaps
+(
+    id       int          NOT NULL PRIMARY KEY IDENTITY(1, 1),
+    authorID varchar(255) NOT NULL FOREIGN KEY REFERENCES Authors(id),
+    bookID   varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
+);
 
 GO
-    CREATE TABLE ImportLogs(
-        id int NOT NULL PRIMARY KEY IDENTITY(1, 1),
-        bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
-        managerID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
-        dateTaken date,
-        supplier varchar(255) NOT NULL,
-        quantity int,
-    );
+CREATE TABLE ImportLogs
+(
+    id        int          NOT NULL PRIMARY KEY IDENTITY(1, 1),
+    bookID    varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
+    managerID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
+    dateTaken date,
+    supplier  varchar(255) NOT NULL,
+    quantity  int,
+);
 
 GO
-    CREATE TABLE Comments(
-        memberID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
-        bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
-        CONSTRAINT PK_UserComment PRIMARY KEY (memberID, bookID),
-        textComment nvarchar(MAX),
-        rating decimal,
-        editorID varchar(255),
-        isEdited bit,
-        deleteStatus bit NOT NULL
-    );
+CREATE TABLE Comments
+(
+    memberID     varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
+    bookID       varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
+    CONSTRAINT PK_UserComment PRIMARY KEY (memberID, bookID),
+    textComment  nvarchar( MAX),
+    rating       decimal,
+    editorID     varchar(255),
+    isEdited     bit,
+    deleteStatus bit          NOT NULL
+);
 
 GO
-    CREATE TABLE Orders(
-        id int NOT NULL PRIMARY KEY IDENTITY(1, 1),
-        memberID varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
-        orderDate date,
-        lendMethod bit,
-        activeStatus int NOT NULL
-    );
+CREATE TABLE Orders
+(
+    id           int          NOT NULL PRIMARY KEY IDENTITY(1, 1),
+    memberID     varchar(255) NOT NULL FOREIGN KEY REFERENCES Users(id),
+    orderDate    date,
+    lendMethod   bit,
+    activeStatus int          NOT NULL
+);
 
 GO
-    CREATE TABLE OrderItems(
-        id int NOT NULL PRIMARY KEY IDENTITY(1, 1),
-        orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
-        returnOrderID int FOREIGN KEY REFERENCES Orders(id),
-        bookID varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
-        lendStatus int NOT NULL,
-        returnDeadline date,
-        lendDate date,
-        returnDate date,
-        penaltyAmount decimal,
-        penaltyStatus int
-    );
+CREATE TABLE OrderItems
+(
+    id             int          NOT NULL PRIMARY KEY IDENTITY(1, 1),
+    orderID        int          NOT NULL FOREIGN KEY REFERENCES Orders(id),
+    returnOrderID  int FOREIGN KEY REFERENCES Orders(id),
+    bookID         varchar(255) NOT NULL FOREIGN KEY REFERENCES Books(id),
+    lendStatus     int          NOT NULL,
+    returnDeadline date,
+    lendDate       date,
+    returnDate     date,
+    penaltyAmount  decimal,
+    penaltyStatus  int
+);
 
 GO
-    CREATE TABLE RenewalRequests(
-        id int NOT NULL PRIMARY KEY IDENTITY(1, 1),
-        itemID int NOT NULL FOREIGN KEY REFERENCES OrderItems(id),
-        librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
-        reason varchar(MAX),
+CREATE TABLE RenewalRequests
+(
+    id          int NOT NULL PRIMARY KEY IDENTITY(1, 1),
+    itemID      int NOT NULL FOREIGN KEY REFERENCES OrderItems(id),
+    librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
+    reason      varchar(MAX
+) ,
         requestedExtendDate date,
         approvalStatus int
     );
 
 GO
-    CREATE TABLE DirectOrder(
-        orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
-        librarianID varchar(255) FOREIGN KEY REFERENCES Users(id),
-        scheduledTime datetime,
-        isReturnOrder bit NOT NULL		
-    );
+CREATE TABLE DirectOrder
+(
+    orderID       int NOT NULL FOREIGN KEY REFERENCES Orders(id),
+    librarianID   varchar(255) FOREIGN KEY REFERENCES Users(id),
+    scheduledTime datetime,
+    isReturnOrder bit NOT NULL
+);
 
 GO
-    CREATE TABLE DeliveryOrder(
-        orderID int NOT NULL FOREIGN KEY REFERENCES Orders(id),
-        managerID varchar(255) FOREIGN KEY REFERENCES Users(id),
-        deliverer varchar(255),
-        scheduledDeliveryTime date,
-		receiverName nvarchar(MAX),
-        phoneNumber varchar(10),
-        deliveryAddress1 nvarchar(MAX),
-        deliveryAddress2 nvarchar(MAX),
-        city nvarchar(255),
-		cityName nvarchar(255),
-        district nvarchar(255),
-		districtName nvarchar(255),
-        ward nvarchar(255),
-		wardName nvarchar(255),
-        trackingCode varchar(255)
-    );
+CREATE TABLE DeliveryOrder
+(
+    orderID               int NOT NULL FOREIGN KEY REFERENCES Orders(id),
+    managerID             varchar(255) FOREIGN KEY REFERENCES Users(id),
+    deliverer             varchar(255),
+    scheduledDeliveryTime date,
+    receiverName          nvarchar( MAX),
+    phoneNumber           varchar(10),
+    deliveryAddress1      nvarchar( MAX),
+    deliveryAddress2      nvarchar( MAX),
+    city                  nvarchar(255),
+    cityName              nvarchar(255),
+    district              nvarchar(255),
+    districtName          nvarchar(255),
+    ward                  nvarchar(255),
+    wardName              nvarchar(255),
+    trackingCode          varchar(255)
+);
 
 GO
-    CREATE TABLE Feedback (
-        id int NOT NULL PRIMARY KEY IDENTITY(1, 1),
-        fullName NVARCHAR(MAX),
-        email VARCHAR(255),
-        phone VARCHAR(10),
-        feedbackType VARCHAR(255),
-        attachment VARCHAR(MAX),
+CREATE TABLE Feedback
+(
+    id           int NOT NULL PRIMARY KEY IDENTITY(1, 1),
+    fullName     NVARCHAR( MAX),
+    email        VARCHAR(255),
+    phone        VARCHAR(10),
+    feedbackType VARCHAR(255),
+    attachment   VARCHAR(MAX
+) ,
         feedbackMessage nvarchar(MAX),
         resolveStatus bit
     );
 
 GO
-    CREATE TABLE Announcement(
-        id INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
-        creationDate DATE,
-        announcementText NVARCHAR(MAX),
-        writerId VARCHAR(255) FOREIGN KEY REFERENCES Users(id),
-        returnDeadline DATE
-    );
+CREATE TABLE Announcement
+(
+    id               INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+    creationDate     DATE,
+    announcementText NVARCHAR( MAX),
+    writerId         VARCHAR(255) FOREIGN KEY REFERENCES Users(id),
+    returnDeadline   DATE
+);
 
 GO
 INSERT INTO
@@ -375,26 +395,21 @@ values
         'book-2.jpg'
     );
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        3,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (3,
         'Python Crash Course, 2nd Edition',
         6,
         'Zoombeat',
@@ -407,29 +422,23 @@ values
         0.1,
         '4216053160',
         '3568879141234',
-        'book-3.jpg'
-    );
+        'book-3.jpg');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        4,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (4,
         'Blockchain Bubble or Revolution',
         1,
         'Janyx',
@@ -443,29 +452,23 @@ FROM Google, Microsoft, AND Facebook, Bubble or Revolution cuts through the hype
         3.7,
         '4046631140',
         '3665328051234',
-        'book-4.jpg'
-    );
+        'book-4.jpg');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        5,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (5,
         'Expert Python Programming: Master Python',
         1,
         'Pixoboo',
@@ -481,29 +484,23 @@ CREATE useful Python extensions WITH C, C++, Cython, AND CFFI. Furthermore, stud
         2.7,
         '0359660560',
         '4426072141234',
-        'C:\b.png'
-    );
+        'C:\b.png');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        6,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (6,
         'ASP.NET Core 5 AND Angular: Full-stack Web development',
         1,
         'Tagchat',
@@ -518,29 +515,23 @@ ON Azure, AS well AS both Windows AND Linux.',
         2.8,
         '9014849840',
         '8576192651234',
-        'C:\b.png'
-    );
+        'C:\b.png');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        7,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (7,
         'The Road to React: Your Journey to Master',
         3,
         'Rhynyx',
@@ -558,29 +549,23 @@ FROM the previous chapter. IN addition, at the end of every chapter, exercises f
         4.0,
         '2763325970',
         '0975709511234',
-        'C:\b.png'
-    );
+        'C:\b.png');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        8,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (8,
         'JavaScript AND JQuery: Interactive Front-End Web Development',
         5,
         'Innotype',
@@ -597,29 +582,23 @@ FROM scratch.',
         0.4,
         '7598337130',
         '801023987-9',
-        'C:\b.png'
-    );
+        'C:\b.png');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        9,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (9,
         'PHP & MySQL: Server-side Web Development',
         1,
         'Kwimbee',
@@ -633,29 +612,23 @@ FROM scratch.',
         1.3,
         '4862023120',
         '4376406501234',
-        'C:\b.png'
-    );
+        'C:\b.png');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        10,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (10,
         'Mobile Development WITH .NET',
         2,
         'Kwimbee',
@@ -668,29 +641,23 @@ values
         4.0,
         '0762283560',
         '5154947231234',
-        'C:\b.png'
-    );
+        'C:\b.png');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        11,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (11,
         'mattis nibh ligula nec sem duis aliquam convallis',
         1,
         'Edgeclub',
@@ -703,29 +670,23 @@ values
         2.7,
         '2787139560',
         '1000736211234',
-        'C:\b.png'
-    );
+        'C:\b.png');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        12,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (12,
         'porta volutpat erat quisque erat eros viverra eget congue',
         5,
         'Trilith',
@@ -738,29 +699,23 @@ values
         3.4,
         '1992631960',
         '7785898321234',
-        'C:\b.png'
-    );
+        'C:\b.png');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        13,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (13,
         'dapibus augue vel accumsan tellus',
         6,
         'Youfeed',
@@ -773,29 +728,23 @@ values
         1.9,
         '4163096510',
         '9771421951234',
-        'C:\b.png'
-    );
+        'C:\b.png');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        14,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (14,
         'odio curabitur convallist',
         5,
         'Plajo',
@@ -808,29 +757,23 @@ values
         1.7,
         '3824174310',
         '4110274001234',
-        'C:\b.png'
-    );
+        'C:\b.png');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        15,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (15,
         'mauris morbi non lectus aliquam sit amet',
         6,
         'Vipe',
@@ -843,29 +786,23 @@ values
         2.0,
         '5073923950',
         '2147368091234',
-        'C:\b.png'
-    );
+        'C:\b.png');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        16,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (16,
         'ante vivamus tortor',
         5,
         'Kamba',
@@ -878,29 +815,23 @@ values
         0.6,
         '2397249650',
         '2125483091234',
-        'C:\b.png'
-    );
+        'C:\b.png');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        17,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (17,
         'etiam vel augue vestibulum rutrum',
         4,
         'Pixonyx',
@@ -913,29 +844,23 @@ values
         1.4,
         '2043903970',
         '8816519391234',
-        'C:\b.png'
-    );
+        'C:\b.png');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        18,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (18,
         'in purus eu magna vulputate',
         5,
         'Zoomlounge',
@@ -948,29 +873,23 @@ values
         0.2,
         '1897758830',
         '472913602-0',
-        'C:\b.png'
-    );
+        'C:\b.png');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        19,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (19,
         'blandit nam nulla',
         6,
         'Skiba',
@@ -983,29 +902,23 @@ values
         2.5,
         '2374843060',
         '0773323141234',
-        'C:\b.png'
-    );
+        'C:\b.png');
 
-INSERT INTO
-    Books (
-        id,
-        title,
-        subjectID,
-        publisher,
-        publishDate,
-        description,
-        price,
-        quantity,
-        deleteStatus,
-        lastLentDate,
-        avgRating,
-        ISBN_tenDigits,
-        ISBN_thirteenDigits,
-        coverPicturePath
-    )
-values
-    (
-        20,
+INSERT INTO Books (id,
+                   title,
+                   subjectID,
+                   publisher,
+                   publishDate,
+                   description,
+                   price,
+                   quantity,
+                   deleteStatus,
+                   lastLentDate,
+                   avgRating,
+                   ISBN_tenDigits,
+                   ISBN_thirteenDigits,
+                   coverPicturePath)
+values (20,
         'diam id ornare imperdiet sapien urna pretium',
         3,
         'Kwideo',
@@ -1018,47 +931,33 @@ values
         0.3,
         '4981934210',
         '2973443681234',
-        'C:\b.png'
-    );
+        'C:\b.png');
 
-INSERT INTO
-    Roles (id, name)
-values
-    ('1', 'ADM');
+INSERT INTO Roles (id, name)
+values ('1', 'ADM');
 
-INSERT INTO
-    Roles (id, name)
-values
-    ('2', 'MNG');
+INSERT INTO Roles (id, name)
+values ('2', 'MNG');
 
-INSERT INTO
-    Roles (id, name)
-values
-    ('3', 'LIB');
+INSERT INTO Roles (id, name)
+values ('3', 'LIB');
 
-INSERT INTO
-    Roles (id, name)
-values
-    ('4', 'MEM');
+INSERT INTO Roles (id, name)
+values ('4', 'MEM');
 
-INSERT INTO
-    Users (
-        id,
-        name,
-        roleID,
-        semester_no,
-        password,
-        email,
-        phoneNumber,
-        profilePicturePath,
-        activeStatus,
-		isNotifyArrival,
-		isNotifyPopular,
-        isDelete
-    )
-values
-    (
-        'SE000001',
+INSERT INTO Users (id,
+                   name,
+                   roleID,
+                   semester_no,
+                   password,
+                   email,
+                   phoneNumber,
+                   profilePicturePath,
+                   activeStatus,
+                   isNotifyArrival,
+                   isNotifyPopular,
+                   isDelete)
+values ('SE000001',
         'Dat',
         '4',
         1,
@@ -1067,29 +966,23 @@ values
         '123456789',
         'images/default-user-icon.png',
         0,
-		1,
-		1,
-        0
-    );
+        1,
+        1,
+        0);
 
-INSERT INTO
-    Users (
-        id,
-        name,
-        roleID,
-        semester_no,
-        password,
-        email,
-        phoneNumber,
-        profilePicturePath,
-        activeStatus,
-		isNotifyArrival,
-		isNotifyPopular,
-        isDelete
-    )
-values
-    (
-        'LE000001',
+INSERT INTO Users (id,
+                   name,
+                   roleID,
+                   semester_no,
+                   password,
+                   email,
+                   phoneNumber,
+                   profilePicturePath,
+                   activeStatus,
+                   isNotifyArrival,
+                   isNotifyPopular,
+                   isDelete)
+values ('LE000001',
         'Nguyen',
         '4',
         1,
@@ -1098,29 +991,23 @@ values
         '123456789',
         'images/default-user-icon.png',
         0,
-		1,
-		1,
-        0
-    );
+        1,
+        1,
+        0);
 
-INSERT INTO
-    Users (
-        id,
-        name,
-        roleID,
-        semester_no,
-        password,
-        email,
-        phoneNumber,
-        profilePicturePath,
-        activeStatus,
-		isNotifyArrival,
-		isNotifyPopular,
-        isDelete
-    )
-values
-    (
-        'LIB00001',
+INSERT INTO Users (id,
+                   name,
+                   roleID,
+                   semester_no,
+                   password,
+                   email,
+                   phoneNumber,
+                   profilePicturePath,
+                   activeStatus,
+                   isNotifyArrival,
+                   isNotifyPopular,
+                   isDelete)
+values ('LIB00001',
         'Dung',
         '3',
         1,
@@ -1129,29 +1016,23 @@ values
         '123456789',
         'images/default-user-icon.png',
         0,
-		1,
-		1,
-        0
-    );
+        1,
+        1,
+        0);
 
-INSERT INTO
-    Users (
-        id,
-        name,
-        roleID,
-        semester_no,
-        password,
-        email,
-        phoneNumber,
-        profilePicturePath,
-        activeStatus,
-		isNotifyArrival,
-		isNotifyPopular,
-        isDelete
-    )
-values
-    (
-        'MNG00001',
+INSERT INTO Users (id,
+                   name,
+                   roleID,
+                   semester_no,
+                   password,
+                   email,
+                   phoneNumber,
+                   profilePicturePath,
+                   activeStatus,
+                   isNotifyArrival,
+                   isNotifyPopular,
+                   isDelete)
+values ('MNG00001',
         'Phuc',
         '2',
         1,
@@ -1160,314 +1041,215 @@ values
         '123456789',
         'images/default-user-icon.png',
         0,
-		1,
-		1,
-        0
-    );
+        1,
+        1,
+        0);
 
-INSERT INTO
-    Users (
-        id,
-        name,
-        roleID,
-        semester_no,
-        email,
-        phoneNumber,
-        activeStatus,
-		isNotifyArrival,
-		isNotifyPopular,
-        isDelete
-    )
-values
-    (
-        'SE151274',
+INSERT INTO Users (id,
+                   name,
+                   roleID,
+                   semester_no,
+                   email,
+                   phoneNumber,
+                   activeStatus,
+                   isNotifyArrival,
+                   isNotifyPopular,
+                   isDelete)
+values ('SE151274',
         'Nguyen Gia Nguyen',
         '2',
         5,
         'nguyenngse151274@fpt.edu.vn',
         '0901666918',
         0,
-		1,
-		1,
-        0
-    );
+        1,
+        1,
+        0);
 
-INSERT INTO
-    Users (
-        id,
-        name,
-        roleID,
-        semester_no,
-        email,
-        phoneNumber,
-        activeStatus,
-		isNotifyArrival,
-		isNotifyPopular,
-        isDelete
-    )
-values
-    (
-        'SE151271',
+INSERT INTO Users (id,
+                   name,
+                   roleID,
+                   semester_no,
+                   email,
+                   phoneNumber,
+                   activeStatus,
+                   isNotifyArrival,
+                   isNotifyPopular,
+                   isDelete)
+values ('SE151271',
         'Nguyen Dung',
         '3',
         5,
         'dungnse151271@fpt.edu.vn',
         '1234567890',
         0,
-		1,
-		1,
-        0
-    );
+        1,
+        1,
+        0);
 
-INSERT INTO
-    Users (
-        id,
-        name,
-        roleID,
-        semester_no,
-        email,
-        phoneNumber,
-        activeStatus,
-		isNotifyArrival,
-		isNotifyPopular,
-        isDelete
-    )
-values
-    (
-        'SE151261',
+INSERT INTO Users (id,
+                   name,
+                   roleID,
+                   semester_no,
+                   email,
+                   phoneNumber,
+                   activeStatus,
+                   isNotifyArrival,
+                   isNotifyPopular,
+                   isDelete)
+values ('SE151261',
         'Nguyen Thien Phuc',
         '2',
         5,
         'phucntse151261@fpt.edu.vn',
         '1234567890',
         0,
-		1,
-		1,
-        0
-    );
+        1,
+        1,
+        0);
 
-INSERT INTO
-    Users (
-        id,
-        name,
-        roleID,
-        semester_no,
-        email,
-        phoneNumber,
-        activeStatus,
-		isNotifyArrival,
-		isNotifyPopular,
-        isDelete
-    )
-values
-    (
-        'SE151249',
+INSERT INTO Users (id,
+                   name,
+                   roleID,
+                   semester_no,
+                   email,
+                   phoneNumber,
+                   activeStatus,
+                   isNotifyArrival,
+                   isNotifyPopular,
+                   isDelete)
+values ('SE151249',
         'Ho Tien Dat',
         '4',
         5,
         'dathtse151249@fpt.edu.vn',
         '1234567890',
         0,
-		1,
-		1,
-        0
-    );
-
-INSERT INTO
-    ImportLogs (bookID, managerID, dateTaken, supplier, quantity)
-values
-    (
         1,
+        1,
+        0);
+
+INSERT INTO ImportLogs (bookID, managerID, dateTaken, supplier, quantity)
+values (1,
         'LIB00001',
         '2020/06/06',
         'Xuong IN Thien Phuc',
-        1
-    );
+        1);
 
-INSERT INTO
-    ImportLogs (bookID, managerID, dateTaken, supplier, quantity)
-values
-    (
-        2,
+INSERT INTO ImportLogs (bookID, managerID, dateTaken, supplier, quantity)
+values (2,
         'LIB00001',
         '2021/06/07',
         'Xuong IN Nguyen Dung',
-        1
-    );
+        1);
 
-INSERT INTO
-    Comments (
-        memberID,
-        bookID,
-        textComment,
-        rating,
-        isEdited,
-        deleteStatus
-    )
-values
-    (
-        'LIB00001',
+INSERT INTO Comments (memberID,
+                      bookID,
+                      textComment,
+                      rating,
+                      isEdited,
+                      deleteStatus)
+values ('LIB00001',
         1,
         'Not bad, could be more informative.',
         0,
         0,
-        0
-    );
+        0);
 
-INSERT INTO
-    Comments (
-        memberID,
-        bookID,
-        textComment,
-        rating,
-        isEdited,
-        deleteStatus
-    )
-values
-    (
-        'LIB00001',
+INSERT INTO Comments (memberID,
+                      bookID,
+                      textComment,
+                      rating,
+                      isEdited,
+                      deleteStatus)
+values ('LIB00001',
         2,
         'Great book, much insightful.',
         5,
         0,
-        0
-    );
+        0);
 
-INSERT INTO
-    Comments (
-        memberID,
-        bookID,
-        textComment,
-        rating,
-        isEdited,
-        deleteStatus
-    )
-values
-    (
-        'SE000001',
+INSERT INTO Comments (memberID,
+                      bookID,
+                      textComment,
+                      rating,
+                      isEdited,
+                      deleteStatus)
+values ('SE000001',
         1,
         'Fine work, not much application though.',
         3.5,
         0,
-        0
-    );
+        0);
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'1', N'1');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'1', N'1');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'1', N'2');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'1', N'2');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'1', N'3');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'1', N'3');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'2', N'4');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'2', N'4');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'2', N'5');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'2', N'5');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'2', N'6');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'2', N'6');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'3', N'7');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'3', N'7');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'3', N'8');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'3', N'8');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'3', N'9');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'3', N'9');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'4', N'10');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'4', N'10');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'4', N'11');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'4', N'11');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'4', N'12');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'4', N'12');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'5', N'13');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'5', N'13');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'5', N'14');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'5', N'14');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'5', N'15');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'5', N'15');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'6', N'16');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'6', N'16');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'6', N'17');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'6', N'17');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'6', N'18');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'6', N'18');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'1', N'19');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'1', N'19');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'2', N'20');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'2', N'20');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'2', N'1');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'2', N'1');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'3', N'1');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'3', N'1');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'4', N'1');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'4', N'1');
 
-INSERT INTO
-    AuthorBookMaps (authorID, bookID)
-VALUES
-    (N'4', N'2');
+INSERT INTO AuthorBookMaps (authorID, bookID)
+VALUES (N'4', N'2');

@@ -22,10 +22,10 @@ import java.sql.SQLException;
         maxRequestSize = 1024 * 1024 * 5 * 5)
 public class AddAuthorServlet extends HttpServlet {
 
-    private final String SEARCH_AUTHOR_CONTROLLER = "SearchAuthorNameServlet";
-    private final String SHOW_AUTHOR_CONTROLLER = "ShowAuthorServlet";
     //    private final String SEARCH_CONTROLLER = "SearchTitleServlet";
     static final Logger LOGGER = Logger.getLogger(AddAuthorServlet.class);
+    private final String SEARCH_AUTHOR_CONTROLLER = "SearchAuthorNameServlet";
+    private final String SHOW_AUTHOR_CONTROLLER = "ShowAuthorServlet";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

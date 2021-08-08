@@ -11,9 +11,6 @@ import java.util.*;
 
 public class OrderItemDAO implements Serializable {
 
-    private Connection conn;
-    private List<OrderItemDTO> orderItemList;
-
     private final int ITEM_CANCELLED = -1;
     private final int ITEM_PENDING = 0;
     private final int ITEM_APPROVED = 1;
@@ -27,25 +24,25 @@ public class OrderItemDAO implements Serializable {
     private final int ITEM_LOST = 9;
     private final int ITEM_RESERVED = 10;
     private final int ITEM_RESERVED_INACTIVE = 11;
+    private final int PENALTY_NONE = 0;
+    private final int PENALTY_UNPAID = 1;
     // book quantity become >0, member can now checkout the book -> need to set old ITEM_RESERVED to INACTIVE
     // because the old reserve status is no longer a valid fact, we shouldn't take it in account
     // remember to do this in CHECKOUT process by iterating over past orderItems of that book id
-
-    private final int PENALTY_NONE = 0;
-    private final int PENALTY_UNPAID = 1;
     private final int PENALTY_PAID = 2;
-
     private final int DAYS_TO_DEADLINE = 14;
-
-    public List<OrderItemDTO> getOrderItemList() {
-        return this.orderItemList;
-    }
+    private Connection conn;
+    private List<OrderItemDTO> orderItemList;
 
     public OrderItemDAO() {
     }
 
     public OrderItemDAO(Connection conn) {
         this.conn = conn;
+    }
+
+    public List<OrderItemDTO> getOrderItemList() {
+        return this.orderItemList;
     }
 
     public void clearOrderItemList() {
@@ -701,6 +698,7 @@ public class OrderItemDAO implements Serializable {
         }
         return -1;
     }
+
     public Map<String, String> getBorrowedLastYear() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -721,10 +719,10 @@ public class OrderItemDAO implements Serializable {
                 rs = stm.executeQuery();
                 //5. Process ResultSet
 
-                while (rs.next()){
+                while (rs.next()) {
                     Integer month = rs.getInt("MONTH");
                     Integer count = rs.getInt("COUNT");
-                    map.put(month.toString(),count.toString());
+                    map.put(month.toString(), count.toString());
                 }
             }
         } finally {
@@ -734,6 +732,7 @@ public class OrderItemDAO implements Serializable {
         }
         return map;
     }
+
     public Map<String, String> getReturnedLastYear() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -754,10 +753,10 @@ public class OrderItemDAO implements Serializable {
                 rs = stm.executeQuery();
                 //5. Process ResultSet
 
-                while (rs.next()){
+                while (rs.next()) {
                     Integer month = rs.getInt("MONTH");
                     Integer count = rs.getInt("COUNT");
-                    map.put(month.toString(),count.toString());
+                    map.put(month.toString(), count.toString());
                 }
             }
         } finally {

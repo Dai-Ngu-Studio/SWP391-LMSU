@@ -59,7 +59,8 @@
                 <li>
                     <p>
                         Items can be renewed at most 4 times and up to 1 week if you have acceptable reasons.
-                        To renew books through the web, navigate to your Book Borrowing tab inside your profile and request a renewal.
+                        To renew books through the web, navigate to your Book Borrowing tab inside your profile and
+                        request a renewal.
                     </p>
                 </li>
                 <li>
@@ -70,7 +71,8 @@
                 </li>
                 <li>
                     <p>
-                        The library will send you an email if any book you have in your wishlist is now available in stock.
+                        The library will send you an email if any book you have in your wishlist is now available in
+                        stock.
                     </p>
                 </li>
             </ul>
@@ -126,7 +128,8 @@
                 </li>
                 <li>
                     <p>
-                        Your lost book would still be counted as a currently borrowed item unless you paid for the penalty.
+                        Your lost book would still be counted as a currently borrowed item unless you paid for the
+                        penalty.
                         Meaning, your total number of books which you can borrow will be limited.
                         Please settle your penalty as soon as your earliest possible date for your convenience.
                     </p>

@@ -14,11 +14,11 @@ public class ImportLogDAO implements Serializable {
 
     private List<ImportLogDTO> importList;
 
-    public List<ImportLogDTO> getImportList(){
+    public List<ImportLogDTO> getImportList() {
         return this.importList;
     }
 
-    public void viewImportList() throws SQLException, NamingException{
+    public void viewImportList() throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -43,8 +43,8 @@ public class ImportLogDAO implements Serializable {
                     Date dateTaken = rs.getDate("dateTaken");
                     String supplier = rs.getString("supplier");
                     int quantity = rs.getInt("quantity");
-                    BookDAO bookDAO=new BookDAO();
-                    UserDAO userDAO=new UserDAO();
+                    BookDAO bookDAO = new BookDAO();
+                    UserDAO userDAO = new UserDAO();
                     ImportLogDTO dto = new ImportLogDTO(logID, bookDAO.getBookById(bookID), userDAO.getUserByID(managerID), dateTaken, supplier, quantity);
 
                     if (this.importList == null) {
@@ -120,8 +120,8 @@ public class ImportLogDAO implements Serializable {
                     Date dateTaken = rs.getDate("dateTaken");
                     String supplier = rs.getString("supplier");
                     int quantity = rs.getInt("quantity");
-                    BookDAO bookDAO=new BookDAO();
-                    UserDAO userDAO=new UserDAO();
+                    BookDAO bookDAO = new BookDAO();
+                    UserDAO userDAO = new UserDAO();
                     ImportLogDTO dto = new ImportLogDTO(logID, bookDAO.getBookById(bookID), userDAO.getUserByID(managerID), dateTaken, supplier, quantity);
                     if (this.importList == null) {
                         this.importList = new ArrayList<ImportLogDTO>();

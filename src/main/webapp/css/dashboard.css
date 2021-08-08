@@ -4,9 +4,10 @@
 /*}*/
 
 
-#statisticGroup{
+#statisticGroup {
     padding-bottom: 50px;
 }
+
 #tBook .rectangle {
     background-color: #00BEEE;
 
@@ -58,16 +59,19 @@
     color: white;
     font-weight: bold;
 }
-.rectangle .totalClass{
+
+.rectangle .totalClass {
     font-size: 20px;
     padding-left: 20px;
     padding-top: 20px;
     color: white;
 }
-.rectangle{
+
+.rectangle {
     position: relative;
 }
-.rectangle .blackBar{
+
+.rectangle .blackBar {
     position: absolute;
     background-color: black;
     bottom: 0;
@@ -76,7 +80,8 @@
     height: 30px;
     opacity: 50%;
 }
-.rectangle .blackBar p{
+
+.rectangle .blackBar p {
     padding-top: 5px;
     color: white;
     text-align: center;

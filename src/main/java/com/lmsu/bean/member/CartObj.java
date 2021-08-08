@@ -29,7 +29,7 @@ public class CartObj implements Serializable {
 
     // theoretically could be merged with getCartQuantity() but will complicate current JSP so don't merge
     public int getCartReserved() {
-        if (this.items !=null) {
+        if (this.items != null) {
             int cartReserved = 0;
             for (String bookID : this.items.keySet()) {
                 BookObj book = this.items.get(bookID);

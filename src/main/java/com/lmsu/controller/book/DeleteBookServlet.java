@@ -14,25 +14,24 @@ import java.sql.SQLException;
 
 @WebServlet(name = "DeleteBookServlet", value = "/DeleteBookServlet")
 public class DeleteBookServlet extends HttpServlet {
+    static final Logger LOGGER = Logger.getLogger(DeleteBookServlet.class);
     private final String SEARCH_PAGE = "bookmanagement.jsp";
     private final String SEARCH_CONTROLLER = "SearchTitleServlet";
-    private final String SHOW_BOOK_CONTROLLER="ShowBookServlet";
+    private final String SHOW_BOOK_CONTROLLER = "ShowBookServlet";
     private final String SEARCH_INVALID_BOOK_CONTROLLER = "SearchInvalidBook";
 
-    static final Logger LOGGER = Logger.getLogger(DeleteBookServlet.class);
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         String isShowInvalid = request.getParameter("showInvalidList") != null ? request.getParameter("showInvalidList") : "";
 
         String url = SEARCH_PAGE;
 
         String id = request.getParameter("pk");
         String searchVal = request.getParameter("txtSearchValue");
-        try{
+        try {
             BookDAO dao = new BookDAO();
             boolean result = dao.deleteBook(id);
-            if (result){
+            if (result) {
                 if (isShowInvalid.equals("True")) {
                     url = SEARCH_INVALID_BOOK_CONTROLLER;
                 } else if (searchVal == null || searchVal.trim().isEmpty()) {
@@ -46,14 +45,14 @@ public class DeleteBookServlet extends HttpServlet {
 //                        "?btAction=SearchBook" +
 //                        "&txtSearchValue=" + searchVal;
 //            }
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
             log("DeleteBookServlet _ SQL: " + ex.getMessage());
-        } catch (NamingException ex){
+        } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
             log("DeleteBookServlet _ Naming: " + ex.getMessage());
         } finally {
-            request.getRequestDispatcher(url).forward(request,response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
@@ -66,6 +65,6 @@ public class DeleteBookServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request,response);
+        processRequest(request, response);
     }
 }

@@ -23,9 +23,8 @@ import java.util.List;
 @WebServlet(name = "ShowPenaltiesServlet", value = "/ShowPenaltiesServlet")
 public class ShowPenaltiesServlet extends HttpServlet {
 
-    private final String SHOW_PENALTY_PAGE = "penaltymanagement.jsp";
     static final Logger LOGGER = Logger.getLogger(ShowPenaltiesServlet.class);
-
+    private final String SHOW_PENALTY_PAGE = "penaltymanagement.jsp";
     private final String ATTR_PENALTY_LIST = "PENALTY_LIST";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

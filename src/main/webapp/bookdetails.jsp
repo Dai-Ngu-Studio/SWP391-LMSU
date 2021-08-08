@@ -579,7 +579,7 @@
                                             <input type="hidden" name="bookPk" value="${bookObj.id}"/>
                                             <button type="submit" class="btn btn-block"
                                                     name="btAction" value="AddComment"
-                                            style="background-color: #748DDB; border-color: #748DDB; color: #fff">
+                                                    style="background-color: #748DDB; border-color: #748DDB; color: #fff">
                                                 <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit
                                             </button>
                                         </div>

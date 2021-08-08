@@ -57,7 +57,7 @@ public class DeleteCommentServlet extends HttpServlet {
                 List<CommentDTO> comments = commentDAO.getCommentList();
                 if (comments != null) {
                     for (CommentDTO comment : comments) {
-                        if (!comment.isDeleteStatus()){
+                        if (!comment.isDeleteStatus()) {
                             float commentRating = comment.getRating();
                             avgRating += (commentRating > 0) ? commentRating : 0;
                             numberOfRatingsGiven += (commentRating > 0) ? 1 : 0;

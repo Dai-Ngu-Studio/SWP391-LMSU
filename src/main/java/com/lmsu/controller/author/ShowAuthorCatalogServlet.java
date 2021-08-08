@@ -18,8 +18,8 @@ import java.util.List;
 @WebServlet(name = "ShowAuthorCatalogServlet", value = "/ShowAuthorCatalogServlet")
 public class ShowAuthorCatalogServlet extends HttpServlet {
 
-    private final String AUTHOR_CATALOG_LIST = "author.jsp";
     static final Logger LOGGER = Logger.getLogger(ShowAuthorCatalogServlet.class);
+    private final String AUTHOR_CATALOG_LIST = "author.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html;charset=UTF-8");

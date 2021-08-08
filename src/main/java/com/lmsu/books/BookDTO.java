@@ -67,9 +67,11 @@ class BookDTO implements Serializable {
         this.coverPath = coverPath;
         this.author = author;
     }
-    public String getSubjectID(){
+
+    public String getSubjectID() {
         return subject.getId();
     }
+
     public void setSubjectID(String subjectID) throws SQLException, NamingException {
         this.subject = new SubjectDAO().getById(subjectID);
     }

@@ -11,7 +11,9 @@ public class ReturnCartObj implements Serializable {
 
     public Map<Integer, OrderItemDTO> getReturnItems() {
         return this.returnItems;
-    };
+    }
+
+    ;
 
     public void addBookToReturnCart(OrderItemDTO orderItem) {
         // 1. Check if cart existed

@@ -17,8 +17,8 @@ import java.util.List;
 @WebServlet(name = "ShowAnnouncementManagementServlet", value = "/ShowAnnouncementManagementServlet")
 public class ShowAnnouncementManagementServlet extends HttpServlet {
 
-    private final String ANNOUNCEMENT_PAGE = "announcementmanagement.jsp";
     static final Logger LOGGER = Logger.getLogger(ShowAnnouncementManagementServlet.class);
+    private final String ANNOUNCEMENT_PAGE = "announcementmanagement.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -26,12 +26,12 @@ public class ShowAnnouncementManagementServlet extends HttpServlet {
 
         try {
             List<AnnouncementDTO> announcementList = (List<AnnouncementDTO>) request.getAttribute("ANNOUNCEMENT_LIST");
-            if (announcementList != null){
+            if (announcementList != null) {
                 request.setAttribute("ANNOUNCEMENT_MANA_LIST", announcementList);
             } else {
                 AnnouncementDAO dao = new AnnouncementDAO();
                 dao.viewAnnouncementList();
-                List <AnnouncementDTO> result = dao.getAnnouncementList();
+                List<AnnouncementDTO> result = dao.getAnnouncementList();
                 request.setAttribute("ANNOUNCEMENT_MANA_LIST", result);
             }
 
@@ -41,7 +41,7 @@ public class ShowAnnouncementManagementServlet extends HttpServlet {
         } catch (NamingException ex) {
             LOGGER.error(ex.getMessage());
             log("ShowAnnouncementManagementServlet _ Naming: " + ex.getMessage());
-        }finally {
+        } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

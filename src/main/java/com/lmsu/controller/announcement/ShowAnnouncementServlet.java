@@ -17,19 +17,19 @@ import java.util.List;
 @WebServlet(name = "ShowAnnouncementServlet", value = "/ShowAnnouncementServlet")
 public class ShowAnnouncementServlet extends HttpServlet {
 
-    private final String ANNOUNCEMENT_PAGE = "announcement.jsp";
     static final Logger LOGGER = Logger.getLogger(ShowAnnouncementServlet.class);
+    private final String ANNOUNCEMENT_PAGE = "announcement.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
 
         String url = ANNOUNCEMENT_PAGE;
 
         try {
             AnnouncementDAO dao = new AnnouncementDAO();
             dao.viewAnnouncementList();
-            List <AnnouncementDTO> result = dao.getAnnouncementList();
-            if (result != null){
+            List<AnnouncementDTO> result = dao.getAnnouncementList();
+            if (result != null) {
                 request.setAttribute("ANNOUNCEMENT_LIST", result);
             }
 

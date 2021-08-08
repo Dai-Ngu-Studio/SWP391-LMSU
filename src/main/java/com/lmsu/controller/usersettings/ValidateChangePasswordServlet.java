@@ -57,13 +57,13 @@ public class ValidateChangePasswordServlet extends HttpServlet {
                 errors.put("errorConfirmPassword", "inputConfirmPassword");
             }
 
-            } finally{
-                String json = new Gson().toJson(errors);
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                response.getWriter().write(json);
-            }
+        } finally {
+            String json = new Gson().toJson(errors);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
         }
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

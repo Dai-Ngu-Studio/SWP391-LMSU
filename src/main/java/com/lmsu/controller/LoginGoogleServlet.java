@@ -23,8 +23,8 @@ import java.sql.SQLException;
 @WebServlet("/login-google")
 public class LoginGoogleServlet extends HttpServlet {
 
-    private static final String REDIRECT_LOGIN_GOOGLE_PAGE = "redirectlogingoogle.jsp";
     static final Logger LOGGER = Logger.getLogger(LoginGoogleServlet.class);
+    private static final String REDIRECT_LOGIN_GOOGLE_PAGE = "redirectlogingoogle.jsp";
 
     public LoginGoogleServlet() {
         super();
@@ -68,7 +68,7 @@ public class LoginGoogleServlet extends HttpServlet {
                             }
                         } else {
                             UserDTO dto = dao.checkLogin(email, passwordHashed);
-                            if (dto.getProfilePicturePath().split(":")[0].equalsIgnoreCase("https")){
+                            if (dto.getProfilePicturePath().split(":")[0].equalsIgnoreCase("https")) {
                                 if (dto != null) {
                                     AppUtils.storeLoginedUser(session, dto);
                                     dao.updateProfilePictureOnLogin(email, profilePicture);

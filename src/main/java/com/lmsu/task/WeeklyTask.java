@@ -22,9 +22,9 @@ import java.util.stream.Collectors;
 
 public class WeeklyTask extends TimerTask implements Serializable {
 
+    static final Logger LOGGER = Logger.getLogger(WeeklyTask.class);
     private static final String EMAIL = "***REMOVED***";
     private static final String PASSWORD = "***REMOVED***";
-    static final Logger LOGGER = Logger.getLogger(WeeklyTask.class);
 
     public void notifyNewArrivalBooks() {
         try {

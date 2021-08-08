@@ -16,7 +16,7 @@ class ImportLogDTO implements Serializable {
     private String supplier;
     private int quantity;
 
-    public ImportLogDTO(){
+    public ImportLogDTO() {
     }
 
     public ImportLogDTO(int logID, BookDTO book, UserDTO manager, Date dateTaken, String supplier, int quantity) {

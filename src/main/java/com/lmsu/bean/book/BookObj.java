@@ -12,9 +12,9 @@ import java.util.Map;
 
 public @Data
 class BookObj implements Serializable {
+    Map<String, String> authors;
     private String id;
     private String title;
-    Map<String, String> authors;
     private String subjectID;
     private String subjectName;
     private String publisher;

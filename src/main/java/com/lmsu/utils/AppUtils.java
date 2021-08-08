@@ -8,10 +8,9 @@ import java.util.Map;
 
 public class AppUtils {
 
-    private static int REDIRECT_ID = 0;
-
     private static final Map<Integer, String> id_uri_map = new HashMap<Integer, String>();
     private static final Map<String, Integer> uri_id_map = new HashMap<String, Integer>();
+    private static int REDIRECT_ID = 0;
 
     // Lưu trữ thông tin người dùng vào Session.
     public static void storeLoginedUser(HttpSession session, UserDTO loginedUser) {

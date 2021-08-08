@@ -17,9 +17,9 @@ import java.util.List;
 @WebServlet(name = "SearchInvalidBook", value = "/SearchInvalidBook")
 public class SearchInvalidBook extends HttpServlet {
 
+    static final Logger LOGGER = Logger.getLogger(SearchTitleServlet.class);
     private final String ERROR_PAGE = "internalservererror.html";
     private final String RESULT_PAGE = "ShowBookServlet";
-    static final Logger LOGGER = Logger.getLogger(SearchTitleServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

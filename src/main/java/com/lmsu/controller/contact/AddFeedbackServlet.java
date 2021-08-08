@@ -24,10 +24,10 @@ import java.util.Properties;
         maxRequestSize = 1024 * 1024 * 5 * 5)
 public class AddFeedbackServlet extends HttpServlet {
 
-    private final String USER_CONTACT_CONTROLLER = "ShowUserContactServlet";
+    static final Logger LOGGER = Logger.getLogger(AddFeedbackServlet.class);
     private static final String EMAIL = "***REMOVED***";
     private static final String PASSWORD = "***REMOVED***";
-    static final Logger LOGGER = Logger.getLogger(AddFeedbackServlet.class);
+    private final String USER_CONTACT_CONTROLLER = "ShowUserContactServlet";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

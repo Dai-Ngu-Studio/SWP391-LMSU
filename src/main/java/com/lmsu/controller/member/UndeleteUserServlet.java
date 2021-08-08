@@ -17,9 +17,9 @@ import java.sql.SQLException;
 @WebServlet(name = "UndeleteUserServlet", value = "/UndeleteUserServlet")
 public class UndeleteUserServlet extends HttpServlet {
 
+    static final Logger LOGGER = Logger.getLogger(UndeleteStaffServlet.class);
     private static final String SHOW_MEMBER_CONTROLLER = "ShowMemberServlet";
     private static final String SEARCH_MEMBER_CONTROLLER = "SearchMemberServlet";
-    static final Logger LOGGER = Logger.getLogger(UndeleteStaffServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

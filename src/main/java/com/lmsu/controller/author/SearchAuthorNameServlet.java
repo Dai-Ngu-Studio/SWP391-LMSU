@@ -16,9 +16,9 @@ import java.util.List;
 
 @WebServlet(name = "SearchAuthorNameServlet", value = "/SearchAuthorNameServlet")
 public class SearchAuthorNameServlet extends HttpServlet {
+    static final Logger LOGGER = Logger.getLogger(SearchAuthorNameServlet.class);
     private final String ERROR_PAGE = "internalservererror.html";
     private final String RESULT_PAGE = "ShowAuthorServlet";
-    static final Logger LOGGER = Logger.getLogger(SearchAuthorNameServlet.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

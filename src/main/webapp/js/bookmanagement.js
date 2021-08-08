@@ -29,6 +29,7 @@ function inputForAutoComplete(input) {
         noSuggestionNotice: 'Sorry, no matching results',
     });
 }
+
 function inputForAutoCompleteSubject(input) {
     let idInput = $(input).attr('id');
 
@@ -47,6 +48,7 @@ function inputForAutoCompleteSubject(input) {
         noSuggestionNotice: 'Sorry, no matching results',
     });
 }
+
 function checkISBN() {
     let inputTen = document.getElementById("txtISBNTen");
     let inputThirteen = document.getElementById("txtISBNThirteen");

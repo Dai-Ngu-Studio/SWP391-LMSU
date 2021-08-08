@@ -22,11 +22,9 @@ import java.util.Map;
 @WebServlet(name = "ChangePasswordServlet", value = "/ChangePasswordServlet")
 public class ChangePasswordServlet extends HttpServlet {
 
+    static final Logger LOGGER = Logger.getLogger(ChangePasswordServlet.class);
     private static final String RESULT_PAGE = "usersettings.jsp";
     private static final String ERROR_PAGE = "error.html";
-
-    static final Logger LOGGER = Logger.getLogger(ChangePasswordServlet.class);
-
     private final String ATTR_MEMBER_UPDATE_SETTING_SUCCESS = "MEMBER_UPDATE_SETTING_SUCCESS";
     private final String ATTR_MEMBER_UPDATE_SETTING_MESSAGE = "MEMBER_UPDATE_SETTING_MESSAGE";
 
@@ -43,7 +41,7 @@ public class ChangePasswordServlet extends HttpServlet {
             UserDAO dao = new UserDAO();
             UserDTO dto = (UserDTO) session.getAttribute("LOGIN_USER");
             String passwordHashed = Hashing.sha256()
-                            .hashString(newPW, StandardCharsets.UTF_8).toString();
+                    .hashString(newPW, StandardCharsets.UTF_8).toString();
             boolean result = dao.updatePassword(pk, passwordHashed);
             if (result) {
                 dto.setPassword(passwordHashed);

@@ -24,10 +24,9 @@ import java.util.List;
 @WebServlet(name = "IndexServlet", value = "/IndexServlet")
 public class IndexServlet extends HttpServlet {
 
+    static final Logger LOGGER = Logger.getLogger(IndexServlet.class);
     private static final String ERROR_PAGE = "error.html";
     private static final String INDEX_PAGE = "index.jsp";
-    static final Logger LOGGER = Logger.getLogger(IndexServlet.class);
-
     private final String ATTR_LOGIN_USER = "LOGIN_USER";
     private final String ATTR_MOST_FAVORITE_BOOKS_LIST = "MOST_FAVORITE_BOOKS_LIST";
     private final String ATTR_NEW_ARRIVAL_BOOKS_LIST = "NEW_ARRIVAL_BOOKS_LIST";

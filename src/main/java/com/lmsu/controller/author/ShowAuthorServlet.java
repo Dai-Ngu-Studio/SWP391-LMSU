@@ -46,8 +46,8 @@ public class ShowAuthorServlet extends HttpServlet {
                 authorBookMapDAO.viewAuthorBookMapList();
                 List<AuthorBookMapDTO> authorBookMapList = authorBookMapDAO.getAuthorBookMaps();
 
-                if (authorBookMapList != null){
-                    for (AuthorBookMapDTO tmp: authorBookMapList
+                if (authorBookMapList != null) {
+                    for (AuthorBookMapDTO tmp : authorBookMapList
                     ) {
                         if (authorMap.containsKey(tmp.getAuthorDTO().getAuthorID())) {
                             authorMap.get(tmp.getAuthorDTO().getAuthorID()).add(tmp);
@@ -77,16 +77,16 @@ public class ShowAuthorServlet extends HttpServlet {
         }
     }
 
-        @Override
-        protected void doGet (HttpServletRequest request, HttpServletResponse response) throws
-        ServletException, IOException {
-            processRequest(request, response);
-        }
-
-        @Override
-        protected void doPost (HttpServletRequest request, HttpServletResponse response) throws
-        ServletException, IOException {
-            processRequest(request, response);
-        }
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException {
+        processRequest(request, response);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException {
+        processRequest(request, response);
+    }
+}
 
